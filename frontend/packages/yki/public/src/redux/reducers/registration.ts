@@ -261,6 +261,7 @@ const registrationSlice = createSlice({
       state.fetchRegistrationStatus = APIResponseStatus.Success;
       state.initRegistration.partialExamType = action.payload.partial_exam_type;
       state.initRegistration.registrationKind = action.payload.kind;
+      state.initRegistration.registrationId = action.payload.id;
       state.initRegistration.examSessionId = action.payload.exam_session_id;
     },
   },

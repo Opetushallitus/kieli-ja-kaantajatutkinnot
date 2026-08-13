@@ -34,6 +34,7 @@ import {
 } from 'redux/reducers/registration';
 import { examSessionsSelector } from 'redux/selectors/examSessions';
 import { registrationSelector } from 'redux/selectors/registration';
+import { userOpenRegistrationsSelector } from 'redux/selectors/userOpenRegistrations';
 import { TableUtils } from 'utils/table';
 
 const RegistrationInitLoadingModal = () => {
@@ -94,6 +95,7 @@ const RegistrationInitErrorModal = ({
   const dispatch = useAppDispatch();
   const { initRegistration: initRegistrationState } =
     useAppSelector(registrationSelector);
+  const { openRegistrations } = useAppSelector(userOpenRegistrationsSelector);
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.enrollModal',
   });
@@ -105,6 +107,14 @@ const RegistrationInitErrorModal = ({
     otherExamSessionRegistration.state === RegistrationStates.Started;
   const alreadyRegistered =
     error === PublicRegistrationInitError.AlreadyRegistered;
+
+  // The backend only exposes the other session's exam session id, so resolve the
+  // registration id from the user's open registrations to let that page restore
+  // the correct registration state via the backend on arrival.
+  const otherRegistrationId = openRegistrations?.find(
+    (openRegistration) =>
+      openRegistration.exam_session_id === otherExamSessionRegistration?.id,
+  )?.registration_id;
 
   return (
     <CustomModal
@@ -161,7 +171,11 @@ const RegistrationInitErrorModal = ({
               to={`${AppRoutes.ExamSession.replace(
                 /:examSessionId/,
                 `${otherExamSessionRegistration?.id}`,
-              )}`}
+              )}${
+                otherRegistrationId
+                  ? `?registrationId=${otherRegistrationId}`
+                  : ''
+              }`}
             >
               {t('otherStartedRegistration.backToRegistrationButton')}
             </CustomButtonLink>
@@ -386,12 +400,15 @@ export const PublicExamSessionListing = ({
       initRegistration.status === APIResponseStatus.Success &&
       initRegistration.examSessionId
     ) {
-      navigate(
-        `${AppRoutes.ExamSession.replace(
+      navigate({
+        pathname: AppRoutes.ExamSession.replace(
           /:examSessionId$/,
           `${initRegistration.examSessionId}`,
-        )}`,
-      );
+        ),
+        search: initRegistration.registrationId
+          ? `?registrationId=${initRegistration.registrationId}`
+          : '',
+      });
     }
   }, [
     navigate,
