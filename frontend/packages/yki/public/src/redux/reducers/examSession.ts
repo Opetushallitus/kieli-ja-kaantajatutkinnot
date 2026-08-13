@@ -2,7 +2,6 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
 import { ExamSession } from 'interfaces/examSessions';
-import { acceptFetchRegistrationDetails } from 'redux/reducers/registration';
 
 interface ExamSessionState {
   status: APIResponseStatus;
@@ -30,13 +29,6 @@ const examSessionSlice = createSlice({
       state.status = APIResponseStatus.Success;
       state.examSession = action.payload;
     },
-  },
-  extraReducers: (builder) => {
-    builder.addCase(acceptFetchRegistrationDetails, (state, action) => {
-      if (state.examSession) {
-        state.examSession.available_registration_kind = action.payload.kind;
-      }
-    });
   },
 });
 
