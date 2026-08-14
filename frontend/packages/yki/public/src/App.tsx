@@ -6,7 +6,6 @@ import { setupStore } from 'redux/store';
 import { AppRouter } from 'routers/AppRouter';
 import('styles/styles.scss');
 
-// Initialize I18next
 initI18n();
 
 const store = setupStore();

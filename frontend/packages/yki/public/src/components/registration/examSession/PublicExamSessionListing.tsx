@@ -161,7 +161,7 @@ const RegistrationInitErrorModal = ({
               to={`${AppRoutes.ExamSession.replace(
                 /:examSessionId/,
                 `${otherExamSessionRegistration?.id}`,
-              )}`}
+              )}${`?registrationId=${otherExamSessionRegistration?.registration_id}`}`}
             >
               {t('otherStartedRegistration.backToRegistrationButton')}
             </CustomButtonLink>
@@ -386,12 +386,15 @@ export const PublicExamSessionListing = ({
       initRegistration.status === APIResponseStatus.Success &&
       initRegistration.examSessionId
     ) {
-      navigate(
-        `${AppRoutes.ExamSession.replace(
+      navigate({
+        pathname: AppRoutes.ExamSession.replace(
           /:examSessionId$/,
           `${initRegistration.examSessionId}`,
-        )}`,
-      );
+        ),
+        search: initRegistration.registrationId
+          ? `?registrationId=${initRegistration.registrationId}`
+          : '',
+      });
     }
   }, [
     navigate,
