@@ -8,7 +8,7 @@ import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
-import React, { FC, ReactNode } from 'react';
+import React, { FC, ReactNode, useState } from 'react';
 
 import { CustomButton } from '../../components';
 
@@ -30,7 +30,7 @@ export const DropDownMenuButton: FC<DropDownMenuButtonProps> = ({
   ...props
 }: DropDownMenuButtonProps) => {
   const [open, setOpen] = React.useState(false);
-  const anchorRef = React.useRef<HTMLDivElement>(null);
+  const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
 
   const handleClick = () => {
@@ -50,10 +50,7 @@ export const DropDownMenuButton: FC<DropDownMenuButtonProps> = ({
   };
 
   const handleClose = (event: Event) => {
-    if (
-      anchorRef.current &&
-      anchorRef.current.contains(event.target as HTMLElement)
-    ) {
+    if (anchorEl && anchorEl.contains(event.target as HTMLElement)) {
       return;
     }
 
@@ -62,7 +59,7 @@ export const DropDownMenuButton: FC<DropDownMenuButtonProps> = ({
 
   return (
     <>
-      <ButtonGroup {...props} ref={anchorRef} aria-disabled={props.disabled}>
+      <ButtonGroup {...props} ref={setAnchorEl} aria-disabled={props.disabled}>
         <CustomButton onClick={handleClick}>
           {options[selectedIndex].label}
         </CustomButton>
@@ -82,7 +79,7 @@ export const DropDownMenuButton: FC<DropDownMenuButtonProps> = ({
           zIndex: 2,
         }}
         open={open}
-        anchorEl={anchorRef.current}
+        anchorEl={anchorEl}
         role={undefined}
         transition
         disablePortal

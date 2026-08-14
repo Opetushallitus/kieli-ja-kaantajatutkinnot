@@ -9,12 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
-## [1.14.5] - 2026-08-05
+## [1.14.5] - 2026-08-14
 
 ### Changed
 
-- Shared library components updated for React Router v7
-- Fixed useNavigationProtection hook
+- Fixed useNavigationProtection.
+- Updated various components to meet new React Eslint guidelines
 
 ## [1.14.4] - 2026-04-01
 

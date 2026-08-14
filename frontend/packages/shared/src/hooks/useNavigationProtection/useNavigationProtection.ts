@@ -31,7 +31,10 @@ export const useNavigationProtection = (
   const blocker = useBlocker(shouldBlock);
 
   const blockerRef = useRef(blocker);
-  blockerRef.current = blocker;
+
+  useEffect(() => {
+    blockerRef.current = blocker;
+  }, [blocker]);
 
   const confirmNavigation = useCallback(() => {
     if (blockerRef.current.state === 'blocked') {
@@ -46,7 +49,10 @@ export const useNavigationProtection = (
   }, []);
 
   const showConfirmationDialogRef = useRef(showConfirmationDialog);
-  showConfirmationDialogRef.current = showConfirmationDialog;
+
+  useEffect(() => {
+    showConfirmationDialogRef.current = showConfirmationDialog;
+  }, [showConfirmationDialog]);
 
   useEffect(() => {
     if (blocker.state === 'blocked') {

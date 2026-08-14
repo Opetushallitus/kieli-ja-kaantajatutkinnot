@@ -1,6 +1,6 @@
 import { Paper } from '@mui/material';
 import Cookies from 'js-cookie';
-import { FC, PropsWithChildren, useEffect, useState } from 'react';
+import { FC, PropsWithChildren, useState } from 'react';
 
 import { Color, Variant } from '../../enums/common';
 import { useWindowProperties } from '../../hooks';
@@ -24,15 +24,9 @@ export const CookieBanner: FC<PropsWithChildren<CookieBannerProps>> = ({
   buttonAriaLabel,
   path,
 }) => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(() => !Cookies.get(cookieTag));
 
   const { isDesktop } = useWindowProperties();
-
-  useEffect(() => {
-    if (!Cookies.get(cookieTag)) {
-      setOpen(true);
-    }
-  }, [setOpen, cookieTag]);
 
   const handleAcceptCookies = () => {
     Cookies.set(cookieTag, 'true', {
