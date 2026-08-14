@@ -161,7 +161,7 @@ const RegistrationInitErrorModal = ({
               to={`${AppRoutes.ExamSession.replace(
                 /:examSessionId/,
                 `${otherExamSessionRegistration?.id}`,
-              )}${`?registrationId=${otherExamSessionRegistration?.registrationId}`}`}
+              )}${`?registrationId=${otherExamSessionRegistration?.registration_id}`}`}
             >
               {t('otherStartedRegistration.backToRegistrationButton')}
             </CustomButtonLink>
