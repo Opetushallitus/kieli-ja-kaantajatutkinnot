@@ -304,6 +304,22 @@ export class ExamSessionUtils {
         return examSession.start_time_speak_write;
       }
 
+      // For ALL_PARTS, return the earliest start time of the two parts.
+      // return read_listen by default
+      if (
+        examSession.start_time_read_listen &&
+        examSession.start_time_speak_write
+      ) {
+        if (
+          examSession.start_time_read_listen <
+          examSession.start_time_speak_write
+        ) {
+          return examSession.start_time_read_listen;
+        } else {
+          return examSession.start_time_speak_write;
+        }
+      }
+
       return examSession.start_time_read_listen;
     }
 
@@ -313,6 +329,22 @@ export class ExamSessionUtils {
       }
       if (partialExamType === 'SPEAK') {
         return examSession.start_time_speak_write;
+      }
+
+      // For ALL_PARTS, return the earliest start time of the two parts.
+      // return read_listen by default
+      if (
+        examSession.start_time_read_listen &&
+        examSession.start_time_speak_write
+      ) {
+        if (
+          examSession.start_time_read_listen <
+          examSession.start_time_speak_write
+        ) {
+          return examSession.start_time_read_listen;
+        } else {
+          return examSession.start_time_speak_write;
+        }
       }
 
       return examSession.start_time_read_listen;
