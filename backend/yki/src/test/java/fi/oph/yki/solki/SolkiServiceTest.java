@@ -414,13 +414,17 @@ class SolkiServiceTest {
   }
 
   @Test
-  void syncExamSessionParticipantsIsNoOpWhenPersonSyncDisabled() {
+  void syncExamSessionParticipantsStillBuildsCsvButDoesNotPostWhenPersonSyncDisabled() {
     ReflectionTestUtils.setField(solkiService, "personSyncEnabled", false);
+    final ExamSession examSession = examSession();
+    Mockito
+      .when(registrationRepository.getByExamSessionAndState(examSession, RegistrationState.COMPLETED))
+      .thenReturn(List.of());
 
-    solkiService.syncExamSessionParticipants(examSession());
+    solkiService.syncExamSessionParticipants(examSession);
 
     assertEquals(0, mockWebServer.getRequestCount());
-    Mockito.verifyNoInteractions(registrationRepository, onrService);
+    Mockito.verify(registrationRepository).getByExamSessionAndState(examSession, RegistrationState.COMPLETED);
   }
 
   private Person person(final String oid, final String lastName, final String firstName, final String countryCode) {

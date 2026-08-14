@@ -331,20 +331,21 @@ public class SolkiService {
   }
 
   public void syncExamSessionParticipants(final ExamSession examSession) {
-    if (!personSyncEnabled) {
-      LOG.info(
-        "SOLKI participant sync disabled, would have synced participants for exam session {}",
-        examSession.getId()
-      );
-      return;
-    }
-
     final List<Registration> registrations = registrationRepository.getByExamSessionAndState(
       examSession,
       RegistrationState.COMPLETED
     );
     final Map<String, String> oidToSsn = getIdentityNumbersByOid(registrations);
     final String csv = buildParticipantsCsv(registrations, oidToSsn);
+
+    if (!personSyncEnabled) {
+      LOG.info(
+        "SOLKI participant sync disabled, would have sent CSV for exam session {}:\n{}",
+        examSession.getId(),
+        csv
+      );
+      return;
+    }
 
     postParticipantsCsv(examSession, csv);
   }
@@ -418,21 +419,20 @@ public class SolkiService {
   }
 
   public void syncExamSession(final ExamSession examSession) {
+    final ExamDateSyncRequestDTO examDateRequest = buildExamDateSyncRequest(examSession);
+    final ExamSessionSyncRequestDTO examSessionRequest = buildExamSessionSyncRequest(examSession);
+
     if (!examSessionSyncEnabled) {
-      LOG.info("SOLKI exam session sync disabled, would have synced exam session {}", examSession.getId());
+      LOG.info("SOLKI exam session sync disabled, would have sent exam date request {}", examDateRequest);
+      LOG.info("SOLKI exam session sync disabled, would have sent exam session request {}", examSessionRequest);
       return;
     }
 
-    post("/tutkinto", buildExamDateSyncRequest(examSession));
-    post("/tutkintotilaisuus", buildExamSessionSyncRequest(examSession));
+    post("/tutkinto", examDateRequest);
+    post("/tutkintotilaisuus", examSessionRequest);
   }
 
   public void deleteExamSession(final ExamSession examSession) {
-    if (!examSessionSyncEnabled) {
-      LOG.info("SOLKI exam session sync disabled, would have deleted exam session {}", examSession.getId());
-      return;
-    }
-
     final String organizerOid = examSession.getOfficeOid() != null
       ? examSession.getOfficeOid()
       : examSession.getOrganizer().getOid();
@@ -443,16 +443,27 @@ public class SolkiService {
       organizerOid
     );
 
+    if (!examSessionSyncEnabled) {
+      LOG.info(
+        "SOLKI exam session sync disabled, would have deleted exam session {} with params {}",
+        examSession.getId(),
+        queryParams
+      );
+      return;
+    }
+
     delete("/tutkintotilaisuus" + queryParams);
   }
 
   public void syncPerson(final Person person) {
+    final PersonSyncRequestDTO request = buildPersonSyncRequest(person);
+
     if (!personSyncEnabled) {
-      LOG.info("SOLKI person sync disabled, would have synced person {}", person.getOid());
+      LOG.info("SOLKI person sync disabled, would have sent request {}", request);
       return;
     }
 
-    put("/osallistuja/" + urlEncode(person.getOid()), buildPersonSyncRequest(person));
+    put("/osallistuja/" + urlEncode(person.getOid()), request);
   }
 
   private void postParticipantsCsv(final ExamSession examSession, final String csv) {
