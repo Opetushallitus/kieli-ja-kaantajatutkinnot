@@ -52,7 +52,7 @@ export const PublicRegistrationStepper = () => {
         queue === 'true') &&
       stepNumber === PublicRegistrationFormStep.Register
     ) {
-      return t('step.EnrollToQueue');
+      return t('step.Register');
     } else {
       return t(`step.${PublicRegistrationFormStep[stepNumber]}`);
     }

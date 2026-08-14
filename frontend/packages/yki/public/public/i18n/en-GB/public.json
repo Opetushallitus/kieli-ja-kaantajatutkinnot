@@ -456,10 +456,9 @@
           "phaseNumber": "{{current}} of {{total}}",
           "step": {
             "Done": "Done",
-            "EnrollToQueue": "Register for the waiting list",
             "Identify": "Log in",
             "Payment": "Payment",
-            "Register": "Register"
+            "Register": "Details"
           },
           "welcomeToExam": "Welcome to the YKI test!"
         },
@@ -865,18 +864,18 @@
             "notFound": "You have no completed tests or past registrations"
           },
           "state": {
+            "ABORTED": "Suoritus keskeytetty",
             "cancelled": "Cancelled",
             "enrolled": "Registered",
             "EVALUATION_COMPLETE": "Arviointi valmis",
             "EVALUATION_PENDING": "Arviointi kesken",
-            "NO_SHOW": "Ei osallistunut",
-            "ABORTED": "Suoritus keskeytetty",
-            "REVIEW_PENDING": "Tarkistusarviointi kesken",
-            "REVIEW_COMPLETE": "Tarkistusarviointi kesken",
-            "RETAKE_PENDING": "-",
-            "REVIEW_FINALIZED": "Tarkistusarviointi valmis",
             "label": "Status",
-            "queued": "On the waiting list (position {{ positionInQueue }})"
+            "NO_SHOW": "Ei osallistunut",
+            "queued": "On the waiting list (position {{ positionInQueue }})",
+            "RETAKE_PENDING": "-",
+            "REVIEW_COMPLETE": "Tarkistusarviointi kesken",
+            "REVIEW_FINALIZED": "Tarkistusarviointi valmis",
+            "REVIEW_PENDING": "Tarkistusarviointi kesken"
           },
           "upcoming": {
             "notFound": "You have no upcoming registrations."

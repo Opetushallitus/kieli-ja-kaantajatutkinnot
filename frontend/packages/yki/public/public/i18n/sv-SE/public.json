@@ -456,10 +456,9 @@
           "phaseNumber": "{{current}} av {{total}}",
           "step": {
             "Done": "Färdig",
-            "EnrollToQueue": "Anmäl dig till en köplats",
             "Identify": "Identifiera dig",
             "Payment": "Betalning",
-            "Register": "Anmäl dig"
+            "Register": "Uppgifter"
           },
           "welcomeToExam": "Välkommen till allmän språkexamen (YKI)!"
         },
@@ -865,18 +864,18 @@
             "notFound": "Du har inga prestationer eller tidigare anmälningar"
           },
           "state": {
+            "ABORTED": "Suoritus keskeytetty",
             "cancelled": "Annullerad",
             "enrolled": "Anmäld",
             "EVALUATION_COMPLETE": "Arviointi valmis",
             "EVALUATION_PENDING": "Arviointi kesken",
-            "NO_SHOW": "Ei osallistunut",
-            "ABORTED": "Suoritus keskeytetty",
-            "REVIEW_PENDING": "Tarkistusarviointi kesken",
-            "REVIEW_COMPLETE": "Tarkistusarviointi kesken",
-            "RETAKE_PENDING": "-",
-            "REVIEW_FINALIZED": "Tarkistusarviointi valmis",
             "label": "Status",
-            "queued": "I kö (på plats {{ positionInQueue }})"
+            "NO_SHOW": "Ei osallistunut",
+            "queued": "I kö (på plats {{ positionInQueue }})",
+            "RETAKE_PENDING": "-",
+            "REVIEW_COMPLETE": "Tarkistusarviointi kesken",
+            "REVIEW_FINALIZED": "Tarkistusarviointi valmis",
+            "REVIEW_PENDING": "Tarkistusarviointi kesken"
           },
           "upcoming": {
             "notFound": "Du har inga kommande anmälningar."
