@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.14.5] - 2026-08-14
+
+### Changed
+
+- Fixed useNavigationProtection.
+- Updated various components to meet new React Eslint guidelines
+
 ## [1.14.4] - 2026-04-01
 
 ### Changed
@@ -38,13 +45,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-- CustomModal supports now ReactNode in addition to text. 
+- CustomModal supports now ReactNode in addition to text.
 
 ## [1.13.0] - 2025-08-01
 
 ### Changed
 
-- Updated to work with oph-design-system used in YKI (clerk). Removed unused H6 Text variant added a matching types definition for mui styles. 
+- Updated to work with oph-design-system used in YKI (clerk). Removed unused H6 Text variant added a matching types definition for mui styles.
 
 ## [1.12.1] - 2025-08-01
 
@@ -56,7 +63,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-- New header styles for phone and mobile in general. Possibly breaking so check app header on all screen sizes when updating shared package 
+- New header styles for phone and mobile in general. Possibly breaking so check app header on all screen sizes when updating shared package
 
 ### Added
 
@@ -100,7 +107,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-- Input elements using OutlinedInput (text fields, dropdowns etc.) now have darker border outlines by default 
+- Input elements using OutlinedInput (text fields, dropdowns etc.) now have darker border outlines by default
 
 ## [1.11.9] - 2024-12-17
 
@@ -123,6 +130,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [1.11.6] - 2024-11-12
 
 ### Changed
+
 - LabeledTextField accepts an optional className argument
 - sortOptionsByLabels accepts an optional locale argument; if not supplied, 'fi-FI' is used by default
 - Preliminary, minimal (validation) support for <input type="time" ../>
@@ -130,47 +138,56 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [1.11.5] - 2024-09-27
 
 ### Added
+
 - MobileNavigationMenuWithPortal component
 
 ## [1.11.4] - 2024-10-07
 
 ### Fixed
+
 - Fixed bug introduced in v.1.11.1: NativeSelect and NativeSelectWithLabel didn't display chosen value correctly
 
 ## [1.11.3] - 2024-09-18
 
 ### Added
+
 - New NavigationLinks component as a more accessible replacement for navigation tabs
 
 ## [1.11.2] - 2024-09-16
 
 ### Fixed
+
 - Improve CircularStepper accessibility
 
 ## [1.11.1] - 2024-09-13
 
 ### Fixed
+
 - Updated MUI dependencies, resulting in changes to the Select component and its types.
 - Fixed usages of Select accordingly.
 
 ## [1.11.0] - 2024-09-11
 
 ### Changed
+
 - Updated react-router-dom, causing changes to useNavigationBlocker
 
 ## [1.10.8] - 2024-08-26
 
 ### Changed
+
 - Include a file drop zone by default on desktop with the file upload component
 
 ## [1.10.7] - 2024-08-07
 
 ### Added
+
 - New FileUpload component
 
 ## [1.10.6] - 2024-04-05
 
 ### Fixed
+
 - Dialog content is focused on open
 - Added aria-model=true attribute to dialogs
 
@@ -216,7 +233,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - `LanguageSelect` to use `NativeSelect` when rendered on mobile phone
 - `LanguageSelect` now requires `onLanguageChange` prop
 - `ComboBox` to fall back to `NativeSelect` when render on mobile phone
-- `ComboBox` onChange prop signature has changed to: `onChange: (value?: string) => void` 
+- `ComboBox` onChange prop signature has changed to: `onChange: (value?: string) => void`
 - `Pagination` rowsPerPage select to fall back to `NativeSelect` on mobile phone
 
 ## [1.9.30] - 2023-10-24
