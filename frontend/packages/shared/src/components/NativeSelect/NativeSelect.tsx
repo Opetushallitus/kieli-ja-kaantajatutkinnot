@@ -10,8 +10,10 @@ import { Variant } from '../../enums';
 import { ComboBoxOption } from '../../interfaces';
 import { Text } from '../Text/Text';
 
-export interface CustomNativeSelectProps
-  extends Omit<BaseSelectProps<string>, 'value'> {
+export interface CustomNativeSelectProps extends Omit<
+  BaseSelectProps<string>,
+  'value'
+> {
   'data-testid'?: string;
   helperText?: string;
   showError?: boolean;
