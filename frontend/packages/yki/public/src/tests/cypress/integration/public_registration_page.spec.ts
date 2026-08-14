@@ -40,10 +40,10 @@ describe('PublicRegistrationPage', () => {
       onPublicRegistrationPage.selectExamLevel('kaikki tasot');
       onPublicRegistrationPage.toggleShowOnlyIfAvailablePlaces();
       onPublicRegistrationPage.search();
-      onPublicRegistrationPage.expectResultsCount(7);
+      onPublicRegistrationPage.expectResultsCount(6);
       onPublicRegistrationPage.toggleShowOnlyIfOngoingAdmission();
       onPublicRegistrationPage.search();
-      onPublicRegistrationPage.expectResultsCount(6);
+      onPublicRegistrationPage.expectResultsCount(5);
     });
 
     it('can filter by exam language and level', () => {
