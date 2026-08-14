@@ -65,6 +65,28 @@ public class AppConfig {
   }
 
   @Bean
+  public WebClient koodistoClient(final Environment environment) {
+    return webClientBuilderWithCallerId("koodisto-connection-provider")
+      .baseUrl(environment.getRequiredProperty("app.koodisto-service.url"))
+      .defaultHeaders(headers -> headers.setContentType(MediaType.APPLICATION_JSON))
+      .build();
+  }
+
+  @Bean
+  public WebClient solkiClient(final Environment environment) {
+    return webClientBuilderWithCallerId("solki-connection-provider")
+      .baseUrl(environment.getRequiredProperty("app.solki.url"))
+      .defaultHeaders(headers -> {
+        headers.setBasicAuth(
+          environment.getRequiredProperty("app.solki.user"),
+          environment.getRequiredProperty("app.solki.password")
+        );
+        headers.setContentType(MediaType.APPLICATION_JSON);
+      })
+      .build();
+  }
+
+  @Bean
   @ConditionalOnProperty(name = "app.email.sending-enabled", havingValue = "false")
   public EmailSender emailSenderNoOp() {
     LOG.warn("EmailSenderNoOp in use");
