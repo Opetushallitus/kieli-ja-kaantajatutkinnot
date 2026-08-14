@@ -102,6 +102,7 @@ export interface PublicRegistrationInitResponse {
 
 interface OtherExamSessionRegistration {
   id: number;
+  registrationId: number;
   state: RegistrationStates;
 }
 
