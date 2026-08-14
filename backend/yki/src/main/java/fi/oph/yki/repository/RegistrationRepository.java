@@ -20,6 +20,7 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
     ExamSession examSession,
     List<RegistrationState> states
   );
+  List<Registration> getByExamSessionAndState(ExamSession examSession, RegistrationState state);
 
   @Query(
     value = """

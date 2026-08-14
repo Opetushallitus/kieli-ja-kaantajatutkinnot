@@ -1096,7 +1096,8 @@ CREATE TABLE public.exam_session (
     post_admission_start_date date,
     post_admission_active boolean DEFAULT false,
     post_admission_quota bigint,
-    post_admission_activated_at date
+    post_admission_activated_at date,
+    last_sync_at timestamp with time zone
 );
 
 
