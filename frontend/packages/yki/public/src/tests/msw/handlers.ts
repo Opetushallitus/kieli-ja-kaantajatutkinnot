@@ -61,6 +61,11 @@ const initRegistration = async ({
       return HttpResponse.json('Unauthorized', { status: 401 });
     case 6:
       return HttpResponse.json({ error: { full: true } }, { status: 409 });
+    case 7:
+      return HttpResponse.json(
+        { error: { partialFull: true } },
+        { status: 409 },
+      );
     default:
       // For odd values, simulate a full exam session, ie. user is enrolling to queue
       // For even values, allow registering to exam session proper
