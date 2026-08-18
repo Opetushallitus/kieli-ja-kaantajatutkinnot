@@ -44,6 +44,40 @@ const filterExamSessions = (
 
   if (filters.excludeFullSessions || filters.excludeNonOpenSessions) {
     filteredData = filteredData.filter((es) => {
+      if (es.type === 'READ_SPEAK') {
+        const { open } =
+          ExamSessionUtils.getEffectiveRegistrationPeriodDetails(es);
+        const { availablePlaces: availablePlacesRead } =
+          ExamSessionUtils.getEffectiveRegistrationPeriodDetails(es, 'READ');
+        const { availablePlaces: availablePlacesSpeak } =
+          ExamSessionUtils.getEffectiveRegistrationPeriodDetails(es, 'SPEAK');
+        if (filters.excludeFullSessions && filters.excludeNonOpenSessions) {
+          return (availablePlacesRead > 0 || availablePlacesSpeak > 0) && open;
+        } else if (filters.excludeFullSessions) {
+          return availablePlacesRead > 0 || availablePlacesSpeak > 0;
+        } else {
+          return open;
+        }
+      }
+
+      if (es.type === 'LISTEN_WRITE') {
+        const { open } =
+          ExamSessionUtils.getEffectiveRegistrationPeriodDetails(es);
+        const { availablePlaces: availablePlacesListen } =
+          ExamSessionUtils.getEffectiveRegistrationPeriodDetails(es, 'LISTEN');
+        const { availablePlaces: availablePlacesWrite } =
+          ExamSessionUtils.getEffectiveRegistrationPeriodDetails(es, 'WRITE');
+        if (filters.excludeFullSessions && filters.excludeNonOpenSessions) {
+          return (
+            (availablePlacesListen > 0 || availablePlacesWrite > 0) && open
+          );
+        } else if (filters.excludeFullSessions) {
+          return availablePlacesListen > 0 || availablePlacesWrite > 0;
+        } else {
+          return open;
+        }
+      }
+
       const { open, availablePlaces } =
         ExamSessionUtils.getEffectiveRegistrationPeriodDetails(es);
       if (filters.excludeFullSessions && filters.excludeNonOpenSessions) {
