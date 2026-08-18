@@ -40,7 +40,7 @@ describe('PublicRegistrationPage', () => {
       onPublicRegistrationPage.selectExamLevel('kaikki tasot');
       onPublicRegistrationPage.toggleShowOnlyIfAvailablePlaces();
       onPublicRegistrationPage.search();
-      onPublicRegistrationPage.expectResultsCount(7);
+      onPublicRegistrationPage.expectResultsCount(9);
       onPublicRegistrationPage.toggleShowOnlyIfOngoingAdmission();
       onPublicRegistrationPage.search();
       onPublicRegistrationPage.expectResultsCount(6);
