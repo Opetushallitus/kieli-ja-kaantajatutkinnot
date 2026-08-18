@@ -135,7 +135,8 @@
             "title": "Ilmoittautuminen on kesken"
           },
           "reservingQueueSeat": "Varataan jonopaikkaa...",
-          "title": "Ilmoittautuminen epäonnistui"
+          "title": "Ilmoittautuminen epäonnistui",
+          "registerToPartialExamsSeparately": "YKI-testi on täynnä. Ilmoittaudu osakokeisiin erikseen"
         },
         "enrollToQueue": {
           "dialog": {

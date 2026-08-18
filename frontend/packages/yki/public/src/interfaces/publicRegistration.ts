@@ -110,6 +110,7 @@ export interface PublicRegistrationInitErrorResponse {
   error: {
     closed?: boolean;
     full?: boolean;
+    partialFull?: boolean;
     'other-exam-session-registration': OtherExamSessionRegistration;
   };
 }
@@ -130,6 +131,7 @@ export function isRegistrationInitErrorResponse(
   return (
     'closed' in error ||
     'full' in error ||
+    'partialFull' in error ||
     'exists' in error ||
     'other-exam-session-registration' in error
   );

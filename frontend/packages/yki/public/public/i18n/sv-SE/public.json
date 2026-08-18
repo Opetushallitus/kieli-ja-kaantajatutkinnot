@@ -135,7 +135,8 @@
             "title": "Pågående anmälan"
           },
           "reservingQueueSeat": "Reserverar en köplats...",
-          "title": "Anmälning misslyckades"
+          "title": "Anmälning misslyckades",
+          "registerToPartialExamsSeparately": "Det finns inga lediga platser. Anmäl dig till delproven separat."
         },
         "enrollToQueue": {
           "dialog": {

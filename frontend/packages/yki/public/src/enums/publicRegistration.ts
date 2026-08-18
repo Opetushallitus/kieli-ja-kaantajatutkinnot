@@ -8,6 +8,7 @@ export enum PublicRegistrationFormStep {
 export enum PublicRegistrationInitError {
   AlreadyRegistered = 'alreadyRegistered',
   ExamSessionFull = 'full',
+  ExamSessionPartialFull = 'partialFull',
   Generic = 'generic',
   Past = 'past',
   Unauthorized = 'unauthorized',
