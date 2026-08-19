@@ -5,6 +5,7 @@ import fi.oph.yki.model.Organizer;
 import java.time.LocalDate;
 import java.util.List;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface ExamSessionRepository extends BaseRepository<ExamSession> {
   List<ExamSession> getByLanguageAndLevel(String language, String level);
@@ -12,6 +13,14 @@ public interface ExamSessionRepository extends BaseRepository<ExamSession> {
   List<ExamSession> findByOrganizerOid_Oid(String oid);
 
   boolean existsByExamDateId(long examDateId);
+
+  @Query(
+    "SELECT es FROM ExamSession es" +
+    " LEFT JOIN FETCH es.examDate ed" +
+    " LEFT JOIN FETCH es.organizer" +
+    " WHERE es.lastSyncAt IS NULL AND ed.examDate >= :today"
+  )
+  List<ExamSession> findUnsyncedExamSessions(@Param("today") LocalDate today);
 
   @Query(
     "SELECT DISTINCT es FROM ExamSession es" +
