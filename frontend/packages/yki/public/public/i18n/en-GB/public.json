@@ -136,7 +136,7 @@
           },
           "reservingQueueSeat": "Reserving a place on the waiting list...",
           "title": "Registration failed",
-          "registerToPartialExamsSeparately": "The YKI-test is full. Register for the subtests separately."
+          "registerToPartialExamsSeparately": "The YKI test is full. Register for the subtests separately."
         },
         "enrollToQueue": {
           "dialog": {
