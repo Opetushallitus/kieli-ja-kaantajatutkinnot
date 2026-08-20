@@ -19,6 +19,9 @@ class PublicRegistrationPage {
         'Näytä vain kielitutkinnot, joihin voi ilmoittautua nyt',
       ),
     searchButton: () => cy.findByRole('button', { name: /Hae/ }),
+    continueToRegisterButton: () =>
+      cy.findByRole('link', { name: /Jatka ilmoittautumiseen/ }),
+    sendRegistrationButton: () => cy.findByRole('button', { name: /Lähetä/ }),
     title: () => cy.findByTestId('public-registration-page__title-heading'),
   };
 
@@ -81,6 +84,15 @@ class PublicRegistrationPage {
   search() {
     this.elements.searchButton().should('not.be.disabled');
     this.elements.searchButton().click();
+  }
+
+  continueToRegister() {
+    this.elements.continueToRegisterButton().should('not.be.disabled');
+    this.elements.continueToRegisterButton().click();
+  }
+
+  sendRegistrationButtonIsVisible() {
+    this.elements.sendRegistrationButton().should('be.visible');
   }
 
   toggleShowOnlyIfAvailablePlaces() {

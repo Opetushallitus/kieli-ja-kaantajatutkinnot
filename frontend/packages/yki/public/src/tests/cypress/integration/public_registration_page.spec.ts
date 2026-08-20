@@ -176,7 +176,7 @@ describe('PublicRegistrationPage', () => {
 
       onInitRegistrationPage.expectTitle('Tunnistaudu ilmoittautumista varten');
 
-      cy.get('.MuiButton-contained').click();
+      onPublicRegistrationPage.continueToRegister();
       onPublicRegistrationPage.expectReservationTimerText(
         true,
         'Paikkavarauksesi YKI-testiin umpeutuu: 30:00',
@@ -186,8 +186,6 @@ describe('PublicRegistrationPage', () => {
     it('no timer is shown when type is QUEUE', () => {
       onPublicRegistrationPage.selectExamLanguage('kaikki kielet');
       onPublicRegistrationPage.selectExamLevel('kaikki tasot');
-      onPublicRegistrationPage.toggleShowOnlyIfAvailablePlaces();
-      onPublicRegistrationPage.toggleShowOnlyIfOngoingAdmission();
       onPublicRegistrationPage.search();
 
       onPublicRegistrationPage
@@ -199,7 +197,8 @@ describe('PublicRegistrationPage', () => {
         'Tunnistaudu jonoon ilmoittautumista varten',
       );
 
-      cy.get('.MuiButton-contained').click();
+      onPublicRegistrationPage.continueToRegister();
+      onPublicRegistrationPage.sendRegistrationButtonIsVisible();
       onPublicRegistrationPage.expectReservationTimerText(false);
     });
   });
