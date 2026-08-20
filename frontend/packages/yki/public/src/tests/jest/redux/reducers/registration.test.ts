@@ -87,3 +87,45 @@ describe('registrationReducer partialExamType restoration', () => {
     );
   });
 });
+
+describe('registrationReducer reservation timer', () => {
+  const acceptInit = (
+    overrides: Partial<Parameters<typeof acceptPublicRegistrationInit>[0]>,
+  ) =>
+    acceptPublicRegistrationInit({
+      expires_in: undefined,
+      partial_exam_type: 'ALL_PARTS',
+      registration_id: 1,
+      registration_kind: RegistrationKind.Admission,
+      is_strongly_identified: true,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      user: { nationalities: [] } as any,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      exam_session: {} as any,
+      ...overrides,
+    });
+
+  it('sets expiresIn from an ADMISSION init response so the reservation timer is shown', () => {
+    const state = registrationReducer(
+      initialState,
+      acceptInit({
+        expires_in: 1800,
+        registration_kind: RegistrationKind.Admission,
+      }),
+    );
+
+    expect(state.initRegistration.expiresIn).toEqual(1800);
+  });
+
+  it('leaves expiresIn unset for a QUEUE init response so no reservation timer is shown', () => {
+    const state = registrationReducer(
+      initialState,
+      acceptInit({
+        expires_in: undefined,
+        registration_kind: RegistrationKind.Queue,
+      }),
+    );
+
+    expect(state.initRegistration.expiresIn).toBeUndefined();
+  });
+});
