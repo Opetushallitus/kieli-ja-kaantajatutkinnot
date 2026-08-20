@@ -1,5 +1,5 @@
-import { APIResponseStatus } from 'shared/enums';
 import { AxiosResponse } from 'axios';
+import { APIResponseStatus } from 'shared/enums';
 
 import { RegistrationKind, RegistrationStates } from 'enums/app';
 import {
@@ -18,6 +18,7 @@ import {
   rejectPublicRegistrationSubmission,
   setHasTimerExpired,
 } from 'redux/reducers/registration';
+import { registrationInitResponse } from 'tests/msw/fixtures/registrationInit/registrationInit';
 
 describe('registrationReducer partialExamType restoration', () => {
   it('stores the selected partialExamType when initiating a registration', () => {
@@ -35,24 +36,19 @@ describe('registrationReducer partialExamType restoration', () => {
     expect(state.initRegistration.registrationKind).toEqual(
       RegistrationKind.Queue,
     );
-    expect(state.initRegistration.status).toEqual(
-      APIResponseStatus.InProgress,
-    );
+    expect(state.initRegistration.status).toEqual(APIResponseStatus.InProgress);
   });
 
   it('restores partialExamType from the init response', () => {
     const state = registrationReducer(
       initialState,
       acceptPublicRegistrationInit({
+        ...registrationInitResponse,
         expires_in: 300,
         partial_exam_type: 'READ',
         registration_id: 42,
         registration_kind: RegistrationKind.Admission,
         is_strongly_identified: true,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        user: { nationalities: [] } as any,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        exam_session: {} as any,
       }),
     );
 
@@ -91,9 +87,7 @@ describe('registrationReducer partialExamType restoration', () => {
       RegistrationKind.Queue,
     );
     expect(restored.initRegistration.examSessionId).toEqual(999);
-    expect(restored.fetchRegistrationStatus).toEqual(
-      APIResponseStatus.Success,
-    );
+    expect(restored.fetchRegistrationStatus).toEqual(APIResponseStatus.Success);
   });
 });
 
@@ -102,15 +96,12 @@ describe('registrationReducer reservation timer', () => {
     overrides: Partial<Parameters<typeof acceptPublicRegistrationInit>[0]>,
   ) =>
     acceptPublicRegistrationInit({
+      ...registrationInitResponse,
       expires_in: undefined,
       partial_exam_type: 'ALL_PARTS',
       registration_id: 1,
       registration_kind: RegistrationKind.Admission,
       is_strongly_identified: true,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      user: { nationalities: [] } as any,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      exam_session: {} as any,
       ...overrides,
     });
 
@@ -158,7 +149,9 @@ describe('registrationReducer init error mapping', () => {
   it('maps a closed registration period to the Past error', () => {
     const state = registrationReducer(
       initialState,
-      rejectPublicRegistrationInit(initErrorResponse({ error: { closed: true } })),
+      rejectPublicRegistrationInit(
+        initErrorResponse({ error: { closed: true } }),
+      ),
     );
 
     expect(state.initRegistration.error).toEqual({
@@ -169,7 +162,9 @@ describe('registrationReducer init error mapping', () => {
   it('maps a full exam session to the ExamSessionFull error', () => {
     const state = registrationReducer(
       initialState,
-      rejectPublicRegistrationInit(initErrorResponse({ error: { full: true } })),
+      rejectPublicRegistrationInit(
+        initErrorResponse({ error: { full: true } }),
+      ),
     );
 
     expect(state.initRegistration.error).toEqual({
@@ -187,7 +182,9 @@ describe('registrationReducer init error mapping', () => {
       initialState,
       rejectPublicRegistrationInit(
         initErrorResponse({
-          error: { 'other-exam-session-registration': otherExamSessionRegistration },
+          error: {
+            'other-exam-session-registration': otherExamSessionRegistration,
+          },
         }),
       ),
     );
@@ -213,7 +210,9 @@ describe('registrationReducer init error mapping', () => {
   it('falls back to a generic error for an unrecognised error shape', () => {
     const state = registrationReducer(
       initialState,
-      rejectPublicRegistrationInit(initErrorResponse({ error: { exists: true } })),
+      rejectPublicRegistrationInit(
+        initErrorResponse({ error: { exists: true } }),
+      ),
     );
 
     expect(state.initRegistration.error).toEqual({
@@ -226,10 +225,19 @@ describe('registrationReducer submit error mapping', () => {
   const cases: Array<
     [Record<string, boolean>, PublicRegistrationFormSubmitError]
   > = [
-    [{ closed: true }, PublicRegistrationFormSubmitError.RegistrationPeriodClosed],
+    [
+      { closed: true },
+      PublicRegistrationFormSubmitError.RegistrationPeriodClosed,
+    ],
     [{ registered: true }, PublicRegistrationFormSubmitError.AlreadyRegistered],
-    [{ create_payment: true }, PublicRegistrationFormSubmitError.PaymentCreationFailed],
-    [{ person_creation: true }, PublicRegistrationFormSubmitError.PersonCreationFailed],
+    [
+      { create_payment: true },
+      PublicRegistrationFormSubmitError.PaymentCreationFailed,
+    ],
+    [
+      { person_creation: true },
+      PublicRegistrationFormSubmitError.PersonCreationFailed,
+    ],
     [{ expired: true }, PublicRegistrationFormSubmitError.FormExpired],
   ];
 
