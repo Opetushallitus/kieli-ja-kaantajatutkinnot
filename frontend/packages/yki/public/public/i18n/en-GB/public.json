@@ -350,7 +350,7 @@
             "ssn": "Personal identity code"
           },
           "placeholders": {
-            "address": "",
+            "address": "Make sure the address includes all necessary details (e.g. apartment number). The street name alone is not sufficient.",
             "countryCode": "Select country",
             "dateOfBirth": "Use the format dd.mm.yyyy",
             "email": "For example, name@email.fi",

@@ -350,7 +350,7 @@
             "ssn": "Henkilötunnus"
           },
           "placeholders": {
-            "address": "",
+            "address": "Tarkista, että osoitteessa on kaikki tiedot (esim. asunnon numero). Pelkkä kadunnimi ei riitä.",
             "countryCode": "Valitse maa",
             "dateOfBirth": "Kirjoita muodossa pp.kk.vvvv",
             "email": "Esim. nimi@sahkoposti.fi",
