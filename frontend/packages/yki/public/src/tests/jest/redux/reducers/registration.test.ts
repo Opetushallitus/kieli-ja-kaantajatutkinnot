@@ -1,6 +1,12 @@
 import { APIResponseStatus } from 'shared/enums';
+import { AxiosResponse } from 'axios';
 
-import { RegistrationKind } from 'enums/app';
+import { RegistrationKind, RegistrationStates } from 'enums/app';
+import {
+  PublicRegistrationFormStep,
+  PublicRegistrationFormSubmitError,
+  PublicRegistrationInitError,
+} from 'enums/publicRegistration';
 import {
   acceptFetchRegistrationDetails,
   acceptPublicRegistrationInit,
@@ -8,6 +14,9 @@ import {
   initialState,
   initRegistration,
   registrationReducer,
+  rejectPublicRegistrationInit,
+  rejectPublicRegistrationSubmission,
+  setHasTimerExpired,
 } from 'redux/reducers/registration';
 
 describe('registrationReducer partialExamType restoration', () => {
@@ -127,5 +136,125 @@ describe('registrationReducer reservation timer', () => {
     );
 
     expect(state.initRegistration.expiresIn).toBeUndefined();
+  });
+});
+
+describe('registrationReducer init error mapping', () => {
+  const initErrorResponse = (data: unknown, status = 409) =>
+    ({ data, status }) as unknown as AxiosResponse;
+
+  it('maps a missing response to a generic error', () => {
+    const state = registrationReducer(
+      initialState,
+      rejectPublicRegistrationInit(undefined),
+    );
+
+    expect(state.initRegistration.status).toEqual(APIResponseStatus.Error);
+    expect(state.initRegistration.error).toEqual({
+      error: PublicRegistrationInitError.Generic,
+    });
+  });
+
+  it('maps a closed registration period to the Past error', () => {
+    const state = registrationReducer(
+      initialState,
+      rejectPublicRegistrationInit(initErrorResponse({ error: { closed: true } })),
+    );
+
+    expect(state.initRegistration.error).toEqual({
+      error: PublicRegistrationInitError.Past,
+    });
+  });
+
+  it('maps a full exam session to the ExamSessionFull error', () => {
+    const state = registrationReducer(
+      initialState,
+      rejectPublicRegistrationInit(initErrorResponse({ error: { full: true } })),
+    );
+
+    expect(state.initRegistration.error).toEqual({
+      error: PublicRegistrationInitError.ExamSessionFull,
+    });
+  });
+
+  it('maps an existing registration in another exam session to AlreadyRegistered and keeps its details', () => {
+    const otherExamSessionRegistration = {
+      id: 99,
+      registration_id: 7,
+      state: RegistrationStates.Submitted,
+    };
+    const state = registrationReducer(
+      initialState,
+      rejectPublicRegistrationInit(
+        initErrorResponse({
+          error: { 'other-exam-session-registration': otherExamSessionRegistration },
+        }),
+      ),
+    );
+
+    expect(state.initRegistration.error).toEqual({
+      error: PublicRegistrationInitError.AlreadyRegistered,
+      otherExamSessionRegistration,
+    });
+  });
+
+  it('maps a 401 response to an Unauthorized error and returns to the identify step', () => {
+    const state = registrationReducer(
+      { ...initialState, activeStep: PublicRegistrationFormStep.Register },
+      rejectPublicRegistrationInit(initErrorResponse({}, 401)),
+    );
+
+    expect(state.initRegistration.error).toEqual({
+      error: PublicRegistrationInitError.Unauthorized,
+    });
+    expect(state.activeStep).toEqual(PublicRegistrationFormStep.Identify);
+  });
+
+  it('falls back to a generic error for an unrecognised error shape', () => {
+    const state = registrationReducer(
+      initialState,
+      rejectPublicRegistrationInit(initErrorResponse({ error: { exists: true } })),
+    );
+
+    expect(state.initRegistration.error).toEqual({
+      error: PublicRegistrationInitError.Generic,
+    });
+  });
+});
+
+describe('registrationReducer submit error mapping', () => {
+  const cases: Array<
+    [Record<string, boolean>, PublicRegistrationFormSubmitError]
+  > = [
+    [{ closed: true }, PublicRegistrationFormSubmitError.RegistrationPeriodClosed],
+    [{ registered: true }, PublicRegistrationFormSubmitError.AlreadyRegistered],
+    [{ create_payment: true }, PublicRegistrationFormSubmitError.PaymentCreationFailed],
+    [{ person_creation: true }, PublicRegistrationFormSubmitError.PersonCreationFailed],
+    [{ expired: true }, PublicRegistrationFormSubmitError.FormExpired],
+  ];
+
+  it.each(cases)('maps %o to the matching submit error', (error, expected) => {
+    const state = registrationReducer(
+      initialState,
+      rejectPublicRegistrationSubmission({ error }),
+    );
+
+    expect(state.submitRegistration.status).toEqual(APIResponseStatus.Error);
+    expect(state.submitRegistration.error).toEqual(expected);
+  });
+});
+
+describe('registrationReducer reservation timer expiry', () => {
+  it('flags the timer as expired so the unsaved-changes guard is dropped', () => {
+    const state = registrationReducer(initialState, setHasTimerExpired(true));
+
+    expect(state.hasTimerExpired).toBe(true);
+  });
+
+  it('clears the expired flag when the timer is reset', () => {
+    const expired = registrationReducer(initialState, setHasTimerExpired(true));
+    const state = registrationReducer(expired, setHasTimerExpired(false));
+
+    expect(state.hasTimerExpired).toBe(false);
   });
 });
