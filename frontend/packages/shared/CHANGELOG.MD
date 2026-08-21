@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.15.0] - 2026-08-20
+
+### Changed
+
+- Shared library components updated for React Router v7
+
 ## [1.14.5] - 2026-08-14
 
 ### Changed

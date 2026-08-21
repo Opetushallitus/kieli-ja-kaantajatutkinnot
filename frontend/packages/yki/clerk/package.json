@@ -28,7 +28,7 @@
     "yki:clerk:tslint": "yarn g:tsc --pretty --noEmit"
   },
   "dependencies": {
-    "shared": "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.14.5"
+    "shared": "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.15.0"
   },
   "devDependencies": {
     "multer": "^2.2.0"

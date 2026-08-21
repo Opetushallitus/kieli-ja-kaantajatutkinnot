@@ -731,6 +731,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                   >
                     <a
                       class="custom-button-link"
+                      data-discover="true"
                       href="/yki/ilmoittautuminen"
                     >
                       <button
