@@ -23,11 +23,8 @@ const examTypeKeys = [
 describe('examType i18n completeness', () => {
   Object.entries(locales).forEach(([lang, translations]) => {
     describe(`${lang} locale`, () => {
-      const examType =
-        translations.yki.component.registration.examSessionCard.examType as Record<
-          string,
-          string
-        >;
+      const examType = translations.yki.component.registration.examSessionCard
+        .examType as Record<string, string>;
 
       examTypeKeys.forEach((key) => {
         it(`has a non-empty translation for examType.${key}`, () => {
