@@ -333,7 +333,10 @@ public class ClerkTranslatorService {
     final ClerkTranslatorAuditDTO oldTranslatorDTO = new ClerkTranslatorAuditDTO(translator, oldPersonalData);
 
     validatePersonalData(personalData);
-    onrService.updatePersonalData(personalData);
+    if (oldPersonalData != null && !Boolean.TRUE.equals(oldPersonalData.isDeceased())) {
+        // Deceased persons can't be updated anymore
+        onrService.updatePersonalData(personalData);
+    }
 
     copyDtoFieldsToTranslator(dto, translator);
 
