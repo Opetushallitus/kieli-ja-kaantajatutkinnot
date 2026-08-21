@@ -2,7 +2,7 @@ import { AppLanguage, I18nNamespace } from 'shared/enums';
 import { StringUtils } from 'shared/utils';
 
 import { translateOutsideComponent } from 'configs/i18n';
-import { ExamLanguage, ExamLevel } from 'enums/app';
+import { ExamLanguage, ExamLevel, RegistrationKind } from 'enums/app';
 import {
   ExamSession,
   ExamSessionLocation,
@@ -82,8 +82,10 @@ export class ExamSessionUtils {
   }
 
   static hasRoom(examSession: ExamSession, partialExamType?: PartialExamType) {
+    // Room comes from the registration kind, not from seat counts or the queue.
     return (
-      ExamSessionUtils.getAvailablePlaces(examSession, partialExamType) > 0
+      ExamSessionUtils.getRegistrationKind({ examSession, partialExamType }) ===
+      RegistrationKind.Admission
     );
   }
 

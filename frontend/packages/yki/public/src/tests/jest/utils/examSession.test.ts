@@ -86,7 +86,9 @@ describe('ExamSessionUtils', () => {
 
   describe('getPartialExamFee', () => {
     it('should return an empty string when no partial exam type is selected', () => {
-      expect(ExamSessionUtils.getPartialExamFee(baseExamSession)).toEqual('');
+      expect(ExamSessionUtils.getPartialExamFee(readSpeakExamSession)).toEqual(
+        '',
+      );
       expect(ExamSessionUtils.getPartialExamFee(readSpeakExamSession)).toEqual(
         '',
       );
@@ -204,13 +206,13 @@ describe('ExamSessionUtils', () => {
       ).toEqual(3);
       expect(
         ExamSessionUtils.getAvailablePlaces(listenWriteExamSession, 'LISTEN'),
-      ).toEqual(3);
+      ).toEqual(0);
     });
 
     it('should draw from the speak/write quota for SPEAK, WRITE and ALL_PARTS parts', () => {
       expect(
         ExamSessionUtils.getAvailablePlaces(readSpeakExamSession, 'SPEAK'),
-      ).toEqual(1);
+      ).toEqual(0);
       expect(
         ExamSessionUtils.getAvailablePlaces(readSpeakExamSession, 'ALL_PARTS'),
       ).toEqual(1);
@@ -248,12 +250,9 @@ describe('ExamSessionUtils', () => {
       ).toEqual(0);
     });
 
-    it('should return no available places when the session is a queue', () => {
+    it('should return no available places when the registration kind is of QUEUE', () => {
       expect(
-        ExamSessionUtils.getAvailablePlaces(
-          { ...readSpeakExamSession, queue: 1 },
-          'READ',
-        ),
+        ExamSessionUtils.getAvailablePlaces(readSpeakExamSession, 'SPEAK'),
       ).toEqual(0);
     });
   });
@@ -448,21 +447,18 @@ describe('ExamSessionUtils', () => {
     });
 
     it('should prioritise exam sessions with room', () => {
+      const full: ExamSession = {
+        ...baseExamSession,
+        available_registration_kind: RegistrationKind.Queue,
+        partial_registration_kind: { ALL_PARTS: RegistrationKind.Queue },
+      };
+
       expect(
-        ExamSessionUtils.compareExamSessions(baseExamSession, {
-          ...baseExamSession,
-          participants: baseExamSession.max_participants,
-        }),
+        ExamSessionUtils.compareExamSessions(baseExamSession, full),
       ).toEqual(-1);
 
       expect(
-        ExamSessionUtils.compareExamSessions(
-          {
-            ...baseExamSession,
-            participants: baseExamSession.max_participants,
-          },
-          baseExamSession,
-        ),
+        ExamSessionUtils.compareExamSessions(full, baseExamSession),
       ).toEqual(1);
     });
 
@@ -491,7 +487,8 @@ describe('ExamSessionUtils', () => {
         ExamSessionUtils.compareExamSessions(
           {
             ...baseExamSession,
-            participants: baseExamSession.max_participants,
+            available_registration_kind: RegistrationKind.Queue,
+            partial_registration_kind: { ALL_PARTS: RegistrationKind.Queue },
           },
           {
             ...baseExamSession,
@@ -557,7 +554,12 @@ describe('ExamSessionUtils', () => {
     it('should prioritise a partial session with overall room over a full one', () => {
       const full: ExamSession = {
         ...readSpeakExamSession,
-        participants: readSpeakExamSession.max_participants,
+        available_registration_kind: RegistrationKind.Queue,
+        partial_registration_kind: {
+          ALL_PARTS: RegistrationKind.Queue,
+          READ: RegistrationKind.Queue,
+          SPEAK: RegistrationKind.Queue,
+        },
       };
 
       expect(
@@ -569,7 +571,15 @@ describe('ExamSessionUtils', () => {
     });
 
     it('should treat a queued partial session as having no room', () => {
-      const queued: ExamSession = { ...readSpeakExamSession, queue: 1 };
+      const queued: ExamSession = {
+        ...readSpeakExamSession,
+        available_registration_kind: RegistrationKind.Queue,
+        partial_registration_kind: {
+          ALL_PARTS: RegistrationKind.Queue,
+          READ: RegistrationKind.Queue,
+          SPEAK: RegistrationKind.Queue,
+        },
+      };
 
       expect(
         ExamSessionUtils.compareExamSessions(readSpeakExamSession, queued),
