@@ -4,6 +4,7 @@ exports[`CustomButtonLink should render correctly 1`] = `
 <div>
   <a
     class="custom-button-link"
+    data-discover="true"
     href="/"
   >
     <button
