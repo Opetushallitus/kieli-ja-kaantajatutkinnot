@@ -2,7 +2,7 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Container, Grid, Paper } from '@mui/material';
 import { ophColors } from '@opetushallitus/oph-design-system';
 import { Trans } from 'react-i18next';
-import { generatePath } from 'react-router-dom';
+import { generatePath } from 'react-router';
 import {
   CustomButton,
   H1,

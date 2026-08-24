@@ -1,6 +1,6 @@
 import { Divider } from '@mui/material';
 import { Container } from '@mui/system';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { CustomButton, H2, H3, Text } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';

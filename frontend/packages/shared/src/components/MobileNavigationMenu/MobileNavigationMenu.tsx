@@ -4,7 +4,7 @@ import { ClickAwayListener, Divider, Paper } from '@mui/material';
 import { FocusTrap } from 'focus-trap-react';
 import { ForwardedRef, forwardRef, Fragment, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 import { Color } from '../../enums';
 import { NavigationLinksProps } from '../NavigationLinks/NavigationLinks';

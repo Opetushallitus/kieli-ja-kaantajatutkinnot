@@ -10,7 +10,7 @@ import { Box } from '@mui/system';
 import { Dayjs } from 'dayjs';
 import i18next from 'i18next';
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 import { AppLanguage } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 

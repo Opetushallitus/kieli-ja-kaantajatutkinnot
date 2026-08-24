@@ -4,7 +4,7 @@ import {
   WarningAmber,
 } from '@mui/icons-material';
 import { TableCell, TableRow } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { CustomButtonLink, Text } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 

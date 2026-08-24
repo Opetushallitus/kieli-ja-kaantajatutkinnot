@@ -5,7 +5,7 @@ import {
   createRoutesFromElements,
   Route,
   RouterProvider,
-} from 'react-router-dom';
+} from 'react-router';
 
 import { AppStore, RootState } from 'configs/redux';
 import { setupStore } from 'redux/store';
