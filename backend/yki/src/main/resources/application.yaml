@@ -73,6 +73,7 @@ app:
     person-sync-enabled: ${solki.person-sync-enabled:false}
     exam-session-sync-enabled: ${solki.exam-session-sync-enabled:false}
     person-sync-retry-days: ${solki.person-sync-retry-days:1}
+    participant-sync-retry-days: ${solki.participant-sync-retry-days:1}
   email:
     sending-enabled: ${email.sending-enabled:false}
     service-url: ${email.service-url:null}

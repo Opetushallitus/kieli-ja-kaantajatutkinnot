@@ -254,14 +254,18 @@ public class SolkiService {
 
   private static final CSVFormat SOLKI_CSV_FORMAT = CSVFormat.DEFAULT.builder().setDelimiter(';').get();
 
-  String buildParticipantsCsv(final List<Registration> registrations, final Map<String, String> oidToSsn) {
+  String buildParticipantsCsv(
+    final ExamSessionType examSessionType,
+    final List<Registration> registrations,
+    final Map<String, String> oidToSsn
+  ) {
     final Map<String, List<Registration>> byPersonOid = registrations
       .stream()
       .collect(Collectors.groupingBy(r -> r.getPerson().getOid(), LinkedHashMap::new, Collectors.toList()));
 
     try (StringWriter writer = new StringWriter(); CSVPrinter printer = new CSVPrinter(writer, SOLKI_CSV_FORMAT)) {
       for (final List<Registration> personRegistrations : byPersonOid.values()) {
-        printer.printRecord(toCsvRow(personRegistrations, oidToSsn));
+        printer.printRecord(toCsvRow(examSessionType, personRegistrations, oidToSsn));
       }
       printer.flush();
       return writer.toString();
@@ -270,16 +274,17 @@ public class SolkiService {
     }
   }
 
-  private List<String> toCsvRow(final List<Registration> personRegistrations, final Map<String, String> oidToSsn) {
+  private List<String> toCsvRow(
+    final ExamSessionType examSessionType,
+    final List<Registration> personRegistrations,
+    final Map<String, String> oidToSsn
+  ) {
     final Registration first = personRegistrations.get(0);
     final Person person = first.getPerson();
     final ObjectNode form = first.getForm();
 
     final SubtestFlags flags = mergeFlags(
-      personRegistrations
-        .stream()
-        .map(r -> sessionTypeToSubtestFlags(r.getExamSession().getType(), r.getPartialExamType()))
-        .toList()
+      personRegistrations.stream().map(r -> sessionTypeToSubtestFlags(examSessionType, r.getPartialExamType())).toList()
     );
     final boolean isTransferred = personRegistrations.stream().anyMatch(r -> Boolean.TRUE.equals(r.getIsTransfered()));
 
@@ -336,7 +341,7 @@ public class SolkiService {
       RegistrationState.COMPLETED
     );
     final Map<String, String> oidToSsn = getIdentityNumbersByOid(registrations);
-    final String csv = buildParticipantsCsv(registrations, oidToSsn);
+    final String csv = buildParticipantsCsv(examSession.getType(), registrations, oidToSsn);
 
     if (!personSyncEnabled) {
       LOG.info(

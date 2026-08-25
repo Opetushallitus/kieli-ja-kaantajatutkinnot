@@ -308,7 +308,7 @@ class SolkiServiceTest {
       false
     );
 
-    final String csv = solkiService.buildParticipantsCsv(List.of(registration), Map.of());
+    final String csv = solkiService.buildParticipantsCsv(examSession.getType(), List.of(registration), Map.of());
     final String[] fields = csv.strip().split(";", -1);
 
     assertEquals("1.2.3.4.5", fields[0]);
@@ -344,7 +344,11 @@ class SolkiServiceTest {
       false
     );
 
-    final String csv = solkiService.buildParticipantsCsv(List.of(registration), Map.of("1.2.3.4.5", "150695-123A"));
+    final String csv = solkiService.buildParticipantsCsv(
+      examSession.getType(),
+      List.of(registration),
+      Map.of("1.2.3.4.5", "150695-123A")
+    );
 
     assertEquals("150695-123A", csv.strip().split(";", -1)[1]);
   }
@@ -370,7 +374,7 @@ class SolkiServiceTest {
       true
     );
 
-    final String csv = solkiService.buildParticipantsCsv(List.of(readOnly, speakOnly), Map.of());
+    final String csv = solkiService.buildParticipantsCsv(examSession.getType(), List.of(readOnly, speakOnly), Map.of());
     final String[] fields = csv.strip().split(";", -1);
 
     assertEquals(1, csv.strip().lines().count());
