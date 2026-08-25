@@ -40,7 +40,7 @@ describe('PublicRegistrationPage', () => {
       onPublicRegistrationPage.selectExamLevel('kaikki tasot');
       onPublicRegistrationPage.toggleShowOnlyIfAvailablePlaces();
       onPublicRegistrationPage.search();
-      onPublicRegistrationPage.expectResultsCount(7);
+      onPublicRegistrationPage.expectResultsCount(9);
       onPublicRegistrationPage.toggleShowOnlyIfOngoingAdmission();
       onPublicRegistrationPage.search();
       onPublicRegistrationPage.expectResultsCount(6);
@@ -72,9 +72,7 @@ describe('PublicRegistrationPage', () => {
         .findByRole('button', { name: /Ilmoittaudu/ })
         .click();
 
-      onInitRegistrationPage.expectTitle(
-        'Tunnistaudu jonoon ilmoittautumista varten',
-      );
+      onInitRegistrationPage.expectTitle('Tunnistaudu ilmoittautumista varten');
     });
 
     before(() => {
@@ -99,9 +97,7 @@ describe('PublicRegistrationPage', () => {
         .findByRole('button', { name: /Ilmoittaudu/ })
         .click();
 
-      onInitRegistrationPage.expectTitle(
-        'Tunnistaudu jonoon ilmoittautumista varten',
-      );
+      onInitRegistrationPage.expectTitle('Tunnistaudu ilmoittautumista varten');
       onInitRegistrationPage.expectVisibleContinueToRegistrationButton();
     });
 
@@ -180,7 +176,7 @@ describe('PublicRegistrationPage', () => {
 
       onInitRegistrationPage.expectTitle('Tunnistaudu ilmoittautumista varten');
 
-      cy.get('.MuiButton-contained').click();
+      onPublicRegistrationPage.continueToRegister();
       onPublicRegistrationPage.expectReservationTimerText(
         true,
         'Paikkavarauksesi YKI-testiin umpeutuu: 30:00',
@@ -190,20 +186,19 @@ describe('PublicRegistrationPage', () => {
     it('no timer is shown when type is QUEUE', () => {
       onPublicRegistrationPage.selectExamLanguage('kaikki kielet');
       onPublicRegistrationPage.selectExamLevel('kaikki tasot');
-      onPublicRegistrationPage.toggleShowOnlyIfAvailablePlaces();
-      onPublicRegistrationPage.toggleShowOnlyIfOngoingAdmission();
       onPublicRegistrationPage.search();
 
       onPublicRegistrationPage
-        .getResultCardsNth(0)
-        .findByRole('button', { name: /Ilmoittaudu/ })
+        .getResultCardContaining('Tekstin ymmärtäminen ja puhuminen')
+        .findByRole('button', { name: 'Ilmoittaudu jonoon' })
         .click();
 
       onInitRegistrationPage.expectTitle(
         'Tunnistaudu jonoon ilmoittautumista varten',
       );
 
-      cy.get('.MuiButton-contained').click();
+      onPublicRegistrationPage.continueToRegister();
+      onPublicRegistrationPage.sendRegistrationButtonIsVisible();
       onPublicRegistrationPage.expectReservationTimerText(false);
     });
   });

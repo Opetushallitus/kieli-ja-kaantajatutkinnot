@@ -53,7 +53,7 @@ jobs:
           key: ${{ runner.os }}-${{ inputs.app-name }}-clerk-frontend-build-${{ github.sha }}
           fail-on-cache-miss: true
       - name: Set up JDK 21
-        uses: actions/setup-java@17f84c3641ba7b8f6deff6309fc4c864478f5d62 # actions/setup-java v3
+        uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # actions/setup-java v5.7.0
         with:
           java-version: "21"
           distribution: "temurin"

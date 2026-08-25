@@ -1,5 +1,5 @@
 import { Tab, Tabs } from '@mui/material';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router';
 import { Color } from 'shared/enums';
 
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';

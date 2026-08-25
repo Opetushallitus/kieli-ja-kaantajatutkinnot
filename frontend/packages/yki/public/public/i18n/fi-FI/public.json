@@ -135,7 +135,8 @@
             "title": "Ilmoittautuminen on kesken"
           },
           "reservingQueueSeat": "Varataan jonopaikkaa...",
-          "title": "Ilmoittautuminen epäonnistui"
+          "title": "Ilmoittautuminen epäonnistui",
+          "registerToPartialExamsSeparately": "YKI-testi on täynnä. Ilmoittaudu osakokeisiin erikseen"
         },
         "enrollToQueue": {
           "dialog": {
@@ -350,7 +351,7 @@
             "ssn": "Henkilötunnus"
           },
           "placeholders": {
-            "address": "",
+            "address": "Tarkista, että osoitteessa on kaikki tiedot (esim. asunnon numero). Pelkkä kadunnimi ei riitä.",
             "countryCode": "Valitse maa",
             "dateOfBirth": "Kirjoita muodossa pp.kk.vvvv",
             "email": "Esim. nimi@sahkoposti.fi",
@@ -456,10 +457,9 @@
           "phaseNumber": "{{current}} kautta {{total}}",
           "step": {
             "Done": "Valmis",
-            "EnrollToQueue": "Ilmoittaudu jonoon",
             "Identify": "Tunnistaudu",
             "Payment": "Maksaminen",
-            "Register": "Ilmoittaudu"
+            "Register": "Tiedot"
           },
           "welcomeToExam": "Tervetuloa tutkintoon!"
         },
@@ -865,18 +865,18 @@
             "notFound": "Sinulla ei ole suorituksia tai menneitä ilmoittautumisia."
           },
           "state": {
+            "ABORTED": "Suoritus keskeytetty",
             "cancelled": "Peruttu",
             "enrolled": "Ilmoittautunut",
             "EVALUATION_COMPLETE": "Arviointi valmis",
             "EVALUATION_PENDING": "Arviointi kesken",
-            "NO_SHOW": "Ei osallistunut",
-            "ABORTED": "Suoritus keskeytetty",
-            "REVIEW_PENDING": "Tarkistusarviointi kesken",
-            "REVIEW_COMPLETE": "Tarkistusarviointi kesken",
-            "RETAKE_PENDING": "-",
-            "REVIEW_FINALIZED": "Tarkistusarviointi valmis",
             "label": "Tila",
-            "queued": "Jonossa (sija {{ positionInQueue }})"
+            "NO_SHOW": "Ei osallistunut",
+            "queued": "Jonossa (sija {{ positionInQueue }})",
+            "RETAKE_PENDING": "-",
+            "REVIEW_COMPLETE": "Tarkistusarviointi kesken",
+            "REVIEW_FINALIZED": "Tarkistusarviointi valmis",
+            "REVIEW_PENDING": "Tarkistusarviointi kesken"
           },
           "upcoming": {
             "notFound": "Sinulla ei ole tulevia ilmoittautumisia."

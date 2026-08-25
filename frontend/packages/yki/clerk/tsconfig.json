@@ -12,11 +12,16 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "baseUrl": "src",
     "paths": {
-      "public/*": ["public/*"]
+      "public/*": ["./public/*"],
+      "*": ["./src/*"]
     }
   },
-  "include": ["src/**/*", "jest-setup.ts", "webpack/custom.d.ts", "public/i18n/typeCheck.ts"],
+  "include": [
+    "src/**/*",
+    "jest-setup.ts",
+    "webpack/custom.d.ts",
+    "public/i18n/typeCheck.ts"
+  ],
   "exclude": ["src/tests/cypress/*"]
 }

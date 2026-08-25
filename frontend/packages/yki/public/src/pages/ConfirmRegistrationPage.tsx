@@ -1,7 +1,7 @@
 import { Grid, Paper } from '@mui/material';
 import { Box } from '@mui/system';
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 import {
   H1,
   HeaderSeparator,

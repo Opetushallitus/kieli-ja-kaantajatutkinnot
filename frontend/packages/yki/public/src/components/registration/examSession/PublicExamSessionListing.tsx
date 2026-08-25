@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import {
   CustomButton,
   CustomButtonLink,
@@ -139,6 +139,8 @@ const RegistrationInitErrorModal = ({
               >
                 {error === PublicRegistrationInitError.ExamSessionFull &&
                   t('examIsFull')}
+                {error === PublicRegistrationInitError.ExamSessionPartialFull &&
+                  t('registerToPartialExamsSeparately')}
                 {error === PublicRegistrationInitError.Past && t('examClosed')}
               </Text>
             </>
@@ -161,7 +163,7 @@ const RegistrationInitErrorModal = ({
               to={`${AppRoutes.ExamSession.replace(
                 /:examSessionId/,
                 `${otherExamSessionRegistration?.id}`,
-              )}`}
+              )}${`?registrationId=${otherExamSessionRegistration?.registration_id}`}`}
             >
               {t('otherStartedRegistration.backToRegistrationButton')}
             </CustomButtonLink>
@@ -171,12 +173,6 @@ const RegistrationInitErrorModal = ({
               color={Color.Secondary}
               variant={Variant.Contained}
               onClick={() => {
-                // eslint-disable-next-line no-console
-                console.log(
-                  'Enroll to queue for exam session Error Modal',
-                  examSessionId,
-                  partialExamType,
-                );
                 dispatch(resetPublicRegistration());
                 dispatch(
                   initRegistration({
@@ -386,12 +382,15 @@ export const PublicExamSessionListing = ({
       initRegistration.status === APIResponseStatus.Success &&
       initRegistration.examSessionId
     ) {
-      navigate(
-        `${AppRoutes.ExamSession.replace(
+      navigate({
+        pathname: AppRoutes.ExamSession.replace(
           /:examSessionId$/,
           `${initRegistration.examSessionId}`,
-        )}`,
-      );
+        ),
+        search: initRegistration.registrationId
+          ? `?registrationId=${initRegistration.registrationId}`
+          : '',
+      });
     }
   }, [
     navigate,
