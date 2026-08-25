@@ -40,6 +40,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
+import reactor.core.publisher.Mono;
 
 /**
  * HTTP client + payload logic for SOLKI (the national YKI exam register, hosted at
@@ -336,14 +337,18 @@ public class SolkiService {
   }
 
   public void syncExamSessionParticipants(final ExamSession examSession) {
-    final List<Registration> registrations = registrationRepository.getByExamSessionAndState(
-      examSession,
-      RegistrationState.COMPLETED
-    );
-    final Map<String, String> oidToSsn = getIdentityNumbersByOid(registrations);
-    final String csv = buildParticipantsCsv(examSession.getType(), registrations, oidToSsn);
+    syncExamSessionParticipants(examSession, false);
+  }
 
-    if (!personSyncEnabled) {
+  /** Bypasses the person-sync-enabled flag - only for the manual debug/force-sync endpoint. */
+  public void forceSyncExamSessionParticipants(final ExamSession examSession) {
+    syncExamSessionParticipants(examSession, true);
+  }
+
+  private void syncExamSessionParticipants(final ExamSession examSession, final boolean force) {
+    final String csv = buildParticipantsCsv(examSession);
+
+    if (!force && !personSyncEnabled) {
       LOG.info(
         "SOLKI participant sync disabled, would have sent CSV for exam session {}:\n{}",
         examSession.getId(),
@@ -353,6 +358,20 @@ public class SolkiService {
     }
 
     postParticipantsCsv(examSession, csv);
+  }
+
+  /** Fetches completed registrations and builds the CSV without sending it - used by the debug CSV export endpoint. */
+  public String buildParticipantsCsv(final ExamSession examSession) {
+    final List<Registration> registrations = registrationRepository.getByExamSessionAndState(
+      examSession,
+      RegistrationState.COMPLETED
+    );
+    final Map<String, String> oidToSsn = getIdentityNumbersByOid(registrations);
+    return buildParticipantsCsv(examSession.getType(), registrations, oidToSsn);
+  }
+
+  public int checkConnection() {
+    return solkiClient.get().uri("/").exchangeToMono(response -> Mono.just(response.statusCode().value())).block();
   }
 
   private Map<String, String> getIdentityNumbersByOid(final List<Registration> registrations) {
@@ -373,10 +392,6 @@ public class SolkiService {
       return Map.of();
     }
   }
-
-  // ---------------------------------------------------------------------
-  // HTTP operations
-  // ---------------------------------------------------------------------
 
   private String buildQueryParams(
     final String languageCode,
@@ -401,7 +416,15 @@ public class SolkiService {
   }
 
   public void syncOrganizer(final Organizer organizer, final String officeOid) {
-    if (!examSessionSyncEnabled) {
+    syncOrganizer(organizer, officeOid, false);
+  }
+
+  public void forceSyncOrganizer(final Organizer organizer, final String officeOid) {
+    syncOrganizer(organizer, officeOid, true);
+  }
+
+  private void syncOrganizer(final Organizer organizer, final String officeOid, final boolean force) {
+    if (!force && !examSessionSyncEnabled) {
       LOG.info("SOLKI organizer sync disabled, would have synced organizer {}", organizer.getOid());
       return;
     }
@@ -424,10 +447,25 @@ public class SolkiService {
   }
 
   public void syncExamSession(final ExamSession examSession) {
+    syncExamSession(examSession, false);
+  }
+
+  /** Bypasses the exam-session-sync-enabled flag - only for the manual debug/force-sync endpoint. */
+  public void forceSyncExamSession(final ExamSession examSession) {
+    syncExamSession(examSession, true);
+  }
+
+  /** Convenience for the debug/force-sync endpoint, mirroring what the backstop scheduled task does per session. */
+  public void forceSyncExamSessionAndOrganizer(final ExamSession examSession) {
+    forceSyncOrganizer(examSession.getOrganizer(), examSession.getOfficeOid());
+    forceSyncExamSession(examSession);
+  }
+
+  private void syncExamSession(final ExamSession examSession, final boolean force) {
     final ExamDateSyncRequestDTO examDateRequest = buildExamDateSyncRequest(examSession);
     final ExamSessionSyncRequestDTO examSessionRequest = buildExamSessionSyncRequest(examSession);
 
-    if (!examSessionSyncEnabled) {
+    if (!force && !examSessionSyncEnabled) {
       LOG.info("SOLKI exam session sync disabled, would have sent exam date request {}", examDateRequest);
       LOG.info("SOLKI exam session sync disabled, would have sent exam session request {}", examSessionRequest);
       return;

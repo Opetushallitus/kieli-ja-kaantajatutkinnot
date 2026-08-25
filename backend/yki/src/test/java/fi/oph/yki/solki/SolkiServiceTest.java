@@ -517,6 +517,101 @@ class SolkiServiceTest {
     assertEquals("/osallistuja/1.2.3.4.5", request.getPath());
   }
 
+  // ---- debug/force-sync entry points ----
+
+  @Test
+  void forceSyncOrganizerBypassesDisabledFlag() throws InterruptedException {
+    ReflectionTestUtils.setField(solkiService, "examSessionSyncEnabled", false);
+    Mockito
+      .when(organizationService.getOrganizationDetails("1.2.3.4.5"))
+      .thenReturn(new OrganizationDetailsDTO("1.2.3.4.5", "Testiorganisaatio", "Testikatu 1", "00100", "Helsinki", ""));
+    mockWebServer.enqueue(new MockResponse().setResponseCode(200));
+
+    final Organizer organizer = new Organizer();
+    organizer.setOid("1.2.3.4.5");
+    organizer.setLanguages(List.of());
+
+    solkiService.forceSyncOrganizer(organizer, null);
+
+    final RecordedRequest request = mockWebServer.takeRequest();
+    assertEquals("POST", request.getMethod());
+    assertEquals("/jarjestaja", request.getPath());
+  }
+
+  @Test
+  void forceSyncExamSessionBypassesDisabledFlag() throws InterruptedException {
+    ReflectionTestUtils.setField(solkiService, "examSessionSyncEnabled", false);
+    mockWebServer.enqueue(new MockResponse().setResponseCode(200));
+    mockWebServer.enqueue(new MockResponse().setResponseCode(200));
+
+    solkiService.forceSyncExamSession(examSession());
+
+    assertEquals(2, mockWebServer.getRequestCount());
+  }
+
+  @Test
+  void forceSyncExamSessionAndOrganizerSyncsBothEvenWhenDisabled() throws InterruptedException {
+    ReflectionTestUtils.setField(solkiService, "examSessionSyncEnabled", false);
+    Mockito
+      .when(organizationService.getOrganizationDetails("1.2.3.4.5"))
+      .thenReturn(new OrganizationDetailsDTO("1.2.3.4.5", "Testiorganisaatio", "Testikatu 1", "00100", "Helsinki", ""));
+    mockWebServer.enqueue(new MockResponse().setResponseCode(200));
+    mockWebServer.enqueue(new MockResponse().setResponseCode(200));
+    mockWebServer.enqueue(new MockResponse().setResponseCode(200));
+
+    final ExamSession examSession = examSession();
+    examSession.getOrganizer().setLanguages(List.of());
+
+    solkiService.forceSyncExamSessionAndOrganizer(examSession);
+
+    assertEquals(3, mockWebServer.getRequestCount());
+    assertEquals("/jarjestaja", mockWebServer.takeRequest().getPath());
+  }
+
+  @Test
+  void forceSyncExamSessionParticipantsBypassesDisabledFlag() throws InterruptedException {
+    ReflectionTestUtils.setField(solkiService, "personSyncEnabled", false);
+    final ExamSession examSession = examSession();
+    Mockito
+      .when(registrationRepository.getByExamSessionAndState(examSession, RegistrationState.COMPLETED))
+      .thenReturn(List.of());
+    mockWebServer.enqueue(new MockResponse().setResponseCode(200));
+
+    solkiService.forceSyncExamSessionParticipants(examSession);
+
+    final RecordedRequest request = mockWebServer.takeRequest();
+    assertEquals("POST", request.getMethod());
+    assertEquals("/osallistujat?kieli=fin&taso=PT&pvm=2026-06-15&jarjestaja=1.2.3.4.5", request.getPath());
+  }
+
+  @Test
+  void buildParticipantsCsvOverloadFetchesRegistrationsAndBuildsCsv() {
+    final ExamSession examSession = examSession();
+    examSession.setType(ExamSessionType.FULL);
+    final Person person = person("1.2.3.4.5", "Meikäläinen", "Matti", null);
+    final Registration registration = registration(
+      person,
+      examSession,
+      PartialExamType.ALL_PARTS,
+      Map.of("birthdate", "1995-06-15"),
+      false
+    );
+    Mockito
+      .when(registrationRepository.getByExamSessionAndState(examSession, RegistrationState.COMPLETED))
+      .thenReturn(List.of(registration));
+
+    final String csv = solkiService.buildParticipantsCsv(examSession);
+
+    assertEquals("1.2.3.4.5", csv.strip().split(";", -1)[0]);
+  }
+
+  @Test
+  void checkConnectionReturnsResponseStatusCodeEvenWhenNotSuccessful() {
+    mockWebServer.enqueue(new MockResponse().setResponseCode(404));
+
+    assertEquals(404, solkiService.checkConnection());
+  }
+
   private ExamSession examSession() {
     final ExamDate examDate = new ExamDate();
     examDate.setExamDate(LocalDate.of(2026, 6, 15));
