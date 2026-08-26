@@ -46,7 +46,7 @@ import reactor.core.publisher.Mono;
  * HTTP client + payload logic for SOLKI (the national YKI exam register, hosted at
  * yki.jyu.fi). Ported from the legacy Clojure integration in
  * yki/src/yki/boundary/yki_register.clj - field names below are Finnish because
- * they are SOLKI's external API contract, not our domain vocabulary.
+ * they are SOLKI's external API contract, not our domain vocabulary
  */
 @Service
 @RequiredArgsConstructor
