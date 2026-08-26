@@ -1,6 +1,8 @@
 // With the new color scheme update to YKI Public, the shared package is no longer truly shared.
 // Until new colors are used across the board in AKR and OTR, we need two separate color variables for the secondary color.
 
+$color-primary: #ffffff;
+$color-background: #ffffff;
 $color-secondary: #378703;
 $color-secondary-dark: #5bca13;
 $ods-green-6: #f4fff4;
@@ -9,6 +11,12 @@ $color-divider: #dfdfdf;
 $color-link-hover: #5bca13;
 $ods-lightblue-2: #c1eaff;
 $ods-cyan-1: #006699;
+$color-grey-200: #dfdfdf;
+$color-grey-400: #b2b2b2;
+$color-grey-700: #4c4c4c;
+$color-green-600: #5bca13;
+$color-yellow-500: #ffd900;
+$color-red-500: #cc3300;
 
 a {
   color: $color-text-primary;
