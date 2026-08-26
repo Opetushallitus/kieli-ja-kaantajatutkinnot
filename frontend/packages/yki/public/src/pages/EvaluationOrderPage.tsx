@@ -1,7 +1,6 @@
 import { Box, Grid } from '@mui/material';
 import { useCallback, useEffect } from 'react';
 import { useParams } from 'react-router';
-import { HeaderSeparator } from 'shared/components';
 import { APIResponseStatus, Severity } from 'shared/enums';
 import { useToast } from 'shared/hooks';
 
@@ -103,7 +102,6 @@ export const EvaluationOrderPage = () => {
               <H1 className="public-evaluation-order-page__title-heading">
                 {t('title')}
               </H1>
-              <HeaderSeparator />
               <H2>{t('notFound')}</H2>
             </Grid>
           </Grid>
@@ -122,7 +120,6 @@ export const EvaluationOrderPage = () => {
               <H1 className="public-evaluation-order-page__title-heading">
                 {t('title')}
               </H1>
-              <HeaderSeparator />
             </Grid>
             <PublicEvaluationOrderForm />
           </Grid>

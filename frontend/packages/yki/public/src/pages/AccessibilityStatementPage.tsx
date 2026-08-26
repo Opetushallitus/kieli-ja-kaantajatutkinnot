@@ -3,7 +3,7 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Grid, Paper, Typography } from '@mui/material';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router';
-import { CustomButtonLink, HeaderSeparator, WebLink } from 'shared/components';
+import { CustomButtonLink, WebLink } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 import { CommonUtils } from 'shared/utils';
 
@@ -74,7 +74,6 @@ export const AccessibilityStatementPage = () => {
       </Grid>
       <Grid className="accessibility-statement-page__heading">
         <H1>{translateAccessibility('heading.title')}</H1>
-        <HeaderSeparator />
         <Text>
           {translateAccessibility('heading.body.part1')}{' '}
           {translateAccessibility('heading.body.part2')}{' '}

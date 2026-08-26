@@ -2,7 +2,7 @@ import { Grid, Paper } from '@mui/material';
 import { ophColors } from '@opetushallitus/oph-design-system';
 import { useEffect } from 'react';
 import { useParams, useSearchParams } from 'react-router';
-import { HeaderSeparator, LoadingProgressIndicator } from 'shared/components';
+import { LoadingProgressIndicator } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
@@ -224,7 +224,6 @@ export const PublicRegistrationGrid = () => {
                       <MemoizedPublicRegistrationTimer expiresIn={expiresIn} />
                     )}
                 </div>
-                <HeaderSeparator />
               </div>
             </div>
           </div>

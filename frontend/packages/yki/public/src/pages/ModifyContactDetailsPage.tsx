@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router';
 import {
   CustomButton,
   CustomButtonLink,
-  HeaderSeparator,
   LabeledComboBox,
   LabeledTextField,
   LoadingProgressIndicator,
@@ -47,7 +46,6 @@ const Header = () => {
   return (
     <Grid className="modify-contact-details-page__grid-container__item-header">
       <H1>{t('title')}</H1>
-      <HeaderSeparator />
     </Grid>
   );
 };

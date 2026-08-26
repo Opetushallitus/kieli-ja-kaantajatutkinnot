@@ -21,6 +21,8 @@
   }
 
   &__municipality {
+    justify-content: flex-end;
+
     @include not-phone {
       margin-top: 4rem;
     }

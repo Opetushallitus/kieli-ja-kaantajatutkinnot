@@ -1,6 +1,5 @@
 import { Paper } from '@mui/material';
 import { FC } from 'react';
-import { HeaderSeparator } from 'shared/components';
 import { useWindowProperties } from 'shared/hooks';
 
 import { BackToFrontPageButton } from 'components/elements/BackToFrontPageButton';
@@ -17,7 +16,6 @@ export const NotFoundPage: FC = () => {
     <div className="not-found-page">
       <div className="rows">
         <H1>{t('title')}</H1>
-        <HeaderSeparator />
       </div>
       <Paper elevation={isPhone ? 0 : 3} className="not-found-page__info">
         <Text>{t('description')}</Text>
