@@ -8,12 +8,7 @@ import { Box } from '@mui/system';
 import dayjs from 'dayjs';
 import { FC, useEffect, useState } from 'react';
 import { Trans } from 'react-i18next';
-import {
-  CustomButton,
-  CustomButtonLink,
-  HeaderSeparator,
-  WebLink,
-} from 'shared/components';
+import { CustomButton, CustomButtonLink, WebLink } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
@@ -374,7 +369,6 @@ const NotLoggedIn = () => {
           <H1 data-testid="user-details-page__title-heading">
             {t('notLoggedIn.title')}
           </H1>
-          <HeaderSeparator />
           <div className="rows gapped">
             <Text>
               <Trans t={t} i18nKey="notLoggedIn.loginRequired" />
@@ -481,7 +475,6 @@ export const UserDetailsPage: FC = () => {
       >
         <Grid className="user-details-page__grid-container__item-header">
           <H1 data-testid="user-details-page__title-heading">{t('title')}</H1>
-          <HeaderSeparator />
           <Text>{t('introduction.info')}</Text>
           <Typography className="margin-top-sm" variant="body1" component="ul">
             {renderBulletpoints()}

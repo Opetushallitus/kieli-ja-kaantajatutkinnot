@@ -6,9 +6,7 @@
 
       @include desktop-xs-and-up {
         display: grid;
-        grid-template-areas:
-          'logo language-select'
-          'logo tabs';
+        grid-template-areas: 'logo language-select';
         grid-auto-columns: min-content auto;
       }
     }
@@ -18,7 +16,7 @@
       padding: 0;
     }
 
-    div &__logo-and-tabs {
+    div &__logo-and-lang {
       flex-direction: column;
       align-items: flex-start;
 
@@ -40,7 +38,7 @@
 
     @include desktop-xs-and-up {
       grid-area: logo;
-      margin-right: 5rem;
+      margin-left: 8rem;
     }
     padding: 2rem 0;
 
@@ -49,21 +47,27 @@
     }
 
     &__logo {
-      height: 5.5rem;
-      @include phone {
-        height: 5rem;
-      }
+      height: 26px;
+      width: auto;
     }
   }
 
-  &__tabs {
-    @include desktop-xs-and-up {
-      grid-area: tabs;
+  &__nav {
+    background-color: $color-primary;
+    padding-top: 1.5rem;
+
+    .navigation-links {
+      p {
+        color: $color-text-primary;
+      }
+
+      ul {
+        padding-inline-start: 0;
+      }
     }
 
     @include desktop-xs-and-up {
-      align-self: flex-end;
-      justify-self: start;
+      padding-inline-start: calc(24px + 8rem);
     }
   }
 
@@ -92,22 +96,5 @@
       @include header-text;
       color: $color-primary;
     }
-  }
-}
-
-// The active navigation tab sits on the green AppBar, so its indicator and
-// label must be white instead of the default green highlight. Imported after
-// the shared/override styles, so it wins on cascade order without extra nesting.
-.navigation-links li.active {
-  p {
-    color: $color-primary;
-  }
-
-  @include desktop-xs-and-up {
-    border-bottom-color: $color-primary;
-  }
-
-  @include mobile {
-    border-left-color: $color-primary;
   }
 }

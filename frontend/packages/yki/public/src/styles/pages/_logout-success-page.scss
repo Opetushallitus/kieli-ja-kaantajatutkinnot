@@ -3,6 +3,8 @@
   flex: 1;
 
   &__heading {
+    padding-bottom: 2rem;
+
     @include phone {
       padding-left: 2rem;
       padding-top: 3rem;
