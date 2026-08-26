@@ -8,11 +8,10 @@ const brandColors = {
 };
 
 export const publicTheme = createOphTheme({
-  variant: 'oph',
+  variant: 'opintopolku',
   overrides: {
     // Match the global `:root { font-size: 62.5% }` so MUI's rem-based sizing
     // (icons, checkboxes, spacing) resolves against a 10px root.
-    typography: { htmlFontSize: 10 },
     palette: {
       // The oph base theme has no secondary color, so `color="secondary"`
       // controls (buttons etc.) must get the YKI brand green here.
