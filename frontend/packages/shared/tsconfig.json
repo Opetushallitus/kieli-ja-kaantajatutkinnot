@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ES6",
     "module": "ESNext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "lib": ["DOM", "ESNext"],
     "jsx": "react-jsx",
     "noEmit": true,
@@ -11,11 +11,7 @@
     "strict": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "baseUrl": "src",
-    "paths": {
-      "public/*": ["public/*"]
-    }
+    "resolveJsonModule": true
   },
   "include": ["src/**/*", "jest-setup.ts", "custom.d.ts"],
   "exclude": ["src/tests/cypress/*"]
