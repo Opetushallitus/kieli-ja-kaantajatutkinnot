@@ -1,7 +1,6 @@
 import { Box, Paper } from '@mui/material';
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router';
-import { HeaderSeparator } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 import { DateUtils } from 'shared/utils';
@@ -56,7 +55,6 @@ const EvaluationOrderStatusContents = ({
     <>
       <div className="public-evaluation-order-status-page__heading">
         <H1>{heading}</H1>
-        <HeaderSeparator />
       </div>
       <Paper
         elevation={isPhone ? 0 : 3}

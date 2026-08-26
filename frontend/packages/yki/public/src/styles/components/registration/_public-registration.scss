@@ -14,6 +14,8 @@
     }
 
     &__heading {
+      padding-bottom: 2rem;
+
       @include phone {
         padding-left: 2rem;
       }

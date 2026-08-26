@@ -1,6 +1,5 @@
 import { Grid, Paper } from '@mui/material';
 import { ophColors } from '@opetushallitus/oph-design-system';
-import { HeaderSeparator } from 'shared/components';
 import { useWindowProperties } from 'shared/hooks';
 
 import { BackToFrontPageButton } from 'components/elements/BackToFrontPageButton';
@@ -74,7 +73,6 @@ export const RegistrationNotAvailable = () => {
       <div className="public-registration__grid">
         <div className="rows public-registration__grid__heading public-registration__grid__no-stepper">
           <RegistrationUnavailableHeader />
-          <HeaderSeparator />
         </div>
         <Paper
           elevation={isPhone ? 0 : 3}

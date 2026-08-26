@@ -2,7 +2,7 @@ import { Grid, Paper } from '@mui/material';
 import { Box } from '@mui/system';
 import { useEffect } from 'react';
 import { useParams } from 'react-router';
-import { HeaderSeparator, LoadingProgressIndicator } from 'shared/components';
+import { LoadingProgressIndicator } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 
 import { PublicRegistrationExamSessionDetails } from 'components/registration/PublicRegistrationExamSessionDetails';
@@ -27,7 +27,6 @@ const Header = () => {
   return (
     <Grid className="confirm-registration-page__grid-container__item-header">
       <H1>{t('heading')}</H1>
-      <HeaderSeparator />
     </Grid>
   );
 };

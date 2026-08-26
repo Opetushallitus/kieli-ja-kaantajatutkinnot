@@ -3,6 +3,9 @@
 
   & &__grid-container {
     &__item-header {
+      h1 {
+        padding-bottom: 2rem;
+      }
       @include phone {
         margin-top: 2rem;
         padding: 2rem 2rem 0;
