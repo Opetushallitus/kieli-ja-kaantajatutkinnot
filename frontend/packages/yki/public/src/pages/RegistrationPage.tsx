@@ -1,5 +1,6 @@
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Alert, Box, Container, Grid, Link, Paper } from '@mui/material';
+import { OphLink } from '@opetushallitus/oph-design-system';
 import { FC, useEffect, useState } from 'react';
 import { Trans } from 'react-i18next';
 import { APIResponseStatus, Severity } from 'shared/enums';
@@ -92,19 +93,16 @@ export const RegistrationPage: FC = () => {
             <div>
               <Text>{t('description.part1.text')}</Text>
               <div className="columns gapped-xxs">
-                <Link href={t('description.part1.link.url')} target="_blank">
-                  <Text color="textPrimary">
-                    {t('description.part1.link.label')}
-                  </Text>
-                </Link>
-                <OpenInNewIcon color="inherit" />
+                <OphLink href={t('description.part1.link.url')} target="_blank">
+                  {t('description.part1.link.label')}
+                </OphLink>
               </div>
             </div>
             <div>
               <Text>{t('description.part2.text')}</Text>
               <div className="columns gapped-xxs">
                 <Link href={t('description.part2.link.url')} target="_blank">
-                  <Text color="textPrimary">
+                  <Text color="secondary">
                     {t('description.part2.link.label')}
                   </Text>
                 </Link>
@@ -115,7 +113,7 @@ export const RegistrationPage: FC = () => {
               <Text>{t('description.part3.text')}</Text>
               <div className="columns gapped-xxs">
                 <Link href={t('description.part3.link.url')} target="_blank">
-                  <Text color="textPrimary">
+                  <Text color="secondary">
                     {t('description.part3.link.label')}
                   </Text>
                 </Link>

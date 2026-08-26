@@ -10,6 +10,7 @@
     "./interfaces": "./src/interfaces/index.ts",
     "./statics": "./src/statics/index.ts",
     "./styles": "./src/styles/shared-styles.scss",
+    "./yki-public-styles": "./src/styles/yki-shared-styles.scss",
     "./utils": "./src/utils/index.ts"
   },
   "license": "MIT",
@@ -51,6 +52,9 @@
       ],
       "styles": [
         "src/styles/shared-styles.scss"
+      ],
+      "yki-public-styles": [
+        "src/styles/yki-shared-styles.scss"
       ],
       "utils": [
         "src/utils/index.ts"
