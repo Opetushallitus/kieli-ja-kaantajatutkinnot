@@ -2,7 +2,6 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Grid, Paper } from '@mui/material';
 import { Box } from '@mui/system';
 import { FC, useEffect } from 'react';
-import { HeaderSeparator } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 
 import { PublicEvaluationPeriodListing } from 'components/reassessment/PublicEvaluationPeriodListing';
@@ -39,7 +38,6 @@ export const ReassessmentPage: FC = () => {
           <H1 data-testid="public-reassessment-page__title-heading">
             {t('title')}
           </H1>
-          <HeaderSeparator />
           <Text>{t('introduction.info')}</Text>
         </Grid>
         <Grid className="public-reassessment-page__grid-container__item-info">

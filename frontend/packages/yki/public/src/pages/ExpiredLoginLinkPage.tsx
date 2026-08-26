@@ -4,11 +4,7 @@ import { Box } from '@mui/system';
 import { ophColors } from '@opetushallitus/oph-design-system';
 import { FC, useEffect } from 'react';
 import { useParams } from 'react-router';
-import {
-  CustomButton,
-  HeaderSeparator,
-  LoadingProgressIndicator,
-} from 'shared/components';
+import { CustomButton, LoadingProgressIndicator } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
 
 import { H1, Text } from 'components/Text';
@@ -53,7 +49,6 @@ export const ExpiredLoginLinkPage: FC = () => {
               {t('title')}
             </div>
           </H1>
-          <HeaderSeparator />
           <Paper
             elevation={3}
             style={{ borderTop: '5px solid ' + ophColors.green2 }}

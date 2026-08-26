@@ -1,14 +1,10 @@
 import { AppBar, Toolbar } from '@mui/material';
 import { Link } from 'react-router';
-import {
-  CookieBanner,
-  LangSelector,
-  OPHLogoViewer,
-  SkipLink,
-} from 'shared/components';
-import { AppLanguage, Direction } from 'shared/enums';
+import { CookieBanner, LangSelector, SkipLink } from 'shared/components';
+import { AppLanguage } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
+import { OPHLogoViewer } from 'components/elements/OPHLogoViewer';
 import { PublicNavigationLinks } from 'components/layouts/publicHeader/PublicNavigationLinks';
 import { SessionStateHeader } from 'components/layouts/SessionStateHeader';
 import { Text } from 'components/Text';
@@ -57,20 +53,15 @@ export const Header = (): JSX.Element => {
           </Toolbar>
         )}
         <SessionStateHeader />
-        <Toolbar className="header__toolbar header__toolbar__logo-and-tabs">
+        <Toolbar className="header__toolbar header__toolbar__logo-and-lang">
           <div className="header__logo">
             <Link to={logoRedirectURL}>
               <OPHLogoViewer
                 className="header__logo__logo"
-                direction={Direction.Horizontal}
                 alt={translateCommon('ophLogoToFrontPageAlt')}
                 currentLang={getCurrentLang()}
-                title={translateCommon('appNameAbbreviation')}
               />
             </Link>
-          </div>
-          <div className="header__tabs">
-            <PublicNavigationLinks />
           </div>
           <div className="header__language-select">
             {isDesktopXS && (
@@ -85,6 +76,9 @@ export const Header = (): JSX.Element => {
             )}
           </div>
         </Toolbar>
+        <div className="header__nav">
+          <PublicNavigationLinks />
+        </div>
       </AppBar>
       <CookieBanner
         title={t('title')}

@@ -1,6 +1,6 @@
 import { ArrowBackIosOutlined as ArrowBackIosOutlinedIcon } from '@mui/icons-material';
 import { Grid, Paper } from '@mui/material';
-import { CustomButtonLink, HeaderSeparator } from 'shared/components';
+import { CustomButtonLink } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 
 import { H1, Text } from 'components/Text';
@@ -32,7 +32,6 @@ export const LogoutSuccess: React.FC = () => {
       </Grid>
       <Grid className="logout-success-page__heading">
         <H1>{t('heading')}</H1>
-        <HeaderSeparator />
       </Grid>
       <Grid>
         <Paper

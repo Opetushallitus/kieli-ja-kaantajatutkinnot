@@ -1,12 +1,12 @@
 import SearchIcon from '@mui/icons-material/Search';
 import {
   Box,
-  Checkbox,
   FormControl,
   FormControlLabel,
   FormGroup,
   Typography,
 } from '@mui/material';
+import { OphCheckbox } from '@opetushallitus/oph-design-system';
 import { useCallback, useState } from 'react';
 import {
   ComboBox,
@@ -84,7 +84,8 @@ const SelectPartialExamTypes = () => {
             <FormControlLabel
               key={type}
               control={
-                <Checkbox
+                <OphCheckbox
+                  color="secondary"
                   checked={selectedPartialExamTypes.includes(type)}
                   onChange={(_, checked) => handleChange(type, checked)}
                 />
@@ -333,7 +334,8 @@ export const PublicExamSessionFilters = ({
           <FormGroup>
             <FormControlLabel
               control={
-                <Checkbox
+                <OphCheckbox
+                  color="secondary"
                   checked={excludeFullSessions}
                   onChange={(_, checked) => {
                     onFilterChange({ excludeFullSessions: checked });
@@ -344,7 +346,8 @@ export const PublicExamSessionFilters = ({
             />
             <FormControlLabel
               control={
-                <Checkbox
+                <OphCheckbox
+                  color="secondary"
                   checked={excludeNonOpenSessions}
                   onChange={(_, checked) => {
                     onFilterChange({ excludeNonOpenSessions: checked });

@@ -2,7 +2,6 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Alert, Box, Container, Grid, Link, Paper } from '@mui/material';
 import { FC, useEffect, useState } from 'react';
 import { Trans } from 'react-i18next';
-import { HeaderSeparator } from 'shared/components';
 import { APIResponseStatus, Severity } from 'shared/enums';
 
 import { PartialExamsLink } from 'components/elements/PartialExamsLink';
@@ -86,11 +85,10 @@ export const RegistrationPage: FC = () => {
       >
         <Grid className="public-registration-page__grid-container__item-header">
           <InformationBox />
-          <H1 data-testid="public-registration-page__title-heading">
-            {t('title')}
-          </H1>
-          <HeaderSeparator />
           <div className="rows gapped">
+            <H1 data-testid="public-registration-page__title-heading">
+              {t('title')}
+            </H1>
             <div>
               <Text>{t('description.part1.text')}</Text>
               <div className="columns gapped-xxs">

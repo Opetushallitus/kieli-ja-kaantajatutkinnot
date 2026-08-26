@@ -28,13 +28,23 @@ a {
   }
 }
 
-.header-separator {
-  background-color: $color-secondary;
+.header {
+  &__language-select {
+    margin-right: 6rem;
+  }
 }
 
 .lang-selector {
   @include mobile {
     background-color: $color-secondary;
+  }
+
+  [class*='MuiDivider-root'] {
+    border-color: $color-primary;
+  }
+
+  button:hover {
+    color: $color-grey-400;
   }
 }
 
@@ -48,9 +58,14 @@ a {
 }
 
 .navigation-links {
+  ul {
+    column-gap: 2rem;
+  }
+
   li.active {
     p {
       color: $color-secondary;
+      font-weight: 400;
     }
     @include desktop-xs-and-up {
       border-bottom: 2px solid $color-secondary;

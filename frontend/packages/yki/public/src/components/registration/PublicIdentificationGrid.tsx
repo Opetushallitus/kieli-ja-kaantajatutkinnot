@@ -3,7 +3,7 @@ import { Container, Grid, Paper } from '@mui/material';
 import { ophColors } from '@opetushallitus/oph-design-system';
 import { Trans } from 'react-i18next';
 import { generatePath } from 'react-router';
-import { CustomButton, HeaderSeparator, WebLink } from 'shared/components';
+import { CustomButton, WebLink } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
@@ -178,7 +178,6 @@ export const PublicIdentificationGrid = () => {
                     ? t('alreadyLoggedIn.title')
                     : t('title')}
               </H1>
-              <HeaderSeparator />
             </div>
           </div>
           <Paper
