@@ -62,8 +62,18 @@ app:
     password: ${cas.password:null}
   organization-service:
     url: ${organisaatio-url:https://virkailija.untuvaopintopolku.fi/organisaatio-service}
+  koodisto-service:
+    url: ${koodisto-url:https://virkailija.untuvaopintopolku.fi/koodisto-service}
   kayttooikeus-service:
     url: ${kayttooikeus-url:https://virkailija.untuvaopintopolku.fi/kayttooikeus-service}
+  solki:
+    url: ${solki.url:https://yki.jyu.fi/oph}
+    user: ${solki.user:null}
+    password: ${solki.password:null}
+    person-sync-enabled: ${solki.person-sync-enabled:false}
+    exam-session-sync-enabled: ${solki.exam-session-sync-enabled:false}
+    person-sync-retry-days: ${solki.person-sync-retry-days:1}
+    participant-sync-retry-days: ${solki.participant-sync-retry-days:1}
   email:
     sending-enabled: ${email.sending-enabled:false}
     service-url: ${email.service-url:null}
