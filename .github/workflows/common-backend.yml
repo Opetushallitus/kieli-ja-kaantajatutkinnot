@@ -75,6 +75,7 @@ jobs:
         uses: s4u/maven-settings-action@6fd54e315175e01fffb0b988c0254feb388869f8 # s4u/maven-settings-action v2
         with:
           servers: '[{"id": "oph-github-packages", "username": "${GITHUB_USERNAME}", "password": "${GITHUB_REGISTRY_TOKEN}"}]'
+          mirrors: '[{"id": "oph-github-packages", "mirrorOf": "github", "url": "https://maven.pkg.github.com/Opetushallitus/packages"}]'
       - name: Build with Maven
         working-directory: ${{ env.BACKEND_DIR }}/${{ inputs.app-name }}
         run: mvn clean install -Dplugin.prettier.goal=check

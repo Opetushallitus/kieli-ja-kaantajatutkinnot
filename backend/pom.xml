@@ -180,22 +180,11 @@
         </exclusion>
       </exclusions>
     </dependency>
-    <dependency>
-      <groupId>fi.vm.sade.kayttooikeus</groupId>
-      <artifactId>kayttooikeus-api</artifactId>
-      <version>1.0.2-SNAPSHOT</version>
-      <exclusions>
-        <exclusion>
-          <groupId>*</groupId>
-          <artifactId>*</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
     <!-- Audit logger-->
     <dependency>
       <groupId>fi.vm.sade</groupId>
       <artifactId>auditlogger</artifactId>
-      <version>9.2.1-SNAPSHOT</version>
+      <version>9.2.7-SNAPSHOT</version>
     </dependency>
 
     <dependency>
@@ -284,26 +273,6 @@
   </build>
 
   <repositories>
-    <repository>
-      <id>oph-sade-artifactory-snapshots</id>
-      <url>https://artifactory.opintopolku.fi/artifactory/oph-sade-snapshot-local</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>oph-sade-artifactory-releases</id>
-      <url>https://artifactory.opintopolku.fi/artifactory/oph-sade-release-local</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
     <repository>
       <id>oph-github-packages</id>
       <url>https://maven.pkg.github.com/Opetushallitus/packages</url>

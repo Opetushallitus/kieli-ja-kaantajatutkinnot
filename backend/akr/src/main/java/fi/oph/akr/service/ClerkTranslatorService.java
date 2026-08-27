@@ -334,8 +334,8 @@ public class ClerkTranslatorService {
 
     validatePersonalData(personalData);
     if (oldPersonalData != null && !Boolean.TRUE.equals(oldPersonalData.isDeceased())) {
-        // Deceased persons can't be updated anymore
-        onrService.updatePersonalData(personalData);
+      // Deceased persons can't be updated anymore
+      onrService.updatePersonalData(personalData);
     }
 
     copyDtoFieldsToTranslator(dto, translator);
