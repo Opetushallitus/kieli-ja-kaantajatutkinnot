@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
  * ops tools for environments where SOLKI itself isn't reachable (untuva, local) or when a
  * sync needs to be forced outside its normal schedule. These bypass the enabled flags on
  * purpose (that's the point of a manual "force it now" tool), unlike every other SolkiService
- * entry point.
+ * entry point
  */
 @Service
 @RequiredArgsConstructor
