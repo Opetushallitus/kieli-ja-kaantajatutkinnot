@@ -776,7 +776,7 @@
           "information": "Etsi tästä sopivaa YKI-testiä. Valitse kieli ja taso. Paina Hae-painiketta.",
           "selectExamDetails": {
             "prompt": "Valitse tutkinto",
-            "required": "(pakollinen)"
+            "required": "*"
           }
         },
         "infoBox": {
@@ -796,9 +796,10 @@
           "listen": "Puheen ymmärtäminen",
           "read": "Tekstin ymmärtäminen",
           "selectExamType": "Mitä osakokeita haluat hakea?",
-          "selectLanguage": "Valitse kieli",
-          "selectLevel": "Valitse taso",
-          "selectMunicipality": "Valitse paikkakunta",
+          "selectLanguage": "Valitse...",
+          "selectLevel": "Valitse...",
+          "selectMunicipality": "Paikkakunta",
+          "selectMunicipality2": "Valitse...",
           "speak": "Puhuminen",
           "write": "Kirjoittaminen"
         },
