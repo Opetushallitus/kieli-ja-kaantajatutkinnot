@@ -1,3 +1,4 @@
+import type { TypographyVariantsOptions } from '@mui/material/styles';
 import { createOphTheme } from '@opetushallitus/oph-design-system/theme';
 
 // Single source of truth for YKI public brand colors. Reference these tokens in
@@ -12,6 +13,9 @@ export const publicTheme = createOphTheme({
   overrides: {
     // Match the global `:root { font-size: 62.5% }` so MUI's rem-based sizing
     // (icons, checkboxes, spacing) resolves against a 10px root.
+    // Cast works around an upstream type bug where the design system makes the
+    // `label` typography variant required in TypographyVariantsOptions.
+    typography: { htmlFontSize: 10 } as TypographyVariantsOptions,
     palette: {
       // The oph base theme has no secondary color, so `color="secondary"`
       // controls (buttons etc.) must get the YKI brand green here.
