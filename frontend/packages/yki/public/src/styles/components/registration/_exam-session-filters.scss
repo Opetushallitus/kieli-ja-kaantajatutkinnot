@@ -1,6 +1,7 @@
 .public-exam-session-filters {
   display: flex;
   flex-direction: column;
+  margin-top: 2rem;
   gap: 2rem;
 
   &__fieldset {
@@ -34,9 +35,7 @@
 
   &__dropdown-filters-container {
     display: grid;
-    gap: 7rem;
-    grid-template-columns: repeat(auto-fit, minmax(25rem, auto));
-    padding: 0 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(1fr, auto));
 
     @include phone {
       gap: 2rem;
@@ -44,10 +43,9 @@
   }
 
   &__dropdown-filters-box {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     gap: 2rem;
-    grid-template-columns: repeat(auto-fit, minmax(25rem, auto));
-    padding: 0 1rem;
 
     @include phone {
       gap: 2rem;
@@ -58,7 +56,7 @@
     display: flex;
     flex: 1;
     flex-direction: column;
-    gap: 2rem;
+    max-width: 72rem;
   }
 
   &__btn-box {
