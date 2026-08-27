@@ -23,7 +23,6 @@ import {
 } from 'shared/enums';
 import { useDialog } from 'shared/hooks';
 
-import { Text } from 'components/Text';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ExamLanguage, ExamLevel } from 'enums/app';
@@ -133,7 +132,7 @@ const SelectMunicipality = () => {
         values={municipalities.map(municipalityToComboBoxOption)}
         value={municipality ? municipalityToComboBoxOption(municipality) : null}
         onChange={onMunicipalityChange}
-        label={t('labels.selectMunicipality')}
+        label={t('labels.selectMunicipality2')}
         aria-label={t('labels.selectMunicipality')}
       />
     </div>
@@ -163,7 +162,7 @@ const SelectExamLanguage = ({
       error={showError && !language}
     >
       <Typography
-        variant="h3"
+        variant="label"
         component="label"
         htmlFor="public-exam-session-filters__language-filter"
         sx={showError && !language ? { color: 'error.main' } : {}}
@@ -230,7 +229,7 @@ const SelectExamLevel = ({
       error={showError && !level}
     >
       <Typography
-        variant="h3"
+        variant="label"
         component="label"
         htmlFor="public-exam-session-filters__level-filter"
         sx={showError && !level ? errorStyles : {}}
@@ -307,11 +306,6 @@ export const PublicExamSessionFilters = ({
     <div className="public-exam-session-filters">
       <div className="public-exam-session-filters__dropdown-filters-container">
         <fieldset className="public-exam-session-filters__fieldset">
-          <legend>
-            <Text>
-              <b>{t('filters.selectExamDetails.prompt')}</b>
-            </Text>
-          </legend>
           <div className="public-exam-session-filters__dropdown-filters-box">
             <SelectExamLanguage
               showError={showError}
@@ -323,9 +317,9 @@ export const PublicExamSessionFilters = ({
             />
           </div>
         </fieldset>
-        <SelectMunicipality />
       </div>
       <SelectPartialExamTypes />
+      <SelectMunicipality />
       <Box className="public-exam-session-filters__toggle-box">
         <FormControl component="fieldset" variant={TextFieldVariant.Standard}>
           <Typography variant="h3" component="legend">
