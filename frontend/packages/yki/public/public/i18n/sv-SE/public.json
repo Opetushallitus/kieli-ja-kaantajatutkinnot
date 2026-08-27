@@ -134,9 +134,9 @@
             "part3": "Om du vill avbryta anmälan, fortsätt först till anmälningsblanketten och klicka sedan på AVBRYT ANMÄLAN.",
             "title": "Pågående anmälan"
           },
+          "registerToPartialExamsSeparately": "Det finns inga lediga platser. Anmäl dig till delproven separat.",
           "reservingQueueSeat": "Reserverar en köplats...",
-          "title": "Anmälning misslyckades",
-          "registerToPartialExamsSeparately": "Det finns inga lediga platser. Anmäl dig till delproven separat."
+          "title": "Anmälning misslyckades"
         },
         "enrollToQueue": {
           "dialog": {
@@ -762,7 +762,7 @@
           "information": "Sök här för att hitta ett lämpligt YKI-test. Välj språk och nivå. Tryck på Sök-knappen.",
           "selectExamDetails": {
             "prompt": "Välj examen",
-            "required": "(obligatorisk)"
+            "required": "*"
           }
         },
         "infoBox": {
@@ -776,15 +776,16 @@
         },
         "labels": {
           "allPartsAtOnce": "Alla delprov på en gång",
-          "excludeFullSessions": "Visa endast examenstillfällen med lediga platser",
+          "excludeFullSessions": "Visa endast examenstillfällen med lega platser",
           "excludeNonOpenSessions": "Visa endast examenstillfällen vars anmälan har börjat",
           "filterExamSessions": "Filtrera resultaten",
           "listen": "Talförståelse",
           "read": "Textförståelse",
           "selectExamType": "Vilka delprov vill du söka till?",
-          "selectLanguage": "Välj språk",
-          "selectLevel": "Välj nivå",
-          "selectMunicipality": "Välj ort",
+          "selectLanguage": "Välj...",
+          "selectLevel": "Välj...",
+          "selectMunicipality": "Ort",
+          "selectMunicipality2": "Välj...",
           "speak": "Muntlig framställning",
           "write": "Skriftlig framställning"
         },

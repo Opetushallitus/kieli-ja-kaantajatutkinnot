@@ -165,9 +165,7 @@ export const LabeledComboBox = ({
   return (
     <FormControl fullWidth error={showError}>
       <label htmlFor={id}>
-        <Text sx={errorStyles}>
-          <b>{label}</b>
-        </Text>
+        <Text sx={errorStyles}>{label}</Text>
       </label>
       <NativeSelectOrComboBox id={id} {...rest} />
       {showError && <FormHelperText>{helperText}</FormHelperText>}

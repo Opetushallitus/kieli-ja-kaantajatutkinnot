@@ -134,9 +134,9 @@
             "part3": "If you want to cancel the registration, first proceed to the registration form and then click QUIT REGISTRATION.",
             "title": "Registration in progress"
           },
+          "registerToPartialExamsSeparately": "The YKI test is full. Register for the subtests separately.",
           "reservingQueueSeat": "Reserving a place on the waiting list...",
-          "title": "Registration failed",
-          "registerToPartialExamsSeparately": "The YKI test is full. Register for the subtests separately."
+          "title": "Registration failed"
         },
         "enrollToQueue": {
           "dialog": {
@@ -762,7 +762,7 @@
           "information": "Search for a suitable YKI test by selecting the language and level. Click on the Search button to see the results.",
           "selectExamDetails": {
             "prompt": "Choose test",
-            "required": "(required)"
+            "required": "*"
           }
         },
         "infoBox": {
@@ -782,9 +782,10 @@
           "listen": "Listening comprehension",
           "read": "Reading comprehension",
           "selectExamType": "Which subtests do you want to search for?",
-          "selectLanguage": "Choose language",
-          "selectLevel": "Choose level",
-          "selectMunicipality": "Choose municipality",
+          "selectLanguage": "Choose...",
+          "selectLevel": "Choose...",
+          "selectMunicipality": "Municipality",
+          "selectMunicipality2": "Choose...",
           "speak": "Speaking",
           "write": "Writing"
         },

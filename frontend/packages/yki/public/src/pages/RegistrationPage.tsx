@@ -1,9 +1,8 @@
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import { Alert, Box, Container, Grid, Link, Paper } from '@mui/material';
+import { Box, Container, Grid } from '@mui/material';
 import { OphLink } from '@opetushallitus/oph-design-system';
 import { FC, useEffect, useState } from 'react';
 import { Trans } from 'react-i18next';
-import { APIResponseStatus, Severity } from 'shared/enums';
+import { APIResponseStatus } from 'shared/enums';
 
 import { PartialExamsLink } from 'components/elements/PartialExamsLink';
 import { PublicExamSessionListing } from 'components/registration/examSession/PublicExamSessionListing';
@@ -101,40 +100,26 @@ export const RegistrationPage: FC = () => {
             <div>
               <Text>{t('description.part2.text')}</Text>
               <div className="columns gapped-xxs">
-                <Link href={t('description.part2.link.url')} target="_blank">
-                  <Text color="secondary">
-                    {t('description.part2.link.label')}
-                  </Text>
-                </Link>
-                <OpenInNewIcon color="inherit" />
+                <OphLink href={t('description.part2.link.url')} target="_blank">
+                  {t('description.part2.link.label')}
+                </OphLink>
               </div>
             </div>
             <div>
               <Text>{t('description.part3.text')}</Text>
               <div className="columns gapped-xxs">
-                <Link href={t('description.part3.link.url')} target="_blank">
-                  <Text color="secondary">
-                    {t('description.part3.link.label')}
-                  </Text>
-                </Link>
-                <OpenInNewIcon color="inherit" />
+                <OphLink href={t('description.part3.link.url')} target="_blank">
+                  {t('description.part3.link.label')}
+                </OphLink>
               </div>
             </div>
           </div>
         </Grid>
         <Grid className="public-registration-page__grid-container__item-filters">
-          <Paper elevation={3} className="public-registration-page__filters">
-            <H2 className="public-registration-page__filters__heading-title">
-              {t('filters.heading')}
-            </H2>
-            <Alert
-              className="public-registration-page__filters__heading-description"
-              severity={Severity.Info}
-            >
-              {t('filters.information')}
-            </Alert>
-            <PublicExamSessionFilters onApplyFilters={onApplyFilters} />
-          </Paper>
+          <H2 className="public-registration-page__filters__heading-title">
+            {t('filters.heading')}
+          </H2>
+          <PublicExamSessionFilters onApplyFilters={onApplyFilters} />
         </Grid>
         {showResults && (
           <Grid

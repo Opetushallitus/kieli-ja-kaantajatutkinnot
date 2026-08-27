@@ -134,9 +134,9 @@
             "part3": "Jos haluat keskeyttää ilmoittautumisen, siirry ensin ilmoittautumislomakkeelle ja paina sitten KESKEYTÄ ILMOITTAUTUMINEN.",
             "title": "Ilmoittautuminen on kesken"
           },
+          "registerToPartialExamsSeparately": "YKI-testi on täynnä. Ilmoittaudu osakokeisiin erikseen",
           "reservingQueueSeat": "Varataan jonopaikkaa...",
-          "title": "Ilmoittautuminen epäonnistui",
-          "registerToPartialExamsSeparately": "YKI-testi on täynnä. Ilmoittaudu osakokeisiin erikseen"
+          "title": "Ilmoittautuminen epäonnistui"
         },
         "enrollToQueue": {
           "dialog": {
@@ -762,7 +762,7 @@
           "information": "Etsi tästä sopivaa YKI-testiä. Valitse kieli ja taso. Paina Hae-painiketta.",
           "selectExamDetails": {
             "prompt": "Valitse tutkinto",
-            "required": "(pakollinen)"
+            "required": "*"
           }
         },
         "infoBox": {
@@ -782,9 +782,10 @@
           "listen": "Puheen ymmärtäminen",
           "read": "Tekstin ymmärtäminen",
           "selectExamType": "Mitä osakokeita haluat hakea?",
-          "selectLanguage": "Valitse kieli",
-          "selectLevel": "Valitse taso",
-          "selectMunicipality": "Valitse paikkakunta",
+          "selectLanguage": "Valitse...",
+          "selectLevel": "Valitse...",
+          "selectMunicipality": "Paikkakunta",
+          "selectMunicipality2": "Valitse...",
           "speak": "Puhuminen",
           "write": "Kirjoittaminen"
         },
