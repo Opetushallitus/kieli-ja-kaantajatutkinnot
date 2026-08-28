@@ -16,6 +16,13 @@ clerk-base-url={{yki_virkailija_url}}
 
 kayttooikeus-url=${virkailija.cas.base-url}/kayttooikeus-service
 organisaatio-url=${virkailija.cas.base-url}/organisaatio-service
+koodisto-url=${virkailija.cas.base-url}/koodisto-service
+
+solki.url=https://{{yki_register_host}}/oph
+solki.user={{yki_register_user}}
+solki.password={{yki_register_password}}
+solki.person-sync-enabled={{yki_solki_person_sync_enabled}}
+solki.exam-session-sync-enabled={{yki_solki_exam_session_sync_enabled}}
 
 koski.url={{yki_koski_url}}
 cas.username={{yki_cas_username}}

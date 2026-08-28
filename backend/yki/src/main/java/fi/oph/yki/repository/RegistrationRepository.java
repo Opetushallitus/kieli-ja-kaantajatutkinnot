@@ -22,6 +22,14 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
   );
 
   @Query(
+    "SELECT r FROM Registration r LEFT JOIN FETCH r.person WHERE r.examSession = :examSession AND r.state = :state"
+  )
+  List<Registration> getByExamSessionAndState(
+    @Param("examSession") ExamSession examSession,
+    @Param("state") RegistrationState state
+  );
+
+  @Query(
     value = """
       SELECT r.id AS id,
           ROW_NUMBER() OVER (
