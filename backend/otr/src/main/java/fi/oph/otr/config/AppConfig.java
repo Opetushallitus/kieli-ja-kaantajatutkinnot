@@ -6,6 +6,7 @@ import fi.oph.otr.onr.mock.OnrOperationApiMock;
 import fi.oph.otr.service.email.sender.EmailSender;
 import fi.oph.otr.service.email.sender.EmailSenderNoOp;
 import fi.oph.otr.service.email.sender.EmailSenderViestintapalvelu;
+import fi.oph.otr.service.email.sender.EmailSenderViestintapalveluNew;
 import fi.vm.sade.javautils.nio.cas.CasClient;
 import fi.vm.sade.javautils.nio.cas.CasClientBuilder;
 import fi.vm.sade.javautils.nio.cas.CasConfig;
@@ -17,6 +18,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
@@ -38,12 +40,42 @@ public class AppConfig {
 
   @Bean
   @ConditionalOnProperty(name = "app.email.sending-enabled", havingValue = "true")
-  public EmailSender emailSender(@Value("${app.email.service-url}") String emailServiceUrl) {
-    LOG.info("emailServiceUrl: {}", emailServiceUrl);
-    final WebClient webClient = webClientBuilderWithCallerId("email-sender-connection-provider")
-      .baseUrl(emailServiceUrl)
+  public EmailSender emailSender(final Environment environment) {
+    final boolean newApi = "true".equals(environment.getRequiredProperty("app.email.new-api"));
+    final String emailServiceUrl = environment.getRequiredProperty(
+      newApi ? "app.email.new-service-url" : "app.email.service-url"
+    );
+    LOG.info("emailServiceUrl: {}, new api: {}", emailServiceUrl, newApi);
+
+    if (newApi) {
+      final CasClient casClient = casClient(
+        environment,
+        emailServiceUrl + "/lahetys/login/j_spring_cas_security_check"
+      );
+
+      return new EmailSenderViestintapalveluNew(casClient, emailServiceUrl);
+    } else {
+      final WebClient webClient = webClientBuilderWithCallerId("email-sender-connection-provider")
+        .baseUrl(emailServiceUrl)
+        .build();
+      return new EmailSenderViestintapalvelu(webClient, Constants.SERVICENAME, Constants.EMAIL_SENDER_NAME);
+    }
+  }
+
+  private CasClient casClient(final Environment environment, final String serviceUrl) {
+    final CasConfig casConfig = new CasConfig.CasConfigBuilder(
+      environment.getRequiredProperty("app.onr.cas.username"),
+      environment.getRequiredProperty("app.onr.cas.password"),
+      environment.getRequiredProperty("app.onr.cas.endpoint-url"),
+      serviceUrl,
+      "CSRF",
+      Constants.CALLER_ID,
+      ""
+    )
+      .setJsessionName("JSESSIONID")
       .build();
-    return new EmailSenderViestintapalvelu(webClient, Constants.SERVICENAME, Constants.EMAIL_SENDER_NAME);
+
+    return CasClientBuilder.build(casConfig);
   }
 
   @Bean
