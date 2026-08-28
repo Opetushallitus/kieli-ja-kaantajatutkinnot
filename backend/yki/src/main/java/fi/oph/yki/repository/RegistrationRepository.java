@@ -47,7 +47,7 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
     " AND r.examSession.language = ?3" +
     " AND r.examSession.level = ?4"
   )
-  Optional<Registration> getByOidAndExamDetails(
+  List<Registration> findByOidAndExamDetails(
     final String oid,
     final LocalDate examDate,
     final String language,
