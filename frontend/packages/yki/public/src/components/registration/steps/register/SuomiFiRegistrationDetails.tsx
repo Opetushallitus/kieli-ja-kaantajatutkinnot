@@ -1,11 +1,12 @@
 import { ChangeEvent } from 'react';
-import { LabeledComboBox, LabeledTextField } from 'shared/components';
+import { LabeledTextField } from 'shared/components';
 import {
   InputAutoComplete,
   TextFieldTypes,
   TextFieldVariant,
 } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
+import { LabeledComboBox } from 'shared/ods-components';
 
 import { AddressDetails } from 'components/registration/steps/register/AddressDetails';
 import { Text } from 'components/Text';
