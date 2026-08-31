@@ -5,7 +5,7 @@ import {
   RadioGroup,
 } from '@mui/material';
 import { ChangeEvent, useCallback, useEffect } from 'react';
-import { LabeledComboBox, LabeledTextField } from 'shared/components';
+import { LabeledTextField } from 'shared/components';
 import {
   APIResponseStatus,
   InputAutoComplete,
@@ -13,6 +13,7 @@ import {
   TextFieldVariant,
 } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
+import { LabeledComboBox } from 'shared/ods-components';
 
 import { AddressDetails } from 'components/registration/steps/register/AddressDetails';
 import { Text } from 'components/Text';
