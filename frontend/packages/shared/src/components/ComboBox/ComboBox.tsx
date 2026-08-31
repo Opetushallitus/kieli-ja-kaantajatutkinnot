@@ -10,7 +10,6 @@ import {
   FormHelperText,
   TextField,
 } from '@mui/material';
-import { useState } from 'react';
 
 import { useWindowProperties } from '../../hooks';
 import {
@@ -91,7 +90,6 @@ const NativeSelectOrComboBox = ({
   ...rest
 }: ComboBoxProps & AutoCompleteComboBox) => {
   const { isPhone } = useWindowProperties();
-  const [hasPointerFocus, setHasPointerFocus] = useState(false);
   const getOptionLabel = (option: AutocompleteValue): string => {
     const [activeOption] = values.filter((v) => v.value === option?.value);
 
@@ -125,18 +123,6 @@ const NativeSelectOrComboBox = ({
         isOptionEqualToValue={isOptionEqualToValue}
         options={values}
         filterOptions={filterOptions}
-        onPointerDown={(event) => {
-          setHasPointerFocus(true);
-          rest.onPointerDown?.(event);
-        }}
-        onKeyDown={(event) => {
-          setHasPointerFocus(false);
-          rest.onKeyDown?.(event);
-        }}
-        onBlur={(event) => {
-          setHasPointerFocus(false);
-          rest.onBlur?.(event);
-        }}
         renderInput={(params) => (
           <TextField
             {...params}
@@ -144,44 +130,6 @@ const NativeSelectOrComboBox = ({
             variant={variant}
             error={showError}
             placeholder={placeholder}
-            InputLabelProps={{
-              ...params.InputLabelProps,
-              sx: label
-                ? {
-                    backgroundColor: 'background.paper',
-                    fontSize: '16px',
-                    fontWeight: 400,
-                    lineHeight: '1.4375em',
-                    px: 0.5,
-                  }
-                : undefined,
-            }}
-            InputProps={{
-              ...params.InputProps,
-              sx: {
-                ...(label
-                  ? {
-                      '&&:has(input:focus-visible)': {
-                        zIndex: 0,
-                      },
-                      '&& .MuiOutlinedInput-notchedOutline': {
-                        top: -5,
-                        '& legend': {
-                          lineHeight: '11px',
-                        },
-                      },
-                    }
-                  : {}),
-                ...(hasPointerFocus
-                  ? {
-                      '&&:has(input:focus-visible)': {
-                        outline: 'none',
-                        zIndex: 0,
-                      },
-                    }
-                  : {}),
-              },
-            }}
           />
         )}
         onChange={(_, v: AutocompleteValue) => {
@@ -217,7 +165,9 @@ export const LabeledComboBox = ({
   return (
     <FormControl fullWidth error={showError}>
       <label htmlFor={id}>
-        <Text sx={errorStyles}>{label}</Text>
+        <Text sx={errorStyles}>
+          <b>{label}</b>
+        </Text>
       </label>
       <NativeSelectOrComboBox id={id} {...rest} />
       {showError && <FormHelperText>{helperText}</FormHelperText>}
