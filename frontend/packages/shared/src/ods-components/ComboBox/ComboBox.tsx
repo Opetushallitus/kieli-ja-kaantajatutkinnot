@@ -10,31 +10,26 @@ import {
   FormHelperText,
   TextField,
 } from '@mui/material';
+import { useState } from 'react';
 
-import { useWindowProperties } from '../../hooks';
 import {
   CustomNativeSelectProps,
   NativeSelect,
-} from '../NativeSelect/NativeSelect';
-import { Text } from '../Text/Text';
+} from '../../components/NativeSelect/NativeSelect';
+import { Text } from '../../components/Text/Text';
+import { useWindowProperties } from '../../hooks';
+import {
+  AutoCompleteComboBox,
+  ComboBoxOption,
+  ComboBoxProps as SharedComboBoxProps,
+} from '../../interfaces';
 
-type ComboBoxOption = { label: string; value: string };
 export type AutocompleteValue = ComboBoxOption | null;
-interface ComboBoxProps {
-  'data-testid'?: string;
-  label?: string;
-  showInputLabel?: boolean;
-  helperText?: string;
-  showError?: boolean;
-  variant: 'filled' | 'outlined' | 'standard';
-  getOptionLabel?: (option: AutocompleteValue) => string;
-  values: Array<ComboBoxOption>;
-  value: AutocompleteValue;
+type ComboBoxProps = SharedComboBoxProps & {
   onChange: (value?: string) => void;
-  placeholder?: string;
-}
+};
 
-type AutoCompleteComboBox = Omit<
+type OdsAutoCompleteComboBox = Omit<
   AutocompleteProps<AutocompleteValue, false, false, false>,
   | 'options'
   | 'renderInput'
@@ -75,7 +70,7 @@ const filterOptions: (
 });
 
 export const valueAsOption = (value: string) => ({
-  value: value,
+  value,
   label: value,
 });
 
@@ -88,10 +83,13 @@ const NativeSelectOrComboBox = ({
   onChange,
   placeholder,
   ...rest
-}: ComboBoxProps & AutoCompleteComboBox) => {
+}: ComboBoxProps & OdsAutoCompleteComboBox) => {
   const { isPhone } = useWindowProperties();
+  const [hasPointerFocus, setHasPointerFocus] = useState(false);
   const getOptionLabel = (option: AutocompleteValue): string => {
-    const [activeOption] = values.filter((v) => v.value === option?.value);
+    const [activeOption] = values.filter(
+      (value) => value.value === option?.value,
+    );
 
     return activeOption ? activeOption.label : '';
   };
@@ -111,47 +109,95 @@ const NativeSelectOrComboBox = ({
     return (
       <NativeSelect
         {...nativeSelectProps}
-        onChange={(e) => onChange(e.target.value as string)}
-      />
-    );
-  } else {
-    return (
-      <Autocomplete
-        disablePortal
-        {...rest}
-        getOptionLabel={getOptionLabel}
-        isOptionEqualToValue={isOptionEqualToValue}
-        options={values}
-        filterOptions={filterOptions}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label={label}
-            variant={variant}
-            error={showError}
-            placeholder={placeholder}
-          />
-        )}
-        onChange={(_, v: AutocompleteValue) => {
-          onChange(v?.value);
-        }}
+        onChange={(event) => onChange(event.target.value as string)}
       />
     );
   }
+
+  return (
+    <Autocomplete
+      disablePortal
+      {...rest}
+      getOptionLabel={getOptionLabel}
+      isOptionEqualToValue={isOptionEqualToValue}
+      options={values}
+      filterOptions={filterOptions}
+      onPointerDown={(event) => {
+        setHasPointerFocus(true);
+        rest.onPointerDown?.(event);
+      }}
+      onKeyDown={(event) => {
+        setHasPointerFocus(false);
+        rest.onKeyDown?.(event);
+      }}
+      onBlur={(event) => {
+        setHasPointerFocus(false);
+        rest.onBlur?.(event);
+      }}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          label={label}
+          variant={variant}
+          error={showError}
+          placeholder={placeholder}
+          InputLabelProps={{
+            ...params.InputLabelProps,
+            sx: label
+              ? {
+                  backgroundColor: 'background.paper',
+                  fontSize: '16px',
+                  fontWeight: 400,
+                  lineHeight: '1.4375em',
+                  px: 0.5,
+                }
+              : undefined,
+          }}
+          InputProps={{
+            ...params.InputProps,
+            sx: {
+              ...(label
+                ? {
+                    '&&:has(input:focus-visible)': {
+                      zIndex: 0,
+                    },
+                    '&& .MuiOutlinedInput-notchedOutline': {
+                      top: -5,
+                      '& legend': {
+                        lineHeight: '11px',
+                      },
+                    },
+                  }
+                : {}),
+              ...(hasPointerFocus
+                ? {
+                    '&&:has(input:focus-visible)': {
+                      outline: 'none',
+                      zIndex: 0,
+                    },
+                  }
+                : {}),
+            },
+          }}
+        />
+      )}
+      onChange={(_, value: AutocompleteValue) => {
+        onChange(value?.value);
+      }}
+    />
+  );
 };
 
 export const ComboBox = ({
   helperText,
   showError,
   ...rest
-}: ComboBoxProps & AutoCompleteComboBox) => {
-  return (
-    <FormControl fullWidth error={showError}>
-      <NativeSelectOrComboBox {...rest} />
-      {showError && <FormHelperText>{helperText}</FormHelperText>}
-    </FormControl>
-  );
-};
+}: ComboBoxProps & OdsAutoCompleteComboBox) => (
+  <FormControl fullWidth error={showError}>
+    <NativeSelectOrComboBox {...rest} />
+    {showError && <FormHelperText>{helperText}</FormHelperText>}
+  </FormControl>
+);
 
 export const LabeledComboBox = ({
   id,
@@ -159,15 +205,13 @@ export const LabeledComboBox = ({
   helperText,
   showError,
   ...rest
-}: ComboBoxProps & AutoCompleteComboBox & { id: string }) => {
+}: ComboBoxProps & OdsAutoCompleteComboBox & { id: string }) => {
   const errorStyles = showError ? { color: 'error.main' } : {};
 
   return (
     <FormControl fullWidth error={showError}>
       <label htmlFor={id}>
-        <Text sx={errorStyles}>
-          <b>{label}</b>
-        </Text>
+        <Text sx={errorStyles}>{label}</Text>
       </label>
       <NativeSelectOrComboBox id={id} {...rest} />
       {showError && <FormHelperText>{helperText}</FormHelperText>}
@@ -213,7 +257,9 @@ export const LabeledMultipleCheckboxDropdown = ({
         disableCloseOnSelect
         options={values}
         value={value}
-        isOptionEqualToValue={(option, value) => option.value === value.value}
+        isOptionEqualToValue={(option, currentValue) =>
+          option.value === currentValue.value
+        }
         renderOption={(props, option, { selected }) => {
           const { key, ...optionProps } = props;
 
@@ -239,3 +285,5 @@ export const LabeledMultipleCheckboxDropdown = ({
     </FormControl>
   );
 };
+
+export type { AutoCompleteComboBox };
