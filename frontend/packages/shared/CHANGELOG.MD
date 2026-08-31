@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.16.0] - 2026-08-31
+
+### Added
+
+- ODS specific shared components
+
 ## [1.15.0] - 2026-08-20
 
 ### Changed

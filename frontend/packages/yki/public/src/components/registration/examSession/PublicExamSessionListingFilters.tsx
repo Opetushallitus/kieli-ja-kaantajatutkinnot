@@ -8,12 +8,7 @@ import {
 } from '@mui/material';
 import { OphCheckbox } from '@opetushallitus/oph-design-system';
 import { useCallback, useState } from 'react';
-import {
-  ComboBox,
-  CustomButton,
-  LanguageSelect,
-  LoadingProgressIndicator,
-} from 'shared/components';
+import { CustomButton, LoadingProgressIndicator } from 'shared/components';
 import {
   APIResponseStatus,
   Color,
@@ -22,6 +17,7 @@ import {
   Variant,
 } from 'shared/enums';
 import { useDialog } from 'shared/hooks';
+import { ComboBox, LanguageSelect } from 'shared/ods-components';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
