@@ -10,6 +10,7 @@ import fi.oph.yki.model.ExamSessionLocation;
 import fi.oph.yki.model.ExamSessionStatistics;
 import fi.oph.yki.model.FreeRegistration;
 import fi.oph.yki.model.Organizer;
+import fi.oph.yki.model.Participant;
 import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Quarantine;
 import fi.oph.yki.model.Registration;
@@ -42,6 +43,14 @@ public class Factory {
     registration.setPartialExamType(PartialExamType.ALL_PARTS);
 
     return registration;
+  }
+
+  public static Participant participant(final String email) {
+    final Participant participant = new Participant();
+    participant.setExternalUserId(email);
+    participant.setEmail(email);
+
+    return participant;
   }
 
   public static FreeRegistration freeRegistration(final Registration registration) {
