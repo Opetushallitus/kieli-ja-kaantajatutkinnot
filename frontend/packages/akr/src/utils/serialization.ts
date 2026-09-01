@@ -170,7 +170,8 @@ export class SerializationUtils {
       isIndividualised,
       hasIndividualisedAddress,
       isAssuranceGiven,
-      authorisations: _ignored,
+      authorisations: _ignoredAuthorisations,
+      isDeceased: _ignoredIsDeceased,
       ...rest
     } = translator;
     const textFields =
