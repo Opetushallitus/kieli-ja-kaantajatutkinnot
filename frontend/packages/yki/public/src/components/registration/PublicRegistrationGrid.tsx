@@ -1,7 +1,7 @@
 import { Grid, Paper } from '@mui/material';
 import { ophColors } from '@opetushallitus/oph-design-system';
 import { useEffect } from 'react';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router';
 import {
   H1,
   H2,
@@ -22,7 +22,6 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { PaymentStatus } from 'enums/api';
 import { RegistrationKind } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
-import { clerkEnabled } from 'featureFlags';
 import { ExamSession } from 'interfaces/examSessions';
 import { loadExamSession } from 'redux/reducers/examSession';
 import { examSessionSelector } from 'redux/selectors/examSession';
@@ -236,11 +235,7 @@ export const PublicRegistrationGrid = () => {
           <Paper
             elevation={isPhone ? 0 : 3}
             style={
-              isPhone
-                ? {}
-                : clerkEnabled
-                  ? { borderTop: '5px solid ' + ophColors.green2 }
-                  : undefined
+              isPhone ? {} : { borderTop: '5px solid ' + ophColors.green2 }
             }
           >
             <LoadingProgressIndicator isLoading={isLoading} displayBlock={true}>

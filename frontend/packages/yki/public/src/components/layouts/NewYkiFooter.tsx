@@ -1,6 +1,6 @@
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Divider, Paper } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { OPHLogoViewer, Text } from 'shared/components';
 import { Direction } from 'shared/enums';
 
@@ -73,7 +73,7 @@ export const NewYkiFooter = () => {
                 </Text>
               </a>
               <Text className="inline-text">
-                <Text>{translateCommon('contactPhone.hours')}</Text>
+                {translateCommon('contactPhone.hours')}
               </Text>
             </div>
           </div>

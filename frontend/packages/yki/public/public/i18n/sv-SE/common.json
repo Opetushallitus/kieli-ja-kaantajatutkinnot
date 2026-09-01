@@ -31,7 +31,7 @@
         "oph": "kielitutkinnot@oph.fi"
       },
       "contactPhone": {
-        "hours": "(Under veckorna 28–31 är telefonservicen öppen endast: 6–7.7, 13–14.7, 21.7 och 28.7 kl. 10–12.)",
+        "hours": "(Vardagar kl. 9-11)",
         "jyu": "+358 50 591 9322"
       },
       "customerSearch": "Asiakashaku",
@@ -156,6 +156,10 @@
         "userDetails": "Mina anmälningar"
       },
       "partialExams": "Delprov",
+      "partialExamsLink": {
+        "label": "Försök med delprovsdagar för YKI-testerna hösten 2026",
+        "url": "https://www.oph.fi/sv/nyheter/2026/forsok-med-delprovsdagar-yki-testerna-hosten-2026"
+      },
       "partialExamTime": "kl. {{startTime}}",
       "partialExamTimeLabel": "Testin alkamisaika",
       "phoneNumber": "Telefonnummer",

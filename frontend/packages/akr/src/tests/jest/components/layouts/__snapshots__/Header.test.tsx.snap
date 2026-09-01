@@ -23,6 +23,7 @@ exports[`Header should render Header correctly 1`] = `
         class="header__left"
       >
         <a
+          data-discover="true"
           href="/akr/etusivu"
         >
           <div

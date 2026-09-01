@@ -10,6 +10,11 @@ declare global {
       openEvaluationOrderPage(id: number): void;
       openExamSessionRegistrationForm(id: number, registrationId: number): void;
       openPublicUserDetailsPage(): void;
+      openExamSessionRegistrationFormWithSearch(
+        examSessionId: number,
+        registrationId: number,
+        search?: string,
+      ): void;
     }
   }
 }

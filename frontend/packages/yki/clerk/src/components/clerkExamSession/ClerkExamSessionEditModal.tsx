@@ -1,5 +1,5 @@
 import CloseIcon from '@mui/icons-material/Close';
-import { Box } from '@mui/material';
+import { Box, Divider, FormHelperText } from '@mui/material';
 import {
   OphButton,
   OphInputFormField,
@@ -31,6 +31,7 @@ import {
 import { loadOrganizationHierarchy } from 'redux/reducers/clerkOrganizer';
 import { clerkExamSessionDetailsSelector } from 'redux/selectors/clerkExamSessionDetailsSelector';
 import { clerkOrganizersSelector } from 'redux/selectors/clerkOrganizers';
+import { getExamPartialType1, getExamPartialType2 } from 'utils/clerk';
 import { DateTimeUtils } from 'utils/dateTime';
 
 type ShortLang = 'fi' | 'sv' | 'en';
@@ -100,7 +101,7 @@ export const ClerkExamSessionEditModal = ({
 
   const officeOidOptions: ComboBoxOption[] = organizationHierarchy.map(
     (org) => ({
-      label: org.name?.fi ?? org.oid,
+      label: org.name?.fi ? `${org.name?.fi} (${org.oid})` : org.oid,
       value: org.oid,
     }),
   );
@@ -162,7 +163,7 @@ export const ClerkExamSessionEditModal = ({
     });
   };
 
-  const [form, setForm] = useState({
+  const defaultForm = {
     examDateId: String(currentExamDateId ?? ''),
     language: examSessionDetails?.language ?? '',
     level: examSessionDetails?.level ?? '',
@@ -196,7 +197,8 @@ export const ClerkExamSessionEditModal = ({
     contactEmail: examSessionDetails?.contactEmail ?? '',
     contactPhoneNumber: examSessionDetails?.contactPhoneNumber ?? '',
     officeOid: examSessionDetails?.officeOid ?? '',
-  });
+  };
+  const [form, setForm] = useState(defaultForm);
 
   const filteredExamDates = examDates.filter(
     (ed) =>
@@ -249,16 +251,25 @@ export const ClerkExamSessionEditModal = ({
   const validate = useCallback(() => {
     const loc = form.location[0];
     const isFull = form.type === ExamSessionType.FULL || !form.type;
+    const isMaxParticipantsInvalid =
+      !form.maxParticipantsTotal || +form.maxParticipantsTotal <= 0;
+    const isPartialMaxParticipantsInvalid =
+      !form.maxParticipantsReadListen ||
+      +form.maxParticipantsReadListen <= 0 ||
+      !form.maxParticipantsSpeakWrite ||
+      +form.maxParticipantsSpeakWrite <= 0;
 
     return {
       officeOid: mode !== 'edit-partial' && !selectedOfficeOid,
       language: !form.language,
       level: !form.level,
       type: !form.type,
-      examDateId: mode !== 'edit-partial' && !form.examDateId,
+      examDateId:
+        mode !== 'edit-partial' &&
+        !filteredExamDates.some((ed) => String(ed.id) === form.examDateId),
       maxParticipants: isFull
-        ? !form.maxParticipantsTotal
-        : !form.maxParticipantsReadListen || !form.maxParticipantsSpeakWrite,
+        ? isMaxParticipantsInvalid
+        : isPartialMaxParticipantsInvalid,
       startTime: isFull
         ? false
         : !form.startTimeReadListen || !form.startTimeSpeakWrite,
@@ -270,7 +281,7 @@ export const ClerkExamSessionEditModal = ({
       contactEmail: !form.contactEmail,
       contactPhoneNumber: !form.contactPhoneNumber,
     };
-  }, [form, selectedOfficeOid, mode]);
+  }, [form, selectedOfficeOid, mode, filteredExamDates]);
 
   useEffect(() => {
     if (submitted) {
@@ -297,6 +308,8 @@ export const ClerkExamSessionEditModal = ({
   }, [submitted, validate]);
 
   const handleCloseModal = () => {
+    setSelectedOfficeOid(null);
+    setForm(defaultForm);
     setSubmitted(false);
     setIsOpen(false);
   };
@@ -460,10 +473,14 @@ export const ClerkExamSessionEditModal = ({
               <div className="rows gapped-xxs">
                 <Label>{t('fields.examDate')}</Label>
                 <Text>{t('fields.noExamDates')}</Text>
+                {submitted && errors.examDateId && (
+                  <FormHelperText>{t('errors.required')}</FormHelperText>
+                )}
               </div>
             )}
           </>
         )}
+        <Divider />
         {form.type === ExamSessionType.FULL || !form.type ? (
           <div className="columns gapped">
             <OphInputFormField
@@ -484,9 +501,12 @@ export const ClerkExamSessionEditModal = ({
           </div>
         ) : (
           <>
+            <Text className="bold">
+              {getExamPartialType1(form.type as ExamSessionType)}
+            </Text>
             <div className="columns gapped">
               <OphInputFormField
-                label={t('fields.maxParticipantsPart1')}
+                label={t('fields.maxParticipants')}
                 value={form.maxParticipantsReadListen}
                 onChange={(e) =>
                   updateField('maxParticipantsReadListen', e.target.value)
@@ -501,7 +521,7 @@ export const ClerkExamSessionEditModal = ({
                 }
               />
               <OphInputFormField
-                label={t('fields.startTimeReadListen')}
+                label={t('fields.startTime')}
                 value={form.startTimeReadListen}
                 onChange={(e) =>
                   updateField('startTimeReadListen', e.target.value)
@@ -516,9 +536,12 @@ export const ClerkExamSessionEditModal = ({
                 }
               />
             </div>
+            <Text className="bold">
+              {getExamPartialType2(form.type as ExamSessionType)}
+            </Text>
             <div className="columns gapped">
               <OphInputFormField
-                label={t('fields.maxParticipantsPart2')}
+                label={t('fields.maxParticipants')}
                 value={form.maxParticipantsSpeakWrite}
                 onChange={(e) =>
                   updateField('maxParticipantsSpeakWrite', e.target.value)
@@ -533,7 +556,7 @@ export const ClerkExamSessionEditModal = ({
                 }
               />
               <OphInputFormField
-                label={t('fields.startTimeSpeakWrite')}
+                label={t('fields.startTime')}
                 value={form.startTimeSpeakWrite}
                 onChange={(e) =>
                   updateField('startTimeSpeakWrite', e.target.value)
@@ -550,6 +573,7 @@ export const ClerkExamSessionEditModal = ({
             </div>
           </>
         )}
+        <Divider />
         <OphInputFormField
           label={t('fields.streetAddress')}
           value={form.location[0]?.streetAddress ?? ''}
@@ -600,6 +624,7 @@ export const ClerkExamSessionEditModal = ({
               : undefined
           }
         />
+        <Divider />
         <H3>{t('contactHeading')}</H3>
         <OphInputFormField
           label={t('fields.contactName')}
@@ -633,6 +658,7 @@ export const ClerkExamSessionEditModal = ({
               : undefined
           }
         />
+        <Divider />
         <H3>{t('extraInformationHeading')}</H3>
         <OphInputFormField
           label={t('fields.extraInformationFi')}

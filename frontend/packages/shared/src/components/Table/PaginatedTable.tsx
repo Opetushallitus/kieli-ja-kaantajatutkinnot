@@ -11,8 +11,9 @@ import { Pagination } from './Pagination';
 import { WithId } from '../../interfaces/with';
 import './Table.scss';
 
-export interface PaginatedTableProps<T extends WithId>
-  extends CustomTableProps<T> {
+export interface PaginatedTableProps<
+  T extends WithId,
+> extends CustomTableProps<T> {
   initialRowsPerPage: number;
   rowsPerPageOptions: Array<number | { value: number; label: string }>;
   rowsPerPageLabel: string;

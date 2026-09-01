@@ -96,7 +96,7 @@ const registrationSlice = createSlice({
       } else {
         if (isRegistrationInitErrorResponse(action.payload)) {
           const error = action.payload.data.error;
-          const { closed, full } = error;
+          const { closed, full, partialFull } = error;
           if (closed) {
             state.initRegistration.error = {
               error: PublicRegistrationInitError.Past,
@@ -106,6 +106,10 @@ const registrationSlice = createSlice({
               error: PublicRegistrationInitError.AlreadyRegistered,
               otherExamSessionRegistration:
                 error['other-exam-session-registration'],
+            };
+          } else if (partialFull) {
+            state.initRegistration.error = {
+              error: PublicRegistrationInitError.ExamSessionPartialFull,
             };
           } else if (full) {
             state.initRegistration.error = {
@@ -261,6 +265,7 @@ const registrationSlice = createSlice({
       state.fetchRegistrationStatus = APIResponseStatus.Success;
       state.initRegistration.partialExamType = action.payload.partial_exam_type;
       state.initRegistration.registrationKind = action.payload.kind;
+      state.initRegistration.registrationId = action.payload.id;
       state.initRegistration.examSessionId = action.payload.exam_session_id;
     },
   },

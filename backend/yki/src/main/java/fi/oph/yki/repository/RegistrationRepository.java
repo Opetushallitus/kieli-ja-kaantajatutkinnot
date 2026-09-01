@@ -16,7 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface RegistrationRepository extends JpaRepository<Registration, Long> {
   List<Registration> getByPersonOid(String personOid);
-  List<Registration> getByExamSessionAndStateIn(ExamSession examSession, List<RegistrationState> states);
+  List<Registration> getByExamSessionAndStateInAndFormIsNotNull(
+    ExamSession examSession,
+    List<RegistrationState> states
+  );
 
   @Query(
     value = """

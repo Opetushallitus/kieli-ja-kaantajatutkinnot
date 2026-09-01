@@ -135,7 +135,8 @@
             "title": "Pågående anmälan"
           },
           "reservingQueueSeat": "Reserverar en köplats...",
-          "title": "Anmälning misslyckades"
+          "title": "Anmälning misslyckades",
+          "registerToPartialExamsSeparately": "Det finns inga lediga platser. Anmäl dig till delproven separat."
         },
         "enrollToQueue": {
           "dialog": {
@@ -350,7 +351,7 @@
             "ssn": "Personbeteckning"
           },
           "placeholders": {
-            "address": "",
+            "address": "Kontrollera att adressen innehåller alla uppgifter (t.ex. lägenhetsnummer). Enbart gatunamn räcker inte.",
             "countryCode": "Välj land",
             "dateOfBirth": "Skriv i formatet dd.mm.åååå.",
             "email": "Till exempel namn@e-post.fi",
@@ -456,10 +457,9 @@
           "phaseNumber": "{{current}} av {{total}}",
           "step": {
             "Done": "Färdig",
-            "EnrollToQueue": "Anmäl dig till en köplats",
             "Identify": "Identifiera dig",
             "Payment": "Betalning",
-            "Register": "Anmäl dig"
+            "Register": "Uppgifter"
           },
           "welcomeToExam": "Välkommen till allmän språkexamen (YKI)!"
         },
@@ -770,13 +770,11 @@
             "label": "Efter YKI-testet",
             "url": "https://www.oph.fi/sv/utbildning-och-examina/efter-yki-testet"
           },
-          "part1": "Om du utför testet den 1 april 2026 eller senare kan du få ett digitalt YKI-intyg.",
-          "part2": "Du får intyget i tjänsten Min Studieinfo.",
-          "part3": "Om du använder tjänsten <CustomLink></CustomLink>-meddelanden får du ett elektroniskt meddelande i <CustomLink></CustomLink> när intyget är klart.",
-          "part4": "Du kan läsa mer om testresultatet och intygen på Utbildningsstyrelsens webbplats:"
+          "part1": "Den första delprovsdagen ordnas den 16 september 2026!",
+          "part2": "Under delprovsdagen kan du endast avlägga delproven i skriftlig framställning och talförståelse.",
+          "part3": "Läs mer på Utbildningsstyrelsens webbplats: <CustomLink></CustomLink>"
         },
         "labels": {
-          "allPartsAtOnce": "Alla delprov på en gång",
           "allPartsAtOnce": "Alla delprov på en gång",
           "excludeFullSessions": "Visa endast examenstillfällen med lediga platser",
           "excludeNonOpenSessions": "Visa endast examenstillfällen vars anmälan har börjat",
@@ -867,10 +865,18 @@
             "notFound": "Du har inga prestationer eller tidigare anmälningar"
           },
           "state": {
+            "ABORTED": "Suoritus keskeytetty",
             "cancelled": "Annullerad",
             "enrolled": "Anmäld",
+            "EVALUATION_COMPLETE": "Arviointi valmis",
+            "EVALUATION_PENDING": "Arviointi kesken",
             "label": "Status",
-            "queued": "I kö (på plats {{ positionInQueue }})"
+            "NO_SHOW": "Ei osallistunut",
+            "queued": "I kö (på plats {{ positionInQueue }})",
+            "RETAKE_PENDING": "-",
+            "REVIEW_COMPLETE": "Tarkistusarviointi kesken",
+            "REVIEW_FINALIZED": "Tarkistusarviointi valmis",
+            "REVIEW_PENDING": "Tarkistusarviointi kesken"
           },
           "upcoming": {
             "notFound": "Du har inga kommande anmälningar."

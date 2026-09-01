@@ -3,7 +3,7 @@ import { Grid, Paper } from '@mui/material';
 import { Box } from '@mui/system';
 import { ophColors } from '@opetushallitus/oph-design-system';
 import { FC, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 import {
   CustomButton,
   H1,
@@ -15,7 +15,6 @@ import { APIResponseStatus, Color, Variant } from 'shared/enums';
 
 import { getCurrentLang, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { clerkEnabled } from 'featureFlags';
 import {
   loadLoginLinkRenew,
   resetLoginLinkRenew,
@@ -58,11 +57,7 @@ export const ExpiredLoginLinkPage: FC = () => {
           <HeaderSeparator />
           <Paper
             elevation={3}
-            style={
-              clerkEnabled
-                ? { borderTop: '5px solid ' + ophColors.green2 }
-                : undefined
-            }
+            style={{ borderTop: '5px solid ' + ophColors.green2 }}
           >
             <Box padding={3} gap={2} display={'flex'} flexDirection="column">
               <Text>{t('part1')}</Text>

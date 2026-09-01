@@ -163,33 +163,36 @@ export const PublicRegistrationExamSessionDetails = ({
           {`${translateCommon('examDate')}: `}
           <b>{DateUtils.formatOptionalDate(examSession.session_date)}</b>
         </Text>
-        {examSession.type !== 'FULL' && (
-          <Text>
-            {`${translateCommon('partialExamTimeLabel')}: `}
-            <b>
-              {translateCommon('partialExamTime', {
-                startTime:
-                  ExamSessionUtils.getStartTime(
-                    examSession,
-                    initRegistration.partialExamType,
-                  ) || '',
-              })}
-            </b>
-          </Text>
-        )}
+        {examSession.type !== 'FULL' &&
+          activeStep !== PublicRegistrationFormStep.Done && (
+            <Text>
+              {`${translateCommon('partialExamTimeLabel')}: `}
+              <b>
+                {translateCommon('partialExamTime', {
+                  startTime:
+                    ExamSessionUtils.getStartTime(
+                      examSession,
+                      initRegistration.partialExamType,
+                    ) || '',
+                })}
+              </b>
+            </Text>
+          )}
         <Text>
           {`${translateCommon('institution')}: `}
           <b>{`${location.name}, ${
             location.street_address
           }, ${ExamSessionUtils.getMunicipality(location)}`}</b>
         </Text>
+
         <Text>
           {`${t('registrationTime')}: `}
           <b>{`${DateUtils.formatOptionalDate(
             start,
           )} - ${DateUtils.formatOptionalDate(end)}`}</b>
         </Text>
-        {!isPartialExamRegistrationEndStep && (
+
+        {activeStep !== PublicRegistrationFormStep.Done && (
           <Text>
             {`${t('examFee')}: `}
             <b>{examFeeText}</b>

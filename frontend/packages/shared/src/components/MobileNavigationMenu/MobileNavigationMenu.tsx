@@ -2,16 +2,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import MenuIcon from '@mui/icons-material/Menu';
 import { ClickAwayListener, Divider, Paper } from '@mui/material';
 import { FocusTrap } from 'focus-trap-react';
-import {
-  ForwardedRef,
-  forwardRef,
-  Fragment,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { ForwardedRef, forwardRef, Fragment, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 import { Color } from '../../enums';
 import { NavigationLinksProps } from '../NavigationLinks/NavigationLinks';
@@ -153,34 +146,22 @@ export const MobileNavigationMenuWithPortal = ({
   isMenuOpen: boolean;
   setIsMenuOpen: (open: boolean) => void;
 } & NavigationLinksProps) => {
-  const toggleRef = useRef<HTMLDivElement>(null);
-  const [containerElements, setContainerElements] = useState<
-    Array<HTMLElement>
-  >([]);
-  useEffect(() => {
-    const toggleElement = toggleRef.current;
-    if (toggleElement) {
-      if (!containerElements.includes(toggleElement)) {
-        setContainerElements([toggleElement, portalContainer]);
-      }
-    } else {
-      setContainerElements([portalContainer]);
-    }
-  }, [containerElements, portalContainer]);
+  const [toggleElement, setToggleElement] = useState<HTMLDivElement | null>(
+    null,
+  );
+
+  const containerElements = toggleElement
+    ? [toggleElement, portalContainer]
+    : [portalContainer];
 
   return (
     <>
       {isMenuOpen && (
-        <FocusTrap
-          containerElements={
-            toggleRef.current
-              ? [toggleRef.current, portalContainer]
-              : [portalContainer]
-          }
-        >
+        <FocusTrap containerElements={containerElements}>
           <div />
         </FocusTrap>
       )}
+
       <MobileNavigationMenuToggleWrapper
         openStateAriaLabel={openStateAriaLabel}
         openStateLabel={openStateLabel}
@@ -189,8 +170,9 @@ export const MobileNavigationMenuWithPortal = ({
         isOpen={isMenuOpen}
         closeMenu={() => setIsMenuOpen(false)}
         toggleMenu={() => setIsMenuOpen(!isMenuOpen)}
-        ref={toggleRef}
+        ref={setToggleElement}
       />
+
       {isMenuOpen &&
         createPortal(
           <MobileNavigationMenuContents

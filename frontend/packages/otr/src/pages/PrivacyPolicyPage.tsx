@@ -5,7 +5,7 @@ import {
 import { Grid, Paper } from '@mui/material';
 import { useEffect } from 'react';
 import { Trans } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import {
   CustomButtonLink,
   H1,

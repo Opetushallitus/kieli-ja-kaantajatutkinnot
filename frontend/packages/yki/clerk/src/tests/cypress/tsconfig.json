@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
-    "lib": ["es6", "dom"],
-    "baseUrl": "../../../src",
+    "paths": {
+      "*": ["../../../src/*"]
+    },
     "types": ["cypress", "@testing-library/cypress", "./support/types"],
     "esModuleInterop": true
   },

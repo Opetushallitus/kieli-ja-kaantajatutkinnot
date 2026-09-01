@@ -1,7 +1,6 @@
 import { AppBar, Toolbar } from '@mui/material';
 import { TFunction } from 'i18next';
-import { useParams } from 'react-router';
-import { Link, matchPath, useLocation } from 'react-router-dom';
+import { Link, matchPath, useLocation, useParams } from 'react-router';
 import {
   CookieBanner,
   LangSelector,

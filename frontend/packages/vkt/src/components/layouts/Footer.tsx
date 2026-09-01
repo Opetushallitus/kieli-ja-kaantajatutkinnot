@@ -1,6 +1,6 @@
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Divider, Paper, Typography } from '@mui/material';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router';
 import { OPHLogoViewer, Svg, Text } from 'shared/components';
 import { Direction } from 'shared/enums';
 import { FooterWave } from 'shared/statics';

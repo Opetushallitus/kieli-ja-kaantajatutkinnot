@@ -2,7 +2,7 @@ import { AppLanguage, I18nNamespace } from 'shared/enums';
 import { StringUtils } from 'shared/utils';
 
 import { translateOutsideComponent } from 'configs/i18n';
-import { ExamLanguage, ExamLevel } from 'enums/app';
+import { ExamLanguage, ExamLevel, RegistrationKind } from 'enums/app';
 import {
   ExamSession,
   ExamSessionLocation,
@@ -17,46 +17,61 @@ export class ExamSessionUtils {
     examSession: ExamSession,
     partialExamType?: PartialExamType,
   ) {
+    const readListenAvailablePlaces = Math.max(
+      (examSession.max_participants_read_listen ?? 0) -
+        (examSession.participants_read_listen ?? 0),
+      0,
+    );
+    const speakWriteAvailablePlaces = Math.max(
+      (examSession.max_participants_speak_write ?? 0) -
+        (examSession.participants_speak_write ?? 0),
+      0,
+    );
+
     if (examSession.type === 'READ_SPEAK') {
       if (partialExamType === 'READ') {
-        return Math.max(
-          (examSession.max_participants_read_listen ?? 0) -
-            (examSession.participants_read_listen ?? 0),
-          0,
-        );
+        return examSession.partial_registration_kind.READ === 'ADMISSION'
+          ? readListenAvailablePlaces
+          : 0;
       }
-      if (partialExamType === 'SPEAK' || partialExamType === 'ALL_PARTS') {
-        return Math.max(
-          (examSession.max_participants_speak_write ?? 0) -
-            (examSession.participants_speak_write ?? 0),
-          0,
-        );
+      if (partialExamType === 'SPEAK') {
+        return examSession.partial_registration_kind.SPEAK === 'ADMISSION'
+          ? speakWriteAvailablePlaces
+          : 0;
+      }
+      if (partialExamType === 'ALL_PARTS') {
+        return examSession.partial_registration_kind.ALL_PARTS === 'ADMISSION'
+          ? Math.min(readListenAvailablePlaces, speakWriteAvailablePlaces)
+          : 0;
       }
     } else if (examSession.type === 'LISTEN_WRITE') {
       if (partialExamType === 'LISTEN') {
-        return Math.max(
-          (examSession.max_participants_read_listen ?? 0) -
-            (examSession.participants_read_listen ?? 0),
-          0,
-        );
+        return examSession.partial_registration_kind.LISTEN === 'ADMISSION'
+          ? readListenAvailablePlaces
+          : 0;
       }
-      if (partialExamType === 'WRITE' || partialExamType === 'ALL_PARTS') {
-        return Math.max(
-          (examSession.max_participants_speak_write ?? 0) -
-            (examSession.participants_speak_write ?? 0),
-          0,
-        );
+      if (partialExamType === 'WRITE') {
+        return examSession.partial_registration_kind.WRITE === 'ADMISSION'
+          ? speakWriteAvailablePlaces
+          : 0;
+      }
+      if (partialExamType === 'ALL_PARTS') {
+        return examSession.partial_registration_kind.ALL_PARTS === 'ADMISSION'
+          ? Math.min(readListenAvailablePlaces, speakWriteAvailablePlaces)
+          : 0;
       }
     }
 
-    return Math.max(examSession.max_participants - examSession.participants, 0);
+    return examSession.partial_registration_kind.ALL_PARTS === 'ADMISSION'
+      ? Math.max(examSession.max_participants - examSession.participants, 0)
+      : 0;
   }
 
   static getAvailablePlaces(
     examSession: ExamSession,
     partialExamType?: PartialExamType,
   ) {
-    if (!examSession.upcoming_admission || examSession.queue) {
+    if (!examSession.upcoming_admission) {
       return 0;
     } else {
       return ExamSessionUtils.getRegistrationAvailablePlaces(
@@ -67,8 +82,10 @@ export class ExamSessionUtils {
   }
 
   static hasRoom(examSession: ExamSession, partialExamType?: PartialExamType) {
+    // Room comes from the registration kind, not from seat counts or the queue.
     return (
-      ExamSessionUtils.getAvailablePlaces(examSession, partialExamType) > 0
+      ExamSessionUtils.getRegistrationKind({ examSession, partialExamType }) ===
+      RegistrationKind.Admission
     );
   }
 
@@ -220,10 +237,6 @@ export class ExamSessionUtils {
     examSessionType: ExamSessionType,
     partialExamType?: PartialExamType,
   ) {
-    if (!partialExamType) {
-      return '';
-    }
-
     const t = translateOutsideComponent();
 
     const ns = I18nNamespace.Public;
@@ -232,6 +245,10 @@ export class ExamSessionUtils {
       return t('yki.component.registration.examSessionCard.examType.full', {
         ns,
       });
+    }
+
+    if (!partialExamType) {
+      return '';
     }
 
     if (examSessionType === 'LISTEN_WRITE') {
@@ -289,6 +306,22 @@ export class ExamSessionUtils {
         return examSession.start_time_speak_write;
       }
 
+      // For ALL_PARTS, return the earliest start time of the two parts.
+      // return read_listen by default
+      if (
+        examSession.start_time_read_listen &&
+        examSession.start_time_speak_write
+      ) {
+        if (
+          examSession.start_time_read_listen <
+          examSession.start_time_speak_write
+        ) {
+          return examSession.start_time_read_listen;
+        } else {
+          return examSession.start_time_speak_write;
+        }
+      }
+
       return examSession.start_time_read_listen;
     }
 
@@ -298,6 +331,22 @@ export class ExamSessionUtils {
       }
       if (partialExamType === 'SPEAK') {
         return examSession.start_time_speak_write;
+      }
+
+      // For ALL_PARTS, return the earliest start time of the two parts.
+      // return read_listen by default
+      if (
+        examSession.start_time_read_listen &&
+        examSession.start_time_speak_write
+      ) {
+        if (
+          examSession.start_time_read_listen <
+          examSession.start_time_speak_write
+        ) {
+          return examSession.start_time_read_listen;
+        } else {
+          return examSession.start_time_speak_write;
+        }
       }
 
       return examSession.start_time_read_listen;
@@ -336,12 +385,12 @@ export class ExamSessionUtils {
     examSession: ExamSession,
     partialExamType?: PartialExamType,
   ) {
-    if (!partialExamType) {
-      return '';
-    }
-
     if (examSession.type === 'FULL') {
       return examSession.exam_fee;
+    }
+
+    if (!partialExamType) {
+      return '';
     }
 
     if (examSession.type === 'LISTEN_WRITE') {

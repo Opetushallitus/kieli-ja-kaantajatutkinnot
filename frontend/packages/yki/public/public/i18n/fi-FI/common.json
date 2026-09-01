@@ -31,7 +31,7 @@
         "oph": "kielitutkinnot@oph.fi"
       },
       "contactPhone": {
-        "hours": "(Viikoilla 28–31 puhelin palvelee vain: 6.–7.7., 13.–14.7., 21.7. ja 28.7. klo 10–12.)",
+        "hours": "(Arkisin klo 9-11)",
         "jyu": "+358 50 591 9322"
       },
       "customerSearch": "Asiakashaku",
@@ -156,6 +156,10 @@
         "userDetails": "Omat ilmoittautumiset"
       },
       "partialExams": "Osakokeet",
+      "partialExamsLink": {
+        "label": "YKI-testien osakoepäiviä kokeillaan syksyllä 2026",
+        "url": "https://www.oph.fi/fi/uutiset/2026/yki-testien-osakoepaivia-kokeillaan-syksylla-2026"
+      },
       "partialExamTime": "klo {{startTime}}",
       "partialExamTimeLabel": "Testin alkamisaika",
       "phoneNumber": "Puhelinnumero",

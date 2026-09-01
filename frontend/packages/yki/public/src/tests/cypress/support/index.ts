@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import 'tests/cypress/support/commands';
 import { useFixedDate } from 'tests/cypress/support/utils/date';
 import { worker } from 'tests/msw/browser';
+import { resetData } from 'tests/msw/handlers';
 
 // MSW configs
 Cypress.on('test:before:run:async', async () => {
@@ -22,4 +23,5 @@ beforeEach(() => {
 
 afterEach(() => {
   worker.resetHandlers();
+  resetData();
 });

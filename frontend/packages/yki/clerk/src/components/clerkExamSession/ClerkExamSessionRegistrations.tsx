@@ -10,7 +10,7 @@ import { Divider, IconButton, Stack } from '@mui/material';
 import { OphButton } from '@opetushallitus/oph-design-system';
 import i18next from 'i18next';
 import { Dispatch, SetStateAction, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router';
 import { Variant } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
@@ -211,7 +211,7 @@ export const ClerkExamSessionRegistrations = ({
     t: typeof i18next.t,
   ): ListTableColumn<ClerkRegistration> => ({
     key: 'registrationDate',
-    title: t('columns.date'),
+    title: t('columns.examSessionRegistrationDate'),
     render: ({ registrationDate }) => (
       <div className="rows gapped-xs">
         <Text>{DateUtils.formatOptionalDate(registrationDate, 'l')}</Text>

@@ -2,12 +2,10 @@ class ExamDetailsPage {
   elements = {
     title: () =>
       cy.findByRole('heading', {
-        name: 'Ilmoittaudu yleiseen kielitutkintoon (YKI)',
+        name: /Ilmoittaudu( jonoon)? yleiseen kielitutkintoon \(YKI\)/,
       }),
     submittedFormTitle: () =>
-      cy.findByRole('heading', {
-        name: 'Vahvista ilmoittautuminen',
-      }),
+      cy.contains('h1', /Ilmoittautumislomake on lähetetty/),
     textboxByLabel: (label: string) =>
       cy.findByRole('textbox', { name: label }),
     submitButton: () => cy.findByRole('button', { name: 'Lähetä' }),
@@ -39,9 +37,17 @@ class ExamDetailsPage {
   }
 
   selectCertificateLanguage(language: string) {
-    cy.findByRole('group', { name: 'Millä kielellä haluat todistuksesi? *' })
+    cy.findByRole('group', {
+      name: 'Jos todistus postitetaan, millä kielellä haluat todistuksesi? *',
+    })
       .findByRole('radio', { name: language })
       .click();
+  }
+
+  selectMotherTongue(name: string) {
+    cy.findByRole('combobox', { name: 'Äidinkieli *' }).click();
+    cy.findByRole('option', { name }).scrollIntoView();
+    cy.findByRole('option', { name }).should('be.visible').click();
   }
 
   selectGender(name: string) {
