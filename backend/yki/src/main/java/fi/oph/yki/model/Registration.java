@@ -74,6 +74,9 @@ public class Registration {
   @Column(name = "expires_at")
   private LocalDateTime expiresAt;
 
+  @Column(name = "strong_auth")
+  private Boolean strongAuth;
+
   @OneToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "exam_session_id", referencedColumnName = "id")
   private ExamSession examSession;
