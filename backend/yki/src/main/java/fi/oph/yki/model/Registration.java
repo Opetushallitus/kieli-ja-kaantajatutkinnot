@@ -13,6 +13,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -40,6 +41,10 @@ public class Registration {
   @OneToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "person_oid", referencedColumnName = "oid")
   private Person person;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "participant_id", referencedColumnName = "id")
+  private Participant participant;
 
   @Column(name = "kind")
   @Enumerated

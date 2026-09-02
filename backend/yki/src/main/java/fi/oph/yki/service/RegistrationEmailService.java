@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import fi.oph.yki.model.EmailType;
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.ExamSessionLocation;
+import fi.oph.yki.model.Participant;
 import fi.oph.yki.model.Registration;
 import fi.oph.yki.service.email.EmailData;
 import fi.oph.yki.service.email.EmailService;
@@ -32,6 +33,7 @@ public class RegistrationEmailService {
   private final TemplateRenderer templateRenderer;
   private final EmailService emailService;
   private final Environment environment;
+  private final LoginLinkService loginLinkService;
 
   public void sendCancelRegistrationEmail(final Registration registration) {
     if (!StringUtils.hasText(registration.getPerson().getEmail())) {
@@ -70,7 +72,13 @@ public class RegistrationEmailService {
     params.put("street_address", location != null ? location.getStreetAddress() : "");
     params.put("zip", location != null ? location.getZip() : "");
     params.put("post_office", location != null ? location.getPostOffice() : "");
-    params.put("user_portal_link", environment.getRequiredProperty("app.base-url.public"));
+    final Participant participant = registration.getParticipant();
+    params.put(
+      "user_portal_link",
+      participant.isEmailAuth()
+        ? loginLinkService.createUserPortalLink(participant, registration)
+        : environment.getRequiredProperty("app.base-url.public") + "/auth/?toUserPortal=true"
+    );
 
     final String body = templateRenderer.render(templateName, params, locale);
     final String subject = EmailSubjectUtil.buildExamSubject(

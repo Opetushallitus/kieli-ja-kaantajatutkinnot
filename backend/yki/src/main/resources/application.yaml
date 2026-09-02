@@ -56,6 +56,9 @@ app:
   base-url:
     public: ${public-base-url:http://localhost:8083}/yki
     clerk: ${clerk-base-url:http://localhost:8083/yki}
+  user-portal:
+    success-url: ${app.base-url.public}/kayttaja/tiedot
+    expired-url: ${app.base-url.public}/linkki-vanhentunut/:code
   koski:
     url: ${koski.url:null}
     user: ${cas.username:null}
