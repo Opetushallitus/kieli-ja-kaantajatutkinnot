@@ -24,7 +24,7 @@ export class NotifierUtils {
   private static getAPIError(error: AxiosError) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const data = error.response?.data as any;
-    const errorCode = data.errorCode;
+    const errorCode = data?.errorCode;
 
     if (errorCode && Object.values(APIError).includes(errorCode)) {
       return errorCode;

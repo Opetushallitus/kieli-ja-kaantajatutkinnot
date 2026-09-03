@@ -47,7 +47,7 @@ class RegistrationEmailServiceTest {
 
   @Test
   public void testSendCancelRegistrationEmailForPaidRegistration() {
-    final Registration registration = buildRegistration(false);
+    final Registration registration = buildRegistration(false, false);
 
     registrationEmailService.sendCancelRegistrationEmail(registration);
 
@@ -62,9 +62,8 @@ class RegistrationEmailServiceTest {
   }
 
   @Test
-  public void testSendCancelRegistrationEmailForNonEmailAuthParticipant() {
-    final Registration registration = buildRegistration(false);
-    registration.getParticipant().setExternalUserId("1.2.246.562.24.00000000001");
+  public void testSendCancelRegistrationEmailForStrongAuthRegistration() {
+    final Registration registration = buildRegistration(false, true);
 
     registrationEmailService.sendCancelRegistrationEmail(registration);
 
@@ -75,8 +74,18 @@ class RegistrationEmailServiceTest {
   }
 
   @Test
+  public void testSendCancelRegistrationEmailForNullStrongAuthRegistration() {
+    final Registration registration = buildRegistration(false, null);
+
+    registrationEmailService.sendCancelRegistrationEmail(registration);
+
+    final Email email = emailRepository.findAll().get(0);
+    assertTrue(email.getBody().contains("/auth/login?code="));
+  }
+
+  @Test
   public void testSendCancelRegistrationEmailForFreeRegistration() {
-    final Registration registration = buildRegistration(true);
+    final Registration registration = buildRegistration(true, false);
 
     registrationEmailService.sendCancelRegistrationEmail(registration);
 
@@ -87,7 +96,7 @@ class RegistrationEmailServiceTest {
 
   @Test
   public void testSkipsSendingWhenPersonHasNoEmailAddress() {
-    final Registration registration = buildRegistration(false);
+    final Registration registration = buildRegistration(false, false);
     registration.getPerson().setEmail(null);
 
     registrationEmailService.sendCancelRegistrationEmail(registration);
@@ -95,7 +104,7 @@ class RegistrationEmailServiceTest {
     assertEquals(0, emailRepository.findAll().size());
   }
 
-  private Registration buildRegistration(final boolean free) {
+  private Registration buildRegistration(final boolean free, final Boolean strongAuth) {
     final Person person = Factory.person();
     person.setEmail("testi.henkilo@example.com");
 
@@ -106,6 +115,7 @@ class RegistrationEmailServiceTest {
 
     final Registration registration = Factory.registration(person);
     registration.setExamSession(examSession);
+    registration.setStrongAuth(strongAuth);
 
     final Participant participant = Factory.participant("testi.henkilo@example.com");
     registration.setParticipant(participant);

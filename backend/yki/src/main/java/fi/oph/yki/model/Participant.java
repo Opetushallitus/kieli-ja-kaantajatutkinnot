@@ -6,9 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 import java.time.LocalDateTime;
-import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,9 +29,4 @@ public class Participant {
 
   @Column(name = "created")
   private LocalDateTime createdAt;
-
-  @Transient
-  public boolean isEmailAuth() {
-    return Objects.equals(externalUserId, email);
-  }
 }

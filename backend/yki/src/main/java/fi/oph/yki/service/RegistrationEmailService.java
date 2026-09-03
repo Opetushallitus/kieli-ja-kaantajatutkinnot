@@ -73,9 +73,12 @@ public class RegistrationEmailService {
     params.put("zip", location != null ? location.getZip() : "");
     params.put("post_office", location != null ? location.getPostOffice() : "");
     final Participant participant = registration.getParticipant();
+    // strongAuth is null for registrations predating its introduction, but cancellation is only
+    // possible while the exam date is still in the future (see RegistrationRepository.cancel), so
+    // any registration reaching this code was created recently enough for strongAuth to be set.
     params.put(
       "user_portal_link",
-      participant.isEmailAuth()
+      !Boolean.TRUE.equals(registration.getStrongAuth())
         ? loginLinkService.createUserPortalLink(participant, registration)
         : environment.getRequiredProperty("app.base-url.public") + "/auth/?toUserPortal=true"
     );

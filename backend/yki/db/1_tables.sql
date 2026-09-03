@@ -2112,7 +2112,9 @@ CREATE TABLE public.registration (
     exam_fee numeric,
     lifted_from_queue_at timestamp with time zone,
     ui_language text,
-    free_registration_id bigint
+    free_registration_id bigint,
+    strong_auth boolean,
+    ssn_given boolean
 );
 
 
