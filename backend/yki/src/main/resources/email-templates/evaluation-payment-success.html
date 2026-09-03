@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{base-message :: layout(~{::content})}">
+<body>
+  <th:block th:fragment="content">
+    <tr>
+      <td style="padding-left: 20px;">
+        <span th:text="#{email.evaluation_payment_success.content.line1}"></span>:
+      </td>
+    </tr>
+
+    <tr>
+      <td style="padding-left: 20px; padding-top: 10px;">
+        <b th:text="#{common.test}"></b>: [[${language}]] [[${#strings.toLowerCase(level)}]]
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-left: 20px;">
+        <b th:text="#{common.testDay}"></b>: [[${exam_date}]]
+      </td>
+    </tr>
+
+    <tr>
+      <td style="padding-left: 20px; padding-top: 20px;">
+        <b th:text="#{email.evaluation_payment.content.heading.partialExams}"></b>:
+      </td>
+    </tr>
+    <tr th:each="test : ${subtests}">
+      <td style="padding-left: 20px;">
+        <li style="padding-left: 10px;">[[${test}]]</li>
+      </td>
+    </tr>
+
+    <tr>
+      <td style="padding-left: 20px; padding-top: 20px;">
+        <b th:text="#{email.evaluation_payment.content.heading.evaluationFee}"></b>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-left: 20px;">
+        <span th:text="#{email.evaluation_payment.content.paid}"></span>: [[${order_time}]]
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-left: 20px;">
+        <span th:text="#{email.evaluation_payment.content.total}"></span>: [[${amount}]] €
+      </td>
+    </tr>
+
+    <tr>
+      <td style="padding-left: 20px; padding-top: 20px;">
+        <span th:text="#{email.evaluation_payment_success.content.line2}"></span>
+      </td>
+    </tr>
+
+    <tr>
+      <td style="padding-left: 20px; padding-top: 20px;">
+        <span th:text="#{email.evaluation_payment_success.content.line3}"></span>
+      </td>
+    </tr>
+
+    <tr>
+      <td style="padding-left: 20px; padding-top: 20px;">
+        <span th:text="#{email.evaluation_payment_success.content.line4}"></span>: <a href="mailto:kielitutkinnot@oph.fi">kielitutkinnot@oph.fi</a>
+      </td>
+    </tr>
+  </th:block>
+</body>
+</html>

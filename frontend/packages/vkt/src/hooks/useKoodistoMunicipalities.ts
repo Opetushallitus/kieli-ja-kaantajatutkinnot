@@ -8,7 +8,7 @@ import { municipalityToOption } from 'utils/municipality';
 interface KoodistoMunicipalities {
   vkt: {
     koodisto: {
-      municipalities: Map<string, string>;
+      municipalities: Record<string, string>;
     };
   };
 }

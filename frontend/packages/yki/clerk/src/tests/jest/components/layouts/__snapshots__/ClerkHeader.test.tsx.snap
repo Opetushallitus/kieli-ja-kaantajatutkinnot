@@ -20,6 +20,7 @@ exports[`ClerkHeader should render ClerkHeader correctly 1`] = `
             <li>
               <a
                 aria-current="false"
+                data-discover="true"
                 href="/yki/v2/virkailija/tutkintopaivat"
               >
                 <p
@@ -32,6 +33,7 @@ exports[`ClerkHeader should render ClerkHeader correctly 1`] = `
             <li>
               <a
                 aria-current="false"
+                data-discover="true"
                 href="/yki/v2/virkailija/jarjestajarekisteri"
               >
                 <p
@@ -44,6 +46,7 @@ exports[`ClerkHeader should render ClerkHeader correctly 1`] = `
             <li>
               <a
                 aria-current="false"
+                data-discover="true"
                 href="/yki/v2/virkailija/asiakashaku"
               >
                 <p
@@ -56,6 +59,7 @@ exports[`ClerkHeader should render ClerkHeader correctly 1`] = `
             <li>
               <a
                 aria-current="false"
+                data-discover="true"
                 href="/yki/v2/virkailija/osallistumiskiellot"
               >
                 <p
@@ -68,6 +72,7 @@ exports[`ClerkHeader should render ClerkHeader correctly 1`] = `
             <li>
               <a
                 aria-current="false"
+                data-discover="true"
                 href="/yki/v2/virkailija/maksuraportti"
               >
                 <p
@@ -80,6 +85,7 @@ exports[`ClerkHeader should render ClerkHeader correctly 1`] = `
             <li>
               <a
                 aria-current="false"
+                data-discover="true"
                 href="/yki/v2/virkailija/tilastot"
               >
                 <p

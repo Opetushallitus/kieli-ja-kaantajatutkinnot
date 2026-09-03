@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import { NavigationLinks } from 'shared/components';
 
 import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';

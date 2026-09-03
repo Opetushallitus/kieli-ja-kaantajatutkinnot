@@ -3,7 +3,7 @@ import { Grid, Paper } from '@mui/material';
 import { Box } from '@mui/system';
 import { ophColors } from '@opetushallitus/oph-design-system';
 import { FC, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 import {
   CustomButton,
   H1,

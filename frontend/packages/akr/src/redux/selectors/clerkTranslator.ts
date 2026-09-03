@@ -12,6 +12,7 @@ import {
   ClerkTranslator,
   ClerkTranslatorFilter,
 } from 'interfaces/clerkTranslator';
+import { AuthorisationUtils } from 'utils/authorisation';
 
 export const clerkTranslatorsSelector = (state: RootState) =>
   state.clerkTranslator;
@@ -38,7 +39,16 @@ export const selectFilteredClerkTranslators = createSelector(
       filteredTranslators = filteredTranslators.filter((t) => !t.email);
     }
     if (filters.authorisationStatus === AuthorisationStatus.Deceased) {
-      filteredTranslators = filteredTranslators.filter((t) => t.isDeceased);
+      filteredTranslators = filteredTranslators
+        .filter((t) => t.isDeceased)
+        // Unhandled deceased translators are moved to the front of the listing
+        .sort((a, b) =>
+          AuthorisationUtils.deceasedIsUnhandled(a)
+            ? -1
+            : AuthorisationUtils.deceasedIsUnhandled(b)
+              ? 1
+              : 0,
+        );
     }
 
     return filteredTranslators.filter((t) =>

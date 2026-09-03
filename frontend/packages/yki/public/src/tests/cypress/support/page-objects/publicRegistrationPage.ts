@@ -19,6 +19,9 @@ class PublicRegistrationPage {
         'Näytä vain kielitutkinnot, joihin voi ilmoittautua nyt',
       ),
     searchButton: () => cy.findByRole('button', { name: /Hae/ }),
+    continueToRegisterButton: () =>
+      cy.findByRole('link', { name: /Jatka ilmoittautumiseen/ }),
+    sendRegistrationButton: () => cy.findByRole('button', { name: /Lähetä/ }),
     title: () => cy.findByTestId('public-registration-page__title-heading'),
   };
 
@@ -45,6 +48,10 @@ class PublicRegistrationPage {
 
   getResultCardsNth(nth: number) {
     return this.elements.resultBox().find('.exam-session-card').eq(nth);
+  }
+
+  getResultCardContaining(text: string) {
+    return this.elements.resultBox().contains('.exam-session-card', text);
   }
 
   alertModalContains(text: string) {
@@ -79,6 +86,15 @@ class PublicRegistrationPage {
     this.elements.searchButton().click();
   }
 
+  continueToRegister() {
+    this.elements.continueToRegisterButton().should('not.be.disabled');
+    this.elements.continueToRegisterButton().click();
+  }
+
+  sendRegistrationButtonIsVisible() {
+    this.elements.sendRegistrationButton().should('be.visible');
+  }
+
   toggleShowOnlyIfAvailablePlaces() {
     this.elements.showOnlyIfAvailablePlaces().click();
   }
@@ -87,7 +103,7 @@ class PublicRegistrationPage {
     this.elements.showOnlyIfOngoingAdmission().click();
   }
 
-  expectReservationTimerText(visible, text?) {
+  expectReservationTimerText(visible: boolean, text?: string) {
     if (visible) {
       cy.findByTestId('public-registration__reservation-timer-text')
         .should('be.visible')

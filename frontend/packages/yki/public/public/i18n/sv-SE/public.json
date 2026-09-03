@@ -135,7 +135,8 @@
             "title": "Pågående anmälan"
           },
           "reservingQueueSeat": "Reserverar en köplats...",
-          "title": "Anmälning misslyckades"
+          "title": "Anmälning misslyckades",
+          "registerToPartialExamsSeparately": "Det finns inga lediga platser. Anmäl dig till delproven separat."
         },
         "enrollToQueue": {
           "dialog": {
@@ -350,7 +351,7 @@
             "ssn": "Personbeteckning"
           },
           "placeholders": {
-            "address": "",
+            "address": "Kontrollera att adressen innehåller alla uppgifter (t.ex. lägenhetsnummer). Enbart gatunamn räcker inte.",
             "countryCode": "Välj land",
             "dateOfBirth": "Skriv i formatet dd.mm.åååå.",
             "email": "Till exempel namn@e-post.fi",
