@@ -23,7 +23,7 @@ public class PublicEvaluationService {
     return PublicEvaluationPeriodDTO
       .builder()
       .id(evaluation.getId())
-      .examDate(evaluation.getExamDate().getExamDate())
+      .examDate(evaluation.getExamDateLanguage().getExamDate().getExamDate())
       .languageCode(evaluation.getExamDateLanguage().getLanguageCode())
       .levelCode(evaluation.getExamDateLanguage().getLevelCode())
       .evaluationStartDate(start)
