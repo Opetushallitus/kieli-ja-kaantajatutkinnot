@@ -483,4 +483,27 @@
                 referencedTableName="email"
                 referencedColumnNames="email_id" />
     </changeSet>
+
+    <changeSet id="2026-08-17-payment-table" author="jrkkp">
+        <createTable tableName="payment">
+            <column autoIncrement="true" name="payment_id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="payment_id_pkey"/>
+            </column>
+            <column name="enrollment_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amount" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="transaction_id" type="TEXT"/>
+            <column name="reference" type="TEXT"/>
+            <column name="payment_url" type="TEXT"/>
+            <column name="payment_status" type="TEXT"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="payment" baseColumnNames="registration_id"
+                                 referencedTableName="registration" referencedColumnNames="registration_id"
+                                 constraintName="fk_payment_registration"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"/>
+    </changeSet>
 </databaseChangeLog>
