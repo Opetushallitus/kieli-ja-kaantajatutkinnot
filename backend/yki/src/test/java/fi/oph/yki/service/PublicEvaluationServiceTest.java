@@ -7,10 +7,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import fi.oph.yki.Factory;
 import fi.oph.yki.PostgresTestcontainerConfig;
+import fi.oph.yki.api.dto.PublicEvaluationOrderDTO;
 import fi.oph.yki.api.dto.PublicEvaluationPeriodDTO;
 import fi.oph.yki.model.Evaluation;
+import fi.oph.yki.model.EvaluationOrder;
 import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamDateLanguage;
+import fi.oph.yki.repository.EvaluationOrderRepository;
 import fi.oph.yki.repository.EvaluationRepository;
 import fi.oph.yki.util.exception.NotFoundException;
 import jakarta.annotation.Resource;
@@ -36,6 +39,9 @@ public class PublicEvaluationServiceTest {
   private EvaluationRepository evaluationRepository;
 
   @Resource
+  private EvaluationOrderRepository evaluationOrderRepository;
+
+  @Resource
   private TestEntityManager entityManager;
 
   private PublicEvaluationService publicEvaluationService;
@@ -44,7 +50,7 @@ public class PublicEvaluationServiceTest {
 
   @BeforeEach
   public void setup() {
-    publicEvaluationService = new PublicEvaluationService(evaluationRepository);
+    publicEvaluationService = new PublicEvaluationService(evaluationRepository, evaluationOrderRepository);
 
     examDate = Factory.examDate();
     entityManager.persist(examDate);
@@ -64,6 +70,15 @@ public class PublicEvaluationServiceTest {
     entityManager.clear();
 
     return evaluation.getId();
+  }
+
+  private long persistAndDetach(final EvaluationOrder evaluationOrder) {
+    entityManager.persist(evaluationOrder.getEvaluation());
+    entityManager.persist(evaluationOrder);
+    entityManager.flush();
+    entityManager.clear();
+
+    return evaluationOrder.getId();
   }
 
   @Test
@@ -190,5 +205,54 @@ public class PublicEvaluationServiceTest {
   @Test
   public void testUnknownIdIsNotFound() {
     assertThrows(NotFoundException.class, () -> publicEvaluationService.getEvaluationPeriod(-1L));
+  }
+
+  @Test
+  public void testExamDateComesFromExamDateLanguageNotEvaluation() {
+    // Nothing enforces that evaluation.exam_date_id agrees with the exam date reached through
+    // evaluation.exam_date_language_id. The disagreement is constructed deliberately here to pin
+    // down which of the two the DTO reads — the offering's own date, as in the legacy queries.
+    final ExamDate staleExamDate = Factory.examDate();
+    staleExamDate.setExamDate(LocalDate.of(2026, 11, 30));
+    entityManager.persist(staleExamDate);
+
+    final ExamDateLanguage examDateLanguage = Factory.examDateLanguage(examDate);
+    entityManager.persist(examDateLanguage);
+
+    final long id = persistAndDetach(Factory.evaluation(staleExamDate, examDateLanguage));
+
+    assertEquals(LocalDate.of(2026, 6, 15), publicEvaluationService.getEvaluationPeriod(id).examDate());
+
+    final List<PublicEvaluationPeriodDTO> result = publicEvaluationService.getUpcomingEvaluationPeriods();
+    assertEquals(1, result.size());
+    assertEquals(LocalDate.of(2026, 6, 15), result.get(0).examDate());
+  }
+
+  @Test
+  public void testOrderIsReturnedById() {
+    final EvaluationOrder evaluationOrder = Factory.evaluationOrder(createEvaluation("swe"));
+
+    final long id = persistAndDetach(evaluationOrder);
+    final PublicEvaluationOrderDTO order = publicEvaluationService.getEvaluationOrder(id);
+
+    assertEquals(id, order.id());
+    assertEquals("swe", order.languageCode());
+    assertEquals("PERUS", order.levelCode());
+    assertEquals(LocalDate.of(2026, 6, 15), order.examDate());
+  }
+
+  @Test
+  public void testDeletedOrderIsNotFoundById() {
+    final EvaluationOrder evaluationOrder = Factory.evaluationOrder(createEvaluation("fin"));
+    evaluationOrder.setDeletedAt(LocalDateTime.now(ZoneId.of("Europe/Helsinki")));
+
+    final long id = persistAndDetach(evaluationOrder);
+
+    assertThrows(NotFoundException.class, () -> publicEvaluationService.getEvaluationOrder(id));
+  }
+
+  @Test
+  public void testUnknownOrderIdIsNotFound() {
+    assertThrows(NotFoundException.class, () -> publicEvaluationService.getEvaluationOrder(-1L));
   }
 }
