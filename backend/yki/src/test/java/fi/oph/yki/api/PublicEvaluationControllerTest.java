@@ -1,10 +1,12 @@
 package fi.oph.yki.api;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import fi.oph.yki.api.dto.PublicEvaluationOrderDTO;
 import fi.oph.yki.api.dto.PublicEvaluationPeriodDTO;
 import fi.oph.yki.config.ControllerExceptionAdvice;
 import fi.oph.yki.service.PublicEvaluationService;
@@ -108,5 +110,66 @@ class PublicEvaluationControllerTest {
   @Test
   public void testNonNumericEvaluationPeriodIdReturnsNotFound() throws Exception {
     mockMvc.perform(get(BASE_URL + "/abc")).andExpect(status().isNotFound());
+  }
+
+  @Test
+  public void testEvaluationOrderById() throws Exception {
+    final PublicEvaluationOrderDTO order = PublicEvaluationOrderDTO
+      .builder()
+      .id(19L)
+      .languageCode("fin")
+      .levelCode("PERUS")
+      .examDate(LocalDate.of(2026, 10, 15))
+      .build();
+
+    when(publicEvaluationService.getEvaluationOrder(19L)).thenReturn(order);
+
+    mockMvc
+      .perform(get(BASE_URL + "/order/19"))
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("$.id").value(19))
+      .andExpect(jsonPath("$.language_code").value("fin"))
+      .andExpect(jsonPath("$.level_code").value("PERUS"))
+      .andExpect(jsonPath("$.exam_date").value("2026-10-15"));
+  }
+
+  @Test
+  public void testEvaluationOrderDoesNotExposePersonalDetails() throws Exception {
+    final PublicEvaluationOrderDTO order = PublicEvaluationOrderDTO
+      .builder()
+      .id(19L)
+      .languageCode("fin")
+      .levelCode("PERUS")
+      .examDate(LocalDate.of(2026, 10, 15))
+      .build();
+
+    when(publicEvaluationService.getEvaluationOrder(19L)).thenReturn(order);
+
+    mockMvc
+      .perform(get(BASE_URL + "/order/19"))
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("$.*", hasSize(4)))
+      .andExpect(jsonPath("$.first_names").doesNotExist())
+      .andExpect(jsonPath("$.last_name").doesNotExist())
+      .andExpect(jsonPath("$.email").doesNotExist())
+      .andExpect(jsonPath("$.birthdate").doesNotExist());
+  }
+
+  @Test
+  public void testUnknownEvaluationOrderReturnsNotFound() throws Exception {
+    when(publicEvaluationService.getEvaluationOrder(404L))
+      .thenThrow(new NotFoundException("Evaluation order not found"));
+
+    mockMvc.perform(get(BASE_URL + "/order/404")).andExpect(status().isNotFound());
+  }
+
+  @Test
+  public void testNonNumericEvaluationOrderIdIsNotRouted() throws Exception {
+    mockMvc.perform(get(BASE_URL + "/order/abc")).andExpect(status().isNotFound());
+  }
+
+  @Test
+  public void testEvaluationOrderWithoutIdIsNotRouted() throws Exception {
+    mockMvc.perform(get(BASE_URL + "/order")).andExpect(status().isNotFound());
   }
 }

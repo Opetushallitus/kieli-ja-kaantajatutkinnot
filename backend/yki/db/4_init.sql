@@ -216,6 +216,7 @@ COPY public.evaluation (id, exam_date_id, exam_date_language_id, evaluation_star
 12	48	57	2036-10-25	2036-10-27	\N
 13	48	58	2036-10-25	2036-10-27	\N
 14	26	42	2021-02-01	2021-02-15	\N
+15	48	1	2018-02-01	2018-02-15	\N
 \.
 
 
@@ -224,18 +225,14 @@ COPY public.evaluation (id, exam_date_id, exam_date_language_id, evaluation_star
 --
 
 COPY public.evaluation_order (id, evaluation_id, first_names, last_name, email, birthdate, extra, created, deleted_at) FROM stdin;
-\.
-
-
---
--- Data for Name: subtest; Type: TABLE DATA; Schema: public; Owner: admin
---
-
-COPY public.subtest (code, created) FROM stdin;
-READING	2022-11-30 14:13:51.713412+00
-LISTENING	2022-11-30 14:13:51.713412+00
-WRITING	2022-11-30 14:13:51.713412+00
-SPEAKING	2022-11-30 14:13:51.713412+00
+1	1	Testi	Perus	testi.perus@invalid	1990-01-01	\N	2026-01-02 09:00:00+00	\N
+2	4	Testi	Ylin	testi.ylin@invalid	1985-05-05	\N	2026-01-02 09:00:00+00	\N
+3	7	Testi	Saame	testi.saame@invalid	1978-11-11	\N	2026-01-02 09:00:00+00	\N
+4	14	Testi	Menneisyys	testi.menneisyys@invalid	1970-02-02	\N	2021-01-05 09:00:00+00	\N
+5	1	Testi	Poistettu	testi.poistettu@invalid	1992-03-03	\N	2026-01-02 09:00:00+00	2026-02-01 12:00:00+00
+6	5	Testi	Poistettuarviointi	testi.poistettuarviointi@invalid	1994-04-04	\N	2026-01-02 09:00:00+00	\N
+7	15	Testi	Koepaiva	testi.koepaiva@invalid	1988-08-08	\N	2026-01-02 09:00:00+00	\N
+8	2	\N	\N	\N	\N	\N	2026-01-02 09:00:00+00	\N
 \.
 
 
@@ -697,7 +694,7 @@ SELECT pg_catalog.setval('public.evaluation_exam_date_language_id_seq', 1, false
 -- Name: evaluation_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.evaluation_id_seq', 14, true);
+SELECT pg_catalog.setval('public.evaluation_id_seq', 15, true);
 
 
 --
@@ -711,7 +708,7 @@ SELECT pg_catalog.setval('public.evaluation_order_evaluation_id_seq', 1, false);
 -- Name: evaluation_order_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.evaluation_order_id_seq', 1, false);
+SELECT pg_catalog.setval('public.evaluation_order_id_seq', 8, true);
 
 
 --

@@ -1,6 +1,7 @@
 package fi.oph.yki;
 
 import fi.oph.yki.model.Evaluation;
+import fi.oph.yki.model.EvaluationOrder;
 import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamDateLanguage;
 import fi.oph.yki.model.ExamSession;
@@ -85,6 +86,13 @@ public class Factory {
     evaluation.setEvaluationEndDate(LocalDate.now().plusDays(10));
 
     return evaluation;
+  }
+
+  public static EvaluationOrder evaluationOrder(final Evaluation evaluation) {
+    final EvaluationOrder evaluationOrder = new EvaluationOrder();
+    evaluationOrder.setEvaluation(evaluation);
+
+    return evaluationOrder;
   }
 
   public static ExamSession examSession(final ExamDate examDate) {
