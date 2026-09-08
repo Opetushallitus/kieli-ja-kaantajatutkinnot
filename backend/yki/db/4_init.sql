@@ -200,6 +200,11 @@ COPY public.exam_date_language (id, exam_date_id, language_code, created, level_
 --
 -- Data for Name: evaluation; Type: TABLE DATA; Schema: public; Owner: admin
 --
+-- Row 15 deliberately points exam_date_id (48 -> 2036-10-20) at a different exam date than
+-- its exam_date_language (1 -> 2018-01-27). The schema has no constraint tying the two
+-- together, and every other row has them equal, so this is the only row that can show which
+-- of the two paths an exam date is actually read from.
+--
 
 COPY public.evaluation (id, exam_date_id, exam_date_language_id, evaluation_start_date, evaluation_end_date, deleted_at) FROM stdin;
 1	47	46	2026-07-13	2036-07-15	\N
@@ -216,14 +221,35 @@ COPY public.evaluation (id, exam_date_id, exam_date_language_id, evaluation_star
 12	48	57	2036-10-25	2036-10-27	\N
 13	48	58	2036-10-25	2036-10-27	\N
 14	26	42	2021-02-01	2021-02-15	\N
+15	48	1	2018-02-01	2018-02-15	\N
 \.
 
 
 --
 -- Data for Name: evaluation_order; Type: TABLE DATA; Schema: public; Owner: admin
 --
+-- Cases for GET /v2/api/public/evaluation/order/{id}. Expected exam_date resolves through
+-- evaluation -> exam_date_language -> exam_date, never through evaluation.exam_date_id.
+--
+--   1  fin / PERUS, 2026-07-07 -- differs from the evaluation period start, so the two cannot be confused
+--   2  spa / YLIN,  2026-07-07 -- language and level vary independently of the exam date
+--   3  sme / YLIN,  2036-10-20 -- different exam date
+--   4  fin / PERUS, 2021-01-30 -- exam date in the past
+--   5  soft deleted order -> 404
+--   6  order on soft deleted evaluation 5 -> still resolves, the lookup only filters the order
+--   7  fin / PERUS, 2018-01-27 -- evaluation 15; returning 2036-10-20 means the exam date was read from evaluation.exam_date_id
+--   8  every optional column null, which needs the NOT NULL drops in 2_tables_data.sql
+--
 
 COPY public.evaluation_order (id, evaluation_id, first_names, last_name, email, birthdate, extra, created, deleted_at) FROM stdin;
+1	1	Testi	Perus	testi.perus@invalid	1990-01-01	\N	2026-01-02 09:00:00+00	\N
+2	4	Testi	Ylin	testi.ylin@invalid	1985-05-05	\N	2026-01-02 09:00:00+00	\N
+3	7	Testi	Saame	testi.saame@invalid	1978-11-11	\N	2026-01-02 09:00:00+00	\N
+4	14	Testi	Menneisyys	testi.menneisyys@invalid	1970-02-02	\N	2021-01-05 09:00:00+00	\N
+5	1	Testi	Poistettu	testi.poistettu@invalid	1992-03-03	\N	2026-01-02 09:00:00+00	2026-02-01 12:00:00+00
+6	5	Testi	Poistettuarviointi	testi.poistettuarviointi@invalid	1994-04-04	\N	2026-01-02 09:00:00+00	\N
+7	15	Testi	Koepaiva	testi.koepaiva@invalid	1988-08-08	\N	2026-01-02 09:00:00+00	\N
+8	2	\N	\N	\N	\N	\N	2026-01-02 09:00:00+00	\N
 \.
 
 
@@ -697,7 +723,7 @@ SELECT pg_catalog.setval('public.evaluation_exam_date_language_id_seq', 1, false
 -- Name: evaluation_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.evaluation_id_seq', 14, true);
+SELECT pg_catalog.setval('public.evaluation_id_seq', 15, true);
 
 
 --
@@ -711,7 +737,7 @@ SELECT pg_catalog.setval('public.evaluation_order_evaluation_id_seq', 1, false);
 -- Name: evaluation_order_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.evaluation_order_id_seq', 1, false);
+SELECT pg_catalog.setval('public.evaluation_order_id_seq', 8, true);
 
 
 --
