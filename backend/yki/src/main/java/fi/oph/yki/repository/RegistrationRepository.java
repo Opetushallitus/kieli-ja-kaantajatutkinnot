@@ -32,7 +32,7 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
       WHERE r.exam_session_id = :examSessionId
         AND (r.state = 'SUBMITTED' OR r.state = 'STARTED')
         AND r.kind = 'QUEUE'
-        AND r.partial_exam_type = :partialExamType
+        AND r.partial_exam_type::text = :partialExamType
       ORDER BY r.created
     """,
     nativeQuery = true
