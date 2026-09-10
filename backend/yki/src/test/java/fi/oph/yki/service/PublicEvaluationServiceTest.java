@@ -2,6 +2,7 @@ package fi.oph.yki.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -13,6 +14,7 @@ import fi.oph.yki.model.Evaluation;
 import fi.oph.yki.model.EvaluationOrder;
 import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamDateLanguage;
+import fi.oph.yki.model.type.Subtest;
 import fi.oph.yki.repository.EvaluationOrderRepository;
 import fi.oph.yki.repository.EvaluationRepository;
 import fi.oph.yki.util.exception.NotFoundException;
@@ -72,9 +74,12 @@ public class PublicEvaluationServiceTest {
     return evaluation.getId();
   }
 
-  private long persistAndDetach(final EvaluationOrder evaluationOrder) {
+  private long persistAndDetach(final EvaluationOrder evaluationOrder, final Subtest... subtests) {
     entityManager.persist(evaluationOrder.getEvaluation());
     entityManager.persist(evaluationOrder);
+    for (final Subtest subtest : subtests) {
+      entityManager.persist(Factory.evaluationOrderSubtest(evaluationOrder, subtest));
+    }
     entityManager.flush();
     entityManager.clear();
 
@@ -251,5 +256,23 @@ public class PublicEvaluationServiceTest {
   @Test
   public void testUnknownOrderIdIsNotFound() {
     assertThrows(NotFoundException.class, () -> publicEvaluationService.getEvaluationOrder(-1L));
+  }
+
+  @Test
+  public void testOrderSubtestsAreReturnedInIdOrder() {
+    final EvaluationOrder evaluationOrder = Factory.evaluationOrder(createEvaluation("fin"));
+    final long id = persistAndDetach(evaluationOrder, Subtest.WRITING, Subtest.READING);
+
+    assertEquals(List.of(Subtest.WRITING, Subtest.READING), publicEvaluationService.getEvaluationOrder(id).subtests());
+  }
+
+  @Test
+  public void testOrderWithoutSubtestsReturnsEmptyList() {
+    final long id = persistAndDetach(Factory.evaluationOrder(createEvaluation("fin")));
+
+    final List<Subtest> subtests = publicEvaluationService.getEvaluationOrder(id).subtests();
+
+    assertNotNull(subtests);
+    assertTrue(subtests.isEmpty());
   }
 }

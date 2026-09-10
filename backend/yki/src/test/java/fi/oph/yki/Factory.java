@@ -2,6 +2,7 @@ package fi.oph.yki;
 
 import fi.oph.yki.model.Evaluation;
 import fi.oph.yki.model.EvaluationOrder;
+import fi.oph.yki.model.EvaluationOrderSubtest;
 import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamDateLanguage;
 import fi.oph.yki.model.ExamSession;
@@ -18,6 +19,7 @@ import fi.oph.yki.model.type.FreeRegistrationType;
 import fi.oph.yki.model.type.PartialExamType;
 import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
+import fi.oph.yki.model.type.Subtest;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -93,6 +95,17 @@ public class Factory {
     evaluationOrder.setEvaluation(evaluation);
 
     return evaluationOrder;
+  }
+
+  public static EvaluationOrderSubtest evaluationOrderSubtest(
+    final EvaluationOrder evaluationOrder,
+    final Subtest subtest
+  ) {
+    final EvaluationOrderSubtest evaluationOrderSubtest = new EvaluationOrderSubtest();
+    evaluationOrderSubtest.setEvaluationOrder(evaluationOrder);
+    evaluationOrderSubtest.setSubtest(subtest);
+
+    return evaluationOrderSubtest;
   }
 
   public static ExamSession examSession(final ExamDate examDate) {

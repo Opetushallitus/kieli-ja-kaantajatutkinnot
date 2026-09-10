@@ -239,6 +239,15 @@ COPY public.evaluation_order (id, evaluation_id, first_names, last_name, email, 
 --
 
 COPY public.evaluation_order_subtest (id, evaluation_order_id, subtest, created, deleted_at) FROM stdin;
+1	1	WRITING	2026-01-02 09:00:00+00	\N
+2	1	READING	2026-01-02 09:00:00+00	\N
+3	2	READING	2026-01-02 09:00:00+00	\N
+4	2	LISTENING	2026-01-02 09:00:00+00	\N
+5	2	WRITING	2026-01-02 09:00:00+00	\N
+6	2	SPEAKING	2026-01-02 09:00:00+00	\N
+7	3	SPEAKING	2026-01-02 09:00:00+00	\N
+8	4	READING	2021-01-05 09:00:00+00	\N
+9	4	WRITING	2021-01-05 09:00:00+00	2026-02-01 12:00:00+00
 \.
 
 
@@ -720,7 +729,7 @@ SELECT pg_catalog.setval('public.evaluation_order_subtest_evaluation_order_id_se
 -- Name: evaluation_order_subtest_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.evaluation_order_subtest_id_seq', 1, false);
+SELECT pg_catalog.setval('public.evaluation_order_subtest_id_seq', 9, true);
 
 
 --

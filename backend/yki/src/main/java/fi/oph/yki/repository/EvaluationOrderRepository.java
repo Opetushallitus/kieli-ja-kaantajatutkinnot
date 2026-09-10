@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EvaluationOrderRepository extends JpaRepository<EvaluationOrder, Long> {
-  @EntityGraph(attributePaths = { "evaluation.examDateLanguage.examDate" })
+  @EntityGraph(attributePaths = { "evaluation.examDateLanguage.examDate", "subtests" })
   Optional<EvaluationOrder> findByIdAndDeletedAtIsNull(long id);
 }

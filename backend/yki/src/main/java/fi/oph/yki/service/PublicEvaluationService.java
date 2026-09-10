@@ -4,6 +4,7 @@ import fi.oph.yki.api.dto.PublicEvaluationOrderDTO;
 import fi.oph.yki.api.dto.PublicEvaluationPeriodDTO;
 import fi.oph.yki.model.Evaluation;
 import fi.oph.yki.model.EvaluationOrder;
+import fi.oph.yki.model.EvaluationOrderSubtest;
 import fi.oph.yki.repository.EvaluationOrderRepository;
 import fi.oph.yki.repository.EvaluationRepository;
 import fi.oph.yki.util.exception.NotFoundException;
@@ -64,6 +65,7 @@ public class PublicEvaluationService {
       .languageCode(examDateLanguage.getLanguageCode())
       .levelCode(examDateLanguage.getLevelCode())
       .examDate(examDateLanguage.getExamDate().getExamDate())
+      .subtests(evaluationOrder.getSubtests().stream().map(EvaluationOrderSubtest::getSubtest).toList())
       .build();
   }
 
