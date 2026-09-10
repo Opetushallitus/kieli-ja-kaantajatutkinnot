@@ -101,12 +101,7 @@ public class ClerkExamSessionService {
     }
   }
 
-  private ClerkExamSessionDTO toDTO(final ExamSession examSession) {
-    final var registrations = registrationRepository.getByExamSessionAndStateInAndFormIsNotNull(
-      examSession,
-      VISIBLE_STATES
-    );
-
+  private Map<Long, Long> getQueuePositions(final ExamSession examSession) {
     final Map<Long, Long> queuePositions;
     if (ExamSessionType.FULL.equals(examSession.getType())) {
       queuePositions =
@@ -152,6 +147,17 @@ public class ClerkExamSessionService {
       queuePositions.putAll(queuePositions1);
       queuePositions.putAll(queuePositions2);
     }
+
+    return queuePositions;
+  }
+
+  private ClerkExamSessionDTO toDTO(final ExamSession examSession) {
+    final var registrations = registrationRepository.getByExamSessionAndStateInAndFormIsNotNull(
+      examSession,
+      VISIBLE_STATES
+    );
+
+    final Map<Long, Long> queuePositions = getQueuePositions(examSession);
 
     final List<String> personOids = registrations
       .stream()
