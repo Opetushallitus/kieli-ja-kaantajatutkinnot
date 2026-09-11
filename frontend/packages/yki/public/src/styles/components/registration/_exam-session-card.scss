@@ -14,7 +14,9 @@
   }
 
   &__partial-exam-indicator {
+    align-items: center;
     display: flex;
+    flex-wrap: wrap;
     gap: 0.5rem;
 
     &__item {

@@ -13,6 +13,15 @@ import { AuthenticatedSession } from 'interfaces/session';
 import { PersonRegistrations } from 'interfaces/userDetails';
 
 export class ExamSessionUtils {
+  // OPHKIOS-383: the digital test pilot is limited to these exam sessions.
+  private static readonly digitalTestPilotIds = [
+    4390, 4415, 4279, 4580, 4568, 4263, 4581,
+  ];
+
+  static isDigitalTest(examSessionId: number): boolean {
+    return ExamSessionUtils.digitalTestPilotIds.includes(examSessionId);
+  }
+
   private static getRegistrationAvailablePlaces(
     examSession: ExamSession,
     partialExamType?: PartialExamType,
