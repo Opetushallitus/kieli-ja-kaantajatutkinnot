@@ -2,6 +2,7 @@ package fi.oph.yki.repository;
 
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.Registration;
+import fi.oph.yki.model.type.PartialExamType;
 import fi.oph.yki.model.type.RegistrationState;
 import java.time.LocalDate;
 import java.util.List;
@@ -37,13 +38,16 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
           ) AS queuePosition
       FROM registration r
       WHERE r.exam_session_id = :examSessionId
-        AND r.state = 'SUBMITTED'
+        AND (r.state = 'SUBMITTED' OR r.state = 'STARTED')
+        AND r.kind = 'QUEUE'
+        AND r.partial_exam_type::text = :partialExamType
       ORDER BY r.created
     """,
     nativeQuery = true
   )
   List<RegistrationWithQueuePositionProjection> getQueuePositionsByExamSession(
-    @Param("examSessionId") long examSessionId
+    @Param("examSessionId") long examSessionId,
+    @Param("partialExamType") String partialExamType
   );
 
   int countByPersonOid(String personOid);
