@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import { APIResponseStatus, AppLanguage } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
-import { PublicExamSessionCard } from 'components/registration/examSession/PublicExamSessionCard';
+import { ExamSessionFormat } from 'components/registration/examSession/ExamSessionFormat';
 import { PublicRegistrationGrid } from 'components/registration/PublicRegistrationGrid';
 import { changeLang, initI18nForTests } from 'configs/i18n';
 import { RootState } from 'configs/redux';
@@ -116,6 +116,23 @@ beforeEach(async () => {
     height: 800,
   });
   window.history.replaceState({}, '', '/?submitted=true&status=success');
+});
+
+describe.each([
+  ['digital', 4390],
+  ['paper', 4391],
+] as const)('%s exam session format snapshots', (_format, examSessionId) => {
+  it.each([false, true])('renders with description=%s', (showDescription) => {
+    const { asFragment } = render(
+      <DefaultProviders>
+        <ExamSessionFormat
+          examSessionId={examSessionId}
+          showDescription={showDescription}
+        />
+      </DefaultProviders>,
+    );
+    expect(asFragment()).toMatchSnapshot();
+  });
 });
 
 describe('digital test pilot selection', () => {

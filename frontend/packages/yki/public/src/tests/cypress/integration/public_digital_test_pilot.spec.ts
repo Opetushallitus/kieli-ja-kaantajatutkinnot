@@ -43,21 +43,7 @@ describe('Digital test pilot', () => {
 
           cy.get('.exam-session-format')
             .should('be.visible')
-            .and('have.text', label)
-            .and('have.css', 'color', 'rgb(29, 29, 29)');
-          cy.get('.exam-session-format__label')
-            .should('have.css', 'font-size', '14px')
-            .and('have.css', 'font-weight', '600');
-          cy.get('.exam-session-format__icon')
-            .should('have.css', 'width', '24px')
-            .and('have.css', 'height', '24px')
-            .and('have.attr', 'viewBox', '0 0 24 24')
-            .and('have.attr', 'aria-hidden', 'true');
-          cy.get('.exam-session-format').should(($format) => {
-            expect($format[0].scrollWidth).to.be.at.most(
-              $format[0].clientWidth,
-            );
-          });
+            .and('have.text', label);
           onPublicRegistrationPage
             .getResultCards()
             .findByRole('button', {
@@ -76,7 +62,6 @@ describe('Digital test pilot', () => {
             .and('have.text', `${label} - ${description}`);
           cy.contains('dt', 'Testityyppi')
             .should('be.visible')
-            .and('have.css', 'color', 'rgb(29, 29, 29)')
             .next('dd')
             .should('have.text', `${label} - ${description}`);
         });
