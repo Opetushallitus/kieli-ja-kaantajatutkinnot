@@ -6,6 +6,7 @@ import fi.oph.yki.service.email.sender.EmailSender;
 import fi.oph.yki.service.email.sender.EmailSenderNoOp;
 import fi.oph.yki.service.email.sender.EmailSenderViestintapalvelu;
 import java.time.Duration;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -66,6 +67,14 @@ public class AppConfig {
     return webClientBuilderWithCallerId("organization-connection-provider")
       .baseUrl(environment.getRequiredProperty("app.organization-service.url"))
       .defaultHeaders(headers -> headers.setContentType(MediaType.APPLICATION_JSON))
+      .build();
+  }
+
+  @Bean
+  public WebClient koodistoClient(final Environment environment) {
+    return webClientBuilderWithCallerId("koodisto-connection-provider")
+      .baseUrl(environment.getRequiredProperty("app.koodisto-service.url"))
+      .defaultHeaders(headers -> headers.setAccept(List.of(MediaType.APPLICATION_JSON)))
       .build();
   }
 

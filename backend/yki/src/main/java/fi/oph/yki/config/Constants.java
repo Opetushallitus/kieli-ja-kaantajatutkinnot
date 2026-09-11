@@ -8,6 +8,7 @@ public class Constants {
   public static final String EMAIL_SENDER_NAME = "Yleiset kielitutkinnot | Opetushallitus";
 
   public static final String SCHEDULED_TASK_MONITOR_CRON = "0 */5 * * * *";
+  public static final String KOODISTO_CACHE_CLEAR_CRON = "0 0 4 * * SUN";
 
   public static final String APP_ADMIN_ROLE = "APP_YKI_YLLAPITAJA";
   public static final String APP_ORGANIZER_ROLE = "APP_YKI_JARJESTAJA";
