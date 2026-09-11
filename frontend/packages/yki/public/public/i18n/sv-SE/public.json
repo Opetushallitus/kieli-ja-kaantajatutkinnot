@@ -208,7 +208,18 @@
           "examFee": "Examensavgift",
           "freeAttemptsLeft": "Antal återstående avgiftsfria examenstillfällen",
           "openings": "Lediga platser",
-          "registrationTime": "Anmälningstid"
+          "registrationTime": "Anmälningstid",
+          "testFormat": "Testityyppi"
+        },
+        "examSessionFormat": {
+          "digital": {
+            "label": "Digitesti",
+            "description": "Testi tehdään testipaikalla järjestäjän tarjoamalla tietokoneella."
+          },
+          "paper": {
+            "label": "Paperitesti",
+            "description": "Testi tehdään testipaikalla kynällä paperille."
+          }
         },
         "expirationTimer": {
           "reservationExpired": "Anmälan misslyckades",
