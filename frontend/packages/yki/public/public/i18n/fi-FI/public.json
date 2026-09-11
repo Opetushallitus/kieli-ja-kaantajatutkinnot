@@ -884,6 +884,37 @@
         },
         "title": "Yleiset kielitutkinnot (YKI) - Omat ilmoittautumiset"
       }
+    },
+    "features": {
+      "registration": {
+        "identify": "Tunnistaudu ilmoittautumista varten",
+        "identifyQueue": "Tunnistaudu jonoon ilmoittautumista varten",
+        "register": "Ilmoittaudu yleiseen kielitutkintoon (YKI)",
+        "registerQueue": "Ilmoittaudu jonoon yleiseen kielitutkintoon (YKI)",
+        "payment": "Ilmoittautumislomake on lähetetty",
+        "paymentQueue": "Ilmoittautumislomake on lähetetty",
+        "done": "Ilmoittautuminen onnistui!",
+        "doneQueue": "Ilmoittautuminen jonoon onnistui",
+        "sessionExpired": "Istuntosi on vanhentunut tai ei ole voimassa. Palaa aloitussivulle ja aloita uudelleen.",
+        "unavailable": "Ilmoittautumista ei löydy tai se ei ole enää voimassa.",
+        "loadFailed": "Ilmoittautumisen tietoja ei voitu ladata. Palaa aloitussivulle ja yritä uudelleen.",
+        "frontpage": "Palaa aloitussivulle",
+        "fixErrors": "Korjaa lomakkeen virheet ennen lähettämistä.",
+        "submitFailed": "Lomakkeen lähettäminen epäonnistui. Tarkista tiedot ja yritä uudelleen.",
+        "submit": "Lähetä",
+        "cancel": "Keskeytä ilmoittautuminen",
+        "cancelFailed": "Keskeyttäminen epäonnistui. Yritä uudelleen.",
+        "suomifi": "Tunnistaudu Suomi.fi-palvelussa",
+        "email": "Tunnistaudu sähköpostilla",
+        "continue": "Jatka ilmoittautumaan",
+        "paymentInstructions": "Vahvista ilmoittautuminen maksamalla tutkintomaksu.",
+        "paymentCancelled": "Maksaminen keskeytyi. Voit yrittää uudelleen.",
+        "paymentDue": "Maksun eräpäivä",
+        "pay": "Maksa tutkintomaksu",
+        "paymentPending": "Maksutietoja odotetaan. Tarkista tilanne myöhemmin.",
+        "queueInstructions": "Saat sähköpostia, jos sinulle vapautuu paikka YKI-testissä.",
+        "welcome": "Tervetuloa YKI-testiin!"
+      }
     }
   }
 }

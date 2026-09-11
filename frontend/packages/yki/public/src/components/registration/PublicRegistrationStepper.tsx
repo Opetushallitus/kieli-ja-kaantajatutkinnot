@@ -8,27 +8,17 @@ import { useWindowProperties } from 'shared/hooks';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { PaymentStatus } from 'enums/api';
-import { RegistrationKind } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
-import { examSessionSelector } from 'redux/selectors/examSession';
 import { publicFreeRegistrationSelector } from 'redux/selectors/publicFreeRegistration';
 import { registrationSelector } from 'redux/selectors/registration';
 
 export const PublicRegistrationStepper = () => {
   const { activeStep } = useAppSelector(registrationSelector);
-  const { examSession } = useAppSelector(examSessionSelector);
   const { status: initRegistrationStatus, error: initRegistrationError } =
     useAppSelector(registrationSelector).initRegistration;
   const { isFree } = useAppSelector(publicFreeRegistrationSelector);
-  const { t } = usePublicTranslation({
-    keyPrefix: 'yki.component.registration.stepper',
-  });
-  const translateCommon = useCommonTranslation();
-  const { isDesktopXS } = useWindowProperties();
-
   const [params] = useSearchParams();
   const paymentStatus = params.get('status');
-  const queue = params.get('queue');
 
   const isError =
     (activeStep === PublicRegistrationFormStep.Done &&
@@ -39,24 +29,28 @@ export const PublicRegistrationStepper = () => {
     (activeStep === PublicRegistrationFormStep.Identify &&
       initRegistrationError);
 
+  return (
+    <RegistrationStepperView activeStep={activeStep} isError={!!isError} />
+  );
+};
+
+// Shared presentation: each flow determines its own step and error state.
+export const RegistrationStepperView = ({
+  activeStep,
+  isError = false,
+}: {
+  activeStep: PublicRegistrationFormStep;
+  isError?: boolean;
+}) => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.component.registration.stepper',
+  });
+  const translateCommon = useCommonTranslation();
+  const { isDesktopXS } = useWindowProperties();
   const doneStepNumber = PublicRegistrationFormStep.Done;
-
-  const stepNumbers = Object.values(PublicRegistrationFormStep)
-    .filter((i) => !isNaN(Number(i)))
-    .map(Number)
-    .filter((i) => i <= doneStepNumber);
-
-  const getDescription = (stepNumber: number) => {
-    if (
-      (examSession?.available_registration_kind === RegistrationKind.Queue ||
-        queue === 'true') &&
-      stepNumber === PublicRegistrationFormStep.Register
-    ) {
-      return t('step.Register');
-    } else {
-      return t(`step.${PublicRegistrationFormStep[stepNumber]}`);
-    }
-  };
+  const stepNumbers = [1, 2, 3, 4];
+  const getDescription = (stepNumber: number) =>
+    t(`step.${PublicRegistrationFormStep[stepNumber]}`);
 
   const getNextInformation = (stepNumber: number) => {
     if (stepNumber < doneStepNumber) {

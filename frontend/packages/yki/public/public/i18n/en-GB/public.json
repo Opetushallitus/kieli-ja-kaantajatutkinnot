@@ -884,6 +884,37 @@
         },
         "title": "National Certificates of Language Proficiency (YKI) - My registrations"
       }
+    },
+    "features": {
+      "registration": {
+        "identify": "Identify yourself to register",
+        "identifyQueue": "Identify yourself to join the queue",
+        "register": "Register for a National Certificate of Language Proficiency (YKI)",
+        "registerQueue": "Join the YKI test queue",
+        "payment": "Registration form submitted",
+        "paymentQueue": "Registration form submitted",
+        "done": "Registration successful!",
+        "doneQueue": "You have joined the queue",
+        "sessionExpired": "Your session has expired or is invalid. Return to the front page and start again.",
+        "unavailable": "This registration was not found or is no longer valid.",
+        "loadFailed": "Registration details could not be loaded. Return to the front page and try again.",
+        "frontpage": "Return to the front page",
+        "fixErrors": "Correct the form errors before submitting.",
+        "submitFailed": "Submission failed. Check the details and try again.",
+        "submit": "Submit",
+        "cancel": "Cancel registration",
+        "cancelFailed": "Cancellation failed. Try again.",
+        "suomifi": "Identify yourself with Suomi.fi",
+        "email": "Identify yourself by email",
+        "continue": "Continue to registration",
+        "paymentInstructions": "Confirm your registration by paying the exam fee.",
+        "paymentCancelled": "Payment was cancelled. You can try again.",
+        "paymentDue": "Payment due date",
+        "pay": "Pay the exam fee",
+        "paymentPending": "Payment details are pending. Check again later.",
+        "queueInstructions": "You will receive an email if a place becomes available.",
+        "welcome": "Welcome to the YKI test!"
+      }
     }
   }
 }

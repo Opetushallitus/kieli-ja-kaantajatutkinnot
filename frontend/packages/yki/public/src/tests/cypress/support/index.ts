@@ -2,9 +2,12 @@ import '@testing-library/cypress/add-commands';
 import dayjs from 'dayjs';
 
 import 'tests/cypress/support/commands';
+import { setTestWorker } from 'tests/cypress/support/mswv2';
 import { useFixedDate } from 'tests/cypress/support/utils/date';
 import { worker } from 'tests/msw/browser';
 import { resetData } from 'tests/msw/handlers';
+
+setTestWorker(worker);
 
 // MSW configs
 Cypress.on('test:before:run:async', async () => {
