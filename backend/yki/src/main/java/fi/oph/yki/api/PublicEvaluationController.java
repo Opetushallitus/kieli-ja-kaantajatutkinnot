@@ -2,6 +2,7 @@ package fi.oph.yki.api;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+import fi.oph.yki.api.dto.PublicEvaluationOrderDTO;
 import fi.oph.yki.api.dto.PublicEvaluationPeriodDTO;
 import fi.oph.yki.api.dto.PublicEvaluationPeriodsResponseDTO;
 import fi.oph.yki.service.PublicEvaluationService;
@@ -29,5 +30,10 @@ public class PublicEvaluationController {
   @GetMapping(path = "/{id:\\d+}")
   public PublicEvaluationPeriodDTO getEvaluationPeriod(@PathVariable final long id) {
     return publicEvaluationService.getEvaluationPeriod(id);
+  }
+
+  @GetMapping(path = "/order/{id:\\d+}")
+  public PublicEvaluationOrderDTO getEvaluationOrder(@PathVariable final long id) {
+    return publicEvaluationService.getEvaluationOrder(id);
   }
 }
