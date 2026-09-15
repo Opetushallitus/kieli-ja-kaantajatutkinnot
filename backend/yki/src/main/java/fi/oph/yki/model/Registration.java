@@ -77,6 +77,12 @@ public class Registration {
   @Column(name = "strong_auth")
   private Boolean strongAuth;
 
+  @Column(name = "exam_fee")
+  private Integer examFee;
+
+  @Column(name = "is_transfered", nullable = false)
+  private Boolean isTransfered = false;
+
   @OneToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "exam_session_id", referencedColumnName = "id")
   private ExamSession examSession;
