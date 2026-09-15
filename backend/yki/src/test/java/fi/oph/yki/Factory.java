@@ -7,6 +7,7 @@ import fi.oph.yki.model.EvaluationOrder;
 import fi.oph.yki.model.EvaluationOrderSubtest;
 import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamDateLanguage;
+import fi.oph.yki.model.ExamPayment;
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.ExamSessionLocation;
 import fi.oph.yki.model.ExamSessionStatistics;
@@ -16,13 +17,17 @@ import fi.oph.yki.model.Participant;
 import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Quarantine;
 import fi.oph.yki.model.Registration;
+import fi.oph.yki.model.RegistrationEvaluation;
+import fi.oph.yki.model.type.EvaluationState;
 import fi.oph.yki.model.type.ExamSessionType;
 import fi.oph.yki.model.type.FreeRegistrationSource;
 import fi.oph.yki.model.type.FreeRegistrationType;
 import fi.oph.yki.model.type.PartialExamType;
+import fi.oph.yki.model.type.PaymentState;
 import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.model.type.Subtest;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -70,6 +75,27 @@ public class Factory {
     freeRegistration.setHigherEducationEnrolled(false);
 
     return freeRegistration;
+  }
+
+  public static ExamPayment examPayment(final Registration registration) {
+    final ExamPayment payment = new ExamPayment();
+    payment.setRegistration(registration);
+    payment.setState(PaymentState.PAID);
+    payment.setAmount(new BigDecimal("14000"));
+    payment.setReference("YKI-1");
+    payment.setTransactionId("txn-1");
+    payment.setHref("https://pay.example.com/1");
+    payment.setPaidAt(LocalDateTime.of(2026, 4, 1, 12, 0));
+
+    return payment;
+  }
+
+  public static RegistrationEvaluation registrationEvaluation(final Registration registration) {
+    final RegistrationEvaluation evaluation = new RegistrationEvaluation();
+    evaluation.setRegistration(registration);
+    evaluation.setState(EvaluationState.EVALUATION_PENDING);
+
+    return evaluation;
   }
 
   public static ExamDate examDate() {
