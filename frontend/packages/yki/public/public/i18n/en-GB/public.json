@@ -208,7 +208,18 @@
           "examFee": "Test fee",
           "freeAttemptsLeft": "You have free registrations remaining",
           "openings": "Available seats",
-          "registrationTime": "Registration period"
+          "registrationTime": "Registration period",
+          "testFormat": "Testityyppi"
+        },
+        "examSessionFormat": {
+          "digital": {
+            "label": "Digitesti",
+            "description": "Testi tehdään testipaikalla järjestäjän tarjoamalla tietokoneella."
+          },
+          "paper": {
+            "label": "Paperitesti",
+            "description": "Testi tehdään testipaikalla kynällä paperille."
+          }
         },
         "expirationTimer": {
           "reservationExpired": "Registration failed",

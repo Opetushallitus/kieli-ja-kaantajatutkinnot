@@ -208,7 +208,18 @@
           "examFee": "Tutkintomaksu",
           "freeAttemptsLeft": "Sinulla on maksuttomia ilmoittautumisia jäljellä",
           "openings": "Paikkoja vapaana",
-          "registrationTime": "Ilmoittautumisaika"
+          "registrationTime": "Ilmoittautumisaika",
+          "testFormat": "Testityyppi"
+        },
+        "examSessionFormat": {
+          "digital": {
+            "label": "Digitesti",
+            "description": "Testi tehdään testipaikalla järjestäjän tarjoamalla tietokoneella."
+          },
+          "paper": {
+            "label": "Paperitesti",
+            "description": "Testi tehdään testipaikalla kynällä paperille."
+          }
         },
         "expirationTimer": {
           "reservationExpired": "Ilmoittautuminen epäonnistui",
