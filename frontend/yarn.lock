@@ -3113,7 +3113,7 @@ __metadata:
     "@mui/material": "npm:^7.3.11"
     "@mui/system": "npm:^5.18.0"
     "@mui/x-date-pickers": "npm:^8.29.0"
-    "@opetushallitus/oph-design-system": "npm:^1.2.0"
+    "@opetushallitus/oph-design-system": "npm:^2.0.0"
     "@reduxjs/toolkit": "npm:^2.12.0"
     "@testing-library/cypress": "npm:10.1.3"
     "@testing-library/dom": "npm:10.4.1"
@@ -3185,7 +3185,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared, shared@npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.15.0":
+"@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared":
   version: 0.0.0-use.local
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared"
   languageName: unknown
@@ -3217,14 +3217,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@opetushallitus/oph-design-system@npm:^1.2.0":
-  version: 1.2.0
-  resolution: "@opetushallitus/oph-design-system@npm:1.2.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40opetushallitus%2Foph-design-system%2F1.2.0%2F949a0d24001c8030b0592b5728602b41531c9e79"
+"@opetushallitus/oph-design-system@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@opetushallitus/oph-design-system@npm:2.0.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40opetushallitus%2Foph-design-system%2F2.0.0%2Fdb6bfab8ae2138b1cc937723724776d32c6fd2ac"
   peerDependencies:
+    "@mui/icons-material": ^6 || ^7
     "@mui/material": ^6 || ^7
-    next: ^14 || ^15
     react: ^18 || ^19
-  checksum: 10/13df727d523f16e5563dea5c841be1d24b4f3c4a323feec44a295600bf005f5edb485ec00f0ad016369884bf8876bfc1eff4c2b8fbade5b74c9d999426fdd4b0
+  checksum: 10/19381ba8600c380fba02e01ed9eeea5320d6a8a60d0e6f9cc5a0264685aef6e2928258426989622d966cb6b1bb8d2f7c5a433537dd17606f3241cb60ef8ad240
   languageName: node
   linkType: hard
 
@@ -13330,6 +13330,13 @@ __metadata:
   dependencies:
     kind-of: "npm:^6.0.2"
   checksum: 10/e066bd540cfec5e1b0f78134853e0d892d1c8945fb9a926a579946052e7cb0c70ca4fc34f875a8083aa7910d751805d36ae64af250a6de6f3d28f9fa7be6c21b
+  languageName: node
+  linkType: hard
+
+"shared@npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.15.0":
+  version: 1.15.0
+  resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.shared@npm:1.15.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40Opetushallitus%2Fkieli-ja-kaantajatutkinnot.shared%2F1.15.0%2F0c9cc723c6f584de7dab09f4f9c3ad3d02784a36"
+  checksum: 10/6759973a1f887b30b6debb3cdd99c3e0e039c66eab5fb63abc81bcbe0cbf449068e77cab8069e4b368c4c0d31e8e52f6cff04050ebf115cca1e91d1f48d2d851
   languageName: node
   linkType: hard
 
