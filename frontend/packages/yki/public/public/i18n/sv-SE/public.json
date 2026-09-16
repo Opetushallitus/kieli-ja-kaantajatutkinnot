@@ -134,9 +134,9 @@
             "part3": "Om du vill avbryta anmälan, fortsätt först till anmälningsblanketten och klicka sedan på AVBRYT ANMÄLAN.",
             "title": "Pågående anmälan"
           },
+          "registerToPartialExamsSeparately": "Det finns inga lediga platser. Anmäl dig till delproven separat.",
           "reservingQueueSeat": "Reserverar en köplats...",
-          "title": "Anmälning misslyckades",
-          "registerToPartialExamsSeparately": "Det finns inga lediga platser. Anmäl dig till delproven separat."
+          "title": "Anmälning misslyckades"
         },
         "enrollToQueue": {
           "dialog": {
@@ -209,16 +209,16 @@
           "freeAttemptsLeft": "Antal återstående avgiftsfria examenstillfällen",
           "openings": "Lediga platser",
           "registrationTime": "Anmälningstid",
-          "testFormat": "Testityyppi"
+          "testFormat": "Testtyp"
         },
         "examSessionFormat": {
           "digital": {
-            "label": "Digitesti",
-            "description": "Testi tehdään testipaikalla järjestäjän tarjoamalla tietokoneella."
+            "description": "Testet görs på testplatsen med en dator som arrangören tillhandahåller.",
+            "label": "Digitalt test"
           },
           "paper": {
-            "label": "Paperitesti",
-            "description": "Testi tehdään testipaikalla kynällä paperille."
+            "description": "Testet görs med penna på papper på testplatsen.",
+            "label": "Papperstest"
           }
         },
         "expirationTimer": {

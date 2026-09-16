@@ -134,9 +134,9 @@
             "part3": "If you want to cancel the registration, first proceed to the registration form and then click QUIT REGISTRATION.",
             "title": "Registration in progress"
           },
+          "registerToPartialExamsSeparately": "The YKI test is full. Register for the subtests separately.",
           "reservingQueueSeat": "Reserving a place on the waiting list...",
-          "title": "Registration failed",
-          "registerToPartialExamsSeparately": "The YKI test is full. Register for the subtests separately."
+          "title": "Registration failed"
         },
         "enrollToQueue": {
           "dialog": {
@@ -209,16 +209,16 @@
           "freeAttemptsLeft": "You have free registrations remaining",
           "openings": "Available seats",
           "registrationTime": "Registration period",
-          "testFormat": "Testityyppi"
+          "testFormat": "Test type"
         },
         "examSessionFormat": {
           "digital": {
-            "label": "Digitesti",
-            "description": "Testi tehdään testipaikalla järjestäjän tarjoamalla tietokoneella."
+            "description": "The test is completed on a computer provided by the organiser at the test centre.",
+            "label": "Digital test"
           },
           "paper": {
-            "label": "Paperitesti",
-            "description": "Testi tehdään testipaikalla kynällä paperille."
+            "description": "The test is completed using a pencil and paper at the test centre.",
+            "label": "Paper test"
           }
         },
         "expirationTimer": {
