@@ -4,6 +4,7 @@ import { Color, Variant } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 import { DateUtils } from 'shared/utils';
 
+import { ExamSessionFormat } from 'components/registration/examSession/ExamSessionFormat';
 import {
   getCurrentLang,
   useCommonTranslation,
@@ -586,6 +587,7 @@ export const PublicExamSessionCard = ({
               <span>{t('examSessionCard.registrationType.allParts')}</span>
             </div>
           )}
+          <ExamSessionFormat examSessionId={examSession.id} />
         </div>
         <h3 className="exam-session-card__title">
           {ExamSessionUtils.languageAndLevelText(examSession)}
