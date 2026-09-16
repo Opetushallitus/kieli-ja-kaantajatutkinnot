@@ -520,21 +520,30 @@ public class SolkiService {
       organizerOid
     );
 
-    solkiClient
-      .post()
-      .uri("/osallistujat" + queryParams)
-      .contentType(new MediaType("text", "csv", StandardCharsets.UTF_8))
-      .bodyValue(csv)
-      .retrieve()
-      .toBodilessEntity()
-      .block();
+    try {
+      solkiClient
+        .post()
+        .uri("/osallistujat" + queryParams)
+        .contentType(new MediaType("text", "csv", StandardCharsets.UTF_8))
+        .bodyValue(csv)
+        .retrieve()
+        .toBodilessEntity()
+        .block();
+    } catch (final Exception e) {
+      LOG.error("SOLKI POST /osallistujat{} failed, response body: {}", queryParams, responseBodyOf(e), e);
+      throw new RuntimeException("Could not sync participants CSV to SOLKI", e);
+    }
+  }
+
+  private static String responseBodyOf(final Throwable e) {
+    return e instanceof WebClientResponseException wcre ? wcre.getResponseBodyAsString() : null;
   }
 
   private void post(final String uri, final Object body) {
     try {
       solkiClient.post().uri(uri).bodyValue(body).retrieve().toBodilessEntity().block();
     } catch (final Exception e) {
-      LOG.error("SOLKI POST {} failed", uri, e);
+      LOG.error("SOLKI POST {} failed, response body: {}", uri, responseBodyOf(e), e);
       throw new RuntimeException("Could not sync request to SOLKI: " + uri, e);
     }
   }
@@ -543,7 +552,7 @@ public class SolkiService {
     try {
       solkiClient.put().uri(uri).bodyValue(body).retrieve().toBodilessEntity().block();
     } catch (final Exception e) {
-      LOG.error("SOLKI PUT {} failed", uri, e);
+      LOG.error("SOLKI PUT {} failed, response body: {}", uri, responseBodyOf(e), e);
       throw new RuntimeException("Could not sync request to SOLKI: " + uri, e);
     }
   }
@@ -556,10 +565,10 @@ public class SolkiService {
         LOG.info("SOLKI DELETE {} returned 404, treating as already deleted", uri);
         return;
       }
-      LOG.error("SOLKI DELETE {} failed", uri, e);
+      LOG.error("SOLKI DELETE {} failed, response body: {}", uri, responseBodyOf(e), e);
       throw new RuntimeException("Could not delete via SOLKI: " + uri, e);
     } catch (final Exception e) {
-      LOG.error("SOLKI DELETE {} failed", uri, e);
+      LOG.error("SOLKI DELETE {} failed, response body: {}", uri, responseBodyOf(e), e);
       throw new RuntimeException("Could not delete via SOLKI: " + uri, e);
     }
   }
