@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="layout(content)">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title></title>
+</head>
+<body style="margin: 0; font-family: 'Open Sans', Arial, sans-serif;">
+  <table style="width: 600px;">
+    <th:block th:replace="${content}"></th:block>
+    <tr>
+      <td style="padding-left: 20px; padding-top: 40px;">
+        <span th:text="#{baseMessage.automaticReply}"></span>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-left: 20px; padding-top: 10px;">
+        <span th:text="#{baseMessage.signature.line1}"></span>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-left: 20px;">
+        <span th:text="#{baseMessage.signature.line2}"></span>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

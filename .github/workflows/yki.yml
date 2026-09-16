@@ -34,12 +34,14 @@ jobs:
     with:
       app-name: "yki"
       yki-separate-frontend-builds: true
+      with-wkhtmltopdf: true
   deploy:
     needs: backend
     uses: ./.github/workflows/common-deploy.yml
     with:
       app-name: "yki"
       image-name: "yki-ui"
+      with-wkhtmltopdf: true
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
