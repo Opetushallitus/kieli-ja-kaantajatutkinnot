@@ -6,6 +6,12 @@ import { useFixedDate } from 'tests/cypress/support/utils/date';
 import { worker } from 'tests/msw/browser';
 import { resetData } from 'tests/msw/handlers';
 
+// Override the worker started by this support bundle, rather than creating a
+// second worker instance in a spec bundle.
+Cypress.Commands.add('useMswHandlers', (...handlers) => {
+  worker.use(...handlers);
+});
+
 // MSW configs
 Cypress.on('test:before:run:async', async () => {
   await worker.start();
