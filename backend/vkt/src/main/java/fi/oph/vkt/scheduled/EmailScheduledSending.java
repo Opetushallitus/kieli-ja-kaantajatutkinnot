@@ -23,9 +23,9 @@ public class EmailScheduledSending {
 
   private static final String FIXED_DELAY = "PT10S";
 
-  private static final String LOCK_AT_LEAST = "PT1S";
+  private static final String LOCK_AT_LEAST = "PT5S";
 
-  private static final String LOCK_AT_MOST = "PT1M";
+  private static final String LOCK_AT_MOST = "PT10M";
 
   public static final int BATCH_SIZE = 10;
 

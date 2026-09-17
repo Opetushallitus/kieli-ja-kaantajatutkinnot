@@ -6,7 +6,9 @@ import fi.oph.vkt.model.EmailType;
 import fi.oph.vkt.repository.EmailAttachmentRepository;
 import fi.oph.vkt.repository.EmailRepository;
 import fi.oph.vkt.service.email.sender.EmailSender;
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,5 +67,15 @@ public class EmailService {
       LOG.error("Exception when sending email id: " + email.getId(), e);
       email.setError(e.getMessage());
     }
+  }
+
+  public void deleteExpiredEmails() {
+    final Duration ttl = Duration.of(6, ChronoUnit.MONTHS);
+
+    emailRepository
+      .findSentEmails()
+      .stream()
+      .filter(e -> e.getSentAt().plus(ttl).isBefore(LocalDateTime.now()))
+      .forEach(e -> emailRepository.deleteById(e.getId()));
   }
 }
