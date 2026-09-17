@@ -103,6 +103,10 @@
           }
         }
       },
+      "infoBoxLink": {
+        "label": "Digital YKI tests will be piloted in November!",
+        "url": "https://www.oph.fi/en/education-and-qualifications/digital-yki-tests-will-be-piloted-november-2026"
+      },
       "institution": "Test centre",
       "language": "Language",
       "languageLevel": {
@@ -156,10 +160,6 @@
         "userDetails": "My registrations"
       },
       "partialExams": "Subtests",
-      "partialExamsLink": {
-        "label": "Subtest days for the YKI test will be piloted in autumn 2026",
-        "url": "https://www.oph.fi/en/news/2026/subtest-days-yki-test-will-be-piloted-autumn-2026"
-      },
       "partialExamTime": "at {{startTime}}",
       "partialExamTimeLabel": "Testin alkamisaika",
       "phoneNumber": "Telephone number",
