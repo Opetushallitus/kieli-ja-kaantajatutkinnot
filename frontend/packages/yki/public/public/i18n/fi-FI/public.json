@@ -134,9 +134,9 @@
             "part3": "Jos haluat keskeyttää ilmoittautumisen, siirry ensin ilmoittautumislomakkeelle ja paina sitten KESKEYTÄ ILMOITTAUTUMINEN.",
             "title": "Ilmoittautuminen on kesken"
           },
+          "registerToPartialExamsSeparately": "YKI-testi on täynnä. Ilmoittaudu osakokeisiin erikseen",
           "reservingQueueSeat": "Varataan jonopaikkaa...",
-          "title": "Ilmoittautuminen epäonnistui",
-          "registerToPartialExamsSeparately": "YKI-testi on täynnä. Ilmoittaudu osakokeisiin erikseen"
+          "title": "Ilmoittautuminen epäonnistui"
         },
         "enrollToQueue": {
           "dialog": {
@@ -215,6 +215,7 @@
           "digital": {
             "label": "Digitesti",
             "description": "Testi tehdään testipaikalla järjestäjän tarjoamalla tietokoneella."
+            
           },
           "paper": {
             "label": "Paperitesti",
@@ -781,9 +782,9 @@
             "label": "YKI-testin jälkeen",
             "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/yki-testin-jalkeen"
           },
-          "part1": "Ensimmäinen osakoetestipäivä järjestetään 16.9.2026!",
-          "part2": "Osakoetestipäivässä voit tehdä vain kirjoittamisen ja puheen ymmärtämisen osakokeet.",
-          "part3": "Lue lisää Opetushallituksen verkkosivuilta: <CustomLink></CustomLink>"
+          "part1": "Digitaalista YKI-testiä kokeillaan YKI-testeissä marraskuussa!",
+          "part2": "Osa suomen ja ruotsin kielen keskitason testeistä on digitaalisia. Kaikki marraskuun YKI-testit eivät ole digitaalisia.",
+          "part3": "Voit siis tehdä YKI-testin myös paperilla ja kynällä. <CustomLink></CustomLink>"
         },
         "labels": {
           "allPartsAtOnce": "Kaikki osakokeet samana testipäivänä",

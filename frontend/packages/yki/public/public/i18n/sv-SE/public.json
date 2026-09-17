@@ -781,9 +781,9 @@
             "label": "Efter YKI-testet",
             "url": "https://www.oph.fi/sv/utbildning-och-examina/efter-yki-testet"
           },
-          "part1": "Den första delprovsdagen ordnas den 16 september 2026!",
-          "part2": "Under delprovsdagen kan du endast avlägga delproven i skriftlig framställning och talförståelse.",
-          "part3": "Läs mer på Utbildningsstyrelsens webbplats: <CustomLink></CustomLink>"
+          "part1": "Digitala YKI-test prövas i november!",
+          "part2": "Vissa YKI-test i finska och svenska på mellannivå är digitala. Alla YKI-test i november är inte digitala.",
+          "part3": "Du kan alltså också göra YKI-testet med papper och penna. <CustomLink></CustomLink>"
         },
         "labels": {
           "allPartsAtOnce": "Alla delprov på en gång",

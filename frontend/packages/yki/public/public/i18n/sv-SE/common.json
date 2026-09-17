@@ -103,6 +103,10 @@
           }
         }
       },
+      "infoBoxLink": {
+        "label": "Digitala YKI-test prövas i november!",
+        "url": "https://www.oph.fi/sv/utbildning-och-examina/digitala-yki-test-provas-i-november-2026"
+      },
       "institution": "Testplats",
       "language": "Språk",
       "languageLevel": {
@@ -156,10 +160,6 @@
         "userDetails": "Mina anmälningar"
       },
       "partialExams": "Delprov",
-      "partialExamsLink": {
-        "label": "Försök med delprovsdagar för YKI-testerna hösten 2026",
-        "url": "https://www.oph.fi/sv/nyheter/2026/forsok-med-delprovsdagar-yki-testerna-hosten-2026"
-      },
       "partialExamTime": "kl. {{startTime}}",
       "partialExamTimeLabel": "Testin alkamisaika",
       "phoneNumber": "Telefonnummer",
