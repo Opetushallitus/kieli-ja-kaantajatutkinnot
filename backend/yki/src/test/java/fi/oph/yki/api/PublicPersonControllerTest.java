@@ -16,7 +16,9 @@ import fi.oph.yki.model.type.ExamSessionType;
 import fi.oph.yki.model.type.PartialExamType;
 import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
+import fi.oph.yki.service.PublicAuthService;
 import fi.oph.yki.service.PublicPersonService;
+import fi.oph.yki.service.dto.IdentityDTO;
 import fi.oph.yki.util.exception.NotFoundException;
 import jakarta.annotation.Resource;
 import java.time.LocalDate;
@@ -26,28 +28,32 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(PublicPersonController.class)
 @Import(ControllerExceptionAdvice.class)
+@TestPropertySource(properties = "app.customer-portal.enabled=true")
 @WithMockUser
 class PublicPersonControllerTest {
 
-  private static final String BASE_URL = "/api/public/person";
+  private static final String BASE_URL = "/v2/api/public/person";
 
   private static final String OID = "1.2.3.4.5";
 
-  private static final String AUTHORIZATION = OID + ":hash";
-
   @Resource
   private MockMvc mockMvc;
+
+  @MockitoBean
+  private PublicAuthService publicAuthService;
 
   @MockitoBean
   private PublicPersonService publicPersonService;
 
   @Test
   public void testGetPerson() throws Exception {
+    when(publicAuthService.getIdentity(any())).thenReturn(IdentityDTO.builder().oid(OID).build());
     final PublicPersonRegistrationDTO registration = PublicPersonRegistrationDTO
       .builder()
       .id(7L)
@@ -89,7 +95,7 @@ class PublicPersonControllerTest {
     when(publicPersonService.getPerson(OID)).thenReturn(person);
 
     mockMvc
-      .perform(get(BASE_URL).header("Authorization", AUTHORIZATION))
+      .perform(get(BASE_URL))
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.oid").value(OID))
       .andExpect(jsonPath("$.first_name").value("Testi"))
@@ -129,13 +135,16 @@ class PublicPersonControllerTest {
 
   @Test
   public void testGetPersonNotFound() throws Exception {
+    when(publicAuthService.getIdentity(any())).thenReturn(IdentityDTO.builder().oid(OID).build());
     when(publicPersonService.getPerson(OID)).thenThrow(new NotFoundException("Person not found"));
 
-    mockMvc.perform(get(BASE_URL).header("Authorization", AUTHORIZATION)).andExpect(status().isNotFound());
+    mockMvc.perform(get(BASE_URL)).andExpect(status().isNotFound());
   }
 
   @Test
   public void testGetPersonWithoutOidIsBadRequest() throws Exception {
+    when(publicAuthService.getIdentity(any())).thenReturn(IdentityDTO.builder().build());
+
     mockMvc
       .perform(get(BASE_URL))
       .andExpect(status().isBadRequest())

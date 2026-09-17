@@ -13,6 +13,9 @@ server:
 cas:
   username: username
   password: password
+customer-portal:
+  enabled: true
+  oid: 1.2.246.562.24.82364099322
 dev:
   web:
     security:
