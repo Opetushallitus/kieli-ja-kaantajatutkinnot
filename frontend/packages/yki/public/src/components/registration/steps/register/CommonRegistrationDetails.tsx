@@ -1,15 +1,13 @@
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import {
   Checkbox,
   FormControl,
   FormControlLabel,
-  Link,
   Radio,
   RadioGroup,
 } from '@mui/material';
+import { OphLink } from '@opetushallitus/oph-design-system';
 import { ChangeEvent, useEffect } from 'react';
 import { Trans } from 'react-i18next';
-import { WebLink } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
@@ -247,11 +245,9 @@ export const CommonRegistrationDetails = () => {
       )}
       <Text>
         {t('certificate.furtherDetails.text')}{' '}
-        <WebLink
-          href={t('certificate.furtherDetails.url')}
-          label={t('certificate.furtherDetails.label')}
-          endIcon={<OpenInNewIcon color="inherit" />}
-        />
+        <OphLink href={t('certificate.furtherDetails.url')} target="_blank">
+          {t('certificate.furtherDetails.label')}
+        </OphLink>
       </Text>
       <fieldset className="registration-details__radio-group">
         <legend>
@@ -313,12 +309,9 @@ export const CommonRegistrationDetails = () => {
             className="columns gapped-xxs"
             style={{ display: 'inline-flex' }}
           >
-            <Link href={t('termsAndConditions.link')} target="_blank">
-              <Text color="textPrimary">
-                {t('termsAndConditions.linkText')}
-              </Text>
-            </Link>
-            <OpenInNewIcon color="inherit" />
+            <OphLink href={t('termsAndConditions.link')} target="_blank">
+              {t('termsAndConditions.linkText')}
+            </OphLink>
           </div>
           <br />
           <p>
@@ -353,15 +346,12 @@ export const CommonRegistrationDetails = () => {
           {translateCommon('privacyStatement.readConditions')}
         </Text>
         <div className="columns gapped-xxs">
-          <Link
+          <OphLink
             href={translateCommon('privacyStatement.link.url')}
             target="_blank"
           >
-            <Text color="textPrimary">
-              {translateCommon('privacyStatement.link.label')}
-            </Text>
-          </Link>
-          <OpenInNewIcon color="inherit" />
+            {translateCommon('privacyStatement.link.label')}
+          </OphLink>
         </div>
       </div>
       <FormControl
