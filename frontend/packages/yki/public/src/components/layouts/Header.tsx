@@ -39,7 +39,7 @@ export const Header = (): JSX.Element => {
         href="#main-content"
         text={translateCommon('header.accessibility.continueToMain')}
       />
-      <AppBar className="header" position="static">
+      <AppBar className="header" position="static" elevation={0}>
         {!isDesktopXS && (
           <Toolbar className="header__toolbar header__toolbar__mobile-lang-select">
             <LangSelector

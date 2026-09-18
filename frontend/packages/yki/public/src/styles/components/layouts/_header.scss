@@ -1,4 +1,6 @@
 .header {
+  border-bottom: 1px solid $color-grey-200;
+
   &__toolbar {
     // stylelint-disable-next-line selector-class-pattern
     &.MuiToolbar-root {
