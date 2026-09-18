@@ -1,14 +1,18 @@
 package fi.oph.yki.api;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import fi.oph.yki.api.dto.PublicExamSessionLocationDTO;
+import fi.oph.yki.api.dto.PublicPersonContactUpdateDTO;
 import fi.oph.yki.api.dto.PublicPersonDTO;
 import fi.oph.yki.api.dto.PublicPersonRegistrationDTO;
 import fi.oph.yki.config.ControllerExceptionAdvice;
@@ -24,9 +28,11 @@ import jakarta.annotation.Resource;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import net.minidev.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -50,6 +56,18 @@ class PublicPersonControllerTest {
 
   @MockitoBean
   private PublicPersonService publicPersonService;
+
+  private static JSONObject validContactData() {
+    final JSONObject data = new JSONObject();
+    data.put("email", "testi@example.com");
+    data.put("phone_number", "0401234567");
+    data.put("street_address", "Testikatu 1");
+    data.put("post_office", "Helsinki");
+    data.put("zip", "00100");
+    data.put("country_code", "FIN");
+
+    return data;
+  }
 
   @Test
   public void testGetPerson() throws Exception {
@@ -151,5 +169,85 @@ class PublicPersonControllerTest {
       .andExpect(jsonPath("$.errorCode").value("sessionOidNotFound"));
 
     verify(publicPersonService, never()).getPerson(any());
+  }
+
+  @Test
+  public void testUpdateContactDetails() throws Exception {
+    when(publicAuthService.getIdentity(any())).thenReturn(IdentityDTO.builder().oid(OID).build());
+
+    mockMvc
+      .perform(
+        post(BASE_URL).with(csrf()).contentType(MediaType.APPLICATION_JSON).content(validContactData().toJSONString())
+      )
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("$.success").value(true));
+
+    verify(publicPersonService)
+      .updateContactDetails(
+        eq(OID),
+        eq(
+          PublicPersonContactUpdateDTO
+            .builder()
+            .email("testi@example.com")
+            .phoneNumber("0401234567")
+            .streetAddress("Testikatu 1")
+            .postOffice("Helsinki")
+            .zip("00100")
+            .countryCode("FIN")
+            .build()
+        )
+      );
+  }
+
+  @Test
+  public void testUpdateContactDetailsWithoutCountryCode() throws Exception {
+    when(publicAuthService.getIdentity(any())).thenReturn(IdentityDTO.builder().oid(OID).build());
+    final JSONObject data = validContactData();
+    data.remove("country_code");
+
+    mockMvc
+      .perform(post(BASE_URL).with(csrf()).contentType(MediaType.APPLICATION_JSON).content(data.toJSONString()))
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("$.success").value(true));
+  }
+
+  @Test
+  public void testUpdateContactDetailsWithMissingFieldIsBadRequest() throws Exception {
+    when(publicAuthService.getIdentity(any())).thenReturn(IdentityDTO.builder().oid(OID).build());
+    final JSONObject data = validContactData();
+    data.remove("email");
+
+    mockMvc
+      .perform(post(BASE_URL).with(csrf()).contentType(MediaType.APPLICATION_JSON).content(data.toJSONString()))
+      .andExpect(status().isBadRequest());
+
+    verify(publicPersonService, never()).updateContactDetails(any(), any());
+  }
+
+  @Test
+  public void testUpdateContactDetailsWithInvalidEmailIsBadRequest() throws Exception {
+    when(publicAuthService.getIdentity(any())).thenReturn(IdentityDTO.builder().oid(OID).build());
+    final JSONObject data = validContactData();
+    data.put("email", "not-an-email");
+
+    mockMvc
+      .perform(post(BASE_URL).with(csrf()).contentType(MediaType.APPLICATION_JSON).content(data.toJSONString()))
+      .andExpect(status().isBadRequest());
+
+    verify(publicPersonService, never()).updateContactDetails(any(), any());
+  }
+
+  @Test
+  public void testUpdateContactDetailsWithoutOidIsBadRequest() throws Exception {
+    when(publicAuthService.getIdentity(any())).thenReturn(IdentityDTO.builder().build());
+
+    mockMvc
+      .perform(
+        post(BASE_URL).with(csrf()).contentType(MediaType.APPLICATION_JSON).content(validContactData().toJSONString())
+      )
+      .andExpect(status().isBadRequest())
+      .andExpect(jsonPath("$.errorCode").value("sessionOidNotFound"));
+
+    verify(publicPersonService, never()).updateContactDetails(any(), any());
   }
 }

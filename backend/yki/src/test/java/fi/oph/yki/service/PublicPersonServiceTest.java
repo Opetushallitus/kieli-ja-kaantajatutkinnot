@@ -8,12 +8,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import fi.oph.yki.Factory;
 import fi.oph.yki.PostgresTestcontainerConfig;
+import fi.oph.yki.api.dto.PublicPersonContactUpdateDTO;
 import fi.oph.yki.api.dto.PublicPersonDTO;
 import fi.oph.yki.api.dto.PublicPersonRegistrationDTO;
 import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.Person;
+import fi.oph.yki.model.PersonSyncStatus;
 import fi.oph.yki.model.Registration;
 import fi.oph.yki.model.type.EvaluationState;
 import fi.oph.yki.model.type.ExamSessionType;
@@ -21,6 +23,7 @@ import fi.oph.yki.model.type.PartialExamType;
 import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.repository.PersonRepository;
+import fi.oph.yki.repository.PersonSyncStatusRepository;
 import fi.oph.yki.repository.RegistrationRepository;
 import fi.oph.yki.util.exception.NotFoundException;
 import jakarta.annotation.Resource;
@@ -50,6 +53,9 @@ public class PublicPersonServiceTest {
   private PersonRepository personRepository;
 
   @Resource
+  private PersonSyncStatusRepository personSyncStatusRepository;
+
+  @Resource
   private RegistrationRepository registrationRepository;
 
   @MockitoBean
@@ -64,7 +70,12 @@ public class PublicPersonServiceTest {
 
   @BeforeEach
   public void setup() {
-    publicPersonService = new PublicPersonService(personRepository, registrationRepository);
+    publicPersonService =
+      new PublicPersonService(
+        personRepository,
+        registrationRepository,
+        new PersonService(personRepository, personSyncStatusRepository, auditService)
+      );
 
     person = Factory.person();
     person.setEmail("testi@example.com");
@@ -275,5 +286,77 @@ public class PublicPersonServiceTest {
     flushAndClear();
 
     assertThrows(NotFoundException.class, () -> publicPersonService.getPerson("9.9.9"));
+  }
+
+  @Test
+  public void testUpdateContactDetails() {
+    flushAndClear();
+
+    publicPersonService.updateContactDetails(
+      OID,
+      PublicPersonContactUpdateDTO
+        .builder()
+        .email("uusi@example.com")
+        .phoneNumber("0409876543")
+        .streetAddress("Uusikatu 2")
+        .postOffice("Espoo")
+        .zip("02100")
+        .countryCode("SWE")
+        .build()
+    );
+    flushAndClear();
+
+    final Person updated = personRepository.getByOid(OID);
+    assertEquals("uusi@example.com", updated.getEmail());
+    assertEquals("0409876543", updated.getPhoneNumber());
+    assertEquals("Uusikatu 2", updated.getSteetAddress());
+    assertEquals("Espoo", updated.getPostOffice());
+    assertEquals("02100", updated.getZip());
+    assertEquals("SWE", updated.getCountryCode());
+
+    final List<PersonSyncStatus> syncStatuses = personSyncStatusRepository.findAll();
+    assertEquals(1, syncStatuses.size());
+    assertEquals(OID, syncStatuses.get(0).getPersonOid());
+  }
+
+  @Test
+  public void testUpdateContactDetailsKeepsCountryCodeWhenNotGiven() {
+    flushAndClear();
+
+    publicPersonService.updateContactDetails(
+      OID,
+      PublicPersonContactUpdateDTO
+        .builder()
+        .email("uusi@example.com")
+        .phoneNumber("0409876543")
+        .streetAddress("Uusikatu 2")
+        .postOffice("Espoo")
+        .zip("02100")
+        .build()
+    );
+    flushAndClear();
+
+    assertEquals("FIN", personRepository.getByOid(OID).getCountryCode());
+  }
+
+  @Test
+  public void testUpdateContactDetailsUnknownOidThrowsNotFound() {
+    flushAndClear();
+
+    assertThrows(
+      NotFoundException.class,
+      () ->
+        publicPersonService.updateContactDetails(
+          "9.9.9",
+          PublicPersonContactUpdateDTO
+            .builder()
+            .email("uusi@example.com")
+            .phoneNumber("0409876543")
+            .streetAddress("Uusikatu 2")
+            .postOffice("Espoo")
+            .zip("02100")
+            .build()
+        )
+    );
   }
 }
