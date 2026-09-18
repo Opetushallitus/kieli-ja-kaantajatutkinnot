@@ -215,7 +215,6 @@
           "digital": {
             "label": "Digitesti",
             "description": "Testi tehdään testipaikalla järjestäjän tarjoamalla tietokoneella."
-            
           },
           "paper": {
             "label": "Paperitesti",

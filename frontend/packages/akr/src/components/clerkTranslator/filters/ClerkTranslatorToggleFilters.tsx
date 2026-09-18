@@ -9,6 +9,7 @@ import {
   setPage,
 } from 'redux/reducers/clerkTranslator';
 import { clerkTranslatorsSelector } from 'redux/selectors/clerkTranslator';
+import { AuthorisationUtils } from 'utils/authorisation';
 
 export const ClerkTranslatorToggleFilters = () => {
   const { t } = useAppTranslation({
@@ -39,14 +40,7 @@ export const ClerkTranslatorToggleFilters = () => {
     (t) => t.authorisations.formerVir.length > 0,
   ).length;
   const deceasedCount = translators.filter(
-    (t) =>
-      t.isDeceased &&
-      (t.authorisations.effective.find((a) => a.permissionToPublish) ||
-        t.authorisations.expiring.find((a) => a.permissionToPublish) ||
-        t.authorisations.expiredDeduplicated.find(
-          (a) => a.permissionToPublish,
-        ) ||
-        t.authorisations.formerVir.find((a) => a.permissionToPublish)),
+    (t) => t.isDeceased && AuthorisationUtils.deceasedIsUnhandled(t),
   ).length;
 
   const filterData = [
