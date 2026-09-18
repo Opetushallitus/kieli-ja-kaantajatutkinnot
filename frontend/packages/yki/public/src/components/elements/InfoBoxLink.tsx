@@ -1,4 +1,4 @@
-import { WebLink } from 'shared/components';
+import { OphLink } from '@opetushallitus/oph-design-system';
 
 import { useCommonTranslation } from 'configs/i18n';
 
@@ -6,9 +6,8 @@ export const InfoBoxLink = () => {
   const translateCommon = useCommonTranslation();
 
   return (
-    <WebLink
-      href={translateCommon('infoBoxLink.url')}
-      label={translateCommon('infoBoxLink.label')}
-    />
+    <OphLink href={translateCommon('partialExamsLink.url')} target="_blank">
+      {translateCommon('partialExamsLink.label')}
+    </OphLink>
   );
 };

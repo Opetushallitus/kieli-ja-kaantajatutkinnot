@@ -38,6 +38,13 @@ export const publicTheme = createOphTheme({
           },
         },
       },
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            fontSize: '1.6rem',
+          },
+        },
+      },
     },
   },
 });
