@@ -1,6 +1,6 @@
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import { OphLink } from '@opetushallitus/oph-design-system';
 import { Trans } from 'react-i18next';
-import { CustomButton, WebLink } from 'shared/components';
+import { CustomButton } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 import { DateUtils } from 'shared/utils';
@@ -30,12 +30,11 @@ export const ConfirmRegistration = ({
       <H2>{t('title')}</H2>
       <Text>
         <b>{t('verifyRegistrationDetails.text1')}</b>{' '}
-        {t('verifyRegistrationDetails.text2')} {translateTerms('description2')}:{' '}
-        <WebLink
-          endIcon={<OpenInNewIcon color="inherit" />}
-          href={translateTerms('link')}
-          label={translateTerms('linkText')}
-        />
+        {t('verifyRegistrationDetails.text2')}{' '}
+        {t('verifyRegistrationDetails.text3')}{' '}
+        <OphLink href={translateTerms('link')} target="_blank">
+          {translateTerms('linkText')}
+        </OphLink>
       </Text>
       <Text>
         <Trans

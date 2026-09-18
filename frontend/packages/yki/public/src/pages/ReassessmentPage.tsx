@@ -1,6 +1,6 @@
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Grid, Paper } from '@mui/material';
 import { Box } from '@mui/system';
+import { OphLink } from '@opetushallitus/oph-design-system';
 import { FC, useEffect } from 'react';
 import { APIResponseStatus } from 'shared/enums';
 
@@ -50,15 +50,14 @@ export const ReassessmentPage: FC = () => {
               <br />
               <Text>
                 {t('info.general.body2')}
-                <a
+                <OphLink
                   className="columns gapped-xxs"
                   href={t('info.general.link')}
                   rel="noreferrer"
-                  target="_black"
+                  target="_blank"
                 >
                   {t('info.general.linkText')}
-                  <OpenInNewIcon color="inherit" />
-                </a>
+                </OphLink>
               </Text>
               <br />
               <Text>{t('info.general.body3')}</Text>
@@ -73,15 +72,14 @@ export const ReassessmentPage: FC = () => {
               <br />
               <Text>
                 {t('info.pricing.body3')}
-                <a
+                <OphLink
                   className="columns gapped-xxs"
                   href={t('info.general.link')}
                   rel="noreferrer"
-                  target="_black"
+                  target="_blank"
                 >
                   {t('info.general.linkText')}
-                  <OpenInNewIcon />
-                </a>
+                </OphLink>
               </Text>
               <br />
               <Text>{t('info.pricing.body4')}</Text>

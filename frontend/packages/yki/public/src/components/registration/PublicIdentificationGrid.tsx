@@ -1,9 +1,8 @@
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Container, Grid, Paper } from '@mui/material';
-import { ophColors } from '@opetushallitus/oph-design-system';
+import { ophColors, OphLink } from '@opetushallitus/oph-design-system';
 import { Trans } from 'react-i18next';
 import { generatePath } from 'react-router';
-import { CustomButton, WebLink } from 'shared/components';
+import { CustomButton } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
@@ -123,11 +122,9 @@ const FreeRegistrationInfoBox = () => {
       </Text>
       <Text>
         {t('readMore.text')}:{' '}
-        <WebLink
-          label={t('readMore.link.label')}
-          href={t('readMore.link.url')}
-          endIcon={<OpenInNewIcon color="inherit" />}
-        />
+        <OphLink href={t('readMore.link.url')} target="_blank">
+          {t('readMore.link.label')}
+        </OphLink>
       </Text>
     </Container>
   );
