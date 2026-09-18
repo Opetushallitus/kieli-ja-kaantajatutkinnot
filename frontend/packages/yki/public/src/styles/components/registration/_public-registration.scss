@@ -121,6 +121,11 @@
     }
   }
 
+  [class~='registration-details__address-grid']
+    [class~='MuiFormHelperText-root'] {
+    min-height: 2.4rem;
+  }
+
   &--email-link-order__reveal-btn {
     background-color: transparent;
     border: 0;
