@@ -213,12 +213,12 @@
         },
         "examSessionFormat": {
           "digital": {
-            "label": "Digitesti",
-            "description": "Testi tehdään testipaikalla järjestäjän tarjoamalla tietokoneella."
+            "description": "Testi tehdään testipaikalla järjestäjän tarjoamalla tietokoneella.",
+            "label": "Digitesti"
           },
           "paper": {
-            "label": "Paperitesti",
-            "description": "Testi tehdään testipaikalla kynällä paperille."
+            "description": "Testi tehdään testipaikalla kynällä paperille.",
+            "label": "Paperitesti"
           }
         },
         "expirationTimer": {
