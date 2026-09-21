@@ -1,26 +1,23 @@
 .session-header {
-  background: #f6f6f6;
+  background: $color-grey-50;
   justify-content: flex-end;
   padding: 1rem 10rem;
+  border-bottom: 1px solid $color-grey-200;
 
   @include phone {
-    align-items: flex-end;
+    align-items: stretch;
     flex-direction: column;
     justify-content: center;
-    padding: 1rem;
-  }
-
-  & &__logout-button {
-    background-color: $color-primary;
-    border-color: $color-secondary;
-    color: $color-secondary;
+    padding: 1rem 3rem;
   }
 
   & &__user-details {
-    color: $color-secondary;
+    color: $color-text-primary;
 
     @include phone {
-      align-items: flex-end;
+      align-items: center;
+      flex-direction: row;
+      justify-content: space-between;
     }
   }
 
