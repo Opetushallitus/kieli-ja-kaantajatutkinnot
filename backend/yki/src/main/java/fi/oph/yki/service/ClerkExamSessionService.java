@@ -25,9 +25,11 @@ import fi.oph.yki.repository.RegistrationWithQueuePositionProjection;
 import fi.oph.yki.util.RegistrationUtil;
 import fi.oph.yki.view.ExamSessionXlsxDataRowUtil;
 import fi.oph.yki.view.ExamSessionXlsxView;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -99,21 +101,63 @@ public class ClerkExamSessionService {
     }
   }
 
+  private Map<Long, Long> getQueuePositions(final ExamSession examSession) {
+    final Map<Long, Long> queuePositions;
+    if (ExamSessionType.FULL.equals(examSession.getType())) {
+      queuePositions =
+        registrationRepository
+          .getQueuePositionsByExamSession(examSession.getId(), PartialExamType.ALL_PARTS.toString())
+          .stream()
+          .collect(
+            Collectors.toMap(
+              RegistrationWithQueuePositionProjection::getId,
+              RegistrationWithQueuePositionProjection::getQueuePosition
+            )
+          );
+    } else {
+      queuePositions = new HashMap<>();
+      final PartialExamType partialType1;
+      final PartialExamType partialType2;
+      if (ExamSessionType.READ_SPEAK.equals(examSession.getType())) {
+        partialType1 = PartialExamType.READ;
+        partialType2 = PartialExamType.SPEAK;
+      } else {
+        partialType1 = PartialExamType.LISTEN;
+        partialType2 = PartialExamType.WRITE;
+      }
+
+      final Map<Long, Long> queuePositions1 = registrationRepository
+        .getQueuePositionsByExamSession(examSession.getId(), partialType1.toString())
+        .stream()
+        .collect(
+          Collectors.toMap(
+            RegistrationWithQueuePositionProjection::getId,
+            RegistrationWithQueuePositionProjection::getQueuePosition
+          )
+        );
+      final Map<Long, Long> queuePositions2 = registrationRepository
+        .getQueuePositionsByExamSession(examSession.getId(), partialType2.toString())
+        .stream()
+        .collect(
+          Collectors.toMap(
+            RegistrationWithQueuePositionProjection::getId,
+            RegistrationWithQueuePositionProjection::getQueuePosition
+          )
+        );
+      queuePositions.putAll(queuePositions1);
+      queuePositions.putAll(queuePositions2);
+    }
+
+    return queuePositions;
+  }
+
   private ClerkExamSessionDTO toDTO(final ExamSession examSession) {
     final var registrations = registrationRepository.getByExamSessionAndStateInAndFormIsNotNull(
       examSession,
       VISIBLE_STATES
     );
 
-    final Map<Long, Long> queuePositions = registrationRepository
-      .getQueuePositionsByExamSession(examSession.getId())
-      .stream()
-      .collect(
-        Collectors.toMap(
-          RegistrationWithQueuePositionProjection::getId,
-          RegistrationWithQueuePositionProjection::getQueuePosition
-        )
-      );
+    final Map<Long, Long> queuePositions = getQueuePositions(examSession);
 
     final List<String> personOids = registrations
       .stream()
