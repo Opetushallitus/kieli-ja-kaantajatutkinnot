@@ -1,6 +1,24 @@
 .header {
   border-bottom: 1px solid $color-grey-200;
 
+  @include phone {
+    &__toolbar__mobile-lang-select {
+      order: 3;
+    }
+
+    &__toolbar__logo-and-lang {
+      order: 1;
+    }
+
+    .session-header {
+      order: 2;
+    }
+
+    &__nav {
+      order: 4;
+    }
+  }
+
   &__toolbar {
     // stylelint-disable-next-line selector-class-pattern
     &.MuiToolbar-root {
