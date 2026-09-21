@@ -63,6 +63,7 @@ export const Header = (): JSX.Element => {
               />
             </Link>
           </div>
+          <span className="header__product-name">YKI</span>
           <div className="header__language-select">
             {isDesktopXS && (
               <LangSelector

@@ -25,3 +25,4 @@ export const H3 = (props: OphTypographyProps) => withVariant('h3', props);
 export const H4 = (props: OphTypographyProps) => withVariant('h4', props);
 export const H5 = (props: OphTypographyProps) => withVariant('h5', props);
 export const Text = (props: OphTypographyProps) => withVariant('body1', props);
+export const Label = (props: OphTypographyProps) => withVariant('label', props);

@@ -3,11 +3,10 @@
 
   @include phone {
     &__toolbar__mobile-lang-select {
+      background-color: $color-grey-50;
+      justify-content: center;
       order: 3;
-    }
-
-    &__toolbar__logo-and-lang {
-      order: 1;
+      width: 100%;
     }
 
     .session-header {
@@ -15,7 +14,15 @@
     }
 
     &__nav {
+      background-color: $color-primary;
+      padding: 2rem 0;
       order: 4;
+
+      .navigation-links {
+        p {
+          color: $color-text-primary;
+        }
+      }
     }
   }
 
@@ -34,15 +41,26 @@
     div &__mobile-lang-select {
       min-height: fit-content;
       padding: 0;
+      border-bottom: 1px solid $color-grey-200;
+    }
+  }
+
+  &__toolbar__logo-and-lang {
+    align-items: flex-start;
+    flex-direction: column;
+
+    @include mobile {
+      padding-bottom: 1rem;
     }
 
-    div &__logo-and-lang {
-      flex-direction: column;
-      align-items: flex-start;
-
-      @include mobile {
-        padding-bottom: 1rem;
-      }
+    @include phone {
+      align-items: center;
+      background-color: $color-secondary;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      gap: 2rem;
+      order: 1;
+      padding: 2.5rem;
     }
   }
 
@@ -55,6 +73,7 @@
 
   &__logo {
     margin-right: 0;
+    margin-left: 2rem;
 
     @include desktop-xs-and-up {
       grid-area: logo;
@@ -69,6 +88,18 @@
     &__logo {
       height: 26px;
       width: auto;
+    }
+  }
+
+  &__product-name {
+    display: none;
+
+    @include phone {
+      color: $color-primary;
+      display: block;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 24px;
     }
   }
 
@@ -115,6 +146,36 @@
     & > a {
       @include header-text;
       color: $color-primary;
+    }
+  }
+
+  @include phone {
+    &__logo {
+      padding: 0;
+      flex-shrink: 0;
+
+      &__logo {
+        height: 32px;
+      }
+    }
+
+    &__language-select {
+      display: none;
+    }
+
+    &__product-name {
+      white-space: nowrap;
+    }
+
+    &__toolbar__mobile-lang-select {
+      .lang-selector {
+        background-color: transparent;
+
+        p,
+        svg {
+          color: $color-text-primary;
+        }
+      }
     }
   }
 }

@@ -5,7 +5,7 @@ import { useWindowProperties } from 'shared/hooks';
 import { DateUtils } from 'shared/utils';
 
 import { ExamSessionFormat } from 'components/registration/examSession/ExamSessionFormat';
-import { Text } from 'components/Text';
+import { Label, Text } from 'components/Text';
 import {
   getCurrentLang,
   useCommonTranslation,
@@ -105,7 +105,9 @@ const MetaField = ({
   value: string | React.ReactNode;
 }) => (
   <div className="exam-session-card__meta-field">
-    <div className="exam-session-card__meta-label">{label}</div>
+    <div className="exam-session-card__meta-label">
+      <Label>{label}</Label>
+    </div>
     <div className="exam-session-card__meta-value">{value}</div>
   </div>
 );
