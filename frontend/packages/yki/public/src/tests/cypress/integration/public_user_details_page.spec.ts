@@ -1,3 +1,4 @@
+import { AppRoutes } from 'enums/app';
 import { onPublicUserDetailsPage } from 'tests/cypress/support/page-objects/publicUserDetailsPage';
 import { onToast } from 'tests/cypress/support/page-objects/toast';
 import { findAlertDialogByText } from 'tests/cypress/support/utils/dialog';
@@ -11,6 +12,13 @@ describe('PublicUserDetailsPage', () => {
 
   it('is visible', () => {
     onPublicUserDetailsPage.isVisible();
+  });
+
+  it('allows the user to modify contact details', () => {
+    onPublicUserDetailsPage.modifyContactDetails('Uusi katu 1');
+
+    onToast.expectText('Yhteystiedot tallennettu onnistuneesti');
+    cy.isOnPage(AppRoutes.UserDetails);
   });
 
   describe('when canceling paid exam', () => {
