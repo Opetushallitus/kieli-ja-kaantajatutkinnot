@@ -6,6 +6,8 @@ class PublicUserDetailsPage {
       cy.findByText('Yleiset kielitutkinnot (YKI) - Omat ilmoittautumiset'),
     cancelPaidRegistration: (nth: number) =>
       cy.findAllByRole('button', { name: 'Peru ilmoittautuminen' }).eq(nth),
+    modifyContactDetails: () =>
+      cy.findByRole('link', { name: 'Muokkaa yhteystietoja' }),
     cancelPaidRegistrationCancellationButton: () =>
       cy.findByRole('button', { name: 'En halua perua' }),
   };
@@ -16,6 +18,14 @@ class PublicUserDetailsPage {
 
   cancelPaidRegistration(nth: number = 0) {
     this.elements.cancelPaidRegistration(nth).click();
+  }
+
+  modifyContactDetails(streetAddress: string) {
+    this.elements.modifyContactDetails().click();
+    cy.findByRole('textbox', { name: 'Katuosoite *' })
+      .clear()
+      .type(streetAddress);
+    cy.findByRole('button', { name: 'Tallenna yhteystiedot' }).click();
   }
 
   cancelPaidRegistrationCancellation() {
