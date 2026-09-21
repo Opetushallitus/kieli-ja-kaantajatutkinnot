@@ -1,6 +1,6 @@
 import {
   LogoutOutlined as LogoutIcon,
-  Person as PersonIcon,
+  AccountCircleOutlined as PersonIcon,
 } from '@mui/icons-material';
 import Button from '@mui/material/Button';
 import { FC, useEffect } from 'react';
