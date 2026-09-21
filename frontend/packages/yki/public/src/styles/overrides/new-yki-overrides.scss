@@ -1,6 +1,11 @@
 // With the new color scheme update to YKI Public, the shared package is no longer truly shared.
 // Until new colors are used across the board in AKR and OTR, we need two separate color variables for the secondary color.
 
+// Fonts
+@import '@fontsource/open-sans/400.css';
+@import '@fontsource/open-sans/600.css';
+@import '@fontsource/open-sans/700.css';
+
 $color-primary: #ffffff;
 $color-background: #ffffff;
 $color-secondary: #378703;
@@ -11,6 +16,7 @@ $color-divider: #dfdfdf;
 $color-link-hover: #5bca13;
 $ods-lightblue-2: #c1eaff;
 $ods-cyan-1: #006699;
+$color-grey-50: #f6f6f6;
 $color-grey-200: #dfdfdf;
 $color-grey-400: #b2b2b2;
 $color-grey-700: #4c4c4c;
@@ -80,7 +86,7 @@ a {
     }
 
     @include mobile {
-      border-left: 3px solid $color-secondary;
+      border-left: 5px solid $color-secondary;
     }
   }
 }
