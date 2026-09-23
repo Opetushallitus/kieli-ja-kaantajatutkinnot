@@ -4,12 +4,17 @@ import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.audit.YkiOperation;
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.Registration;
+import fi.oph.yki.model.RegistrationChangeEvent;
 import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.repository.ExamSessionRepository;
 import fi.oph.yki.repository.PersonRepository;
+import fi.oph.yki.repository.RegistrationChangeEventRepository;
 import fi.oph.yki.repository.RegistrationRepository;
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,17 +25,20 @@ public class ClerkRegistrationService {
   private final RegistrationRepository registrationRepository;
   private final ExamSessionRepository examSessionRepository;
   private final AuditService auditService;
-  private final PersonRepository personRepository;
   private final RegistrationEmailService registrationEmailService;
+  private final RegistrationChangeEventRepository registrationChangeEventRepository;
 
   @Transactional
   public void moveRegistration(final long registrationId, final long targetExamSessionId) {
     auditService.logById(YkiOperation.MOVE_REGISTRATION, registrationId);
 
     final Registration registration = registrationRepository.getReferenceById(registrationId);
+    final long originalExamSessionId = registration.getExamSession().getId();
     final ExamSession targetExamSession = examSessionRepository.getReferenceById(targetExamSessionId);
     registration.setExamSession(targetExamSession);
     registrationRepository.saveAndFlush(registration);
+
+    insertChangeEvent(registration, "RELOCATE", "CLERK", originalExamSessionId);
   }
 
   @Transactional
@@ -59,8 +67,37 @@ public class ClerkRegistrationService {
     registration.setState(newState);
     registrationRepository.saveAndFlush(registration);
 
+    insertChangeEvent(registration, "CANCEL", "CLERK", null);
+
     if (newState == RegistrationState.PAID_AND_CANCELLED) {
       registrationEmailService.sendCancelRegistrationEmail(registration);
     }
+  }
+
+  private void insertChangeEvent(
+    final Registration registration,
+    final String event,
+    final String authorType,
+    final Long originalExamSessionId
+  ) {
+    final RegistrationChangeEvent changeEvent = new RegistrationChangeEvent();
+    changeEvent.setEvent(event);
+    changeEvent.setRegistrationId(registration.getId());
+    changeEvent.setExamSessionId(registration.getExamSession().getId());
+    changeEvent.setRegistrationState(registration.getState());
+    changeEvent.setRegistrationKind(registration.getKind());
+    changeEvent.setOriginalExamSessionId(originalExamSessionId);
+    changeEvent.setCreatedAt(LocalDateTime.now());
+    changeEvent.setCreatedBy(getAuthenticatedUserOid());
+    changeEvent.setAuthorType(authorType);
+    registrationChangeEventRepository.saveAndFlush(changeEvent);
+  }
+
+  private static String getAuthenticatedUserOid() {
+    final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    if (auth != null && auth.isAuthenticated()) {
+      return auth.getName();
+    }
+    return null;
   }
 }

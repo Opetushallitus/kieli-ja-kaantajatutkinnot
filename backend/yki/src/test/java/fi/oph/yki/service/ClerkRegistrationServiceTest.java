@@ -17,6 +17,7 @@ import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.repository.ExamSessionRepository;
 import fi.oph.yki.repository.OrganizerRepository;
 import fi.oph.yki.repository.PersonRepository;
+import fi.oph.yki.repository.RegistrationChangeEventRepository;
 import fi.oph.yki.repository.RegistrationRepository;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,10 +45,7 @@ class ClerkRegistrationServiceTest {
   private ExamSessionRepository examSessionRepository;
 
   @Resource
-  private PersonRepository personRepository;
-
-  @Resource
-  private OrganizerRepository organizerRepository;
+  private RegistrationChangeEventRepository registrationChangeEventRepository;
 
   @MockitoBean
   private AuditService auditService;
@@ -67,8 +65,8 @@ class ClerkRegistrationServiceTest {
         registrationRepository,
         examSessionRepository,
         auditService,
-        personRepository,
-        registrationEmailService
+        registrationEmailService,
+        registrationChangeEventRepository
       );
   }
 
