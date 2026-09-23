@@ -181,30 +181,34 @@ public class RegistrationService {
                   case "YT" -> "YLIN";
                   default -> throw new RuntimeException("Unknown exam level: " + suoritus.tutkintotaso());
                 };
-              Registration registration = registrationRepository
-                .getByOidAndExamDetails(
-                  suoritus.oppijanumero(),
-                  suoritus.tutkintopaiva(),
-                  suoritus.tutkintokieli(),
-                  examLevel
-                )
-                .orElseThrow(() ->
-                  new NotFoundException(
-                    MessageFormat.format(
-                      "Failed to find registration. oid: {0}, tutkintopaiva: {1}, tutkintokieli: {2}, tutkintotaso: {3}",
-                      suoritus.oppijanumero(),
-                      suoritus.tutkintopaiva(),
-                      suoritus.tutkintokieli(),
-                      suoritus.tutkintotaso()
-                    )
+              final List<Registration> registrations = registrationRepository.findByOidAndExamDetails(
+                suoritus.oppijanumero(),
+                suoritus.tutkintopaiva(),
+                suoritus.tutkintokieli(),
+                examLevel
+              );
+              if (registrations.isEmpty()) {
+                throw new NotFoundException(
+                  MessageFormat.format(
+                    "Failed to find registration. oid: {0}, tutkintopaiva: {1}, tutkintokieli: {2}, tutkintotaso: {3}",
+                    suoritus.oppijanumero(),
+                    suoritus.tutkintopaiva(),
+                    suoritus.tutkintokieli(),
+                    suoritus.tutkintotaso()
                   )
                 );
-              RegistrationEvaluation evaluation = registration.getEvaluation() != null
-                ? registration.getEvaluation()
-                : new RegistrationEvaluation();
-              evaluation.setRegistration(registration);
-              evaluation.setState(EvaluationState.fromKituEvaluationState(tila.tila()));
-              registrationEvaluationRepository.saveAndFlush(evaluation);
+              }
+              registrations
+                .stream()
+                .forEach(r -> {
+                  RegistrationEvaluation evaluation = r.getEvaluation() != null
+                    ? r.getEvaluation()
+                    : new RegistrationEvaluation();
+                  evaluation.setRegistration(r);
+                  evaluation.setState(EvaluationState.fromKituEvaluationState(tila.tila()));
+                  registrationEvaluationRepository.saveAndFlush(evaluation);
+                });
+
               procesed.getAndIncrement();
             } catch (NotFoundException e) {
               var error = EvaluationStateErrorDTO
