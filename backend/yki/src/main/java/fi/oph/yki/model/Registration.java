@@ -68,6 +68,9 @@ public class Registration {
   @Column(name = "lifted_from_queue_at")
   private LocalDateTime liftedFromQueueAt;
 
+  @Column(name = "started_at")
+  private LocalDateTime startedAt;
+
   @Column(name = "created")
   private LocalDateTime createdAt;
 
