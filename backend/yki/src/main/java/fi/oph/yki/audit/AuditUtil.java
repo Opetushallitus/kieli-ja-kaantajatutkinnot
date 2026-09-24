@@ -9,6 +9,7 @@ import java.net.UnknownHostException;
 import java.util.Optional;
 import org.ietf.jgss.GSSException;
 import org.ietf.jgss.Oid;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.context.request.RequestAttributes;
@@ -84,6 +85,36 @@ public class AuditUtil {
   private static Optional<Oid> getOptionalClerkOid() {
     return Optional
       .ofNullable(SecurityContextHolder.getContext().getAuthentication())
+      .filter(Authentication::isAuthenticated)
+      .flatMap(authentication -> Optional.ofNullable(authentication.getName()))
+      .map(oid -> {
+        try {
+          return new Oid(oid);
+        } catch (GSSException e) {
+          throw new RuntimeException(e);
+        }
+      });
+  }
+
+  public static User getPublicUser() {
+    final RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+
+    if (requestAttributes instanceof ServletRequestAttributes) {
+      HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
+      final InetAddress inetAddress = getInetAddress(request);
+      final String session = request.getSession().getId();
+      final String userAgent = request.getHeader("User-Agent");
+      return getOptionalPublicOid()
+        .map(oid -> new User(oid, inetAddress, session, userAgent))
+        .orElseGet(() -> new User(inetAddress, session, userAgent));
+    }
+    return getUserOnlyWithIp();
+  }
+
+  private static Optional<Oid> getOptionalPublicOid() {
+    return Optional
+      .ofNullable(SecurityContextHolder.getContext().getAuthentication())
+      .filter(authentication -> !(authentication instanceof AnonymousAuthenticationToken))
       .filter(Authentication::isAuthenticated)
       .flatMap(authentication -> Optional.ofNullable(authentication.getName()))
       .map(oid -> {
