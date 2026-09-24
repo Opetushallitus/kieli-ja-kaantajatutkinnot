@@ -84,7 +84,7 @@ const fillStrongForm = () => {
   onExamDetailsPage.acceptPrivacyPolicy();
 };
 
-// MSW cannot intercept document navigations. Exercise the mocked handoff as
+// MSW cannot intercept auth document navigations. Exercise the mocked handoff as
 // a fetch, then simulate the provider's document redirect to its returned URL.
 const followMockRedirect = (name: string) => {
   cy.findByRole('link', { name })
@@ -483,7 +483,7 @@ describe('Registration v2 route and API contract', () => {
     cy.reload();
     cy.findByTestId('registration-v2-Payment').should('be.visible');
     assertRead(501, 3);
-    followMockRedirect('Maksa tutkintomaksu');
+    cy.findByRole('link', { name: 'Maksa tutkintomaksu' }).click();
     cy.findByTestId('registration-v2-Done').should('be.visible');
     cy.location('pathname').should(
       'eq',
