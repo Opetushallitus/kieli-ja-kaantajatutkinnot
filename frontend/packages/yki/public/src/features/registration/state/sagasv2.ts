@@ -24,6 +24,7 @@ import {
 } from 'features/registration/api/apiv2';
 import {
   RegistrationContractError,
+  registrationSubmitError,
   validateRegistrationContext,
 } from 'features/registration/api/contractv2';
 import { RegistrationContext } from 'features/registration/modelv2';
@@ -40,6 +41,7 @@ import {
   rejectStep,
   requestStep,
   resetPublicRegistration,
+  retryStep,
   setActiveStep,
   startCancellation,
   startRegistration,
@@ -71,10 +73,20 @@ function* acceptContext(data: RegistrationContext) {
   yield put(acceptSession(data.session));
   yield put(acceptPublicRegistrationInit(data));
 }
-function* readStep(action: ReturnType<typeof requestStep>) {
+function* readStep(
+  action: ReturnType<typeof requestStep> | ReturnType<typeof retryStep>,
+) {
   const state: RootState = yield select();
   // Deduplicate React remounts/StrictMode; a new history entry or reload gets a new read.
-  if (state.registration.requestKey === action.payload.requestKey) return;
+  if (action.type === retryStep.type) {
+    if (
+      state.registration.requestKey !== action.payload.requestKey ||
+      state.registration.loadError !== 'network' ||
+      state.registration.fetchRegistrationStatus !== APIResponseStatus.Error
+    )
+      return;
+  } else if (state.registration.requestKey === action.payload.requestKey)
+    return;
   yield put(loadStep(action.payload));
   yield race({
     result: call(function* () {
@@ -237,16 +249,16 @@ function* execute(action: Command) {
     } else {
       yield put(
         rejectPublicRegistrationSubmission(
-          isAxiosError(error) && error.response?.data?.error
-            ? error.response.data
-            : { error: {} },
+          registrationSubmitError(
+            isAxiosError(error) ? error.response?.data : undefined,
+          ),
         ),
       );
     }
   }
 }
 function* watchRegistration() {
-  yield takeEvery(requestStep.type, readStep);
+  yield takeEvery([requestStep.type, retryStep.type], readStep);
   yield takeLeading(
     [
       initRegistration.type,

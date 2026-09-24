@@ -1,7 +1,10 @@
 import { RegistrationKind, RegistrationStates } from 'enums/app';
 import {
+  ConflictingRegistration,
   RegistrationContext,
+  RegistrationInitErrorResponse,
   RegistrationKey,
+  RegistrationSubmitErrorResponse,
 } from 'features/registration/modelv2';
 
 export class RegistrationContractError extends Error {}
@@ -27,6 +30,56 @@ const link = (value: unknown) => {
 function requireContract(condition: unknown): asserts condition {
   if (!condition)
     throw new RegistrationContractError('Invalid registration context');
+}
+
+export function registrationInitError(
+  value: unknown,
+): RegistrationInitErrorResponse['error'] {
+  if (!record(value) || !record(value.error)) return {};
+  const error = value.error;
+  const other = error['other-exam-session-registration'];
+  const conflict =
+    record(other) &&
+    Number.isSafeInteger(other.id) &&
+    Number(other.id) > 0 &&
+    Number.isSafeInteger(other.registration_id) &&
+    Number(other.registration_id) > 0 &&
+    Object.values(RegistrationStates).some(
+      (state) => state !== RegistrationStates.Unknown && state === other.state,
+    ) &&
+    Object.values(RegistrationKind).some((kind) => kind === other.kind) &&
+    ['ALL_PARTS', 'READ', 'SPEAK', 'LISTEN', 'WRITE'].includes(
+      String(other.partial_exam_type),
+    );
+
+  return {
+    closed: error.closed === true,
+    full: error.full === true,
+    partialFull: error.partialFull === true,
+    ...(conflict
+      ? {
+          'other-exam-session-registration':
+            other as unknown as ConflictingRegistration,
+        }
+      : {}),
+  };
+}
+
+export function registrationSubmitError(
+  value: unknown,
+): RegistrationSubmitErrorResponse {
+  if (!record(value) || !record(value.error)) return { error: {} };
+  const error = value.error;
+
+  return {
+    error: {
+      closed: error.closed === true,
+      expired: error.expired === true,
+      registered: error.registered === true,
+      create_payment: error.create_payment === true,
+      person_creation: error.person_creation === true,
+    },
+  };
 }
 
 // Check fields used for identity, navigation and payment before accepting a response.

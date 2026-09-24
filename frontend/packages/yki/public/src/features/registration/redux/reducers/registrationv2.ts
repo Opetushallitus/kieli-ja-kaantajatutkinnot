@@ -8,18 +8,18 @@ import {
   PublicRegistrationFormSubmitError,
   PublicRegistrationInitError,
 } from 'enums/publicRegistration';
+import { registrationInitError } from 'features/registration/api/contractv2';
 import {
+  ConflictingRegistration,
   RegistrationContext,
   RegistrationKey,
   RegistrationStep,
   RegistrationSubmitErrorResponse,
 } from 'features/registration/modelv2';
 import {
-  isRegistrationInitErrorResponse,
   PartialExamType,
   PublicEmailRegistration,
   PublicRegistrationFormSubmitSuccessResponse,
-  PublicRegistrationInitErrorState,
   PublicRegistrationInitPayload,
   PublicSuomiFiRegistration,
 } from 'interfaces/publicRegistration';
@@ -32,17 +32,9 @@ export interface RegistrationState {
   startNavigation: boolean;
   initRegistration: {
     status: APIResponseStatus;
-    error?: Omit<
-      PublicRegistrationInitErrorState,
-      'otherExamSessionRegistration'
-    > & {
-      otherExamSessionRegistration?: {
-        id: number;
-        registration_id: number;
-        state: RegistrationStates;
-        partial_exam_type?: PartialExamType;
-        kind?: RegistrationKind;
-      };
+    error?: {
+      error: PublicRegistrationInitError;
+      otherExamSessionRegistration?: ConflictingRegistration;
     };
     examSessionId?: number;
     partialExamType?: PartialExamType;
@@ -117,8 +109,13 @@ const registrationSlice = createSlice({
           error: PublicRegistrationInitError.Generic,
         };
       } else {
-        if (isRegistrationInitErrorResponse(action.payload)) {
-          const error = action.payload.data.error;
+        if ([401, 403].includes(action.payload.status)) {
+          state.initRegistration.error = {
+            error: PublicRegistrationInitError.Unauthorized,
+          };
+          state.activeStep = PublicRegistrationFormStep.Identify;
+        } else {
+          const error = registrationInitError(action.payload.data);
           const { closed, full, partialFull } = error;
           if (closed) {
             state.initRegistration.error = {
@@ -143,15 +140,6 @@ const registrationSlice = createSlice({
               error: PublicRegistrationInitError.Generic,
             };
           }
-        } else if (action.payload.status === 401) {
-          state.initRegistration.error = {
-            error: PublicRegistrationInitError.Unauthorized,
-          };
-          state.activeStep = PublicRegistrationFormStep.Identify;
-        } else {
-          state.initRegistration.error = {
-            error: PublicRegistrationInitError.Generic,
-          };
         }
       }
     },
@@ -220,6 +208,7 @@ const registrationSlice = createSlice({
     },
     startSubmission(state) {
       state.submitRegistration.status = APIResponseStatus.InProgress;
+      state.submitRegistration.error = undefined;
     },
     acceptPublicRegistrationSubmission(
       state,
@@ -236,6 +225,7 @@ const registrationSlice = createSlice({
       action: PayloadAction<RegistrationSubmitErrorResponse>,
     ) {
       state.submitRegistration.status = APIResponseStatus.Error;
+      state.submitRegistration.error = undefined;
       const { closed, create_payment, expired, person_creation, registered } =
         action.payload.error;
       if (closed) {
@@ -292,6 +282,10 @@ const registrationSlice = createSlice({
       state.fetchRegistrationStatus = APIResponseStatus.InProgress;
       state.loadError = undefined;
       state.startNavigation = false;
+      // Step navigation supersedes the command task, but cannot undo its server write.
+      if (state.submitRegistration.status === APIResponseStatus.InProgress)
+        state.submitRegistration = initialState.submitRegistration;
+      state.cancelRegistration = initialState.cancelRegistration;
     },
     rejectStep(
       state,
@@ -338,3 +332,7 @@ export const cancelRegistration = createAction('registrationV2/cancel');
 export const requestStep = createAction<
   RegistrationKey & { requestKey: string; step: RegistrationStep }
 >('registrationV2/requestStep');
+
+export const retryStep = createAction<
+  RegistrationKey & { requestKey: string; step: RegistrationStep }
+>('registrationV2/retryStep');
