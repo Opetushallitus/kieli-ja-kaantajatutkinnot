@@ -6,7 +6,7 @@ import {
   RegistrationAPI,
   registrationEndpoint,
 } from 'features/registration/api/apiv2';
-import { PublicRegistrationInitResponse } from 'features/registration/modelv2';
+import { RegistrationContext } from 'features/registration/modelv2';
 import { RegistrationRoutes, stepPath } from 'features/registration/routesv2';
 import {
   registrationFixture,
@@ -45,7 +45,7 @@ afterEach(() => {
   sessionStorage.removeItem('msw:yki-v2-now');
 });
 const visitRegistration = (
-  data: PublicRegistrationInitResponse,
+  data: RegistrationContext,
   step: 'Identify' | 'Register' | 'Payment' | 'Done',
 ) => {
   saveRegistration(data);

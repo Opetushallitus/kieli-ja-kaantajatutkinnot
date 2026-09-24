@@ -51,14 +51,16 @@ The payment fixtures account for the API difference: legacy login-link `expires_
 
 ## Backend contract to implement
 
+See the [frontend handover contract](yki-registration-v2-contract.md) for field rules, example payloads, lifecycle transitions and recovery expectations.
+
 | Operation | Prototype endpoint | Response |
 | --- | --- | --- |
-| Init | POST `/yki/api/v2/registration/init` | `PublicRegistrationInitResponse` |
+| Init | POST `/yki/api/v2/registration/init` | `RegistrationContext` |
 | Details | GET `/yki/api/v2/exam-session/:examSessionId/registration/:registrationId` | Same full response |
 | Submit | POST `/yki/api/v2/exam-session/:examSessionId/registration/:registrationId/submit` | Same full response with authoritative result state |
 | Cancel | DELETE `/yki/api/v2/exam-session/:examSessionId/registration/:registrationId` | Successful empty response |
 
-The v2 `PublicRegistrationInitResponse` extends the current init shape with:
+The v2 `RegistrationContext` extends the current init shape with:
 
 - `state`: STARTED/SUBMITTED/COMPLETED or a terminal state.
 - `session`: the existing session-response shape, so identification controls and form eligibility do not need a separate session prerequisite. `identity: null` denotes an anonymous context, not a missing or expired cookie.

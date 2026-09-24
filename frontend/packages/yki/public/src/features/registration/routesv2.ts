@@ -2,7 +2,7 @@ import { generatePath } from 'react-router';
 
 import { RegistrationKind, RegistrationStates } from 'enums/app';
 import {
-  PublicRegistrationInitResponse,
+  RegistrationContext,
   RegistrationKey,
   RegistrationStep,
 } from 'features/registration/modelv2';
@@ -23,7 +23,7 @@ export const stepPath = (step: RegistrationStep, key: RegistrationKey) =>
     registrationId: String(key.registrationId),
   });
 export const responseStep = (
-  data: PublicRegistrationInitResponse,
+  data: RegistrationContext,
   requested: RegistrationStep,
 ): RegistrationStep => {
   if (

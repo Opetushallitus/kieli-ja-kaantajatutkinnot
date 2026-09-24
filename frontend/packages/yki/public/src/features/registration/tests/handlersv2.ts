@@ -6,11 +6,12 @@ import {
   registrationEndpoint,
 } from 'features/registration/api/apiv2';
 import {
-  PublicRegistrationInitResponse,
+  RegistrationContext,
+  RegistrationInitRequest,
   RegistrationKey,
+  RegistrationSubmitRequest,
 } from 'features/registration/modelv2';
 import { stepPath } from 'features/registration/routesv2';
-import { PublicRegistrationInitRequest } from 'interfaces/publicRegistration';
 import { examSessions } from 'tests/msw/fixtures/examSession';
 import {
   SuomiFiAuthenticatedSessionResponse,
@@ -20,9 +21,9 @@ import {
 const now = () =>
   Number(sessionStorage.getItem('msw:yki-v2-now')) || Date.now();
 const storageKey = 'msw:yki-registration-v2';
-const readRecords = (): Record<number, PublicRegistrationInitResponse> =>
+const readRecords = (): Record<number, RegistrationContext> =>
   JSON.parse(sessionStorage.getItem(storageKey) || '{}');
-export const saveRegistration = (data: PublicRegistrationInitResponse) =>
+export const saveRegistration = (data: RegistrationContext) =>
   sessionStorage.setItem(
     storageKey,
     JSON.stringify({ ...readRecords(), [data.registration_id]: data }),
@@ -31,8 +32,8 @@ export const resetRegistrationMocks = () =>
   sessionStorage.removeItem(storageKey);
 
 export const registrationFixture = (
-  overrides: Partial<PublicRegistrationInitResponse> = {},
-): PublicRegistrationInitResponse => {
+  overrides: Partial<RegistrationContext> = {},
+): RegistrationContext => {
   const examSession = examSessions.exam_sessions.find(
     (session) => session.id === 999,
   )!;
@@ -78,7 +79,7 @@ const lookup = (params: Record<string, unknown>) => {
     ? data
     : undefined;
 };
-const response = (data: PublicRegistrationInitResponse) =>
+const response = (data: RegistrationContext) =>
   HttpResponse.json({
     ...data,
     expires_in: data.reservation_expires_at
@@ -91,7 +92,7 @@ const response = (data: PublicRegistrationInitResponse) =>
 
 export const registrationHandlers = [
   http.post(RegistrationAPI.Init, async ({ request }) => {
-    const body = (await request.json()) as PublicRegistrationInitRequest;
+    const body = (await request.json()) as RegistrationInitRequest;
     if (body.exam_session_id === 2)
       return HttpResponse.json(
         {
@@ -180,14 +181,14 @@ export const registrationHandlers = [
         Date.parse(data.reservation_expires_at) <= now()
       )
         return HttpResponse.json({ error: { expired: true } }, { status: 409 });
-      const body = (await request.json()) as { free_registration_id?: number };
+      const body = (await request.json()) as RegistrationSubmitRequest;
       const queued = data.registration_kind === RegistrationKind.Queue;
       const isFree = !!body.free_registration_id;
       const key: RegistrationKey = {
         examSessionId: data.exam_session.id,
         registrationId: data.registration_id,
       };
-      const updated: PublicRegistrationInitResponse = {
+      const updated: RegistrationContext = {
         ...data,
         state:
           isFree && !queued

@@ -1,7 +1,9 @@
 import axios from 'configs/axios';
 import {
-  PublicRegistrationInitResponse,
+  RegistrationContext,
+  RegistrationInitRequest,
   RegistrationKey,
+  RegistrationSubmitRequest,
 } from 'features/registration/modelv2';
 import { PublicRegistrationInitPayload } from 'interfaces/publicRegistration';
 import { SerializationUtils } from 'utils/serialization';
@@ -20,19 +22,18 @@ export const registrationEndpoint = (key: RegistrationKey) =>
 export const initRegistrationRequest = (
   selection: PublicRegistrationInitPayload,
 ) =>
-  axios.post<PublicRegistrationInitResponse>(
+  axios.post<RegistrationContext>(
     RegistrationAPI.Init,
-    SerializationUtils.serializePublicRegistrationInitRequest(selection),
+    SerializationUtils.serializePublicRegistrationInitRequest(
+      selection,
+    ) satisfies RegistrationInitRequest,
   );
 export const getRegistrationDetails = (key: RegistrationKey) =>
-  axios.get<PublicRegistrationInitResponse>(registrationEndpoint(key));
+  axios.get<RegistrationContext>(registrationEndpoint(key));
 export const submitRegistrationRequest = (
   key: RegistrationKey,
-  body: unknown,
+  body: RegistrationSubmitRequest,
 ) =>
-  axios.post<PublicRegistrationInitResponse>(
-    `${registrationEndpoint(key)}/submit`,
-    body,
-  );
+  axios.post<RegistrationContext>(`${registrationEndpoint(key)}/submit`, body);
 export const cancelRegistrationRequest = (key: RegistrationKey) =>
   axios.delete(registrationEndpoint(key));

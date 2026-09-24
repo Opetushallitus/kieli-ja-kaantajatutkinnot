@@ -9,15 +9,15 @@ import {
   PublicRegistrationInitError,
 } from 'enums/publicRegistration';
 import {
-  PublicRegistrationInitResponse,
+  RegistrationContext,
   RegistrationKey,
   RegistrationStep,
+  RegistrationSubmitErrorResponse,
 } from 'features/registration/modelv2';
 import {
   isRegistrationInitErrorResponse,
   PartialExamType,
   PublicEmailRegistration,
-  PublicRegistrationFormSubmitErrorResponse,
   PublicRegistrationFormSubmitSuccessResponse,
   PublicRegistrationInitErrorState,
   PublicRegistrationInitPayload,
@@ -25,7 +25,7 @@ import {
 } from 'interfaces/publicRegistration';
 
 export interface RegistrationState {
-  context?: PublicRegistrationInitResponse;
+  context?: RegistrationContext;
   requestKey?: string;
   requestedStep?: RegistrationStep;
   loadError?: 'session' | 'unavailable' | 'network';
@@ -160,7 +160,7 @@ const registrationSlice = createSlice({
     },
     acceptPublicRegistrationInit(
       state,
-      action: PayloadAction<PublicRegistrationInitResponse>,
+      action: PayloadAction<RegistrationContext>,
     ) {
       const sameRegistration =
         state.context?.registration_id === action.payload.registration_id &&
@@ -233,7 +233,7 @@ const registrationSlice = createSlice({
     },
     rejectPublicRegistrationSubmission(
       state,
-      action: PayloadAction<PublicRegistrationFormSubmitErrorResponse>,
+      action: PayloadAction<RegistrationSubmitErrorResponse>,
     ) {
       state.submitRegistration.status = APIResponseStatus.Error;
       const { closed, create_payment, expired, person_creation, registered } =

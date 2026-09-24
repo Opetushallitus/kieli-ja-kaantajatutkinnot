@@ -22,7 +22,7 @@ import {
   initRegistrationRequest,
   submitRegistrationRequest,
 } from 'features/registration/api/apiv2';
-import { PublicRegistrationInitResponse } from 'features/registration/modelv2';
+import { RegistrationContext } from 'features/registration/modelv2';
 import {
   acceptCancelRegistration,
   acceptPublicRegistrationInit,
@@ -53,7 +53,7 @@ import { watchNationalities } from 'redux/sagas/nationalities';
 import { watchGetKoskiEducations } from 'redux/sagas/publicEducation';
 import { SerializationUtils } from 'utils/serialization';
 
-function* acceptContext(data: PublicRegistrationInitResponse) {
+function* acceptContext(data: RegistrationContext) {
   const state: RootState = yield select();
   if (state.registration.context?.registration_id !== data.registration_id) {
     yield put(resetPublicFreeRegistration());
@@ -68,7 +68,7 @@ function* acceptContext(data: PublicRegistrationInitResponse) {
   yield put(acceptPublicRegistrationInit(data));
 }
 function validate(
-  data: PublicRegistrationInitResponse,
+  data: RegistrationContext,
   examSessionId: number,
   registrationId?: number,
 ) {
@@ -91,8 +91,10 @@ function* readStep(action: ReturnType<typeof requestStep>) {
   yield race({
     result: call(function* () {
       try {
-        const response: AxiosResponse<PublicRegistrationInitResponse> =
-          yield call(getRegistrationDetails, action.payload);
+        const response: AxiosResponse<RegistrationContext> = yield call(
+          getRegistrationDetails,
+          action.payload,
+        );
         validate(
           response.data,
           action.payload.examSessionId,
@@ -141,8 +143,10 @@ function* execute(action: Command) {
     yield put(resetPublicFreeRegistration());
     yield put(resetKoskiEducations());
     try {
-      const response: AxiosResponse<PublicRegistrationInitResponse> =
-        yield call(initRegistrationRequest, action.payload);
+      const response: AxiosResponse<RegistrationContext> = yield call(
+        initRegistrationRequest,
+        action.payload,
+      );
       validate(response.data, action.payload.examSessionId);
       if (response.data.partial_exam_type !== action.payload.partialExamType)
         throw new Error('Selection mismatch');
@@ -201,7 +205,7 @@ function* execute(action: Command) {
       );
       freeRegistrationId = response.data.id;
     }
-    const response: AxiosResponse<PublicRegistrationInitResponse> = yield call(
+    const response: AxiosResponse<RegistrationContext> = yield call(
       submitRegistrationRequest,
       key,
       {
@@ -209,6 +213,9 @@ function* execute(action: Command) {
           state.registration.registration,
           state.nationalities.nationalities,
         ),
+        nationalities: state.registration.registration.nationality
+          ? [state.registration.registration.nationality]
+          : [],
         ...(freeRegistrationId
           ? { free_registration_id: freeRegistrationId }
           : {}),

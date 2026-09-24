@@ -4,7 +4,7 @@ import { APIResponseStatus } from 'shared/enums';
 
 import axios from 'configs/axios';
 import { RegistrationKind } from 'enums/app';
-import { PublicRegistrationInitResponse } from 'features/registration/modelv2';
+import { RegistrationContext } from 'features/registration/modelv2';
 import {
   acceptPublicRegistrationInit,
   initRegistration,
@@ -17,15 +17,13 @@ import { setupStore } from 'features/registration/redux/store/indexv2';
 import { registrationFixture } from 'features/registration/tests/handlersv2';
 import { WeaklyAuthenticatedSessionResponse } from 'tests/msw/fixtures/identity';
 
-const response = (data: PublicRegistrationInitResponse) =>
-  ({ data }) as AxiosResponse<PublicRegistrationInitResponse>;
+const response = (data: RegistrationContext) =>
+  ({ data }) as AxiosResponse<RegistrationContext>;
 const deferred = () => {
-  let resolve!: (value: AxiosResponse<PublicRegistrationInitResponse>) => void;
-  const promise = new Promise<AxiosResponse<PublicRegistrationInitResponse>>(
-    (done) => {
-      resolve = done;
-    },
-  );
+  let resolve!: (value: AxiosResponse<RegistrationContext>) => void;
+  const promise = new Promise<AxiosResponse<RegistrationContext>>((done) => {
+    resolve = done;
+  });
 
   return { promise, resolve };
 };

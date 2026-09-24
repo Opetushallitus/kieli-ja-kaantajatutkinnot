@@ -9,7 +9,7 @@ import { EmailIdentificationForm } from 'components/registration/identification/
 import { FreeRegistrationInfoBox } from 'components/registration/PublicIdentificationGrid';
 import { usePublicTranslation } from 'configs/i18n';
 import { RegistrationControls } from 'features/registration/components/RegistrationControlsv2';
-import { PublicRegistrationInitResponse } from 'features/registration/modelv2';
+import { RegistrationContext } from 'features/registration/modelv2';
 import { stepPath } from 'features/registration/routesv2';
 import { ExamSession } from 'interfaces/examSessions';
 import { ExamSessionUtils } from 'utils/examSession';
@@ -19,7 +19,7 @@ export const RegistrationIdentification = ({
   examSession,
   cancel,
 }: {
-  context: PublicRegistrationInitResponse;
+  context: RegistrationContext;
   examSession?: ExamSession;
   cancel: ReactNode;
 }) => {
