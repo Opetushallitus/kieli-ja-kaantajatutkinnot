@@ -282,7 +282,7 @@ describe('PublicRegistrationPage refactor', () => {
 });
 
 describe('Registration v2 route and API contract', () => {
-  it('starts only on the listing click and reads once per step and refresh', () => {
+  it('reuses init on the first step and reads on refresh and later steps', () => {
     cy.setCookie('cookie-consent-yki', 'true');
     cy.visit(RegistrationRoutes.Listing);
     onPublicRegistrationPage.selectExamLanguage('kaikki kielet');
@@ -300,13 +300,13 @@ describe('Registration v2 route and API contract', () => {
         .slice(-2)
         .map(Number);
       expect(registrationId).not.to.equal(examSessionId);
-      assertRead(registrationId, 1, examSessionId);
+      assertRead(registrationId, 0, examSessionId);
       cy.then(() =>
         expect(calls('POST', RegistrationAPI.Init)).to.have.length(1),
       );
       cy.reload();
       cy.findByTestId('registration-v2-Identify').should('be.visible');
-      assertRead(registrationId, 2, examSessionId);
+      assertRead(registrationId, 1, examSessionId);
       cy.findByRole('link', { name: 'Jatka ilmoittautumiseen' }).click();
       cy.findByTestId('registration-v2-Register').should('be.visible');
       cy.location('pathname').should(
@@ -314,7 +314,7 @@ describe('Registration v2 route and API contract', () => {
         stepPath('Register', { examSessionId, registrationId }),
       );
       cy.location('search').should('eq', '');
-      assertRead(registrationId, 3, examSessionId);
+      assertRead(registrationId, 2, examSessionId);
       cy.then(() => {
         expect(calls('POST', RegistrationAPI.Init)).to.have.length(1);
         expect(
@@ -578,7 +578,7 @@ describe('Registration v2 route and API contract', () => {
       'eq',
       stepPath('Identify', { examSessionId: 100, registrationId: 502 }),
     );
-    assertRead(502, 1);
+    assertRead(502, 0);
     cy.then(() => {
       expect(attempts).to.equal(2);
       expect(bodies[1]).to.deep.equal({

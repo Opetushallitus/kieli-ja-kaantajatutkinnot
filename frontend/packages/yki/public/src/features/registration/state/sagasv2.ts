@@ -76,7 +76,6 @@ function* readStep(
   action: ReturnType<typeof requestStep> | ReturnType<typeof retryStep>,
 ) {
   const state: RootState = yield select();
-  // Deduplicate React remounts/StrictMode; a new history entry or reload gets a new read.
   if (action.type === retryStep.type) {
     if (
       state.registration.requestKey !== action.payload.requestKey ||
@@ -86,26 +85,40 @@ function* readStep(
       return;
   } else if (state.registration.requestKey === action.payload.requestKey)
     return;
+  const initialContext =
+    action.type === requestStep.type &&
+    state.registration.requestKey === undefined &&
+    state.registration.initRegistration.status === APIResponseStatus.Success &&
+    action.payload.step === 'Identify' &&
+    state.registration.context?.registration_id ===
+      action.payload.registrationId &&
+    state.registration.context.exam_session.id === action.payload.examSessionId
+      ? state.registration.context
+      : undefined;
   yield put(loadStep(action.payload));
   yield race({
     result: call(function* () {
       try {
-        const response: AxiosResponse<RegistrationContext> = yield call(
-          getRegistrationDetails,
-          action.payload,
-        );
+        let context = initialContext;
+        if (!context) {
+          const response: AxiosResponse<RegistrationContext> = yield call(
+            getRegistrationDetails,
+            action.payload,
+          );
+          context = response.data;
+        }
         if (
           ![
             RegistrationStates.Started,
             RegistrationStates.Submitted,
             RegistrationStates.Completed,
-          ].includes(response.data.state)
+          ].includes(context.state)
         ) {
           yield put(rejectStep('unavailable'));
 
           return;
         }
-        yield call(acceptContext, response.data);
+        yield call(acceptContext, context);
         yield put(
           setActiveStep(PublicRegistrationFormStep[action.payload.step]),
         );

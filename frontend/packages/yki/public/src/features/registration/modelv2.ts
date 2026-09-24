@@ -8,7 +8,6 @@ import { ExamSessionResponse } from 'interfaces/examSessions';
 import { PartialExamType } from 'interfaces/publicRegistration';
 import { SessionResponse } from 'interfaces/session';
 
-// Wire contract for init, details GET and submission. See docs/yki-registration-v2-contract.md.
 export interface RegistrationContext {
   exam_session: ExamSessionResponse;
   registration_id: number;
@@ -28,7 +27,6 @@ export interface RegistrationContext {
     'external-user-id'?: string;
   };
   is_strongly_identified: boolean;
-  // Compatibility only; the timer uses the absolute reservation deadline.
   expires_in?: number;
   state: RegistrationStates;
   session: SessionResponse;
@@ -48,8 +46,6 @@ export interface RegistrationInitRequest {
   partial_exam_type: PartialExamType;
 }
 
-// Missing identity/form fields are omitted from JSON. Required fields depend on
-// identification method; the contract document specifies those requirements.
 export interface RegistrationSubmitRequest {
   first_name?: string;
   last_name?: string;

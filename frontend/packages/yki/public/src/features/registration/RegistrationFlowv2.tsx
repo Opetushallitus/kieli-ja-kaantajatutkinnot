@@ -4,7 +4,6 @@ import { Outlet } from 'react-router';
 
 import { setupStore } from 'features/registration/redux/store/indexv2';
 
-// A separate store lets the original and copied registration flows coexist.
 export const RegistrationFlow = () => {
   const [store] = useState(setupStore);
 

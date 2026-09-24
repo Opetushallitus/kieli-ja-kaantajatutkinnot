@@ -80,7 +80,6 @@ const lookup = (params: Record<string, unknown>) => {
     ? currentContext(data)
     : undefined;
 };
-// Expiry is derived on reads; GET never writes or extends the reservation.
 const currentContext = (data: RegistrationContext): RegistrationContext =>
   data.state === RegistrationStates.Started &&
   data.reservation_expires_at &&
@@ -142,8 +141,6 @@ export const registrationHandlers = [
     const kind = body.to_queue
       ? RegistrationKind.Queue
       : RegistrationKind.Admission;
-    // All records in this mock tab belong to one participant. Real ownership
-    // checks must be implemented by the backend, independently of numeric IDs.
     const existing = Object.values(readRecords())
       .map(currentContext)
       .find((item) => item.state === RegistrationStates.Started);
@@ -174,8 +171,6 @@ export const registrationHandlers = [
 
     return data ? response(data) : new HttpResponse(null, { status: 404 });
   }),
-  // Prototype of the future Java authentication handoff. The redirect carries
-  // both resource IDs, and the next step GET receives an authenticated session.
   http.get(RegistrationAPI.Auth, ({ params, request }) => {
     const data = lookup(params);
     if (!data || !['suomifi', 'email'].includes(String(params.method)))
@@ -212,8 +207,6 @@ export const registrationHandlers = [
       const data = lookup(params);
       if (!data || !data.session.identity)
         return new HttpResponse(null, { status: 401 });
-      // Prototype replay semantics: a lost successful response can be recovered
-      // without another payment. Backend transactional guarantees remain separate.
       if (
         [RegistrationStates.Submitted, RegistrationStates.Completed].includes(
           data.state,

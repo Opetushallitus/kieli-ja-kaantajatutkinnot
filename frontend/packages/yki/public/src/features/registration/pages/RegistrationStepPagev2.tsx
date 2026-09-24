@@ -326,7 +326,6 @@ export const RegistrationStepPage = ({ step }: { step: RegistrationStep }) => {
             <div className="public-registration__grid">
               <div className="rows gapped-xxl">
                 <RegistrationStepperView
-                  // The original displays payment instructions in the submitted form step.
                   activeStep={
                     step === 'Payment'
                       ? PublicRegistrationFormStep.Register

@@ -8,6 +8,7 @@ import { RegistrationContext } from 'features/registration/modelv2';
 import {
   acceptPublicRegistrationInit,
   initRegistration,
+  navigationHandled,
   requestStep,
   resetPublicRegistration,
   setHasTimerExpired,
@@ -41,6 +42,79 @@ const read = (registrationId: number, requestKey: string) =>
     step: 'Register',
   });
 afterEach(() => jest.restoreAllMocks());
+
+it('reuses init for the first Identify entry, then fetches again when returning', async () => {
+  const data = registrationFixture();
+  jest.spyOn(axios, 'post').mockResolvedValue(response(data));
+  const refreshed = { ...data, reservation_expires_at: null };
+  const get = jest.spyOn(axios, 'get').mockResolvedValue(response(refreshed));
+  const store = setupStore();
+  store.dispatch(start());
+  await waitFor(() =>
+    expect(store.getState().registration.initRegistration.status).toBe(
+      APIResponseStatus.Success,
+    ),
+  );
+  store.dispatch(navigationHandled());
+  const identify = {
+    examSessionId: 100,
+    registrationId: 501,
+    step: 'Identify' as const,
+    requestKey: 'after-init',
+  };
+  store.dispatch(requestStep(identify));
+  store.dispatch(requestStep(identify));
+  await waitFor(() =>
+    expect(store.getState().registration.fetchRegistrationStatus).toBe(
+      APIResponseStatus.Success,
+    ),
+  );
+  expect(store.getState().registration.requestKey).toBe('after-init');
+  expect(store.getState().registration.context).toEqual(data);
+  expect(get).not.toHaveBeenCalled();
+
+  store.dispatch(
+    requestStep({ ...identify, requestKey: 'return-to-identify' }),
+  );
+  await waitFor(() =>
+    expect(store.getState().registration.context).toEqual(refreshed),
+  );
+  expect(get).toHaveBeenCalledTimes(1);
+});
+
+it.each([
+  { examSessionId: 100, registrationId: 502, step: 'Identify' as const },
+  { examSessionId: 101, registrationId: 501, step: 'Identify' as const },
+  { examSessionId: 100, registrationId: 501, step: 'Register' as const },
+])(
+  'fetches after init when entering $step for $examSessionId/$registrationId',
+  async (key) => {
+    const data = registrationFixture();
+    jest.spyOn(axios, 'post').mockResolvedValue(response(data));
+    const get = jest.spyOn(axios, 'get').mockResolvedValue(
+      response({
+        ...data,
+        exam_session: { ...data.exam_session, id: key.examSessionId },
+        registration_id: key.registrationId,
+      }),
+    );
+    const store = setupStore();
+    store.dispatch(start());
+    await waitFor(() =>
+      expect(store.getState().registration.initRegistration.status).toBe(
+        APIResponseStatus.Success,
+      ),
+    );
+    store.dispatch(navigationHandled());
+    store.dispatch(requestStep({ ...key, requestKey: 'different-entry' }));
+    await waitFor(() =>
+      expect(store.getState().registration.fetchRegistrationStatus).toBe(
+        APIResponseStatus.Success,
+      ),
+    );
+    expect(get).toHaveBeenCalledTimes(1);
+  },
+);
 
 it('does not reset or change a pending selection when another start is dropped', async () => {
   const pending = deferred();

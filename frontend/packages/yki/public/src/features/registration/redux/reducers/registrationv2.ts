@@ -284,7 +284,6 @@ const registrationSlice = createSlice({
       state.fetchRegistrationStatus = APIResponseStatus.InProgress;
       state.loadError = undefined;
       state.startNavigation = false;
-      // Step navigation supersedes the command task, but cannot undo its server write.
       if (state.submitRegistration.status === APIResponseStatus.InProgress)
         state.submitRegistration = initialState.submitRegistration;
       state.cancelRegistration = initialState.cancelRegistration;
@@ -324,7 +323,6 @@ export const {
   navigationHandled,
 } = registrationSlice.actions;
 
-// Only accepted commands mutate state. A repeated click cannot reset a pending selection.
 export const initRegistration = createAction<PublicRegistrationInitPayload>(
   'registrationV2/init',
 );

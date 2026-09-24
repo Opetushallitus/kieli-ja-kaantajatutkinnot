@@ -76,7 +76,6 @@ it.each([
 );
 
 it('reads expiration without mutating storage and creates a reservation only on explicit init', async () => {
-  // Use a real listing fixture for the new init request.
   const original = registrationFixture({
     exam_session: { ...registrationFixture().exam_session, id: 999 },
     partial_exam_type: 'ALL_PARTS',

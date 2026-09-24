@@ -18,7 +18,6 @@ import { publicFreeRegistrationSelector } from 'redux/selectors/publicFreeRegist
 import { sessionSelector } from 'redux/selectors/session';
 import { ExamSessionUtils } from 'utils/examSession';
 
-// The full registration response supplies the selected part on every step.
 export const PublicRegistrationExamSessionDetails = ({
   examSession,
   showOpenings,
