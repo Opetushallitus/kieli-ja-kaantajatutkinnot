@@ -1,8 +1,5 @@
 package fi.oph.yki.api;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -26,19 +23,19 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(PublicPersonController.class)
 @Import(ControllerExceptionAdvice.class)
-@WithMockUser
+@TestPropertySource(properties = "app.customer-portal.enabled=true")
+@WithMockUser(username = PublicPersonControllerTest.OID)
 class PublicPersonControllerTest {
 
-  private static final String BASE_URL = "/api/public/person";
+  private static final String BASE_URL = "/v2/api/public/person";
 
-  private static final String OID = "1.2.3.4.5";
-
-  private static final String AUTHORIZATION = OID + ":hash";
+  static final String OID = "1.2.3.4.5";
 
   @Resource
   private MockMvc mockMvc;
@@ -89,7 +86,7 @@ class PublicPersonControllerTest {
     when(publicPersonService.getPerson(OID)).thenReturn(person);
 
     mockMvc
-      .perform(get(BASE_URL).header("Authorization", AUTHORIZATION))
+      .perform(get(BASE_URL))
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.oid").value(OID))
       .andExpect(jsonPath("$.first_name").value("Testi"))
@@ -131,16 +128,6 @@ class PublicPersonControllerTest {
   public void testGetPersonNotFound() throws Exception {
     when(publicPersonService.getPerson(OID)).thenThrow(new NotFoundException("Person not found"));
 
-    mockMvc.perform(get(BASE_URL).header("Authorization", AUTHORIZATION)).andExpect(status().isNotFound());
-  }
-
-  @Test
-  public void testGetPersonWithoutOidIsBadRequest() throws Exception {
-    mockMvc
-      .perform(get(BASE_URL))
-      .andExpect(status().isBadRequest())
-      .andExpect(jsonPath("$.errorCode").value("sessionOidNotFound"));
-
-    verify(publicPersonService, never()).getPerson(any());
+    mockMvc.perform(get(BASE_URL)).andExpect(status().isNotFound());
   }
 }
