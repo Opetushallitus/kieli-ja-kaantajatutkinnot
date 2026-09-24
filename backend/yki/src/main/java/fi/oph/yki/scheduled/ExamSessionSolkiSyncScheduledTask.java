@@ -53,7 +53,8 @@ public class ExamSessionSolkiSyncScheduledTask {
       examSession.setLastSyncAt(LocalDateTime.now());
       examSessionRepository.save(examSession);
     } catch (final Exception e) {
-      LOG.error("Failed to sync exam session {} to SOLKI", examSession.getId(), e);
+      LOG.error("Failed to sync exam session {} to SOLKI: {}", examSession.getId(), e.getMessage());
+      LOG.debug("Full stack trace for exam session {} SOLKI sync failure", examSession.getId(), e);
     }
   }
 }

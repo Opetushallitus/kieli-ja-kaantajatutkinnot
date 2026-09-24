@@ -63,7 +63,8 @@ public class ParticipantsSyncScheduledTask {
       solkiService.syncExamSessionParticipants(examSession);
       participantSyncStatusRepository.markSuccess(examSession);
     } catch (final Exception e) {
-      LOG.error("Failed to synchronize participants of exam session {}", examSession.getId(), e);
+      LOG.error("Failed to synchronize participants of exam session {}: {}", examSession.getId(), e.getMessage());
+      LOG.debug("Full stack trace for exam session {} participants sync failure", examSession.getId(), e);
       participantSyncStatusRepository.markFailed(examSession);
     }
   }

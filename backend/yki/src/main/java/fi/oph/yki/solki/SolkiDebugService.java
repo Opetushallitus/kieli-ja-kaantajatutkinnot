@@ -51,7 +51,8 @@ public class SolkiDebugService {
       solkiService.forceSyncExamSessionParticipants(examSession);
       participantSyncStatusRepository.markSuccess(examSession);
     } catch (final RuntimeException e) {
-      LOG.error("Manually forced participant sync failed for exam session {}", examSessionId, e);
+      LOG.error("Manually forced participant sync failed for exam session {}: {}", examSessionId, e.getMessage());
+      LOG.debug("Full stack trace for exam session {} forced participant sync failure", examSessionId, e);
       participantSyncStatusRepository.markFailed(examSession);
       throw e;
     }

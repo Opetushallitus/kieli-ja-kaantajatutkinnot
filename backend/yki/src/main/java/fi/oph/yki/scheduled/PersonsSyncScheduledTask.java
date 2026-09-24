@@ -63,7 +63,8 @@ public class PersonsSyncScheduledTask {
       syncStatus.setSuccessAt(LocalDateTime.now());
       syncStatus.setShouldRetry(false);
     } catch (final Exception e) {
-      LOG.error("Updating person details to SOLKI failed for person {}", syncStatus.getPersonOid(), e);
+      LOG.error("Updating person details to SOLKI failed for person {}: {}", syncStatus.getPersonOid(), e.getMessage());
+      LOG.debug("Full stack trace for person {} SOLKI sync failure", syncStatus.getPersonOid(), e);
       syncStatus.setFailedAt(LocalDateTime.now());
       syncStatus.setShouldRetry(!isNotFound(e));
     }
