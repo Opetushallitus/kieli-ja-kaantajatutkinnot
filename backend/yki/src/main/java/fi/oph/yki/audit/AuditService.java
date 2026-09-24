@@ -68,6 +68,15 @@ public class AuditService {
     return AuditUtil.getClerkUser();
   }
 
+  public void logPublicById(final YkiOperation operation, final String id) {
+    logPublic(operation, new Target.Builder().setField("id", id).build(), Changes.EMPTY);
+  }
+
+  private void logPublic(final YkiOperation operation, final Target target, final Changes changes) {
+    final User user = AuditUtil.getPublicUser();
+    audit.log(user, operation, target, changes);
+  }
+
   private void log(final YkiOperation operation, final Target target, final Changes changes) {
     final User user = getUser();
     audit.log(user, operation, target, changes);
