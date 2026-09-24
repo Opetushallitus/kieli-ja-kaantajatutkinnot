@@ -5,8 +5,10 @@ import {
   RegistrationAPI,
   registrationEndpoint,
 } from 'features/registration/api/apiv2';
+import { validateRegistrationContext } from 'features/registration/api/contractv2';
 import {
   RegistrationContext,
+  RegistrationInitErrorResponse,
   RegistrationInitRequest,
   RegistrationKey,
   RegistrationSubmitRequest,
@@ -76,11 +78,27 @@ const lookup = (params: Record<string, unknown>) => {
   const data = readRecords()[Number(params.registrationId)];
 
   return data?.exam_session.id === Number(params.examSessionId)
-    ? data
+    ? currentContext(data)
     : undefined;
 };
-const response = (data: RegistrationContext) =>
-  HttpResponse.json({
+// Expiry is derived on reads; GET never writes or extends the reservation.
+const currentContext = (data: RegistrationContext): RegistrationContext =>
+  data.state === RegistrationStates.Started &&
+  data.reservation_expires_at &&
+  Date.parse(data.reservation_expires_at) <= now()
+    ? {
+        ...data,
+        state: RegistrationStates.Expired,
+        reservation_expires_at: null,
+      }
+    : data;
+const response = (data: RegistrationContext) => {
+  validateRegistrationContext(data, {
+    examSessionId: data.exam_session.id,
+    registrationId: data.registration_id,
+  });
+
+  return HttpResponse.json({
     ...data,
     expires_in: data.reservation_expires_at
       ? Math.max(
@@ -89,6 +107,22 @@ const response = (data: RegistrationContext) =>
         )
       : undefined,
   });
+};
+const conflict = (data: RegistrationContext) =>
+  HttpResponse.json(
+    {
+      error: {
+        'other-exam-session-registration': {
+          id: data.exam_session.id,
+          registration_id: data.registration_id,
+          state: data.state,
+          partial_exam_type: data.partial_exam_type,
+          kind: data.registration_kind,
+        },
+      },
+    } satisfies RegistrationInitErrorResponse,
+    { status: 409 },
+  );
 
 export const registrationHandlers = [
   http.post(RegistrationAPI.Init, async ({ request }) => {
@@ -101,6 +135,8 @@ export const registrationHandlers = [
               id: 99,
               registration_id: 500,
               state: 'SUBMITTED',
+              partial_exam_type: 'ALL_PARTS',
+              kind: 'ADMISSION',
             },
           },
         },
@@ -110,13 +146,21 @@ export const registrationHandlers = [
       return HttpResponse.json({ error: { closed: true } }, { status: 409 });
     if (body.exam_session_id === 6 && !body.to_queue)
       return HttpResponse.json({ error: { full: true } }, { status: 409 });
-    const existing = Object.values(readRecords()).find(
-      (item) =>
-        item.exam_session.id === body.exam_session_id &&
-        item.partial_exam_type === body.partial_exam_type &&
-        item.state === RegistrationStates.Started,
-    );
-    if (existing) return response(existing);
+    const kind = body.to_queue
+      ? RegistrationKind.Queue
+      : RegistrationKind.Admission;
+    // All records in this mock tab belong to one participant. Real ownership
+    // checks must be implemented by the backend, independently of numeric IDs.
+    const existing = Object.values(readRecords())
+      .map(currentContext)
+      .find((item) => item.state === RegistrationStates.Started);
+    if (existing) {
+      return existing.exam_session.id === body.exam_session_id &&
+        existing.partial_exam_type === body.partial_exam_type &&
+        existing.registration_kind === kind
+        ? response(existing)
+        : conflict(existing);
+    }
     const exam_session = examSessions.exam_sessions.find(
       (session) => session.id === body.exam_session_id,
     );
@@ -126,9 +170,7 @@ export const registrationHandlers = [
       registration_id:
         Math.max(500, ...Object.keys(readRecords()).map(Number)) + 1,
       partial_exam_type: body.partial_exam_type,
-      registration_kind: body.to_queue
-        ? RegistrationKind.Queue
-        : RegistrationKind.Admission,
+      registration_kind: kind,
     });
     saveRegistration(data);
 
@@ -145,6 +187,8 @@ export const registrationHandlers = [
     const data = lookup(params);
     if (!data || !['suomifi', 'email'].includes(String(params.method)))
       return new HttpResponse(null, { status: 401 });
+    if (data.state !== RegistrationStates.Started)
+      return new HttpResponse(null, { status: 410 });
     const strong = params.method === 'suomifi';
     const email =
       new URL(request.url).searchParams.get('email') ||
@@ -175,6 +219,14 @@ export const registrationHandlers = [
       const data = lookup(params);
       if (!data || !data.session.identity)
         return new HttpResponse(null, { status: 401 });
+      // Prototype replay semantics: a lost successful response can be recovered
+      // without another payment. Backend transactional guarantees remain separate.
+      if (
+        [RegistrationStates.Submitted, RegistrationStates.Completed].includes(
+          data.state,
+        )
+      )
+        return response(data);
       if (
         data.state !== RegistrationStates.Started ||
         !data.reservation_expires_at ||
@@ -210,18 +262,29 @@ export const registrationHandlers = [
       return response(updated);
     },
   ),
-  http.get(`${RegistrationAPI.Details}/mock-payment`, ({ params }) => {
+  http.get(`${RegistrationAPI.Details}/mock-payment`, ({ params, request }) => {
     const data = lookup(params);
     if (!data?.payment || data.state !== RegistrationStates.Submitted)
       return new HttpResponse(null, { status: 404 });
+    const outcome = new URL(request.url).searchParams.get('outcome') || 'paid';
+    if (!['paid', 'pending', 'cancelled'].includes(outcome))
+      return new HttpResponse(null, { status: 400 });
+    const paid = outcome === 'paid';
     saveRegistration({
       ...data,
-      state: RegistrationStates.Completed,
-      payment: { ...data.payment, status: 'PAID' },
+      state: paid ? RegistrationStates.Completed : RegistrationStates.Submitted,
+      payment: {
+        ...data.payment,
+        status: paid
+          ? 'PAID'
+          : outcome === 'cancelled'
+            ? 'CANCELLED'
+            : 'PENDING',
+      },
     });
 
     return HttpResponse.json({
-      redirect_url: stepPath('Done', {
+      redirect_url: stepPath(paid ? 'Done' : 'Payment', {
         examSessionId: data.exam_session.id,
         registrationId: data.registration_id,
       }),
@@ -229,8 +292,13 @@ export const registrationHandlers = [
   }),
   http.delete(RegistrationAPI.Details, ({ params }) => {
     const data = lookup(params);
-    if (!data || data.state !== RegistrationStates.Started)
-      return new HttpResponse(null, { status: 404 });
+    if (!data) return new HttpResponse(null, { status: 404 });
+    if (data.state === RegistrationStates.Cancelled)
+      return new HttpResponse(null, { status: 204 });
+    if (data.state === RegistrationStates.Expired)
+      return new HttpResponse(null, { status: 410 });
+    if (data.state !== RegistrationStates.Started)
+      return new HttpResponse(null, { status: 409 });
     saveRegistration({
       ...data,
       state: RegistrationStates.Cancelled,

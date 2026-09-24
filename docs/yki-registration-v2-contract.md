@@ -113,3 +113,5 @@ After an uncertain submit/cancel outcome, a new step entry rereads authoritative
 ## Verification boundary
 
 The frontend tests cover payload use, lifecycle navigation, command races, expiry and error recovery with MSW. Mock records are same-tab fixtures, not a security boundary. Mock authentication directly changes the fixture identity; mock payment directly changes payment state. Real email delivery/redemption, provider callbacks, cross-user authorization, capacity locking and transaction/idempotency behavior require backend integration tests.
+
+The mock payment link accepts `outcome=pending`, `outcome=cancelled` or `outcome=paid` (default). This is only a test-provider input: the application still uses the subsequent details GET to determine the page. Successful mock submit and cancel requests can be replayed without another transition. These are proposed recovery semantics to discuss with the backend developer, not proof of real transaction safety.
