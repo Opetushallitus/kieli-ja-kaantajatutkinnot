@@ -69,9 +69,9 @@ The v2 `RegistrationContext` extends the current init shape with:
 - `authentication_urls`: Suomi.fi/email continuation links carrying both IDs.
 - `payment`: payment URL, due date and status, or null when no payment is needed.
 
-The response retains both `exam_session.type` and `partial_exam_type`, plus the registration's own `registration_kind`. It must preserve session availability independently of the participant's reserved kind. The frontend validates that the returned session and registration IDs match the requested resource. The draft no longer supplies the ID for writes; submit and cancel use the loaded context.
+The response retains both `exam_session.type` and `partial_exam_type`, plus the registration's own `registration_kind`. It must preserve session availability independently of the participant's reserved kind. The frontend trusts the backend response as `RegistrationContext`. The draft no longer supplies the ID for writes; submit and cancel use the loaded context.
 
-The other-started-registration conflict must include `id` (session), `registration_id`, `state`, **`partial_exam_type` and `kind`**. Incomplete conflict responses are rejected with the generic init error; the frontend never guesses ALL_PARTS. The new MSW test exercises continuing a SPEAK/QUEUE reservation after selecting a different option.
+The other-started-registration conflict must include `id` (session), `registration_id`, `state`, **`partial_exam_type` and `kind`**. The backend supplies the full conflict selection so the frontend can resume it without guessing ALL_PARTS. The new MSW test exercises continuing a SPEAK/QUEUE reservation after selecting a different option.
 
 Free registration still saves education with the existing Java education endpoint before submitting. The final route comes from the submission result, and that route reads the full registration again. The server must support completed registrations in details GET so free completion and payment return survive refresh.
 
@@ -85,7 +85,7 @@ MSW does not intercept document navigation. Cypress therefore exercises the mock
 
 The requested [`public_registration_page_refactor.spec.ts`](../frontend/packages/yki/public/src/tests/cypress/integration/public_registration_page_refactor.spec.ts) was copied from the existing listing spec. It preserves the filtering/error scenarios and adds route/API assertions, all seven offered session/part combinations, both mocked authentication methods, paid/free/queue outcomes, reload, exact-ID cancellation, session failures and mobile controls. The new shared-worker accessor lets this spec install overrides on the worker started by Cypress support despite their separate webpack module caches. The old spec is unchanged.
 
-The feature's Jest tests cover duplicate commands, explicit conflict retry, duplicate route effects, switching registrations during a delayed GET, reset during init, and mismatched response IDs.
+The feature's Jest tests cover duplicate commands, explicit conflict retry, duplicate route effects, switching registrations during a delayed GET, reset during init, lifecycle navigation, and error recovery.
 
 Run from `frontend/packages/yki/public`, with Node available on PATH:
 
@@ -108,22 +108,21 @@ Validation on 2026-09-08: all ten desktop/phone style-and-content comparisons pa
 
 ## Frontend handover follow-up
 
-The response is now an explicit `RegistrationContext` rather than an extension of the legacy init response. Init, submission and error payloads have dedicated wire types. Response validation rejects inconsistent identity, lifecycle, selected part and payment fields before hydrating the store. The [handover contract](yki-registration-v2-contract.md) documents nullable fields, example payloads and backend integration decisions.
+The response is now an explicit `RegistrationContext` rather than an extension of the legacy init response. Init, submission and error payloads have dedicated wire types. The frontend trusts these types because the team owns both the existing Clojure API and the backend being migrated into this project. There is no runtime schema validator for successful responses; lifecycle navigation and request-race handling remain in the frontend. The [handover contract](yki-registration-v2-contract.md) documents nullable fields, example payloads and backend integration decisions.
 
 Transient details failures offer an explicit retry of the same GET, bypassing history-entry deduplication only after a failed request. Submission errors distinguish closure, expiry, an existing registration, payment creation and participant creation. Recoverable errors retain the draft in the current flow; leaving or reloading the document does not persist unsent form edits. Both submit and cancel controls are disabled during a command. Step navigation discards late command responses and clears pending status before reading authoritative state again.
 
 The mocks derive expiration without mutating records on GET, resume only exact live selections, return complete conflict selections, and support pending/cancelled/paid provider outcomes. Mock replay behavior is documented as a proposal requiring backend transaction support.
 
-Follow-up verification (Node 22.23.2, Electron 130):
+Verification after removing runtime response validation (Node 22.23.2, Electron 130):
 
 | Check | Result |
 | --- | --- |
-| Full public Jest suite | 14 suites, 180 tests and 10 snapshots passed |
-| V2 context, mock and recovery tests (included above) | 91 tests passed |
+| Full public Jest suite | 14 suites, 141 tests and 10 snapshots passed |
+| V2 routing, mock and recovery tests (included above) | 52 tests passed |
 | V2 flow Cypress spec | 34 passed |
-| New `registration_recovery_v2.spec.ts` | 14 passed |
+| `registration_recovery_v2.spec.ts` | 13 passed |
 | Desktop/phone style parity | 10 passed |
-| Unchanged legacy listing/full/partial Cypress specs | 16 passed |
 | TypeScript, ESLint, scoped Prettier and patch whitespace | Passed |
 
 All browser suites passed with retries disabled. Use `--no-client-overlay` on the test server: webpack's asset-size warnings otherwise cover the page and prevent interactions. Live backend ownership, authentication and payment integration remain outside these frontend checks.

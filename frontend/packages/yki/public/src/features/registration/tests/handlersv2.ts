@@ -5,7 +5,6 @@ import {
   RegistrationAPI,
   registrationEndpoint,
 } from 'features/registration/api/apiv2';
-import { validateRegistrationContext } from 'features/registration/api/contractv2';
 import {
   RegistrationContext,
   RegistrationInitErrorResponse,
@@ -92,13 +91,8 @@ const currentContext = (data: RegistrationContext): RegistrationContext =>
         reservation_expires_at: null,
       }
     : data;
-const response = (data: RegistrationContext) => {
-  validateRegistrationContext(data, {
-    examSessionId: data.exam_session.id,
-    registrationId: data.registration_id,
-  });
-
-  return HttpResponse.json({
+const response = (data: RegistrationContext) =>
+  HttpResponse.json({
     ...data,
     expires_in: data.reservation_expires_at
       ? Math.max(
@@ -107,7 +101,6 @@ const response = (data: RegistrationContext) => {
         )
       : undefined,
   });
-};
 const conflict = (data: RegistrationContext) =>
   HttpResponse.json(
     {

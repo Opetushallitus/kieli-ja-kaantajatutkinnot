@@ -220,9 +220,7 @@ export const RegistrationStepPage = ({ step }: { step: RegistrationStep }) => {
               ? 'sessionExpired'
               : loadError === 'network'
                 ? 'loadFailed'
-                : loadError === 'contract'
-                  ? 'invalidDetails'
-                  : 'unavailable',
+                : 'unavailable',
           )}
         </Alert>
         {validIds && loadError === 'network' && (

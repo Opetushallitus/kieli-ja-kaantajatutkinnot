@@ -914,7 +914,6 @@
         "paymentPending": "Payment details are pending. Check again later.",
         "queueInstructions": "You will receive an email if a place becomes available.",
         "welcome": "Welcome to the YKI test!",
-        "invalidDetails": "Registration details could not be read. Return to the front page and try again.",
         "retry": "Try again",
         "submitErrors": {
           "alreadyRegistered": "You already have a YKI test registration. Return to the front page.",

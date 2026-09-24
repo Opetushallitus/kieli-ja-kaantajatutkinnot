@@ -914,7 +914,6 @@
         "paymentPending": "Betalningsuppgifterna är inte klara. Kontrollera senare.",
         "queueInstructions": "Du får ett e-postmeddelande om en plats blir ledig.",
         "welcome": "Välkommen till YKI-testet!",
-        "invalidDetails": "Anmälningsuppgifterna kunde inte läsas. Återgå till startsidan och försök igen.",
         "retry": "Försök igen",
         "submitErrors": {
           "alreadyRegistered": "Du har redan anmält dig till ett YKI-test. Återgå till startsidan.",

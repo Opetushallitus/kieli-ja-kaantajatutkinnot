@@ -914,7 +914,6 @@
         "paymentPending": "Maksutietoja odotetaan. Tarkista tilanne myöhemmin.",
         "queueInstructions": "Saat sähköpostia, jos sinulle vapautuu paikka YKI-testissä.",
         "welcome": "Tervetuloa YKI-testiin!",
-        "invalidDetails": "Ilmoittautumisen tietoja ei voitu lukea. Palaa aloitussivulle ja yritä uudelleen.",
         "retry": "Yritä uudelleen",
         "submitErrors": {
           "alreadyRegistered": "Olet jo ilmoittautunut YKI-testiin. Palaa aloitussivulle.",

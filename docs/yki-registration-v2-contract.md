@@ -2,6 +2,8 @@
 
 This is the frontend's proposed contract for backend implementation. The TypeScript wire types are in [`modelv2.ts`](../frontend/packages/yki/public/src/features/registration/modelv2.ts). Backend authentication, ownership, transactions and provider callbacks are not implemented by the frontend. Confirm those integration details with the backend developer; the MSW provider simulation is not an authentication design.
 
+The team owns both the existing Clojure API and its replacement backend in this project. The frontend trusts `RegistrationContext` and the typed API errors without runtime schema validation. The rules below describe the backend contract and test fixtures; they are not duplicated as frontend assertions. URL parameter validation, lifecycle navigation, stale-response handling and HTTP error recovery remain frontend responsibilities.
+
 ## Operations and identity
 
 | Operation | Request | Success |
@@ -101,7 +103,6 @@ Expired reservations must not be resumed. A new explicit listing action may crea
 | Any operation 401/403 | Explain missing/expired session; return to listing |
 | Details 404/410 or terminal lifecycle | Unavailable; return to listing |
 | Details network/5xx | Retry the same GET; never init implicitly |
-| Invalid/inconsistent context | Contract error; never render a success page |
 | Submit 409 `closed`, `expired`, `registered` | Specific explanation; do not blindly repeat submission |
 | Submit `create_payment`, `person_creation`, unknown/network error | Specific explanation where available; retain draft and allow retry |
 | Cancel failure | Stay on reservation and allow retry; navigate only after success |

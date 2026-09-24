@@ -301,24 +301,22 @@ it('keeps the draft and permits retry after cancellation failure', async () => {
   );
 });
 
-it.each([
-  null,
-  '<html>error</html>',
-  { error: 'unavailable' },
-  { error: { 'other-exam-session-registration': { id: 100 } } },
-])('handles malformed init errors without crashing: %s', async (data) => {
-  jest.spyOn(axios, 'post').mockRejectedValueOnce(failure(500, data));
-  const store = setupStore();
-  store.dispatch(
-    initRegistration({
-      examSessionId: 100,
-      partialExamType: 'READ',
-      registrationKind: RegistrationKind.Admission,
-    }),
-  );
-  await waitFor(() =>
-    expect(store.getState().registration.initRegistration.error?.error).toBe(
-      PublicRegistrationInitError.Generic,
-    ),
-  );
-});
+it.each([null, '<html>error</html>'])(
+  'handles init failures without an API error body: %s',
+  async (data) => {
+    jest.spyOn(axios, 'post').mockRejectedValueOnce(failure(500, data));
+    const store = setupStore();
+    store.dispatch(
+      initRegistration({
+        examSessionId: 100,
+        partialExamType: 'READ',
+        registrationKind: RegistrationKind.Admission,
+      }),
+    );
+    await waitFor(() =>
+      expect(store.getState().registration.initRegistration.error?.error).toBe(
+        PublicRegistrationInitError.Generic,
+      ),
+    );
+  },
+);

@@ -23,11 +23,10 @@ import {
   submitRegistrationRequest,
 } from 'features/registration/api/apiv2';
 import {
-  RegistrationContractError,
-  registrationSubmitError,
-  validateRegistrationContext,
-} from 'features/registration/api/contractv2';
-import { RegistrationContext } from 'features/registration/modelv2';
+  RegistrationContext,
+  RegistrationInitErrorResponse,
+  RegistrationSubmitErrorResponse,
+} from 'features/registration/modelv2';
 import {
   acceptCancelRegistration,
   acceptPublicRegistrationInit,
@@ -95,7 +94,6 @@ function* readStep(
           getRegistrationDetails,
           action.payload,
         );
-        validateRegistrationContext(response.data, action.payload);
         if (
           ![
             RegistrationStates.Started,
@@ -115,13 +113,11 @@ function* readStep(
         const status = isAxiosError(error) ? error.response?.status : undefined;
         yield put(
           rejectStep(
-            error instanceof RegistrationContractError
-              ? 'contract'
-              : status === 401 || status === 403
-                ? 'session'
-                : status === 404 || status === 410
-                  ? 'unavailable'
-                  : 'network',
+            status === 401 || status === 403
+              ? 'session'
+              : status === 404 || status === 410
+                ? 'unavailable'
+                : 'network',
           ),
         );
       }
@@ -145,17 +141,13 @@ function* execute(action: Command) {
         initRegistrationRequest,
         action.payload,
       );
-      validateRegistrationContext(response.data, action.payload);
-      if (
-        response.data.partial_exam_type !== action.payload.partialExamType ||
-        response.data.registration_kind !== action.payload.registrationKind
-      )
-        throw new Error('Selection mismatch');
       yield call(acceptContext, response.data);
     } catch (error) {
       yield put(
         rejectPublicRegistrationInit(
-          isAxiosError(error) ? error.response : undefined,
+          isAxiosError<RegistrationInitErrorResponse>(error)
+            ? error.response
+            : undefined,
         ),
       );
     }
@@ -223,15 +215,6 @@ function* execute(action: Command) {
         lang: SerializationUtils.serializeAppLanguage(getCurrentLang()),
       },
     );
-    validateRegistrationContext(response.data, key);
-    if (
-      ![RegistrationStates.Submitted, RegistrationStates.Completed].includes(
-        response.data.state,
-      )
-    )
-      throw new RegistrationContractError(
-        'Submission did not advance the registration',
-      );
     yield call(acceptContext, response.data);
     yield put(
       acceptPublicRegistrationSubmission({
@@ -248,11 +231,11 @@ function* execute(action: Command) {
       yield put(rejectStep('session'));
     } else {
       yield put(
-        rejectPublicRegistrationSubmission(
-          registrationSubmitError(
-            isAxiosError(error) ? error.response?.data : undefined,
-          ),
-        ),
+        rejectPublicRegistrationSubmission({
+          error: isAxiosError<RegistrationSubmitErrorResponse>(error)
+            ? (error.response?.data?.error ?? {})
+            : {},
+        }),
       );
     }
   }

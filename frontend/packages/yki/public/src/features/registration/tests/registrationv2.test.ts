@@ -135,20 +135,6 @@ it('discards an init response after leaving the flow', async () => {
   expect(store.getState().registration.startNavigation).toBe(false);
 });
 
-it('rejects a response whose registration ID differs from the route', async () => {
-  jest
-    .spyOn(axios, 'get')
-    .mockResolvedValueOnce(
-      response(registrationFixture({ registration_id: 502 })),
-    );
-  const store = setupStore();
-  store.dispatch(read(501, 'first'));
-  await waitFor(() =>
-    expect(store.getState().registration.loadError).toBe('contract'),
-  );
-  expect(store.getState().registration.context).toBeUndefined();
-});
-
 it('hydrates a new email identity while preserving edits on an unchanged context', () => {
   const store = setupStore();
   const anonymous = registrationFixture({

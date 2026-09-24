@@ -201,25 +201,6 @@ for (const status of ['PENDING', 'CANCELLED', 'PAID'] as const) {
   });
 }
 
-it('rejects inconsistent success data without offering a network retry', () => {
-  getTestWorker().use(
-    http.get(RegistrationAPI.Details, () =>
-      HttpResponse.json(
-        registrationFixture({
-          state: RegistrationStates.Completed,
-        }),
-      ),
-    ),
-  );
-  visit(registrationFixture(), 'Done');
-  cy.findByRole('alert').should(
-    'contain.text',
-    'Ilmoittautumisen tietoja ei voitu lukea.',
-  );
-  cy.findByTestId('registration-v2-Done').should('not.exist');
-  cy.findByRole('button', { name: 'Yritä uudelleen' }).should('not.exist');
-});
-
 it('offers a fresh start for an expired reservation without renewing it', () => {
   visit(
     registrationFixture({ reservation_expires_at: '2022-09-27T13:59:59Z' }),

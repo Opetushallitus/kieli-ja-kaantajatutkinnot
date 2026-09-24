@@ -8,10 +8,10 @@ import {
   PublicRegistrationFormSubmitError,
   PublicRegistrationInitError,
 } from 'enums/publicRegistration';
-import { registrationInitError } from 'features/registration/api/contractv2';
 import {
   ConflictingRegistration,
   RegistrationContext,
+  RegistrationInitErrorResponse,
   RegistrationKey,
   RegistrationStep,
   RegistrationSubmitErrorResponse,
@@ -28,7 +28,7 @@ export interface RegistrationState {
   context?: RegistrationContext;
   requestKey?: string;
   requestedStep?: RegistrationStep;
-  loadError?: 'session' | 'unavailable' | 'network' | 'contract';
+  loadError?: 'session' | 'unavailable' | 'network';
   startNavigation: boolean;
   initRegistration: {
     status: APIResponseStatus;
@@ -101,7 +101,9 @@ const registrationSlice = createSlice({
     },
     rejectPublicRegistrationInit(
       state,
-      action: PayloadAction<AxiosResponse | undefined>,
+      action: PayloadAction<
+        AxiosResponse<RegistrationInitErrorResponse> | undefined
+      >,
     ) {
       state.initRegistration.status = APIResponseStatus.Error;
       if (!action.payload) {
@@ -115,7 +117,7 @@ const registrationSlice = createSlice({
           };
           state.activeStep = PublicRegistrationFormStep.Identify;
         } else {
-          const error = registrationInitError(action.payload.data);
+          const error = action.payload.data?.error ?? {};
           const { closed, full, partialFull } = error;
           if (closed) {
             state.initRegistration.error = {
@@ -289,7 +291,7 @@ const registrationSlice = createSlice({
     },
     rejectStep(
       state,
-      action: PayloadAction<'session' | 'unavailable' | 'network' | 'contract'>,
+      action: PayloadAction<'session' | 'unavailable' | 'network'>,
     ) {
       state.fetchRegistrationStatus = APIResponseStatus.Error;
       state.loadError = action.payload;
