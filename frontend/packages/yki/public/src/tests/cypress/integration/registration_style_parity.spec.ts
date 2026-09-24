@@ -94,11 +94,16 @@ for (const mobile of [false, true]) {
                 : step === 'Payment'
                   ? RegistrationStates.Submitted
                   : RegistrationStates.Started,
-            payment: {
-              url: '/mock-payment',
-              due_date: '2022-09-28T14:00:00Z',
-              status: step === 'Done' ? 'PAID' : 'PENDING',
-            },
+            reservation_expires_at: ['Payment', 'Done'].includes(step)
+              ? null
+              : base.reservation_expires_at,
+            payment: ['Payment', 'Done'].includes(step)
+              ? {
+                  url: '/mock-payment',
+                  due_date: '2022-09-28T14:00:00Z',
+                  status: step === 'Done' ? 'PAID' : 'PENDING',
+                }
+              : null,
           });
           getTestWorker().use(
             http.get(APIEndpoints.ExamSession, () =>

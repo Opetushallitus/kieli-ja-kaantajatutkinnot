@@ -28,7 +28,7 @@ export interface RegistrationState {
   context?: RegistrationContext;
   requestKey?: string;
   requestedStep?: RegistrationStep;
-  loadError?: 'session' | 'unavailable' | 'network';
+  loadError?: 'session' | 'unavailable' | 'network' | 'contract';
   startNavigation: boolean;
   initRegistration: {
     status: APIResponseStatus;
@@ -295,7 +295,7 @@ const registrationSlice = createSlice({
     },
     rejectStep(
       state,
-      action: PayloadAction<'session' | 'unavailable' | 'network'>,
+      action: PayloadAction<'session' | 'unavailable' | 'network' | 'contract'>,
     ) {
       state.fetchRegistrationStatus = APIResponseStatus.Error;
       state.loadError = action.payload;

@@ -22,6 +22,10 @@ import {
   initRegistrationRequest,
   submitRegistrationRequest,
 } from 'features/registration/api/apiv2';
+import {
+  RegistrationContractError,
+  validateRegistrationContext,
+} from 'features/registration/api/contractv2';
 import { RegistrationContext } from 'features/registration/modelv2';
 import {
   acceptCancelRegistration,
@@ -67,22 +71,6 @@ function* acceptContext(data: RegistrationContext) {
   yield put(acceptSession(data.session));
   yield put(acceptPublicRegistrationInit(data));
 }
-function validate(
-  data: RegistrationContext,
-  examSessionId: number,
-  registrationId?: number,
-) {
-  if (
-    data.exam_session?.id !== examSessionId ||
-    (registrationId && data.registration_id !== registrationId) ||
-    !data.partial_exam_type ||
-    !data.state ||
-    !data.session ||
-    !Number.isSafeInteger(data.registration_id)
-  ) {
-    throw new Error('Incomplete or mismatched registration response');
-  }
-}
 function* readStep(action: ReturnType<typeof requestStep>) {
   const state: RootState = yield select();
   // Deduplicate React remounts/StrictMode; a new history entry or reload gets a new read.
@@ -95,11 +83,7 @@ function* readStep(action: ReturnType<typeof requestStep>) {
           getRegistrationDetails,
           action.payload,
         );
-        validate(
-          response.data,
-          action.payload.examSessionId,
-          action.payload.registrationId,
-        );
+        validateRegistrationContext(response.data, action.payload);
         if (
           ![
             RegistrationStates.Started,
@@ -119,11 +103,13 @@ function* readStep(action: ReturnType<typeof requestStep>) {
         const status = isAxiosError(error) ? error.response?.status : undefined;
         yield put(
           rejectStep(
-            status === 401 || status === 403
-              ? 'session'
-              : status === 404 || status === 410
-                ? 'unavailable'
-                : 'network',
+            error instanceof RegistrationContractError
+              ? 'contract'
+              : status === 401 || status === 403
+                ? 'session'
+                : status === 404 || status === 410
+                  ? 'unavailable'
+                  : 'network',
           ),
         );
       }
@@ -147,8 +133,11 @@ function* execute(action: Command) {
         initRegistrationRequest,
         action.payload,
       );
-      validate(response.data, action.payload.examSessionId);
-      if (response.data.partial_exam_type !== action.payload.partialExamType)
+      validateRegistrationContext(response.data, action.payload);
+      if (
+        response.data.partial_exam_type !== action.payload.partialExamType ||
+        response.data.registration_kind !== action.payload.registrationKind
+      )
         throw new Error('Selection mismatch');
       yield call(acceptContext, response.data);
     } catch (error) {
@@ -222,7 +211,15 @@ function* execute(action: Command) {
         lang: SerializationUtils.serializeAppLanguage(getCurrentLang()),
       },
     );
-    validate(response.data, key.examSessionId, key.registrationId);
+    validateRegistrationContext(response.data, key);
+    if (
+      ![RegistrationStates.Submitted, RegistrationStates.Completed].includes(
+        response.data.state,
+      )
+    )
+      throw new RegistrationContractError(
+        'Submission did not advance the registration',
+      );
     yield call(acceptContext, response.data);
     yield put(
       acceptPublicRegistrationSubmission({

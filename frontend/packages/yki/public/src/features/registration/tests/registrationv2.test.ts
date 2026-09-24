@@ -144,7 +144,7 @@ it('rejects a response whose registration ID differs from the route', async () =
   const store = setupStore();
   store.dispatch(read(501, 'first'));
   await waitFor(() =>
-    expect(store.getState().registration.loadError).toBe('network'),
+    expect(store.getState().registration.loadError).toBe('contract'),
   );
   expect(store.getState().registration.context).toBeUndefined();
 });
