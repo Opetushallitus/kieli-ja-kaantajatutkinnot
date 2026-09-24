@@ -1,7 +1,9 @@
-import { H2, Text } from 'shared/components';
+import { ReactNode } from 'react';
+import { H2 } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
+import { ExamSessionFormat } from 'components/registration/examSession/ExamSessionFormat';
 import {
   getCurrentLang,
   useCommonTranslation,
@@ -15,6 +17,19 @@ import { publicFreeRegistrationSelector } from 'redux/selectors/publicFreeRegist
 import { registrationSelector } from 'redux/selectors/registration';
 import { sessionSelector } from 'redux/selectors/session';
 import { ExamSessionUtils } from 'utils/examSession';
+
+const DetailRow = ({
+  label,
+  children,
+}: {
+  label: string;
+  children: ReactNode;
+}) => (
+  <>
+    <dt>{label}</dt>
+    <dd>{children}</dd>
+  </>
+);
 
 // PartialExamTypeProp is only used when ConfirmRegistrationPage renders ExamSessionDetails
 export const PublicRegistrationExamSessionDetails = ({
@@ -143,76 +158,57 @@ export const PublicRegistrationExamSessionDetails = ({
     examSession.type !== 'FULL';
 
   return (
-    <div className="rows">
-      <div className="rows-gapped-xxs">
-        <H2 style={{ marginBottom: '1rem' }}>
-          <b>{header}</b>
-        </H2>
+    <div className="public-registration-exam-session-details rows">
+      <H2 style={{ marginBottom: '2rem' }}>
+        <b>{header}</b>
+      </H2>
+      <dl className="public-registration-exam-session-details__fields">
         {!isPartialExamRegistrationEndStep && (
-          <Text>
-            {`${translateCommon('partialExams')}: `}
-            <b>
-              {ExamSessionUtils.getPartialExamTypeText(
-                examSession.type,
-                partialExamTypeProp ?? initRegistration.partialExamType,
-              )}
-            </b>
-          </Text>
+          <DetailRow label={translateCommon('partialExams')}>
+            {ExamSessionUtils.getPartialExamTypeText(
+              examSession.type,
+              partialExamTypeProp ?? initRegistration.partialExamType,
+            )}
+          </DetailRow>
         )}
-        <Text>
-          {`${translateCommon('examDate')}: `}
-          <b>{DateUtils.formatOptionalDate(examSession.session_date)}</b>
-        </Text>
+        <DetailRow label={t('testFormat')}>
+          <ExamSessionFormat examSessionId={examSession.id} showDescription />
+        </DetailRow>
+        <DetailRow label={translateCommon('examDate')}>
+          {DateUtils.formatOptionalDate(examSession.session_date)}
+        </DetailRow>
         {examSession.type !== 'FULL' &&
           activeStep !== PublicRegistrationFormStep.Done && (
-            <Text>
-              {`${translateCommon('partialExamTimeLabel')}: `}
-              <b>
-                {translateCommon('partialExamTime', {
-                  startTime:
-                    ExamSessionUtils.getStartTime(
-                      examSession,
-                      initRegistration.partialExamType,
-                    ) || '',
-                })}
-              </b>
-            </Text>
+            <DetailRow label={translateCommon('partialExamTimeLabel')}>
+              {translateCommon('partialExamTime', {
+                startTime:
+                  ExamSessionUtils.getStartTime(
+                    examSession,
+                    initRegistration.partialExamType,
+                  ) || '',
+              })}
+            </DetailRow>
           )}
-        <Text>
-          {`${translateCommon('institution')}: `}
-          <b>{`${location.name}, ${
-            location.street_address
-          }, ${ExamSessionUtils.getMunicipality(location)}`}</b>
-        </Text>
-
-        <Text>
-          {`${t('registrationTime')}: `}
-          <b>{`${DateUtils.formatOptionalDate(
-            start,
-          )} - ${DateUtils.formatOptionalDate(end)}`}</b>
-        </Text>
-
+        <DetailRow label={translateCommon('institution')}>
+          {`${location.name}, ${location.street_address}, ${ExamSessionUtils.getMunicipality(location)}`}
+        </DetailRow>
+        <DetailRow label={t('registrationTime')}>
+          {`${DateUtils.formatOptionalDate(start)} - ${DateUtils.formatOptionalDate(end)}`}
+        </DetailRow>
         {activeStep !== PublicRegistrationFormStep.Done && (
-          <Text>
-            {`${t('examFee')}: `}
-            <b>{examFeeText}</b>
-          </Text>
+          <DetailRow label={t('examFee')}>{examFeeText}</DetailRow>
         )}
         {showOpenings && (
-          <Text>
-            {`${t('openings')}: `}
-            <b>{availablePlaces ? availablePlaces : translateCommon('full')}</b>
-          </Text>
+          <DetailRow label={t('openings')}>
+            {availablePlaces ? availablePlaces : translateCommon('full')}
+          </DetailRow>
         )}
         {activeStep === PublicRegistrationFormStep.Register &&
           freeRegistrationPossible &&
           attemptsUsed !== undefined && (
-            <Text>
-              {`${t('freeAttemptsLeft')}: `}
-              <b>{attemptsLeft}</b>
-            </Text>
+            <DetailRow label={t('freeAttemptsLeft')}>{attemptsLeft}</DetailRow>
           )}
-      </div>
+      </dl>
     </div>
   );
 };

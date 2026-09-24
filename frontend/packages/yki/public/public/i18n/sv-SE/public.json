@@ -134,9 +134,9 @@
             "part3": "Om du vill avbryta anmälan, fortsätt först till anmälningsblanketten och klicka sedan på AVBRYT ANMÄLAN.",
             "title": "Pågående anmälan"
           },
+          "registerToPartialExamsSeparately": "Det finns inga lediga platser. Anmäl dig till delproven separat.",
           "reservingQueueSeat": "Reserverar en köplats...",
-          "title": "Anmälning misslyckades",
-          "registerToPartialExamsSeparately": "Det finns inga lediga platser. Anmäl dig till delproven separat."
+          "title": "Anmälning misslyckades"
         },
         "enrollToQueue": {
           "dialog": {
@@ -208,7 +208,18 @@
           "examFee": "Examensavgift",
           "freeAttemptsLeft": "Antal återstående avgiftsfria examenstillfällen",
           "openings": "Lediga platser",
-          "registrationTime": "Anmälningstid"
+          "registrationTime": "Anmälningstid",
+          "testFormat": "Testtyp"
+        },
+        "examSessionFormat": {
+          "digital": {
+            "description": "Testet görs på testplatsen med en dator som arrangören tillhandahåller.",
+            "label": "Digitalt test"
+          },
+          "paper": {
+            "description": "Testet görs med penna på papper på testplatsen.",
+            "label": "Papperstest"
+          }
         },
         "expirationTimer": {
           "reservationExpired": "Anmälan misslyckades",
@@ -770,9 +781,9 @@
             "label": "Efter YKI-testet",
             "url": "https://www.oph.fi/sv/utbildning-och-examina/efter-yki-testet"
           },
-          "part1": "Den första delprovsdagen ordnas den 16 september 2026!",
-          "part2": "Under delprovsdagen kan du endast avlägga delproven i skriftlig framställning och talförståelse.",
-          "part3": "Läs mer på Utbildningsstyrelsens webbplats: <CustomLink></CustomLink>"
+          "part1": "Digitala YKI-test testas i november!",
+          "part2": "Vissa YKI-test i finska och svenska på mellannivå är digitala. Alla YKI-test i november är inte digitala.",
+          "part3": "Du kan alltså också göra YKI-testet med papper och penna. <CustomLink></CustomLink>"
         },
         "labels": {
           "allPartsAtOnce": "Alla delprov på en gång",

@@ -38,7 +38,12 @@ const Header = () => {
 const Contents = () => {
   const { registrationDetails } = useAppSelector(confirmRegistrationSelector);
   const { personDetails } = useAppSelector(userDetailsSelector);
-  if (!registrationDetails) {
+  const { initRegistration } = useAppSelector(registrationSelector);
+  if (
+    !registrationDetails ||
+    initRegistration.registrationId !== registrationDetails.id ||
+    initRegistration.examSessionId === undefined
+  ) {
     return null;
   }
   const lang = getCurrentLang();
@@ -53,7 +58,12 @@ const Contents = () => {
         className="confirm-registration-page__paper-contents"
       >
         <PublicRegistrationExamSessionDetails
-          examSession={registrationDetails as unknown as ExamSession}
+          examSession={
+            {
+              ...registrationDetails,
+              id: initRegistration.examSessionId,
+            } as unknown as ExamSession
+          }
           showOpenings={false}
           partialExamType={partialExamType}
         />

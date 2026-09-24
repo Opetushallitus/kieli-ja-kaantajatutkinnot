@@ -2,6 +2,7 @@ package fi.oph.yki.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -19,6 +20,9 @@ import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.ExamSessionLocation;
 import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
+import fi.oph.yki.model.type.ExamSessionType;
+import fi.oph.yki.model.type.PartialExamType;
+import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.onr.OnrService;
 import fi.oph.yki.onr.dto.PersonalDataDTO;
@@ -30,7 +34,9 @@ import jakarta.annotation.Resource;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -255,5 +261,146 @@ public class ClerkExamSessionServiceTest {
     assertEquals("Uusi katu 2", result.location().get(0).streetAddress());
     assertEquals("00200", result.location().get(0).zip());
     assertEquals("Espoo", result.location().get(0).postOffice());
+  }
+
+  @Test
+  public void testGetExamSessionQueuePositionsForFullExamSession() {
+    final ExamDate examDate = Factory.examDate();
+    final ExamSession examSession = Factory.examSession(examDate);
+    final ExamSessionLocation location = Factory.examSessionLocation(examSession);
+
+    examSession.setMaxParticipants(1);
+
+    entityManager.persist(examDate);
+    entityManager.persist(examSession);
+    entityManager.persist(location);
+
+    final Person person1 = Factory.person();
+    final Person person2 = Factory.person();
+    person2.setOid("1.2.3.4.6");
+    final Person admissionPerson = Factory.person();
+    admissionPerson.setOid("1.2.3.4.7");
+
+    entityManager.persist(person1);
+    entityManager.persist(person2);
+    entityManager.persist(admissionPerson);
+
+    final Registration queue1 = Factory.registration(person1);
+    queue1.setExamSession(examSession);
+    queue1.setState(RegistrationState.SUBMITTED);
+    queue1.setKind(RegistrationKind.QUEUE);
+    queue1.setPartialExamType(PartialExamType.ALL_PARTS);
+    queue1.setCreatedAt(LocalDateTime.of(2026, 4, 1, 10, 0));
+    queue1.setForm(objectMapper.createObjectNode());
+
+    final Registration queue2 = Factory.registration(person2);
+    queue2.setExamSession(examSession);
+    queue2.setState(RegistrationState.SUBMITTED);
+    queue2.setKind(RegistrationKind.QUEUE);
+    queue2.setPartialExamType(PartialExamType.ALL_PARTS);
+    queue2.setCreatedAt(LocalDateTime.of(2026, 4, 2, 10, 0));
+    queue2.setForm(objectMapper.createObjectNode());
+
+    final Registration admission = Factory.registration(admissionPerson);
+    admission.setExamSession(examSession);
+    admission.setState(RegistrationState.COMPLETED);
+    admission.setKind(RegistrationKind.ADMISSION);
+    admission.setPartialExamType(PartialExamType.ALL_PARTS);
+    admission.setCreatedAt(LocalDateTime.of(2026, 3, 15, 10, 0));
+    admission.setForm(objectMapper.createObjectNode());
+
+    entityManager.persist(admission);
+    entityManager.persist(queue1);
+    entityManager.persist(queue2);
+    entityManager.flush();
+    entityManager.clear();
+
+    final ClerkExamSessionDTO result = clerkExamSessionService.getExamSession(examSession.getId());
+
+    final Map<Long, ClerkRegistrationDTO> byId = result
+      .registrations()
+      .stream()
+      .collect(Collectors.toMap(ClerkRegistrationDTO::id, Function.identity()));
+
+    assertEquals(1L, byId.get(queue1.getId()).queuePosition());
+    assertEquals(2L, byId.get(queue2.getId()).queuePosition());
+    assertEquals(null, byId.get(admission.getId()).queuePosition());
+  }
+
+  @Test
+  public void testGetExamSessionQueuePositionsForPartialExamSession() {
+    final ExamDate examDate = Factory.examDate();
+    final ExamSession examSession = Factory.examSession(examDate);
+    examSession.setType(ExamSessionType.READ_SPEAK);
+    examSession.setMaxParticipants(1);
+    final ExamSessionLocation location = Factory.examSessionLocation(examSession);
+
+    entityManager.persist(examDate);
+    entityManager.persist(examSession);
+    entityManager.persist(location);
+
+    final Person person0 = Factory.person();
+    final Person person1 = Factory.person();
+    person0.setOid("1.2.3.4.6");
+    final Person person2 = Factory.person();
+    person2.setOid("1.2.3.4.7");
+    final Person person3 = Factory.person();
+    person3.setOid("1.2.3.4.8");
+
+    entityManager.persist(person0);
+    entityManager.persist(person1);
+    entityManager.persist(person2);
+    entityManager.persist(person3);
+
+    final Registration admission = Factory.registration(person0);
+    admission.setExamSession(examSession);
+    admission.setState(RegistrationState.SUBMITTED);
+    admission.setKind(RegistrationKind.ADMISSION);
+    admission.setPartialExamType(PartialExamType.ALL_PARTS);
+    admission.setCreatedAt(LocalDateTime.of(2026, 4, 1, 9, 0));
+    admission.setForm(objectMapper.createObjectNode());
+
+    final Registration queueRead = Factory.registration(person1);
+    queueRead.setExamSession(examSession);
+    queueRead.setState(RegistrationState.SUBMITTED);
+    queueRead.setKind(RegistrationKind.QUEUE);
+    queueRead.setPartialExamType(PartialExamType.READ);
+    queueRead.setCreatedAt(LocalDateTime.of(2026, 4, 1, 10, 0));
+    queueRead.setForm(objectMapper.createObjectNode());
+
+    final Registration queueSpeak1 = Factory.registration(person2);
+    queueSpeak1.setExamSession(examSession);
+    queueSpeak1.setState(RegistrationState.SUBMITTED);
+    queueSpeak1.setKind(RegistrationKind.QUEUE);
+    queueSpeak1.setPartialExamType(PartialExamType.SPEAK);
+    queueSpeak1.setCreatedAt(LocalDateTime.of(2026, 4, 1, 11, 0));
+    queueSpeak1.setForm(objectMapper.createObjectNode());
+
+    final Registration queueSpeak2 = Factory.registration(person3);
+    queueSpeak2.setExamSession(examSession);
+    queueSpeak2.setState(RegistrationState.SUBMITTED);
+    queueSpeak2.setKind(RegistrationKind.QUEUE);
+    queueSpeak2.setPartialExamType(PartialExamType.SPEAK);
+    queueSpeak2.setCreatedAt(LocalDateTime.of(2026, 4, 2, 10, 0));
+    queueSpeak2.setForm(objectMapper.createObjectNode());
+
+    entityManager.persist(admission);
+    entityManager.persist(queueRead);
+    entityManager.persist(queueSpeak1);
+    entityManager.persist(queueSpeak2);
+    entityManager.flush();
+    entityManager.clear();
+
+    final ClerkExamSessionDTO result = clerkExamSessionService.getExamSession(examSession.getId());
+
+    final Map<Long, ClerkRegistrationDTO> byId = result
+      .registrations()
+      .stream()
+      .collect(Collectors.toMap(ClerkRegistrationDTO::id, Function.identity()));
+
+    assertEquals(1L, byId.get(queueRead.getId()).queuePosition());
+    assertEquals(1L, byId.get(queueSpeak1.getId()).queuePosition());
+    assertEquals(2L, byId.get(queueSpeak2.getId()).queuePosition());
+    assertNull(byId.get(admission.getId()).queuePosition());
   }
 }

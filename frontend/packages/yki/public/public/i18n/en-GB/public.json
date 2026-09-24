@@ -134,9 +134,9 @@
             "part3": "If you want to cancel the registration, first proceed to the registration form and then click QUIT REGISTRATION.",
             "title": "Registration in progress"
           },
+          "registerToPartialExamsSeparately": "The YKI test is full. Register for the subtests separately.",
           "reservingQueueSeat": "Reserving a place on the waiting list...",
-          "title": "Registration failed",
-          "registerToPartialExamsSeparately": "The YKI test is full. Register for the subtests separately."
+          "title": "Registration failed"
         },
         "enrollToQueue": {
           "dialog": {
@@ -208,7 +208,18 @@
           "examFee": "Test fee",
           "freeAttemptsLeft": "You have free registrations remaining",
           "openings": "Available seats",
-          "registrationTime": "Registration period"
+          "registrationTime": "Registration period",
+          "testFormat": "Test type"
+        },
+        "examSessionFormat": {
+          "digital": {
+            "description": "The test is completed on a computer provided by the organiser at the test centre.",
+            "label": "Digital test"
+          },
+          "paper": {
+            "description": "The test is completed using a pencil and paper at the test centre.",
+            "label": "Paper test"
+          }
         },
         "expirationTimer": {
           "reservationExpired": "Registration failed",
@@ -770,9 +781,9 @@
             "label": "After the YKI test",
             "url": "https://www.oph.fi/en/education-and-qualifications/after-yki-test"
           },
-          "part1": "The first subtest day will take place on 16 September 2026!",
-          "part2": "On the subtest day, you can only take the writing and listening comprehension subtests.",
-          "part3": "Read more on the website of the Finnish National Agency for Education: <CustomLink></CustomLink>"
+          "part1": "Digital YKI tests will be piloted in November!",
+          "part2": "Some of the intermediate-level YKI tests in Finnish and Swedish will be digital. Not all YKI tests in November will be digital.",
+          "part3": "You can also take the YKI test using pen and paper. <CustomLink></CustomLink>"
         },
         "labels": {
           "allPartsAtOnce": "All subtests at once",

@@ -5,7 +5,7 @@ import { Trans } from 'react-i18next';
 import { H1, H2, HeaderSeparator, Text } from 'shared/components';
 import { APIResponseStatus, Severity } from 'shared/enums';
 
-import { PartialExamsLink } from 'components/elements/PartialExamsLink';
+import { InfoBoxLink } from 'components/elements/InfoBoxLink';
 import { PublicExamSessionListing } from 'components/registration/examSession/PublicExamSessionListing';
 import { PublicExamSessionFilters } from 'components/registration/examSession/PublicExamSessionListingFilters';
 import { usePublicTranslation } from 'configs/i18n';
@@ -30,7 +30,7 @@ const InformationBox = () => {
           i18nKey="part3"
           t={t}
           components={{
-            CustomLink: <PartialExamsLink />,
+            CustomLink: <InfoBoxLink />,
           }}
         />
       </Text>

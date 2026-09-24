@@ -427,7 +427,7 @@ export const ModifyContactDetailsPage = () => {
       dispatch(loadPersonDetails());
       dispatch(loadSession());
     }
-  });
+  }, [dispatch, modifyContactDetailsStatus, navigate, showToast, t]);
 
   // Clean-up
   useEffect(() => {
