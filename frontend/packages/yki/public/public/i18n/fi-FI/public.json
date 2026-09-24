@@ -897,7 +897,7 @@
         "doneQueue": "Ilmoittautuminen jonoon onnistui",
         "sessionExpired": "Istuntosi on vanhentunut tai ei ole voimassa. Palaa aloitussivulle ja aloita uudelleen.",
         "unavailable": "Ilmoittautumista ei löydy tai se ei ole enää voimassa.",
-        "loadFailed": "Ilmoittautumisen tietoja ei voitu ladata. Palaa aloitussivulle ja yritä uudelleen.",
+        "loadFailed": "Ilmoittautumisen tietoja ei voitu ladata. Yritä uudelleen jatkaaksesi samaa ilmoittautumista.",
         "frontpage": "Palaa aloitussivulle",
         "fixErrors": "Korjaa lomakkeen virheet ennen lähettämistä.",
         "submitFailed": "Lomakkeen lähettäminen epäonnistui. Tarkista tiedot ja yritä uudelleen.",
@@ -913,7 +913,16 @@
         "pay": "Maksa tutkintomaksu",
         "paymentPending": "Maksutietoja odotetaan. Tarkista tilanne myöhemmin.",
         "queueInstructions": "Saat sähköpostia, jos sinulle vapautuu paikka YKI-testissä.",
-        "welcome": "Tervetuloa YKI-testiin!"
+        "welcome": "Tervetuloa YKI-testiin!",
+        "invalidDetails": "Ilmoittautumisen tietoja ei voitu lukea. Palaa aloitussivulle ja yritä uudelleen.",
+        "retry": "Yritä uudelleen",
+        "submitErrors": {
+          "alreadyRegistered": "Olet jo ilmoittautunut YKI-testiin. Palaa aloitussivulle.",
+          "formExpired": "Paikkavarauksesi on vanhentunut. Palaa aloitussivulle ja aloita uudelleen.",
+          "registrationPeriodClosed": "Ilmoittautumisaika on päättynyt. Palaa aloitussivulle valitsemaan toinen testi.",
+          "paymentCreationFailed": "Maksun luominen epäonnistui. Lomakkeen tiedot on säilytetty. Yritä lähettää lomake uudelleen.",
+          "personCreationFailed": "Osallistujatietojesi tallentaminen epäonnistui. Tarkista lomake ja yritä uudelleen."
+        }
       }
     }
   }

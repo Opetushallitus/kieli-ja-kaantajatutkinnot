@@ -897,7 +897,7 @@
         "doneQueue": "Du har anmält dig till kön",
         "sessionExpired": "Din session har gått ut eller är ogiltig. Gå tillbaka till startsidan och börja om.",
         "unavailable": "Anmälan hittades inte eller är inte längre giltig.",
-        "loadFailed": "Uppgifterna kunde inte hämtas. Gå tillbaka till startsidan och försök igen.",
+        "loadFailed": "Anmälningsuppgifterna kunde inte hämtas. Försök igen för att fortsätta med samma anmälan.",
         "frontpage": "Tillbaka till startsidan",
         "fixErrors": "Korrigera felen i blanketten innan du skickar den.",
         "submitFailed": "Blanketten kunde inte skickas. Kontrollera uppgifterna och försök igen.",
@@ -913,7 +913,16 @@
         "pay": "Betala examensavgiften",
         "paymentPending": "Betalningsuppgifterna är inte klara. Kontrollera senare.",
         "queueInstructions": "Du får ett e-postmeddelande om en plats blir ledig.",
-        "welcome": "Välkommen till YKI-testet!"
+        "welcome": "Välkommen till YKI-testet!",
+        "invalidDetails": "Anmälningsuppgifterna kunde inte läsas. Återgå till startsidan och försök igen.",
+        "retry": "Försök igen",
+        "submitErrors": {
+          "alreadyRegistered": "Du har redan anmält dig till ett YKI-test. Återgå till startsidan.",
+          "formExpired": "Din platsreservation har gått ut. Återgå till startsidan och börja om.",
+          "registrationPeriodClosed": "Anmälningstiden har gått ut. Återgå till startsidan för att välja ett annat test.",
+          "paymentCreationFailed": "Betalningen kunde inte skapas. Uppgifterna finns kvar i blanketten. Försök skicka blanketten igen.",
+          "personCreationFailed": "Dina deltagaruppgifter kunde inte sparas. Kontrollera blanketten och försök igen."
+        }
       }
     }
   }

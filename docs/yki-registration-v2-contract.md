@@ -19,7 +19,7 @@ The registration's `registration_kind` and `partial_exam_type` are authoritative
 
 ## Lifecycle and nullable fields
 
-All `RegistrationContext` fields are required except `expires_in` and individual user attributes. Dates are ISO 8601 timestamps with a timezone. `expires_in` is compatibility information only. `authentication_urls` contains opaque Suomi.fi and email continuation URLs; internal step navigation does not derive state from query parameters.
+All `RegistrationContext` fields are required except `expires_in` and individual user attributes. Reservation deadlines and payment due dates are ISO 8601 timestamps with a timezone; exam dates and birthdates retain their existing date-only format. `expires_in` is compatibility information only. `authentication_urls` contains opaque Suomi.fi and email continuation URLs; internal step navigation does not derive state from query parameters.
 
 | State | Reservation deadline | Payment | Valid page / behavior |
 | --- | --- | --- | --- |

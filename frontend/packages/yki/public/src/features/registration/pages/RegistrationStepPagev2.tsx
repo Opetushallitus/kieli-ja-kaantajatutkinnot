@@ -19,7 +19,10 @@ import { ConfirmRegistration } from 'components/registration/steps/register/Conf
 import { SuccessQueued } from 'components/registration/steps/register/SubmitRegistrationDetails';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { RegistrationKind, RegistrationStates } from 'enums/app';
-import { PublicRegistrationFormStep } from 'enums/publicRegistration';
+import {
+  PublicRegistrationFormStep,
+  PublicRegistrationFormSubmitError,
+} from 'enums/publicRegistration';
 import { PublicRegistrationExamSessionDetails } from 'features/registration/components/PublicRegistrationExamSessionDetailsv2';
 import { MemoizedPublicRegistrationTimer } from 'features/registration/components/PublicRegistrationTimerv2';
 import { RegistrationControls } from 'features/registration/components/RegistrationControlsv2';
@@ -30,6 +33,7 @@ import { RegistrationStep } from 'features/registration/modelv2';
 import {
   cancelRegistration,
   requestStep,
+  retryStep,
   setShowErrors,
   submitPublicRegistration,
 } from 'features/registration/redux/reducers/registrationv2';
@@ -60,8 +64,19 @@ const Form = ({
     keyPrefix: 'yki.component.registration.registrationDetails.errors.fields',
   });
   const dispatch = useAppDispatch();
-  const { submitRegistration, showErrors, hasTimerExpired } =
-    useAppSelector(registrationSelector);
+  const {
+    submitRegistration,
+    cancelRegistration: cancellation,
+    showErrors,
+    hasTimerExpired,
+  } = useAppSelector(registrationSelector);
+  const submissionBlocked =
+    submitRegistration.error &&
+    [
+      PublicRegistrationFormSubmitError.AlreadyRegistered,
+      PublicRegistrationFormSubmitError.FormExpired,
+      PublicRegistrationFormSubmitError.RegistrationPeriodClosed,
+    ].includes(submitRegistration.error);
   const errors = usePublicRegistrationErrors(true)();
   const invalidFields = Object.entries(errors).filter(([, value]) => value);
   const errorRef = useRef<HTMLDivElement>(null);
@@ -92,7 +107,20 @@ const Form = ({
           </Alert>
         )}
         {submitRegistration.status === APIResponseStatus.Error && (
-          <Alert severity="error">{t('submitFailed')}</Alert>
+          <Alert severity="error">
+            {submitRegistration.error
+              ? t(`submitErrors.${submitRegistration.error}`)
+              : t('submitFailed')}
+            {submissionBlocked && (
+              <Button
+                component={Link}
+                color={Color.Secondary}
+                to={RegistrationRoutes.Listing}
+              >
+                {t('frontpage')}
+              </Button>
+            )}
+          </Alert>
         )}
       </div>
       <RegistrationControls
@@ -114,6 +142,8 @@ const Form = ({
               onClick={submit}
               disabled={
                 hasTimerExpired ||
+                !!submissionBlocked ||
+                cancellation.status === APIResponseStatus.InProgress ||
                 submitRegistration.status === APIResponseStatus.InProgress
               }
               data-testid="public-registration__controlButtons__submit"
@@ -154,6 +184,7 @@ export const RegistrationStepPage = ({ step }: { step: RegistrationStep }) => {
     requestKey,
     loadError,
     cancelRegistration: cancellation,
+    submitRegistration,
   } = useAppSelector(registrationSelector);
   const examSession = useAppSelector((state) => state.examSession.examSession);
   useEffect(() => {
@@ -176,9 +207,9 @@ export const RegistrationStepPage = ({ step }: { step: RegistrationStep }) => {
       });
   }, [navigate, target, step, examSessionId, registrationId]);
   useEffect(() => {
-    if (cancellation.status === APIResponseStatus.Success)
+    if (ready && cancellation.status === APIResponseStatus.Success)
       navigate(RegistrationRoutes.Listing);
-  }, [navigate, cancellation.status]);
+  }, [navigate, ready, cancellation.status]);
 
   if (!validIds || loadError)
     return (
@@ -189,9 +220,29 @@ export const RegistrationStepPage = ({ step }: { step: RegistrationStep }) => {
               ? 'sessionExpired'
               : loadError === 'network'
                 ? 'loadFailed'
-                : 'unavailable',
+                : loadError === 'contract'
+                  ? 'invalidDetails'
+                  : 'unavailable',
           )}
         </Alert>
+        {validIds && loadError === 'network' && (
+          <Button
+            variant={Variant.Contained}
+            color={Color.Secondary}
+            onClick={() =>
+              dispatch(
+                retryStep({
+                  examSessionId,
+                  registrationId,
+                  step,
+                  requestKey: key,
+                }),
+              )
+            }
+          >
+            {t('retry')}
+          </Button>
+        )}
         <Button
           component={Link}
           variant={Variant.Contained}
@@ -234,7 +285,10 @@ export const RegistrationStepPage = ({ step }: { step: RegistrationStep }) => {
           : undefined
       }
       size={identify && context.session.identity ? 'large' : undefined}
-      disabled={cancellation.status === APIResponseStatus.InProgress}
+      disabled={
+        cancellation.status === APIResponseStatus.InProgress ||
+        submitRegistration.status === APIResponseStatus.InProgress
+      }
       onClick={() => dispatch(cancelRegistration())}
       data-testid="public-registration__controlButtons__abort"
     >
