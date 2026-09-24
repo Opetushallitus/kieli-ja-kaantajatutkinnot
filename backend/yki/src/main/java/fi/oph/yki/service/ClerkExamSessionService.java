@@ -70,6 +70,8 @@ public class ClerkExamSessionService {
 
   @Transactional(readOnly = true)
   public ClerkExamSessionDTO getExamSession(final Long examSessionId) {
+    auditService.logById(YkiOperation.GET_EXAM_SESSION, examSessionId);
+
     final ExamSession examSession = examSessionRepository.getReferenceById(examSessionId);
 
     return toDTO(examSession);
@@ -77,6 +79,7 @@ public class ClerkExamSessionService {
 
   @Transactional(readOnly = true)
   public List<ClerkExamSessionDTO> getExamSessionsByLanguageAndLevel(final String language, final String level) {
+    auditService.logOperation(YkiOperation.LIST_EXAM_SESSIONS);
     return examSessionRepository.getByLanguageAndLevel(language, level).stream().map(this::toDTO).toList();
   }
 
@@ -233,6 +236,8 @@ public class ClerkExamSessionService {
 
   @Transactional(readOnly = true)
   public AbstractXlsxView getExamSessionExcel(final long examSessionId) {
+    auditService.logById(YkiOperation.DOWNLOAD_EXAM_SESSION_EXCEL, examSessionId);
+
     final var examSession = examSessionRepository.getReferenceById(examSessionId);
     final var identityNumbersByOid = getIdentityNumbersByOid(examSession);
     final var excelData = ExamSessionXlsxDataRowUtil.createExcelData(examSession, identityNumbersByOid);
@@ -286,6 +291,7 @@ public class ClerkExamSessionService {
   @Transactional
   public ClerkExamSessionDTO updateExamSession(final long examSessionId, final ClerkExamSessionUpdateDTO dto) {
     final ExamSession examSession = examSessionRepository.getReferenceById(examSessionId);
+    final ClerkExamSessionDTO beforeDTO = toDTO(examSession);
 
     if (dto.language() != null) {
       examSession.setLanguage(dto.language());
@@ -325,7 +331,10 @@ public class ClerkExamSessionService {
     examSession.setContactEmail(dto.contactEmail());
     examSession.setContactPhoneNumber(dto.contactPhoneNumber());
 
-    return getExamSession(examSessionId);
+    final ClerkExamSessionDTO afterDTO = toDTO(examSession);
+    auditService.logUpdate(YkiOperation.UPDATE_EXAM_SESSION, examSessionId, beforeDTO, afterDTO);
+
+    return afterDTO;
   }
 
   @Transactional
@@ -371,8 +380,9 @@ public class ClerkExamSessionService {
     }
 
     final ExamSession saved = examSessionRepository.save(examSession);
-    auditService.logById(YkiOperation.CREATE_EXAM_SESSION, saved.getId());
+    final ClerkExamSessionDTO savedDto = toDTO(saved);
+    auditService.logCreate(YkiOperation.CREATE_ORGANIZER, saved.getId(), savedDto);
 
-    return toDTO(saved);
+    return savedDto;
   }
 }

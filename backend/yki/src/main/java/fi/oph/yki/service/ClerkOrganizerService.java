@@ -7,6 +7,8 @@ import fi.oph.yki.api.dto.clerk.ClerkOrganizerExamSessionDTO;
 import fi.oph.yki.api.dto.clerk.ClerkOrganizerExamSessionLocationDTO;
 import fi.oph.yki.api.dto.clerk.ClerkOrganizerLanguageDTO;
 import fi.oph.yki.api.dto.clerk.ClerkOrganizerUpdateDTO;
+import fi.oph.yki.audit.AuditService;
+import fi.oph.yki.audit.YkiOperation;
 import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamLanguage;
 import fi.oph.yki.model.ExamSession;
@@ -29,9 +31,12 @@ public class ClerkOrganizerService {
   private final OrganizerRepository organizerRepository;
   private final ExamLanguageRepository examLanguageRepository;
   private final ExamSessionRepository examSessionRepository;
+  private final AuditService auditService;
 
   @Transactional(readOnly = true)
   public List<ClerkOrganizerDTO> getOrganizers() {
+    auditService.logOperation(YkiOperation.LIST_ORGANIZERS);
+
     return organizerRepository.findAllByDeletedAtIsNull().stream().map(this::toDTO).toList();
   }
 
@@ -64,12 +69,16 @@ public class ClerkOrganizerService {
       organizerRepository.save(saved);
     }
 
-    return toDTO(saved);
+    final ClerkOrganizerDTO result = toDTO(saved);
+    auditService.logCreate(YkiOperation.CREATE_ORGANIZER, saved.getId(), result);
+
+    return result;
   }
 
   @Transactional
   public ClerkOrganizerDTO updateOrganizer(final String oid, final ClerkOrganizerUpdateDTO dto) {
     final Organizer organizer = organizerRepository.findByOidAndDeletedAtIsNull(oid).orElseThrow();
+    final ClerkOrganizerDTO beforeDTO = toDTO(organizer);
 
     organizer.setAgreementStartDate(dto.agreementStartDate());
     organizer.setAgreementEndDate(dto.agreementEndDate());
@@ -98,11 +107,16 @@ public class ClerkOrganizerService {
       organizer.getLanguages().addAll(newLanguages);
     }
 
-    return toDTO(organizer);
+    final ClerkOrganizerDTO afterDTO = toDTO(organizer);
+    auditService.logUpdate(YkiOperation.UPDATE_ORGANIZER, organizer.getId(), beforeDTO, afterDTO);
+
+    return afterDTO;
   }
 
   @Transactional(readOnly = true)
   public List<ClerkOrganizerExamSessionDTO> getExamSessionsByOrganizerOid(final String oid, final LocalDate from) {
+    auditService.logById(YkiOperation.LIST_ORGANIZER_EXAM_SESSIONS, oid);
+
     final Organizer organizer = organizerRepository.findByOidAndDeletedAtIsNull(oid).orElseThrow();
     final List<ExamSession> examSessions = from != null
       ? examSessionRepository.findByOrganizerAndExamDateFrom(organizer, from)
@@ -116,6 +130,8 @@ public class ClerkOrganizerService {
   }
 
   public List<ClerkOrganizerExamSessionDTO> getExamSessionsByOrganizerOid(final String oid) {
+    auditService.logById(YkiOperation.LIST_ORGANIZER_EXAM_SESSIONS, oid);
+
     return examSessionRepository.findByOrganizerOid_Oid(oid).stream().map(this::toExamSessionDTO).toList();
   }
 
