@@ -1,6 +1,7 @@
 package fi.oph.yki.service;
 
 import fi.oph.yki.api.dto.PublicExamSessionLocationDTO;
+import fi.oph.yki.api.dto.PublicPersonContactUpdateDTO;
 import fi.oph.yki.api.dto.PublicPersonDTO;
 import fi.oph.yki.api.dto.PublicPersonRegistrationDTO;
 import fi.oph.yki.model.ExamDate;
@@ -35,6 +36,8 @@ public class PublicPersonService {
   private final PersonRepository personRepository;
 
   private final RegistrationRepository registrationRepository;
+
+  private final PersonService personService;
 
   private static PublicExamSessionLocationDTO toDTO(final ExamSessionLocation location) {
     return PublicExamSessionLocationDTO
@@ -130,5 +133,10 @@ public class PublicPersonService {
       .countryCode(person.getCountryCode())
       .registrations(getRegistrations(oid))
       .build();
+  }
+
+  @Transactional
+  public void updateContactDetails(final String oid, final PublicPersonContactUpdateDTO dto) {
+    personService.updateContactDetails(oid, dto);
   }
 }
