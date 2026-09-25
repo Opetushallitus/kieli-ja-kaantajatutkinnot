@@ -303,11 +303,14 @@ public class PublicPersonServiceTest {
   @Test
   public void testUpdateContactDetails() {
     flushAndClear();
+    final LocalDateTime modifiedAtBefore = personRepository.getByOid(OID).getModifiedAt();
+    flushAndClear();
 
     publicPersonService.updateContactDetails(OID, contactUpdate().countryCode("SWE").build());
     flushAndClear();
 
     final Person updated = personRepository.getByOid(OID);
+    assertTrue(updated.getModifiedAt().isAfter(modifiedAtBefore));
     assertEquals("uusi@example.com", updated.getEmail());
     assertEquals("0409876543", updated.getPhoneNumber());
     assertEquals("Uusikatu 2", updated.getSteetAddress());
