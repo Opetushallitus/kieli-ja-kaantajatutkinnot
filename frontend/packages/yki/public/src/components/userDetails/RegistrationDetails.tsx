@@ -71,7 +71,7 @@ export const RegistrationDetails = ({
       <div>
         <Text className="bold">{translateCommon('institution')}</Text>
         <Text>
-          {location.street_address}, {location.post_office}
+          {location?.street_address}, {location?.post_office}
         </Text>
       </div>
     </>
