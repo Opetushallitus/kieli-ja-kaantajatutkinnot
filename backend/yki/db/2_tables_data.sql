@@ -27,9 +27,21 @@ INSERT INTO language (code, created) VALUES
 ('rus',	'2022-11-30 14:13:51.53784+00');
 
 --
+-- Data for Name: subtest; Type: TABLE DATA; Schema: public; Owner: admin
+--
+
+INSERT INTO subtest (code, created) VALUES
+('READING',	'2022-11-30 14:13:51.713412+00'),
+('LISTENING',	'2022-11-30 14:13:51.713412+00'),
+('WRITING',	'2022-11-30 14:13:51.713412+00'),
+('SPEAKING',	'2022-11-30 14:13:51.713412+00');
+
+--
 -- Relax NOT NULL constraints not satisfiable by local seed data
 --
 
 ALTER TABLE exam_session ALTER COLUMN organizer_id DROP NOT NULL;
 ALTER TABLE exam_session ALTER COLUMN organizer_id DROP DEFAULT;
 ALTER TABLE registration ALTER COLUMN participant_id DROP NOT NULL;
+ALTER TABLE evaluation_order ALTER COLUMN first_names DROP NOT NULL;
+ALTER TABLE evaluation_order ALTER COLUMN last_name DROP NOT NULL;

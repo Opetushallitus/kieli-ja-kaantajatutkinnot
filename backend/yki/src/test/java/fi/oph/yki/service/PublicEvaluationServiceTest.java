@@ -2,15 +2,20 @@ package fi.oph.yki.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import fi.oph.yki.Factory;
 import fi.oph.yki.PostgresTestcontainerConfig;
+import fi.oph.yki.api.dto.PublicEvaluationOrderDTO;
 import fi.oph.yki.api.dto.PublicEvaluationPeriodDTO;
 import fi.oph.yki.model.Evaluation;
+import fi.oph.yki.model.EvaluationOrder;
 import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamDateLanguage;
+import fi.oph.yki.model.type.Subtest;
+import fi.oph.yki.repository.EvaluationOrderRepository;
 import fi.oph.yki.repository.EvaluationRepository;
 import fi.oph.yki.util.exception.NotFoundException;
 import jakarta.annotation.Resource;
@@ -36,6 +41,9 @@ public class PublicEvaluationServiceTest {
   private EvaluationRepository evaluationRepository;
 
   @Resource
+  private EvaluationOrderRepository evaluationOrderRepository;
+
+  @Resource
   private TestEntityManager entityManager;
 
   private PublicEvaluationService publicEvaluationService;
@@ -44,7 +52,7 @@ public class PublicEvaluationServiceTest {
 
   @BeforeEach
   public void setup() {
-    publicEvaluationService = new PublicEvaluationService(evaluationRepository);
+    publicEvaluationService = new PublicEvaluationService(evaluationRepository, evaluationOrderRepository);
 
     examDate = Factory.examDate();
     entityManager.persist(examDate);
@@ -64,6 +72,18 @@ public class PublicEvaluationServiceTest {
     entityManager.clear();
 
     return evaluation.getId();
+  }
+
+  private long persistAndDetach(final EvaluationOrder evaluationOrder, final Subtest... subtests) {
+    entityManager.persist(evaluationOrder.getEvaluation());
+    entityManager.persist(evaluationOrder);
+    for (final Subtest subtest : subtests) {
+      entityManager.persist(Factory.evaluationOrderSubtest(evaluationOrder, subtest));
+    }
+    entityManager.flush();
+    entityManager.clear();
+
+    return evaluationOrder.getId();
   }
 
   @Test
@@ -190,5 +210,69 @@ public class PublicEvaluationServiceTest {
   @Test
   public void testUnknownIdIsNotFound() {
     assertThrows(NotFoundException.class, () -> publicEvaluationService.getEvaluationPeriod(-1L));
+  }
+
+  @Test
+  public void testExamDateComesFromExamDateLanguageNotEvaluation() {
+    final ExamDate staleExamDate = Factory.examDate();
+    staleExamDate.setExamDate(LocalDate.of(2026, 11, 30));
+    entityManager.persist(staleExamDate);
+
+    final ExamDateLanguage examDateLanguage = Factory.examDateLanguage(examDate);
+    entityManager.persist(examDateLanguage);
+
+    final long id = persistAndDetach(Factory.evaluation(staleExamDate, examDateLanguage));
+
+    assertEquals(LocalDate.of(2026, 6, 15), publicEvaluationService.getEvaluationPeriod(id).examDate());
+
+    final List<PublicEvaluationPeriodDTO> result = publicEvaluationService.getUpcomingEvaluationPeriods();
+    assertEquals(1, result.size());
+    assertEquals(LocalDate.of(2026, 6, 15), result.get(0).examDate());
+  }
+
+  @Test
+  public void testOrderIsReturnedById() {
+    final EvaluationOrder evaluationOrder = Factory.evaluationOrder(createEvaluation("swe"));
+
+    final long id = persistAndDetach(evaluationOrder);
+    final PublicEvaluationOrderDTO order = publicEvaluationService.getEvaluationOrder(id);
+
+    assertEquals(id, order.id());
+    assertEquals("swe", order.languageCode());
+    assertEquals("PERUS", order.levelCode());
+    assertEquals(LocalDate.of(2026, 6, 15), order.examDate());
+  }
+
+  @Test
+  public void testDeletedOrderIsNotFoundById() {
+    final EvaluationOrder evaluationOrder = Factory.evaluationOrder(createEvaluation("fin"));
+    evaluationOrder.setDeletedAt(LocalDateTime.now(ZoneId.of("Europe/Helsinki")));
+
+    final long id = persistAndDetach(evaluationOrder);
+
+    assertThrows(NotFoundException.class, () -> publicEvaluationService.getEvaluationOrder(id));
+  }
+
+  @Test
+  public void testUnknownOrderIdIsNotFound() {
+    assertThrows(NotFoundException.class, () -> publicEvaluationService.getEvaluationOrder(-1L));
+  }
+
+  @Test
+  public void testOrderSubtestsAreReturnedInIdOrder() {
+    final EvaluationOrder evaluationOrder = Factory.evaluationOrder(createEvaluation("fin"));
+    final long id = persistAndDetach(evaluationOrder, Subtest.WRITING, Subtest.READING);
+
+    assertEquals(List.of(Subtest.WRITING, Subtest.READING), publicEvaluationService.getEvaluationOrder(id).subtests());
+  }
+
+  @Test
+  public void testOrderWithoutSubtestsReturnsEmptyList() {
+    final long id = persistAndDetach(Factory.evaluationOrder(createEvaluation("fin")));
+
+    final List<Subtest> subtests = publicEvaluationService.getEvaluationOrder(id).subtests();
+
+    assertNotNull(subtests);
+    assertTrue(subtests.isEmpty());
   }
 }
