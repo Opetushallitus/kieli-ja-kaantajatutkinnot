@@ -161,7 +161,7 @@
       },
       "partialExams": "Subtests",
       "partialExamTime": "at {{startTime}}",
-      "partialExamTimeLabel": "Testin alkamisaika",
+      "partialExamTimeLabel": "Start time",
       "phoneNumber": "Telephone number",
       "placesAvailable": "Available seats",
       "previous": "Previous",
