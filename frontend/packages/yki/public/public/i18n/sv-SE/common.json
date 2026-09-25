@@ -161,7 +161,7 @@
       },
       "partialExams": "Delprov",
       "partialExamTime": "kl. {{startTime}}",
-      "partialExamTimeLabel": "Testin alkamisaika",
+      "partialExamTimeLabel": "Starttid",
       "phoneNumber": "Telefonnummer",
       "placesAvailable": "Lediga platser",
       "previous": "Tidigare",
