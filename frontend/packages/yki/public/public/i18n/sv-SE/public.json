@@ -895,6 +895,45 @@
         },
         "title": "Allmänna språkexamina (YKI) - Mina anmälningar"
       }
+    },
+    "features": {
+      "registration": {
+        "identify": "Identifiera dig för att anmäla dig",
+        "identifyQueue": "Identifiera dig för att anmäla dig till kön",
+        "register": "Anmäl dig till allmän språkexamen (YKI)",
+        "registerQueue": "Anmäl dig till kön till YKI-testet",
+        "payment": "Anmälningsblanketten har skickats",
+        "paymentQueue": "Anmälningsblanketten har skickats",
+        "done": "Anmälan lyckades!",
+        "doneQueue": "Du har anmält dig till kön",
+        "sessionExpired": "Din session har gått ut eller är ogiltig. Gå tillbaka till startsidan och börja om.",
+        "unavailable": "Anmälan hittades inte eller är inte längre giltig.",
+        "loadFailed": "Anmälningsuppgifterna kunde inte hämtas. Försök igen för att fortsätta med samma anmälan.",
+        "frontpage": "Tillbaka till startsidan",
+        "fixErrors": "Korrigera felen i blanketten innan du skickar den.",
+        "submitFailed": "Blanketten kunde inte skickas. Kontrollera uppgifterna och försök igen.",
+        "submit": "Skicka",
+        "cancel": "Avbryt anmälan",
+        "cancelFailed": "Anmälan kunde inte avbrytas. Försök igen.",
+        "suomifi": "Identifiera dig med Suomi.fi",
+        "email": "Identifiera dig via e-post",
+        "continue": "Fortsätt till anmälan",
+        "paymentInstructions": "Bekräfta anmälan genom att betala examensavgiften.",
+        "paymentCancelled": "Betalningen avbröts. Du kan försöka igen.",
+        "paymentDue": "Betalningens förfallodag",
+        "pay": "Betala examensavgiften",
+        "paymentPending": "Betalningsuppgifterna är inte klara. Kontrollera senare.",
+        "queueInstructions": "Du får ett e-postmeddelande om en plats blir ledig.",
+        "welcome": "Välkommen till YKI-testet!",
+        "retry": "Försök igen",
+        "submitErrors": {
+          "alreadyRegistered": "Du har redan anmält dig till ett YKI-test. Återgå till startsidan.",
+          "formExpired": "Din platsreservation har gått ut. Återgå till startsidan och börja om.",
+          "registrationPeriodClosed": "Anmälningstiden har gått ut. Återgå till startsidan för att välja ett annat test.",
+          "paymentCreationFailed": "Betalningen kunde inte skapas. Uppgifterna finns kvar i blanketten. Försök skicka blanketten igen.",
+          "personCreationFailed": "Dina deltagaruppgifter kunde inte sparas. Kontrollera blanketten och försök igen."
+        }
+      }
     }
   }
 }

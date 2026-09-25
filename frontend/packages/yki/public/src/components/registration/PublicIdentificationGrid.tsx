@@ -104,7 +104,7 @@ const AlreadyLoggedIn = () => {
   );
 };
 
-const FreeRegistrationInfoBox = () => {
+export const FreeRegistrationInfoBox = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.steps.identify.freeRegistration',
   });

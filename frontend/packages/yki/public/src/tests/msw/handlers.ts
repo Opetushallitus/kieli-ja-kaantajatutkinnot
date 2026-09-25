@@ -2,6 +2,10 @@ import { http, HttpResponse, PathParams, StrictRequest } from 'msw';
 
 import { APIEndpoints } from 'enums/api';
 import { RegistrationKind } from 'enums/app';
+import {
+  registrationHandlers,
+  resetRegistrationMocks,
+} from 'features/registration/tests/handlersv2';
 import { ExamSessionResponse } from 'interfaces/examSessions';
 import {
   PartialExamType,
@@ -72,6 +76,7 @@ const readRegistrationState = (
 };
 
 export const resetData = () => {
+  resetRegistrationMocks();
   data.personDetails = personDetails;
   data.temporaryState = {};
   try {
@@ -228,6 +233,7 @@ const identifyRegistration = async ({
 };
 
 export const handlers = [
+  ...registrationHandlers,
   http.get(APIEndpoints.Evaluations, () =>
     HttpResponse.json(evaluationPeriods),
   ),

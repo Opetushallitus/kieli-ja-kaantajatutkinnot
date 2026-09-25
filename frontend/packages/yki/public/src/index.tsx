@@ -10,7 +10,7 @@ async function enableMocking() {
 
     // `worker.start()` returns a Promise that resolves
     // once the Service Worker is up and ready to intercept requests.
-    return worker.start({
+    await worker.start({
       onUnhandledRequest(request, print) {
         // Ignore common static asset requests
         // (i.e. tap into the default behavior).
@@ -22,6 +22,9 @@ async function enableMocking() {
         print.warning();
       },
     });
+    const { enableMockPaymentNavigation } =
+      await import('./tests/msw/paymentNavigation');
+    enableMockPaymentNavigation(window);
   }
 
   return;

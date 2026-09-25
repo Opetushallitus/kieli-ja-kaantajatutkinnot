@@ -101,6 +101,30 @@ export const EmailIdentification = () => {
     ExamSessionUtils.freeRegistrationPossible(examSession);
   const { initRegistration } = useAppSelector(registrationSelector);
 
+  return (
+    <EmailIdentificationForm
+      isFreeRegistrationPossible={isFreeRegistrationPossible}
+      onOrder={(email) =>
+        dispatch(
+          sendEmailLinkOrder({
+            examSessionId: examSession.id,
+            email,
+            registrationKind: examSession.available_registration_kind,
+            registrationId: initRegistration.registrationId,
+          }),
+        )
+      }
+    />
+  );
+};
+
+export const EmailIdentificationForm = ({
+  isFreeRegistrationPossible,
+  onOrder,
+}: {
+  isFreeRegistrationPossible: boolean;
+  onOrder: (email: string) => void;
+}) => {
   const { showDialog } = useDialog();
   const translateCommon = useCommonTranslation();
   const { t } = usePublicTranslation({
@@ -129,19 +153,10 @@ export const EmailIdentification = () => {
     [setError, translateCommon],
   );
 
-  const registrationKind = examSession.available_registration_kind;
-
   const onSubmit = useCallback(() => {
     const error = validateEmail(email);
     if (!error) {
-      dispatch(
-        sendEmailLinkOrder({
-          examSessionId: examSession.id,
-          email,
-          registrationKind,
-          registrationId: initRegistration.registrationId,
-        }),
-      );
+      onOrder(email);
     } else {
       showDialog({
         title: t('emailLink.incorrectEmailDialog.title'),
@@ -152,17 +167,7 @@ export const EmailIdentification = () => {
         ],
       });
     }
-  }, [
-    dispatch,
-    email,
-    examSession.id,
-    registrationKind,
-    initRegistration.registrationId,
-    showDialog,
-    t,
-    translateCommon,
-    validateEmail,
-  ]);
+  }, [onOrder, email, showDialog, t, translateCommon, validateEmail]);
 
   const { isPhone } = useWindowProperties();
 

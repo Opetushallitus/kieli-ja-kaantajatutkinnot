@@ -10,7 +10,7 @@ import { APIEndpoints, PaymentStatus } from 'enums/api';
 import { publicFreeRegistrationSelector } from 'redux/selectors/publicFreeRegistration';
 import { sessionSelector } from 'redux/selectors/session';
 
-const PaymentSuccess = () => {
+export const PaymentSuccess = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.steps.payment.success.whatsNext',
   });
