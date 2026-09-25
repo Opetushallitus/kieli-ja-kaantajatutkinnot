@@ -1,9 +1,6 @@
-import AlarmOutlinedIcon from '@mui/icons-material/AlarmOutlined';
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import InfoFilledIcon from '@mui/icons-material/Info';
-import NotInterestedIcon from '@mui/icons-material/NotInterested';
-import SchoolIcon from '@mui/icons-material/School';
 import WarningOutlinedIcon from '@mui/icons-material/WarningOutlined';
 import { Grid, Paper, Typography } from '@mui/material';
 import { Box } from '@mui/system';
@@ -23,19 +20,12 @@ import { APIResponseStatus, Color, Variant } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
 import { CancelRegistrationModal } from 'components/userDetails/CancelRegistrationModal';
-import {
-  getCurrentLang,
-  useCommonTranslation,
-  usePublicTranslation,
-} from 'configs/i18n';
+import { RegistrationDetails } from 'components/userDetails/RegistrationDetails';
+import { RegistrationState } from 'components/userDetails/RegistrationState';
+import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIEndpoints } from 'enums/api';
-import {
-  AppRoutes,
-  EvaluationState,
-  RegistrationKind,
-  RegistrationStates,
-} from 'enums/app';
+import { AppRoutes, RegistrationKind, RegistrationStates } from 'enums/app';
 import { useCountryOptions } from 'hooks/useCountryOptions';
 import { PersonRegistrations } from 'interfaces/userDetails';
 //import { ExpiredLoginLinkPage } from 'pages/ExpiredLoginLinkPage';
@@ -121,103 +111,11 @@ interface RegistrationsProps {
   setIsCancelModalOpen: (open: boolean) => void;
 }
 
-const EvaluationStateInfo = ({ state }: { state: EvaluationState }) => {
-  const { t } = usePublicTranslation({
-    keyPrefix: 'yki.pages.userDetailsPage.registrations.state',
-  });
-
-  switch (state) {
-    case EvaluationState.EvaluationPending:
-    case EvaluationState.ReviewPending:
-    case EvaluationState.ReviewComplete:
-      return (
-        <>
-          <AlarmOutlinedIcon className="user-details-page__icon--alert" />
-          <Text>{t(state)}</Text>
-        </>
-      );
-    case EvaluationState.EvaluationComplete:
-    case EvaluationState.ReviewFinalized:
-      return (
-        <>
-          <SchoolIcon className="user-details-page__icon--ok" />{' '}
-          <Text>{t(state)}</Text>
-        </>
-      );
-    case EvaluationState.Aborted:
-    case EvaluationState.NoShow:
-      return (
-        <>
-          <NotInterestedIcon className="user-details-page__icon--cancel" />
-          <Text>{t(state)}</Text>
-        </>
-      );
-    default:
-      return <></>;
-  }
-};
-
 const InfoBox = ({ children }: { children: JSX.Element }) => {
   return (
     <div className="user-details-page__info-box columns gapped-xs">
       <InfoFilledIcon className="user-details-page__icon--info align-self-start" />
       {children}
-    </div>
-  );
-};
-
-const RegistrationState = ({
-  registration,
-}: {
-  registration: PersonRegistrations;
-}) => {
-  const { state, evaluationState, kind } = registration;
-  const { t } = usePublicTranslation({
-    keyPrefix: 'yki.pages.userDetailsPage.registrations.state',
-  });
-
-  const hasEvaluation = !!evaluationState;
-
-  const isEnrolled =
-    state === RegistrationStates.Completed ||
-    (state === RegistrationStates.Submitted &&
-      kind === RegistrationKind.Admission);
-
-  const isQueued =
-    state === RegistrationStates.Submitted && kind === RegistrationKind.Queue;
-
-  const positionInQueue = registration.positionInQueue || 1;
-
-  const isCancelled = [
-    RegistrationStates.Cancelled,
-    RegistrationStates.Expired,
-    RegistrationStates.PaidAndCancelled,
-  ].includes(state);
-
-  return (
-    <div>
-      <Text className="bold">{t('label')}</Text>
-      <div className="columns gapped-xxs">
-        {hasEvaluation && <EvaluationStateInfo state={evaluationState} />}
-        {!hasEvaluation && isEnrolled && (
-          <>
-            <CheckCircleOutlinedIcon className="user-details-page__icon--ok" />{' '}
-            <Text>{t('enrolled')}</Text>
-          </>
-        )}
-        {isQueued && (
-          <>
-            <AlarmOutlinedIcon className="user-details-page__icon--alert" />
-            <Text>{t('queued', { positionInQueue })}</Text>
-          </>
-        )}
-        {isCancelled && (
-          <>
-            <NotInterestedIcon className="user-details-page__icon--cancel" />
-            <Text>{t('cancelled')}</Text>
-          </>
-        )}
-      </div>
     </div>
   );
 };
@@ -282,8 +180,6 @@ const Registrations: FC<RegistrationsProps> = ({
   filteredRegistrations,
   setIsCancelModalOpen,
 }) => {
-  const lang = getCurrentLang();
-  const translateCommon = useCommonTranslation();
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.pages.userDetailsPage.registrations',
   });
@@ -295,7 +191,6 @@ const Registrations: FC<RegistrationsProps> = ({
   };
 
   return filteredRegistrations.map((r) => {
-    const location = ExamSessionUtils.getLocationInfo(r, lang);
     const liftedFromQueue = !!r.liftedFromQueueAt;
     const displayExpiryNotification =
       r.state === RegistrationStates.Submitted &&
@@ -342,46 +237,7 @@ const Registrations: FC<RegistrationsProps> = ({
           r.kind === RegistrationKind.Admission && (
             <ExamPayment registration={r} />
           )}
-        <div>
-          <Text className="bold">{t('partialExams.label')}</Text>
-          <Text>
-            {ExamSessionUtils.getPartialExamTypeText(r.type, r.partialExamType)}
-          </Text>
-        </div>
-        <div>
-          <Text className="bold">{translateCommon('examDate')}</Text>
-          <Text>{DateUtils.formatOptionalDate(r.examDate, 'l')}</Text>
-        </div>
-        {r.type !== 'FULL' && (
-          <div>
-            <Text className="bold">
-              {translateCommon('partialExamTimeLabel')}
-            </Text>
-            <Text>
-              {translateCommon('partialExamTime', {
-                startTime:
-                  ExamSessionUtils.getStartTimeForPersonRegistrations(r),
-              })}
-            </Text>
-          </div>
-        )}
-        {r.kind === RegistrationKind.Queue && (
-          <div>
-            <Text className="bold">
-              {translateCommon('registrationPeriod')}
-            </Text>
-            <Text>
-              {DateUtils.formatOptionalDate(r.registrationStartDate, 'l')} —{' '}
-              {DateUtils.formatOptionalDate(r.registrationEndDate, 'l')}
-            </Text>
-          </div>
-        )}
-        <div>
-          <Text className="bold">{translateCommon('institution')}</Text>
-          <Text>
-            {location.street_address}, {location.post_office}
-          </Text>
-        </div>
+        <RegistrationDetails registration={r} />
         {!isCancelled(r) && (
           <div className="rows gapped">
             <div className="columns gapped">

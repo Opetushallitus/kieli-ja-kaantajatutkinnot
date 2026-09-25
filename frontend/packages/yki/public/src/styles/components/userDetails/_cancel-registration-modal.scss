@@ -4,4 +4,9 @@
       width: 75vw;
     }
   }
+
+  &__registration {
+    border-left: 0.5rem solid $color-secondary;
+    padding: 0.5rem 0 0.5rem 1.5rem;
+  }
 }
