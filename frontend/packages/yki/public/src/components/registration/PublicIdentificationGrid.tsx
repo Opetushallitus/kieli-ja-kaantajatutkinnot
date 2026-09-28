@@ -25,6 +25,7 @@ import { ExamSession } from 'interfaces/examSessions';
 import { cancelRegistration } from 'redux/reducers/registration';
 import { examSessionSelector } from 'redux/selectors/examSession';
 import { registrationSelector } from 'redux/selectors/registration';
+import { sessionSelector } from 'redux/selectors/session';
 import { ExamSessionUtils } from 'utils/examSession';
 
 const AlreadyLoggedIn = () => {
@@ -32,8 +33,7 @@ const AlreadyLoggedIn = () => {
     keyPrefix: 'yki.component.registration.steps.identify',
   });
   const dispatch = useAppDispatch();
-  const session = useAppSelector(registrationSelector).context?.session;
-  const loggedInSession = session?.identity ? session : undefined;
+  const { loggedInSession } = useAppSelector(sessionSelector);
   const examSession = useAppSelector(examSessionSelector)
     .examSession as ExamSession;
   const { initRegistration } = useAppSelector(registrationSelector);
@@ -104,7 +104,7 @@ const AlreadyLoggedIn = () => {
   );
 };
 
-export const FreeRegistrationInfoBox = () => {
+const FreeRegistrationInfoBox = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.steps.identify.freeRegistration',
   });
@@ -157,8 +157,7 @@ export const PublicIdentificationGrid = () => {
   const { registrationKind } =
     useAppSelector(registrationSelector).initRegistration;
   const { examSession } = useAppSelector(examSessionSelector);
-  const session = useAppSelector(registrationSelector).context?.session;
-  const loggedInSession = session?.identity ? session : undefined;
+  const { loggedInSession } = useAppSelector(sessionSelector);
 
   if (!registrationKind) {
     return null;

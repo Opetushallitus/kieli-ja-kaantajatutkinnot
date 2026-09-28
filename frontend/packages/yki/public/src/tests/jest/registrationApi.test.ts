@@ -1,11 +1,13 @@
 import axios from 'configs/axios';
-import { RegistrationKind, RegistrationStates } from 'enums/app';
+import { APIEndpoints, PaymentStatus } from 'enums/api';
+import { AppRoutes, RegistrationKind, RegistrationStates } from 'enums/app';
 import { RegistrationSubmitRequest } from 'interfaces/registrationContext';
 import {
   registrationFixture,
   resetRegistrationMocks,
   saveRegistration,
 } from 'tests/msw/registrationHandlers';
+import { resetMockSession, setMockSession } from 'tests/msw/session';
 import {
   cancelRegistrationRequest,
   getRegistrationDetails,
@@ -28,10 +30,12 @@ const body: RegistrationSubmitRequest = {
 const now = Date.parse('2026-10-01T09:00:00Z');
 beforeEach(() => {
   resetRegistrationMocks();
+  resetMockSession();
   sessionStorage.setItem('msw:yki-v2-now', String(now));
 });
 afterEach(() => {
   resetRegistrationMocks();
+  resetMockSession();
   sessionStorage.removeItem('msw:yki-v2-now');
 });
 
@@ -90,9 +94,6 @@ it('reads expiration without mutating storage and creates a reservation only on 
   });
   expect(sessionStorage.getItem('msw:yki-registration-v2')).toBe(stored);
   await expect(
-    axios.get(original.authentication_urls.suomifi),
-  ).rejects.toMatchObject({ response: { status: 410 } });
-  await expect(
     submitRegistrationRequest(expiredKey, body),
   ).rejects.toMatchObject({
     response: { status: 409, data: { error: { expired: true } } },
@@ -109,24 +110,18 @@ it('reads expiration without mutating storage and creates a reservation only on 
   expect(Date.parse(replacement.reservation_expires_at!)).toBeGreaterThan(now);
 });
 
-it.each(['suomifi', 'email'] as const)(
-  'preserves IDs and deadline through mock %s authentication',
-  async (method) => {
-    const original = registrationFixture({
-      session: { identity: null },
-      user: {},
-      is_strongly_identified: false,
-    });
-    saveRegistration(original);
-    await axios.get(original.authentication_urls[method]);
-    expect((await getRegistrationDetails(key)).data).toMatchObject({
-      registration_id: 501,
-      exam_session: { id: 100 },
-      reservation_expires_at: original.reservation_expires_at,
-      session: { 'auth-method': method === 'email' ? 'EMAIL' : 'SUOMIFI' },
-    });
-  },
-);
+it('keeps session details separate from the registration response', async () => {
+  const original = registrationFixture({
+    user: {},
+    is_strongly_identified: false,
+  });
+  setMockSession({ identity: null });
+  saveRegistration(original);
+  expect((await getRegistrationDetails(key)).data).not.toHaveProperty(
+    'session',
+  );
+  expect((await axios.get(APIEndpoints.User)).data).toEqual({ identity: null });
+});
 
 it.each([
   [RegistrationKind.Admission, false, RegistrationStates.Submitted],
@@ -173,7 +168,7 @@ it.each(['pending', 'cancelled', 'paid'])(
         : RegistrationStates.Submitted,
     );
     expect(redirect.redirect_url).toBe(
-      '/yki/ilmoittautuminen/tutkintotilaisuus/100/501',
+      `${AppRoutes.RegistrationPaymentStatus}?id=100&status=${outcome === 'paid' ? PaymentStatus.Success : outcome === 'cancelled' ? PaymentStatus.Cancel : PaymentStatus.Error}`,
     );
   },
 );

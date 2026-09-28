@@ -3,7 +3,7 @@ import { waitFor } from '@testing-library/react';
 import { enableMockPaymentNavigation } from 'tests/msw/paymentNavigation';
 
 const paymentUrl = '/yki/api/v2/exam-session/11/registration/502/mock-payment';
-const doneUrl = '/yki/ilmoittautuminen/valmis/tutkintotilaisuus/11/502';
+const doneUrl = '/yki/ilmoittautuminen/maksu/tila?id=11&status=payment-success';
 let stop: () => void;
 const setup = () => {
   const win = {

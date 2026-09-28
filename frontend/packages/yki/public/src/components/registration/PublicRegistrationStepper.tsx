@@ -1,49 +1,63 @@
 import { Step, StepLabel, Stepper, Typography } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
+import { useSearchParams } from 'react-router';
 import { CircularStepper, Text } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
-import { RegistrationStates } from 'enums/app';
+import { PaymentStatus } from 'enums/api';
+import { RegistrationKind, RegistrationStates } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
+import { examSessionSelector } from 'redux/selectors/examSession';
+import { publicFreeRegistrationSelector } from 'redux/selectors/publicFreeRegistration';
 import { registrationSelector } from 'redux/selectors/registration';
 
 export const PublicRegistrationStepper = () => {
   const { activeStep, context } = useAppSelector(registrationSelector);
+  const { examSession } = useAppSelector(examSessionSelector);
   const { status: initRegistrationStatus, error: initRegistrationError } =
     useAppSelector(registrationSelector).initRegistration;
-
-  const isError =
-    (activeStep === PublicRegistrationFormStep.Done &&
-      context?.state !== RegistrationStates.Completed) ||
-    (activeStep === PublicRegistrationFormStep.Register &&
-      initRegistrationStatus === APIResponseStatus.Error) ||
-    (activeStep === PublicRegistrationFormStep.Identify &&
-      initRegistrationError);
-
-  return (
-    <RegistrationStepperView activeStep={activeStep} isError={!!isError} />
-  );
-};
-
-const RegistrationStepperView = ({
-  activeStep,
-  isError = false,
-}: {
-  activeStep: PublicRegistrationFormStep;
-  isError?: boolean;
-}) => {
+  const { isFree } = useAppSelector(publicFreeRegistrationSelector);
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.stepper',
   });
   const translateCommon = useCommonTranslation();
   const { isDesktopXS } = useWindowProperties();
+
+  const [params] = useSearchParams();
+  const paymentStatus = params.get('status');
+  const queue = params.get('queue');
+
+  const isError =
+    (activeStep === PublicRegistrationFormStep.Done &&
+      paymentStatus !== PaymentStatus.Success &&
+      (paymentStatus || context?.state !== RegistrationStates.Completed) &&
+      isFree !== 'YES') ||
+    (activeStep === PublicRegistrationFormStep.Register &&
+      initRegistrationStatus === APIResponseStatus.Error) ||
+    (activeStep === PublicRegistrationFormStep.Identify &&
+      initRegistrationError);
+
   const doneStepNumber = PublicRegistrationFormStep.Done;
-  const stepNumbers = [1, 2, 3, 4];
-  const getDescription = (stepNumber: number) =>
-    t(`step.${PublicRegistrationFormStep[stepNumber]}`);
+
+  const stepNumbers = Object.values(PublicRegistrationFormStep)
+    .filter((i) => !isNaN(Number(i)))
+    .map(Number)
+    .filter((i) => i <= doneStepNumber);
+
+  const getDescription = (stepNumber: number) => {
+    if (
+      (examSession?.available_registration_kind === RegistrationKind.Queue ||
+        queue === 'true') &&
+      stepNumber === PublicRegistrationFormStep.Register
+    ) {
+      return t('step.Register');
+    } else {
+      return t(`step.${PublicRegistrationFormStep[stepNumber]}`);
+    }
+  };
 
   const getNextInformation = (stepNumber: number) => {
     if (stepNumber < doneStepNumber) {

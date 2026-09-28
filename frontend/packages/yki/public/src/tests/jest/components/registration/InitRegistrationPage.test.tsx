@@ -20,7 +20,6 @@ const renderPageWithSession = (examSession: ExamSession) => {
     registration: {
       ...initialRegistrationState,
       context: registrationFixture({
-        session: { identity: null },
         user: {},
         is_strongly_identified: false,
         registration_id: 123,

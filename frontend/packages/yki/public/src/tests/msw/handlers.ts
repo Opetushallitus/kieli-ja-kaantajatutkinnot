@@ -4,10 +4,6 @@ import { APIEndpoints } from 'enums/api';
 import { evaluationOrderPostResponse } from 'tests/msw/fixtures/evaluationOrder';
 import { evaluationPeriods } from 'tests/msw/fixtures/evaluationPeriods';
 import { examSessions } from 'tests/msw/fixtures/examSession';
-import {
-  // NoSessionResponse,
-  SuomiFiAuthenticatedSessionResponse,
-} from 'tests/msw/fixtures/identity';
 import { kieliResponse } from 'tests/msw/fixtures/kieli';
 import { maatJaValtiot2Response } from 'tests/msw/fixtures/maatjavaltiot2';
 import { personDetails } from 'tests/msw/fixtures/personDetails';
@@ -15,10 +11,12 @@ import {
   registrationHandlers,
   resetRegistrationMocks,
 } from 'tests/msw/registrationHandlers';
+import { getMockSession, resetMockSession } from 'tests/msw/session';
 
 const data = { personDetails };
 export const resetData = () => {
   resetRegistrationMocks();
+  resetMockSession();
   data.personDetails = personDetails;
 };
 const notFound = () => new HttpResponse(null, { status: 404 });
@@ -54,10 +52,7 @@ export const handlers = [
       return notFound();
     }
   }),
-  http.get(APIEndpoints.User, () => {
-    return HttpResponse.json(SuomiFiAuthenticatedSessionResponse);
-    // return HttpResponse.json(NoSessionResponse);
-  }),
+  http.get(APIEndpoints.User, () => HttpResponse.json(getMockSession())),
   http.post(APIEndpoints.EvaluationOrder, () =>
     HttpResponse.json(evaluationOrderPostResponse),
   ),
@@ -105,6 +100,10 @@ export const handlers = [
   http.post(APIEndpoints.PublicFreeRegistrationEducation, () => {
     return HttpResponse.json({ id: 1337 }, { status: 201 });
   }),
+  http.post(
+    APIEndpoints.LoginLink,
+    () => new HttpResponse(null, { status: 200 }),
+  ),
   http.get(APIEndpoints.LoginLinkInfo, () => {
     return HttpResponse.json({
       expires_at: new Date(Date.now() + 30 * 60 * 1000).toISOString(),

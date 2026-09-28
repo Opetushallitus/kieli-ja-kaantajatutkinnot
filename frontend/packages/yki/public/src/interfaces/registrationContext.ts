@@ -6,7 +6,6 @@ import {
 } from 'enums/app';
 import { ExamSessionResponse } from 'interfaces/examSessions';
 import { PartialExamType } from 'interfaces/publicRegistration';
-import { SessionResponse } from 'interfaces/session';
 
 export interface RegistrationContext {
   exam_session: ExamSessionResponse;
@@ -29,21 +28,13 @@ export interface RegistrationContext {
   is_strongly_identified: boolean;
   expires_in?: number;
   state: RegistrationStates;
-  session: SessionResponse;
   reservation_expires_at: string | null;
   is_free: boolean;
-  authentication_urls: { suomifi: string; email: string };
   payment: {
     url: string;
     due_date: string;
     status: 'PENDING' | 'PAID' | 'CANCELLED';
   } | null;
-}
-
-export interface RegistrationInitRequest {
-  exam_session_id: number;
-  to_queue: boolean;
-  partial_exam_type: PartialExamType;
 }
 
 export interface RegistrationSubmitRequest {
@@ -68,32 +59,6 @@ export interface RegistrationSubmitRequest {
   free_registration_id?: number;
 }
 
-export interface ConflictingRegistration {
-  id: number;
-  registration_id: number;
-  state: RegistrationStates;
-  partial_exam_type: PartialExamType;
-  kind: RegistrationKind;
-}
-
-export interface RegistrationInitErrorResponse {
-  error: {
-    closed?: boolean;
-    full?: boolean;
-    partialFull?: boolean;
-    'other-exam-session-registration'?: ConflictingRegistration;
-  };
-}
-
-export interface RegistrationSubmitErrorResponse {
-  error: {
-    closed?: boolean;
-    create_payment?: boolean;
-    expired?: boolean;
-    person_creation?: boolean;
-    registered?: boolean;
-  };
-}
 export interface RegistrationKey {
   examSessionId: number;
   registrationId: number;

@@ -5,7 +5,7 @@ import { http, HttpResponse } from 'msw';
 import { APIResponseStatus } from 'shared/enums';
 
 import { APIEndpoints } from 'enums/api';
-import { RegistrationKind, RegistrationStates } from 'enums/app';
+import { AppRoutes, RegistrationKind, RegistrationStates } from 'enums/app';
 import { setPublicFreeRegistration } from 'redux/reducers/publicFreeRegistration';
 import {
   cancelRegistration,
@@ -63,7 +63,9 @@ it('stores all init details in the existing store without a second GET', async (
     );
     expect(store.getState().registration.context?.registration_id).toBe(501);
     expect(store.getState().examSession.examSession?.id).toBe(100);
-    expect(store.getState().session.loggedInSession).toEqual(data.session);
+    expect(store.getState().session).toEqual({
+      status: APIResponseStatus.NotStarted,
+    });
     expect(reads).toBe(0);
   } finally {
     task.cancel();
@@ -116,6 +118,11 @@ it('submits the existing form draft and stores the returned payment context', as
 it('retains the education API before submitting a free registration', async () => {
   saveRegistration(registrationFixture());
   const { store, task } = createStore();
+  const location = window.location;
+  Object.defineProperty(window, 'location', {
+    configurable: true,
+    value: { ...location },
+  });
   try {
     store.dispatch(fetchRegistrationDetails(key));
     await waitFor(() =>
@@ -136,8 +143,18 @@ it('retains the education API before submitting a free registration', async () =
       ),
     );
     expect(store.getState().registration.context?.is_free).toBe(true);
+    expect(window.location.href).toBe(
+      AppRoutes.FreeRegistrationSuccess.replace(
+        ':examSessionId',
+        '100',
+      ).replace(':registrationId', '501'),
+    );
   } finally {
     task.cancel();
+    Object.defineProperty(window, 'location', {
+      configurable: true,
+      value: location,
+    });
   }
 });
 

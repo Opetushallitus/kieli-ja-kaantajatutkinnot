@@ -1,28 +1,17 @@
 import { http, HttpResponse } from 'msw';
 
-import { APIEndpoints } from 'enums/api';
+import { APIEndpoints, PaymentStatus } from 'enums/api';
 import { AppRoutes, RegistrationKind, RegistrationStates } from 'enums/app';
+import { PublicRegistrationInitRequest } from 'interfaces/publicRegistration';
 import {
   RegistrationContext,
-  RegistrationInitErrorResponse,
-  RegistrationInitRequest,
   RegistrationKey,
   RegistrationSubmitRequest,
 } from 'interfaces/registrationContext';
 import { examSessions } from 'tests/msw/fixtures/examSession';
-import {
-  SuomiFiAuthenticatedSessionResponse,
-  WeaklyAuthenticatedSessionResponse,
-} from 'tests/msw/fixtures/identity';
+import { SuomiFiAuthenticatedSessionResponse } from 'tests/msw/fixtures/identity';
+import { getMockSession } from 'tests/msw/session';
 import { registrationEndpoint } from 'utils/registrationApi';
-
-const mockAuthenticationEndpoint =
-  '/yki/auth/v2/registration/:examSessionId/:registrationId/:method';
-const registrationPath = (key: RegistrationKey) =>
-  AppRoutes.ExamSessionRegistration.replace(
-    ':examSessionId',
-    String(key.examSessionId),
-  ).replace(':registrationId', String(key.registrationId));
 
 const now = () =>
   Number(sessionStorage.getItem('msw:yki-v2-now')) || Date.now();
@@ -43,15 +32,6 @@ export const registrationFixture = (
   const examSession = examSessions.exam_sessions.find(
     (session) => session.id === 999,
   )!;
-  const key = {
-    examSessionId: overrides.exam_session?.id ?? 100,
-    registrationId: overrides.registration_id ?? 501,
-  };
-  const auth = (method: string) =>
-    mockAuthenticationEndpoint
-      .replace(':examSessionId', String(key.examSessionId))
-      .replace(':registrationId', String(key.registrationId))
-      .replace(':method', method);
 
   return {
     exam_session: {
@@ -69,11 +49,9 @@ export const registrationFixture = (
     partial_exam_type: 'READ',
     is_strongly_identified: true,
     user: SuomiFiAuthenticatedSessionResponse.identity,
-    session: SuomiFiAuthenticatedSessionResponse,
     state: RegistrationStates.Started,
     expires_in: 1800,
     reservation_expires_at: new Date(now() + 1800000).toISOString(),
-    authentication_urls: { suomifi: auth('suomifi'), email: auth('email') },
     is_free: false,
     payment: null,
     ...overrides,
@@ -118,13 +96,13 @@ const conflict = (data: RegistrationContext) =>
           kind: data.registration_kind,
         },
       },
-    } satisfies RegistrationInitErrorResponse,
+    },
     { status: 409 },
   );
 
 export const registrationHandlers = [
   http.post(APIEndpoints.InitRegistration, async ({ request }) => {
-    const body = (await request.json()) as RegistrationInitRequest;
+    const body = (await request.json()) as PublicRegistrationInitRequest;
     if (body.exam_session_id === 2)
       return HttpResponse.json(
         {
@@ -161,7 +139,14 @@ export const registrationHandlers = [
       (session) => session.id === body.exam_session_id,
     );
     if (!exam_session) return new HttpResponse(null, { status: 404 });
+    const session = getMockSession();
     const data = registrationFixture({
+      user:
+        session.identity && session['auth-method'] !== 'CAS'
+          ? session.identity
+          : {},
+      is_strongly_identified:
+        !!session.identity && session['auth-method'] === 'SUOMIFI',
       exam_session,
       registration_id:
         Math.max(500, ...Object.keys(readRecords()).map(Number)) + 1,
@@ -177,41 +162,11 @@ export const registrationHandlers = [
 
     return data ? response(data) : new HttpResponse(null, { status: 404 });
   }),
-  http.get(mockAuthenticationEndpoint, ({ params, request }) => {
-    const data = lookup(params);
-    if (!data || !['suomifi', 'email'].includes(String(params.method)))
-      return new HttpResponse(null, { status: 401 });
-    if (data.state !== RegistrationStates.Started)
-      return new HttpResponse(null, { status: 410 });
-    const strong = params.method === 'suomifi';
-    const email =
-      new URL(request.url).searchParams.get('email') ||
-      WeaklyAuthenticatedSessionResponse.identity.email;
-    const session = strong
-      ? SuomiFiAuthenticatedSessionResponse
-      : {
-          ...WeaklyAuthenticatedSessionResponse,
-          identity: { email, 'external-user-id': email },
-        };
-    saveRegistration({
-      ...data,
-      session,
-      user: session.identity,
-      is_strongly_identified: strong,
-    });
-
-    return HttpResponse.json({
-      redirect_url: registrationPath({
-        examSessionId: data.exam_session.id,
-        registrationId: data.registration_id,
-      }),
-    });
-  }),
   http.post(
     `${APIEndpoints.Registration}/submit`,
     async ({ params, request }) => {
       const data = lookup(params);
-      if (!data || !data.session.identity)
+      if (!data || !getMockSession().identity)
         return new HttpResponse(null, { status: 401 });
       if (
         [RegistrationStates.Submitted, RegistrationStates.Completed].includes(
@@ -281,10 +236,7 @@ export const registrationHandlers = [
       });
 
       return HttpResponse.json({
-        redirect_url: registrationPath({
-          examSessionId: data.exam_session.id,
-          registrationId: data.registration_id,
-        }),
+        redirect_url: `${AppRoutes.RegistrationPaymentStatus}?id=${data.exam_session.id}&status=${paid ? PaymentStatus.Success : outcome === 'cancelled' ? PaymentStatus.Cancel : PaymentStatus.Error}`,
       });
     },
   ),

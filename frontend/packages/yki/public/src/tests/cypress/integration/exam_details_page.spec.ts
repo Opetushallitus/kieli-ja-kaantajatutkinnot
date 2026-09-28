@@ -1,7 +1,7 @@
 import { http, HttpResponse } from 'msw';
 
 import { APIEndpoints } from 'enums/api';
-import { RegistrationKind, RegistrationStates } from 'enums/app';
+import { AppRoutes, RegistrationKind, RegistrationStates } from 'enums/app';
 import { getTestWorker } from 'tests/cypress/support/mswv2';
 import { onExamDetailsPage } from 'tests/cypress/support/page-objects/examDetailsPage';
 import { examSessions } from 'tests/msw/fixtures/examSession';
@@ -10,6 +10,7 @@ import {
   registrationFixture,
   saveRegistration,
 } from 'tests/msw/registrationHandlers';
+import { setMockSession } from 'tests/msw/session';
 
 const examSessionResponse = examSessions.exam_sessions.find(
   (es) => es.id === 999,
@@ -58,7 +59,6 @@ const getInitRegistrationResponse = (is_strongly_identified: boolean) => {
       user: {
         email: 'teuvotesti@test.invalid',
       },
-      session: WeaklyAuthenticatedSessionResponse,
     });
   }
 };
@@ -92,9 +92,21 @@ describe('ExamDetailsPage', () => {
       cy.findByRole('heading', { name: /Ilmoittautuminen onnistui!/ }).should(
         'be.visible',
       );
+      cy.location('pathname').should(
+        'eq',
+        AppRoutes.FreeRegistrationSuccess.replace(
+          ':examSessionId',
+          String(examSessionResponse.id),
+        ).replace(':registrationId', '1337'),
+      );
+      cy.reload();
+      cy.findByRole('heading', { name: /Ilmoittautuminen onnistui!/ }).should(
+        'be.visible',
+      );
     });
 
     it('by authenticating via a login link', () => {
+      setMockSession(WeaklyAuthenticatedSessionResponse);
       saveRegistration(getInitRegistrationResponse(false));
 
       cy.openExamSessionRegistrationForm(
@@ -131,6 +143,7 @@ describe('ExamDetailsPage', () => {
     });
 
     it('text fields filled by user are trimmed of whitespace before sending to backend', () => {
+      setMockSession(WeaklyAuthenticatedSessionResponse);
       saveRegistration(getInitRegistrationResponse(false));
 
       cy.openExamSessionRegistrationForm(
@@ -158,7 +171,7 @@ describe('ExamDetailsPage', () => {
   });
 
   describe('critical session and submitted flows', () => {
-    it('uses the context session even when the separate session fetch fails', () => {
+    it('does not show the registration form when the session fetch fails', () => {
       saveRegistration(getInitRegistrationResponse(true));
       getTestWorker().use(
         http.get(APIEndpoints.User, () =>
@@ -167,7 +180,10 @@ describe('ExamDetailsPage', () => {
       );
 
       cy.openExamSessionRegistrationForm(examSessionResponse.id, 1337);
-      cy.findByRole('button', { name: 'Lähetä' }).should('be.visible');
+      cy.findByRole('link', { name: /Takaisin aloitussivulle/i }).should(
+        'be.visible',
+      );
+      cy.findByRole('button', { name: 'Lähetä' }).should('not.exist');
     });
 
     it('restores submitted state from context even when session fetch fails', () => {

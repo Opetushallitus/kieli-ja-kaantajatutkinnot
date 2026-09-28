@@ -329,7 +329,6 @@ describe('registration context hydration', () => {
 
   it('hydrates the authenticated identity after an anonymous init', () => {
     const anonymous = registrationFixture({
-      session: { identity: null },
       user: {},
       is_strongly_identified: false,
     });

@@ -139,7 +139,7 @@ const Error = () => {
   );
 };
 
-export const SuccessQueued = () => {
+const SuccessQueued = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.registrationFormSubmitted.queued',
   });

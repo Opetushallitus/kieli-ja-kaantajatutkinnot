@@ -83,8 +83,8 @@ const acceptContext = (
     previous?.exam_session.id === context.exam_session.id;
   const sameIdentity =
     sameRegistration &&
-    JSON.stringify(previous?.session.identity) ===
-      JSON.stringify(context.session.identity);
+    previous?.is_strongly_identified === context.is_strongly_identified &&
+    JSON.stringify(previous?.user) === JSON.stringify(context.user);
   state.context = context;
   state.initRegistration = {
     status: APIResponseStatus.Success,

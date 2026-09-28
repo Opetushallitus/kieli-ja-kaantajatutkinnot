@@ -1,15 +1,17 @@
 import { http, HttpResponse } from 'msw';
 
-import { APIEndpoints } from 'enums/api';
+import { APIEndpoints, PaymentStatus } from 'enums/api';
 import { AppRoutes, RegistrationKind, RegistrationStates } from 'enums/app';
 import { RegistrationContext } from 'interfaces/registrationContext';
 import { getTestWorker } from 'tests/cypress/support/mswv2';
 import { onExamDetailsPage } from 'tests/cypress/support/page-objects/examDetailsPage';
 import { onPublicRegistrationPage } from 'tests/cypress/support/page-objects/publicRegistrationPage';
+import { SuomiFiAuthenticatedSessionResponse } from 'tests/msw/fixtures/identity';
 import {
   registrationFixture,
   saveRegistration,
 } from 'tests/msw/registrationHandlers';
+import { setMockSession } from 'tests/msw/session';
 import { registrationEndpoint } from 'utils/registrationApi';
 
 const key = { examSessionId: 100, registrationId: 501 };
@@ -62,6 +64,9 @@ beforeEach(() => {
   cy.setCookie('cookie-consent-yki', 'true');
   getTestWorker().events.on('request:start', record);
   getTestWorker().use(
+    http.get('/yki/api/exam-session/100', () =>
+      HttpResponse.json(registrationFixture().exam_session),
+    ),
     http.get(APIEndpoints.PublicKoskiEducations, () =>
       HttpResponse.json({ educations: [], usedFreeRegistrations: 3 }),
     ),
@@ -156,6 +161,8 @@ it('completes the default mock payment and restores success on refresh', () => {
     'be.visible',
   );
   cy.get('[aria-current="step"]').should('contain.text', 'Valmis');
+  cy.location('pathname').should('eq', AppRoutes.RegistrationPaymentStatus);
+  cy.location('search').should('eq', '?id=100&status=payment-success');
   cy.reload();
   cy.findByRole('heading', { name: 'Ilmoittautuminen onnistui!' }).should(
     'be.visible',
@@ -189,13 +196,17 @@ it('restores queue confirmation without a payment link', () => {
   cy.get('a[href*="mock-payment"]').should('not.exist');
 });
 
-it('restores completed free registration using the existing success contents', () => {
+it('restores completed free registration on its dedicated success page', () => {
   visit(
     submitted({
       state: RegistrationStates.Completed,
       is_free: true,
       payment: null,
     }),
+    AppRoutes.FreeRegistrationSuccess.replace(':examSessionId', '100').replace(
+      ':registrationId',
+      '501',
+    ),
   );
   cy.findByRole('heading', { name: 'Ilmoittautuminen onnistui!' }).should(
     'be.visible',
@@ -214,21 +225,25 @@ it('does not trust submitted flags in a URL over the context state', () => {
 });
 
 it('returns an anonymous registration to identification and resumes after authentication', () => {
+  setMockSession({ identity: null });
   const data = registrationFixture({
-    session: { identity: null },
     user: {},
     is_strongly_identified: false,
   });
   visit(data);
   cy.location('pathname').should('eq', '/yki/tutkintotilaisuus/100');
-  cy.get(`a[href="${data.authentication_urls.suomifi}"]`).should('be.visible');
-  cy.window()
-    .then((win) =>
-      win
-        .fetch(data.authentication_urls.suomifi)
-        .then((response) => response.json()),
-    )
-    .then(({ redirect_url }) => cy.visit(redirect_url));
+  cy.get(
+    `a[href="${APIEndpoints.Authenticate}?examSessionId=100&toQueue=false&registrationId=501"]`,
+  ).should('be.visible');
+  cy.then(() => {
+    setMockSession(SuomiFiAuthenticatedSessionResponse);
+    saveRegistration({
+      ...data,
+      user: SuomiFiAuthenticatedSessionResponse.identity,
+      is_strongly_identified: true,
+    });
+  });
+  cy.visit(path);
   cy.findByTestId('public-registration__controlButtons__submit').should(
     'be.visible',
   );
@@ -236,6 +251,42 @@ it('returns an anonymous registration to identification and resumes after authen
   cy.then(() =>
     expect(calls('POST', APIEndpoints.InitRegistration)).to.have.length(0),
   );
+});
+
+it('orders an email link through the existing POST and retains success and error feedback', () => {
+  setMockSession({ identity: null });
+  let orders = 0;
+  getTestWorker().use(
+    http.post(APIEndpoints.LoginLink, async ({ request }) => {
+      orders++;
+      expect(new URL(request.url).searchParams.get('lang')).to.equal('fi');
+      expect(await request.json()).to.deep.equal({
+        email: 'test@example.invalid',
+        exam_session_id: 100,
+        registration_id: 501,
+        registration_kind: RegistrationKind.Admission,
+      });
+
+      return new HttpResponse(null, { status: orders === 1 ? 503 : 200 });
+    }),
+  );
+  visit(
+    registrationFixture({ user: {}, is_strongly_identified: false }),
+    identifyPath,
+  );
+  cy.findByRole('button', { name: 'Tunnistaudu sähköpostillasi' }).click();
+  cy.get('#email-identification__email-input').type('test@example.invalid');
+  cy.findByRole('button', { name: /^tunnistaudu sähköpostilla$/i }).click();
+  cy.contains('Tunnistautuminen epäonnistui. Voit yrittää uudestaan.').should(
+    'be.visible',
+  );
+  cy.findByRole('button', { name: /^tunnistaudu sähköpostilla$/i }).click();
+  cy.contains('Ilmoittautumislinkki on lähetetty osoitteeseen:').should(
+    'be.visible',
+  );
+  cy.contains('strong', 'test@example.invalid').should('be.visible');
+  cy.location('pathname').should('eq', '/yki/tutkintotilaisuus/100');
+  cy.then(() => expect(orders).to.equal(2));
 });
 
 it('cancels the existing reservation through the new DELETE endpoint', () => {
@@ -294,17 +345,20 @@ it('retries a failed submit with the same draft', () => {
   cy.then(() => expect(submissions).to.equal(2));
 });
 
-it('loads the existing payment return page using both IDs and ignores the payment status flag', () => {
-  visit(
-    submitted(),
-    `${AppRoutes.RegistrationPaymentStatus}?id=100&registrationId=501&status=payment-success`,
-  );
-  cy.get(`a[href="${registrationEndpoint(key)}/mock-payment"]`).should(
-    'be.visible',
-  );
-  cy.findByRole('heading', { name: 'Ilmoittautuminen onnistui!' }).should(
-    'not.exist',
-  );
+[
+  [PaymentStatus.Success, 'Ilmoittautuminen onnistui!'],
+  [PaymentStatus.Cancel, 'Maksu epäonnistui'],
+  [PaymentStatus.Error, 'Maksu epäonnistui'],
+].forEach(([status, heading]) => {
+  it(`retains the existing payment callback for ${status} without a registration ID`, () => {
+    cy.visit(`${AppRoutes.RegistrationPaymentStatus}?id=100&status=${status}`);
+    cy.findByRole('heading', { name: heading }).should('be.visible');
+    cy.then(() =>
+      expect(calls('GET', registrationEndpoint(key))).to.have.length(0),
+    );
+    cy.reload();
+    cy.findByRole('heading', { name: heading }).should('be.visible');
+  });
 });
 
 it('does not display another registration when the requested IDs do not match', () => {
@@ -318,4 +372,35 @@ it('does not display another registration when the requested IDs do not match', 
   cy.then(() =>
     expect(calls('POST', APIEndpoints.InitRegistration)).to.have.length(0),
   );
+});
+
+it('waits for the separate session API before showing the registration form', () => {
+  let releaseSession: () => void;
+  const pendingSession = new Promise<void>((resolve) => {
+    releaseSession = resolve;
+  });
+  let contextLoaded = false;
+  getTestWorker().use(
+    http.get(APIEndpoints.User, async () => {
+      await pendingSession;
+
+      return HttpResponse.json(SuomiFiAuthenticatedSessionResponse);
+    }),
+    http.get(APIEndpoints.Registration, () => {
+      contextLoaded = true;
+
+      return HttpResponse.json(registrationFixture());
+    }),
+  );
+  visit();
+  cy.wrap(null).should(() => expect(contextLoaded).to.equal(true));
+  cy.findByTestId('public-registration__controlButtons__submit').should(
+    'not.exist',
+  );
+  cy.location('pathname').should('eq', path);
+  cy.then(() => releaseSession());
+  cy.findByTestId('public-registration__controlButtons__submit').should(
+    'be.visible',
+  );
+  cy.location('pathname').should('eq', path);
 });

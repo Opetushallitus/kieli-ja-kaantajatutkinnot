@@ -3,7 +3,6 @@ import { APIEndpoints } from 'enums/api';
 import { PublicRegistrationInitPayload } from 'interfaces/publicRegistration';
 import {
   RegistrationContext,
-  RegistrationInitRequest,
   RegistrationKey,
   RegistrationSubmitRequest,
 } from 'interfaces/registrationContext';
@@ -19,9 +18,7 @@ export const initRegistrationRequest = (
 ) =>
   axios.post<RegistrationContext>(
     APIEndpoints.InitRegistration,
-    SerializationUtils.serializePublicRegistrationInitRequest(
-      selection,
-    ) satisfies RegistrationInitRequest,
+    SerializationUtils.serializePublicRegistrationInitRequest(selection),
   );
 export const getRegistrationDetails = (key: RegistrationKey) =>
   axios.get<RegistrationContext>(registrationEndpoint(key));

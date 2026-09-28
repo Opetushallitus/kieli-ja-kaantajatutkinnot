@@ -1,5 +1,6 @@
 import { Grid, Paper } from '@mui/material';
 import { ophColors } from '@opetushallitus/oph-design-system';
+import { useSearchParams } from 'react-router';
 import {
   H1,
   H2,
@@ -17,10 +18,12 @@ import { PublicRegistrationStepper } from 'components/registration/PublicRegistr
 import { MemoizedPublicRegistrationTimer } from 'components/registration/PublicRegistrationTimer';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
+import { PaymentStatus } from 'enums/api';
 import { RegistrationKind, RegistrationStates } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { ExamSession } from 'interfaces/examSessions';
 import { examSessionSelector } from 'redux/selectors/examSession';
+import { publicFreeRegistrationSelector } from 'redux/selectors/publicFreeRegistration';
 import { registrationSelector } from 'redux/selectors/registration';
 
 const RegistrationForm = () => {
@@ -121,6 +124,10 @@ const Heading = () => {
     useAppSelector(registrationSelector).initRegistration;
   const { status: submitFormStatus } =
     useAppSelector(registrationSelector).submitRegistration;
+  const { isFree } = useAppSelector(publicFreeRegistrationSelector);
+  const [params] = useSearchParams();
+  const paymentStatus = params.get('status') as PaymentStatus;
+
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration',
   });
@@ -140,10 +147,21 @@ const Heading = () => {
     initRegistrationError
   ) {
     return t(`unavailable.${initRegistrationError}.title`);
+  } else if (
+    activeStep === PublicRegistrationFormStep.Done &&
+    (isFree === 'YES' ||
+      (!paymentStatus && context?.state === RegistrationStates.Completed))
+  ) {
+    return t('steps.payment.success.heading');
   } else {
-    return context?.state === RegistrationStates.Completed
-      ? t('steps.payment.success.heading')
-      : t('steps.payment.error.heading');
+    switch (paymentStatus) {
+      case PaymentStatus.Success:
+        return t('steps.payment.success.heading');
+      case PaymentStatus.Cancel:
+        return t('steps.payment.cancel.heading');
+      default:
+        return t('steps.payment.error.heading');
+    }
   }
 };
 

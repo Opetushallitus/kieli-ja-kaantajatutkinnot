@@ -10,6 +10,7 @@ import {
   setActiveStep,
 } from 'redux/reducers/registration';
 import { registrationSelector } from 'redux/selectors/registration';
+import { sessionSelector } from 'redux/selectors/session';
 
 export const useRegistrationContext = (
   examSessionId: number,
@@ -24,14 +25,18 @@ export const useRegistrationContext = (
     fetchRegistrationStatus,
     initRegistration,
   } = useAppSelector(registrationSelector);
+  const { status: sessionStatus, loggedInSession } =
+    useAppSelector(sessionSelector);
   const matches =
     context?.exam_session.id === examSessionId &&
     context?.registration_id === registrationId;
   const requested =
     requestedRegistration?.examSessionId === examSessionId &&
     requestedRegistration?.registrationId === registrationId;
+  const needsSession = matches && context?.state === RegistrationStates.Started;
   const failed =
-    requested && fetchRegistrationStatus === APIResponseStatus.Error;
+    (requested && fetchRegistrationStatus === APIResponseStatus.Error) ||
+    (needsSession && sessionStatus === APIResponseStatus.Error);
 
   useEffect(() => {
     if (
@@ -47,14 +52,18 @@ export const useRegistrationContext = (
   }, [dispatch, examSessionId, registrationId, matches, requested, navigate]);
 
   useEffect(() => {
-    if (!matches || !context) return;
+    if (
+      !matches ||
+      !context ||
+      (needsSession && sessionStatus !== APIResponseStatus.Success)
+    )
+      return;
     const finished = context.state === RegistrationStates.Completed;
     const submitted = context.state === RegistrationStates.Submitted;
     if (
       !identify &&
-      !finished &&
-      !submitted &&
-      !context.session.identity &&
+      needsSession &&
+      !loggedInSession &&
       initRegistration.status !== APIResponseStatus.Error
     ) {
       navigate(
@@ -91,12 +100,19 @@ export const useRegistrationContext = (
     identify,
     navigate,
     initRegistration.status,
+    needsSession,
+    sessionStatus,
+    loggedInSession,
   ]);
 
   return {
     isLoading:
       fetchRegistrationStatus === APIResponseStatus.InProgress ||
-      (!matches && !failed),
+      (!matches && !failed) ||
+      (needsSession &&
+        [APIResponseStatus.NotStarted, APIResponseStatus.InProgress].includes(
+          sessionStatus,
+        )),
     failed,
   };
 };

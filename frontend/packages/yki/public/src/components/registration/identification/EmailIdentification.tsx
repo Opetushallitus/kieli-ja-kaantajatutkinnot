@@ -15,8 +15,9 @@ import { useDialog, useWindowProperties } from 'shared/hooks';
 import { InputFieldUtils } from 'shared/utils';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
-import { useAppSelector } from 'configs/redux';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ExamSession } from 'interfaces/examSessions';
+import { sendEmailLinkOrder } from 'redux/reducers/publicIdentification';
 import { examSessionSelector } from 'redux/selectors/examSession';
 import { registrationSelector } from 'redux/selectors/registration';
 import { ExamSessionUtils } from 'utils/examSession';
@@ -93,35 +94,13 @@ const ExamFeeRequiredInfo = () => {
 };
 
 export const EmailIdentification = () => {
+  const dispatch = useAppDispatch();
   const examSession = useAppSelector(examSessionSelector)
     .examSession as ExamSession;
   const isFreeRegistrationPossible =
     ExamSessionUtils.freeRegistrationPossible(examSession);
-  const { context } = useAppSelector(registrationSelector);
+  const { initRegistration } = useAppSelector(registrationSelector);
 
-  return (
-    <EmailIdentificationForm
-      isFreeRegistrationPossible={isFreeRegistrationPossible}
-      onOrder={(email) => {
-        if (!context) return;
-        const url = new URL(
-          context.authentication_urls.email,
-          window.location.origin,
-        );
-        url.searchParams.set('email', email);
-        window.location.assign(url.toString());
-      }}
-    />
-  );
-};
-
-export const EmailIdentificationForm = ({
-  isFreeRegistrationPossible,
-  onOrder,
-}: {
-  isFreeRegistrationPossible: boolean;
-  onOrder: (email: string) => void;
-}) => {
   const { showDialog } = useDialog();
   const translateCommon = useCommonTranslation();
   const { t } = usePublicTranslation({
@@ -150,10 +129,19 @@ export const EmailIdentificationForm = ({
     [setError, translateCommon],
   );
 
+  const registrationKind = examSession.available_registration_kind;
+
   const onSubmit = useCallback(() => {
     const error = validateEmail(email);
     if (!error) {
-      onOrder(email);
+      dispatch(
+        sendEmailLinkOrder({
+          examSessionId: examSession.id,
+          email,
+          registrationKind,
+          registrationId: initRegistration.registrationId,
+        }),
+      );
     } else {
       showDialog({
         title: t('emailLink.incorrectEmailDialog.title'),
@@ -164,7 +152,17 @@ export const EmailIdentificationForm = ({
         ],
       });
     }
-  }, [onOrder, email, showDialog, t, translateCommon, validateEmail]);
+  }, [
+    dispatch,
+    email,
+    examSession.id,
+    registrationKind,
+    initRegistration.registrationId,
+    showDialog,
+    t,
+    translateCommon,
+    validateEmail,
+  ]);
 
   const { isPhone } = useWindowProperties();
 

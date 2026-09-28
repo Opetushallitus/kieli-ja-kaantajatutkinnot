@@ -6,13 +6,15 @@ import { WithId } from 'shared/interfaces';
 import axiosInstance from 'configs/axios';
 import { getCurrentLang } from 'configs/i18n';
 import { APIEndpoints } from 'enums/api';
-import { RegistrationStates } from 'enums/app';
+import { AppRoutes, RegistrationKind, RegistrationStates } from 'enums/app';
 import { PublicFreeRegistrationDetails } from 'interfaces/publicFreeRegistration';
-import { PublicRegistrationInitPayload } from 'interfaces/publicRegistration';
+import {
+  PublicRegistrationFormSubmitErrorResponse,
+  PublicRegistrationInitPayload,
+} from 'interfaces/publicRegistration';
 import {
   RegistrationContext,
   RegistrationKey,
-  RegistrationSubmitErrorResponse,
 } from 'interfaces/registrationContext';
 import { resetExamSession, storeExamSession } from 'redux/reducers/examSession';
 import { resetKoskiEducations } from 'redux/reducers/publicEducation';
@@ -36,7 +38,7 @@ import {
   resetPublicRegistration,
   submitPublicRegistration,
 } from 'redux/reducers/registration';
-import { acceptSession, resetSession } from 'redux/reducers/session';
+import { resetSession } from 'redux/reducers/session';
 import { resetUserOpenRegistrations } from 'redux/reducers/userOpenRegistrations';
 import { nationalitiesSelector } from 'redux/selectors/nationalities';
 import { publicFreeRegistrationSelector } from 'redux/selectors/publicFreeRegistration';
@@ -58,7 +60,6 @@ function* storeContextDetails(data: RegistrationContext) {
       }),
     ),
   );
-  yield put(acceptSession(data.session));
   if (data.state !== RegistrationStates.Started) {
     yield put(
       setPublicFreeRegistration({ isFree: data.is_free ? 'YES' : 'NO' }),
@@ -150,9 +151,19 @@ function* submitRegistrationFormSaga() {
     yield call(storeContextDetails, data);
     yield put(acceptPublicRegistrationSubmission(data));
     yield put(resetUserOpenRegistrations());
+    if (
+      data.is_free &&
+      data.registration_kind === RegistrationKind.Admission &&
+      data.state === RegistrationStates.Completed
+    ) {
+      window.location.href = AppRoutes.FreeRegistrationSuccess.replace(
+        ':examSessionId',
+        String(data.exam_session.id),
+      ).replace(':registrationId', String(data.registration_id));
+    }
   } catch (error) {
     if (
-      isAxiosError<RegistrationSubmitErrorResponse>(error) &&
+      isAxiosError<PublicRegistrationFormSubmitErrorResponse>(error) &&
       error.response?.status === 401
     ) {
       yield put(resetSession());
@@ -161,7 +172,7 @@ function* submitRegistrationFormSaga() {
     } else {
       yield put(
         rejectPublicRegistrationSubmission(
-          isAxiosError<RegistrationSubmitErrorResponse>(error) &&
+          isAxiosError<PublicRegistrationFormSubmitErrorResponse>(error) &&
             error.response?.data?.error
             ? error.response.data
             : { error: {} },
