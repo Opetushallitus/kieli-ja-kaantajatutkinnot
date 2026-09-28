@@ -9,6 +9,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.16.1] - 2026-09-28
+
+### Added
+
+- ODS LabeledComboBox
+
+### Changed
+
+- ODS Combobox
+- eslint and jest config
+
 ## [1.16.0] - 2026-08-31
 
 ### Added
