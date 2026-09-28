@@ -35,7 +35,7 @@ export const PublicRegistrationExamSessionDetails = ({
     publicFreeRegistrationSelector,
   );
   const { loggedInSession } = useAppSelector(sessionSelector);
-  const { activeStep, submitRegistration, initRegistration } =
+  const { activeStep, submitRegistration, initRegistration, context } =
     useAppSelector(registrationSelector);
 
   if (!examSession) {
@@ -56,7 +56,11 @@ export const PublicRegistrationExamSessionDetails = ({
 
   const freeRegistrationPossible = ExamSessionUtils.freeRegistrationPossible(
     examSession,
-    loggedInSession,
+    context?.exam_session.id === examSession.id
+      ? context.session.identity
+        ? context.session
+        : undefined
+      : loggedInSession,
   );
 
   let examFeeText: string;

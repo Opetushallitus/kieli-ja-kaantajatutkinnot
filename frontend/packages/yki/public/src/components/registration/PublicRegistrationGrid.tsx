@@ -1,7 +1,5 @@
 import { Grid, Paper } from '@mui/material';
 import { ophColors } from '@opetushallitus/oph-design-system';
-import { useEffect } from 'react';
-import { useParams, useSearchParams } from 'react-router';
 import {
   H1,
   H2,
@@ -18,52 +16,19 @@ import { PublicRegistrationStepContents } from 'components/registration/PublicRe
 import { PublicRegistrationStepper } from 'components/registration/PublicRegistrationStepper';
 import { MemoizedPublicRegistrationTimer } from 'components/registration/PublicRegistrationTimer';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
-import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { PaymentStatus } from 'enums/api';
-import { RegistrationKind } from 'enums/app';
+import { useAppSelector } from 'configs/redux';
+import { RegistrationKind, RegistrationStates } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { ExamSession } from 'interfaces/examSessions';
-import { loadExamSession } from 'redux/reducers/examSession';
 import { examSessionSelector } from 'redux/selectors/examSession';
-import { publicFreeRegistrationSelector } from 'redux/selectors/publicFreeRegistration';
 import { registrationSelector } from 'redux/selectors/registration';
 
 const RegistrationForm = () => {
-  const dispatch = useAppDispatch();
   const { status: initRegistrationStatus } =
     useAppSelector(registrationSelector).initRegistration;
-  const { status: submitFormStatus, code } =
+  const { status: submitFormStatus } =
     useAppSelector(registrationSelector).submitRegistration;
-  const { examSession, status: examSessionStatus } =
-    useAppSelector(examSessionSelector);
-  const { id: registrationId } =
-    useAppSelector(registrationSelector).registration;
-  const [searchParams] = useSearchParams();
-  const params = useParams();
-
-  useEffect(() => {
-    if (
-      submitFormStatus === APIResponseStatus.Success &&
-      !searchParams.get('submitted') &&
-      code &&
-      registrationId
-    ) {
-      const url = new URL(window.location.href);
-      url.searchParams.set('submitted', 'true');
-      url.searchParams.set('code', code);
-      window.location.href = url.toString();
-    }
-  });
-  useEffect(() => {
-    if (
-      !examSession &&
-      examSessionStatus === APIResponseStatus.NotStarted &&
-      params.examSessionId &&
-      !isNaN(Number(params.examSessionId))
-    ) {
-      dispatch(loadExamSession(+params.examSessionId));
-    }
-  }, [dispatch, examSession, params.examSessionId, examSessionStatus]);
+  const { examSession } = useAppSelector(examSessionSelector);
 
   if (submitFormStatus === APIResponseStatus.Success) {
     return (
@@ -151,15 +116,11 @@ const StepContentSelector = () => {
 };
 
 const Heading = () => {
-  const { activeStep } = useAppSelector(registrationSelector);
+  const { activeStep, context } = useAppSelector(registrationSelector);
   const { error: initRegistrationError, registrationKind } =
     useAppSelector(registrationSelector).initRegistration;
   const { status: submitFormStatus } =
     useAppSelector(registrationSelector).submitRegistration;
-  const { isFree } = useAppSelector(publicFreeRegistrationSelector);
-  const [params] = useSearchParams();
-  const paymentStatus = params.get('status') as PaymentStatus;
-
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration',
   });
@@ -179,27 +140,18 @@ const Heading = () => {
     initRegistrationError
   ) {
     return t(`unavailable.${initRegistrationError}.title`);
-  } else if (
-    activeStep === PublicRegistrationFormStep.Done &&
-    isFree === 'YES'
-  ) {
-    return t('steps.payment.success.heading');
   } else {
-    switch (paymentStatus) {
-      case PaymentStatus.Success:
-        return t('steps.payment.success.heading');
-      case PaymentStatus.Cancel:
-        return t('steps.payment.cancel.heading');
-      default:
-        return t('steps.payment.error.heading');
-    }
+    return context?.state === RegistrationStates.Completed
+      ? t('steps.payment.success.heading')
+      : t('steps.payment.error.heading');
   }
 };
 
 export const PublicRegistrationGrid = () => {
   const { status: examSessionStatus } = useAppSelector(examSessionSelector);
-  const { activeStep } = useAppSelector(registrationSelector);
-  const { status: initRegistrationStatus, expiresIn } =
+  const { activeStep, context, submitRegistration } =
+    useAppSelector(registrationSelector);
+  const { status: initRegistrationStatus } =
     useAppSelector(registrationSelector).initRegistration;
 
   const stepHeading = <Heading />;
@@ -223,9 +175,13 @@ export const PublicRegistrationGrid = () => {
                   <H1>{stepHeading}</H1>
                   {!isPhone &&
                     initRegistrationStatus === APIResponseStatus.Success &&
-                    expiresIn &&
+                    context?.registration_kind === RegistrationKind.Admission &&
+                    context.reservation_expires_at &&
+                    submitRegistration.status !== APIResponseStatus.Success &&
                     activeStep === PublicRegistrationFormStep.Register && (
-                      <MemoizedPublicRegistrationTimer expiresIn={expiresIn} />
+                      <MemoizedPublicRegistrationTimer
+                        deadline={context.reservation_expires_at}
+                      />
                     )}
                 </div>
                 <HeaderSeparator />

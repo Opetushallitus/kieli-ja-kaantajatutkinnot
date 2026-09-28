@@ -29,7 +29,7 @@ class ExamDetailsPage {
   }
 
   fillFieldByLabel(label: string, value: string) {
-    this.elements.textboxByLabel(label).type(value);
+    this.elements.textboxByLabel(label).clear().type(value);
   }
 
   expectFieldText(label: string, value: string) {

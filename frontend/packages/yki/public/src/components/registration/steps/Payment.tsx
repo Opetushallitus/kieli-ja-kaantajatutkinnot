@@ -1,21 +1,21 @@
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Link } from '@mui/material';
-import { useSearchParams } from 'react-router';
 import { H2, Text } from 'shared/components';
 
 import { BackToFrontPageButton } from 'components/elements/BackToFrontPageButton';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
-import { APIEndpoints, PaymentStatus } from 'enums/api';
-import { publicFreeRegistrationSelector } from 'redux/selectors/publicFreeRegistration';
-import { sessionSelector } from 'redux/selectors/session';
+import { APIEndpoints } from 'enums/api';
+import { RegistrationStates } from 'enums/app';
+import { registrationSelector } from 'redux/selectors/registration';
 
 export const PaymentSuccess = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.steps.payment.success.whatsNext',
   });
 
-  const { loggedInSession } = useAppSelector(sessionSelector);
+  const session = useAppSelector(registrationSelector).context?.session;
+  const loggedInSession = session?.identity ? session : undefined;
   const isSuomiFiSession =
     loggedInSession && loggedInSession['auth-method'] === 'SUOMIFI';
   const omaOpintopolkuUrl =
@@ -96,23 +96,13 @@ const PaymentError = () => {
 };
 
 export const Payment = () => {
-  const [params] = useSearchParams();
-  const paymentStatus = params.get('status') as PaymentStatus;
-  const { isFree } = useAppSelector(publicFreeRegistrationSelector);
-
+  const { context } = useAppSelector(registrationSelector);
   const renderPayment = () => {
-    if (isFree === 'YES') {
+    if (context?.state === RegistrationStates.Completed)
       return <PaymentSuccess />;
-    } else {
-      switch (paymentStatus) {
-        case PaymentStatus.Success:
-          return <PaymentSuccess />;
-        case PaymentStatus.Cancel:
-          return <PaymentCancel />;
-        default:
-          return <PaymentError />;
-      }
-    }
+    if (context?.payment?.status === 'CANCELLED') return <PaymentCancel />;
+
+    return <PaymentError />;
   };
 
   return (

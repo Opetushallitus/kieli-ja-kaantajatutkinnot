@@ -1,21 +1,16 @@
 import axios from 'configs/axios';
+import { APIEndpoints } from 'enums/api';
+import { PublicRegistrationInitPayload } from 'interfaces/publicRegistration';
 import {
   RegistrationContext,
   RegistrationInitRequest,
   RegistrationKey,
   RegistrationSubmitRequest,
-} from 'features/registration/modelv2';
-import { PublicRegistrationInitPayload } from 'interfaces/publicRegistration';
+} from 'interfaces/registrationContext';
 import { SerializationUtils } from 'utils/serialization';
 
-export const RegistrationAPI = {
-  Init: '/yki/api/v2/registration/init',
-  Details:
-    '/yki/api/v2/exam-session/:examSessionId/registration/:registrationId',
-  Auth: '/yki/auth/v2/registration/:examSessionId/:registrationId/:method',
-} as const;
 export const registrationEndpoint = (key: RegistrationKey) =>
-  RegistrationAPI.Details.replace(
+  APIEndpoints.Registration.replace(
     ':examSessionId',
     String(key.examSessionId),
   ).replace(':registrationId', String(key.registrationId));
@@ -23,7 +18,7 @@ export const initRegistrationRequest = (
   selection: PublicRegistrationInitPayload,
 ) =>
   axios.post<RegistrationContext>(
-    RegistrationAPI.Init,
+    APIEndpoints.InitRegistration,
     SerializationUtils.serializePublicRegistrationInitRequest(
       selection,
     ) satisfies RegistrationInitRequest,

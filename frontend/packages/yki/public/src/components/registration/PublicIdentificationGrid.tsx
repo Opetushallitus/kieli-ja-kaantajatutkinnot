@@ -4,7 +4,7 @@ import { ophColors } from '@opetushallitus/oph-design-system';
 import { Trans } from 'react-i18next';
 import { generatePath } from 'react-router';
 import {
-  CustomButton,
+  CustomButtonLink,
   H1,
   H2,
   HeaderSeparator,
@@ -25,7 +25,6 @@ import { ExamSession } from 'interfaces/examSessions';
 import { cancelRegistration } from 'redux/reducers/registration';
 import { examSessionSelector } from 'redux/selectors/examSession';
 import { registrationSelector } from 'redux/selectors/registration';
-import { sessionSelector } from 'redux/selectors/session';
 import { ExamSessionUtils } from 'utils/examSession';
 
 const AlreadyLoggedIn = () => {
@@ -33,7 +32,8 @@ const AlreadyLoggedIn = () => {
     keyPrefix: 'yki.component.registration.steps.identify',
   });
   const dispatch = useAppDispatch();
-  const { loggedInSession } = useAppSelector(sessionSelector);
+  const session = useAppSelector(registrationSelector).context?.session;
+  const loggedInSession = session?.identity ? session : undefined;
   const examSession = useAppSelector(examSessionSelector)
     .examSession as ExamSession;
   const { initRegistration } = useAppSelector(registrationSelector);
@@ -70,13 +70,13 @@ const AlreadyLoggedIn = () => {
       </Text>
       <Text>{t('alreadyLoggedIn.reauthenticate')}</Text>
       <div className="rows gapped-xs align-items-center">
-        <CustomButton
+        <CustomButtonLink
           aria-label={t('alreadyLoggedIn.labels.continueToRegistration')}
           variant={Variant.Contained}
           color={Color.Secondary}
           className="fit-content-max-width"
           size="large"
-          href={generatePath(
+          to={generatePath(
             toQueue
               ? AppRoutes.ExamSessionQueue
               : AppRoutes.ExamSessionRegistration,
@@ -87,18 +87,18 @@ const AlreadyLoggedIn = () => {
           )}
         >
           {t('alreadyLoggedIn.labels.continueToRegistration')}
-        </CustomButton>
-        <CustomButton
+        </CustomButtonLink>
+        <CustomButtonLink
           aria-label={t('alreadyLoggedIn.labels.abort')}
           variant={Variant.Text}
           color={Color.Secondary}
           className="fit-content-max-width"
           size="large"
-          href={AppRoutes.Registration}
+          to={AppRoutes.Registration}
           onClick={onAbort}
         >
           {t('alreadyLoggedIn.labels.abort')}
-        </CustomButton>
+        </CustomButtonLink>
       </div>
     </>
   );
@@ -157,7 +157,8 @@ export const PublicIdentificationGrid = () => {
   const { registrationKind } =
     useAppSelector(registrationSelector).initRegistration;
   const { examSession } = useAppSelector(examSessionSelector);
-  const { loggedInSession } = useAppSelector(sessionSelector);
+  const session = useAppSelector(registrationSelector).context?.session;
+  const loggedInSession = session?.identity ? session : undefined;
 
   if (!registrationKind) {
     return null;

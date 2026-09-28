@@ -1,23 +1,28 @@
 import { http, HttpResponse } from 'msw';
 
-import { RegistrationKind, RegistrationStates } from 'enums/app';
-import {
-  RegistrationAPI,
-  registrationEndpoint,
-} from 'features/registration/api/apiv2';
+import { APIEndpoints } from 'enums/api';
+import { AppRoutes, RegistrationKind, RegistrationStates } from 'enums/app';
 import {
   RegistrationContext,
   RegistrationInitErrorResponse,
   RegistrationInitRequest,
   RegistrationKey,
   RegistrationSubmitRequest,
-} from 'features/registration/modelv2';
-import { stepPath } from 'features/registration/routesv2';
+} from 'interfaces/registrationContext';
 import { examSessions } from 'tests/msw/fixtures/examSession';
 import {
   SuomiFiAuthenticatedSessionResponse,
   WeaklyAuthenticatedSessionResponse,
 } from 'tests/msw/fixtures/identity';
+import { registrationEndpoint } from 'utils/registrationApi';
+
+const mockAuthenticationEndpoint =
+  '/yki/auth/v2/registration/:examSessionId/:registrationId/:method';
+const registrationPath = (key: RegistrationKey) =>
+  AppRoutes.ExamSessionRegistration.replace(
+    ':examSessionId',
+    String(key.examSessionId),
+  ).replace(':registrationId', String(key.registrationId));
 
 const now = () =>
   Number(sessionStorage.getItem('msw:yki-v2-now')) || Date.now();
@@ -43,7 +48,8 @@ export const registrationFixture = (
     registrationId: overrides.registration_id ?? 501,
   };
   const auth = (method: string) =>
-    RegistrationAPI.Auth.replace(':examSessionId', String(key.examSessionId))
+    mockAuthenticationEndpoint
+      .replace(':examSessionId', String(key.examSessionId))
       .replace(':registrationId', String(key.registrationId))
       .replace(':method', method);
 
@@ -117,7 +123,7 @@ const conflict = (data: RegistrationContext) =>
   );
 
 export const registrationHandlers = [
-  http.post(RegistrationAPI.Init, async ({ request }) => {
+  http.post(APIEndpoints.InitRegistration, async ({ request }) => {
     const body = (await request.json()) as RegistrationInitRequest;
     if (body.exam_session_id === 2)
       return HttpResponse.json(
@@ -166,12 +172,12 @@ export const registrationHandlers = [
 
     return response(data);
   }),
-  http.get(RegistrationAPI.Details, ({ params }) => {
+  http.get(APIEndpoints.Registration, ({ params }) => {
     const data = lookup(params);
 
     return data ? response(data) : new HttpResponse(null, { status: 404 });
   }),
-  http.get(RegistrationAPI.Auth, ({ params, request }) => {
+  http.get(mockAuthenticationEndpoint, ({ params, request }) => {
     const data = lookup(params);
     if (!data || !['suomifi', 'email'].includes(String(params.method)))
       return new HttpResponse(null, { status: 401 });
@@ -195,14 +201,14 @@ export const registrationHandlers = [
     });
 
     return HttpResponse.json({
-      redirect_url: stepPath('Register', {
+      redirect_url: registrationPath({
         examSessionId: data.exam_session.id,
         registrationId: data.registration_id,
       }),
     });
   }),
   http.post(
-    `${RegistrationAPI.Details}/submit`,
+    `${APIEndpoints.Registration}/submit`,
     async ({ params, request }) => {
       const data = lookup(params);
       if (!data || !data.session.identity)
@@ -248,35 +254,41 @@ export const registrationHandlers = [
       return response(updated);
     },
   ),
-  http.get(`${RegistrationAPI.Details}/mock-payment`, ({ params, request }) => {
-    const data = lookup(params);
-    if (!data?.payment || data.state !== RegistrationStates.Submitted)
-      return new HttpResponse(null, { status: 404 });
-    const outcome = new URL(request.url).searchParams.get('outcome') || 'paid';
-    if (!['paid', 'pending', 'cancelled'].includes(outcome))
-      return new HttpResponse(null, { status: 400 });
-    const paid = outcome === 'paid';
-    saveRegistration({
-      ...data,
-      state: paid ? RegistrationStates.Completed : RegistrationStates.Submitted,
-      payment: {
-        ...data.payment,
-        status: paid
-          ? 'PAID'
-          : outcome === 'cancelled'
-            ? 'CANCELLED'
-            : 'PENDING',
-      },
-    });
+  http.get(
+    `${APIEndpoints.Registration}/mock-payment`,
+    ({ params, request }) => {
+      const data = lookup(params);
+      if (!data?.payment || data.state !== RegistrationStates.Submitted)
+        return new HttpResponse(null, { status: 404 });
+      const outcome =
+        new URL(request.url).searchParams.get('outcome') || 'paid';
+      if (!['paid', 'pending', 'cancelled'].includes(outcome))
+        return new HttpResponse(null, { status: 400 });
+      const paid = outcome === 'paid';
+      saveRegistration({
+        ...data,
+        state: paid
+          ? RegistrationStates.Completed
+          : RegistrationStates.Submitted,
+        payment: {
+          ...data.payment,
+          status: paid
+            ? 'PAID'
+            : outcome === 'cancelled'
+              ? 'CANCELLED'
+              : 'PENDING',
+        },
+      });
 
-    return HttpResponse.json({
-      redirect_url: stepPath(paid ? 'Done' : 'Payment', {
-        examSessionId: data.exam_session.id,
-        registrationId: data.registration_id,
-      }),
-    });
-  }),
-  http.delete(RegistrationAPI.Details, ({ params }) => {
+      return HttpResponse.json({
+        redirect_url: registrationPath({
+          examSessionId: data.exam_session.id,
+          registrationId: data.registration_id,
+        }),
+      });
+    },
+  ),
+  http.delete(APIEndpoints.Registration, ({ params }) => {
     const data = lookup(params);
     if (!data) return new HttpResponse(null, { status: 404 });
     if (data.state === RegistrationStates.Cancelled)

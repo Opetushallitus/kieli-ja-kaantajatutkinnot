@@ -1,6 +1,5 @@
-import { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router';
 import { H2, Text } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 
@@ -9,25 +8,16 @@ import { ConfirmRegistration } from 'components/registration/steps/register/Conf
 import { EmailRegistrationDetails } from 'components/registration/steps/register/EmailRegistrationDetails';
 import { DialogContents } from 'components/registration/steps/register/RegistrationNavigationProtectionDialog';
 import { SuomiFiRegistrationDetails } from 'components/registration/steps/register/SuomiFiRegistrationDetails';
-import {
-  getCurrentLang,
-  useCommonTranslation,
-  usePublicTranslation,
-} from 'configs/i18n';
+import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { APIEndpoints } from 'enums/api';
 import { RegistrationKind } from 'enums/app';
 import { PublicRegistrationFormSubmitError } from 'enums/publicRegistration';
 import { useRegistrationNavigationProtection } from 'hooks/useNavigationProtection';
 import { PublicRegistrationErrors } from 'hooks/usePublicRegistrationErrors';
-import { loadLoginLink, resetLoginLink } from 'redux/reducers/loginLink';
 import { loadNationalities } from 'redux/reducers/nationalities';
-import { loginLinkSelector } from 'redux/selectors/loginLink';
 import { nationalitiesSelector } from 'redux/selectors/nationalities';
 import { publicFreeRegistrationSelector } from 'redux/selectors/publicFreeRegistration';
 import { registrationSelector } from 'redux/selectors/registration';
-import { sessionSelector } from 'redux/selectors/session';
-import { SerializationUtils } from 'utils/serialization';
 
 const FillRegistrationDetails = () => {
   const dispatch = useAppDispatch();
@@ -164,54 +154,17 @@ export const SuccessQueued = () => {
 };
 
 const SuccessRegistered = () => {
-  const dispatch = useAppDispatch();
+  const payment = useAppSelector(registrationSelector).context?.payment;
+  if (!payment) return null;
 
-  const [searchParams] = useSearchParams();
-  const registrationId = searchParams.get('registrationId');
-
-  const { loggedInSession } = useAppSelector(sessionSelector);
-  const { code } = useAppSelector(registrationSelector).submitRegistration;
-  const { expires_at, status } = useAppSelector(loginLinkSelector);
-  const lang = getCurrentLang();
-
-  useEffect(() => {
-    if (status === APIResponseStatus.NotStarted && code) {
-      dispatch(loadLoginLink(code));
-    }
-  }, [code, status, dispatch]);
-
-  useEffect(() => {
-    return () => {
-      dispatch(resetLoginLink());
-    };
-  }, [dispatch]);
-
-  if (!code) {
-    return null;
-  }
-
-  const paymentUrl = new URL(
-    APIEndpoints.LoginWithCode,
-    window.location.origin,
+  return (
+    <ConfirmRegistration
+      paymentDetails={{
+        due_date: dayjs(payment.due_date),
+        payment_url: payment.url,
+      }}
+    />
   );
-  const queryParams = paymentUrl.searchParams;
-  queryParams.append('code', code);
-  queryParams.append('lang', SerializationUtils.serializeAppLanguage(lang));
-
-  const paymentDetails = {
-    due_date: expires_at as Dayjs,
-    payment_url:
-      loggedInSession &&
-      loggedInSession['auth-method'] === 'SUOMIFI' &&
-      registrationId
-        ? APIEndpoints.RedirectToPayment.replace(
-            /:registrationId/,
-            registrationId,
-          ).replace(/:lang/, SerializationUtils.serializeAppLanguage(lang))
-        : paymentUrl.toString(),
-  };
-
-  return <ConfirmRegistration paymentDetails={paymentDetails} />;
 };
 
 const Success = () => {

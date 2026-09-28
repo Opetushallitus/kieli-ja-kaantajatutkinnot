@@ -36,7 +36,6 @@ import { examSessionSelector } from 'redux/selectors/examSession';
 import { publicEducationSelector } from 'redux/selectors/publicEducation';
 import { publicFreeRegistrationSelector } from 'redux/selectors/publicFreeRegistration';
 import { registrationSelector } from 'redux/selectors/registration';
-import { sessionSelector } from 'redux/selectors/session';
 import { ExamSessionUtils } from 'utils/examSession';
 
 const ErrorLabelStyles = {
@@ -52,7 +51,8 @@ export const CommonRegistrationDetails = () => {
   const translateCommon = useCommonTranslation();
   const { isPhone } = useWindowProperties();
 
-  const { loggedInSession } = useAppSelector(sessionSelector);
+  const session = useAppSelector(registrationSelector).context?.session;
+  const loggedInSession = session?.identity ? session : undefined;
   const { status: publicEducationStatus } = useAppSelector(
     publicEducationSelector,
   );

@@ -10,7 +10,7 @@ import {
 import {
   acceptFetchRegistrationDetails,
   acceptPublicRegistrationInit,
-  identifyRegistration,
+  fetchRegistrationDetails,
   initialState,
   initRegistration,
   registrationReducer,
@@ -18,7 +18,7 @@ import {
   rejectPublicRegistrationSubmission,
   setHasTimerExpired,
 } from 'redux/reducers/registration';
-import { registrationInitResponse } from 'tests/msw/fixtures/registrationInit/registrationInit';
+import { registrationFixture } from 'tests/msw/registrationHandlers';
 
 describe('registrationReducer partialExamType restoration', () => {
   it('stores the selected partialExamType when initiating a registration', () => {
@@ -43,7 +43,7 @@ describe('registrationReducer partialExamType restoration', () => {
     const state = registrationReducer(
       initialState,
       acceptPublicRegistrationInit({
-        ...registrationInitResponse,
+        ...registrationFixture(),
         expires_in: 300,
         partial_exam_type: 'READ',
         registration_id: 42,
@@ -60,12 +60,10 @@ describe('registrationReducer partialExamType restoration', () => {
   });
 
   it('restores partialExamType when returning to an in-progress registration', () => {
-    // Identifying does not yet know the part; it is fetched afterwards.
     const identified = registrationReducer(
       initialState,
-      identifyRegistration({
+      fetchRegistrationDetails({
         examSessionId: 999,
-        registrationKind: RegistrationKind.Queue,
         registrationId: 7,
       }),
     );
@@ -75,10 +73,11 @@ describe('registrationReducer partialExamType restoration', () => {
     const restored = registrationReducer(
       identified,
       acceptFetchRegistrationDetails({
-        id: 7,
-        kind: RegistrationKind.Queue,
+        ...registrationFixture(),
+        registration_id: 7,
+        registration_kind: RegistrationKind.Queue,
         partial_exam_type: 'WRITE',
-        exam_session_id: 999,
+        exam_session: { ...registrationFixture().exam_session, id: 999 },
       }),
     );
 
@@ -96,7 +95,7 @@ describe('registrationReducer reservation timer', () => {
     overrides: Partial<Parameters<typeof acceptPublicRegistrationInit>[0]>,
   ) =>
     acceptPublicRegistrationInit({
-      ...registrationInitResponse,
+      ...registrationFixture(),
       expires_in: undefined,
       partial_exam_type: 'ALL_PARTS',
       registration_id: 1,
@@ -264,5 +263,85 @@ describe('registrationReducer reservation timer expiry', () => {
     const state = registrationReducer(expired, setHasTimerExpired(false));
 
     expect(state.hasTimerExpired).toBe(false);
+  });
+});
+
+describe('registration context hydration', () => {
+  it('keeps edits and consent when reading the same registration again', () => {
+    const context = registrationFixture();
+    const loaded = registrationReducer(
+      initialState,
+      acceptPublicRegistrationInit(context),
+    );
+    const edited = {
+      ...loaded,
+      registration: {
+        ...loaded.registration,
+        email: 'edited@example.invalid',
+        termsAndConditionsAgreed: true,
+      },
+    };
+    const refreshed = registrationReducer(
+      edited,
+      acceptFetchRegistrationDetails({ ...context, expires_in: 1700 }),
+    );
+    expect(refreshed.registration.email).toBe('edited@example.invalid');
+    expect(refreshed.registration.termsAndConditionsAgreed).toBe(true);
+  });
+
+  it('clears the previous draft when another registration is loaded', () => {
+    const context = registrationFixture();
+    const loaded = registrationReducer(
+      initialState,
+      acceptPublicRegistrationInit(context),
+    );
+    const edited = {
+      ...loaded,
+      registration: {
+        ...loaded.registration,
+        email: 'edited@example.invalid',
+        termsAndConditionsAgreed: true,
+      },
+    };
+    const refreshed = registrationReducer(
+      edited,
+      acceptFetchRegistrationDetails({ ...context, registration_id: 502 }),
+    );
+    expect(refreshed.registration.email).toBeUndefined();
+    expect(refreshed.registration.termsAndConditionsAgreed).toBe(false);
+  });
+
+  it.each([RegistrationStates.Submitted, RegistrationStates.Completed])(
+    'restores %s from GET',
+    (state) => {
+      const restored = registrationReducer(
+        initialState,
+        acceptFetchRegistrationDetails(
+          registrationFixture({ state, reservation_expires_at: null }),
+        ),
+      );
+      expect(restored.submitRegistration.status).toBe(
+        APIResponseStatus.Success,
+      );
+      expect(restored.submitRegistration.finalState).toBe(state);
+    },
+  );
+
+  it('hydrates the authenticated identity after an anonymous init', () => {
+    const anonymous = registrationFixture({
+      session: { identity: null },
+      user: {},
+      is_strongly_identified: false,
+    });
+    const loaded = registrationReducer(
+      initialState,
+      acceptPublicRegistrationInit(anonymous),
+    );
+    const restored = registrationReducer(
+      loaded,
+      acceptFetchRegistrationDetails(registrationFixture()),
+    );
+    expect(restored.isEmailRegistration).toBe(false);
+    expect(restored.registration.firstNames).toBe('Nordea');
   });
 });

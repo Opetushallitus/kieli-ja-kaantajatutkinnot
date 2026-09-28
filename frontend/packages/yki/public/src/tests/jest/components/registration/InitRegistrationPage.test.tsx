@@ -7,6 +7,7 @@ import { ContentSelector } from 'pages/InitRegistrationPage';
 import { initialState as initialRegistrationState } from 'redux/reducers/registration';
 import { DefaultProviders } from 'tests/jest/utils/DefaultProviders';
 import { examSessions } from 'tests/msw/fixtures/examSession';
+import { registrationFixture } from 'tests/msw/registrationHandlers';
 import { ExamSessionUtils } from 'utils/examSession';
 import { SerializationUtils } from 'utils/serialization';
 
@@ -18,6 +19,12 @@ const renderPageWithSession = (examSession: ExamSession) => {
     },
     registration: {
       ...initialRegistrationState,
+      context: registrationFixture({
+        session: { identity: null },
+        user: {},
+        is_strongly_identified: false,
+        registration_id: 123,
+      }),
       initRegistration: {
         status: APIResponseStatus.Success,
         examSessionId: examSession.id,

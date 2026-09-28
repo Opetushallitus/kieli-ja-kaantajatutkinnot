@@ -9,7 +9,6 @@ import {
   RegistrationStates,
 } from 'enums/app';
 import { PublicRegistrationInitError } from 'enums/publicRegistration';
-import { ExamSessionResponse } from 'interfaces/examSessions';
 
 export interface PersonFillOutDetails {
   firstNames: string;
@@ -60,44 +59,10 @@ export interface PublicRegistrationInitPayload {
   partialExamType: PartialExamType;
 }
 
-export interface PublicRegistrationIdentifyPayload {
-  examSessionId: number;
-  registrationKind: RegistrationKind;
-  registrationId: number;
-}
-
-export interface PublicRegistrationIdentifyRequest {
-  exam_session_id: number;
-  to_queue: boolean;
-  registration_id: number;
-}
-
 export interface PublicRegistrationInitRequest {
   exam_session_id: number;
   to_queue: boolean;
   partial_exam_type: PartialExamType;
-}
-
-export interface PublicRegistrationInitResponse {
-  exam_session: ExamSessionResponse;
-  registration_id: number;
-  partial_exam_type: PartialExamType;
-  user: {
-    first_name?: string;
-    last_name?: string;
-    nick_name?: string;
-    ssn?: string;
-    post_office?: string;
-    zip?: string;
-    street_address?: string;
-    email?: string;
-    nationalities?: Array<string>;
-    oid?: string;
-    'external-user-id'?: string;
-  };
-  is_strongly_identified: boolean;
-  registration_kind: RegistrationKind;
-  expires_in?: number;
 }
 
 interface OtherExamSessionRegistration {
@@ -137,12 +102,6 @@ export function isRegistrationInitErrorResponse(
   );
 }
 
-export interface PublicRegistrationFormSubmitSuccessResponse {
-  code: string;
-  registration_kind: RegistrationKind;
-  state: RegistrationStates;
-}
-
 export interface PublicRegistrationFormSubmitErrorResponse {
   error: {
     closed?: boolean;
@@ -161,11 +120,4 @@ export interface UserOpenRegistration {
 
 export interface UserOpenRegistrationsResponse {
   open_registrations: Array<UserOpenRegistration>;
-}
-
-export interface RegistrationDetailsResponse {
-  id: number;
-  kind: RegistrationKind;
-  partial_exam_type: PartialExamType;
-  exam_session_id: number;
 }

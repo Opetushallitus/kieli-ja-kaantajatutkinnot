@@ -14,7 +14,6 @@ import {
 import { examSessionSelector } from 'redux/selectors/examSession';
 import { publicFreeRegistrationSelector } from 'redux/selectors/publicFreeRegistration';
 import { registrationSelector } from 'redux/selectors/registration';
-import { sessionSelector } from 'redux/selectors/session';
 import { ExamSessionUtils } from 'utils/examSession';
 
 export type PublicRegistrationErrors = {
@@ -166,9 +165,11 @@ const getErrors = (
 };
 
 export const usePublicRegistrationErrors = (showErrors: boolean) => {
-  const { isEmailRegistration, registration } =
+  const { isEmailRegistration, registration, context } =
     useAppSelector(registrationSelector);
-  const { loggedInSession } = useAppSelector(sessionSelector);
+  const loggedInSession = context?.session.identity
+    ? context.session
+    : undefined;
   const { examSession } = useAppSelector(examSessionSelector);
   const publicFreeRegistrationDetails = useAppSelector(
     publicFreeRegistrationSelector,

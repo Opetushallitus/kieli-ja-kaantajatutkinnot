@@ -1,18 +1,18 @@
 import axios from 'configs/axios';
 import { RegistrationKind, RegistrationStates } from 'enums/app';
+import { RegistrationSubmitRequest } from 'interfaces/registrationContext';
+import {
+  registrationFixture,
+  resetRegistrationMocks,
+  saveRegistration,
+} from 'tests/msw/registrationHandlers';
 import {
   cancelRegistrationRequest,
   getRegistrationDetails,
   initRegistrationRequest,
   registrationEndpoint,
   submitRegistrationRequest,
-} from 'features/registration/api/apiv2';
-import { RegistrationSubmitRequest } from 'features/registration/modelv2';
-import {
-  registrationFixture,
-  resetRegistrationMocks,
-  saveRegistration,
-} from 'features/registration/tests/handlersv2';
+} from 'utils/registrationApi';
 
 const key = { examSessionId: 100, registrationId: 501 };
 const selection = {
@@ -172,8 +172,8 @@ it.each(['pending', 'cancelled', 'paid'])(
         ? RegistrationStates.Completed
         : RegistrationStates.Submitted,
     );
-    expect(redirect.redirect_url).toContain(
-      outcome === 'paid' ? '/valmis/' : '/maksa/',
+    expect(redirect.redirect_url).toBe(
+      '/yki/ilmoittautuminen/tutkintotilaisuus/100/501',
     );
   },
 );

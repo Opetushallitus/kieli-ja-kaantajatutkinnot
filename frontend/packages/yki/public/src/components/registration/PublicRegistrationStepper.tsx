@@ -1,29 +1,23 @@
 import { Step, StepLabel, Stepper, Typography } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
-import { useSearchParams } from 'react-router';
 import { CircularStepper, Text } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
-import { PaymentStatus } from 'enums/api';
+import { RegistrationStates } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
-import { publicFreeRegistrationSelector } from 'redux/selectors/publicFreeRegistration';
 import { registrationSelector } from 'redux/selectors/registration';
 
 export const PublicRegistrationStepper = () => {
-  const { activeStep } = useAppSelector(registrationSelector);
+  const { activeStep, context } = useAppSelector(registrationSelector);
   const { status: initRegistrationStatus, error: initRegistrationError } =
     useAppSelector(registrationSelector).initRegistration;
-  const { isFree } = useAppSelector(publicFreeRegistrationSelector);
-  const [params] = useSearchParams();
-  const paymentStatus = params.get('status');
 
   const isError =
     (activeStep === PublicRegistrationFormStep.Done &&
-      paymentStatus !== PaymentStatus.Success &&
-      isFree !== 'YES') ||
+      context?.state !== RegistrationStates.Completed) ||
     (activeStep === PublicRegistrationFormStep.Register &&
       initRegistrationStatus === APIResponseStatus.Error) ||
     (activeStep === PublicRegistrationFormStep.Identify &&
@@ -34,8 +28,7 @@ export const PublicRegistrationStepper = () => {
   );
 };
 
-// Shared presentation: each flow determines its own step and error state.
-export const RegistrationStepperView = ({
+const RegistrationStepperView = ({
   activeStep,
   isError = false,
 }: {

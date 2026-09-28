@@ -94,7 +94,6 @@ export interface RegistrationSubmitErrorResponse {
     registered?: boolean;
   };
 }
-export type RegistrationStep = 'Identify' | 'Register' | 'Payment' | 'Done';
 export interface RegistrationKey {
   examSessionId: number;
   registrationId: number;

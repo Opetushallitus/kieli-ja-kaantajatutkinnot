@@ -3,22 +3,14 @@ import { Color, Variant } from 'shared/enums';
 
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
-import { APIEndpoints } from 'enums/api';
-import { RegistrationKind } from 'enums/app';
-import { ExamSession } from 'interfaces/examSessions';
-import { examSessionSelector } from 'redux/selectors/examSession';
 import { registrationSelector } from 'redux/selectors/registration';
 
 export const SuomiFiIdentification = () => {
-  const examSession = useAppSelector(examSessionSelector)
-    .examSession as ExamSession;
-  const { initRegistration } = useAppSelector(registrationSelector);
+  const { context } = useAppSelector(registrationSelector);
 
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.steps.identify',
   });
-
-  const registrationKind = examSession.available_registration_kind;
 
   return (
     <>
@@ -31,11 +23,7 @@ export const SuomiFiIdentification = () => {
         size="large"
         variant={Variant.Contained}
         color={Color.Secondary}
-        href={`${APIEndpoints.Authenticate}?examSessionId=${
-          examSession.id
-        }&toQueue=${
-          registrationKind === RegistrationKind.Queue
-        }&registrationId=${initRegistration.registrationId}`}
+        href={context?.authentication_urls.suomifi}
       >
         {t('suomiFiButtonText')}
       </CustomButton>

@@ -21,11 +21,7 @@ import { Header } from 'components/layouts/Header';
 import { NewYkiFooter } from 'components/layouts/NewYkiFooter';
 import { useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { AppRoutes, RegistrationKind } from 'enums/app';
-import { RegistrationPage as RegistrationPageV2 } from 'features/registration/pages/RegistrationPagev2';
-import { RegistrationStepPage } from 'features/registration/pages/RegistrationStepPagev2';
-import { RegistrationFlow } from 'features/registration/RegistrationFlowv2';
-import { RegistrationRoutes } from 'features/registration/routesv2';
+import { AppRoutes } from 'enums/app';
 import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
 import { AccessibilityStatementPage } from 'pages/AccessibilityStatementPage';
 import { ConfirmRegistrationPage } from 'pages/ConfirmRegistrationPage';
@@ -126,28 +122,6 @@ export const AppRouter: FC = () => {
     createRoutesFromElements(
       <Route path={AppRoutes.PublicRoot} element={Root}>
         <Route index={true} element={FrontPage} />
-        <Route element={<RegistrationFlow />}>
-          <Route
-            path={RegistrationRoutes.Listing}
-            element={<RegistrationPageV2 />}
-          />
-          <Route
-            path={RegistrationRoutes.Identify}
-            element={<RegistrationStepPage step="Identify" />}
-          />
-          <Route
-            path={RegistrationRoutes.Register}
-            element={<RegistrationStepPage step="Register" />}
-          />
-          <Route
-            path={RegistrationRoutes.Payment}
-            element={<RegistrationStepPage step="Payment" />}
-          />
-          <Route
-            path={RegistrationRoutes.Done}
-            element={<RegistrationStepPage step="Done" />}
-          />
-        </Route>
         <Route path={AppRoutes.Registration} element={FrontPage} />
         <Route
           path={AppRoutes.ExamSession}
@@ -161,7 +135,7 @@ export const AppRouter: FC = () => {
           path={AppRoutes.ExamSessionRegistration}
           element={
             <YkiTitlePage title="examDetails">
-              <ExamDetailsPage registrationKind={RegistrationKind.Admission} />
+              <ExamDetailsPage />
             </YkiTitlePage>
           }
         />
@@ -169,7 +143,7 @@ export const AppRouter: FC = () => {
           path={AppRoutes.ExamSessionQueue}
           element={
             <YkiTitlePage title="examDetails">
-              <ExamDetailsPage registrationKind={RegistrationKind.Queue} />
+              <ExamDetailsPage />
             </YkiTitlePage>
           }
         />

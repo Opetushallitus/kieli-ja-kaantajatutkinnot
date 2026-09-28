@@ -15,9 +15,8 @@ import { useDialog, useWindowProperties } from 'shared/hooks';
 import { InputFieldUtils } from 'shared/utils';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
-import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { useAppSelector } from 'configs/redux';
 import { ExamSession } from 'interfaces/examSessions';
-import { sendEmailLinkOrder } from 'redux/reducers/publicIdentification';
 import { examSessionSelector } from 'redux/selectors/examSession';
 import { registrationSelector } from 'redux/selectors/registration';
 import { ExamSessionUtils } from 'utils/examSession';
@@ -94,26 +93,24 @@ const ExamFeeRequiredInfo = () => {
 };
 
 export const EmailIdentification = () => {
-  const dispatch = useAppDispatch();
   const examSession = useAppSelector(examSessionSelector)
     .examSession as ExamSession;
   const isFreeRegistrationPossible =
     ExamSessionUtils.freeRegistrationPossible(examSession);
-  const { initRegistration } = useAppSelector(registrationSelector);
+  const { context } = useAppSelector(registrationSelector);
 
   return (
     <EmailIdentificationForm
       isFreeRegistrationPossible={isFreeRegistrationPossible}
-      onOrder={(email) =>
-        dispatch(
-          sendEmailLinkOrder({
-            examSessionId: examSession.id,
-            email,
-            registrationKind: examSession.available_registration_kind,
-            registrationId: initRegistration.registrationId,
-          }),
-        )
-      }
+      onOrder={(email) => {
+        if (!context) return;
+        const url = new URL(
+          context.authentication_urls.email,
+          window.location.origin,
+        );
+        url.searchParams.set('email', email);
+        window.location.assign(url.toString());
+      }}
     />
   );
 };

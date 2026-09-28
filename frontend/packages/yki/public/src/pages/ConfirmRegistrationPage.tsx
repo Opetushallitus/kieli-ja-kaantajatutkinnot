@@ -16,9 +16,7 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIEndpoints } from 'enums/api';
 import { ExamSession } from 'interfaces/examSessions';
 import { loadRegistrationToConfirmDetails } from 'redux/reducers/confirmRegistration';
-import { fetchRegistrationDetails } from 'redux/reducers/registration';
 import { confirmRegistrationSelector } from 'redux/selectors/confirmRegistration';
-import { registrationSelector } from 'redux/selectors/registration';
 import { userDetailsSelector } from 'redux/selectors/userDetails';
 import { SerializationUtils } from 'utils/serialization';
 
@@ -74,7 +72,6 @@ const Contents = () => {
 export const ConfirmRegistrationPage = () => {
   const dispatch = useAppDispatch();
   const { loadDetailsStatus } = useAppSelector(confirmRegistrationSelector);
-  const { fetchRegistrationStatus } = useAppSelector(registrationSelector);
 
   // React Router
   const params = useParams();
@@ -85,23 +82,12 @@ export const ConfirmRegistrationPage = () => {
       : undefined;
 
   useEffect(() => {
-    if (
-      fetchRegistrationStatus === APIResponseStatus.NotStarted &&
-      registrationId
-    ) {
-      dispatch(fetchRegistrationDetails(registrationId));
-    }
-  }, [dispatch, registrationId, fetchRegistrationStatus]);
-
-  useEffect(() => {
     if (loadDetailsStatus === APIResponseStatus.NotStarted && registrationId) {
       dispatch(loadRegistrationToConfirmDetails(registrationId));
     }
   }, [dispatch, registrationId, loadDetailsStatus]);
 
-  const loading =
-    loadDetailsStatus === APIResponseStatus.InProgress ||
-    fetchRegistrationStatus === APIResponseStatus.InProgress;
+  const loading = loadDetailsStatus === APIResponseStatus.InProgress;
 
   return (
     <Box className="confirm-registration-page">
