@@ -9,13 +9,16 @@ import static org.mockito.Mockito.verify;
 
 import fi.oph.yki.Factory;
 import fi.oph.yki.PostgresTestcontainerConfig;
+import fi.oph.yki.api.dto.PublicExamSessionLocationDTO;
 import fi.oph.yki.api.dto.PublicPersonContactUpdateDTO;
 import fi.oph.yki.api.dto.PublicPersonDTO;
 import fi.oph.yki.api.dto.PublicPersonRegistrationDTO;
+import fi.oph.yki.api.dto.PublicRegistrationToConfirmDTO;
 import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.audit.YkiOperation;
 import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamSession;
+import fi.oph.yki.model.ExamSessionLocation;
 import fi.oph.yki.model.Person;
 import fi.oph.yki.model.PersonSyncStatus;
 import fi.oph.yki.model.Registration;
@@ -76,7 +79,8 @@ public class PublicPersonServiceTest {
       new PublicPersonService(
         personRepository,
         registrationRepository,
-        new PersonService(personRepository, personSyncStatusRepository, auditService)
+        new PersonService(personRepository, personSyncStatusRepository, auditService),
+        auditService
       );
 
     person = Factory.person();
@@ -288,6 +292,108 @@ public class PublicPersonServiceTest {
     flushAndClear();
 
     assertThrows(NotFoundException.class, () -> publicPersonService.getPerson("9.9.9"));
+  }
+
+  @Test
+  public void testGetRegistrationToConfirm() {
+    final LocalDate examDate = LocalDate.now().plusMonths(2);
+    final ExamSession examSession = createExamSession(examDate);
+    final ExamSessionLocation svLocation = Factory.examSessionLocation(examSession);
+    svLocation.setName("Testplats");
+    svLocation.setLang("sv");
+    entityManager.persist(svLocation);
+    final Registration registration = createRegistration(
+      person,
+      examSession,
+      RegistrationState.SUBMITTED,
+      RegistrationKind.ADMISSION,
+      LocalDateTime.of(2026, 4, 1, 10, 0)
+    );
+    registration.setExpiresAt(LocalDateTime.of(2026, 4, 8, 10, 0));
+    registration.setExamFee(140);
+    flushAndClear();
+
+    final PublicRegistrationToConfirmDTO dto = publicPersonService.getRegistrationToConfirm(OID, registration.getId());
+
+    assertEquals(registration.getId(), dto.id());
+    assertEquals(140, dto.examFee());
+    assertEquals(LocalDateTime.of(2026, 4, 8, 10, 0), dto.expiresAt());
+    assertEquals("fin", dto.languageCode());
+    assertEquals("PERUS", dto.levelCode());
+    assertEquals(examDate.minusMonths(3), dto.registrationStartDate());
+    assertEquals(examDate.minusMonths(1), dto.registrationEndDate());
+    assertEquals(examDate, dto.sessionDate());
+    assertEquals(
+      List.of("fi", "sv"),
+      dto.location().stream().map(PublicExamSessionLocationDTO::lang).sorted().toList()
+    );
+
+    verify(auditService).logPublicById(YkiOperation.GET_REGISTRATION_TO_CONFIRM, Long.toString(registration.getId()));
+  }
+
+  @Test
+  public void testGetRegistrationToConfirmOfAnotherPersonThrowsNotFound() {
+    final Person other = Factory.person();
+    other.setOid("1.2.3.4.6");
+    entityManager.persist(other);
+    final Registration registration = createRegistration(
+      other,
+      createExamSession(LocalDate.now().plusMonths(2)),
+      RegistrationState.SUBMITTED,
+      RegistrationKind.ADMISSION,
+      LocalDateTime.of(2026, 4, 1, 10, 0)
+    );
+    flushAndClear();
+
+    assertThrows(
+      NotFoundException.class,
+      () -> publicPersonService.getRegistrationToConfirm(OID, registration.getId())
+    );
+    verify(auditService).logPublicById(YkiOperation.GET_REGISTRATION_TO_CONFIRM, Long.toString(registration.getId()));
+  }
+
+  @Test
+  public void testGetRegistrationToConfirmNotSubmittedThrowsNotFound() {
+    final Registration registration = createRegistration(
+      person,
+      createExamSession(LocalDate.now().plusMonths(2)),
+      RegistrationState.COMPLETED,
+      RegistrationKind.ADMISSION,
+      LocalDateTime.of(2026, 4, 1, 10, 0)
+    );
+    flushAndClear();
+
+    assertThrows(
+      NotFoundException.class,
+      () -> publicPersonService.getRegistrationToConfirm(OID, registration.getId())
+    );
+  }
+
+  @Test
+  public void testGetRegistrationToConfirmQueueThrowsNotFound() {
+    final ExamSession examSession = createExamSession(LocalDate.now().plusMonths(2));
+    examSession.setMaxParticipants(0);
+    entityManager.flush();
+    final Registration registration = createRegistration(
+      person,
+      examSession,
+      RegistrationState.SUBMITTED,
+      RegistrationKind.QUEUE,
+      LocalDateTime.of(2026, 4, 1, 10, 0)
+    );
+    flushAndClear();
+
+    assertThrows(
+      NotFoundException.class,
+      () -> publicPersonService.getRegistrationToConfirm(OID, registration.getId())
+    );
+  }
+
+  @Test
+  public void testGetRegistrationToConfirmUnknownIdThrowsNotFound() {
+    flushAndClear();
+
+    assertThrows(NotFoundException.class, () -> publicPersonService.getRegistrationToConfirm(OID, -1L));
   }
 
   private static PublicPersonContactUpdateDTO.PublicPersonContactUpdateDTOBuilder contactUpdate() {

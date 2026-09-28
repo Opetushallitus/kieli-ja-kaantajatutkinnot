@@ -4,6 +4,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import fi.oph.yki.api.dto.PublicPersonContactUpdateDTO;
 import fi.oph.yki.api.dto.PublicPersonDTO;
+import fi.oph.yki.api.dto.PublicRegistrationToConfirmDTO;
 import fi.oph.yki.service.PublicPersonService;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
@@ -11,6 +12,7 @@ import java.util.Map;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +29,14 @@ public class PublicPersonController {
   @GetMapping
   public PublicPersonDTO getPerson(final Authentication authentication) {
     return publicPersonService.getPerson(authentication.getName());
+  }
+
+  @GetMapping(path = "/registration/{registrationId}/confirm")
+  public PublicRegistrationToConfirmDTO getRegistrationToConfirm(
+    final Authentication authentication,
+    @PathVariable final Long registrationId
+  ) {
+    return publicPersonService.getRegistrationToConfirm(authentication.getName(), registrationId);
   }
 
   @PostMapping(consumes = APPLICATION_JSON_VALUE)
