@@ -4,12 +4,15 @@ import { useCallback, useEffect } from 'react';
 import {
   CustomButton,
   CustomModal,
+  H3,
   LoadingProgressIndicator,
   Text,
 } from 'shared/components';
 import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
 import { useToast, useWindowProperties } from 'shared/hooks';
 
+import { RegistrationDetails } from 'components/userDetails/RegistrationDetails';
+import { RegistrationState } from 'components/userDetails/RegistrationState';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { PersonRegistrations } from 'interfaces/userDetails';
@@ -20,6 +23,7 @@ import {
   setRegistrationToCancel,
 } from 'redux/reducers/userDetails';
 import { userDetailsSelector } from 'redux/selectors/userDetails';
+import { ExamSessionUtils } from 'utils/examSession';
 
 type CancelRegistrationModalProps = {
   registrationToCancel: PersonRegistrations;
@@ -97,6 +101,16 @@ export const CancelRegistrationModal = ({
     >
       <div className="rows gapped">
         <div className="rows gapped">
+          <div className="cancel-registration-modal__registration rows gapped-sm">
+            <H3>
+              {ExamSessionUtils.languageAndLevelText({
+                language_code: registrationToCancel.examLang,
+                level_code: registrationToCancel.examLevel,
+              })}
+            </H3>
+            <RegistrationState registration={registrationToCancel} />
+            <RegistrationDetails registration={registrationToCancel} />
+          </div>
           {registrationToCancel.isFreeRegistration && (
             <div className="rows gapped">
               <Text>{t('descriptionNotPaid1')}</Text>
