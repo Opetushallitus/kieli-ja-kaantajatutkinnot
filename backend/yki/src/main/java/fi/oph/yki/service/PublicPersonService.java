@@ -4,6 +4,9 @@ import fi.oph.yki.api.dto.PublicExamSessionLocationDTO;
 import fi.oph.yki.api.dto.PublicPersonContactUpdateDTO;
 import fi.oph.yki.api.dto.PublicPersonDTO;
 import fi.oph.yki.api.dto.PublicPersonRegistrationDTO;
+import fi.oph.yki.api.dto.PublicRegistrationToConfirmDTO;
+import fi.oph.yki.audit.AuditService;
+import fi.oph.yki.audit.YkiOperation;
 import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamPayment;
 import fi.oph.yki.model.ExamSession;
@@ -13,6 +16,7 @@ import fi.oph.yki.model.Registration;
 import fi.oph.yki.model.RegistrationEvaluation;
 import fi.oph.yki.model.type.PaymentState;
 import fi.oph.yki.model.type.RegistrationKind;
+import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.repository.PersonRegistrationStatusProjection;
 import fi.oph.yki.repository.PersonRepository;
 import fi.oph.yki.repository.RegistrationRepository;
@@ -38,6 +42,8 @@ public class PublicPersonService {
   private final RegistrationRepository registrationRepository;
 
   private final PersonService personService;
+
+  private final AuditService auditService;
 
   private static PublicExamSessionLocationDTO toDTO(final ExamSessionLocation location) {
     return PublicExamSessionLocationDTO
@@ -132,6 +138,31 @@ public class PublicPersonService {
       .zip(person.getZip())
       .countryCode(person.getCountryCode())
       .registrations(getRegistrations(oid))
+      .build();
+  }
+
+  @Transactional(readOnly = true)
+  public PublicRegistrationToConfirmDTO getRegistrationToConfirm(final String oid, final Long registrationId) {
+    auditService.logPublicById(YkiOperation.GET_REGISTRATION_TO_CONFIRM, Long.toString(registrationId));
+    final Registration registration = registrationRepository
+      .getByIdAndPersonOidAndStateAndKind(registrationId, oid, RegistrationState.SUBMITTED, RegistrationKind.ADMISSION)
+      .orElseThrow(() ->
+        new NotFoundException(String.format("Registration to confirm not found, id: %d, oid: %s", registrationId, oid))
+      );
+    final ExamSession examSession = registration.getExamSession();
+    final ExamDate examDate = examSession.getExamDate();
+
+    return PublicRegistrationToConfirmDTO
+      .builder()
+      .id(registration.getId())
+      .examFee(registration.getExamFee())
+      .expiresAt(registration.getExpiresAt())
+      .languageCode(examSession.getLanguage())
+      .levelCode(examSession.getLevel())
+      .registrationStartDate(examDate.getRegistrationStartDate())
+      .registrationEndDate(examDate.getRegistrationEndDate())
+      .sessionDate(examDate.getExamDate())
+      .location(examSession.getLocations().stream().map(PublicPersonService::toDTO).toList())
       .build();
   }
 

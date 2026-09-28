@@ -14,6 +14,7 @@ import fi.oph.yki.api.dto.PublicExamSessionLocationDTO;
 import fi.oph.yki.api.dto.PublicPersonContactUpdateDTO;
 import fi.oph.yki.api.dto.PublicPersonDTO;
 import fi.oph.yki.api.dto.PublicPersonRegistrationDTO;
+import fi.oph.yki.api.dto.PublicRegistrationToConfirmDTO;
 import fi.oph.yki.config.ControllerExceptionAdvice;
 import fi.oph.yki.model.type.ExamSessionType;
 import fi.oph.yki.model.type.PartialExamType;
@@ -137,6 +138,46 @@ class PublicPersonControllerTest {
     when(publicPersonService.getPerson(OID)).thenThrow(new NotFoundException("Person not found"));
 
     mockMvc.perform(get(BASE_URL)).andExpect(status().isNotFound());
+  }
+
+  @Test
+  public void testGetRegistrationToConfirm() throws Exception {
+    final PublicRegistrationToConfirmDTO registration = PublicRegistrationToConfirmDTO
+      .builder()
+      .id(7L)
+      .examFee(140)
+      .expiresAt(LocalDateTime.of(2026, 10, 8, 23, 59, 59))
+      .languageCode("fin")
+      .levelCode("PERUS")
+      .registrationStartDate(LocalDate.of(2026, 8, 1))
+      .registrationEndDate(LocalDate.of(2026, 9, 30))
+      .sessionDate(LocalDate.of(2026, 10, 15))
+      .location(List.of(PublicExamSessionLocationDTO.builder().name("Testipaikka").lang("fi").build()))
+      .build();
+
+    when(publicPersonService.getRegistrationToConfirm(OID, 7L)).thenReturn(registration);
+
+    mockMvc
+      .perform(get(BASE_URL + "/registration/7/confirm"))
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("$.id").value(7))
+      .andExpect(jsonPath("$.exam_fee").value(140))
+      .andExpect(jsonPath("$.expires_at").value("2026-10-08T23:59:59"))
+      .andExpect(jsonPath("$.language_code").value("fin"))
+      .andExpect(jsonPath("$.level_code").value("PERUS"))
+      .andExpect(jsonPath("$.registration_start_date").value("2026-08-01"))
+      .andExpect(jsonPath("$.registration_end_date").value("2026-09-30"))
+      .andExpect(jsonPath("$.session_date").value("2026-10-15"))
+      .andExpect(jsonPath("$.location[0].name").value("Testipaikka"))
+      .andExpect(jsonPath("$.location[0].lang").value("fi"));
+  }
+
+  @Test
+  public void testGetRegistrationToConfirmNotFound() throws Exception {
+    when(publicPersonService.getRegistrationToConfirm(OID, 7L))
+      .thenThrow(new NotFoundException("Registration to confirm not found"));
+
+    mockMvc.perform(get(BASE_URL + "/registration/7/confirm")).andExpect(status().isNotFound());
   }
 
   private static JSONObject validContactData() {

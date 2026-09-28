@@ -3,6 +3,7 @@ package fi.oph.yki.repository;
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.Registration;
 import fi.oph.yki.model.type.PartialExamType;
+import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
 import java.time.LocalDate;
 import java.util.List;
@@ -17,6 +18,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface RegistrationRepository extends JpaRepository<Registration, Long> {
   List<Registration> getByPersonOid(String personOid);
+  Optional<Registration> getByIdAndPersonOidAndStateAndKind(
+    Long id,
+    String personOid,
+    RegistrationState state,
+    RegistrationKind kind
+  );
   List<Registration> getByExamSessionAndStateInAndFormIsNotNull(
     ExamSession examSession,
     List<RegistrationState> states
