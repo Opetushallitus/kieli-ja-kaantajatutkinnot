@@ -10,13 +10,13 @@ import {
   FormHelperText,
   TextField,
 } from '@mui/material';
+import { OphTypography } from '@opetushallitus/oph-design-system';
 import { useState } from 'react';
 
 import {
   CustomNativeSelectProps,
   NativeSelect,
 } from '../../components/NativeSelect/NativeSelect';
-import { Text } from '../../components/Text/Text';
 import { useWindowProperties } from '../../hooks';
 import {
   AutoCompleteComboBox,
@@ -211,7 +211,9 @@ export const LabeledComboBox = ({
   return (
     <FormControl fullWidth error={showError}>
       <label htmlFor={id}>
-        <Text sx={errorStyles}>{label}</Text>
+        <OphTypography variant="label" component="span" sx={errorStyles}>
+          {label}
+        </OphTypography>
       </label>
       <NativeSelectOrComboBox id={id} {...rest} />
       {showError && <FormHelperText>{helperText}</FormHelperText>}
@@ -247,9 +249,9 @@ export const LabeledMultipleCheckboxDropdown = ({
   return (
     <FormControl fullWidth error={showError}>
       <label htmlFor={id}>
-        <Text sx={errorStyles}>
-          <b>{label}</b>
-        </Text>
+        <OphTypography variant="label" component="span" sx={errorStyles}>
+          {label}
+        </OphTypography>
       </label>
       <Autocomplete
         id={id}
