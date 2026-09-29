@@ -16,6 +16,7 @@ import fi.oph.yki.model.Participant;
 import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Quarantine;
 import fi.oph.yki.model.Registration;
+import fi.oph.yki.model.RegistrationChangeEvent;
 import fi.oph.yki.model.type.ExamSessionType;
 import fi.oph.yki.model.type.FreeRegistrationSource;
 import fi.oph.yki.model.type.FreeRegistrationType;
@@ -28,6 +29,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class Factory {
+
+  public static final LocalDateTime DEFAULT_REGISTRATION_CREATED_AT = LocalDateTime.of(2026, 4, 1, 10, 0);
 
   public static Person person() {
     final Person person = new Person();
@@ -44,6 +47,32 @@ public class Factory {
     registration.setState(RegistrationState.SUBMITTED);
     registration.setKind(RegistrationKind.ADMISSION);
     registration.setPartialExamType(PartialExamType.ALL_PARTS);
+    // `created` is mapped as an insertable column, so leaving it unset makes Hibernate write NULL
+    // over the database default. Postgres sorts NULLs last under ORDER BY created ASC, which would
+    // make any FIFO-ordering assertion silently depend on insertion order instead.
+    registration.setCreatedAt(DEFAULT_REGISTRATION_CREATED_AT);
+
+    return registration;
+  }
+
+  /**
+   * A registration waiting in an exam session's queue, in the state the queue-lifting job looks
+   * for: {@code kind=QUEUE}, {@code state=SUBMITTED}.
+   *
+   * <p>Note that {@code participant_limit_trigger} rejects the first queued registration in a
+   * session whose relevant pool still has room ("registration to queue is not available"), so a
+   * fixture using this must fill that pool with ADMISSION registrations first.
+   *
+   * <p>Callers that assert on FIFO order must set distinct {@code createdAt} values; every
+   * registration from this factory shares one timestamp.
+   */
+  public static Registration queuedRegistration(final Person person, final PartialExamType partialExamType) {
+    final Registration registration = registration(person);
+    registration.setKind(RegistrationKind.QUEUE);
+    registration.setState(RegistrationState.SUBMITTED);
+    registration.setPartialExamType(partialExamType);
+    registration.setUiLanguage("fi");
+    registration.setStrongAuth(true);
 
     return registration;
   }
@@ -180,6 +209,46 @@ public class Factory {
     location.setLang("fi");
 
     return location;
+  }
+
+  public static ExamSessionLocation examSessionLocation(final ExamSession examSession, final String lang) {
+    final ExamSessionLocation location = examSessionLocation(examSession);
+    location.setLang(lang);
+    location.setName("Testipaikka " + lang);
+    location.setExtraInformation("Lisätietoa " + lang);
+
+    return location;
+  }
+
+  /**
+   * Locations in all three supported languages, so that locale resolution in emails has something
+   * to choose between. Real sessions normally have all three, but not always.
+   */
+  public static List<ExamSessionLocation> examSessionLocations(final ExamSession examSession) {
+    return List.of(
+      examSessionLocation(examSession, "fi"),
+      examSessionLocation(examSession, "sv"),
+      examSessionLocation(examSession, "en")
+    );
+  }
+
+  /**
+   * The change event the queue-lifting job writes. Kind and state are read off the registration,
+   * so it must already carry its post-lift values: the legacy statistics fold treats a
+   * LIFT_FROM_QUEUE event with kind ADMISSION as "one moved from queue to participants", and one
+   * with kind QUEUE as "one left the queue" and nothing more.
+   */
+  public static RegistrationChangeEvent registrationChangeEvent(final Registration registration) {
+    final RegistrationChangeEvent changeEvent = new RegistrationChangeEvent();
+    changeEvent.setEvent("LIFT_FROM_QUEUE");
+    changeEvent.setRegistrationId(registration.getId());
+    changeEvent.setExamSessionId(registration.getExamSession().getId());
+    changeEvent.setRegistrationKind(registration.getKind());
+    changeEvent.setRegistrationState(registration.getState());
+    changeEvent.setCreatedAt(LocalDateTime.now());
+    changeEvent.setAuthorType("AUTOMATION");
+
+    return changeEvent;
   }
 
   public static Email email() {
