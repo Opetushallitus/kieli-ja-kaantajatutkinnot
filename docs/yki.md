@@ -2,6 +2,8 @@
 
 ## Frontend
 
+The [parallel registration v2 prototype](yki-registration-v2.md) documents the new step URLs, full-response API contract and MSW test setup.
+
 ### Build and Run
 
 #### With local backend

@@ -7,7 +7,6 @@ import { usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { PublicRegistrationInitError } from 'enums/publicRegistration';
-import { PublicRegistrationInitErrorState } from 'interfaces/publicRegistration';
 import { examSessionSelector } from 'redux/selectors/examSession';
 import { registrationSelector } from 'redux/selectors/registration';
 
@@ -16,8 +15,9 @@ const DescribeInitError = () => {
     keyPrefix: 'yki.component.registration.unavailable',
   });
 
-  const { error } = useAppSelector(registrationSelector).initRegistration
-    .error as PublicRegistrationInitErrorState;
+  const error =
+    useAppSelector(registrationSelector).initRegistration.error?.error ??
+    PublicRegistrationInitError.Generic;
 
   switch (error) {
     case PublicRegistrationInitError.AlreadyRegistered:
@@ -69,8 +69,9 @@ const BackToIdentificationButton = () => {
 
 export const PublicRegistrationInitErrorView = () => {
   const { examSession } = useAppSelector(examSessionSelector);
-  const { error } = useAppSelector(registrationSelector).initRegistration
-    .error as PublicRegistrationInitErrorState;
+  const error =
+    useAppSelector(registrationSelector).initRegistration.error?.error ??
+    PublicRegistrationInitError.Generic;
   const showExamSessionDetails =
     error === PublicRegistrationInitError.ExamSessionFull ||
     error === PublicRegistrationInitError.Past ||

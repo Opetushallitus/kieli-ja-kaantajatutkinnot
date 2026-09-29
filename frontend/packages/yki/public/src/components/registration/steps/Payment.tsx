@@ -7,7 +7,9 @@ import { BackToFrontPageButton } from 'components/elements/BackToFrontPageButton
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { APIEndpoints, PaymentStatus } from 'enums/api';
+import { RegistrationStates } from 'enums/app';
 import { publicFreeRegistrationSelector } from 'redux/selectors/publicFreeRegistration';
+import { registrationSelector } from 'redux/selectors/registration';
 import { sessionSelector } from 'redux/selectors/session';
 
 const PaymentSuccess = () => {
@@ -99,9 +101,13 @@ export const Payment = () => {
   const [params] = useSearchParams();
   const paymentStatus = params.get('status') as PaymentStatus;
   const { isFree } = useAppSelector(publicFreeRegistrationSelector);
+  const { context } = useAppSelector(registrationSelector);
 
   const renderPayment = () => {
-    if (isFree === 'YES') {
+    if (
+      isFree === 'YES' ||
+      (!paymentStatus && context?.state === RegistrationStates.Completed)
+    ) {
       return <PaymentSuccess />;
     } else {
       switch (paymentStatus) {

@@ -21,7 +21,7 @@ import { Header } from 'components/layouts/Header';
 import { NewYkiFooter } from 'components/layouts/NewYkiFooter';
 import { useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { AppRoutes, RegistrationKind } from 'enums/app';
+import { AppRoutes } from 'enums/app';
 import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
 import { AccessibilityStatementPage } from 'pages/AccessibilityStatementPage';
 import { ConfirmRegistrationPage } from 'pages/ConfirmRegistrationPage';
@@ -135,7 +135,7 @@ export const AppRouter: FC = () => {
           path={AppRoutes.ExamSessionRegistration}
           element={
             <YkiTitlePage title="examDetails">
-              <ExamDetailsPage registrationKind={RegistrationKind.Admission} />
+              <ExamDetailsPage />
             </YkiTitlePage>
           }
         />
@@ -143,7 +143,7 @@ export const AppRouter: FC = () => {
           path={AppRoutes.ExamSessionQueue}
           element={
             <YkiTitlePage title="examDetails">
-              <ExamDetailsPage registrationKind={RegistrationKind.Queue} />
+              <ExamDetailsPage />
             </YkiTitlePage>
           }
         />

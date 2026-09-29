@@ -8,14 +8,14 @@ import { useWindowProperties } from 'shared/hooks';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { PaymentStatus } from 'enums/api';
-import { RegistrationKind } from 'enums/app';
+import { RegistrationKind, RegistrationStates } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { examSessionSelector } from 'redux/selectors/examSession';
 import { publicFreeRegistrationSelector } from 'redux/selectors/publicFreeRegistration';
 import { registrationSelector } from 'redux/selectors/registration';
 
 export const PublicRegistrationStepper = () => {
-  const { activeStep } = useAppSelector(registrationSelector);
+  const { activeStep, context } = useAppSelector(registrationSelector);
   const { examSession } = useAppSelector(examSessionSelector);
   const { status: initRegistrationStatus, error: initRegistrationError } =
     useAppSelector(registrationSelector).initRegistration;
@@ -33,6 +33,7 @@ export const PublicRegistrationStepper = () => {
   const isError =
     (activeStep === PublicRegistrationFormStep.Done &&
       paymentStatus !== PaymentStatus.Success &&
+      (paymentStatus || context?.state !== RegistrationStates.Completed) &&
       isFree !== 'YES') ||
     (activeStep === PublicRegistrationFormStep.Register &&
       initRegistrationStatus === APIResponseStatus.Error) ||

@@ -1,10 +1,16 @@
 import { http, HttpResponse } from 'msw';
 
 import { APIEndpoints } from 'enums/api';
-import { RegistrationKind } from 'enums/app';
+import { AppRoutes, RegistrationKind, RegistrationStates } from 'enums/app';
+import { getTestWorker } from 'tests/cypress/support/mswv2';
 import { onExamDetailsPage } from 'tests/cypress/support/page-objects/examDetailsPage';
-import { worker } from 'tests/msw/browser';
 import { examSessions } from 'tests/msw/fixtures/examSession';
+import { WeaklyAuthenticatedSessionResponse } from 'tests/msw/fixtures/identity';
+import {
+  registrationFixture,
+  saveRegistration,
+} from 'tests/msw/registrationHandlers';
+import { setMockSession } from 'tests/msw/session';
 
 const examSessionResponse = examSessions.exam_sessions.find(
   (es) => es.id === 999,
@@ -28,7 +34,8 @@ const getInitRegistrationResponse = (is_strongly_identified: boolean) => {
     const { first_name, last_name, ssn, post_office, zip, street_address } =
       expectedSuomiFiRegistrationDetails;
 
-    return {
+    return registrationFixture({
+      partial_exam_type: 'ALL_PARTS',
       is_strongly_identified,
       exam_session: examSessionResponse,
       registration_id: 1337,
@@ -41,9 +48,10 @@ const getInitRegistrationResponse = (is_strongly_identified: boolean) => {
         zip,
         street_address,
       },
-    };
+    });
   } else {
-    return {
+    return registrationFixture({
+      partial_exam_type: 'ALL_PARTS',
       is_strongly_identified,
       exam_session: examSessionResponse,
       registration_id: 1337,
@@ -51,50 +59,55 @@ const getInitRegistrationResponse = (is_strongly_identified: boolean) => {
       user: {
         email: 'teuvotesti@test.invalid',
       },
-    };
+    });
   }
 };
 
 describe('ExamDetailsPage', () => {
   describe('allows filling registration form', () => {
     it('with credentials from Suomi.fi authentication', () => {
-      worker.use(
-        http.post(APIEndpoints.IdentifyRegistration, () =>
-          HttpResponse.json(getInitRegistrationResponse(true)),
-        ),
-      );
+      saveRegistration(getInitRegistrationResponse(true));
 
       cy.openExamSessionRegistrationForm(
         examSessionResponse.id,
         getInitRegistrationResponse(true).registration_id,
       );
       onExamDetailsPage.isVisible();
-      onExamDetailsPage.fillFieldByLabel('Etunimet *', 'Teuvo Testi');
-      onExamDetailsPage.fillFieldByLabel('Kutsumanimi *', 'Teuvo');
-      onExamDetailsPage.fillFieldByLabel('Sukunimi *', 'Testaaja');
-      onExamDetailsPage.fillFieldByLabel('Katuosoite *', 'Testikatu 1');
-      onExamDetailsPage.fillFieldByLabel('Postinumero *', '00100');
-      onExamDetailsPage.fillFieldByLabel('Postitoimipaikka *', 'Helsinki');
+      cy.contains('Teuvo').should('be.visible');
       onExamDetailsPage.fillFieldByLabel('Puhelinnumero *', '+358501234567');
-      onExamDetailsPage.selectGender('Mies');
-      onExamDetailsPage.selectHasSSN(true);
-      onExamDetailsPage.fillFieldByLabel('Henkilötunnus *', '030594W903B');
+      onExamDetailsPage.fillFieldByLabel(
+        'Sähköpostiosoite *',
+        'test@example.invalid',
+      );
+      onExamDetailsPage.fillFieldByLabel(
+        'Vahvista sähköpostiosoite *',
+        'test@example.invalid',
+      );
       onExamDetailsPage.selectNationality('Serbia');
-      onExamDetailsPage.selectMotherTongue('suomi');
       onExamDetailsPage.selectCertificateLanguage('englanti');
 
       onExamDetailsPage.acceptTermsOfRegistration();
       onExamDetailsPage.acceptPrivacyPolicy();
       onExamDetailsPage.submitForm();
-      onExamDetailsPage.isFormSubmitted();
+      cy.findByRole('heading', { name: /Ilmoittautuminen onnistui!/ }).should(
+        'be.visible',
+      );
+      cy.location('pathname').should(
+        'eq',
+        AppRoutes.FreeRegistrationSuccess.replace(
+          ':examSessionId',
+          String(examSessionResponse.id),
+        ).replace(':registrationId', '1337'),
+      );
+      cy.reload();
+      cy.findByRole('heading', { name: /Ilmoittautuminen onnistui!/ }).should(
+        'be.visible',
+      );
     });
 
     it('by authenticating via a login link', () => {
-      worker.use(
-        http.post(APIEndpoints.IdentifyRegistration, () =>
-          HttpResponse.json(getInitRegistrationResponse(false)),
-        ),
-      );
+      setMockSession(WeaklyAuthenticatedSessionResponse);
+      saveRegistration(getInitRegistrationResponse(false));
 
       cy.openExamSessionRegistrationForm(
         examSessionResponse.id,
@@ -130,11 +143,8 @@ describe('ExamDetailsPage', () => {
     });
 
     it('text fields filled by user are trimmed of whitespace before sending to backend', () => {
-      worker.use(
-        http.post(APIEndpoints.IdentifyRegistration, () =>
-          HttpResponse.json(getInitRegistrationResponse(true)),
-        ),
-      );
+      setMockSession(WeaklyAuthenticatedSessionResponse);
+      saveRegistration(getInitRegistrationResponse(false));
 
       cy.openExamSessionRegistrationForm(
         examSessionResponse.id,
@@ -161,19 +171,32 @@ describe('ExamDetailsPage', () => {
   });
 
   describe('critical session and submitted flows', () => {
-    it('does not attempt identify when session fetch fails on normal registration flow', () => {
-      worker.use(
+    it('does not show the registration form when the session fetch fails', () => {
+      saveRegistration(getInitRegistrationResponse(true));
+      getTestWorker().use(
         http.get(APIEndpoints.User, () =>
           HttpResponse.json('Server error', { status: 500 }),
         ),
       );
 
       cy.openExamSessionRegistrationForm(examSessionResponse.id, 1337);
+      cy.findByRole('link', { name: /Takaisin aloitussivulle/i }).should(
+        'be.visible',
+      );
       cy.findByRole('button', { name: 'Lähetä' }).should('not.exist');
     });
 
-    it('continues submitted return flow even when session fetch fails', () => {
-      worker.use(
+    it('restores submitted state from context even when session fetch fails', () => {
+      saveRegistration(
+        registrationFixture({
+          ...getInitRegistrationResponse(true),
+          registration_id: examSessionResponse.id,
+          registration_kind: RegistrationKind.Queue,
+          state: RegistrationStates.Submitted,
+          reservation_expires_at: null,
+        }),
+      );
+      getTestWorker().use(
         http.get(APIEndpoints.User, () =>
           HttpResponse.json('Server error', { status: 500 }),
         ),

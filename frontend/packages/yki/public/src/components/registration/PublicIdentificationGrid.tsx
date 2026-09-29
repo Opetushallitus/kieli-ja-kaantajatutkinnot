@@ -4,7 +4,7 @@ import { ophColors } from '@opetushallitus/oph-design-system';
 import { Trans } from 'react-i18next';
 import { generatePath } from 'react-router';
 import {
-  CustomButton,
+  CustomButtonLink,
   H1,
   H2,
   HeaderSeparator,
@@ -70,13 +70,13 @@ const AlreadyLoggedIn = () => {
       </Text>
       <Text>{t('alreadyLoggedIn.reauthenticate')}</Text>
       <div className="rows gapped-xs align-items-center">
-        <CustomButton
+        <CustomButtonLink
           aria-label={t('alreadyLoggedIn.labels.continueToRegistration')}
           variant={Variant.Contained}
           color={Color.Secondary}
           className="fit-content-max-width"
           size="large"
-          href={generatePath(
+          to={generatePath(
             toQueue
               ? AppRoutes.ExamSessionQueue
               : AppRoutes.ExamSessionRegistration,
@@ -87,18 +87,18 @@ const AlreadyLoggedIn = () => {
           )}
         >
           {t('alreadyLoggedIn.labels.continueToRegistration')}
-        </CustomButton>
-        <CustomButton
+        </CustomButtonLink>
+        <CustomButtonLink
           aria-label={t('alreadyLoggedIn.labels.abort')}
           variant={Variant.Text}
           color={Color.Secondary}
           className="fit-content-max-width"
           size="large"
-          href={AppRoutes.Registration}
+          to={AppRoutes.Registration}
           onClick={onAbort}
         >
           {t('alreadyLoggedIn.labels.abort')}
-        </CustomButton>
+        </CustomButtonLink>
       </div>
     </>
   );

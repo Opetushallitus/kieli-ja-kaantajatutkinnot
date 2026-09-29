@@ -13,16 +13,18 @@ import {
   PartialExamType,
   PublicEmailRegistration,
   PublicRegistrationFormSubmitErrorResponse,
-  PublicRegistrationFormSubmitSuccessResponse,
-  PublicRegistrationIdentifyPayload,
   PublicRegistrationInitErrorState,
   PublicRegistrationInitPayload,
-  PublicRegistrationInitResponse,
   PublicSuomiFiRegistration,
-  RegistrationDetailsResponse,
 } from 'interfaces/publicRegistration';
+import {
+  RegistrationContext,
+  RegistrationKey,
+} from 'interfaces/registrationContext';
 
 export interface RegistrationState {
+  context?: RegistrationContext;
+  requestedRegistration?: RegistrationKey;
   initRegistration: {
     status: APIResponseStatus;
     error?: PublicRegistrationInitErrorState;
@@ -33,7 +35,6 @@ export interface RegistrationState {
     expiresIn?: number;
   };
   submitRegistration: {
-    code?: string;
     status: APIResponseStatus;
     error?: PublicRegistrationFormSubmitError;
     registrationKind?: RegistrationKind;
@@ -71,6 +72,83 @@ export const initialState: RegistrationState = {
   fetchRegistrationStatus: APIResponseStatus.NotStarted,
 };
 
+const acceptContext = (
+  state: RegistrationState,
+  action: PayloadAction<RegistrationContext>,
+) => {
+  const context = action.payload;
+  const previous = state.context;
+  const sameRegistration =
+    previous?.registration_id === context.registration_id &&
+    previous?.exam_session.id === context.exam_session.id;
+  const sameIdentity =
+    sameRegistration &&
+    previous?.is_strongly_identified === context.is_strongly_identified &&
+    JSON.stringify(previous?.user) === JSON.stringify(context.user);
+  state.context = context;
+  state.initRegistration = {
+    status: APIResponseStatus.Success,
+    examSessionId: context.exam_session.id,
+    registrationId: context.registration_id,
+    registrationKind: context.registration_kind,
+    partialExamType: context.partial_exam_type,
+    expiresIn: context.expires_in,
+  };
+  state.fetchRegistrationStatus = APIResponseStatus.Success;
+  state.hasTimerExpired = context.state === RegistrationStates.Expired;
+  if (!sameIdentity) {
+    const { user, registration_id, is_strongly_identified } = context;
+    const nationality = user.nationalities?.[0];
+    state.isEmailRegistration = !is_strongly_identified;
+    state.hasSuomiFiNationalityData = is_strongly_identified && !!nationality;
+    state.registration = {
+      ...initialState.registration,
+      id: registration_id,
+      ...(is_strongly_identified
+        ? {
+            firstNames: user.first_name,
+            lastName: user.last_name,
+            hasSSN: !!user.ssn,
+            ssn: user.ssn,
+            nationality,
+            address: user.street_address,
+            postNumber: user.zip,
+            postOffice: user.post_office,
+          }
+        : { email: user.email }),
+    };
+    state.showErrors = false;
+  }
+  const submitted = [
+    RegistrationStates.Submitted,
+    RegistrationStates.Completed,
+  ].includes(context.state);
+  state.submitRegistration = submitted
+    ? {
+        status: APIResponseStatus.Success,
+        registrationKind: context.registration_kind,
+        finalState: context.state,
+      }
+    : { status: APIResponseStatus.NotStarted };
+  if (context.state === RegistrationStates.Expired) {
+    state.submitRegistration = {
+      status: APIResponseStatus.Error,
+      error: PublicRegistrationFormSubmitError.FormExpired,
+    };
+  } else if (
+    [
+      RegistrationStates.Cancelled,
+      RegistrationStates.PaidAndCancelled,
+      RegistrationStates.Unknown,
+    ].includes(context.state)
+  ) {
+    state.initRegistration.status = APIResponseStatus.Error;
+    state.initRegistration.error = {
+      error: PublicRegistrationInitError.Generic,
+    };
+  }
+};
+
 const registrationSlice = createSlice({
   name: 'registration',
   initialState,
@@ -79,7 +157,10 @@ const registrationSlice = createSlice({
       state,
       action: PayloadAction<PublicRegistrationInitPayload>,
     ) {
-      state.initRegistration.status = APIResponseStatus.InProgress;
+      Object.assign(state, initialState);
+      state.context = undefined;
+      state.requestedRegistration = undefined;
+      state.initRegistration = { status: APIResponseStatus.InProgress };
       state.initRegistration.examSessionId = action.payload.examSessionId;
       state.initRegistration.registrationKind = action.payload.registrationKind;
       state.initRegistration.partialExamType = action.payload.partialExamType;
@@ -135,68 +216,21 @@ const registrationSlice = createSlice({
     resetPublicRegistration() {
       return initialState;
     },
-    acceptPublicRegistrationInit(
-      state,
-      action: PayloadAction<PublicRegistrationInitResponse>,
-    ) {
-      state.initRegistration.status = APIResponseStatus.Success;
-      state.initRegistration.expiresIn = action.payload?.expires_in;
-      state.initRegistration.partialExamType = action.payload.partial_exam_type;
-
-      const {
-        registration_id,
-        is_strongly_identified,
-        user,
-        registration_kind,
-      } = action.payload;
-      const nationality = user.nationalities && user.nationalities[0];
-      state.initRegistration.registrationKind = registration_kind;
-      state.initRegistration.registrationId = registration_id;
-      if (is_strongly_identified) {
-        state.isEmailRegistration = false;
-        state.hasSuomiFiNationalityData = !!nationality;
-        state.registration = {
-          ...state.registration,
-          id: registration_id,
-          firstNames: user.first_name,
-          lastName: user.last_name,
-          hasSSN: !!user.ssn,
-          ssn: user.ssn,
-          nationality,
-          address: user.street_address,
-          postNumber: user.zip,
-          postOffice: user.post_office,
-        };
-      } else {
-        state.isEmailRegistration = true;
-        state.registration = {
-          ...state.registration,
-          id: registration_id,
-          email: user.email,
-        };
-      }
-    },
+    acceptPublicRegistrationInit: acceptContext,
     setShowErrors(state, action: PayloadAction<boolean>) {
       state.showErrors = action.payload;
     },
     submitPublicRegistration(state) {
       state.submitRegistration.status = APIResponseStatus.InProgress;
+      state.submitRegistration.error = undefined;
     },
-    acceptPublicRegistrationSubmission(
-      state,
-      action: PayloadAction<PublicRegistrationFormSubmitSuccessResponse>,
-    ) {
-      state.submitRegistration.status = APIResponseStatus.Success;
-      state.submitRegistration.code = action.payload.code;
-      state.submitRegistration.registrationKind =
-        action.payload.registration_kind;
-      state.submitRegistration.finalState = action.payload.state;
-    },
+    acceptPublicRegistrationSubmission: acceptContext,
     rejectPublicRegistrationSubmission(
       state,
       action: PayloadAction<PublicRegistrationFormSubmitErrorResponse>,
     ) {
       state.submitRegistration.status = APIResponseStatus.Error;
+      state.submitRegistration.error = undefined;
       const { closed, create_payment, expired, person_creation, registered } =
         action.payload.error;
       if (closed) {
@@ -242,32 +276,16 @@ const registrationSlice = createSlice({
     setHasTimerExpired(state, action: PayloadAction<boolean>) {
       state.hasTimerExpired = action.payload;
     },
-    identifyRegistration(
-      state,
-      action: PayloadAction<PublicRegistrationIdentifyPayload>,
-    ) {
-      state.initRegistration.status = APIResponseStatus.InProgress;
-      state.fetchRegistrationStatus = APIResponseStatus.NotStarted;
-      state.initRegistration.examSessionId = action.payload.examSessionId;
-      state.initRegistration.registrationKind = action.payload.registrationKind;
-      state.initRegistration.registrationId = action.payload.registrationId;
-    },
-    fetchRegistrationDetails(state, _action: PayloadAction<number>) {
+    fetchRegistrationDetails(state, action: PayloadAction<RegistrationKey>) {
       state.fetchRegistrationStatus = APIResponseStatus.InProgress;
+      state.requestedRegistration = action.payload;
+      state.initRegistration.examSessionId = action.payload.examSessionId;
+      state.initRegistration.registrationId = action.payload.registrationId;
     },
     rejectRegistrationDetails(state) {
       state.fetchRegistrationStatus = APIResponseStatus.Error;
     },
-    acceptFetchRegistrationDetails(
-      state,
-      action: PayloadAction<RegistrationDetailsResponse>,
-    ) {
-      state.fetchRegistrationStatus = APIResponseStatus.Success;
-      state.initRegistration.partialExamType = action.payload.partial_exam_type;
-      state.initRegistration.registrationKind = action.payload.kind;
-      state.initRegistration.registrationId = action.payload.id;
-      state.initRegistration.examSessionId = action.payload.exam_session_id;
-    },
+    acceptFetchRegistrationDetails: acceptContext,
   },
 });
 
@@ -287,7 +305,6 @@ export const {
   cancelRegistration,
   acceptCancelRegistration,
   rejectCancelRegistration,
-  identifyRegistration,
   fetchRegistrationDetails,
   rejectRegistrationDetails,
   acceptFetchRegistrationDetails,

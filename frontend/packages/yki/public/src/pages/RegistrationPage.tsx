@@ -12,6 +12,7 @@ import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ExamSession } from 'interfaces/examSessions';
 import { loadExamSessions } from 'redux/reducers/examSessions';
+import { resetPublicRegistration } from 'redux/reducers/registration';
 import {
   examSessionsSelector,
   selectFilteredPublicExamSessions,
@@ -55,6 +56,10 @@ export const RegistrationPage: FC = () => {
     setShowResults(true);
     setPage(0);
   };
+
+  useEffect(() => {
+    dispatch(resetPublicRegistration());
+  }, [dispatch]);
 
   // Pagination
   const [page, setPage] = useState(0);

@@ -5,11 +5,11 @@ class PublicRegistrationPage {
     filterByLanguage: (isPhone: boolean = false) =>
       isPhone
         ? cy.findAllByRole('combobox').eq(0).should('be.visible')
-        : cy.findByRole('combobox', { name: /Valitse kieli/ }),
+        : cy.get('#public-exam-session-filters__language-filter'),
     filterByLevel: (isPhone: boolean = false) =>
       isPhone
         ? cy.findAllByRole('combobox').eq(1).should('be.visible')
-        : cy.findByRole('combobox', { name: /Valitse taso/ }),
+        : cy.get('#public-exam-session-filters__level-filter'),
     resultBox: () =>
       cy.findByTestId('public-registration-page__grid-container__result-box'),
     showOnlyIfAvailablePlaces: () =>

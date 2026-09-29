@@ -13,7 +13,7 @@ import { MobileAppBarState } from 'shared/interfaces';
 import { MemoizedPublicRegistrationTimer } from 'components/registration/PublicRegistrationTimer';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { AppRoutes } from 'enums/app';
+import { AppRoutes, RegistrationKind } from 'enums/app';
 import {
   PublicRegistrationFormStep,
   PublicRegistrationFormSubmitError,
@@ -137,7 +137,7 @@ export const PublicRegistrationControlButtons = () => {
     .emailLinkOrder.status;
   const {
     activeStep,
-    initRegistration: { expiresIn },
+    context,
     submitRegistration: {
       status: submitRegistrationStatus,
       error: submitRegistrationError,
@@ -181,9 +181,12 @@ export const PublicRegistrationControlButtons = () => {
           setState={memoizedSetAppBarState}
         >
           <div className="rows" style={{ width: '100%' }}>
-            {expiresIn &&
+            {context?.registration_kind === RegistrationKind.Admission &&
+              context.reservation_expires_at &&
               activeStep === PublicRegistrationFormStep.Register && (
-                <MemoizedPublicRegistrationTimer expiresIn={expiresIn} />
+                <MemoizedPublicRegistrationTimer
+                  deadline={context.reservation_expires_at}
+                />
               )}
           </div>
         </StackableMobileAppBar>

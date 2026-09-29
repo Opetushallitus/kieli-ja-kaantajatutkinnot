@@ -11,7 +11,6 @@ import { useInterval } from 'hooks/useInterval';
 import { setHasTimerExpired } from 'redux/reducers/registration';
 
 const TOTAL_RESERVATION_TIME = 30 * 60 * 1000;
-let expirationTime: number;
 
 const calcProgress = (total: number) => (expiresIn: number) => {
   const millisecondsDiff = Math.max(0, expiresIn);
@@ -19,7 +18,7 @@ const calcProgress = (total: number) => (expiresIn: number) => {
   const seconds = Math.floor((millisecondsDiff % 60000) / 1000);
 
   return {
-    value: Math.floor((millisecondsDiff / total) * 100),
+    value: Math.min(100, Math.floor((millisecondsDiff / total) * 100)),
     seconds: String(seconds).padStart(2, '0'),
     minutes: String(minutes).padStart(2, '0'),
     millisecondsDiff,
@@ -28,30 +27,18 @@ const calcProgress = (total: number) => (expiresIn: number) => {
 
 const calcProgressWithTotal = calcProgress(TOTAL_RESERVATION_TIME);
 
-const getTimeRemaning = (expiresIn: number) => {
-  const newExpirationTime = Date.now() + expiresIn;
-  // Changing e.g. the app language re-renders the timer and resets inital state
-  // use the expirationTime that was set when the file was first loadded unless
-  // the backend provides expiresIn value less than previously recorded
-  if (expirationTime && expirationTime < newExpirationTime) {
-    return expirationTime - Date.now();
-  }
-
-  expirationTime = newExpirationTime;
-
-  return newExpirationTime - Date.now();
-};
-
-const PublicRegistrationTimer = ({ expiresIn }: { expiresIn: number }) => {
+const PublicRegistrationTimer = ({ deadline }: { deadline: string }) => {
+  const expirationTime = Date.parse(deadline);
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.expirationTimer',
   });
 
-  const [progress, setProgress] = useState(() => {
-    const timeRemaning = getTimeRemaning(expiresIn * 1000);
-
-    return calcProgressWithTotal(timeRemaning);
-  });
+  const [progress, setProgress] = useState(() =>
+    calcProgressWithTotal(expirationTime - Date.now()),
+  );
+  useEffect(() => {
+    setProgress(calcProgressWithTotal(expirationTime - Date.now()));
+  }, [expirationTime]);
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
