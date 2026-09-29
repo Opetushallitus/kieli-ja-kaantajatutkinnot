@@ -337,6 +337,8 @@ public class ClerkExamSessionServiceTest {
     final ExamSession examSession = Factory.examSession(examDate);
     examSession.setType(ExamSessionType.READ_SPEAK);
     examSession.setMaxParticipants(1);
+    examSession.setMaxParticipantsReadListen(1);
+    examSession.setMaxParticipantsSpeakWrite(1);
     final ExamSessionLocation location = Factory.examSessionLocation(examSession);
 
     entityManager.persist(examDate);
