@@ -81,6 +81,9 @@ public class ExamSessionXlsxDataRowUtil {
       case ADMISSION -> "Varsinainen ilmoittautuminen";
       case POST_ADMISSION -> "Jälki-ilmoittautuminen";
       case QUEUE -> "Jonoilmoittautuminen";
+      // OTHER exists in the database enum but is never written by either backend, and there is
+      // no established label for it. Rendered like an absent kind rather than guessed at.
+      case OTHER -> "-";
     };
   }
 

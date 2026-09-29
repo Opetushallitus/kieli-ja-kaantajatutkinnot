@@ -46,8 +46,10 @@ public class Registration {
   @JoinColumn(name = "participant_id", referencedColumnName = "id")
   private Participant participant;
 
+  // PostgreSQLEnumJdbcType binds by constant name whatever the EnumType, so this is spelled out
+  // only to match state and partialExamType below and stop the bare @Enumerated reading as ordinal.
   @Column(name = "kind")
-  @Enumerated
+  @Enumerated(value = EnumType.STRING)
   @JdbcType(PostgreSQLEnumJdbcType.class)
   private RegistrationKind kind;
 
@@ -70,6 +72,21 @@ public class Registration {
 
   @Column(name = "created")
   private LocalDateTime createdAt;
+
+  // Maintained by the database (column default) and by the queue-lifting UPDATE, which sets
+  // current_timestamp the way the legacy backend's registration updates do. Mapped read-only so a
+  // JPA save can neither null it on insert nor write back a value that went stale after a native
+  // update.
+  @Column(name = "modified", insertable = false, updatable = false)
+  private LocalDateTime modifiedAt;
+
+  /**
+   * Language the participant used when submitting, and the language their emails are sent in.
+   * Written alongside the rest of the form at the STARTED -> SUBMITTED transition, so it can be
+   * null on registrations that never got that far.
+   */
+  @Column(name = "ui_language")
+  private String uiLanguage;
 
   @Column(name = "expires_at")
   private LocalDateTime expiresAt;
