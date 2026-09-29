@@ -483,4 +483,64 @@
                 referencedTableName="email"
                 referencedColumnNames="email_id" />
     </changeSet>
+
+    <changeSet id="2026-09-23-create-registration-change-event" author="jrkkp">
+        <preConditions onFail="CONTINUE">
+            <not>
+                <tableExists tableName="registration_change_event"/>
+            </not>
+        </preConditions>
+        <createTable tableName="registration_change_event">
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="registration_change_event_pkey"/>
+            </column>
+            <column name="event" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="registration_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="exam_session_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="registration_state" type="registration_state">
+                <constraints nullable="false"/>
+            </column>
+            <column name="registration_kind" type="registration_kind">
+                <constraints nullable="false"/>
+            </column>
+            <column name="original_exam_session_id" type="BIGINT"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="created_by" type="TEXT"/>
+            <column name="author_type" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="registration_change_event"
+                baseColumnNames="registration_id"
+                constraintName="fk_registration_change_event_registration"
+                referencedTableName="registration"
+                referencedColumnNames="id" />
+        <addForeignKeyConstraint
+                baseTableName="registration_change_event"
+                baseColumnNames="exam_session_id"
+                constraintName="fk_registration_change_event_exam_session"
+                referencedTableName="exam_session"
+                referencedColumnNames="id" />
+        <addForeignKeyConstraint
+                baseTableName="registration_change_event"
+                baseColumnNames="original_exam_session_id"
+                constraintName="fk_registration_change_event_original_exam_session"
+                referencedTableName="exam_session"
+                referencedColumnNames="id" />
+        <createIndex tableName="registration_change_event" indexName="registration_change_event_exam_session_id_created_at">
+            <column name="exam_session_id"/>
+            <column name="created_at"/>
+        </createIndex>
+        <createIndex tableName="registration_change_event" indexName="registration_change_event_original_exam_session_id_created_at">
+            <column name="original_exam_session_id"/>
+            <column name="created_at"/>
+        </createIndex>
+    </changeSet>
 </databaseChangeLog>
