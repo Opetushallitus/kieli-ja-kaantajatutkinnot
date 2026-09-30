@@ -12,6 +12,7 @@ import fi.oph.yki.model.ExamPayment;
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.ExamSessionLocation;
 import fi.oph.yki.model.Person;
+import fi.oph.yki.model.PersonSyncStatus;
 import fi.oph.yki.model.Registration;
 import fi.oph.yki.model.RegistrationEvaluation;
 import fi.oph.yki.model.type.PaymentState;
@@ -19,11 +20,11 @@ import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.repository.PersonRegistrationStatusProjection;
 import fi.oph.yki.repository.PersonRepository;
+import fi.oph.yki.repository.PersonSyncStatusRepository;
 import fi.oph.yki.repository.RegistrationRepository;
 import fi.oph.yki.util.exception.NotFoundException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -41,7 +42,7 @@ public class PublicPersonService {
 
   private final RegistrationRepository registrationRepository;
 
-  private final PersonService personService;
+  private final PersonSyncStatusRepository personSyncStatusRepository;
 
   private final AuditService auditService;
 
@@ -105,7 +106,7 @@ public class PublicPersonService {
   }
 
   private List<PublicPersonRegistrationDTO> getRegistrations(final String oid) {
-    final LocalDate examDateFrom = LocalDate.now(ZoneId.of("Europe/Helsinki")).minusYears(1);
+    final LocalDate examDateFrom = LocalDate.now().minusYears(1);
     final List<Registration> registrations = registrationRepository.getByPersonOidAndExamDateFrom(oid, examDateFrom);
     if (registrations.isEmpty()) {
       return List.of();
@@ -168,6 +169,26 @@ public class PublicPersonService {
 
   @Transactional
   public void updateContactDetails(final String oid, final PublicPersonContactUpdateDTO dto) {
-    personService.updateContactDetails(oid, dto);
+    final Person person = personRepository.getByOid(oid);
+    if (person == null) {
+      throw new NotFoundException(String.format("Person not found with oid: %s", oid));
+    }
+
+    auditService.logPublicById(YkiOperation.UPDATE_PERSON_CONTACT_DETAILS, oid);
+    person.setEmail(dto.email());
+    person.setPhoneNumber(dto.phoneNumber());
+    person.setSteetAddress(dto.streetAddress());
+    person.setPostOffice(dto.postOffice());
+    person.setZip(dto.zip());
+
+    if (dto.countryCode() != null) {
+      person.setCountryCode(dto.countryCode());
+    }
+    person.setModifiedAt(LocalDateTime.now());
+    personRepository.saveAndFlush(person);
+
+    final var syncStatus = new PersonSyncStatus();
+    syncStatus.setPersonOid(oid);
+    personSyncStatusRepository.saveAndFlush(syncStatus);
   }
 }

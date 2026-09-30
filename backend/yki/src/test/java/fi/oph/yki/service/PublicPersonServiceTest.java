@@ -76,12 +76,7 @@ public class PublicPersonServiceTest {
   @BeforeEach
   public void setup() {
     publicPersonService =
-      new PublicPersonService(
-        personRepository,
-        registrationRepository,
-        new PersonService(personRepository, personSyncStatusRepository, auditService),
-        auditService
-      );
+      new PublicPersonService(personRepository, registrationRepository, personSyncStatusRepository, auditService);
 
     person = Factory.person();
     person.setEmail("testi@example.com");

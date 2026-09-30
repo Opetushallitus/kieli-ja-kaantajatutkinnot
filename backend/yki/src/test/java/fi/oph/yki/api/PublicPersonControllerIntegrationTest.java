@@ -17,7 +17,7 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import fi.oph.yki.PostgresTestcontainerConfig;
 import fi.oph.yki.api.dto.PublicPersonDTO;
 import fi.oph.yki.api.dto.PublicRegistrationToConfirmDTO;
-import fi.oph.yki.service.KoodistoService;
+import fi.oph.yki.koodisto.KoodistoService;
 import fi.oph.yki.service.PublicEvaluationService;
 import fi.oph.yki.service.PublicPersonService;
 import jakarta.annotation.Resource;
