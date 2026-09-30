@@ -252,6 +252,51 @@ public class PublicPersonServiceTest {
   }
 
   @Test
+  public void testGetPersonQueuePositionCountsOnlySamePartialExamType() {
+    final ExamSession examSession = createExamSession(LocalDate.now().plusMonths(2));
+    examSession.setType(ExamSessionType.READ_SPEAK);
+    examSession.setMaxParticipants(0);
+    entityManager.flush();
+    final Person first = Factory.person();
+    first.setOid("1.2.3.4.6");
+    entityManager.persist(first);
+    final Person second = Factory.person();
+    second.setOid("1.2.3.4.7");
+    entityManager.persist(second);
+
+    final Registration firstRead = createRegistration(
+      first,
+      examSession,
+      RegistrationState.SUBMITTED,
+      RegistrationKind.QUEUE,
+      LocalDateTime.of(2026, 4, 1, 10, 0)
+    );
+    firstRead.setPartialExamType(PartialExamType.READ);
+    final Registration secondRead = createRegistration(
+      second,
+      examSession,
+      RegistrationState.SUBMITTED,
+      RegistrationKind.QUEUE,
+      LocalDateTime.of(2026, 4, 1, 11, 0)
+    );
+    secondRead.setPartialExamType(PartialExamType.READ);
+    final Registration speak = createRegistration(
+      person,
+      examSession,
+      RegistrationState.SUBMITTED,
+      RegistrationKind.QUEUE,
+      LocalDateTime.of(2026, 4, 1, 12, 0)
+    );
+    speak.setPartialExamType(PartialExamType.SPEAK);
+    flushAndClear();
+
+    final List<PublicPersonRegistrationDTO> registrations = publicPersonService.getPerson(OID).registrations();
+
+    assertEquals(1, registrations.size());
+    assertEquals(0, registrations.get(0).positionInQueue());
+  }
+
+  @Test
   public void testGetPersonLeavesOutStartedAndOldRegistrations() {
     final ExamSession upcoming = createExamSession(LocalDate.now().plusMonths(2));
     final ExamSession old = createExamSession(LocalDate.now().minusYears(2));

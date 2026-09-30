@@ -69,6 +69,7 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
              AND r2.id <> r.id
              AND r2.created < r.created
              AND r2.kind = 'QUEUE'
+             AND r2.partial_exam_type = r.partial_exam_type
              AND r2.state IN ('STARTED', 'SUBMITTED')) AS positionInQueue
       FROM registration r
       WHERE r.id IN (:ids)
