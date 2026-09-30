@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import 'tests/cypress/support/commands';
 import { useFixedDate } from 'tests/cypress/support/utils/date';
 import { worker } from 'tests/msw/browser';
+import { resetData } from 'tests/msw/handlers';
 
 // MSW configs
 Cypress.on('test:before:run:async', async () => {
@@ -15,6 +16,8 @@ Cypress.on('test:after:run:async', async () => {
 });
 
 beforeEach(() => {
+  resetData();
+
   // Use fixed date for tests
   const fixedDateForTests = dayjs('2022-09-27T16:00:00+0200');
   useFixedDate(fixedDateForTests);

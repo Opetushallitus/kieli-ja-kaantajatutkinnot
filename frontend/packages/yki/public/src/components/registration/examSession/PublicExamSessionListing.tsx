@@ -192,7 +192,7 @@ const RegistrationInitErrorModal = ({
   );
 };
 
-export const NewYkiPublicExamSessionsTable = ({
+const NewYkiPublicExamSessionsTable = ({
   examSessions,
   onPageChange,
   onRowsPerPageChange,

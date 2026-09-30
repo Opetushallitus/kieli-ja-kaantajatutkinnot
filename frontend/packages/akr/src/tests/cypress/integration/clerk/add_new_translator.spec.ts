@@ -9,12 +9,15 @@ const NEW_PERSON_SSN_NOT_IN_ONR = '090687-913J';
 const NEW_PERSON_SSN_EXISTS_IN_ONR = '170688-935N';
 
 beforeEach(() => {
-  cy.intercept(APIEndpoints.ClerkTranslator, {
+  cy.intercept('GET', APIEndpoints.ClerkTranslator, {
     fixture: 'clerk_translators_10.json',
   }).as('getClerkTranslators');
 
   cy.intercept('GET', APIEndpoints.MeetingDate, {
     fixture: 'meeting_dates_10.json',
+  });
+  cy.intercept('GET', APIEndpoints.ExaminationDate, {
+    fixture: 'examination_dates_10.json',
   });
 
   cy.openClerkHomePage();
@@ -34,6 +37,11 @@ describe('ClerkAddNewTranslator', () => {
       APIEndpoints.ClerkTranslator,
       newTranslatorResponse,
     ).as('createTranslatorResponse');
+    cy.intercept(
+      'GET',
+      `${APIEndpoints.ClerkTranslator}/${newTranslatorResponse.id}`,
+      newTranslatorResponse,
+    ).as('getCreatedTranslator');
 
     onClerkNewTranslatorPage.clickAddNewTranslatorButton();
     onClerkNewTranslatorPage.typeSocialSecurityNumber(
@@ -63,6 +71,9 @@ describe('ClerkAddNewTranslator', () => {
     cy.wait('@getClerkTranslators');
 
     cy.isOnPage(expectedTranslatorPage);
+    cy.findByTestId(
+      'clerk-translator-overview__translator-details__edit-btn',
+    ).should('be.visible');
   });
 
   it('should allow removing added authorisations', () => {

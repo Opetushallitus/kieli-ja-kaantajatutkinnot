@@ -14,9 +14,6 @@ const publicFreeRegistrationSlice = createSlice({
   name: 'publicFreeRegistration',
   initialState,
   reducers: {
-    resetPublicFreeRegistration(_) {
-      return initialState;
-    },
     setPublicFreeRegistration(
       state,
       action: PayloadAction<Partial<PublicFreeRegistrationDetails>>,
@@ -60,8 +57,5 @@ const publicFreeRegistrationSlice = createSlice({
 
 export const publicFreeRegistrationReducer =
   publicFreeRegistrationSlice.reducer;
-export const {
-  resetPublicFreeRegistration,
-  setPublicFreeRegistration,
-  setUserDeclaredFreeRegistration,
-} = publicFreeRegistrationSlice.actions;
+export const { setPublicFreeRegistration, setUserDeclaredFreeRegistration } =
+  publicFreeRegistrationSlice.actions;

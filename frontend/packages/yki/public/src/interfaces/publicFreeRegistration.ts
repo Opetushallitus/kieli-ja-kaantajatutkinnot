@@ -1,6 +1,6 @@
 import { FreeRegistrationBasis } from 'interfaces/freeRegistration';
 
-export interface KoskiEducation {
+interface KoskiEducation {
   educationType: FreeRegistrationBasis;
   source: 'KOSKI';
 }
@@ -28,4 +28,4 @@ export interface PublicFreeRegistrationDetails {
   isFree: IsFreeRegistration;
 }
 
-export type IsFreeRegistration = 'YES' | 'NO' | 'UNDECIDED';
+type IsFreeRegistration = 'YES' | 'NO' | 'UNDECIDED';
