@@ -28,7 +28,8 @@ public class PublicPersonController {
 
   @GetMapping
   public PublicPersonDTO getPerson(final Authentication authentication) {
-    return publicPersonService.getPerson(authentication.getName());
+    final var oid = authentication.getName();
+    return publicPersonService.getPerson(oid);
   }
 
   @GetMapping(path = "/registration/{registrationId}/confirm")
@@ -36,7 +37,8 @@ public class PublicPersonController {
     final Authentication authentication,
     @PathVariable final Long registrationId
   ) {
-    return publicPersonService.getRegistrationToConfirm(authentication.getName(), registrationId);
+    final var oid = authentication.getName();
+    return publicPersonService.getRegistrationToConfirm(oid, registrationId);
   }
 
   @PostMapping(consumes = APPLICATION_JSON_VALUE)
