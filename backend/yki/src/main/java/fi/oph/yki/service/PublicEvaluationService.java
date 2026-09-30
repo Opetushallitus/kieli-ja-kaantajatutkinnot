@@ -9,7 +9,6 @@ import fi.oph.yki.repository.EvaluationOrderRepository;
 import fi.oph.yki.repository.EvaluationRepository;
 import fi.oph.yki.util.exception.NotFoundException;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -40,7 +39,7 @@ public class PublicEvaluationService {
 
   @Transactional(readOnly = true)
   public List<PublicEvaluationPeriodDTO> getUpcomingEvaluationPeriods() {
-    final var today = LocalDate.now(ZoneId.of("Europe/Helsinki"));
+    final var today = LocalDate.now();
     return evaluationRepository
       .findByDeletedAtIsNullAndEvaluationEndDateGreaterThanEqual(today)
       .stream()
@@ -50,7 +49,7 @@ public class PublicEvaluationService {
 
   @Transactional(readOnly = true)
   public PublicEvaluationPeriodDTO getEvaluationPeriod(final long id) {
-    final var today = LocalDate.now(ZoneId.of("Europe/Helsinki"));
+    final var today = LocalDate.now();
     return evaluationRepository
       .findByIdAndDeletedAtIsNull(id)
       .map(e -> toDTO(e, today))
