@@ -75,6 +75,8 @@ public class AppConfig {
     return webClientBuilderWithCallerId("koodisto-connection-provider")
       .baseUrl(environment.getRequiredProperty("app.koodisto-service.url"))
       .defaultHeaders(headers -> headers.setAccept(List.of(MediaType.APPLICATION_JSON)))
+      // The maatjavaltiot2 response is about 263 KB, which is over the default WebClient buffer limit of 256 KB.
+      .codecs(configurer -> configurer.defaultCodecs().maxInMemorySize(512 * 1024))
       .build();
   }
 

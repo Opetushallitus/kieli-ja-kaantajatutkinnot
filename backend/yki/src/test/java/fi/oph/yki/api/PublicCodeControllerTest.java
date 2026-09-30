@@ -16,12 +16,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(PublicCodeController.class)
 @Import(ControllerExceptionAdvice.class)
 @WithMockUser
+@TestPropertySource(properties = "app.customer-portal.enabled=true")
 class PublicCodeControllerTest {
 
   private static final String BASE_URL = "/v2/api/public/code";
@@ -62,6 +64,12 @@ class PublicCodeControllerTest {
     when(koodistoService.getCodes("kieli")).thenThrow(new RuntimeException("koodisto unavailable"));
 
     mockMvc.perform(get(BASE_URL + "/kieli")).andExpect(status().isInternalServerError());
+  }
+
+  @Test
+  public void testUnknownCollectionReturnsNotFound() throws Exception {
+    mockMvc.perform(get(BASE_URL + "/posti")).andExpect(status().isNotFound());
+    verifyNoInteractions(koodistoService);
   }
 
   @Test

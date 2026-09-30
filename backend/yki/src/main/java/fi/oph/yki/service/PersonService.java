@@ -1,6 +1,5 @@
 package fi.oph.yki.service;
 
-import fi.oph.yki.api.dto.PublicPersonContactUpdateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkPersonContactUpdateDTO;
 import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.audit.YkiOperation;
@@ -42,7 +41,10 @@ public class PersonService {
 
   @Transactional
   public void updateContactDetails(final String oid, final ClerkPersonContactUpdateDTO dto) {
-    final Person person = getPerson(oid);
+    final Person person = personRepository.getByOid(oid);
+    if (person == null) {
+      throw new NotFoundException(String.format("Person not found with oid: %s", oid));
+    }
 
     auditService.logClerkById(YkiOperation.UPDATE_PERSON_CONTACT_DETAILS, oid);
     person.setEmail(dto.email());
@@ -50,40 +52,11 @@ public class PersonService {
     person.setSteetAddress(dto.streetAddress());
     person.setPostOffice(dto.postOffice());
     person.setZip(dto.zip());
-    saveAndScheduleSync(person);
-  }
-
-  @Transactional
-  public void updateContactDetails(final String oid, final PublicPersonContactUpdateDTO dto) {
-    final Person person = getPerson(oid);
-
-    auditService.logPublicById(YkiOperation.UPDATE_PERSON_CONTACT_DETAILS, oid);
-    person.setEmail(dto.email());
-    person.setPhoneNumber(dto.phoneNumber());
-    person.setSteetAddress(dto.streetAddress());
-    person.setPostOffice(dto.postOffice());
-    person.setZip(dto.zip());
-
-    if (dto.countryCode() != null) {
-      person.setCountryCode(dto.countryCode());
-    }
-    saveAndScheduleSync(person);
-  }
-
-  private Person getPerson(final String oid) {
-    final Person person = personRepository.getByOid(oid);
-    if (person == null) {
-      throw new NotFoundException(String.format("Person not found with oid: %s", oid));
-    }
-    return person;
-  }
-
-  private void saveAndScheduleSync(final Person person) {
     person.setModifiedAt(LocalDateTime.now());
     personRepository.saveAndFlush(person);
 
     final var syncStatus = new PersonSyncStatus();
-    syncStatus.setPersonOid(person.getOid());
+    syncStatus.setPersonOid(oid);
     personSyncStatusRepository.saveAndFlush(syncStatus);
   }
 }

@@ -29,4 +29,12 @@ public class CacheConfig {
       cache.clear();
     }
   }
+
+  @Scheduled(cron = Constants.KOODISTO_CACHE_CLEAR_CRON)
+  public void evictKoodistoCache() {
+    final var cache = cacheManager().getCache(KOODISTO_CACHE);
+    if (cache != null) {
+      cache.clear();
+    }
+  }
 }
