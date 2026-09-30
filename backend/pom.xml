@@ -36,6 +36,7 @@
     <shedlock.version>7.5.0</shedlock.version>
     <poi.version>5.5.0</poi.version>
     <liquibase.version>4.33.0</liquibase.version>
+    <postgresql.version>42.7.12</postgresql.version>
   </properties>
 
   <dependencies>
@@ -140,7 +141,7 @@
     <dependency>
       <groupId>org.jsoup</groupId>
       <artifactId>jsoup</artifactId>
-      <version>1.21.2</version>
+      <version>1.23.1</version>
     </dependency>
     <dependency>
       <groupId>net.minidev</groupId>
