@@ -42,6 +42,38 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
     @Param("partialExamType") String partialExamType
   );
 
+  @Query(
+    value = """
+      SELECT COUNT(*)
+      FROM registration r
+      WHERE r.exam_session_id = :examSessionId
+        AND r.kind::text = 'QUEUE'
+        AND r.state::text IN ('STARTED', 'SUBMITTED')
+        AND r.partial_exam_type::text IN (:partialExamTypes)
+    """,
+    nativeQuery = true
+  )
+  long countQueueRegistrations(
+    @Param("examSessionId") long examSessionId,
+    @Param("partialExamTypes") List<String> partialExamTypes
+  );
+
+  @Query(
+    value = """
+      SELECT COUNT(*)
+      FROM registration r
+      WHERE r.exam_session_id = :examSessionId
+        AND r.kind::text = 'ADMISSION'
+        AND r.state::text IN ('STARTED', 'SUBMITTED', 'COMPLETED')
+        AND r.partial_exam_type::text IN (:partialExamTypes)
+    """,
+    nativeQuery = true
+  )
+  long countAdmissionRegistrations(
+    @Param("examSessionId") long examSessionId,
+    @Param("partialExamTypes") List<String> partialExamTypes
+  );
+
   int countByPersonOid(String personOid);
 
   @Query(

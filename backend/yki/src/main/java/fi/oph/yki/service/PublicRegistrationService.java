@@ -7,16 +7,21 @@ import fi.oph.yki.api.dto.PublicUserDTO;
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.Participant;
 import fi.oph.yki.model.Registration;
+import fi.oph.yki.model.type.ExamSessionType;
 import fi.oph.yki.model.type.PartialExamType;
 import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
+import java.util.List;
+import java.util.Map;
 import fi.oph.yki.repository.ExamSessionRepository;
 import fi.oph.yki.repository.ParticipantRepository;
 import fi.oph.yki.repository.RegistrationRepository;
 import fi.oph.yki.util.exception.APIException;
 import fi.oph.yki.util.exception.APIExceptionType;
 import jakarta.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +38,12 @@ public class PublicRegistrationService {
   private final ExamSessionRepository examSessionRepository;
   private final ParticipantRepository participantRepository;
 
+  private static final Map<ExamSessionType, Set<PartialExamType>> ALLOWED_PARTIAL_EXAM_TYPES = Map.of(
+    ExamSessionType.FULL, Set.of(PartialExamType.ALL_PARTS),
+    ExamSessionType.READ_SPEAK, Set.of(PartialExamType.ALL_PARTS, PartialExamType.READ, PartialExamType.SPEAK),
+    ExamSessionType.LISTEN_WRITE, Set.of(PartialExamType.ALL_PARTS, PartialExamType.LISTEN, PartialExamType.WRITE)
+  );
+
   @Transactional
   public PublicRegistrationInitResponseDTO initRegistration(
     final HttpServletRequest request,
@@ -40,14 +51,23 @@ public class PublicRegistrationService {
   ) {
     LOG.info("START: Init exam session {} registration", initDTO.examSessionId());
 
-    // Step 1: Resolve session identity → participant
-    final Participant participant = getOrCreateParticipant(request);
+    final ExamSession examSession = examSessionRepository.findById(initDTO.examSessionId())
+      .orElseThrow(() -> new APIException(APIExceptionType.NOT_FOUND));
 
-    // Step 2: Check for an existing STARTED registration for this participant + exam session
     final PartialExamType partialExamType = initDTO.partialExamType() != null
       ? initDTO.partialExamType()
       : PartialExamType.ALL_PARTS;
 
+    if (!isRegistrationOpen(examSession)) {
+      throw new APIException(APIExceptionType.REGISTRATION_CLOSED);
+    }
+
+    validatePartialExamType(examSession, partialExamType);
+
+    // Step 1: Resolve session identity → participant
+    final Participant participant = getOrCreateParticipant(request);
+
+    // Step 2: Check for an existing STARTED registration for this participant + exam session
     // TODO: implement findStartedRegistration — query registration table for
     //   state = STARTED, participant_id, exam_session_id, partial_exam_type
     //   (see: select-started-registration-id-and-kind-by-participant in queries.sql)
@@ -58,17 +78,7 @@ public class PublicRegistrationService {
       return buildResponse(existingStarted, request);
     }
 
-    // Step 3: Check if registration is open for this exam session
-    // TODO: implement isRegistrationOpen — call DB function exam_session_registration_open(exam_session_id)
-    //   (see: select-exam-session-registration-open in queries.sql)
-    if (!isRegistrationOpen(initDTO.examSessionId())) {
-      throw new APIException(APIExceptionType.REGISTRATION_CLOSED);
-    }
-
-    // Step 4: Determine registration kind (ADMISSION vs QUEUE)
-    // TODO: implement getRegistrationKinds — call DB function select_registration_kind for each partial exam type
-    //   (see: select-exam-session-registration-kinds in queries.sql)
-    //   Returns a map of PartialExamType → RegistrationKind ("ADMISSION" or "QUEUE")
+    // Step 3: Determine registration kind (ADMISSION vs QUEUE)
     final RegistrationKind registrationKind = resolveRegistrationKind(initDTO);
 
     // Step 5: Check for conflicting registrations on the same exam date
@@ -113,18 +123,85 @@ public class PublicRegistrationService {
     throw new UnsupportedOperationException("TODO: implement findStartedRegistration");
   }
 
-  private boolean isRegistrationOpen(final long examSessionId) {
-    // TODO: call exam_session_registration_open DB function
-    throw new UnsupportedOperationException("TODO: implement isRegistrationOpen");
+  private Boolean isRegistrationOpen(final ExamSession examSession) {
+    final LocalDate now = LocalDate.now();
+    final LocalDate start = examSession.getExamDate().getRegistrationStartDate();
+    final LocalDate end = examSession.getExamDate().getRegistrationEndDate();
+
+    return start != null && end != null && now.isAfter(start) && now.isBefore(end);
+  }
+
+  private void validatePartialExamType(final ExamSession examSession, final PartialExamType partialExamType) {
+    final Set<PartialExamType> allowed = ALLOWED_PARTIAL_EXAM_TYPES.get(examSession.getType());
+    if (allowed == null || !allowed.contains(partialExamType)) {
+      throw new APIException(APIExceptionType.REGISTRATION_INVALID_PARTIAL_EXAM_TYPE);
+    }
   }
 
   private RegistrationKind resolveRegistrationKind(final PublicRegistrationInitDTO initDTO) {
-    // TODO: determine ADMISSION vs QUEUE based on:
-    //   1. Query select_registration_kind for the exam session's partial exam types
-    //   2. If toQueue=true and queue is allowed → QUEUE
-    //   3. If admission is available → ADMISSION
-    //   4. Otherwise throw appropriate error (FULL, etc.)
-    throw new UnsupportedOperationException("TODO: implement resolveRegistrationKind");
+    final ExamSession examSession = examSessionRepository.getReferenceById(initDTO.examSessionId());
+    final PartialExamType partialExamType = initDTO.partialExamType() != null
+      ? initDTO.partialExamType()
+      : PartialExamType.ALL_PARTS;
+    final boolean toQueue = Boolean.TRUE.equals(initDTO.toQueue());
+
+    final RegistrationKind actualKind = selectRegistrationKind(examSession, partialExamType);
+
+    if (toQueue && actualKind == RegistrationKind.ADMISSION) {
+      throw new APIException(APIExceptionType.REGISTRATION_QUEUE_NOT_AVAILABLE);
+    }
+    if (!toQueue && actualKind == RegistrationKind.QUEUE) {
+      throw new APIException(APIExceptionType.REGISTRATION_FULL);
+    }
+
+    return actualKind;
+  }
+
+  private RegistrationKind selectRegistrationKind(final ExamSession examSession, final PartialExamType partialExamType) {
+    final long examSessionId = examSession.getId();
+
+    if (examSession.getType() == ExamSessionType.FULL) {
+      return isPoolFull(examSessionId, List.of(PartialExamType.ALL_PARTS.name()), examSession.getMaxParticipants())
+        ? RegistrationKind.QUEUE
+        : RegistrationKind.ADMISSION;
+    }
+
+    final PartialExamType rlSubType;
+    final PartialExamType swSubType;
+    if (examSession.getType() == ExamSessionType.READ_SPEAK) {
+      rlSubType = PartialExamType.READ;
+      swSubType = PartialExamType.SPEAK;
+    } else {
+      rlSubType = PartialExamType.LISTEN;
+      swSubType = PartialExamType.WRITE;
+    }
+
+    if (partialExamType == rlSubType || partialExamType == PartialExamType.ALL_PARTS) {
+      final List<String> rlTypes = List.of(PartialExamType.ALL_PARTS.name(), rlSubType.name());
+      if (isPoolFull(examSessionId, rlTypes, examSession.getMaxParticipantsReadListen())) {
+        return RegistrationKind.QUEUE;
+      }
+      if (partialExamType == rlSubType) {
+        return RegistrationKind.ADMISSION;
+      }
+    }
+
+    final List<String> swTypes = List.of(PartialExamType.ALL_PARTS.name(), swSubType.name());
+    if (isPoolFull(examSessionId, swTypes, examSession.getMaxParticipantsSpeakWrite())) {
+      return RegistrationKind.QUEUE;
+    }
+
+    return RegistrationKind.ADMISSION;
+  }
+
+  private boolean isPoolFull(final long examSessionId, final List<String> partialExamTypes, final int maxParticipants) {
+    final long queueCount = registrationRepository.countQueueRegistrations(examSessionId, partialExamTypes);
+    if (queueCount > 0) {
+      return true;
+    }
+    final long admissionCount = registrationRepository.countAdmissionRegistrations(examSessionId, partialExamTypes);
+
+    return admissionCount >= maxParticipants;
   }
 
   private boolean hasConflictingRegistration(
