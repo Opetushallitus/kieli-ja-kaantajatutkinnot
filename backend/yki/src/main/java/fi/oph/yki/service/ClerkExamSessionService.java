@@ -25,6 +25,7 @@ import fi.oph.yki.repository.RegistrationWithQueuePositionProjection;
 import fi.oph.yki.util.RegistrationUtil;
 import fi.oph.yki.view.ExamSessionXlsxDataRowUtil;
 import fi.oph.yki.view.ExamSessionXlsxView;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -68,6 +69,8 @@ public class ClerkExamSessionService {
 
   @Transactional(readOnly = true)
   public ClerkExamSessionDTO getExamSession(final Long examSessionId) {
+    auditService.logById(YkiOperation.GET_EXAM_SESSION, examSessionId);
+
     final ExamSession examSession = examSessionRepository.getReferenceById(examSessionId);
 
     return toDTO(examSession);
@@ -75,6 +78,7 @@ public class ClerkExamSessionService {
 
   @Transactional(readOnly = true)
   public List<ClerkExamSessionDTO> getExamSessionsByLanguageAndLevel(final String language, final String level) {
+    auditService.logOperation(YkiOperation.LIST_EXAM_SESSIONS);
     return examSessionRepository.getByLanguageAndLevel(language, level).stream().map(this::toDTO).toList();
   }
 
@@ -99,21 +103,63 @@ public class ClerkExamSessionService {
     }
   }
 
+  private Map<Long, Long> getQueuePositions(final ExamSession examSession) {
+    final Map<Long, Long> queuePositions;
+    if (ExamSessionType.FULL.equals(examSession.getType())) {
+      queuePositions =
+        registrationRepository
+          .getQueuePositionsByExamSession(examSession.getId(), PartialExamType.ALL_PARTS.toString())
+          .stream()
+          .collect(
+            Collectors.toMap(
+              RegistrationWithQueuePositionProjection::getId,
+              RegistrationWithQueuePositionProjection::getQueuePosition
+            )
+          );
+    } else {
+      queuePositions = new HashMap<>();
+      final PartialExamType partialType1;
+      final PartialExamType partialType2;
+      if (ExamSessionType.READ_SPEAK.equals(examSession.getType())) {
+        partialType1 = PartialExamType.READ;
+        partialType2 = PartialExamType.SPEAK;
+      } else {
+        partialType1 = PartialExamType.LISTEN;
+        partialType2 = PartialExamType.WRITE;
+      }
+
+      final Map<Long, Long> queuePositions1 = registrationRepository
+        .getQueuePositionsByExamSession(examSession.getId(), partialType1.toString())
+        .stream()
+        .collect(
+          Collectors.toMap(
+            RegistrationWithQueuePositionProjection::getId,
+            RegistrationWithQueuePositionProjection::getQueuePosition
+          )
+        );
+      final Map<Long, Long> queuePositions2 = registrationRepository
+        .getQueuePositionsByExamSession(examSession.getId(), partialType2.toString())
+        .stream()
+        .collect(
+          Collectors.toMap(
+            RegistrationWithQueuePositionProjection::getId,
+            RegistrationWithQueuePositionProjection::getQueuePosition
+          )
+        );
+      queuePositions.putAll(queuePositions1);
+      queuePositions.putAll(queuePositions2);
+    }
+
+    return queuePositions;
+  }
+
   private ClerkExamSessionDTO toDTO(final ExamSession examSession) {
     final var registrations = registrationRepository.getByExamSessionAndStateInAndFormIsNotNull(
       examSession,
       VISIBLE_STATES
     );
 
-    final Map<Long, Long> queuePositions = registrationRepository
-      .getQueuePositionsByExamSession(examSession.getId())
-      .stream()
-      .collect(
-        Collectors.toMap(
-          RegistrationWithQueuePositionProjection::getId,
-          RegistrationWithQueuePositionProjection::getQueuePosition
-        )
-      );
+    final Map<Long, Long> queuePositions = getQueuePositions(examSession);
 
     final List<String> personOids = registrations
       .stream()
@@ -189,6 +235,8 @@ public class ClerkExamSessionService {
 
   @Transactional(readOnly = true)
   public AbstractXlsxView getExamSessionExcel(final long examSessionId) {
+    auditService.logById(YkiOperation.DOWNLOAD_EXAM_SESSION_EXCEL, examSessionId);
+
     final var examSession = examSessionRepository.getReferenceById(examSessionId);
     final var identityNumbersByOid = getIdentityNumbersByOid(examSession);
     final var excelData = ExamSessionXlsxDataRowUtil.createExcelData(examSession, identityNumbersByOid);
@@ -242,6 +290,7 @@ public class ClerkExamSessionService {
   @Transactional
   public ClerkExamSessionDTO updateExamSession(final long examSessionId, final ClerkExamSessionUpdateDTO dto) {
     final ExamSession examSession = examSessionRepository.getReferenceById(examSessionId);
+    final ClerkExamSessionDTO beforeDTO = toDTO(examSession);
 
     if (dto.language() != null) {
       examSession.setLanguage(dto.language());
@@ -281,7 +330,10 @@ public class ClerkExamSessionService {
     examSession.setContactEmail(dto.contactEmail());
     examSession.setContactPhoneNumber(dto.contactPhoneNumber());
 
-    return getExamSession(examSessionId);
+    final ClerkExamSessionDTO afterDTO = toDTO(examSession);
+    auditService.logUpdate(YkiOperation.UPDATE_EXAM_SESSION, examSessionId, beforeDTO, afterDTO);
+
+    return afterDTO;
   }
 
   @Transactional
@@ -327,8 +379,9 @@ public class ClerkExamSessionService {
     }
 
     final ExamSession saved = examSessionRepository.save(examSession);
-    auditService.logById(YkiOperation.CREATE_EXAM_SESSION, saved.getId());
+    final ClerkExamSessionDTO savedDto = toDTO(saved);
+    auditService.logCreate(YkiOperation.CREATE_ORGANIZER, saved.getId(), savedDto);
 
-    return toDTO(saved);
+    return savedDto;
   }
 }

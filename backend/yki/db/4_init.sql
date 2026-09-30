@@ -121,8 +121,6 @@ COPY public.exam_date (id, exam_date, registration_start_date, registration_end_
 44	2026-11-22	2025-12-02	2025-05-06	2025-12-02 15:33:16.721932+00	2025-12-02 15:33:16.721932+00	\N	\N	f	\N
 45	2026-09-05	2025-12-02	2025-05-06	2025-12-02 15:33:16.721932+00	2025-12-02 15:33:16.721932+00	\N	\N	f	\N
 46	2026-10-18	2025-12-02	2025-05-06	2025-12-02 15:33:16.721932+00	2025-12-02 15:33:16.721932+00	\N	\N	f	\N
-47	2026-06-15	2026-05-01	2026-05-31	2026-06-23 00:00:00+00	2026-06-23 00:00:00+00	\N	\N	f	\N
-48	2026-10-20	2026-09-01	2026-09-30	2026-06-23 00:00:00+00	2026-06-23 00:00:00+00	\N	\N	f	\N
 49	2027-04-10	2027-03-01	2027-03-31	2026-06-23 00:00:00+00	2026-06-23 00:00:00+00	\N	\N	f	\N
 50	2028-09-05	2028-08-01	2028-08-31	2026-06-23 00:00:00+00	2026-06-23 00:00:00+00	\N	\N	f	\N
 51	2030-08-20	2030-07-01	2030-07-31	2026-06-23 00:00:00+00	2026-06-23 00:00:00+00	\N	\N	f	\N
@@ -216,6 +214,7 @@ COPY public.evaluation (id, exam_date_id, exam_date_language_id, evaluation_star
 12	48	57	2036-10-25	2036-10-27	\N
 13	48	58	2036-10-25	2036-10-27	\N
 14	26	42	2021-02-01	2021-02-15	\N
+15	48	1	2018-02-01	2018-02-15	\N
 \.
 
 
@@ -224,18 +223,14 @@ COPY public.evaluation (id, exam_date_id, exam_date_language_id, evaluation_star
 --
 
 COPY public.evaluation_order (id, evaluation_id, first_names, last_name, email, birthdate, extra, created, deleted_at) FROM stdin;
-\.
-
-
---
--- Data for Name: subtest; Type: TABLE DATA; Schema: public; Owner: admin
---
-
-COPY public.subtest (code, created) FROM stdin;
-READING	2022-11-30 14:13:51.713412+00
-LISTENING	2022-11-30 14:13:51.713412+00
-WRITING	2022-11-30 14:13:51.713412+00
-SPEAKING	2022-11-30 14:13:51.713412+00
+1	1	Testi	Perus	testi.perus@invalid	1990-01-01	\N	2026-01-02 09:00:00+00	\N
+2	4	Testi	Ylin	testi.ylin@invalid	1985-05-05	\N	2026-01-02 09:00:00+00	\N
+3	7	Testi	Saame	testi.saame@invalid	1978-11-11	\N	2026-01-02 09:00:00+00	\N
+4	14	Testi	Menneisyys	testi.menneisyys@invalid	1970-02-02	\N	2021-01-05 09:00:00+00	\N
+5	1	Testi	Poistettu	testi.poistettu@invalid	1992-03-03	\N	2026-01-02 09:00:00+00	2026-02-01 12:00:00+00
+6	5	Testi	Poistettuarviointi	testi.poistettuarviointi@invalid	1994-04-04	\N	2026-01-02 09:00:00+00	\N
+7	15	Testi	Koepaiva	testi.koepaiva@invalid	1988-08-08	\N	2026-01-02 09:00:00+00	\N
+8	2	\N	\N	\N	\N	\N	2026-01-02 09:00:00+00	\N
 \.
 
 
@@ -244,6 +239,15 @@ SPEAKING	2022-11-30 14:13:51.713412+00
 --
 
 COPY public.evaluation_order_subtest (id, evaluation_order_id, subtest, created, deleted_at) FROM stdin;
+1	1	WRITING	2026-01-02 09:00:00+00	\N
+2	1	READING	2026-01-02 09:00:00+00	\N
+3	2	READING	2026-01-02 09:00:00+00	\N
+4	2	LISTENING	2026-01-02 09:00:00+00	\N
+5	2	WRITING	2026-01-02 09:00:00+00	\N
+6	2	SPEAKING	2026-01-02 09:00:00+00	\N
+7	3	SPEAKING	2026-01-02 09:00:00+00	\N
+8	4	READING	2021-01-05 09:00:00+00	\N
+9	4	WRITING	2021-01-05 09:00:00+00	2026-02-01 12:00:00+00
 \.
 
 
@@ -697,7 +701,7 @@ SELECT pg_catalog.setval('public.evaluation_exam_date_language_id_seq', 1, false
 -- Name: evaluation_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.evaluation_id_seq', 14, true);
+SELECT pg_catalog.setval('public.evaluation_id_seq', 15, true);
 
 
 --
@@ -711,7 +715,7 @@ SELECT pg_catalog.setval('public.evaluation_order_evaluation_id_seq', 1, false);
 -- Name: evaluation_order_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.evaluation_order_id_seq', 1, false);
+SELECT pg_catalog.setval('public.evaluation_order_id_seq', 8, true);
 
 
 --
@@ -725,7 +729,7 @@ SELECT pg_catalog.setval('public.evaluation_order_subtest_evaluation_order_id_se
 -- Name: evaluation_order_subtest_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.evaluation_order_subtest_id_seq', 1, false);
+SELECT pg_catalog.setval('public.evaluation_order_subtest_id_seq', 9, true);
 
 
 --

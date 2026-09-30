@@ -1,3 +1,4 @@
+import { AppRoutes } from 'enums/app';
 import { onPublicUserDetailsPage } from 'tests/cypress/support/page-objects/publicUserDetailsPage';
 import { onToast } from 'tests/cypress/support/page-objects/toast';
 import { findAlertDialogByText } from 'tests/cypress/support/utils/dialog';
@@ -11,6 +12,13 @@ describe('PublicUserDetailsPage', () => {
 
   it('is visible', () => {
     onPublicUserDetailsPage.isVisible();
+  });
+
+  it('allows the user to modify contact details', () => {
+    onPublicUserDetailsPage.modifyContactDetails('Uusi katu 1');
+
+    onToast.expectText('Yhteystiedot tallennettu onnistuneesti');
+    cy.isOnPage(AppRoutes.UserDetails);
   });
 
   describe('when canceling paid exam', () => {
@@ -40,6 +48,15 @@ describe('PublicUserDetailsPage', () => {
         .click();
       cy.findByRole('alertdialog').should('not.exist');
       onToast.expectText('Ilmoittautuminen peruttu onnistuneesti');
+    });
+
+    it('shows details of the registration being cancelled', () => {
+      onPublicUserDetailsPage.cancelRegistrationByCardText('Kirkkokatu 1');
+      findAlertDialogByText(dialogHeading)
+        .should('contain', 'suomi, keskitaso')
+        .and('contain', 'Kirkkokatu 1')
+        .and('contain', 'Puheen ymmärtäminen ja kirjoittaminen')
+        .and('not.contain', 'School of wizardry');
     });
 
     it('shows error toast on failed cancellation request and do not close the modal', () => {
