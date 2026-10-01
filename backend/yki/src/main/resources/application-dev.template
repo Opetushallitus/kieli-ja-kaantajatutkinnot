@@ -13,6 +13,8 @@ server:
 cas:
   username: username
   password: password
+customer-portal:
+  enabled: true
 dev:
   web:
     security:

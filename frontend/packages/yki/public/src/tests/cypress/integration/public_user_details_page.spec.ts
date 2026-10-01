@@ -50,6 +50,15 @@ describe('PublicUserDetailsPage', () => {
       onToast.expectText('Ilmoittautuminen peruttu onnistuneesti');
     });
 
+    it('shows details of the registration being cancelled', () => {
+      onPublicUserDetailsPage.cancelRegistrationByCardText('Kirkkokatu 1');
+      findAlertDialogByText(dialogHeading)
+        .should('contain', 'suomi, keskitaso')
+        .and('contain', 'Kirkkokatu 1')
+        .and('contain', 'Puheen ymmärtäminen ja kirjoittaminen')
+        .and('not.contain', 'School of wizardry');
+    });
+
     it('shows error toast on failed cancellation request and do not close the modal', () => {
       // Handler returns error for 3rd registration (id 1339)
       onPublicUserDetailsPage.cancelPaidRegistration(5);
