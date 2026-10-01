@@ -101,6 +101,21 @@ class SolkiDebugServiceTest {
   }
 
   @Test
+  void forceSyncParticipantsDoesNotInsertStatusRowWhenOneAlreadyExists() {
+    final ExamSession examSession = examSession(1L);
+    Mockito
+      .when(examSessionRepository.findByIdInWithOrganizerAndExamDate(List.of(1L)))
+      .thenReturn(List.of(examSession));
+    Mockito.when(participantSyncStatusRepository.existsByExamSession(examSession)).thenReturn(true);
+
+    solkiDebugService.forceSyncParticipants(1L);
+
+    Mockito.verify(participantSyncStatusRepository, Mockito.never()).save(Mockito.any());
+    Mockito.verify(solkiService).forceSyncExamSessionParticipants(examSession);
+    Mockito.verify(participantSyncStatusRepository).markSuccess(examSession);
+  }
+
+  @Test
   void forceSyncParticipantsMarksFailedAndRethrowsOnError() {
     final ExamSession examSession = examSession(1L);
     Mockito

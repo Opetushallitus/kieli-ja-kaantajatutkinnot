@@ -18,10 +18,10 @@ import org.springframework.stereotype.Component;
 /**
  * Java port of the Clojure PARTICIPANTS_SYNC_HANDLER: finds exam sessions due for a
  * participants CSV sync (see ExamSessionRepository.findExamSessionsDueForParticipantSync)
- * and syncs each via SolkiService. Every attempt is recorded as a new participant_sync_status
- * row, matching Clojure's insert-per-attempt model - this table is also written to by
- * Clojure's still-active "relocate registration" feature, so the row-per-attempt shape must
- * be preserved rather than collapsed to one row per exam session.
+ * and syncs each via SolkiService. A participant_sync_status row is created once per exam
+ * session (matching Clojure's own guarded insert), then every later attempt just updates
+ * that row's success_at/failed_at - this table is also written to by Clojure's still-active
+ * "relocate registration" feature, which inserts its own additional row per relocation event.
  */
 @Component
 @RequiredArgsConstructor
@@ -55,9 +55,11 @@ public class ParticipantsSyncScheduledTask {
   }
 
   private void syncExamSessionParticipants(final ExamSession examSession) {
-    final ParticipantSyncStatus status = new ParticipantSyncStatus();
-    status.setExamSession(examSession);
-    participantSyncStatusRepository.save(status);
+    if (!participantSyncStatusRepository.existsByExamSession(examSession)) {
+      final ParticipantSyncStatus status = new ParticipantSyncStatus();
+      status.setExamSession(examSession);
+      participantSyncStatusRepository.save(status);
+    }
 
     try {
       solkiService.syncExamSessionParticipants(examSession);

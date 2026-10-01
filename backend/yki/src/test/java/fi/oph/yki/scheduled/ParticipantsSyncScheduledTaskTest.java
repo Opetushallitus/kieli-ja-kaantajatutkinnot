@@ -93,6 +93,19 @@ class ParticipantsSyncScheduledTaskTest {
   }
 
   @Test
+  void doesNotInsertStatusRowWhenOneAlreadyExistsForExamSession() {
+    final ExamSession examSession = examSession(1L);
+    Mockito.when(examSessionRepository.findExamSessionsDueForParticipantSync(1)).thenReturn(List.of(examSession));
+    Mockito.when(participantSyncStatusRepository.existsByExamSession(examSession)).thenReturn(true);
+
+    task.syncParticipants();
+
+    Mockito.verify(participantSyncStatusRepository, Mockito.never()).save(Mockito.any());
+    Mockito.verify(solkiService).syncExamSessionParticipants(examSession);
+    Mockito.verify(participantSyncStatusRepository).markSuccess(examSession);
+  }
+
+  @Test
   void passesConfiguredRetryDaysToQuery() {
     ReflectionTestUtils.setField(task, "retryDurationInDays", 5);
     Mockito.when(examSessionRepository.findExamSessionsDueForParticipantSync(Mockito.anyInt())).thenReturn(List.of());

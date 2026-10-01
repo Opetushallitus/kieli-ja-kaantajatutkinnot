@@ -43,9 +43,11 @@ public class SolkiDebugService {
   public void forceSyncParticipants(final long examSessionId) {
     final ExamSession examSession = getExamSessionOrThrow(examSessionId);
 
-    final ParticipantSyncStatus status = new ParticipantSyncStatus();
-    status.setExamSession(examSession);
-    participantSyncStatusRepository.save(status);
+    if (!participantSyncStatusRepository.existsByExamSession(examSession)) {
+      final ParticipantSyncStatus status = new ParticipantSyncStatus();
+      status.setExamSession(examSession);
+      participantSyncStatusRepository.save(status);
+    }
 
     try {
       solkiService.forceSyncExamSessionParticipants(examSession);
