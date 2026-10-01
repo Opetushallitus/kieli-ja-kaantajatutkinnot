@@ -202,14 +202,15 @@ class SolkiServiceTest {
     examLanguage.setLevelCode("PERUS");
     organizer.setLanguages(List.of(examLanguage));
 
-    final OrganizationDetailsDTO orgDetails = new OrganizationDetailsDTO(
-      "1.2.3.4.5",
-      "Testiorganisaatio",
-      "Testikatu 1",
-      "00100",
-      "Helsinki",
-      "https://example.com"
-    );
+    final OrganizationDetailsDTO orgDetails = OrganizationDetailsDTO
+      .builder()
+      .oid("1.2.3.4.5")
+      .name("Testiorganisaatio")
+      .streetAddress("Testikatu 1")
+      .postalCode("00100")
+      .postOffice("Helsinki")
+      .website("https://example.com")
+      .build();
 
     final OrganizerSyncRequestDTO request = solkiService.buildOrganizerSyncRequest(organizer, orgDetails);
 
@@ -489,7 +490,17 @@ class SolkiServiceTest {
   void syncOrganizerPostsBuiltPayloadToJarjestajaEndpoint() throws InterruptedException {
     Mockito
       .when(organizationService.getOrganizationDetails("1.2.3.4.5"))
-      .thenReturn(new OrganizationDetailsDTO("1.2.3.4.5", "Testiorganisaatio", "Testikatu 1", "00100", "Helsinki", ""));
+      .thenReturn(
+        OrganizationDetailsDTO
+          .builder()
+          .oid("1.2.3.4.5")
+          .name("Testiorganisaatio")
+          .streetAddress("Testikatu 1")
+          .postalCode("00100")
+          .postOffice("Helsinki")
+          .website("")
+          .build()
+      );
     mockWebServer.enqueue(new MockResponse().setResponseCode(200));
 
     final Organizer organizer = new Organizer();
@@ -546,7 +557,17 @@ class SolkiServiceTest {
     ReflectionTestUtils.setField(solkiService, "examSessionSyncEnabled", false);
     Mockito
       .when(organizationService.getOrganizationDetails("1.2.3.4.5"))
-      .thenReturn(new OrganizationDetailsDTO("1.2.3.4.5", "Testiorganisaatio", "Testikatu 1", "00100", "Helsinki", ""));
+      .thenReturn(
+        OrganizationDetailsDTO
+          .builder()
+          .oid("1.2.3.4.5")
+          .name("Testiorganisaatio")
+          .streetAddress("Testikatu 1")
+          .postalCode("00100")
+          .postOffice("Helsinki")
+          .website("")
+          .build()
+      );
     mockWebServer.enqueue(new MockResponse().setResponseCode(200));
 
     final Organizer organizer = new Organizer();
@@ -576,7 +597,17 @@ class SolkiServiceTest {
     ReflectionTestUtils.setField(solkiService, "examSessionSyncEnabled", false);
     Mockito
       .when(organizationService.getOrganizationDetails("1.2.3.4.5"))
-      .thenReturn(new OrganizationDetailsDTO("1.2.3.4.5", "Testiorganisaatio", "Testikatu 1", "00100", "Helsinki", ""));
+      .thenReturn(
+        OrganizationDetailsDTO
+          .builder()
+          .oid("1.2.3.4.5")
+          .name("Testiorganisaatio")
+          .streetAddress("Testikatu 1")
+          .postalCode("00100")
+          .postOffice("Helsinki")
+          .website("")
+          .build()
+      );
     mockWebServer.enqueue(new MockResponse().setResponseCode(200));
     mockWebServer.enqueue(new MockResponse().setResponseCode(200));
     mockWebServer.enqueue(new MockResponse().setResponseCode(200));

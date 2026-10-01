@@ -2,7 +2,9 @@ package fi.oph.yki.solki.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
+import lombok.Builder;
 
+@Builder
 public record OrganizerSyncRequestDTO(
   @JsonProperty("oid") String oid,
   @JsonProperty("nimi") String name,
@@ -15,5 +17,6 @@ public record OrganizerSyncRequestDTO(
   @JsonProperty("wwwosoite") String website,
   @JsonProperty("tutkintotarjonta") List<ExamOfferingDTO> examOfferings
 ) {
+  @Builder
   public record ExamOfferingDTO(@JsonProperty("kieli") String languageCode, @JsonProperty("taso") String level) {}
 }

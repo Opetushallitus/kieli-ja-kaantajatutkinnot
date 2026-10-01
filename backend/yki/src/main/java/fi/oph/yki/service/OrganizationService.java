@@ -104,7 +104,15 @@ public class OrganizationService {
           .findFirst()
           .orElse("");
 
-      return new OrganizationDetailsDTO(oid, name, streetAddress, postalCode, postOffice, website);
+      return OrganizationDetailsDTO
+        .builder()
+        .oid(oid)
+        .name(name)
+        .streetAddress(streetAddress)
+        .postalCode(postalCode)
+        .postOffice(postOffice)
+        .website(website)
+        .build();
     } catch (final Exception e) {
       LOG.error("Failed to fetch organization details for OID: {}", oid, e);
       throw new RuntimeException("Failed to fetch organization details", e);

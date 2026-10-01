@@ -1,7 +1,9 @@
 package fi.oph.yki.solki.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
 
+@Builder
 public record PersonSyncRequestDTO(
   @JsonProperty("sukunimi") String lastName,
   @JsonProperty("etunimet") String firstName,

@@ -191,21 +191,28 @@ public class SolkiService {
     final List<OrganizerSyncRequestDTO.ExamOfferingDTO> examOfferings = organizer
       .getLanguages()
       .stream()
-      .map(l -> new OrganizerSyncRequestDTO.ExamOfferingDTO(l.getLanguageCode(), convertLevel(l.getLevelCode())))
+      .map(l ->
+        OrganizerSyncRequestDTO.ExamOfferingDTO
+          .builder()
+          .languageCode(l.getLanguageCode())
+          .level(convertLevel(l.getLevelCode()))
+          .build()
+      )
       .toList();
 
-    return new OrganizerSyncRequestDTO(
-      organizer.getOid(),
-      org.name(),
-      org.streetAddress(),
-      org.postalCode(),
-      organizer.getContactPhoneNumber(),
-      org.postOffice(),
-      organizer.getContactName(),
-      organizer.getContactEmail(),
-      org.website(),
-      examOfferings
-    );
+    return OrganizerSyncRequestDTO
+      .builder()
+      .oid(organizer.getOid())
+      .name(org.name())
+      .streetAddress(org.streetAddress())
+      .postalCode(org.postalCode())
+      .phoneNumber(organizer.getContactPhoneNumber())
+      .postOffice(org.postOffice())
+      .contactName(organizer.getContactName())
+      .email(organizer.getContactEmail())
+      .website(org.website())
+      .examOfferings(examOfferings)
+      .build();
   }
 
   ExamSessionSyncRequestDTO buildExamSessionSyncRequest(final ExamSession examSession) {
@@ -213,19 +220,21 @@ public class SolkiService {
       ? examSession.getOfficeOid()
       : examSession.getOrganizer().getOid();
 
-    return new ExamSessionSyncRequestDTO(
-      examSession.getLanguage(),
-      convertLevel(examSession.getLevel()),
-      DATE_FORMAT.format(examSession.getExamDate().getExamDate()),
-      organizerOid
-    );
+    return ExamSessionSyncRequestDTO
+      .builder()
+      .languageCode(examSession.getLanguage())
+      .level(convertLevel(examSession.getLevel()))
+      .examDate(DATE_FORMAT.format(examSession.getExamDate().getExamDate()))
+      .organizerOid(organizerOid)
+      .build();
   }
 
   ExamDateSyncRequestDTO buildExamDateSyncRequest(final ExamSession examSession) {
-    return new ExamDateSyncRequestDTO(
-      examSession.getLanguage(),
-      DATE_FORMAT.format(examSession.getExamDate().getExamDate())
-    );
+    return ExamDateSyncRequestDTO
+      .builder()
+      .languageCode(examSession.getLanguage())
+      .examDate(DATE_FORMAT.format(examSession.getExamDate().getExamDate()))
+      .build();
   }
 
   PersonSyncRequestDTO buildPersonSyncRequest(final Person person) {
@@ -236,17 +245,18 @@ public class SolkiService {
       koodistoService.getConvertedCountryCode(person.getCountryCode())
     );
 
-    return new PersonSyncRequestDTO(
-      person.getLastName(),
-      person.getFirstName(),
-      person.getGender() != null ? person.getGender().name() : null,
-      nationalityCode,
-      countryCode,
-      person.getSteetAddress(),
-      person.getZip(),
-      person.getPostOffice(),
-      person.getEmail()
-    );
+    return PersonSyncRequestDTO
+      .builder()
+      .lastName(person.getLastName())
+      .firstName(person.getFirstName())
+      .gender(person.getGender() != null ? person.getGender().name() : null)
+      .nationalityCode(nationalityCode)
+      .countryCode(countryCode)
+      .streetAddress(person.getSteetAddress())
+      .zip(person.getZip())
+      .postOffice(person.getPostOffice())
+      .email(person.getEmail())
+      .build();
   }
 
   // --------------------------------------------------------------------
