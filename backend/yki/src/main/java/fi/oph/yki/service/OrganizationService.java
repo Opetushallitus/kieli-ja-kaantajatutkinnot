@@ -63,8 +63,7 @@ public class OrganizationService {
   /**
    * Fetches full organization details (address, contact info) needed for SOLKI organizer sync.
    * Uses organisaatio-palvelu's single-organization endpoint (as opposed to the bulk
-   * findbyoids endpoint used by {@link #getOrganizationNames}), matching the endpoint the
-   * legacy Clojure integration uses for this same purpose.
+   * findbyoids endpoint used by {@link #getOrganizationNames}).
    */
   @SuppressWarnings("unchecked")
   public OrganizationDetailsDTO getOrganizationDetails(final String oid) {

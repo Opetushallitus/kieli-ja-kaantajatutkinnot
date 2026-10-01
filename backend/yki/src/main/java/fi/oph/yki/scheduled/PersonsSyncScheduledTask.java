@@ -18,9 +18,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 /**
- * Java port of the Clojure PERSONS_SYNC_HANDLER: drains person_sync_status rows
- * (populated whenever a clerk edits a person's contact details, see PersonService)
- * and PUTs the current person details to SOLKI.
+ * Drains person_sync_status rows (populated whenever a clerk edits a person's contact
+ * details, see PersonService) and PUTs the current person details to SOLKI.
  */
 @Component
 @RequiredArgsConstructor

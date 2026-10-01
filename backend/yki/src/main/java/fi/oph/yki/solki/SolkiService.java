@@ -44,9 +44,8 @@ import reactor.core.publisher.Mono;
 
 /**
  * HTTP client + payload logic for SOLKI (the national YKI exam register, hosted at
- * yki.jyu.fi). Ported from the legacy Clojure integration in
- * yki/src/yki/boundary/yki_register.clj - field names below are Finnish because
- * they are SOLKI's external API contract, not our domain vocabulary.
+ * yki.jyu.fi). Field names below are Finnish because they are SOLKI's external API
+ * contract, not our domain vocabulary.
  */
 @Service
 @RequiredArgsConstructor
@@ -75,10 +74,7 @@ public class SolkiService {
   @Value("${app.solki.person-sync-enabled}")
   private boolean personSyncEnabled;
 
-  // ---------------------------------------------------------------------
-  // Pure payload/domain logic - kept static and side-effect free for testability.
-  // ---------------------------------------------------------------------
-
+  // Kept static and side-effect free for testability.
   static String convertLevel(final String level) {
     final String converted = LEVEL_CONVERSION.get(level);
     if (converted == null) {
@@ -183,10 +179,6 @@ public class SolkiService {
     return flagsList.stream().reduce(SubtestFlags.NONE, SubtestFlags::mergeWith);
   }
 
-  // ---------------------------------------------------------------------
-  // Request payload builders
-  // ---------------------------------------------------------------------
-
   OrganizerSyncRequestDTO buildOrganizerSyncRequest(final Organizer organizer, final OrganizationDetailsDTO org) {
     final List<OrganizerSyncRequestDTO.ExamOfferingDTO> examOfferings = organizer
       .getLanguages()
@@ -258,10 +250,6 @@ public class SolkiService {
       .email(person.getEmail())
       .build();
   }
-
-  // --------------------------------------------------------------------
-  // Participants CSV
-  // --------------------------------------------------------------------
 
   private static final CSVFormat SOLKI_CSV_FORMAT = CSVFormat.DEFAULT.builder().setDelimiter(';').get();
 

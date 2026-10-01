@@ -14,9 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Java port of yki_register_debug.clj and the /solki/connection endpoint in debug.clj - manual
- * ops tools, hidden from the API docs like Clojure's ":no-doc true", admin-only via the
- * existing /v2/api/clerk/** security matcher.
+ * Manual ops tools, hidden from the API docs (@Hidden) and admin-only via the existing
+ * /v2/api/clerk/** security matcher.
  */
 @Hidden
 @RestController

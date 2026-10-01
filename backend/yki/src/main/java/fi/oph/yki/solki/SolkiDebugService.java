@@ -12,11 +12,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 /**
- * Java port of yki_register_debug.clj / the /solki/connection endpoint in debug.clj - manual
- * ops tools for environments where SOLKI itself isn't reachable (untuva, local) or when a
- * sync needs to be forced outside its normal schedule. These bypass the enabled flags on
- * purpose (that's the point of a manual "force it now" tool), unlike every other SolkiService
- * entry point.
+ * Manual ops tools for environments where SOLKI itself isn't reachable (untuva, local) or
+ * when a sync needs to be forced outside its normal schedule. These bypass the enabled flags
+ * on purpose (that's the point of a manual "force it now" tool), unlike every other
+ * SolkiService entry point.
  */
 @Service
 @RequiredArgsConstructor

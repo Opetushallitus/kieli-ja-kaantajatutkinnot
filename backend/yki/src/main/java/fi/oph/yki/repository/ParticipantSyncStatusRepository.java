@@ -16,10 +16,9 @@ public interface ParticipantSyncStatusRepository extends JpaRepository<Participa
 
   boolean existsByExamSession(ExamSession examSession);
 
-  // Matches Clojure's update-participant-sync-to-success!/-to-failed! - updates every
-  // participant_sync_status row for the exam session, not just the latest one, since that's
-  // what the shared table's own writers (this and the relocate feature, still Clojure-owned)
-  // already do.
+  // Updates every participant_sync_status row for the exam session, not just the latest
+  // one, since that's what the shared table's own writers (this and the relocate feature,
+  // still Clojure-owned) already do.
   @Modifying
   @Transactional
   @Query("UPDATE ParticipantSyncStatus p SET p.successAt = CURRENT_TIMESTAMP WHERE p.examSession = :examSession")

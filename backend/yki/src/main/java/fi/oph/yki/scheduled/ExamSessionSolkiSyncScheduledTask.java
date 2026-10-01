@@ -15,11 +15,10 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 /**
- * Java port of the Clojure EXAM_SESSION_SOLKI_SYNC_HANDLER: a backstop that finds upcoming
- * exam sessions never synced to SOLKI (lastSyncAt IS NULL) and syncs their organizer + exam
- * date + exam session. Currently the only sync trigger for exam sessions - there is no
- * immediate on-create trigger yet (see the SOLKI migration plan for why), so this runs
- * hourly, matching Clojure's own interval.
+ * Backstop that finds upcoming exam sessions never synced to SOLKI (lastSyncAt IS NULL) and
+ * syncs their organizer + exam date + exam session. Currently the only sync trigger for exam
+ * sessions - there's no immediate on-create trigger, since sessions are created well ahead of
+ * their exam date and syncing within this hourly interval is not an issue.
  */
 @Component
 @RequiredArgsConstructor

@@ -24,14 +24,14 @@ public interface ExamSessionRepository extends BaseRepository<ExamSession> {
   List<ExamSession> findUnsyncedExamSessions(@Param("today") LocalDate today);
 
   /**
-   * Java port of Clojure's select-exam-sessions-to-be-synced. An exam session is due for a
-   * participants CSV sync when either: (a) its exam date is still more than a week out (minus
-   * the retry duration) and registration has opened - re-synced every run regardless of past
-   * success, so SOLKI's participant list stays fresh throughout registration; (b) it's within
-   * retryDurationDays of registration_end_date and the last sync attempt failed; or (c) one of
-   * its participants was relocated from/to it within the last day (registration already
-   * closed). Also requires at least one COMPLETED registration and that the exam session
-   * itself has already been synced to SOLKI (lastSyncAt IS NOT NULL).
+   * An exam session is due for a participants CSV sync when either: (a) its exam date is
+   * still more than a week out (minus the retry duration) and registration has opened -
+   * re-synced every run regardless of past success, so SOLKI's participant list stays fresh
+   * throughout registration; (b) it's within retryDurationDays of registration_end_date and
+   * the last sync attempt failed; or (c) one of its participants was relocated from/to it
+   * within the last day (registration already closed). Also requires at least one COMPLETED
+   * registration and that the exam session itself has already been synced to SOLKI
+   * (lastSyncAt IS NOT NULL).
    */
   @Query(
     nativeQuery = true,

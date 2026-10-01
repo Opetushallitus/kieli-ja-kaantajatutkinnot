@@ -16,12 +16,12 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 /**
- * Java port of the Clojure PARTICIPANTS_SYNC_HANDLER: finds exam sessions due for a
- * participants CSV sync (see ExamSessionRepository.findExamSessionsDueForParticipantSync)
- * and syncs each via SolkiService. A participant_sync_status row is created once per exam
- * session (matching Clojure's own guarded insert), then every later attempt just updates
- * that row's success_at/failed_at - this table is also written to by Clojure's still-active
- * "relocate registration" feature, which inserts its own additional row per relocation event.
+ * Finds exam sessions due for a participants CSV sync (see
+ * ExamSessionRepository.findExamSessionsDueForParticipantSync) and syncs each via
+ * SolkiService. A participant_sync_status row is created once per exam session, then every
+ * later attempt just updates that row's success_at/failed_at - this table is also written to
+ * by Clojure's still-active "relocate registration" feature, which inserts its own additional
+ * row per relocation event.
  */
 @Component
 @RequiredArgsConstructor

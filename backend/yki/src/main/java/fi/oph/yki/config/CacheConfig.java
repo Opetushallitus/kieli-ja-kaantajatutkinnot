@@ -31,7 +31,7 @@ public class CacheConfig {
     }
   }
 
-  // Koodisto codes rarely change; matches the 1-week TTL the legacy Clojure integration used.
+  // Koodisto codes rarely change, so a 1-week TTL is safe.
   @Scheduled(fixedRate = 7, timeUnit = TimeUnit.DAYS)
   public void evictKoodistoCache() {
     final var cache = cacheManager().getCache(KOODISTO_CACHE);
