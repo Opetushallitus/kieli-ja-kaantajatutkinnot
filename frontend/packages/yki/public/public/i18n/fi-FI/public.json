@@ -721,7 +721,8 @@
             "body4": "Tarkistusarviointi kestää noin kolme kuukautta.",
             "body5": "Kun tarkistusarviointi on valmis, saat päätöksen tarkistusarvioinnin tuloksesta sähköpostilla.",
             "body6": "Jos osakokeen arviointi muuttuu tarkistusarvioinnissa, palautamme tarkistusarviointimaksun.",
-            "heading": "Tarkistusarvioinnin pyytäminen ja maksaminen"
+            "heading": "Tarkistusarvioinnin pyytäminen ja maksaminen",
+            "paymentRecipient": "Maksun saaja on Opetushallitus (Y-tunnus 2769790-1). Maksu perustuu maksuasetuksen (1508/2025) 1 §:n 1 momentin 20 kohtaan."
           }
         },
         "introduction": {
