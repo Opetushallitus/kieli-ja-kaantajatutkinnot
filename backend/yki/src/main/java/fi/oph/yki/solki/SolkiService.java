@@ -280,6 +280,7 @@ public class SolkiService {
     final List<Registration> personRegistrations,
     final Map<String, String> oidToSsn
   ) {
+    // Earliest registration is canonical for form data - relies on getByExamSessionAndState's ORDER BY r.id ASC.
     final Registration first = personRegistrations.get(0);
     final Person person = first.getPerson();
     final ObjectNode form = first.getForm();
