@@ -100,6 +100,13 @@
           }
         }
       },
+      "paymentServiceProvider": {
+        "businessId": "FO-nummer: 2122839-7",
+        "contactDetails": "Paytrail Oyj<br />Innova 2<br />Lutakonaukio 7<br />40100 Jyväskylä",
+        "description": "Som betalningsförmedlingstjänst och betaltjänstleverantör fungerar Paytrail Oyj (2122839-7) i samarbete med finska banker och kreditinstitut. Paytrail Oyj visas som mottagare av betalningen på kontoutdraget eller kortfakturan och vidarebefordrar betalningen till handlaren. Paytrail Oyj har ett verksamhetstillstånd för betalningsinstitut. Vid reklamationer ber vi dig först kontakta produktens leverantör.",
+        "title": "Betaltjänstleverantör",
+        "url": "https://www.paytrail.com/kuluttaja/information-om-betalning"
+      },
       "publicEvaluationPeriodListing": {
         "evaluationPeriodNotYetOpen": "Begär kontrollbedömning från och med {{- startDate}}",
         "header": {
@@ -436,13 +443,6 @@
             "paymentLinkEmail": {
               "text1": "Du har fått ett e-postmeddelande med en länk för att betala examensavgiften.",
               "text2": "Meddelandet skickas från noreply@opintopolku.fi."
-            },
-            "paymentServiceProvider": {
-              "businessId": "FO-nummer: 2122839-7",
-              "contactDetails": "Paytrail Oyj<br />Innova 2<br />Lutakonaukio 7<br />40100 Jyväskylä",
-              "description": "Som betalningsförmedlingstjänst och betaltjänstleverantör fungerar Paytrail Oyj (2122839-7) i samarbete med finska banker och kreditinstitut. Paytrail Oyj visas som mottagare av betalningen på kontoutdraget eller kortfakturan och vidarebefordrar betalningen till handlaren. Paytrail Oyj har ett verksamhetstillstånd för betalningsinstitut. Vid reklamationer ber vi dig först kontakta produktens leverantör.",
-              "title": "Betaltjänstleverantör",
-              "url": "https://www.paytrail.com/kuluttaja/information-om-betalning"
             },
             "title": "Bekräfta anmälan genom att betala examensavgiften",
             "verifyRegistrationDetails": {

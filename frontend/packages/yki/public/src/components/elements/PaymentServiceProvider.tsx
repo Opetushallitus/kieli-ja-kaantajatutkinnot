@@ -5,8 +5,7 @@ import { usePublicTranslation } from 'configs/i18n';
 
 export const PaymentServiceProvider = () => {
   const { t } = usePublicTranslation({
-    keyPrefix:
-      'yki.component.registration.registrationFormSubmitted.proceedToPayment.paymentServiceProvider',
+    keyPrefix: 'yki.component.paymentServiceProvider',
   });
 
   return (

@@ -100,6 +100,13 @@
           }
         }
       },
+      "paymentServiceProvider": {
+        "businessId": "Business ID 2122839-7",
+        "contactDetails": "Paytrail Oyj<br />Innova 2<br />Lutakonaukio 7<br />40100 Jyväskylä",
+        "description": "Paytrail Oyj is a collecting payment service provider and an authorized Payment Institution working in cooperation with Finnish banks and credit institutions. Paytrail Oyj will be shown as the recipient on your bank or credit card statement. Paytrail Oyj will forward the payment to the merchant. For complaints, please contact the website the payment was made to.",
+        "title": "Payment Service Provider",
+        "url": "https://www.paytrail.com/en/consumer/information-about-paying"
+      },
       "publicEvaluationPeriodListing": {
         "evaluationPeriodNotYetOpen": "Request a reassessment starting from {{- startDate}}",
         "header": {
@@ -436,13 +443,6 @@
             "paymentLinkEmail": {
               "text1": "You have received an email with a link for paying the test fee.",
               "text2": "The message will come from the address noreply@opintopolku.fi."
-            },
-            "paymentServiceProvider": {
-              "businessId": "Business ID 2122839-7",
-              "contactDetails": "Paytrail Oyj<br />Innova 2<br />Lutakonaukio 7<br />40100 Jyväskylä",
-              "description": "Paytrail Oyj is a collecting payment service provider and an authorized Payment Institution working in cooperation with Finnish banks and credit institutions. Paytrail Oyj will be shown as the recipient on your bank or credit card statement. Paytrail Oyj will forward the payment to the merchant. For complaints, please contact the website the payment was made to.",
-              "title": "Payment Service Provider",
-              "url": "https://www.paytrail.com/en/consumer/information-about-paying"
             },
             "title": "Confirm the registration by paying the test fee",
             "verifyRegistrationDetails": {

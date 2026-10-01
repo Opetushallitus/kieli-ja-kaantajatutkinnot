@@ -100,6 +100,13 @@
           }
         }
       },
+      "paymentServiceProvider": {
+        "businessId": "y-tunnus: 2122839-7",
+        "contactDetails": "Paytrail Oyj<br />Innova 2<br />Lutakonaukio 7<br />40100 Jyväskylä",
+        "description": "Maksunvälityspalvelun toteuttajana ja maksupalveluntarjoajana toimii Paytrail Oyj (2122839-7) yhteistyössä suomalaisten pankkien ja luottolaitosten kanssa. Paytrail Oyj näkyy maksun saajana tiliotteella tai korttilaskulla ja välittää maksun kauppiaalle. Paytrail Oyj:llä on maksulaitoksen toimilupa. Reklamaatiotapauksissa pyydämme ottamaan ensisijaisesti yhteyttä tuotteen toimittajaan.",
+        "title": "Maksupalvelutarjoaja",
+        "url": "https://www.paytrail.com/kuluttaja/tietoa-maksamisesta"
+      },
       "publicEvaluationPeriodListing": {
         "evaluationPeriodNotYetOpen": "Pyydä tarkistusarviointia {{- startDate}} alkaen",
         "header": {
@@ -436,13 +443,6 @@
             "paymentLinkEmail": {
               "text1": "Olet saanut sähköpostiisi viestin, jossa on linkki tutkintomaksun maksamista varten.",
               "text2": "Viesti tulee osoitteesta noreply@opintopolku.fi."
-            },
-            "paymentServiceProvider": {
-              "businessId": "y-tunnus: 2122839-7",
-              "contactDetails": "Paytrail Oyj<br />Innova 2<br />Lutakonaukio 7<br />40100 Jyväskylä",
-              "description": "Maksunvälityspalvelun toteuttajana ja maksupalveluntarjoajana toimii Paytrail Oyj (2122839-7) yhteistyössä suomalaisten pankkien ja luottolaitosten kanssa. Paytrail Oyj näkyy maksun saajana tiliotteella tai korttilaskulla ja välittää maksun kauppiaalle. Paytrail Oyj:llä on maksulaitoksen toimilupa. Reklamaatiotapauksissa pyydämme ottamaan ensisijaisesti yhteyttä tuotteen toimittajaan.",
-              "title": "Maksupalvelutarjoaja",
-              "url": "https://www.paytrail.com/kuluttaja/tietoa-maksamisesta"
             },
             "title": "Vahvista ilmoittautuminen maksamalla tutkintomaksu",
             "verifyRegistrationDetails": {
