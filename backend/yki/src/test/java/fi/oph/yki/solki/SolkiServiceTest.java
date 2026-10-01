@@ -418,6 +418,28 @@ class SolkiServiceTest {
   }
 
   @Test
+  void syncExamSessionParticipantsFailsWholeAttemptWhenOnrLookupFails() throws Exception {
+    final ExamSession examSession = examSession();
+    examSession.setType(ExamSessionType.FULL);
+    final Person person = person("1.2.3.4.5", "Meikäläinen", "Matti", null);
+    final Registration registration = registration(
+      person,
+      examSession,
+      PartialExamType.ALL_PARTS,
+      Map.of("birthdate", "1995-06-15"),
+      false
+    );
+
+    Mockito
+      .when(registrationRepository.getByExamSessionAndState(examSession, RegistrationState.COMPLETED))
+      .thenReturn(List.of(registration));
+    Mockito.when(onrService.listPersonDetails(List.of("1.2.3.4.5"))).thenThrow(new RuntimeException("ONR down"));
+
+    assertThrows(RuntimeException.class, () -> solkiService.syncExamSessionParticipants(examSession));
+    assertEquals(0, mockWebServer.getRequestCount(), "must not post a CSV built with wrong fallback identifiers");
+  }
+
+  @Test
   void syncExamSessionParticipantsStillBuildsCsvButDoesNotPostWhenPersonSyncDisabled() {
     ReflectionTestUtils.setField(solkiService, "personSyncEnabled", false);
     final ExamSession examSession = examSession();

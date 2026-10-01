@@ -389,8 +389,7 @@ public class SolkiService {
         .filter(p -> p.getIdentityNumber() != null)
         .collect(Collectors.toMap(PersonalDataDTO::getOidHenkilo, PersonalDataDTO::getIdentityNumber));
     } catch (final Exception e) {
-      LOG.error("Unable to fetch identity numbers from ONR for SOLKI participant sync", e);
-      return Map.of();
+      throw new RuntimeException("Unable to fetch identity numbers from ONR for SOLKI participant sync", e);
     }
   }
 
