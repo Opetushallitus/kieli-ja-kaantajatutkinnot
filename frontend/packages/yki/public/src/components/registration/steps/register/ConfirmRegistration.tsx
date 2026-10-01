@@ -1,10 +1,11 @@
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Trans } from 'react-i18next';
-import { CustomButton, H2, H3, Text, WebLink } from 'shared/components';
+import { CustomButton, H2, Text, WebLink } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 import { DateUtils } from 'shared/utils';
 
+import { PaymentServiceProvider } from 'components/elements/PaymentServiceProvider';
 import { usePublicTranslation } from 'configs/i18n';
 import { PaymentDetails } from 'interfaces/confirmRegistration';
 
@@ -61,21 +62,7 @@ export const ConfirmRegistration = ({
           </CustomButton>
         </a>
       </div>
-      <div className="rows gapped">
-        <H3>{t('paymentServiceProvider.title')}</H3>
-        <Text>{t('paymentServiceProvider.description')}</Text>
-        <Text>
-          <Trans t={t} i18nKey="paymentServiceProvider.contactDetails" />
-        </Text>
-        <Text sx={{ overflowWrap: 'anywhere' }}>
-          {t('paymentServiceProvider.businessId')}
-          <br />
-          <WebLink
-            href={t('paymentServiceProvider.url')}
-            label={t('paymentServiceProvider.url')}
-          />
-        </Text>
-      </div>
+      <PaymentServiceProvider />
     </div>
   );
 };
