@@ -62,9 +62,10 @@ public interface ExamSessionRepository extends BaseRepository<ExamSession> {
   List<Long> findExamSessionIdsDueForParticipantSync(@Param("retryDurationDays") int retryDurationDays);
 
   @Query(
-    "SELECT es FROM ExamSession es" +
+    "SELECT DISTINCT es FROM ExamSession es" +
     " LEFT JOIN FETCH es.examDate" +
-    " LEFT JOIN FETCH es.organizer" +
+    " LEFT JOIN FETCH es.organizer o" +
+    " LEFT JOIN FETCH o.languages" +
     " WHERE es.id IN :ids"
   )
   List<ExamSession> findByIdInWithOrganizerAndExamDate(@Param("ids") List<Long> ids);
