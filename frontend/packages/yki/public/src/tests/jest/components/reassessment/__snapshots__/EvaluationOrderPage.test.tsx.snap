@@ -483,6 +483,49 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
           </label>
         </div>
         <div
+          class="rows gapped"
+        >
+          <h3
+            class="MuiTypography-root MuiTypography-h3 css-13msox4-MuiTypography-root"
+          >
+            Maksupalvelutarjoaja
+          </h3>
+          <div>
+            <p
+              class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+            >
+              Maksunvälityspalvelun toteuttajana ja maksupalveluntarjoajana toimii Paytrail Oyj (2122839-7) yhteistyössä suomalaisten pankkien ja luottolaitosten kanssa. Paytrail Oyj näkyy maksun saajana tiliotteella tai korttilaskulla ja välittää maksun kauppiaalle. Paytrail Oyj:llä on maksulaitoksen toimilupa. Reklamaatiotapauksissa pyydämme ottamaan ensisijaisesti yhteyttä tuotteen toimittajaan.
+            </p>
+            <p
+              class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+            >
+              Paytrail Oyj
+              <br />
+              Innova 2
+              <br />
+              Lutakonaukio 7
+              <br />
+              40100 Jyväskylä
+            </p>
+            <p
+              class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+            >
+              y-tunnus: 2122839-7
+            </p>
+            <p
+              class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+            >
+              <a
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-mrmcv1-MuiTypography-root-MuiLink-root"
+                href="https://www.paytrail.com/kuluttaja/tietoa-maksamisesta"
+                target="_blank"
+              >
+                https://www.paytrail.com/kuluttaja/tietoa-maksamisesta
+              </a>
+            </p>
+          </div>
+        </div>
+        <div
           class="public-evaluation-order-page__order-form__action-buttons gapped-xs"
         >
           <button

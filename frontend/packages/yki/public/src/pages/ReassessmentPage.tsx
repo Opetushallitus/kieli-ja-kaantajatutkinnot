@@ -70,6 +70,8 @@ export const ReassessmentPage: FC = () => {
               </H2>
               <Text>{t('info.pricing.body1')}</Text>
               <br />
+              <Text>{t('info.pricing.paymentRecipient')}</Text>
+              <br />
               <Text>{t('info.pricing.body2')}</Text>
               <br />
               <Text>

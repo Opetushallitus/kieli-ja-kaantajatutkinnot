@@ -5,6 +5,7 @@ import { Color, Variant } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 import { DateUtils } from 'shared/utils';
 
+import { PaymentServiceProvider } from 'components/elements/PaymentServiceProvider';
 import { usePublicTranslation } from 'configs/i18n';
 import { PaymentDetails } from 'interfaces/confirmRegistration';
 
@@ -61,6 +62,7 @@ export const ConfirmRegistration = ({
           </CustomButton>
         </a>
       </div>
+      <PaymentServiceProvider />
     </div>
   );
 };
