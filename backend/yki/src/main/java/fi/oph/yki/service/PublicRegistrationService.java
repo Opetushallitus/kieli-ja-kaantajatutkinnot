@@ -66,7 +66,8 @@ public class PublicRegistrationService {
     // Step 3: Check for conflicting registrations on the same exam date
     // TODO: implement hasConflictingRegistration — check if identity is already registered
     //   to another exam session on the same exam date
-    if (hasConflictingRegistration(identity, examSession, partialExamType)) {
+    final List<Registration> conflicting = findConflictingRegistrations(identity, examSession, partialExamType);
+    if (!conflicting.isEmpty()) {
       throw new APIException(APIExceptionType.REGISTRATION_CONFLICT);
     }
 
@@ -167,17 +168,17 @@ public class PublicRegistrationService {
     return admissionCount >= maxParticipants;
   }
 
-  private boolean hasConflictingRegistration(
+  private List<Registration> findConflictingRegistrations(
     final Identity identity,
     final ExamSession examSession,
     final PartialExamType partialExamType
   ) {
-    return registrationRepository.countConflictingRegistrations(
+    return registrationRepository.findConflictingRegistrations(
       identity.getId(),
       examSession.getExamDate().getId(),
       examSession.getId(),
       partialExamType.name()
-    ) > 0;
+    );
   }
 
   private Registration createRegistration(

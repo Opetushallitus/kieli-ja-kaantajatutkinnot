@@ -76,7 +76,7 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
 
   @Query(
     value = """
-      SELECT COUNT(*)
+      SELECT r.*
       FROM registration r
       INNER JOIN exam_session es ON es.id = r.exam_session_id
       WHERE r.identity_id = :identityId
@@ -88,7 +88,7 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
     """,
     nativeQuery = true
   )
-  long countConflictingRegistrations(
+  List<Registration> findConflictingRegistrations(
     @Param("identityId") long identityId,
     @Param("examDateId") long examDateId,
     @Param("examSessionId") long examSessionId,
