@@ -35,6 +35,17 @@ public class RegistrationEmailService {
   private final Environment environment;
   private final LoginLinkService loginLinkService;
 
+  // TODO(queue migration, phase 5): implement. Throwing rather than no-op, so that anything calling
+  // this before then rolls its lift back instead of lifting without telling the participant.
+  public void sendLiftedFromQueueEmail(final Registration registration) {
+    throw new UnsupportedOperationException("Lifted-from-queue email is not implemented yet");
+  }
+
+  // TODO(queue migration, phase 5): implement. See sendLiftedFromQueueEmail.
+  public void sendLiftedFromQueueForFreeEmail(final Registration registration) {
+    throw new UnsupportedOperationException("Lifted-from-queue email for free registration is not implemented yet");
+  }
+
   public void sendCancelRegistrationEmail(final Registration registration) {
     if (!StringUtils.hasText(registration.getPerson().getEmail())) {
       LOG.warn(
