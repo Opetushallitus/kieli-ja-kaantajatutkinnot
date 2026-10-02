@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/api/registration", produces = MediaType.APPLICATION_JSON_VALUE)
 public class PublicRegistrationController {
 
-  private static final String IDENTITY_ID_SESSION_KEY = "identityId";
-
   private final PublicRegistrationService publicRegistrationService;
   private final PublicIdentityService identityService;
 
@@ -29,24 +27,8 @@ public class PublicRegistrationController {
     @RequestBody @Valid final PublicRegistrationInitDTO initDTO,
     final HttpSession session
   ) {
-    final Identity identity = getOrCreateIdentity(session);
+    final Identity identity = identityService.getOrCreateIdentityFromSession(session);
 
     return publicRegistrationService.initRegistration(identity, initDTO);
-  }
-
-  private Identity getOrCreateIdentity(final HttpSession session) {
-    final Long existingIdentityId = (Long) session.getAttribute(IDENTITY_ID_SESSION_KEY);
-
-    if (existingIdentityId != null) {
-      final Identity existing = identityService.getIdentity(existingIdentityId);
-      if (existing != null) {
-        return existing;
-      }
-    }
-
-    final Identity identity = identityService.createIdentity();
-    session.setAttribute(IDENTITY_ID_SESSION_KEY, identity.getId());
-
-    return identity;
   }
 }

@@ -63,21 +63,25 @@ public class PublicRegistrationService {
       throw new APIException(APIExceptionType.REGISTRATION_INVALID_PARTIAL_EXAM_TYPE);
     }
 
-    // Step 3: Check for conflicting registrations on the same exam date
-    // TODO: implement hasConflictingRegistration — check if identity is already registered
-    //   to another exam session on the same exam date
     final List<Registration> conflicting = findConflictingRegistrations(identity, examSession, partialExamType);
     if (!conflicting.isEmpty()) {
       throw new APIException(APIExceptionType.REGISTRATION_CONFLICT);
     }
 
-    final RegistrationKind registrationKind = resolveRegistrationKind(initDTO);
+    final boolean toQueue = Boolean.TRUE.equals(initDTO.toQueue());
+    final RegistrationKind availableKind = selectRegistrationKind(examSession, partialExamType);
 
-    // Step 4: Create new STARTED registration
+    if (toQueue && availableKind == RegistrationKind.ADMISSION) {
+      throw new APIException(APIExceptionType.REGISTRATION_QUEUE_NOT_AVAILABLE);
+    }
+    if (!toQueue && availableKind == RegistrationKind.QUEUE) {
+      throw new APIException(APIExceptionType.REGISTRATION_FULL);
+    }
+
     final Registration registration = createRegistration(
       initDTO.examSessionId(),
       identity,
-      registrationKind,
+      toQueue ? RegistrationKind.QUEUE : RegistrationKind.ADMISSION,
       partialExamType
     );
 
@@ -97,25 +101,6 @@ public class PublicRegistrationService {
     final Set<PartialExamType> allowed = ALLOWED_PARTIAL_EXAM_TYPES.get(examSession.getType());
 
     return allowed != null && allowed.contains(partialExamType);
-  }
-
-  private RegistrationKind resolveRegistrationKind(final PublicRegistrationInitDTO initDTO) {
-    final ExamSession examSession = examSessionRepository.getReferenceById(initDTO.examSessionId());
-    final PartialExamType partialExamType = initDTO.partialExamType() != null
-      ? initDTO.partialExamType()
-      : PartialExamType.ALL_PARTS;
-    final boolean toQueue = Boolean.TRUE.equals(initDTO.toQueue());
-
-    final RegistrationKind actualKind = selectRegistrationKind(examSession, partialExamType);
-
-    if (toQueue && actualKind == RegistrationKind.ADMISSION) {
-      throw new APIException(APIExceptionType.REGISTRATION_QUEUE_NOT_AVAILABLE);
-    }
-    if (!toQueue && actualKind == RegistrationKind.QUEUE) {
-      throw new APIException(APIExceptionType.REGISTRATION_FULL);
-    }
-
-    return actualKind;
   }
 
   private RegistrationKind selectRegistrationKind(

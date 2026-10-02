@@ -2,6 +2,7 @@ package fi.oph.yki.service;
 
 import fi.oph.yki.model.Identity;
 import fi.oph.yki.repository.IdentityRepository;
+import jakarta.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,11 +12,30 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class PublicIdentityService {
 
+  private static final String IDENTITY_ID_SESSION_KEY = "identityId";
+
   private final IdentityRepository identityRepository;
 
   @Transactional(readOnly = true)
   public Identity getIdentity(final long identityId) {
     return identityRepository.findById(identityId).orElse(null);
+  }
+
+  @Transactional
+  public Identity getOrCreateIdentityFromSession(final HttpSession session) {
+    final Long existingIdentityId = (Long) session.getAttribute(IDENTITY_ID_SESSION_KEY);
+
+    if (existingIdentityId != null) {
+      final Identity existing = identityRepository.findById(existingIdentityId).orElse(null);
+      if (existing != null) {
+        return existing;
+      }
+    }
+
+    final Identity identity = createIdentity();
+    session.setAttribute(IDENTITY_ID_SESSION_KEY, identity.getId());
+
+    return identity;
   }
 
   @Transactional
