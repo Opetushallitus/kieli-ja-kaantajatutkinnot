@@ -8,20 +8,19 @@ export const PaymentServiceProvider = () => {
     keyPrefix: 'yki.component.paymentServiceProvider',
   });
 
-  // Deploy
-
   return (
     <div className="rows gapped">
       <H3>{t('title')}</H3>
-      <Text>{t('description')}</Text>
-      <Text>
-        <Trans t={t} i18nKey="contactDetails" />
-      </Text>
-      <Text sx={{ overflowWrap: 'anywhere' }}>
-        {t('businessId')}
-        <br />
-        <WebLink href={t('url')} label={t('url')} />
-      </Text>
+      <div>
+        <Text>{t('description')}</Text>
+        <Text>
+          <Trans t={t} i18nKey="contactDetails" />
+        </Text>
+        <Text>{t('businessId')}</Text>
+        <Text>
+          <WebLink href={t('url')} label={t('url')} />
+        </Text>
+      </div>
     </div>
   );
 };
