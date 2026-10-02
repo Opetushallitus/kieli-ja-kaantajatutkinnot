@@ -19,3 +19,11 @@ dev:
   web:
     security:
       'off': true
+exam-fee:
+  perus: 165
+  keski: 190
+  ylin: 216
+  keski-read: 43
+  keski-listen: 43
+  keski-write: 70
+  keski-speak: 84

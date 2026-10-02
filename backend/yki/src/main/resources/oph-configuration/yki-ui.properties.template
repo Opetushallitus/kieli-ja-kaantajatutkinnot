@@ -25,6 +25,14 @@ cas.username={{yki_cas_username}}
 cas.password={{yki_cas_password}}
 cas.onr-service-url=${virkailija.cas.base-url}/oppijanumerorekisteri-service
 proxy-token={{yki_proxy_token}}
+
+exam-fee.perus={{yki_exam_session_fee_basic}}
+exam-fee.keski={{yki_exam_session_fee_intermediate}}
+exam-fee.ylin={{yki_exam_session_fee_advanced}}
+exam-fee.keski-read={{yki_exam_session_fee_partial_read}}
+exam-fee.keski-listen={{yki_exam_session_fee_partial_listen}}
+exam-fee.keski-write={{yki_exam_session_fee_partial_write}}
+exam-fee.keski-speak={{yki_exam_session_fee_partial_speak}}
 clerk.enabled = {{yki_clerk_enabled}}
 
 oauth2.issuer-uri={{yki_oauth2_issuer_uri}}
