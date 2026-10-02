@@ -23,6 +23,12 @@ import { organizers } from 'tests/msw/fixtures/organizers';
 import { quarantineMatches } from 'tests/msw/fixtures/quarantineMatches';
 import { quarantineReviews } from 'tests/msw/fixtures/quarantineReviews';
 
+const initialOrganizers = JSON.stringify(organizers.organizers);
+
+export const resetData = () => {
+  organizers.organizers = JSON.parse(initialOrganizers);
+};
+
 interface QuarantineReviewRequest {
   quarantined: boolean;
 }

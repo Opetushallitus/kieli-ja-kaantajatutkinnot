@@ -117,7 +117,7 @@ class ClerkRegisterListing {
   }
 
   clickModifyButton() {
-    this.elements.modifyButton().click();
+    this.elements.modifyButton().click({ scrollBehavior: 'center' });
   }
 
   clickAddOrganizerButton() {
