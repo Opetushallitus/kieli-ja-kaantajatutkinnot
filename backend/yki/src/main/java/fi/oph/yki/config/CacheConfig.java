@@ -30,9 +30,8 @@ public class CacheConfig {
       cache.clear();
     }
   }
-
-  // Koodisto codes rarely change, so a 1-week TTL is safe.
-  @Scheduled(fixedRate = 7, timeUnit = TimeUnit.DAYS)
+  
+  @Scheduled(cron = Constants.KOODISTO_CACHE_CLEAR_CRON)
   public void evictKoodistoCache() {
     final var cache = cacheManager().getCache(KOODISTO_CACHE);
     if (cache != null) {
