@@ -46,6 +46,10 @@ public class Registration {
   @JoinColumn(name = "participant_id", referencedColumnName = "id")
   private Participant participant;
 
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "identity_id", referencedColumnName = "id")
+  private Identity identity;
+
   @Column(name = "kind")
   @Enumerated
   @JdbcType(PostgreSQLEnumJdbcType.class)
@@ -67,6 +71,9 @@ public class Registration {
 
   @Column(name = "lifted_from_queue_at")
   private LocalDateTime liftedFromQueueAt;
+
+  @Column(name = "started_at")
+  private LocalDateTime startedAt;
 
   @Column(name = "created")
   private LocalDateTime createdAt;

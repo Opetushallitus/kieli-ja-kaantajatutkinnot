@@ -543,4 +543,42 @@
             <column name="created_at"/>
         </createIndex>
     </changeSet>
+
+    <changeSet id="2026-10-02-create-identity-table" author="jrkkp">
+        <preConditions onFail="CONTINUE">
+            <not>
+                <tableExists tableName="identity"/>
+            </not>
+        </preConditions>
+        <createTable tableName="identity">
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="identity_pkey"/>
+            </column>
+            <column name="person_oid" type="TEXT"/>
+            <column name="created" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="identity"
+                baseColumnNames="person_oid"
+                constraintName="fk_identity_person"
+                referencedTableName="person"
+                referencedColumnNames="oid" />
+    </changeSet>
+
+    <changeSet id="2026-10-02-add-identity-id-to-registration" author="jrkkp">
+        <addColumn tableName="registration">
+            <column name="identity_id" type="BIGINT"/>
+        </addColumn>
+        <addForeignKeyConstraint
+                baseTableName="registration"
+                baseColumnNames="identity_id"
+                constraintName="fk_registration_identity"
+                referencedTableName="identity"
+                referencedColumnNames="id" />
+    </changeSet>
 </databaseChangeLog>
