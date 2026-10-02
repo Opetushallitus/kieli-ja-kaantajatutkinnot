@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository
-public interface RegistrationRepository extends JpaRepository<Registration, Long> {
+public interface RegistrationRepository extends JpaRepository<Registration, Long>, RegistrationQueueLiftRepository {
   List<Registration> getByPersonOid(String personOid);
   List<Registration> getByExamSessionAndStateInAndFormIsNotNull(
     ExamSession examSession,
@@ -77,6 +77,26 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
     nativeQuery = true
   )
   List<Long> findExamSessionIdsWithQueueToLift();
+
+  /**
+   * Queued ALL_PARTS registrations in a partial (READ_SPEAK / LISTEN_WRITE) session. The queue-lifting
+   * job never considers them, so any found would wait in the queue indefinitely. None exist today and
+   * none are expected; this only exists so that a product change permitting them is noticed.
+   */
+  @Query(
+    value = """
+      SELECT COUNT(*)
+      FROM registration r
+      INNER JOIN exam_session es ON es.id = r.exam_session_id
+      WHERE r.exam_session_id = :examSessionId
+        AND es.type <> 'FULL'
+        AND r.kind = 'QUEUE'
+        AND r.state = 'SUBMITTED'
+        AND r.partial_exam_type = 'ALL_PARTS'
+    """,
+    nativeQuery = true
+  )
+  long countUnliftableQueuedRegistrations(@Param("examSessionId") long examSessionId);
 
   int countByPersonOid(String personOid);
 
