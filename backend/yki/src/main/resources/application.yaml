@@ -61,6 +61,15 @@ app:
   user-portal:
     success-url: ${app.base-url.public}/kayttaja/tiedot
     expired-url: ${app.base-url.public}/linkki-vanhentunut/:code
+  # No defaults: a missing fee must fail loudly rather than be emailed as a made-up price.
+  exam-fee:
+    perus: ${exam-fee.perus}
+    keski: ${exam-fee.keski}
+    ylin: ${exam-fee.ylin}
+    keski-read: ${exam-fee.keski-read}
+    keski-listen: ${exam-fee.keski-listen}
+    keski-write: ${exam-fee.keski-write}
+    keski-speak: ${exam-fee.keski-speak}
   koski:
     url: ${koski.url:null}
     user: ${cas.username:null}
