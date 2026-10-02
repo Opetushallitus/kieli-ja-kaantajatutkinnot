@@ -19,6 +19,7 @@ clerk-base-url={{yki_virkailija_url}}
 
 kayttooikeus-url=${virkailija.cas.base-url}/kayttooikeus-service
 organisaatio-url=${virkailija.cas.base-url}/organisaatio-service
+koodisto-url=${virkailija.cas.base-url}/koodisto-service
 
 koski.url={{yki_koski_url}}
 cas.username={{yki_cas_username}}
