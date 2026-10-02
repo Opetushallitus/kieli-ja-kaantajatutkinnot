@@ -46,6 +46,10 @@ public class Registration {
   @JoinColumn(name = "participant_id", referencedColumnName = "id")
   private Participant participant;
 
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "identity_id", referencedColumnName = "id")
+  private Identity identity;
+
   @Column(name = "kind")
   @Enumerated
   @JdbcType(PostgreSQLEnumJdbcType.class)

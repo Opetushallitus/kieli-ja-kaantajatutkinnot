@@ -10,5 +10,5 @@ import lombok.NonNull;
 public record PublicRegistrationInitDTO(
   @NonNull @NotNull @JsonProperty("exam_session_id") Long examSessionId,
   @JsonProperty("to_queue") Boolean toQueue,
-  @JsonProperty("partial_exam_type") PartialExamType partialExamType
+  @NonNull @NotNull @JsonProperty("partial_exam_type") PartialExamType partialExamType
 ) {}
