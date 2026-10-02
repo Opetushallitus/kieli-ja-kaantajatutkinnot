@@ -94,8 +94,10 @@ class ClerkNewTranslatorPage {
   ) {
     this.elements
       .authorisationField(fieldName, fieldType)
-      .clear()
-      .type(`${value}{enter}`);
+      .clear({ scrollBehavior: 'center' });
+    this.elements
+      .authorisationField(fieldName, fieldType)
+      .type(`${value}{enter}`, { scrollBehavior: 'center' });
   }
 
   clickNewTranslatorAssuranceSwitch() {
