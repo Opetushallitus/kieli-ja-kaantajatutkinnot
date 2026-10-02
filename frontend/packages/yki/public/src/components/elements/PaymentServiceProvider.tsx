@@ -8,6 +8,8 @@ export const PaymentServiceProvider = () => {
     keyPrefix: 'yki.component.paymentServiceProvider',
   });
 
+  // Deploy
+
   return (
     <div className="rows gapped">
       <H3>{t('title')}</H3>
