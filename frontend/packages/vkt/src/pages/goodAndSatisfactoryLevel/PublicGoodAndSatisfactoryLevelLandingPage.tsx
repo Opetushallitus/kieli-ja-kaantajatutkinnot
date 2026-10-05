@@ -7,6 +7,7 @@ import { I18nNamespace } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
 import { BulletList } from 'components/common/BulletList';
+import { PaymentRecipient } from 'components/common/PaymentRecipient';
 import { PublicExaminerListing } from 'components/publicExaminerListing/PublicExaminerListing';
 import {
   useCommonTranslation,
@@ -107,6 +108,7 @@ const EnrollmentFeesBox = () => {
           t={t}
           points={['bulletPoints.point1', 'bulletPoints.point2']}
         />
+        <PaymentRecipient />
       </div>
     </Container>
   );

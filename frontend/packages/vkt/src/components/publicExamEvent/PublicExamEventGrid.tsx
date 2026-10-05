@@ -8,6 +8,7 @@ import { useWindowProperties } from 'shared/hooks';
 
 import { BoldedTranslationString } from 'components/common/BoldedTranslationString';
 import { BulletList } from 'components/common/BulletList';
+import { PaymentRecipient } from 'components/common/PaymentRecipient';
 import { PublicExamEventListing } from 'components/publicExamEvent/listing/PublicExamEventListing';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -89,6 +90,7 @@ const FreeExaminationBox = () => {
             ]}
           />
         </div>
+        <PaymentRecipient />
       </div>
     </Container>
   );
