@@ -19,9 +19,6 @@ const publicEducationSlice = createSlice({
     rejectKoskiEducations(state) {
       state.status = APIResponseStatus.Error;
     },
-    resetKoskiEducations(_) {
-      return initialState;
-    },
     acceptKoskiEducations(
       state,
       action: PayloadAction<Array<FreeRegistrationBasis>>,
@@ -37,5 +34,4 @@ export const {
   acceptKoskiEducations,
   getKoskiEducations,
   rejectKoskiEducations,
-  resetKoskiEducations,
 } = publicEducationSlice.actions;
