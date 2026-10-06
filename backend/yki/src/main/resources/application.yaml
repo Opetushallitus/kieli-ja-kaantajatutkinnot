@@ -16,6 +16,12 @@ spring:
     password: ${postgresql.password:admin}
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.xml
+  task:
+    scheduling:
+      pool:
+        # The default of 1 makes every @Scheduled method share one thread, so a slow job would stall
+        # the others, email sending included. 16 as in the legacy scheduler; threads start lazily.
+        size: 16
   web:
     resources:
       static-locations: classpath:static/
@@ -81,6 +87,10 @@ app:
   email:
     sending-enabled: ${email.sending-enabled:false}
     service-url: ${email.service-url:null}
+  scheduling:
+    registration-queue-handler:
+      # Only ever true where the legacy backend's registration-queue-handler has been removed.
+      enabled: ${scheduling.registration-queue-handler.enabled:false}
 host:
   alb: ${virkailija.host.alb:localhost:${server.port}}
 cas:
