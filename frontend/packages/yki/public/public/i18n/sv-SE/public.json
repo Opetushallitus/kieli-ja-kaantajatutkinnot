@@ -83,6 +83,7 @@
           "street": "Hagnäskajen 6",
           "zipCity": "PB 380, 00531 Helsingfors"
         },
+        "description": "Utbildningsstyrelsen upprätthåller Studieinfo-portalen. Finländska läroanstalter och högskolor uppdaterar uppgifterna om sina egna utbildningar i studieinfo-tjänsten. Du kan kontrollera uppgifternas riktighet hos läroanstalterna eller högskolorna.",
         "headings": {
           "contacts": "Kontaktuppgifter",
           "info": "Mer information om allmänna språkexamina (YKI)",
@@ -99,7 +100,8 @@
           "ykiHomepage": {
             "text": "Webbplatsen för allmänna språkexamina (YKI) (oph.fi)"
           }
-        }
+        },
+        "studyinfoLogoAlt": "Studieinfo"
       },
       "paymentServiceProvider": {
         "businessId": "FO-nummer: 2122839-7",
