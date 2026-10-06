@@ -12,21 +12,16 @@ import java.util.Optional;
 public class RegistrationQueueLiftRepositoryImpl implements RegistrationQueueLiftRepository {
 
   /**
-   * First key of the two-key advisory lock, so that the exam session id alone does not claim the
-   * whole key space. Nothing else in this database takes advisory locks (neither this backend nor the
-   * legacy one); any future user should pick a different namespace. ASCII "YKIQ".
+   * First key of the two-key advisory lock.
+   * ASCII "YKIQ".
    */
   public static final int QUEUE_LIFT_LOCK_NAMESPACE = 0x594B4951;
 
-  // Both which registrations can be lifted and whether their pool has a place are decided here and
-  // nowhere else. The CASE keys on (session type, partial exam type): any pair it does not name is
-  // never lifted, which includes ALL_PARTS in a partial session (decision 12) and a single subtest
-  // in a FULL session. The candidate row is still kind='QUEUE' while `taken` is counted, so it needs
-  // no explicit exclusion. A NULL maximum makes the comparison NULL, which excludes the row: nothing
-  // is lifted rather than anything failing.
-  //
-  // Beyond legacy's lift-registration-from-queue<!: the capacity check, eligibility derived from the
-  // session type here instead of passed in as :types, the r.id tie-break on `created`, and `modified`.
+  /*
+   Both which registrations can be lifted and whether their pool has a place are decided here and
+   nowhere else. The CASE keys on (session type, partial exam type): any pair it does not name is
+   never lifted, which includes ALL_PARTS in a partial session and a single subtest in a FULL session.
+  */
   private static final String LIFT_NEXT_FROM_QUEUE =
     """
     WITH exam_session_limits AS (
@@ -82,8 +77,6 @@ public class RegistrationQueueLiftRepositoryImpl implements RegistrationQueueLif
                                END,
         modified             = current_timestamp
     FROM candidate c
-    -- Re-stated so that if a clerk cancelled or moved the row after the CTE's snapshot, the
-    -- re-check against the new row version finds nothing to update.
     WHERE r.id = c.id
       AND r.kind = 'QUEUE'
       AND r.state = 'SUBMITTED'
@@ -101,8 +94,6 @@ public class RegistrationQueueLiftRepositoryImpl implements RegistrationQueueLif
 
   @Override
   public boolean tryLockExamSessionForQueueLift(final long examSessionId) {
-    // The two-key form takes int4 keys. toIntExact fails loudly rather than letting two sessions
-    // share a lock should ids ever outgrow an int.
     return (Boolean) entityManager
       .createNativeQuery("SELECT pg_try_advisory_xact_lock(:namespace, :examSessionId)")
       .setParameter("namespace", QUEUE_LIFT_LOCK_NAMESPACE)
@@ -123,8 +114,6 @@ public class RegistrationQueueLiftRepositoryImpl implements RegistrationQueueLif
       .findFirst()
       .map(RegistrationQueueLiftRepositoryImpl::toLiftedRegistration);
 
-    // The native UPDATE bypasses the persistence context, so a Registration already loaded in this
-    // transaction would now be stale. Refreshing it means callers can load the entity as usual.
     lifted.ifPresent(registration -> entityManager.refresh(entityManager.find(Registration.class, registration.id())));
 
     return lifted;

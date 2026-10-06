@@ -53,12 +53,6 @@ public class RegistrationQueueLiftService {
       registrationEmailService.sendLiftedFromQueueEmail(registration);
     }
 
-    LOG.info(
-      "Lifted registration {} ({}) from the queue of exam session {}",
-      lifted.get().id(),
-      lifted.get().partialExamType(),
-      examSessionId
-    );
     return Outcome.LIFTED;
   }
 

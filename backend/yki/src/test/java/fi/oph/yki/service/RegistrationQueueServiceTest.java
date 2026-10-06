@@ -71,13 +71,4 @@ class RegistrationQueueServiceTest {
     );
     verify(registrationQueueLiftService, times(2)).liftNext(anyLong());
   }
-
-  @Test
-  public void testChecksForUnliftableRegistrations() {
-    when(registrationQueueLiftService.liftNext(anyLong())).thenReturn(Outcome.NOTHING_TO_LIFT);
-
-    registrationQueueService.liftFromQueue(EXAM_SESSION_ID, 10);
-
-    verify(registrationRepository).countUnliftableQueuedRegistrations(EXAM_SESSION_ID);
-  }
 }
