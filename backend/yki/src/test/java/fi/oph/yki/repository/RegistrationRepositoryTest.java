@@ -111,42 +111,6 @@ class RegistrationRepositoryTest {
     assertFalse(registrationRepository.findExamSessionIdsWithQueueToLift().contains(session.getId()));
   }
 
-  @Test
-  public void testCountsQueuedAllPartsRegistrationsOnlyInPartialSessions() {
-    final LocalDate today = LocalDate.now();
-    final ExamSession fullSession = persistSessionWithQueue(
-      today.minusDays(3),
-      today.plusDays(3),
-      today.plusDays(30),
-      RegistrationState.SUBMITTED
-    );
-
-    final ExamSession partialSession = Factory.examSession(fullSession.getExamDate());
-    partialSession.setType(ExamSessionType.READ_SPEAK);
-    partialSession.setMaxParticipants(2);
-    partialSession.setMaxParticipantsReadListen(1);
-    partialSession.setMaxParticipantsSpeakWrite(1);
-    entityManager.persist(partialSession);
-
-    final Person admitted = Factory.person();
-    admitted.setOid("1.2.3.4.7");
-    entityManager.persist(admitted);
-    final Registration admission = Factory.registration(admitted);
-    admission.setExamSession(partialSession);
-    entityManager.persist(admission);
-
-    final Person queuedPerson = Factory.person();
-    queuedPerson.setOid("1.2.3.4.8");
-    entityManager.persist(queuedPerson);
-    final Registration queued = Factory.queuedRegistration(queuedPerson, PartialExamType.ALL_PARTS);
-    queued.setExamSession(partialSession);
-    entityManager.persist(queued);
-    entityManager.flush();
-
-    assertEquals(0, registrationRepository.countUnliftableQueuedRegistrations(fullSession.getId()));
-    assertEquals(1, registrationRepository.countUnliftableQueuedRegistrations(partialSession.getId()));
-  }
-
   /**
    * A FULL session of one place, already taken by an admission, so that participant_limit_trigger
    * accepts a queued registration after it.

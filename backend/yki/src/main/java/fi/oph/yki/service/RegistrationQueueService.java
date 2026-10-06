@@ -33,13 +33,9 @@ public class RegistrationQueueService {
    * failed lift would mark the whole transaction rollback-only and lose every lift of the run, and
    * no lift would be visible to anyone else until the run ended.
    *
-   * @param remainingLiftBudget what is left of the per-run lift cap (decision 21) after the sessions
-   *     already processed in this run; the caller deducts each result's {@code lifted} from it
    */
   @Transactional(propagation = Propagation.NEVER)
   public SessionLiftResult liftFromQueue(final long examSessionId, final int remainingLiftBudget) {
-    warnAboutUnliftableRegistrations(examSessionId);
-
     int lifted = 0;
     while (lifted < remainingLiftBudget) {
       switch (registrationQueueLiftService.liftNext(examSessionId)) {
@@ -55,19 +51,6 @@ public class RegistrationQueueService {
     return logged(examSessionId, new SessionLiftResult(lifted, StopReason.LIFT_BUDGET_EXHAUSTED));
   }
 
-  private void warnAboutUnliftableRegistrations(final long examSessionId) {
-    final long unliftable = registrationRepository.countUnliftableQueuedRegistrations(examSessionId);
-    if (unliftable > 0) {
-      LOG.warn(
-        "Exam session {} has {} queued ALL_PARTS registration(s) in a partial session, which are never lifted from the queue",
-        examSessionId,
-        unliftable
-      );
-    }
-  }
-
-  // Another worker holding the session, or the run's budget running out, means runs are overlapping
-  // or something is lifting far more than usual. Both went unnoticed in the legacy overlift incident.
   private static SessionLiftResult logged(final long examSessionId, final SessionLiftResult result) {
     switch (result.stopReason()) {
       case SESSION_LOCKED, LIFT_BUDGET_EXHAUSTED -> LOG.warn(
