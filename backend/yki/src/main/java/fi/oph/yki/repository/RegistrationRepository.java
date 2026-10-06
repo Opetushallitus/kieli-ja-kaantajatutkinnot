@@ -42,6 +42,59 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
     @Param("partialExamType") String partialExamType
   );
 
+  @Query(
+    value = """
+      SELECT COUNT(*)
+      FROM registration r
+      WHERE r.exam_session_id = :examSessionId
+        AND r.kind::text = 'QUEUE'
+        AND r.state::text IN ('STARTED', 'SUBMITTED')
+        AND r.partial_exam_type::text IN (:partialExamTypes)
+    """,
+    nativeQuery = true
+  )
+  long countQueueRegistrations(
+    @Param("examSessionId") long examSessionId,
+    @Param("partialExamTypes") List<String> partialExamTypes
+  );
+
+  @Query(
+    value = """
+      SELECT COUNT(*)
+      FROM registration r
+      WHERE r.exam_session_id = :examSessionId
+        AND r.kind::text = 'ADMISSION'
+        AND r.state::text IN ('STARTED', 'SUBMITTED', 'COMPLETED')
+        AND r.partial_exam_type::text IN (:partialExamTypes)
+    """,
+    nativeQuery = true
+  )
+  long countAdmissionRegistrations(
+    @Param("examSessionId") long examSessionId,
+    @Param("partialExamTypes") List<String> partialExamTypes
+  );
+
+  @Query(
+    value = """
+      SELECT r.*
+      FROM registration r
+      INNER JOIN exam_session es ON es.id = r.exam_session_id
+      WHERE r.identity_id = :identityId
+        AND r.state::text IN ('COMPLETED', 'SUBMITTED', 'STARTED')
+        AND es.exam_date_id = :examDateId
+        AND (es.id <> :examSessionId
+             OR r.partial_exam_type::text = 'ALL_PARTS'
+             OR :partialExamType IN ('ALL_PARTS', r.partial_exam_type::text))
+    """,
+    nativeQuery = true
+  )
+  List<Registration> findConflictingRegistrations(
+    @Param("identityId") long identityId,
+    @Param("examDateId") long examDateId,
+    @Param("examSessionId") long examSessionId,
+    @Param("partialExamType") String partialExamType
+  );
+
   int countByPersonOid(String personOid);
 
   @Query(
