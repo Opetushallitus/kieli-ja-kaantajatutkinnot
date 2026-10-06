@@ -83,6 +83,7 @@
           "street": "Hakaniemenranta 6",
           "zipCity": "PL 380, 00531 Helsinki"
         },
+        "description": "Opintopolku-portaalia ylläpitää Opetushallitus. Koulutuksen järjestäjät ja korkeakoulut ylläpitävät tietoja koulutuksistaan Opintopolku.fi-palvelussa. Tietojen oikeellisuuden voit tarkistaa kyseisestä oppilaitoksesta tai korkeakoulusta.",
         "headings": {
           "contacts": "Yhteystiedot",
           "info": "Lisätietoa yleisistä kielitutkinnoista (YKI)",
@@ -99,7 +100,8 @@
           "ykiHomepage": {
             "text": "Yleisten kielitutkintojen verkkosivu (oph.fi)"
           }
-        }
+        },
+        "studyinfoLogoAlt": "Opintopolku"
       },
       "paymentServiceProvider": {
         "businessId": "y-tunnus: 2122839-7",
