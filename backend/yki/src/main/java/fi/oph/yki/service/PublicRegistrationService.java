@@ -1,8 +1,14 @@
 package fi.oph.yki.service;
 
 import fi.oph.yki.api.dto.PublicExamSessionDTO;
+import fi.oph.yki.api.dto.PublicRegistrationDetailsDTO;
+import fi.oph.yki.api.dto.PublicRegistrationFormDTO;
 import fi.oph.yki.api.dto.PublicRegistrationInitDTO;
 import fi.oph.yki.api.dto.PublicRegistrationInitResponseDTO;
+import fi.oph.yki.api.dto.PublicRegistrationSubmitResponseDTO;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.Identity;
 import fi.oph.yki.model.Registration;
@@ -30,6 +36,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class PublicRegistrationService {
 
   private static final Logger LOG = LoggerFactory.getLogger(PublicRegistrationService.class);
+
+  private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
   private final RegistrationRepository registrationRepository;
   private final ExamSessionRepository examSessionRepository;
@@ -184,6 +192,162 @@ public class PublicRegistrationService {
 
     // TODO: handle PSQLException for max_participants exceeded (DB trigger)
     return registrationRepository.saveAndFlush(registration);
+  }
+
+  @Transactional
+  public PublicRegistrationSubmitResponseDTO submitRegistration(
+    final Identity identity,
+    final long registrationId,
+    final String lang,
+    final PublicRegistrationFormDTO formDTO
+  ) {
+    LOG.info("START: Submitting registration id {}", registrationId);
+
+    // Step 1: Load registration and verify it belongs to the identity and is in STARTED state
+    final Registration registration = registrationRepository.findById(registrationId)
+      .orElseThrow(() -> new APIException(APIExceptionType.NOT_FOUND));
+
+    if (registration.getIdentity() == null || registration.getIdentity().getId() != identity.getId()) {
+      throw new APIException(APIExceptionType.REGISTRATION_NOT_OWNED);
+    }
+
+    if (registration.getState() != RegistrationState.STARTED) {
+      throw new APIException(APIExceptionType.REGISTRATION_NOT_STARTED);
+    }
+
+    // Step 2: Persist form data to registration
+    registration.setForm(buildFormJson(formDTO));
+    registrationRepository.saveAndFlush(registration);
+
+    // Step 3: Get or create person in ONR (oppijanumerorekisteri)
+    // TODO: call OnrService to get or create person with form data
+    //   Returns person OID
+    //   (see: onr/get-or-create-person in registration.clj)
+
+    // Step 4: Upsert person in local person table
+    // TODO: call PersonRepository to upsert person with oid, name, gender, nationality
+    //   (see: person-db/upsert-person! in registration.clj)
+
+    // Step 5: Determine submitted state
+    //   QUEUE registrations → SUBMITTED
+    //   ADMISSION with free registration → COMPLETED
+    //   ADMISSION without free registration → SUBMITTED
+    // TODO: validate free_registration_id if provided
+    //   (see: validate-free-registration in registration.clj)
+    final RegistrationState submittedState = resolveSubmittedState(registration, formDTO.freeRegistrationId());
+
+    // Step 6: Update registration details
+    //   Set state, form, person_oid, expires_at
+    // TODO: set registration fields and save
+    //   (see: update-registration-details! in registration_db.clj)
+
+    // Step 7: Create payment link or send free registration email
+    //   ADMISSION + not free → create payment link and send payment email
+    //   ADMISSION + free → send free registration confirmation email
+    //   QUEUE → send enrolled-to-queue email
+    // TODO: implement payment link creation and email sending
+    //   (see: create-and-send-payment-link, send-free-registration-email in registration.clj)
+
+    // Step 8: Insert change event
+    // TODO: insert registration change event with event=SUBMIT
+
+    final String code = registration.getKind() == RegistrationKind.ADMISSION
+      ? java.util.UUID.randomUUID().toString()
+      : null;
+
+    LOG.info("END: Registration id {} submitted successfully", registrationId);
+
+    return PublicRegistrationSubmitResponseDTO
+      .builder()
+      .success(true)
+      .registrationKind(registration.getKind())
+      .state(submittedState)
+      .code(code)
+      .build();
+  }
+
+  private ObjectNode buildFormJson(final PublicRegistrationFormDTO form) {
+    final ObjectNode node = OBJECT_MAPPER.createObjectNode();
+    node.put("first_name", form.firstName());
+    node.put("last_name", form.lastName());
+    node.put("email", form.email());
+    node.put("phone_number", form.phoneNumber());
+    node.put("street_address", form.streetAddress());
+    node.put("zip", form.zip());
+    node.put("post_office", form.postOffice());
+    node.put("certificate_lang", form.certificateLang());
+    node.put("exam_lang", form.examLang());
+
+    if (form.birthdate() != null) {
+      node.put("birthdate", form.birthdate());
+    }
+    if (form.gender() != null) {
+      node.put("gender", form.gender());
+    }
+    if (form.nationalityDesc() != null) {
+      node.put("nationality_desc", form.nationalityDesc());
+    }
+    if (form.countryCode() != null) {
+      node.put("country_code", form.countryCode());
+    }
+    if (form.nativeLanguage() != null) {
+      node.put("native_language", form.nativeLanguage());
+    }
+    if (form.preferredName() != null) {
+      node.put("preferred_name", form.preferredName());
+    }
+    if (form.nationalities() != null) {
+      final ArrayNode arr = OBJECT_MAPPER.createArrayNode();
+      form.nationalities().forEach(arr::add);
+      node.set("nationalities", arr);
+    }
+
+    return node;
+  }
+
+  private RegistrationState resolveSubmittedState(final Registration registration, final Long freeRegistrationId) {
+    if (registration.getKind() == RegistrationKind.QUEUE) {
+      return RegistrationState.SUBMITTED;
+    }
+
+    // TODO: validate freeRegistrationId against DB free_registration record
+    if (freeRegistrationId != null) {
+      return RegistrationState.COMPLETED;
+    }
+
+    return RegistrationState.SUBMITTED;
+  }
+
+  @Transactional(readOnly = true)
+  public PublicRegistrationDetailsDTO getRegistrationDetails(final Identity identity, final long registrationId) {
+    final Registration registration = registrationRepository.findById(registrationId)
+      .orElseThrow(() -> new APIException(APIExceptionType.NOT_FOUND));
+
+    if (registration.getIdentity() == null || registration.getIdentity().getId() != identity.getId()) {
+      throw new APIException(APIExceptionType.REGISTRATION_NOT_OWNED);
+    }
+
+    final ExamSession examSession = registration.getExamSession();
+
+    return PublicRegistrationDetailsDTO
+      .builder()
+      .id(registration.getId())
+      .kind(registration.getKind())
+      .partialExamType(registration.getPartialExamType())
+      .state(registration.getState())
+      .examSession(
+        PublicExamSessionDTO
+          .builder()
+          .id(examSession.getId())
+          .languageCode(examSession.getLanguage())
+          .levelCode(examSession.getLevel())
+          .type(examSession.getType())
+          .sessionDate(examSession.getExamDate().getExamDate())
+          .maxParticipants(examSession.getMaxParticipants())
+          .examFee(null)
+          .build()
+      )
+      .build();
   }
 
   private PublicRegistrationInitResponseDTO buildResponse(final Registration registration) {
