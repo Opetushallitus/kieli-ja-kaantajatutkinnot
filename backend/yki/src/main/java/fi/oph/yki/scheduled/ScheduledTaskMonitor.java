@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.env.Environment;
 import org.springframework.lang.NonNull;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -39,12 +40,16 @@ public class ScheduledTaskMonitor {
   );
 
   private final TaskLockRepository taskLockRepository;
+  private final Environment environment;
 
   @Scheduled(cron = Constants.SCHEDULED_TASK_MONITOR_CRON)
   @SchedulerLock(name = "scheduledTaskMonitor", lockAtLeastFor = LOCK_AT_LEAST, lockAtMostFor = LOCK_AT_MOST)
   public void monitorScheduledTasks() {
     LOG.info("Monitoring scheduled tasks");
     MONITORED_TASKS.forEach((@NonNull final String task, final Duration maxAge) -> {
+      if (isOwnedByThisBackend(task)) {
+        return;
+      }
       taskLockRepository
         .findById(task)
         .ifPresentOrElse(
@@ -61,5 +66,14 @@ public class ScheduledTaskMonitor {
           () -> LOG.error("Scheduled task {} not found in task_lock [ERROR_SCHEDULED_TASK]", task)
         );
     });
+  }
+
+  // Enabling the Java handler goes together with removing the legacy one, which then stops stamping
+  // its task_lock row. Monitoring that row would report the job as stalled on every tick.
+  private boolean isOwnedByThisBackend(final String task) {
+    return (
+      "REGISTRATION_QUEUE_HANDLER".equals(task) &&
+      environment.getProperty(RegistrationQueueHandler.ENABLED_PROPERTY, Boolean.class, false)
+    );
   }
 }
