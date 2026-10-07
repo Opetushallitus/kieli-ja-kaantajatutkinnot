@@ -34,12 +34,5 @@ export const publicThemeOverrides: ComponentProps<
         },
       },
     },
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          fontSize: '1.6rem',
-        },
-      },
-    },
   },
 };
