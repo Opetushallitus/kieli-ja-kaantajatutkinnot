@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.16.4] - 2026-10-07
+
+### Changed
+
+- Initial loading spinner accepts a CSS color variable while retaining the existing default for legacy applications.
+
 ## [1.16.3] - 2026-10-07
 
 ### Changed
