@@ -33,6 +33,8 @@ public class AuthController {
 
     if (AuthorizationUtil.hasRole(auth, Constants.APP_ADMIN_ROLE)) {
       httpResponse.sendRedirect(baseUrl + "/v2/virkailija/tutkintopaivat");
+    } else if (AuthorizationUtil.hasRole(auth, Constants.APP_CUSTOMER_SERVICE_ROLE)) {
+      httpResponse.sendRedirect(baseUrl + "/v2/virkailija/jarjestajarekisteri");
     } else {
       final KayttooikeusResponseDTO kayttooikeusResponseDTO = permissionsService.getPermissionForUser(auth.getName());
       final OrganisaatioDTO organisaatioDTO = kayttooikeusResponseDTO.organisaatiot().get(0);
@@ -45,10 +47,17 @@ public class AuthController {
     final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     final boolean isAdmin = AuthorizationUtil.hasRole(auth, Constants.APP_ADMIN_ROLE);
     final boolean isOrganizer = AuthorizationUtil.hasRole(auth, Constants.APP_ORGANIZER_ROLE);
+    final boolean isCustomerService = AuthorizationUtil.hasRole(auth, Constants.APP_CUSTOMER_SERVICE_ROLE);
     final KayttooikeusResponseDTO kayttooikeusResponseDTO = permissionsService.getPermissionForUser(auth.getName());
     final OrganisaatioDTO organisaatioDTO = kayttooikeusResponseDTO.organisaatiot().get(0);
     final String oid = organisaatioDTO.organisaatioOid();
 
-    return UserDTO.builder().oid(oid).isAdmin(isAdmin).isOrganizer(isOrganizer).build();
+    return UserDTO
+      .builder()
+      .oid(oid)
+      .isAdmin(isAdmin)
+      .isOrganizer(isOrganizer)
+      .isCustomerService(isCustomerService)
+      .build();
   }
 }

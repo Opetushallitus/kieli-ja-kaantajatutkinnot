@@ -104,13 +104,6 @@ public class PermissionsService {
       .anyMatch(o -> organizationOid.equals(o.organisaatioOid()) && hasOikeus(o.kayttooikeudet(), role));
   }
 
-  public boolean hasReadPermission(final KayttooikeusResponseDTO kayttooikeusResponseDTO) {
-    return kayttooikeusResponseDTO
-      .organisaatiot()
-      .stream()
-      .anyMatch(o -> hasOikeus(o.kayttooikeudet(), "ILMOITTAUTUMISET_R"));
-  }
-
   public boolean hasAdminPermission(KayttooikeusResponseDTO kayttooikeusResponseDTO) {
     return kayttooikeusResponseDTO
       .organisaatiot()
