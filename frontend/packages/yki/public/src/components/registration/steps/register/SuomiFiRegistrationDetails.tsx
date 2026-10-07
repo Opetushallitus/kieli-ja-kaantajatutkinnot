@@ -1,15 +1,12 @@
 import { ChangeEvent } from 'react';
-import { LabeledTextField } from 'shared/components';
 import {
   InputAutoComplete,
   TextFieldTypes,
   TextFieldVariant,
 } from 'shared/enums';
-import { useWindowProperties } from 'shared/hooks';
-import { LabeledComboBox } from 'shared/ods-components';
+import { LabeledComboBox, LabeledTextField } from 'shared/ods-components';
 
 import { AddressDetails } from 'components/registration/steps/register/AddressDetails';
-import { Text } from 'components/Text';
 import {
   getCurrentLang,
   useCommonTranslation,
@@ -35,56 +32,36 @@ const PersonIdentityDetails = () => {
   const registration: Partial<
     PublicSuomiFiRegistration & PublicEmailRegistration
   > = useAppSelector(registrationSelector).registration;
-  const { isPhone } = useWindowProperties();
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.registrationDetails',
   });
 
-  if (isPhone) {
-    return (
-      <>
-        <Text className="half-width-on-desktop flex-grow-1">
-          <b>{t('labels.firstNames')}</b>
-          <br />
-          {registration.firstNames}
-        </Text>
-        <Text className="half-width-on-desktop flex-grow-1">
-          <b>{t('labels.lastName')}</b>
-          <br />
-          {registration.lastName}
-        </Text>
-        <Text>
-          <b>{t('labels.ssn')}</b>
-          <br />
-          {registration.ssn}
-        </Text>
-      </>
-    );
-  } else {
-    return (
-      <>
-        <div className="columns gapped">
-          <Text className="half-width-on-desktop flex-grow-1">
-            <b>{t('labels.firstNames')}</b>
-            <br />
-            {registration.firstNames}
-          </Text>
-          <Text className="half-width-on-desktop flex-grow-1">
-            <b>{t('labels.lastName')}</b>
-            <br />
-            {registration.lastName}
-          </Text>
-        </div>
-        <div className="columns gapped">
-          <Text>
-            <b>{t('labels.ssn')}</b>
-            <br />
-            {registration.ssn}
-          </Text>
-        </div>
-      </>
-    );
-  }
+  return (
+    <>
+      <div className="grid-2-columns gapped">
+        <LabeledTextField
+          id="public-registration__contact-details__firstNames-field"
+          label={t('labels.firstNames')}
+          value={registration.firstNames || ''}
+          slotProps={{ input: { readOnly: true } }}
+        />
+        <LabeledTextField
+          id="public-registration__contact-details__lastName-field"
+          label={t('labels.lastName')}
+          value={registration.lastName || ''}
+          slotProps={{ input: { readOnly: true } }}
+        />
+      </div>
+      <div className="grid-2-columns gapped">
+        <LabeledTextField
+          id="public-registration__contact-details__ssn-field"
+          label={t('labels.ssn')}
+          value={registration.ssn || ''}
+          slotProps={{ input: { readOnly: true } }}
+        />
+      </div>
+    </>
+  );
 };
 
 export const SuomiFiRegistrationDetails = ({
