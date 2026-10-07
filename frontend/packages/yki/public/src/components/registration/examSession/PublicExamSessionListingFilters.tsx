@@ -189,7 +189,7 @@ const SelectExamLanguage = ({
           onFilterChange({ language });
         }}
         label={t('labels.selectLanguage')}
-        aria-label={t('labels.selectLanguage')}
+        aria-label={translateCommon('language')}
         showError={showError && !language}
         helperText={showError && !language ? t('filters.errors.required') : ''}
       />
@@ -245,7 +245,7 @@ const SelectExamLevel = ({
           onFilterChange({ level });
         }}
         label={t('labels.selectLevel')}
-        aria-label={t('labels.selectLevel')}
+        aria-label={translateCommon('level')}
         showError={showError && !level}
         helperText={showError && !level ? t('filters.errors.required') : ''}
       />
