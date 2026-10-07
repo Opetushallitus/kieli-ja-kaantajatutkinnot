@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.16.2] - 2026-10-07
+
+### Fixed
+
+- ODS mobile dropdowns preserve label associations, accessibility attributes, validation state and focus handlers.
+- LanguageSelect uses the same responsive dropdown as ComboBox.
+
 ## [1.16.1] - 2026-09-28
 
 ### Added
