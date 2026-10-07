@@ -40,55 +40,11 @@ a {
   }
 }
 
-.lang-selector {
-  @include mobile {
-    background-color: $color-secondary;
-
-    button:hover p {
-      color: $color-secondary;
-    }
-  }
-
-  [class*='MuiDivider-root'] {
-    border-color: $color-primary;
-  }
-
-  button:hover {
-    color: $color-grey-400;
-  }
-}
-
-.navigation-links {
-  ul {
-    column-gap: 2rem;
-  }
-
-  li.active {
-    p {
-      color: $color-secondary;
-      font-weight: 400;
-    }
-    @include desktop-xs-and-up {
-      border-bottom: 2px solid $color-secondary;
-    }
-
-    @include mobile {
-      border-left: 5px solid $color-secondary;
-    }
-  }
-}
-
 .dialog-box {
   &--info {
     & [role='dialog'] {
       @include dialog-border($color-secondary);
     }
-  }
-}
-
-.skip-link {
-  &#{&} {
-    color: $color-secondary-dark;
   }
 }
 
