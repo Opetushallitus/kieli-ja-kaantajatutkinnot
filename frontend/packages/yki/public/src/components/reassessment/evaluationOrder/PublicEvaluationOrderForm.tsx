@@ -11,7 +11,7 @@ import {
 import { ophColors } from '@opetushallitus/oph-design-system';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router';
-import { CustomButton, LabeledTextField } from 'shared/components';
+import { CustomButton } from 'shared/components';
 import {
   APIResponseStatus,
   Color,
@@ -21,6 +21,7 @@ import {
   Variant,
 } from 'shared/enums';
 import { useDialog, useWindowProperties } from 'shared/hooks';
+import { LabeledTextField } from 'shared/ods-components';
 import { DateUtils, InputFieldUtils } from 'shared/utils';
 
 import { PaymentServiceProvider } from 'components/elements/PaymentServiceProvider';

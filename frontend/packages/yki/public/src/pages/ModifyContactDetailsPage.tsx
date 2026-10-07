@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router';
 import {
   CustomButton,
   CustomButtonLink,
-  LabeledTextField,
   LoadingProgressIndicator,
 } from 'shared/components';
 import {
@@ -18,7 +17,7 @@ import {
   Variant,
 } from 'shared/enums';
 import { useDialog, useToast, useWindowProperties } from 'shared/hooks';
-import { LabeledComboBox } from 'shared/ods-components';
+import { LabeledComboBox, LabeledTextField } from 'shared/ods-components';
 
 import { H1, H2, Text } from 'components/Text';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
