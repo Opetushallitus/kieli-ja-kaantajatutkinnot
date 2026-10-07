@@ -80,5 +80,6 @@ a {
 }
 
 .init-spinner {
-  --init-spinner-color: #{$color-secondary};
+  // Bootstrap fallback: this spinner precedes React and its theme variables.
+  --init-spinner-color: var(--yki-color-secondary, #378703);
 }
