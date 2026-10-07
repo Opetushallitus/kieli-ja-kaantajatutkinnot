@@ -1,5 +1,6 @@
 import type { TypographyVariantsOptions } from '@mui/material/styles';
-import { createOphTheme } from '@opetushallitus/oph-design-system/theme';
+import { OphThemeProvider } from '@opetushallitus/oph-design-system/theme';
+import { ComponentProps } from 'react';
 
 // Single source of truth for YKI public brand colors. Reference these tokens in
 // the overrides below; change a value here to update it everywhere at once.
@@ -8,43 +9,42 @@ const brandColors = {
   white: '#ffffff',
 };
 
-export const publicTheme = createOphTheme({
-  variant: 'opintopolku',
-  overrides: {
-    // Match the global `:root { font-size: 62.5% }` so MUI's rem-based sizing
-    // (icons, checkboxes, spacing) resolves against a 10px root.
-    // Cast works around an upstream type bug where the design system makes the
-    // `label` typography variant required in TypographyVariantsOptions.
-    typography: { htmlFontSize: 10 } as TypographyVariantsOptions,
-    palette: {
-      // The oph base theme has no secondary color, so `color="secondary"`
-      // controls (buttons etc.) must get the YKI brand green here.
-      secondary: {
-        main: brandColors.green,
-        contrastText: brandColors.white,
-      },
+export const publicThemeOverrides: ComponentProps<
+  typeof OphThemeProvider
+>['overrides'] = {
+  // Match the global `:root { font-size: 62.5% }` so MUI's rem-based sizing
+  // (icons, checkboxes, spacing) resolves against a 10px root.
+  // Cast works around an upstream type bug where the design system makes the
+  // `label` typography variant required in TypographyVariantsOptions.
+  typography: { htmlFontSize: 10 } as TypographyVariantsOptions,
+  palette: {
+    // The oph base theme has no secondary color, so `color="secondary"`
+    // controls (buttons etc.) must get the YKI brand green here.
+    secondary: {
+      main: brandColors.green,
+      contrastText: brandColors.white,
     },
-    components: {
-      MuiAppBar: {
-        styleOverrides: {
-          root: {
-            '--AppBar-background': brandColors.green,
-            color: brandColors.white,
-            // Force nested text (Typography, links, buttons) to inherit the
-            // AppBar's white color instead of their own theme text colors.
-            '& *': {
-              color: 'inherit',
-            },
+  },
+  components: {
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          '--AppBar-background': brandColors.green,
+          color: brandColors.white,
+          // Force nested text (Typography, links, buttons) to inherit the
+          // AppBar's white color instead of their own theme text colors.
+          '& *': {
+            color: 'inherit',
           },
         },
       },
-      MuiButton: {
-        styleOverrides: {
-          root: {
-            fontSize: '1.6rem',
-          },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          fontSize: '1.6rem',
         },
       },
     },
   },
-});
+};
