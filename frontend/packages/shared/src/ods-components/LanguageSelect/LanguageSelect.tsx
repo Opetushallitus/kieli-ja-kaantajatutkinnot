@@ -1,9 +1,4 @@
 import {
-  CustomNativeSelectProps,
-  NativeSelect,
-} from '../../components/NativeSelect/NativeSelect';
-import { useWindowProperties } from '../../hooks';
-import {
   AutoCompleteComboBox,
   ComboBoxOption,
   ComboBoxProps,
@@ -58,31 +53,6 @@ export const LanguageSelect = ({
     ...primaryOptions,
     ...sortOptionsByLabels(secondaryOptions),
   ];
-
-  const { isPhone } = useWindowProperties();
-  if (isPhone) {
-    const nativeSelectProps: CustomNativeSelectProps = {
-      placeholder: rest.label || '',
-      values: sortedOptions,
-      value: value || undefined,
-      helperText,
-      showError,
-      'data-testid': rest['data-testid'],
-    };
-    for (const prop in rest) {
-      if (prop in nativeSelectProps) {
-        nativeSelectProps[prop as keyof CustomNativeSelectProps] =
-          rest[prop as keyof typeof rest];
-      }
-    }
-
-    return (
-      <NativeSelect
-        {...nativeSelectProps}
-        onChange={(event) => onLanguageChange(event.target.value as string)}
-      />
-    );
-  }
 
   return (
     <ComboBox
