@@ -47,6 +47,7 @@ const v2User = {
   oid: '1.2.246.562.10.28646781493',
   isAdmin: true,
   isOrganizer: true,
+  isCustomerService: false,
 };
 
 export const handlers = [

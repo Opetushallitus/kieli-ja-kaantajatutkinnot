@@ -21,6 +21,7 @@ import { changeLang, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
+import { User } from 'interfaces/session';
 import { clerkTheme } from 'ophTheme/OphTheme';
 import { ClerkAddOrganizerPage } from 'pages/ClerkAddOrganizerPage';
 import { ClerkCustomerDetailsPage } from 'pages/ClerkCustomerDetailsPage';
@@ -37,12 +38,24 @@ import { loadMe, loadUser } from 'redux/reducers/user';
 import { sessionSelector } from 'redux/selectors/session';
 import { userSelector } from 'redux/selectors/user';
 
+const getFallbackRoute = (user: User) => {
+  if (user.isAdmin || user.isCustomerService) {
+    return AppRoutes.ClerkOrganizerRegister;
+  } else if (user.isOrganizer) {
+    return AppRoutes.OrganizerHome.replace(':oid', user.oid);
+  }
+
+  return null;
+};
+
 const ProtectedRoute = ({
   requireAdmin,
   requireOrganizer,
+  requireCustomerService,
 }: {
   requireAdmin?: boolean;
   requireOrganizer?: boolean;
+  requireCustomerService?: boolean;
 }) => {
   const { status, user } = useAppSelector(userSelector);
 
@@ -57,16 +70,15 @@ const ProtectedRoute = ({
     return null;
   }
 
-  if (requireAdmin && !user.isAdmin) {
-    return user.isOrganizer ? (
-      <Navigate to={`${AppRoutes.Organizer}/${user.oid}`} replace />
-    ) : null;
-  }
+  const hasAccess =
+    (!requireAdmin || user.isAdmin) &&
+    (!requireOrganizer || user.isOrganizer) &&
+    (!requireCustomerService || user.isAdmin || user.isCustomerService);
 
-  if (requireOrganizer && !user.isOrganizer) {
-    return user.isAdmin ? (
-      <Navigate to={AppRoutes.ClerkOrganizerRegister} replace />
-    ) : null;
+  if (!hasAccess) {
+    const fallbackRoute = getFallbackRoute(user);
+
+    return fallbackRoute ? <Navigate to={fallbackRoute} replace /> : null;
   }
 
   return <Outlet />;
@@ -156,26 +168,10 @@ export const AppRouter: FC = () => {
         <Route element={<ProtectedRoute requireAdmin />}>
           <Route path={AppRoutes.ClerkRoot} element={ClerkRoot}>
             <Route
-              path={AppRoutes.ClerkOrganizerRegister}
-              element={
-                <YkiTitlePage title="clerk">
-                  <ClerkHomePage />
-                </YkiTitlePage>
-              }
-            />
-            <Route
               path={AppRoutes.ClerkAddOrganizer}
               element={
                 <YkiTitlePage title="clerk">
                   <ClerkAddOrganizerPage />
-                </YkiTitlePage>
-              }
-            />
-            <Route
-              path={AppRoutes.ClerkOrganizerRegisterDetails}
-              element={
-                <YkiTitlePage title="clerk">
-                  <ClerkOrganizerRegisterDetailsPage route="clerk" />
                 </YkiTitlePage>
               }
             />
@@ -192,6 +188,42 @@ export const AppRouter: FC = () => {
               element={
                 <YkiTitlePage title="clerk">
                   <ClerkExamDatesPage />
+                </YkiTitlePage>
+              }
+            />
+            <Route
+              path={AppRoutes.ClerkPaymentReport}
+              element={
+                <YkiTitlePage title="paymentReport">
+                  <ClerkPaymentReportPage />
+                </YkiTitlePage>
+              }
+            />
+            <Route
+              path={AppRoutes.ClerkStatistics}
+              element={
+                <YkiTitlePage title="statistics">
+                  <ClerkStatisticsPage />
+                </YkiTitlePage>
+              }
+            />
+          </Route>
+        </Route>
+        <Route element={<ProtectedRoute requireCustomerService />}>
+          <Route path={AppRoutes.ClerkRoot} element={ClerkRoot}>
+            <Route
+              path={AppRoutes.ClerkOrganizerRegister}
+              element={
+                <YkiTitlePage title="clerk">
+                  <ClerkHomePage />
+                </YkiTitlePage>
+              }
+            />
+            <Route
+              path={AppRoutes.ClerkOrganizerRegisterDetails}
+              element={
+                <YkiTitlePage title="clerk">
+                  <ClerkOrganizerRegisterDetailsPage route="clerk" />
                 </YkiTitlePage>
               }
             />
@@ -216,22 +248,6 @@ export const AppRouter: FC = () => {
               element={
                 <YkiTitlePage title="customerDetails">
                   <ClerkCustomerDetailsPage route="clerk" />
-                </YkiTitlePage>
-              }
-            />
-            <Route
-              path={AppRoutes.ClerkPaymentReport}
-              element={
-                <YkiTitlePage title="paymentReport">
-                  <ClerkPaymentReportPage />
-                </YkiTitlePage>
-              }
-            />
-            <Route
-              path={AppRoutes.ClerkStatistics}
-              element={
-                <YkiTitlePage title="statistics">
-                  <ClerkStatisticsPage />
                 </YkiTitlePage>
               }
             />

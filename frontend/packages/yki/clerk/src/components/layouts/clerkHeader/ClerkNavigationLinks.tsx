@@ -76,18 +76,41 @@ export const ClerkNavigationLinks = () => {
           label: translateCommon('statistics'),
         },
       ]
-    : [
-        {
-          active: getTabForPath(pathname, user) === 'organizerExamSessions',
-          href: AppRoutes.OrganizerHome.replace(':oid', user.oid),
-          label: translateCommon('clerkExamSessions'),
-        },
-        {
-          active: getTabForPath(pathname, user) === 'organizerCustomerSearch',
-          href: AppRoutes.OrganizerCustomerSearch.replace(':oid', user.oid),
-          label: translateCommon('customerSearch'),
-        },
-      ];
+    : user.isCustomerService
+      ? [
+          {
+            active: getTabForPath(pathname, user) === 'clerkOrganizerRegister',
+            href: AppRoutes.ClerkOrganizerRegister,
+            label: translateCommon('clerkOrganizerRegister'),
+          },
+          {
+            active: getTabForPath(pathname, user) === 'customerSearch',
+            href: AppRoutes.CustomerSearch,
+            label: translateCommon('customerSearch'),
+          },
+          ...(user.isOrganizer
+            ? [
+                {
+                  active:
+                    getTabForPath(pathname, user) === 'organizerExamSessions',
+                  href: AppRoutes.OrganizerHome.replace(':oid', user.oid),
+                  label: translateCommon('clerkExamSessions'),
+                },
+              ]
+            : []),
+        ]
+      : [
+          {
+            active: getTabForPath(pathname, user) === 'organizerExamSessions',
+            href: AppRoutes.OrganizerHome.replace(':oid', user.oid),
+            label: translateCommon('clerkExamSessions'),
+          },
+          {
+            active: getTabForPath(pathname, user) === 'organizerCustomerSearch',
+            href: AppRoutes.OrganizerCustomerSearch.replace(':oid', user.oid),
+            label: translateCommon('customerSearch'),
+          },
+        ];
 
   return (
     <NavigationLinks
