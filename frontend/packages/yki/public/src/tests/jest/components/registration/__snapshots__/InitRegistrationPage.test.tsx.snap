@@ -12,7 +12,7 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
         class="rows public-registration__grid__heading public-registration__grid__no-stepper"
       >
         <h1
-          class="MuiTypography-root MuiTypography-h1 css-10l7o3s-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-h1 css-cihc9m-MuiTypography-root"
         >
           unavailable.upcoming.title
         </h1>
@@ -28,11 +28,10 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
             class="rows gapped"
           >
             <div
-              class="rows"
+              class="rows gapped"
             >
               <h2
-                class="MuiTypography-root MuiTypography-h2 css-o2za6n-MuiTypography-root"
-                style="margin-bottom: 1rem;"
+                class="MuiTypography-root MuiTypography-h2 css-f5bj0c-MuiTypography-root"
               >
                 yki.common.languages.fin, yki.common.languageLevel.YLIN
               </h2>
@@ -40,17 +39,17 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
                 class="public-registration__exam-session-details"
               >
                 <dt
-                  class="MuiTypography-root MuiTypography-label css-z2uw0f-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                 >
                   partialExams
                 </dt>
                 <dd
-                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
                 >
                   yki.component.registration.examSessionCard.examType.full
                 </dd>
                 <dt
-                  class="MuiTypography-root MuiTypography-label css-z2uw0f-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                 >
                   testFormat
                 </dt>
@@ -85,47 +84,47 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
                   examDate
                 </dt>
                 <dd
-                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
                 >
                   12/29/2039
                 </dd>
                 <dt
-                  class="MuiTypography-root MuiTypography-label css-z2uw0f-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                 >
                   institution
                 </dt>
                 <dd
-                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
                 >
                   Amiedu, Jokukatu 4, Tampere
                 </dd>
                 <dt
-                  class="MuiTypography-root MuiTypography-label css-z2uw0f-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                 >
                   registrationTime
                 </dt>
                 <dd
-                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
                 >
                   12/1/2030 klo 10.00 - 12/10/2039 klo 16.00
                 </dd>
                 <dt
-                  class="MuiTypography-root MuiTypography-label css-z2uw0f-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                 >
                   examFee
                 </dt>
                 <dd
-                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
                 >
                   0 or 200 €
                 </dd>
                 <dt
-                  class="MuiTypography-root MuiTypography-label css-z2uw0f-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                 >
                   openings
                 </dt>
                 <dd
-                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
                 >
                   full
                 </dd>
@@ -135,12 +134,12 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
               class="rows gapped"
             >
               <p
-                class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
               >
                 upcoming.description
               </p>
               <a
-                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary fit-content-max-width css-1mns5ui-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation fit-content-max-width css-186xawm-MuiButtonBase-root-MuiButton-root"
                 href="/yki/ilmoittautuminen"
                 tabindex="0"
               >
@@ -167,7 +166,7 @@ exports[`InitRegistrationPage should not let user proceed if registration period
         class="rows public-registration__grid__heading public-registration__grid__no-stepper"
       >
         <h1
-          class="MuiTypography-root MuiTypography-h1 css-10l7o3s-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-h1 css-cihc9m-MuiTypography-root"
         >
           unavailable.past.title
         </h1>
@@ -183,11 +182,10 @@ exports[`InitRegistrationPage should not let user proceed if registration period
             class="rows gapped"
           >
             <div
-              class="rows"
+              class="rows gapped"
             >
               <h2
-                class="MuiTypography-root MuiTypography-h2 css-o2za6n-MuiTypography-root"
-                style="margin-bottom: 1rem;"
+                class="MuiTypography-root MuiTypography-h2 css-f5bj0c-MuiTypography-root"
               >
                 yki.common.languages.fin, yki.common.languageLevel.YLIN
               </h2>
@@ -195,17 +193,17 @@ exports[`InitRegistrationPage should not let user proceed if registration period
                 class="public-registration__exam-session-details"
               >
                 <dt
-                  class="MuiTypography-root MuiTypography-label css-z2uw0f-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                 >
                   partialExams
                 </dt>
                 <dd
-                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
                 >
                   yki.component.registration.examSessionCard.examType.listenWrite
                 </dd>
                 <dt
-                  class="MuiTypography-root MuiTypography-label css-z2uw0f-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                 >
                   testFormat
                 </dt>
@@ -240,57 +238,57 @@ exports[`InitRegistrationPage should not let user proceed if registration period
                   examDate
                 </dt>
                 <dd
-                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
                 >
                   1/1/2035
                 </dd>
                 <dt
-                  class="MuiTypography-root MuiTypography-label css-z2uw0f-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                 >
                   partialExamTimeLabel
                 </dt>
                 <dd
-                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
                 >
                   partialExamTime
                 </dd>
                 <dt
-                  class="MuiTypography-root MuiTypography-label css-z2uw0f-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                 >
                   institution
                 </dt>
                 <dd
-                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
                 >
                   Amiedu, Jokukatu 4, Tampere
                 </dd>
                 <dt
-                  class="MuiTypography-root MuiTypography-label css-z2uw0f-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                 >
                   registrationTime
                 </dt>
                 <dd
-                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
                 >
                   1/1/2023 klo 10.00 - 1/3/2023 klo 16.00
                 </dd>
                 <dt
-                  class="MuiTypography-root MuiTypography-label css-z2uw0f-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                 >
                   examFee
                 </dt>
                 <dd
-                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
                 >
                   0 or 113 €
                 </dd>
                 <dt
-                  class="MuiTypography-root MuiTypography-label css-z2uw0f-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                 >
                   openings
                 </dt>
                 <dd
-                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
                 >
                   full
                 </dd>
@@ -300,12 +298,12 @@ exports[`InitRegistrationPage should not let user proceed if registration period
               class="rows gapped"
             >
               <p
-                class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
               >
                 past.description
               </p>
               <a
-                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary fit-content-max-width css-1mns5ui-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation fit-content-max-width css-186xawm-MuiButtonBase-root-MuiButton-root"
                 href="/yki/ilmoittautuminen"
                 tabindex="0"
               >
@@ -351,7 +349,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root Mui-active css-1t8gtdm-MuiSvgIcon-root-MuiStepIcon-root"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root Mui-active css-13ka0st-MuiSvgIcon-root-MuiStepIcon-root"
                     focusable="false"
                     viewBox="0 0 24 24"
                   >
@@ -361,7 +359,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                       r="12"
                     />
                     <text
-                      class="MuiStepIcon-text css-1g86afo-MuiStepIcon-text"
+                      class="MuiStepIcon-text css-18thg6n-MuiStepIcon-text"
                       dominant-baseline="central"
                       text-anchor="middle"
                       x="12"
@@ -375,10 +373,10 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                   class="MuiStepLabel-labelContainer css-p8xe3-MuiStepLabel-labelContainer"
                 >
                   <span
-                    class="MuiStepLabel-label Mui-active css-1dfpv9p-MuiStepLabel-label"
+                    class="MuiStepLabel-label Mui-active css-1l0qh44-MuiStepLabel-label"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 css-17f73yo-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 css-17iea8h-MuiTypography-root"
                     >
                       phase phaseNumber: step.Identify
                     </p>
@@ -410,7 +408,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root css-1t8gtdm-MuiSvgIcon-root-MuiStepIcon-root"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root css-13ka0st-MuiSvgIcon-root-MuiStepIcon-root"
                     focusable="false"
                     viewBox="0 0 24 24"
                   >
@@ -420,7 +418,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                       r="12"
                     />
                     <text
-                      class="MuiStepIcon-text css-1g86afo-MuiStepIcon-text"
+                      class="MuiStepIcon-text css-18thg6n-MuiStepIcon-text"
                       dominant-baseline="central"
                       text-anchor="middle"
                       x="12"
@@ -434,10 +432,10 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                   class="MuiStepLabel-labelContainer css-p8xe3-MuiStepLabel-labelContainer"
                 >
                   <span
-                    class="MuiStepLabel-label Mui-disabled css-1dfpv9p-MuiStepLabel-label"
+                    class="MuiStepLabel-label Mui-disabled css-1l0qh44-MuiStepLabel-label"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 css-17f73yo-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 css-17iea8h-MuiTypography-root"
                     >
                       phase phaseNumber: step.Register
                     </p>
@@ -469,7 +467,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root css-1t8gtdm-MuiSvgIcon-root-MuiStepIcon-root"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root css-13ka0st-MuiSvgIcon-root-MuiStepIcon-root"
                     focusable="false"
                     viewBox="0 0 24 24"
                   >
@@ -479,7 +477,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                       r="12"
                     />
                     <text
-                      class="MuiStepIcon-text css-1g86afo-MuiStepIcon-text"
+                      class="MuiStepIcon-text css-18thg6n-MuiStepIcon-text"
                       dominant-baseline="central"
                       text-anchor="middle"
                       x="12"
@@ -493,10 +491,10 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                   class="MuiStepLabel-labelContainer css-p8xe3-MuiStepLabel-labelContainer"
                 >
                   <span
-                    class="MuiStepLabel-label Mui-disabled css-1dfpv9p-MuiStepLabel-label"
+                    class="MuiStepLabel-label Mui-disabled css-1l0qh44-MuiStepLabel-label"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 css-17f73yo-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 css-17iea8h-MuiTypography-root"
                     >
                       phase phaseNumber: step.Payment
                     </p>
@@ -528,7 +526,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root css-1t8gtdm-MuiSvgIcon-root-MuiStepIcon-root"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root css-13ka0st-MuiSvgIcon-root-MuiStepIcon-root"
                     focusable="false"
                     viewBox="0 0 24 24"
                   >
@@ -538,7 +536,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                       r="12"
                     />
                     <text
-                      class="MuiStepIcon-text css-1g86afo-MuiStepIcon-text"
+                      class="MuiStepIcon-text css-18thg6n-MuiStepIcon-text"
                       dominant-baseline="central"
                       text-anchor="middle"
                       x="12"
@@ -552,10 +550,10 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                   class="MuiStepLabel-labelContainer css-p8xe3-MuiStepLabel-labelContainer"
                 >
                   <span
-                    class="MuiStepLabel-label Mui-disabled css-1dfpv9p-MuiStepLabel-label"
+                    class="MuiStepLabel-label Mui-disabled css-1l0qh44-MuiStepLabel-label"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 css-17f73yo-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 css-17iea8h-MuiTypography-root"
                     >
                       phase phaseNumber: step.Done
                     </p>
@@ -573,7 +571,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
             class="rows public-registration__grid__heading"
           >
             <h1
-              class="MuiTypography-root MuiTypography-h1 css-10l7o3s-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-h1 css-cihc9m-MuiTypography-root"
             >
               title
             </h1>
@@ -590,11 +588,10 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
               class="rows gapped"
             >
               <div
-                class="rows"
+                class="rows gapped"
               >
                 <h2
-                  class="MuiTypography-root MuiTypography-h2 css-o2za6n-MuiTypography-root"
-                  style="margin-bottom: 1rem;"
+                  class="MuiTypography-root MuiTypography-h2 css-f5bj0c-MuiTypography-root"
                 >
                   yki.common.languages.fin, yki.common.languageLevel.KESKI
                 </h2>
@@ -602,17 +599,17 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                   class="public-registration__exam-session-details"
                 >
                   <dt
-                    class="MuiTypography-root MuiTypography-label css-z2uw0f-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                   >
                     partialExams
                   </dt>
                   <dd
-                    class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
                   >
                     yki.component.registration.examSessionCard.examType.full
                   </dd>
                   <dt
-                    class="MuiTypography-root MuiTypography-label css-z2uw0f-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                   >
                     testFormat
                   </dt>
@@ -650,65 +647,67 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                     examDate
                   </dt>
                   <dd
-                    class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
                   >
                     4/6/2019
                   </dd>
                   <dt
-                    class="MuiTypography-root MuiTypography-label css-z2uw0f-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                   >
                     institution
                   </dt>
                   <dd
-                    class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
                   >
                     Amiedu, Jokukatu 4, Tampere
                   </dd>
                   <dt
-                    class="MuiTypography-root MuiTypography-label css-z2uw0f-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                   >
                     registrationTime
                   </dt>
                   <dd
-                    class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
                   >
                     2/1/2019 klo 10.00 - 2/28/2039 klo 16.00
                   </dd>
                   <dt
-                    class="MuiTypography-root MuiTypography-label css-z2uw0f-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                   >
                     examFee
                   </dt>
                   <dd
-                    class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
                   >
                     176 €
                   </dd>
                   <dt
-                    class="MuiTypography-root MuiTypography-label css-z2uw0f-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                   >
                     openings
                   </dt>
                   <dd
-                    class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
                   >
                     20
                   </dd>
                 </dl>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
-              />
+                class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
+              >
+                registrationIsBindingAdvisory
+              </p>
               <div
                 class="gapped rows"
               >
                 <h2
-                  class="MuiTypography-root MuiTypography-h2 css-o2za6n-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-h2 css-f5bj0c-MuiTypography-root"
                 >
                   selectIdentificationMethod
                 </h2>
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
                 >
                   caption
                 </p>
@@ -716,18 +715,18 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                   class="rows"
                 >
                   <h3
-                    class="MuiTypography-root MuiTypography-h3 css-13msox4-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-h3 css-3jfbde-MuiTypography-root"
                   >
                     withFinnishSSN.description
                   </h3>
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
                   >
                     withFinnishSSN.info
                   </p>
                 </div>
                 <a
-                  class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-colorSecondary public-registration__grid__form-container__registration-button css-r1ewpe-MuiButtonBase-root-MuiButton-root"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-colorSecondary MuiButton-disableElevation public-registration__grid__form-container__registration-button css-1h6nvek-MuiButtonBase-root-MuiButton-root"
                   href="/yki/auth/?examSessionId=11&toQueue=false&registrationId=123"
                   tabindex="0"
                 >
@@ -738,7 +737,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-v9aqz4-MuiSvgIcon-root"
                     data-testid="ExpandMoreIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
@@ -754,7 +753,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                     id="public-registration--email-link-order__reveal-btn"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
                     >
                       withoutFinnishSSN.description
                     </p>
@@ -767,7 +766,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                   role="region"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
                   >
                     withoutFinnishSSN.info
                   </p>
@@ -775,34 +774,30 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                     class="columns gapped align-items-end"
                   >
                     <div
-                      class="rows"
+                      class="MuiFormControl-root public-registration__grid__form-container__registration-text-field css-1iw3t7y-MuiFormControl-root"
                     >
                       <label
-                        for="email-identification__email-input"
+                        class="MuiFormLabel-root MuiFormLabel-colorPrimary css-1g0jfx8-MuiFormLabel-root"
+                        id="OphFormFieldWrapper-:r2:-label"
                       >
-                        <p
-                          class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
-                        >
-                          <b>
-                            label
-                          </b>
-                        </p>
+                        label
                       </label>
                       <p
-                        class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                        class="MuiFormHelperText-root MuiFormHelperText-sizeSmall MuiFormHelperText-contained css-f22tlf-MuiFormHelperText-root"
                       >
                         placeholder
                       </p>
                       <div
-                        class="MuiFormControl-root MuiTextField-root public-registration__grid__form-container__registration-text-field css-1xp5r68-MuiFormControl-root-MuiTextField-root"
+                        class="MuiFormControl-root MuiTextField-root css-1xp5r68-MuiFormControl-root-MuiTextField-root"
                       >
                         <div
-                          class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-quhxjy-MuiInputBase-root-MuiOutlinedInput-root"
+                          class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall css-yi29u8-MuiInputBase-root-MuiOutlinedInput-root"
                         >
                           <input
                             aria-invalid="false"
+                            aria-labelledby="OphFormFieldWrapper-:r2:-label"
                             autocomplete="email"
-                            class="MuiInputBase-input MuiOutlinedInput-input css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
+                            class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-196v6a8-MuiInputBase-input-MuiOutlinedInput-input"
                             id="email-identification__email-input"
                             type="email"
                             value=""
@@ -829,7 +824,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                       class="rows"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary public-registration__grid__form-container__registration-button css-1mns5ui-MuiButtonBase-root-MuiButton-root"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation public-registration__grid__form-container__registration-button css-186xawm-MuiButtonBase-root-MuiButton-root"
                         tabindex="0"
                         type="button"
                       >
@@ -851,7 +846,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                       href="/yki/ilmoittautuminen"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary css-1xj59sp-MuiButtonBase-root-MuiButton-root"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary MuiButton-disableElevation css-kmg9ev-MuiButtonBase-root-MuiButton-root"
                         data-testid="public-registration__controlButtons__abort"
                         tabindex="0"
                         type="button"

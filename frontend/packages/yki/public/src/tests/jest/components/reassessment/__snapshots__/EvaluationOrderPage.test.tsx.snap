@@ -12,25 +12,22 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
         class="MuiGrid-root MuiGrid-direction-xs-row public-evaluation-order-page__grid-container__item-header css-17fpwt7-MuiGrid-root"
       >
         <h1
-          class="MuiTypography-root MuiTypography-h1 public-evaluation-order-page__title-heading css-10l7o3s-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-h1 public-evaluation-order-page__title-heading css-cihc9m-MuiTypography-root"
         >
           Pyydä tarkistusarviointia
         </h1>
-        <div
-          class="header-separator MuiBox-root css-0"
-        />
       </div>
       <div
         class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 public-evaluation-order-page__order-form css-1gtchvp-MuiPaper-root"
         style="--Paper-shadow: 0px 3px 3px -2px rgba(0,0,0,0.2),0px 3px 4px 0px rgba(0,0,0,0.14),0px 1px 8px 0px rgba(0,0,0,0.12); border-top: 5px solid #378703;"
       >
         <p
-          class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
         >
           Pyydä tarkistusarviointia seuraavasta tutkinnosta:
         </p>
         <p
-          class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
         >
           Tutkinto
           :
@@ -47,12 +44,12 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
           </b>
         </p>
         <p
-          class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
         >
           Tähdellä (*) merkityt osiot ovat pakollisia.
         </p>
         <h2
-          class="MuiTypography-root MuiTypography-h2 css-o2za6n-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-h2 css-f5bj0c-MuiTypography-root"
         >
           Valitse osakokeet
         </h2>
@@ -60,12 +57,12 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
           class="MuiFormControl-root css-1iw3t7y-MuiFormControl-root"
         >
           <legend
-            class="MuiTypography-root MuiTypography-h3 css-13msox4-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-h3 css-3jfbde-MuiTypography-root"
           >
             Valitse ne osakokeet, joista haluat pyytää tarkistusarviointia *
           </legend>
           <p
-            class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
           >
             Valitse vähintään yksi osakoe
           </p>
@@ -73,10 +70,10 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
             class="MuiFormGroup-root css-1mac7pt-MuiFormGroup-root"
           >
             <label
-              class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-8bmabj-MuiFormControlLabel-root"
+              class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-7k7q9r-MuiFormControlLabel-root"
             >
               <span
-                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-vuhw6e-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
+                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-2q583l-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
               >
                 <input
                   class="PrivateSwitchBase-input css-12xagqm-MuiSwitchBase-root"
@@ -85,7 +82,7 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
                 />
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-v9aqz4-MuiSvgIcon-root"
                   data-testid="CheckBoxOutlineBlankIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
@@ -96,16 +93,16 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
                 </svg>
               </span>
               <span
-                class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-rizt0-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-knyw76-MuiTypography-root"
               >
                 Tekstin ymmärtäminen 108 €
               </span>
             </label>
             <label
-              class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-8bmabj-MuiFormControlLabel-root"
+              class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-7k7q9r-MuiFormControlLabel-root"
             >
               <span
-                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-vuhw6e-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
+                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-2q583l-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
               >
                 <input
                   class="PrivateSwitchBase-input css-12xagqm-MuiSwitchBase-root"
@@ -114,7 +111,7 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
                 />
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-v9aqz4-MuiSvgIcon-root"
                   data-testid="CheckBoxOutlineBlankIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
@@ -125,16 +122,16 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
                 </svg>
               </span>
               <span
-                class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-rizt0-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-knyw76-MuiTypography-root"
               >
                 Puheen ymmärtäminen 108 €
               </span>
             </label>
             <label
-              class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-8bmabj-MuiFormControlLabel-root"
+              class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-7k7q9r-MuiFormControlLabel-root"
             >
               <span
-                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-vuhw6e-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
+                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-2q583l-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
               >
                 <input
                   class="PrivateSwitchBase-input css-12xagqm-MuiSwitchBase-root"
@@ -143,7 +140,7 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
                 />
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-v9aqz4-MuiSvgIcon-root"
                   data-testid="CheckBoxOutlineBlankIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
@@ -154,16 +151,16 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
                 </svg>
               </span>
               <span
-                class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-rizt0-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-knyw76-MuiTypography-root"
               >
                 Kirjoittaminen 108 €
               </span>
             </label>
             <label
-              class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-8bmabj-MuiFormControlLabel-root"
+              class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-7k7q9r-MuiFormControlLabel-root"
             >
               <span
-                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-vuhw6e-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
+                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-2q583l-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
               >
                 <input
                   class="PrivateSwitchBase-input css-12xagqm-MuiSwitchBase-root"
@@ -172,7 +169,7 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
                 />
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-v9aqz4-MuiSvgIcon-root"
                   data-testid="CheckBoxOutlineBlankIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
@@ -183,7 +180,7 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
                 </svg>
               </span>
               <span
-                class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-rizt0-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-knyw76-MuiTypography-root"
               >
                 Puhuminen 108 €
               </span>
@@ -191,7 +188,7 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
           </div>
         </fieldset>
         <p
-          class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
         >
           Tarkistusarvioinnin hinta yhteensä
           : 
@@ -201,17 +198,17 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
           </b>
         </p>
         <p
-          class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
         >
           Jos osakokeen arviointi muuttuu tarkistusarvioinnissa, palautamme tarkistusarviointimaksun.
         </p>
         <h2
-          class="MuiTypography-root MuiTypography-h2 css-o2za6n-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-h2 css-f5bj0c-MuiTypography-root"
         >
           Osallistujan tiedot
         </h2>
         <p
-          class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
         >
           Täytä alle sen osallistujan tiedot, joka hakee tarkistusarviointia.
         </p>
@@ -219,28 +216,24 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
           class="public-evaluation-order-page__order-form__participant-details-grid"
         >
           <div
-            class="rows"
+            class="MuiFormControl-root css-1iw3t7y-MuiFormControl-root"
           >
             <label
-              for="public-evaluation-order-form__field__firstNames"
+              class="MuiFormLabel-root MuiFormLabel-colorPrimary css-1g0jfx8-MuiFormLabel-root"
+              id="OphFormFieldWrapper-:r1:-label"
             >
-              <p
-                class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
-              >
-                <b>
-                  Etunimet *
-                </b>
-              </p>
+              Etunimet *
             </label>
             <div
               class="MuiFormControl-root MuiTextField-root css-1xp5r68-MuiFormControl-root-MuiTextField-root"
             >
               <div
-                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-quhxjy-MuiInputBase-root-MuiOutlinedInput-root"
+                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall css-yi29u8-MuiInputBase-root-MuiOutlinedInput-root"
               >
                 <input
                   aria-invalid="false"
-                  class="MuiInputBase-input MuiOutlinedInput-input css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
+                  aria-labelledby="OphFormFieldWrapper-:r1:-label"
+                  class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-196v6a8-MuiInputBase-input-MuiOutlinedInput-input"
                   id="public-evaluation-order-form__field__firstNames"
                   type="text"
                   value=""
@@ -264,28 +257,24 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
             </div>
           </div>
           <div
-            class="rows"
+            class="MuiFormControl-root css-1iw3t7y-MuiFormControl-root"
           >
             <label
-              for="public-evaluation-order-form__field__lastName"
+              class="MuiFormLabel-root MuiFormLabel-colorPrimary css-1g0jfx8-MuiFormLabel-root"
+              id="OphFormFieldWrapper-:r3:-label"
             >
-              <p
-                class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
-              >
-                <b>
-                  Sukunimi *
-                </b>
-              </p>
+              Sukunimi *
             </label>
             <div
               class="MuiFormControl-root MuiTextField-root css-1xp5r68-MuiFormControl-root-MuiTextField-root"
             >
               <div
-                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-quhxjy-MuiInputBase-root-MuiOutlinedInput-root"
+                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall css-yi29u8-MuiInputBase-root-MuiOutlinedInput-root"
               >
                 <input
                   aria-invalid="false"
-                  class="MuiInputBase-input MuiOutlinedInput-input css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
+                  aria-labelledby="OphFormFieldWrapper-:r3:-label"
+                  class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-196v6a8-MuiInputBase-input-MuiOutlinedInput-input"
                   id="public-evaluation-order-form__field__lastName"
                   type="text"
                   value=""
@@ -309,21 +298,16 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
             </div>
           </div>
           <div
-            class="rows"
+            class="MuiFormControl-root css-1iw3t7y-MuiFormControl-root"
           >
             <label
-              for="public-evaluation-order-form__field__birthdate"
+              class="MuiFormLabel-root MuiFormLabel-colorPrimary css-1g0jfx8-MuiFormLabel-root"
+              id="OphFormFieldWrapper-:r5:-label"
             >
-              <p
-                class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
-              >
-                <b>
-                  Syntymäaika *
-                </b>
-              </p>
+              Syntymäaika *
             </label>
             <p
-              class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+              class="MuiFormHelperText-root MuiFormHelperText-sizeSmall MuiFormHelperText-contained css-f22tlf-MuiFormHelperText-root"
             >
               Kirjoita muodossa pp.kk.vvvv
             </p>
@@ -331,11 +315,12 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
               class="MuiFormControl-root MuiTextField-root css-1xp5r68-MuiFormControl-root-MuiTextField-root"
             >
               <div
-                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-quhxjy-MuiInputBase-root-MuiOutlinedInput-root"
+                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall css-yi29u8-MuiInputBase-root-MuiOutlinedInput-root"
               >
                 <input
                   aria-invalid="false"
-                  class="MuiInputBase-input MuiOutlinedInput-input css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
+                  aria-labelledby="OphFormFieldWrapper-:r5:-label"
+                  class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-196v6a8-MuiInputBase-input-MuiOutlinedInput-input"
                   id="public-evaluation-order-form__field__birthdate"
                   type="text"
                   value=""
@@ -359,21 +344,16 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
             </div>
           </div>
           <div
-            class="rows"
+            class="MuiFormControl-root css-1iw3t7y-MuiFormControl-root"
           >
             <label
-              for="public-evaluation-order-form__field__email"
+              class="MuiFormLabel-root MuiFormLabel-colorPrimary css-1g0jfx8-MuiFormLabel-root"
+              id="OphFormFieldWrapper-:r7:-label"
             >
-              <p
-                class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
-              >
-                <b>
-                  Sähköpostiosoite *
-                </b>
-              </p>
+              Sähköpostiosoite *
             </label>
             <p
-              class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+              class="MuiFormHelperText-root MuiFormHelperText-sizeSmall MuiFormHelperText-contained css-f22tlf-MuiFormHelperText-root"
             >
               Esim. nimi@sahkoposti.fi
             </p>
@@ -381,11 +361,12 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
               class="MuiFormControl-root MuiTextField-root css-1xp5r68-MuiFormControl-root-MuiTextField-root"
             >
               <div
-                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-quhxjy-MuiInputBase-root-MuiOutlinedInput-root"
+                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall css-yi29u8-MuiInputBase-root-MuiOutlinedInput-root"
               >
                 <input
                   aria-invalid="false"
-                  class="MuiInputBase-input MuiOutlinedInput-input css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
+                  aria-labelledby="OphFormFieldWrapper-:r7:-label"
+                  class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-196v6a8-MuiInputBase-input-MuiOutlinedInput-input"
                   id="public-evaluation-order-form__field__email"
                   type="text"
                   value=""
@@ -410,13 +391,13 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
           </div>
         </div>
         <h2
-          class="MuiTypography-root MuiTypography-h2 css-o2za6n-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-h2 css-f5bj0c-MuiTypography-root"
         >
           Henkilötietojen käsittelyn ehdot
         </h2>
         <div>
           <p
-            class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
           >
             Noudatamme henkilötietojen käsittelyssä EU:n yleistä tietosuoja-asetusta.
             <br />
@@ -426,19 +407,19 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
             class="columns gapped-xxs"
           >
             <a
-              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1orsvah-MuiTypography-root-MuiLink-root"
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-16vyb40-MuiTypography-root-MuiLink-root"
               href="https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki/ilmoittautuminen-yki-testiin#anchor-tietoa-henkilotietojen-kasittelysta"
               target="_blank"
             >
               <p
-                class="MuiTypography-root MuiTypography-body1 css-1bgbmvw-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-13n9sr-MuiTypography-root"
               >
                 Tietoa henkilötietojen käsittelystä (oph.fi)
               </p>
             </a>
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-v9aqz4-MuiSvgIcon-root"
               data-testid="OpenInNewIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -453,10 +434,10 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
           class="MuiFormControl-root css-1iw3t7y-MuiFormControl-root"
         >
           <label
-            class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-8bmabj-MuiFormControlLabel-root"
+            class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-7k7q9r-MuiFormControlLabel-root"
           >
             <span
-              class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-vuhw6e-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
+              class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-2q583l-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
             >
               <input
                 class="PrivateSwitchBase-input css-12xagqm-MuiSwitchBase-root"
@@ -465,7 +446,7 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
               />
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-v9aqz4-MuiSvgIcon-root"
                 data-testid="CheckBoxOutlineBlankIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -476,7 +457,7 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
               </svg>
             </span>
             <span
-              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-rizt0-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-knyw76-MuiTypography-root"
             >
               Hyväksyn henkilötietojeni käsittelyn *
             </span>
@@ -537,14 +518,14 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
           class="public-evaluation-order-page__order-form__action-buttons gapped-xs"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary css-1mns5ui-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation css-186xawm-MuiButtonBase-root-MuiButton-root"
             tabindex="0"
             type="button"
           >
             Siirry maksamaan
           </button>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary css-1xj59sp-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary MuiButton-disableElevation css-kmg9ev-MuiButtonBase-root-MuiButton-root"
             tabindex="0"
             type="button"
           >
