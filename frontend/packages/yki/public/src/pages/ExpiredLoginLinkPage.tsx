@@ -76,7 +76,9 @@ export const ExpiredLoginLinkPage: FC = () => {
                 </LoadingProgressIndicator>
               )}
               {status == APIResponseStatus.Success && (
-                <Text className="bold">{t('reply')}</Text>
+                <Text>
+                  <strong>{t('reply')}</strong>
+                </Text>
               )}
               <Text>{t('part2')}</Text>
             </Box>

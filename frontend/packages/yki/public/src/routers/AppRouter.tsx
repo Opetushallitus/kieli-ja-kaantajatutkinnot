@@ -77,7 +77,7 @@ const UserPortalSubPage = ({ title, children }: TitlePageProps) => {
             to={AppRoutes.UserDetails}
             startIcon={<ArrowBackIcon />}
             variant={Variant.Text}
-            className="color-text-primary"
+            sx={{ color: 'text.primary' }}
           >
             {translateCommon('back')}
           </CustomButtonLink>

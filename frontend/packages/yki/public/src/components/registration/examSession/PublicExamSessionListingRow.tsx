@@ -215,7 +215,7 @@ const PublicExamSessionListingCellsForPhone = ({
             <Typography variant="h3" component="h5" className="display-none">
               {translateCommon('actions')}
             </Typography>
-            <Text className="centered uppercase">
+            <Text sx={{ textAlign: 'center', textTransform: 'uppercase' }}>
               <RegistrationUnavailableText examSession={examSession} />
             </Text>
           </>

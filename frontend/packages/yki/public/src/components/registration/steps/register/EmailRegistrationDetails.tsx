@@ -15,7 +15,7 @@ import { useWindowProperties } from 'shared/hooks';
 import { LabeledComboBox, LabeledTextField } from 'shared/ods-components';
 
 import { AddressDetails } from 'components/registration/steps/register/AddressDetails';
-import { Text } from 'components/Text';
+import { Label } from 'components/Text';
 import {
   getCurrentLang,
   useCommonTranslation,
@@ -285,9 +285,7 @@ export const EmailRegistrationDetails = ({
       </div>
       <fieldset className="registration-details__radio-group">
         <legend>
-          <Text>
-            <b>{t('finnishSSN')}</b>
-          </Text>
+          <Label>{t('finnishSSN')}</Label>
         </legend>
         <FormControl error={showErrors && !!registrationErrors['hasSSN']}>
           <RadioGroup
