@@ -1,5 +1,4 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { OphThemeProvider } from '@opetushallitus/oph-design-system/theme';
 import { FC, useEffect } from 'react';
 import {
   createBrowserRouter,
@@ -23,7 +22,7 @@ import { useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, RegistrationKind } from 'enums/app';
 import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
-import { publicTheme } from 'ophTheme/OphTheme';
+import { YkiThemeProvider } from 'ophTheme/YkiThemeProvider';
 import { AccessibilityStatementPage } from 'pages/AccessibilityStatementPage';
 import { ConfirmRegistrationPage } from 'pages/ConfirmRegistrationPage';
 import { EvaluationOrderPage } from 'pages/EvaluationOrderPage';
@@ -102,7 +101,7 @@ export const AppRouter: FC = () => {
   const Root = (
     <div className="app">
       <NotifierContextProvider>
-        <OphThemeProvider lang="fi" variant="oph" overrides={publicTheme}>
+        <YkiThemeProvider>
           <Header />
           <ErrorToast />
           <Notifier />
@@ -113,7 +112,7 @@ export const AppRouter: FC = () => {
             </div>
           </main>
           {<NewYkiFooter />}
-        </OphThemeProvider>
+        </YkiThemeProvider>
       </NotifierContextProvider>
     </div>
   );
