@@ -24,7 +24,7 @@ exports[`EvaluationOrderStatusPage should render view correctly on cancelled pay
         Voit yrittää maksua uudestaan. Käsittelemme vain maksetut tarkistusarviointipyynnöt.
       </p>
       <a
-        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation fit-content-max-width css-186xawm-MuiButtonBase-root-MuiButton-root"
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation fit-content-max-width css-ytzezv-MuiButtonBase-root-MuiButton-root"
         href="/yki/ilmoittautuminen"
         tabindex="0"
       >
@@ -59,7 +59,7 @@ exports[`EvaluationOrderStatusPage should render view correctly on payment error
         Tarkistusarviointimaksun maksaminen ei onnistunut. Yritä maksua uudestaan.
       </p>
       <a
-        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation fit-content-max-width css-186xawm-MuiButtonBase-root-MuiButton-root"
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation fit-content-max-width css-ytzezv-MuiButtonBase-root-MuiButton-root"
         href="/yki/ilmoittautuminen"
         tabindex="0"
       >
@@ -116,7 +116,7 @@ exports[`EvaluationOrderStatusPage should render view correctly on successful pa
         Sinulle on lähetetty vahvistus tarkistusarviointipyynnöstäsi sähköpostilla. Sähköpostissa on myös kuitti tarkistusarviointimaksustasi. Jos et ole saanut viestiä, tarkista roskapostikansiosi.
       </p>
       <a
-        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation fit-content-max-width css-186xawm-MuiButtonBase-root-MuiButton-root"
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation fit-content-max-width css-ytzezv-MuiButtonBase-root-MuiButton-root"
         href="/yki/ilmoittautuminen"
         tabindex="0"
       >

@@ -1,3 +1,10 @@
+:root {
+  font-family: 'Open Sans', sans-serif;
+  // Legacy YKI layouts use rem units based on 10px. Keep the root consistent
+  // across breakpoints and in sync with the theme's htmlFontSize.
+  font-size: 62.5%;
+}
+
 html {
   overflow-y: scroll;
 }

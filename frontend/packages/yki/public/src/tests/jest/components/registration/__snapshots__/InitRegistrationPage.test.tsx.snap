@@ -139,7 +139,7 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
                 upcoming.description
               </p>
               <a
-                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation fit-content-max-width css-186xawm-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation fit-content-max-width css-ytzezv-MuiButtonBase-root-MuiButton-root"
                 href="/yki/ilmoittautuminen"
                 tabindex="0"
               >
@@ -303,7 +303,7 @@ exports[`InitRegistrationPage should not let user proceed if registration period
                 past.description
               </p>
               <a
-                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation fit-content-max-width css-186xawm-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation fit-content-max-width css-ytzezv-MuiButtonBase-root-MuiButton-root"
                 href="/yki/ilmoittautuminen"
                 tabindex="0"
               >
@@ -726,7 +726,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                   </p>
                 </div>
                 <a
-                  class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-colorSecondary MuiButton-disableElevation public-registration__grid__form-container__registration-button css-1h6nvek-MuiButtonBase-root-MuiButton-root"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-colorSecondary MuiButton-disableElevation public-registration__grid__form-container__registration-button css-1knu9tb-MuiButtonBase-root-MuiButton-root"
                   href="/yki/auth/?examSessionId=11&toQueue=false&registrationId=123"
                   tabindex="0"
                 >
@@ -824,7 +824,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                       class="rows"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation public-registration__grid__form-container__registration-button css-186xawm-MuiButtonBase-root-MuiButton-root"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation public-registration__grid__form-container__registration-button css-ytzezv-MuiButtonBase-root-MuiButton-root"
                         tabindex="0"
                         type="button"
                       >
@@ -846,7 +846,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                       href="/yki/ilmoittautuminen"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary MuiButton-disableElevation css-kmg9ev-MuiButtonBase-root-MuiButton-root"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary MuiButton-disableElevation css-1n191nf-MuiButtonBase-root-MuiButton-root"
                         data-testid="public-registration__controlButtons__abort"
                         tabindex="0"
                         type="button"

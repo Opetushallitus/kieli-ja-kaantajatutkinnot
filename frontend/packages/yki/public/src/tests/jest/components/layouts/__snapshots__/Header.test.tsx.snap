@@ -50,7 +50,7 @@ exports[`Header should render Header correctly 1`] = `
         Susanna Uusivälimerkki
       </p>
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation session-header__logout-button css-7lftle-MuiButtonBase-root-MuiButton-root"
+        class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation session-header__logout-button css-1hzh7ed-MuiButtonBase-root-MuiButton-root"
         tabindex="0"
         type="button"
       >
@@ -110,7 +110,7 @@ exports[`Header should render Header correctly 1`] = `
           </svg>
           <button
             aria-current="true"
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButton-disableElevation css-16963ct-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButton-disableElevation css-12o18a4-MuiButtonBase-root-MuiButton-root"
             lang="fi-FI"
             tabindex="0"
             type="button"
@@ -124,7 +124,7 @@ exports[`Header should render Header correctly 1`] = `
             role="separator"
           />
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButton-disableElevation css-1g8mvk-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButton-disableElevation css-1cvh7eu-MuiButtonBase-root-MuiButton-root"
             lang="sv-SE"
             tabindex="0"
             type="button"
@@ -138,7 +138,7 @@ exports[`Header should render Header correctly 1`] = `
             role="separator"
           />
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButton-disableElevation css-1g8mvk-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButton-disableElevation css-1cvh7eu-MuiButtonBase-root-MuiButton-root"
             lang="en-GB"
             tabindex="0"
             type="button"
@@ -222,7 +222,7 @@ exports[`Header should render Header correctly 1`] = `
           </p>
           <button
             aria-label="buttonAriaLabel"
-            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation cookie-banner__content__accept-button css-186xawm-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation cookie-banner__content__accept-button css-ytzezv-MuiButtonBase-root-MuiButton-root"
             data-testid="cookie-banner-accept-button"
             tabindex="0"
             type="button"

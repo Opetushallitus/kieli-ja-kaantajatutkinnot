@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.17.1] - 2026-10-07
+
+### Changed
+
+- YKI public style entry no longer imports the legacy Roboto root and desktop font-size reduction; the consuming app owns root typography.
+
 ## [1.17.0] - 2026-10-07
 
 ### Added
