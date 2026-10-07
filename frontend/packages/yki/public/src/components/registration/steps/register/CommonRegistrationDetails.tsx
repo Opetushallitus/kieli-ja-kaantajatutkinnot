@@ -13,7 +13,7 @@ import { useWindowProperties } from 'shared/hooks';
 
 import { SuomiFiLink } from 'components/elements/SuomiFiLink';
 import { ExamFee } from 'components/registration/steps/register/ExamFee';
-import { H2, H3, Text } from 'components/Text';
+import { H2, H3, Label, Text } from 'components/Text';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import {
@@ -134,9 +134,7 @@ export const CommonRegistrationDetails = () => {
       {hideInstructionLanguageSelection ? null : (
         <fieldset className="registration-details__radio-group">
           <legend>
-            <Text>
-              <b>{t('instructionLanguage')}</b>
-            </Text>
+            <Label>{t('instructionLanguage')}</Label>
           </legend>
           <FormControl
             error={showErrors && !!registrationErrors['instructionLanguage']}
@@ -251,9 +249,7 @@ export const CommonRegistrationDetails = () => {
       </Text>
       <fieldset className="registration-details__radio-group">
         <legend>
-          <Text>
-            <b>{t('certificateLanguage')}</b>
-          </Text>
+          <Label>{t('certificateLanguage')}</Label>
         </legend>
         <FormControl
           error={showErrors && !!registrationErrors['certificateLanguage']}
