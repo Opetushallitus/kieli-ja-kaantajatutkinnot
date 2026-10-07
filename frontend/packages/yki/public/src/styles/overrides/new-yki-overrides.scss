@@ -34,14 +34,6 @@ a {
   }
 }
 
-.custom-fileupload {
-  .file-dropzone {
-    border-top: 1px dashed $color-secondary;
-    border-right: 1px dashed $color-secondary;
-    border-bottom: 1px dashed $color-secondary;
-  }
-}
-
 .header {
   &__language-select {
     margin-right: 6rem;
@@ -63,15 +55,6 @@ a {
 
   button:hover {
     color: $color-grey-400;
-  }
-}
-
-.navigation-menu-contents {
-  li.active {
-    p {
-      color: $color-secondary;
-    }
-    border-left: 2px solid $color-secondary;
   }
 }
 
