@@ -19,10 +19,6 @@
 @import 'components/registration/public-registration-exam-session-details';
 @import 'components/registration/mobile-app-bar';
 @import 'components/userDetails/cancel-registration-modal';
-@import 'components/freeRegistration/free-registration';
-@import 'components/freeRegistrationListing/free-registration-listing';
-@import 'components/freeRegistrationDetails/free-registration-details';
-@import 'components/modifyAgreementModal/modify-agreement-modal';
 
 // Pages
 @import 'pages/accessibility-statement-page';
@@ -36,6 +32,4 @@
 @import 'pages/modify-contact-details-page';
 @import 'pages/registration-page';
 @import 'pages/registration-payment-status-page';
-@import 'pages/transfer-registration-page';
-@import 'pages/transfer-registration-success-page';
 @import 'pages/confirm-registration-page';
