@@ -67,3 +67,11 @@ body,
     flex: 1;
   }
 }
+
+a {
+  color: $color-text-primary;
+}
+
+.init-spinner {
+  --init-spinner-color: #{$color-secondary};
+}
