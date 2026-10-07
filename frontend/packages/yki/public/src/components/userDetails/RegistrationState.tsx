@@ -2,8 +2,8 @@ import AlarmOutlinedIcon from '@mui/icons-material/AlarmOutlined';
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import NotInterestedIcon from '@mui/icons-material/NotInterested';
 import SchoolIcon from '@mui/icons-material/School';
-import { Text } from 'shared/components';
 
+import { Label, Text } from 'components/Text';
 import { usePublicTranslation } from 'configs/i18n';
 import {
   EvaluationState,
@@ -78,7 +78,7 @@ export const RegistrationState = ({
 
   return (
     <div>
-      <Text className="bold">{t('label')}</Text>
+      <Label>{t('label')}</Label>
       <div className="columns gapped-xxs">
         {hasEvaluation && <EvaluationStateInfo state={evaluationState} />}
         {!hasEvaluation && isEnrolled && (

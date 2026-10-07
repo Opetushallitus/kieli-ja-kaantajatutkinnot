@@ -11,7 +11,7 @@ import { CustomButton, CustomButtonLink } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
-import { H1, H2, H3, Text } from 'components/Text';
+import { H1, H2, H3, Label, Text } from 'components/Text';
 import { CancelRegistrationModal } from 'components/userDetails/CancelRegistrationModal';
 import { RegistrationDetails } from 'components/userDetails/RegistrationDetails';
 import { RegistrationState } from 'components/userDetails/RegistrationState';
@@ -126,7 +126,7 @@ const ExamPayment = ({
   if (isFreeRegistration) {
     return (
       <div>
-        <Text className="bold">{t('label')}</Text>
+        <Label>{t('label')}</Label>
         <div className="columns gapped-xxs">
           <CheckCircleOutlinedIcon className="user-details-page__icon--ok" />{' '}
           <Text>{t('free')}</Text>
@@ -137,7 +137,7 @@ const ExamPayment = ({
 
   return (
     <div>
-      <Text className="bold">{t('label')}</Text>
+      <Label>{t('label')}</Label>
       {paidAt && (
         <div className="columns gapped-xxs">
           <CheckCircleOutlinedIcon className="user-details-page__icon--ok" />{' '}
