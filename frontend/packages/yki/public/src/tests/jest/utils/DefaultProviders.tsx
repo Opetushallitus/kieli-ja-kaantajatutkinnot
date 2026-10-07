@@ -8,6 +8,7 @@ import {
 } from 'react-router';
 
 import { AppStore, RootState } from 'configs/redux';
+import { YkiThemeProvider } from 'ophTheme/YkiThemeProvider';
 import { setupStore } from 'redux/store';
 
 export const DefaultProviders = ({
@@ -26,7 +27,9 @@ export const DefaultProviders = ({
 
   return (
     <Provider store={store}>
-      <RouterProvider router={router} />
+      <YkiThemeProvider>
+        <RouterProvider router={router} />
+      </YkiThemeProvider>
     </Provider>
   );
 };
