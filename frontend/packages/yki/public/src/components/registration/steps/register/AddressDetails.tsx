@@ -101,7 +101,6 @@ export const AddressDetails = ({
           autoComplete={InputAutoComplete.Town}
           fullWidth
         />
-        {countryCodeDropdown}
       </>
     );
   } else {
