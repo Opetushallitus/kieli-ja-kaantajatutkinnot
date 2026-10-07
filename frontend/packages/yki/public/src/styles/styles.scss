@@ -1,8 +1,10 @@
 //Shared
 @import 'shared/yki-public-styles';
 
-// YKI Public overrides
-@import 'overrides/new-yki-overrides';
+// YKI theme tokens and legacy shared-component adapters
+@import 'base/colors';
+@import 'base/fonts';
+@import 'overrides/legacy-shared';
 
 // Base
 @import 'base/base';

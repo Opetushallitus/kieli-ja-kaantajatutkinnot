@@ -100,6 +100,7 @@
   }
 
   &__language-select {
+    margin-right: 6rem;
     @include desktop-xs-and-up {
       grid-area: language-select;
     }
