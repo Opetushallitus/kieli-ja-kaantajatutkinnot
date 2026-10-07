@@ -17,12 +17,6 @@
       background-color: $color-primary;
       padding: 2rem 0;
       order: 4;
-
-      .navigation-links {
-        p {
-          color: $color-text-primary;
-        }
-      }
     }
   }
 
@@ -64,13 +58,6 @@
     }
   }
 
-  &__logo button,
-  &__tabs button,
-  &__language-select button {
-    @include header-text;
-    color: $color-primary;
-  }
-
   &__logo {
     margin-right: 0;
     margin-left: 2rem;
@@ -106,16 +93,6 @@
   &__nav {
     background-color: $color-primary;
     padding-top: 1.5rem;
-
-    .navigation-links {
-      p {
-        color: $color-text-primary;
-      }
-
-      ul {
-        padding-inline-start: 0;
-      }
-    }
 
     @include desktop-xs-and-up {
       padding-inline-start: calc(24px + 8rem);
@@ -168,14 +145,7 @@
     }
 
     &__toolbar__mobile-lang-select {
-      .lang-selector {
-        background-color: transparent;
-
-        p,
-        svg {
-          color: $color-text-primary;
-        }
-      }
+      color: $color-text-primary;
     }
   }
 }

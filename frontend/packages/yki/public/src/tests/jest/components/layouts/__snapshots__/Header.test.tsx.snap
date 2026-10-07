@@ -3,17 +3,13 @@
 exports[`Header should render Header correctly 1`] = `
 <div>
   <a
-    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover skip-link css-16vyb40-MuiTypography-root-MuiLink-root"
+    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-1ic63ac-MuiTypography-root-MuiLink-root"
     href="#main-content"
   >
-    <p
-      class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
-    >
-      header.accessibility.continueToMain
-    </p>
+    header.accessibility.continueToMain
   </a>
   <header
-    class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionStatic header css-tx978e-MuiPaper-root-MuiAppBar-root"
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionStatic header css-witf12-MuiPaper-root-MuiAppBar-root"
     style="--Paper-shadow: none;"
   >
     <div
@@ -99,11 +95,11 @@ exports[`Header should render Header correctly 1`] = `
       >
         <nav
           aria-label="header.accessibility.langSelectorAriaLabel"
-          class="lang-selector"
+          class="MuiBox-root css-l5lf2z"
         >
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall lang-selector__icon css-agc4lg-MuiSvgIcon-root"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-agc4lg-MuiSvgIcon-root"
             data-testid="LanguageOutlinedIcon"
             focusable="false"
             viewBox="0 0 24 24"
@@ -114,56 +110,40 @@ exports[`Header should render Header correctly 1`] = `
           </svg>
           <button
             aria-current="true"
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-disableElevation css-9fzik8-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButton-disableElevation css-16963ct-MuiButtonBase-root-MuiButton-root"
             lang="fi-FI"
             tabindex="0"
             type="button"
           >
-            <p
-              class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
-            >
-              <b>
-                header.lang.fi
-              </b>
-            </p>
+            header.lang.fi
           </button>
           <div
             aria-hidden="true"
             aria-orientation="vertical"
-            class="MuiDivider-root MuiDivider-middle MuiDivider-vertical MuiDivider-flexItem css-1ck4b9x-MuiDivider-root"
+            class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-6llo6b-MuiDivider-root"
             role="separator"
           />
           <button
-            aria-current="false"
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-disableElevation css-9fzik8-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButton-disableElevation css-1g8mvk-MuiButtonBase-root-MuiButton-root"
             lang="sv-SE"
             tabindex="0"
             type="button"
           >
-            <p
-              class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
-            >
-              header.lang.sv
-            </p>
+            header.lang.sv
           </button>
           <div
             aria-hidden="true"
             aria-orientation="vertical"
-            class="MuiDivider-root MuiDivider-middle MuiDivider-vertical MuiDivider-flexItem css-1ck4b9x-MuiDivider-root"
+            class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-6llo6b-MuiDivider-root"
             role="separator"
           />
           <button
-            aria-current="false"
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-disableElevation css-9fzik8-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButton-disableElevation css-1g8mvk-MuiButtonBase-root-MuiButton-root"
             lang="en-GB"
             tabindex="0"
             type="button"
           >
-            <p
-              class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
-            >
-              header.lang.en
-            </p>
+            header.lang.en
           </button>
         </nav>
       </div>
@@ -173,46 +153,42 @@ exports[`Header should render Header correctly 1`] = `
     >
       <nav
         aria-label="header.accessibility.mainNavigation"
-        class="navigation-links"
+        class="MuiBox-root css-0"
       >
-        <ul>
-          <li>
+        <ul
+          class="MuiBox-root css-1h26j41"
+        >
+          <li
+            class="MuiBox-root css-16ctujp"
+          >
             <a
-              aria-current="false"
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-lvpufi-MuiTypography-root-MuiLink-root"
               data-discover="true"
               href="/yki/ilmoittautuminen"
             >
-              <p
-                class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
-              >
-                registration
-              </p>
+              registration
             </a>
           </li>
-          <li>
+          <li
+            class="MuiBox-root css-16ctujp"
+          >
             <a
-              aria-current="false"
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-lvpufi-MuiTypography-root-MuiLink-root"
               data-discover="true"
               href="/yki/kayttaja/tiedot"
             >
-              <p
-                class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
-              >
-                userRegistrations
-              </p>
+              userRegistrations
             </a>
           </li>
-          <li>
+          <li
+            class="MuiBox-root css-16ctujp"
+          >
             <a
-              aria-current="false"
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-lvpufi-MuiTypography-root-MuiLink-root"
               data-discover="true"
               href="/yki/tarkistusarviointi"
             >
-              <p
-                class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
-              >
-                reassessment
-              </p>
+              reassessment
             </a>
           </li>
         </ul>

@@ -1,8 +1,9 @@
 import { AppBar, Toolbar } from '@mui/material';
 import { Link } from 'react-router';
-import { CookieBanner, LangSelector, SkipLink } from 'shared/components';
+import { CookieBanner } from 'shared/components';
 import { AppLanguage } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
+import { LangSelector, SkipLink } from 'shared/ods-components';
 
 import { OPHLogoViewer } from 'components/elements/OPHLogoViewer';
 import { PublicNavigationLinks } from 'components/layouts/publicHeader/PublicNavigationLinks';

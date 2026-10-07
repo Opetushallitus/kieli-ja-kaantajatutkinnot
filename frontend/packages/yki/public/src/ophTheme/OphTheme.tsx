@@ -31,11 +31,6 @@ export const publicThemeOverrides: ComponentProps<
         root: {
           '--AppBar-background': brandColors.green,
           color: brandColors.white,
-          // Force nested text (Typography, links, buttons) to inherit the
-          // AppBar's white color instead of their own theme text colors.
-          '& *': {
-            color: 'inherit',
-          },
         },
       },
     },
