@@ -9,7 +9,7 @@ exports[`Header should render Header correctly 1`] = `
     header.accessibility.continueToMain
   </a>
   <header
-    class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionStatic header css-witf12-MuiPaper-root-MuiAppBar-root"
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionStatic header css-6vsveh-MuiPaper-root-MuiAppBar-root"
     style="--Paper-shadow: none;"
   >
     <div
@@ -50,7 +50,7 @@ exports[`Header should render Header correctly 1`] = `
         Susanna Uusivälimerkki
       </p>
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation session-header__logout-button css-1hzh7ed-MuiButtonBase-root-MuiButton-root"
+        class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation session-header__logout-button css-15duqzd-MuiButtonBase-root-MuiButton-root"
         tabindex="0"
         type="button"
       >
@@ -222,7 +222,7 @@ exports[`Header should render Header correctly 1`] = `
           </p>
           <button
             aria-label="buttonAriaLabel"
-            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation cookie-banner__content__accept-button css-ytzezv-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation cookie-banner__content__accept-button css-1djo6p2-MuiButtonBase-root-MuiButton-root"
             data-testid="cookie-banner-accept-button"
             tabindex="0"
             type="button"
