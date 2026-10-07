@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.17.0] - 2026-10-07
+
+### Added
+
+- ODS language selector, navigation links and skip link with theme-based styling, independent of legacy component stylesheets.
+
 ## [1.16.4] - 2026-10-07
 
 ### Changed
