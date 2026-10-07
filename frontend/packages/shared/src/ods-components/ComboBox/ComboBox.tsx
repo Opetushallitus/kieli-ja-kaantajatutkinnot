@@ -8,15 +8,12 @@ import {
   FilterOptionsState,
   FormControl,
   FormHelperText,
+  Select,
   TextField,
 } from '@mui/material';
 import { OphTypography } from '@opetushallitus/oph-design-system';
 import { useState } from 'react';
 
-import {
-  CustomNativeSelectProps,
-  NativeSelect,
-} from '../../components/NativeSelect/NativeSelect';
 import { useWindowProperties } from '../../hooks';
 import {
   AutoCompleteComboBox,
@@ -78,7 +75,6 @@ const NativeSelectOrComboBox = ({
   label,
   values,
   variant,
-  helperText,
   showError,
   onChange,
   placeholder,
@@ -95,22 +91,34 @@ const NativeSelectOrComboBox = ({
   };
 
   if (isPhone) {
-    const nativeSelectProps: CustomNativeSelectProps = {
-      placeholder: label || '',
-      values,
-      helperText,
-      showError,
-      value: rest.value || undefined,
-      disabled: rest.disabled,
-      'data-testid': rest['data-testid'],
-      variant: 'outlined',
-    };
-
     return (
-      <NativeSelect
-        {...nativeSelectProps}
-        onChange={(event) => onChange(event.target.value as string)}
-      />
+      <div onBlur={rest.onBlur} onFocus={rest.onFocus}>
+        <Select
+          native
+          id={rest.id}
+          value={rest.value?.value || ''}
+          disabled={rest.disabled}
+          error={showError}
+          variant="outlined"
+          fullWidth
+          className={rest.className}
+          sx={rest.sx}
+          inputProps={{
+            'aria-label': rest['aria-label'] || label,
+            'aria-labelledby': rest['aria-labelledby'],
+            'aria-describedby': rest['aria-describedby'],
+            'data-testid': rest['data-testid'],
+          }}
+          onChange={(event) => onChange(event.target.value || undefined)}
+        >
+          <option value="">{placeholder || label || ''}</option>
+          {values.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </Select>
+      </div>
     );
   }
 
@@ -194,7 +202,7 @@ export const ComboBox = ({
   ...rest
 }: ComboBoxProps & OdsAutoCompleteComboBox) => (
   <FormControl fullWidth error={showError}>
-    <NativeSelectOrComboBox {...rest} />
+    <NativeSelectOrComboBox showError={showError} {...rest} />
     {showError && <FormHelperText>{helperText}</FormHelperText>}
   </FormControl>
 );
@@ -215,7 +223,7 @@ export const LabeledComboBox = ({
           {label}
         </OphTypography>
       </label>
-      <NativeSelectOrComboBox id={id} {...rest} />
+      <NativeSelectOrComboBox id={id} showError={showError} {...rest} />
       {showError && <FormHelperText>{helperText}</FormHelperText>}
     </FormControl>
   );
