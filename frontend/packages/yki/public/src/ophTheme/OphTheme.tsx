@@ -2,12 +2,7 @@ import type { TypographyVariantsOptions } from '@mui/material/styles';
 import { OphThemeProvider } from '@opetushallitus/oph-design-system/theme';
 import { ComponentProps } from 'react';
 
-// Single source of truth for YKI public brand colors. Reference these tokens in
-// the overrides below; change a value here to update it everywhere at once.
-const brandColors = {
-  green: '#378703',
-  white: '#ffffff',
-};
+import { ykiColors, ykiColorVariables } from 'ophTheme/colors';
 
 export const publicThemeOverrides: ComponentProps<
   typeof OphThemeProvider
@@ -18,19 +13,23 @@ export const publicThemeOverrides: ComponentProps<
   // `label` typography variant required in TypographyVariantsOptions.
   typography: { htmlFontSize: 10 } as TypographyVariantsOptions,
   palette: {
-    // The oph base theme has no secondary color, so `color="secondary"`
-    // controls (buttons etc.) must get the YKI brand green here.
+    // Legacy button call sites use secondary for the public brand color.
     secondary: {
-      main: brandColors.green,
-      contrastText: brandColors.white,
+      main: ykiColors['color-secondary'],
+      contrastText: ykiColors['color-primary'],
     },
   },
   components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        ':root': ykiColorVariables,
+      },
+    },
     MuiAppBar: {
       styleOverrides: {
         root: {
-          '--AppBar-background': brandColors.green,
-          color: brandColors.white,
+          '--AppBar-background': ykiColors['color-secondary'],
+          color: ykiColors['color-primary'],
         },
       },
     },
