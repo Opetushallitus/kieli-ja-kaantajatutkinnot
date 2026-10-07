@@ -3,7 +3,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import InfoOutlineIcon from '@mui/icons-material/InfoOutline';
 import { Container } from '@mui/material';
 import { useCallback, useState } from 'react';
-import { CustomButton, LabeledTextField } from 'shared/components';
+import { CustomButton } from 'shared/components';
 import {
   Color,
   InputAutoComplete,
@@ -12,6 +12,7 @@ import {
   Variant,
 } from 'shared/enums';
 import { useDialog, useWindowProperties } from 'shared/hooks';
+import { LabeledTextField } from 'shared/ods-components';
 import { InputFieldUtils } from 'shared/utils';
 
 import { Text } from 'components/Text';
