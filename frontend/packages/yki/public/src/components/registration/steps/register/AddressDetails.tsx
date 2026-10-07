@@ -1,7 +1,10 @@
-import { LabeledTextField, LabeledTextFieldProps } from 'shared/components';
 import { InputAutoComplete, TextFieldVariant } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
-import { LabeledComboBox } from 'shared/ods-components';
+import {
+  LabeledComboBox,
+  LabeledTextField,
+  LabeledTextFieldProps,
+} from 'shared/ods-components';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
