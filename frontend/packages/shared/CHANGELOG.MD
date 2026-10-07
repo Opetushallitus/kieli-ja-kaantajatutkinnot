@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.16.3] - 2026-10-07
+
+### Changed
+
+- ODS LabeledTextField composes the ODS form wrapper and owns its layout without legacy Sass utilities.
+- Field layout props apply to the entire labeled field; existing validation and read-only inputs remain supported.
+
 ## [1.16.2] - 2026-10-07
 
 ### Fixed
