@@ -1,3 +1,4 @@
+import { alpha } from '@mui/material/styles';
 import { ophColors } from '@opetushallitus/oph-design-system';
 
 // Semantic aliases used by the theme and the existing YKI Sass styles.
@@ -5,6 +6,7 @@ export const ykiColors = {
   'color-primary': ophColors.white,
   'color-background': ophColors.white,
   'color-secondary': ophColors.green2,
+  'color-secondary-muted': alpha(ophColors.green2, 0.3),
   'color-secondary-dark': ophColors.green3,
   'ods-green-6': ophColors.green6,
   'color-text-primary': ophColors.grey900,
