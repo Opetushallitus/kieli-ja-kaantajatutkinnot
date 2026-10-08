@@ -198,6 +198,7 @@ public class RegistrationService {
                   )
                 );
               }
+              // Solki sends one exam result with all partial exams, so the result updates every partial exam registration.
               registrations
                 .stream()
                 .forEach(r -> {

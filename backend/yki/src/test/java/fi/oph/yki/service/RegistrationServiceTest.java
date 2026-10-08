@@ -26,8 +26,10 @@ import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
 import fi.oph.yki.model.RegistrationEvaluation;
 import fi.oph.yki.model.type.EvaluationState;
+import fi.oph.yki.model.type.ExamSessionType;
 import fi.oph.yki.model.type.FreeRegistrationSource;
 import fi.oph.yki.model.type.FreeRegistrationType;
+import fi.oph.yki.model.type.PartialExamType;
 import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.repository.FreeRegistrationRepository;
 import fi.oph.yki.repository.PersonRepository;
@@ -415,6 +417,57 @@ public class RegistrationServiceTest {
     assertEquals(1, response.hyvaksytyt());
     assertEquals(1, response.virheet().size());
     assertEquals(EvaluationStateError.SUORITUSTA_EI_LOYDY, response.virheet().get(0).virhe());
+  }
+
+  @Test
+  public void testUpsertEvaluationStatesUpdatesAllMatchingPartialExamRegistrations() {
+    final Person person = Factory.person();
+    final ExamDate examDate = Factory.examDate();
+    final ExamSession examSession = Factory.examSession(examDate);
+    examSession.setType(ExamSessionType.READ_SPEAK);
+
+    final Registration readRegistration = Factory.registration(person);
+    readRegistration.setExamSession(examSession);
+    readRegistration.setState(RegistrationState.COMPLETED);
+    readRegistration.setPartialExamType(PartialExamType.READ);
+
+    final Registration speakRegistration = Factory.registration(person);
+    speakRegistration.setExamSession(examSession);
+    speakRegistration.setState(RegistrationState.COMPLETED);
+    speakRegistration.setPartialExamType(PartialExamType.SPEAK);
+
+    entityManager.persist(person);
+    entityManager.persist(examDate);
+    entityManager.persist(examSession);
+    entityManager.persist(readRegistration);
+    entityManager.persist(speakRegistration);
+    entityManager.flush();
+    entityManager.clear();
+
+    final EvaluationStatesDTO dto = new EvaluationStatesDTO(
+      List.of(
+        new EvaluationStateDTO(
+          suoritus(person.getOid(), examDate.getExamDate(), "fin", "PT"),
+          KituEvaluationState.ARVIOITU
+        )
+      )
+    );
+
+    final EvaluationStatesResponseDTO response = registrationService.upsertRegistrationEvaluationStates(dto);
+
+    assertEquals(1, response.hyvaksytyt());
+    assertEquals(0, response.virheet().size());
+
+    final List<RegistrationEvaluation> saved = registrationEvaluationRepository.findAll();
+    assertEquals(2, saved.size());
+    for (final Registration registration : List.of(readRegistration, speakRegistration)) {
+      final RegistrationEvaluation evaluation = saved
+        .stream()
+        .filter(e -> e.getRegistration().getId() == registration.getId())
+        .findFirst()
+        .orElseThrow();
+      assertEquals(EvaluationState.EVALUATION_COMPLETE, evaluation.getState());
+    }
   }
 
   @Test
