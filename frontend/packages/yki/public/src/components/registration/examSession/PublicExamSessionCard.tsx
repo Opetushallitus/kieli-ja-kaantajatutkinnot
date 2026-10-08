@@ -4,6 +4,7 @@ import { Color, Variant } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 import { DateUtils } from 'shared/utils';
 
+import { ExamSessionFormat } from 'components/registration/examSession/ExamSessionFormat';
 import {
   getCurrentLang,
   useCommonTranslation,
@@ -110,37 +111,44 @@ const MetaField = ({
 
 const MobileExamRow = ({
   examTypeLabel,
-  examSessionFee,
   examSession,
+  partialExamType,
   availablePlacesText,
   action,
   t,
 }: {
   examTypeLabel: string;
-  examSessionFee: string;
   examSession: ExamSession;
+  partialExamType: PartialExamType;
   availablePlacesText: string;
   action: JSX.Element;
   t: ReturnType<typeof usePublicTranslation>['t'];
-}) => (
-  <div className="exam-session-card__mobile-exam-row">
-    <MetaField label={t('examSessionCard.exam')} value={examTypeLabel} />
-    {examSession.type !== 'FULL' && (
+}) => {
+  const examSessionFee = ExamSessionUtils.freeRegistrationPossible(examSession)
+    ? `0 / ${ExamSessionUtils.getPartialExamFee(examSession, partialExamType)} €`
+    : `${ExamSessionUtils.getPartialExamFee(examSession, partialExamType)} €`;
+
+  return (
+    <div className="exam-session-card__mobile-exam-row">
+      <MetaField label={t('examSessionCard.exam')} value={examTypeLabel} />
+      {examSession.type !== 'FULL' && (
+        <MetaField
+          label={t('examSessionCard.examStartTimeTitle')}
+          value={t('examSessionCard.examStartTime', {
+            startTime:
+              ExamSessionUtils.getStartTime(examSession, partialExamType) || '',
+          })}
+        />
+      )}
+      <MetaField label={t('examSessionCard.price')} value={examSessionFee} />
       <MetaField
-        label={t('examSessionCard.examStartTime')}
-        value={t('examSessionCard.examStartTime', {
-          startTime: ExamSessionUtils.getStartTime(examSession, 'WRITE') || '',
-        })}
+        label={t('examSessionCard.placesAvailable')}
+        value={availablePlacesText}
       />
-    )}
-    <MetaField label={t('examSessionCard.price')} value={examSessionFee} />
-    <MetaField
-      label={t('examSessionCard.placesAvailable')}
-      value={availablePlacesText}
-    />
-    <div className="exam-session-card__mobile-exam-row__action">{action}</div>
-  </div>
-);
+      <div className="exam-session-card__mobile-exam-row__action">{action}</div>
+    </div>
+  );
+};
 
 const getTableBody = ({
   examSession,
@@ -440,12 +448,6 @@ const getMobileTableBody = ({
   examSession: ExamSession;
   t: ReturnType<typeof usePublicTranslation>['t'];
 }) => {
-  const examSessionFee = ExamSessionUtils.freeRegistrationPossible(examSession)
-    ? `0 / ${examSession.exam_fee} €`
-    : `${examSession.exam_fee} €`;
-
-  const availablePlaces = ExamSessionUtils.getAvailablePlaces(examSession);
-
   const getAvailablePlacesText = (partialExamType?: PartialExamType) => {
     const places = ExamSessionUtils.getAvailablePlaces(
       examSession,
@@ -494,10 +496,17 @@ const getMobileTableBody = ({
     <MobileExamRow
       key={partialExamType}
       examTypeLabel={examTypeLabel}
-      examSessionFee={examSessionFee}
       examSession={examSession}
+      partialExamType={partialExamType}
       availablePlacesText={getAvailablePlacesText(partialExamType)}
-      action={renderActions({ examSession, partialExamType, availablePlaces })}
+      action={renderActions({
+        examSession,
+        partialExamType,
+        availablePlaces: ExamSessionUtils.getAvailablePlaces(
+          examSession,
+          partialExamType,
+        ),
+      })}
       t={t}
     />
   );
@@ -578,6 +587,7 @@ export const PublicExamSessionCard = ({
               <span>{t('examSessionCard.registrationType.allParts')}</span>
             </div>
           )}
+          <ExamSessionFormat examSessionId={examSession.id} />
         </div>
         <h3 className="exam-session-card__title">
           {ExamSessionUtils.languageAndLevelText(examSession)}

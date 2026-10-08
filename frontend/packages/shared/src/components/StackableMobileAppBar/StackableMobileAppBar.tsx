@@ -1,5 +1,5 @@
 import { AppBar, Toolbar } from '@mui/material';
-import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
+import { ReactNode, useCallback, useMemo } from 'react';
 
 import { useResizeObserver } from '../../hooks';
 import { MobileAppBarState } from '../../interfaces';
@@ -27,8 +27,6 @@ export const StackableMobileAppBar = ({
   state,
   setState,
 }: StackableMobileAppBarProps) => {
-  const [margin, setMargin] = useState({});
-  const [bottom, setBottom] = useState('');
   const allOrders = useMemo(() => Object.keys(state), [state]);
 
   const onResize = useCallback(
@@ -42,38 +40,16 @@ export const StackableMobileAppBar = ({
   const ref = useResizeObserver(onResize);
 
   const isLastInOrder = order === parseInt(allOrders[allOrders.length - 1]);
+  const margin =
+    order === 1
+      ? { margin: '1.5rem 0 0 0' }
+      : isLastInOrder
+        ? { margin: '0 0 1.5rem 0' }
+        : { margin: 0 };
 
-  useEffect(() => {
-    setMargin(() => {
-      if (order === 1) {
-        return {
-          margin: '1.5rem 0 0 0',
-        };
-      } else if (isLastInOrder) {
-        return {
-          margin: '0 0 1.5rem 0',
-        };
-      } else {
-        return {
-          margin: 0,
-        };
-      }
-    });
-  }, [order, isLastInOrder, setMargin]);
-
-  useEffect(() => {
-    setBottom(() => {
-      const ordersToReduce = allOrders.slice(order);
-
-      const bottom = ordersToReduce.reduce((prev, curr) => {
-        const elementHeight = state[curr];
-
-        return prev + elementHeight;
-      }, 0);
-
-      return `${bottom}px`;
-    });
-  }, [state, allOrders, order, setBottom]);
+  const bottom = `${allOrders
+    .slice(order)
+    .reduce((prev, curr) => prev + state[curr], 0)}px`;
 
   return (
     <div className="mobile">

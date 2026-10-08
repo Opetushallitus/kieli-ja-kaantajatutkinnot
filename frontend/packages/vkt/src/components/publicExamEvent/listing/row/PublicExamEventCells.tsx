@@ -1,6 +1,6 @@
 import { TableCell } from '@mui/material';
 import { Trans } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import {
   CustomButton,
   LoadingProgressIndicator,

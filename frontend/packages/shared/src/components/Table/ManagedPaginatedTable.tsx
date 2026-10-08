@@ -6,8 +6,10 @@ import { Pagination } from './Pagination';
 import { WithId } from '../../interfaces/with';
 import './Table.scss';
 
-interface ManagedPaginatedTableProps<T extends WithId>
-  extends Omit<PaginatedTableProps<T>, 'initialRowsPerPage'> {
+interface ManagedPaginatedTableProps<T extends WithId> extends Omit<
+  PaginatedTableProps<T>,
+  'initialRowsPerPage'
+> {
   page: number;
   onPageChange: (page: number) => void;
   rowsPerPage: number;

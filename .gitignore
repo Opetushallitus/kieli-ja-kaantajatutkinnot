@@ -40,6 +40,7 @@
 **/.sts4-cache
 
 **/.idea/
+**/.obsidian/
 **/node_modules/
 dist
 **/.DS_Store

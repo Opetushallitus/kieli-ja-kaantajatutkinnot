@@ -1,0 +1,31 @@
+.public-registration-exam-session-details {
+  color: $color-text-primary;
+
+  &__fields {
+    column-gap: 2.4rem;
+    display: grid;
+    font-size: 1.6rem;
+    grid-template-columns: 20rem minmax(0, 1fr);
+    line-height: 2.4rem;
+    margin: 0;
+    row-gap: 1.2rem;
+
+    dt {
+      font-weight: 600;
+    }
+
+    dd {
+      margin: 0;
+      min-width: 0;
+    }
+
+    @include phone {
+      grid-template-columns: minmax(0, 1fr);
+      row-gap: 0.4rem;
+
+      dd {
+        margin-bottom: 1.2rem;
+      }
+    }
+  }
+}

@@ -1,15 +1,19 @@
-// Workaround for ts(2669): adding an import or export marks a file as a module,
-// which is needed to augment the global scope as done below.
-export {};
+import { RequestHandler } from 'msw';
 
 declare global {
   namespace Cypress {
     interface Chainable {
+      useMswHandlers(...handlers: Array<RequestHandler>): Chainable<void>;
       isOnPage(page: string): Chainable<Element>;
       openPublicRegistrationPage(): void;
       openEvaluationOrderPage(id: number): void;
       openExamSessionRegistrationForm(id: number, registrationId: number): void;
       openPublicUserDetailsPage(): void;
+      openExamSessionRegistrationFormWithSearch(
+        examSessionId: number,
+        registrationId: number,
+        search?: string,
+      ): void;
     }
   }
 }

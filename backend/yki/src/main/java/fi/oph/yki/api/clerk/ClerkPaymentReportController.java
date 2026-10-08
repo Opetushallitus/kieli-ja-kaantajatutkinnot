@@ -1,14 +1,12 @@
 package fi.oph.yki.api.clerk;
 
 import fi.oph.yki.api.dto.clerk.ClerkPaymentReportRowDTO;
-import fi.oph.yki.config.ClerkEnabledCondition;
 import fi.oph.yki.service.ClerkPaymentReportService;
 import fi.oph.yki.view.PaymentReportXlsxView;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
 import java.time.LocalDate;
 import java.util.List;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,7 +15,6 @@ import org.springframework.web.servlet.view.document.AbstractXlsxView;
 
 @RestController
 @RequestMapping(value = "/v2/api/clerk/paymentReport")
-@Conditional(ClerkEnabledCondition.class)
 public class ClerkPaymentReportController {
 
   private static final String TAG = "Payment report API";

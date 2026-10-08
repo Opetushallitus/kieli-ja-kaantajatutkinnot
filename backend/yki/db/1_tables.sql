@@ -497,6 +497,95 @@ CREATE TABLE public.databasechangeloglock (
 ALTER TABLE public.databasechangeloglock OWNER TO admin;
 
 --
+-- Name: email; Type: TABLE; Schema: public; Owner: admin
+--
+
+CREATE TABLE public.email (
+    email_id bigint NOT NULL,
+    version integer DEFAULT 0 NOT NULL,
+    created_by text,
+    modified_by text,
+    deleted_by text,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    modified_at timestamp with time zone DEFAULT now() NOT NULL,
+    deleted_at timestamp with time zone,
+    email_type character varying(255) NOT NULL,
+    recipient_name text NOT NULL,
+    recipient_address text NOT NULL,
+    subject text NOT NULL,
+    body text NOT NULL,
+    sent_at timestamp with time zone,
+    ext_id text,
+    error text
+);
+
+
+ALTER TABLE public.email OWNER TO admin;
+
+--
+-- Name: email_email_id_seq; Type: SEQUENCE; Schema: public; Owner: admin
+--
+
+CREATE SEQUENCE public.email_email_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.email_email_id_seq OWNER TO admin;
+
+--
+-- Name: email_email_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
+--
+
+ALTER SEQUENCE public.email_email_id_seq OWNED BY public.email.email_id;
+
+--
+-- Name: email_attachment; Type: TABLE; Schema: public; Owner: admin
+--
+
+CREATE TABLE public.email_attachment (
+    email_attachment_id bigint NOT NULL,
+    version integer DEFAULT 0 NOT NULL,
+    created_by text,
+    modified_by text,
+    deleted_by text,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    modified_at timestamp with time zone DEFAULT now() NOT NULL,
+    deleted_at timestamp with time zone,
+    email_id bigint NOT NULL,
+    name character varying(255) NOT NULL,
+    content_type character varying(255) NOT NULL,
+    data bytea NOT NULL
+);
+
+
+ALTER TABLE public.email_attachment OWNER TO admin;
+
+--
+-- Name: email_attachment_email_attachment_id_seq; Type: SEQUENCE; Schema: public; Owner: admin
+--
+
+CREATE SEQUENCE public.email_attachment_email_attachment_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.email_attachment_email_attachment_id_seq OWNER TO admin;
+
+--
+-- Name: email_attachment_email_attachment_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
+--
+
+ALTER SEQUENCE public.email_attachment_email_attachment_id_seq OWNED BY public.email_attachment.email_attachment_id;
+
+
+--
 -- Name: evaluation; Type: TABLE; Schema: public; Owner: admin
 --
 
@@ -1320,6 +1409,46 @@ ALTER TABLE public.exam_session_queue_id_seq OWNER TO admin;
 
 ALTER SEQUENCE public.exam_session_queue_id_seq OWNED BY public.exam_session_queue.id;
 
+--
+-- Name: exam_session_statistics; Type: TABLE; Schema: public; Owner: admin
+--
+
+CREATE TABLE public.exam_session_statistics (
+    id bigint NOT NULL,
+    exam_session_id bigint NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    participants integer NOT NULL,
+    queue integer NOT NULL,
+    max_participant_count integer NOT NULL,
+    max_queue_count integer NOT NULL,
+    max_participants_at timestamp with time zone NOT NULL,
+    max_queue_at timestamp with time zone NOT NULL,
+    last_processed_event_id bigint
+);
+
+
+ALTER TABLE public.exam_session_statistics OWNER TO admin;
+
+--
+-- Name: exam_session_statistics_id_seq; Type: SEQUENCE; Schema: public; Owner: admin
+--
+
+CREATE SEQUENCE public.exam_session_statistics_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.exam_session_statistics_id_seq OWNER TO admin;
+
+--
+-- Name: exam_session_statistics_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
+--
+
+ALTER SEQUENCE public.exam_session_statistics_id_seq OWNED BY public.exam_session_statistics.id;
+
 
 --
 -- Name: free_registration; Type: TABLE; Schema: public; Owner: admin
@@ -1982,7 +2111,9 @@ CREATE TABLE public.registration (
     exam_fee numeric,
     lifted_from_queue_at timestamp with time zone,
     ui_language text,
-    free_registration_id bigint
+    free_registration_id bigint,
+    strong_auth boolean,
+    ssn_given boolean
 );
 
 
@@ -2046,6 +2177,20 @@ ALTER TABLE ONLY public.contact ALTER COLUMN id SET DEFAULT nextval('public.cont
 --
 
 ALTER TABLE ONLY public.contact ALTER COLUMN organizer_id SET DEFAULT nextval('public.contact_organizer_id_seq'::regclass);
+
+
+--
+-- Name: email email_id; Type: DEFAULT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.email ALTER COLUMN email_id SET DEFAULT nextval('public.email_email_id_seq'::regclass);
+
+
+--
+-- Name: email_attachment email_attachment_id; Type: DEFAULT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.email_attachment ALTER COLUMN email_attachment_id SET DEFAULT nextval('public.email_attachment_email_attachment_id_seq'::regclass);
 
 
 --
@@ -2231,6 +2376,13 @@ ALTER TABLE ONLY public.exam_session_queue ALTER COLUMN id SET DEFAULT nextval('
 
 
 --
+-- Name: exam_session_statistics id; Type: DEFAULT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.exam_session_statistics ALTER COLUMN id SET DEFAULT nextval('public.exam_session_statistics_id_seq'::regclass);
+
+
+--
 -- Name: free_registration registration_id; Type: DEFAULT; Schema: public; Owner: admin
 --
 
@@ -2379,6 +2531,22 @@ ALTER TABLE ONLY public.contact
 
 ALTER TABLE ONLY public.databasechangeloglock
     ADD CONSTRAINT databasechangeloglock_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: email email_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.email
+    ADD CONSTRAINT email_pkey PRIMARY KEY (email_id);
+
+
+--
+-- Name: email_attachment email_attachment_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.email_attachment
+    ADD CONSTRAINT email_attachment_pkey PRIMARY KEY (email_attachment_id);
 
 
 --
@@ -2622,6 +2790,14 @@ ALTER TABLE ONLY public.exam_session_queue
 
 
 --
+-- Name: exam_session_statistics exam_session_statistics_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.exam_session_statistics
+    ADD CONSTRAINT exam_session_statistics_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: free_registration free_registration_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -2856,6 +3032,13 @@ CREATE INDEX exam_session_queue_exam_session_id ON public.exam_session_queue USI
 
 
 --
+-- Name: exam_session_statistics_exam_session_id; Type: INDEX; Schema: public; Owner: admin
+--
+
+CREATE INDEX exam_session_statistics_exam_session_id ON public.exam_session_statistics USING btree (exam_session_id);
+
+
+--
 -- Name: login_link_participant_id_exam_session_id_created; Type: INDEX; Schema: public; Owner: admin
 --
 
@@ -2952,6 +3135,14 @@ CREATE TRIGGER quarantine_review_quarantine_not_deleted_trigger BEFORE INSERT OR
 
 ALTER TABLE ONLY public.contact
     ADD CONSTRAINT contact_organizer_id_fkey FOREIGN KEY (organizer_id) REFERENCES public.organizer(id);
+
+
+--
+-- Name: email_attachment email_attachment_email_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.email_attachment
+    ADD CONSTRAINT email_attachment_email_id_fkey FOREIGN KEY (email_id) REFERENCES public.email(email_id);
 
 
 --
@@ -3128,6 +3319,14 @@ ALTER TABLE ONLY public.exam_session
 
 ALTER TABLE ONLY public.exam_session_queue
     ADD CONSTRAINT exam_session_queue_exam_session_id_fkey FOREIGN KEY (exam_session_id) REFERENCES public.exam_session(id) ON DELETE CASCADE;
+
+
+--
+-- Name: exam_session_statistics exam_session_statistics_exam_session_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.exam_session_statistics
+    ADD CONSTRAINT exam_session_statistics_exam_session_id_fkey FOREIGN KEY (exam_session_id) REFERENCES public.exam_session(id);
 
 
 --

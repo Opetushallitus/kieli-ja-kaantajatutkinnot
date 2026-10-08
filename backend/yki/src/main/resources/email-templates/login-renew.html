@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{base-message :: layout(~{::content})}">
+<body>
+  <th:block th:fragment="content">
+    <tr>
+      <td style="padding-left: 20px;">
+        <span th:text="#{email.login_renew.content.line1}"></span>
+      </td>
+    </tr>
+
+    <tr>
+      <td style="padding-left: 20px; padding-top: 20px;">
+        <span th:text="#{email.login_renew.content.line2}"></span>:
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-left: 20px;">
+        <a style="color: #0093C4;" th:href="${login_url}" target="_blank" th:text="#{email.login_renew.content.link}"></a>
+      </td>
+    </tr>
+  </th:block>
+</body>
+</html>

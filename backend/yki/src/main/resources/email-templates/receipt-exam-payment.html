@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{receipt-base :: layout(~{::participant-header}, ~{::content})}">
+<body>
+<th:block th:fragment="participant-header"></th:block>
+<th:block th:fragment="content">
+
+<p>
+    <span th:text="#{email.receipt.examPayment.exam}"></span>: [[${language}]], [[${#strings.toLowerCase(level)}]], [[${exam_date}]]<br/>
+    <span th:text="#{email.receipt.common.participant}"></span>: [[${last_name}]], [[${first_name}]]<br/>
+    <span th:text="#{email.receipt.examPayment.organizer}"></span>: [[${organizer_name}]]<br/>
+    <span th:text="#{email.receipt.examPayment.address}"></span>: [[${street_address}]], [[${zip}]], [[${post_office}]]
+</p>
+
+<table style="width: 100%;border-spacing: 0;">
+<th:block th:if="${subtests}">
+    <tr>
+        <td colspan="4" class="cell" style="font-weight: bold; border-width: 1px 1px 0 1px;" th:text="#{email.receipt.examPayment.title}"></td>
+        <td class="cell" style="border-width: 1px 1px 0 0;"></td>
+    </tr>
+    <tr th:each="test : ${subtests}">
+        <td colspan="4" class="cell" style="border-width: 0 1px 0 1px;">
+            [[${test.name}]]
+        </td>
+        <td class="cell" style="border-width: 0 1px 0 0;">
+            [[${test.price.emailTemplate}]] €
+        </td>
+    </tr>
+</th:block>
+<th:block th:unless="${subtests}">
+    <tr>
+        <td colspan="4" class="cell" style="font-weight: bold; border-width: 1px 1px 1px 1px;" th:text="#{email.receipt.examPayment.title}"></td>
+        <td class="cell" style="border-width: 1px 1px 1px 0;">
+            [[${amount}]] €
+        </td>
+    </tr>
+</th:block>
+
+    <tr style="font-weight: bold">
+        <td class="cell" colspan="4" style="font-weight: bold; border-width: 1px 1px 1px 1px;" th:text="#{email.receipt.common.total}"></td>
+        <td class="cell" style="border-width: 1px 1px 1px 0;">
+            [[${amount}]] €
+        </td>
+    </tr>
+</table>
+
+<div style="font-size: 14px;">
+    <p th:text="#{email.receipt.common.vatZero}"></p>
+    <p th:text="#{email.receipt.examPayment.vatZeroJustification}"></p>
+</div>
+
+</th:block>
+</body>
+</html>

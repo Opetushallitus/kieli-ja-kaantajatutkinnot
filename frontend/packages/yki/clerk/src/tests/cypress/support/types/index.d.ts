@@ -18,6 +18,7 @@ declare global {
       openClerkCustomersSearchPage(): void;
       openClerkExamDatesPage(): void;
       openClerkQuarantinePage(): void;
+      openClerkStatisticsPage(): void;
     }
   }
 }

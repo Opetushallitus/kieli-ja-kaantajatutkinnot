@@ -1,6 +1,6 @@
 import { Box, LinearProgress } from '@mui/material';
 import { memo, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { CustomButton, CustomModal, Text } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 

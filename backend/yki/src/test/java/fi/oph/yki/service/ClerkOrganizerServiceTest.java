@@ -10,6 +10,7 @@ import fi.oph.yki.PostgresTestcontainerConfig;
 import fi.oph.yki.api.dto.clerk.ClerkOrganizerDTO;
 import fi.oph.yki.api.dto.clerk.ClerkOrganizerLanguageDTO;
 import fi.oph.yki.api.dto.clerk.ClerkOrganizerUpdateDTO;
+import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.model.ExamLanguage;
 import fi.oph.yki.model.Organizer;
 import fi.oph.yki.repository.ExamLanguageRepository;
@@ -26,6 +27,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 @WithMockUser
 @DataJpaTest
@@ -48,10 +50,13 @@ public class ClerkOrganizerServiceTest {
 
   private ClerkOrganizerService clerkOrganizerService;
 
+  @MockitoBean
+  private AuditService auditService;
+
   @BeforeEach
   public void setup() {
     clerkOrganizerService =
-      new ClerkOrganizerService(organizerRepository, examLanguageRepository, examSessionRepository);
+      new ClerkOrganizerService(organizerRepository, examLanguageRepository, examSessionRepository, auditService);
   }
 
   @Test

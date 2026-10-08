@@ -32,7 +32,6 @@ import org.thymeleaf.templateresolver.StringTemplateResolver;
 @AutoConfigureMockMvc
 @ActiveProfiles("test-postgres")
 @Import(PostgresTestcontainerConfig.class)
-@TestPropertySource(properties = "app.clerk-enabled=true")
 class ClerkIndexControllerIntegrationTest {
 
   private static String expectedIndexHtml;

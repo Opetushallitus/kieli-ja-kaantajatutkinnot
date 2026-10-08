@@ -3,11 +3,11 @@ package fi.oph.yki.service;
 import fi.oph.yki.api.dto.clerk.ClerkPaymentReportRowDTO;
 import fi.oph.yki.repository.ExamPaymentRepository;
 import fi.oph.yki.repository.PaymentReportProjection;
+import fi.oph.yki.util.CodeNameMapper;
+import fi.oph.yki.util.DateUtil;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -19,38 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class ClerkPaymentReportService {
-
-  private static final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
-  private static final Map<String, String> LANGUAGE_NAMES_FI = Map.of(
-    "fin",
-    "suomi",
-    "swe",
-    "ruotsi",
-    "eng",
-    "englanti",
-    "spa",
-    "espanja",
-    "ita",
-    "italia",
-    "fra",
-    "ranska",
-    "sme",
-    "saame",
-    "deu",
-    "saksa",
-    "rus",
-    "venäjä"
-  );
-
-  private static final Map<String, String> LEVEL_NAMES_FI = Map.of(
-    "PERUS",
-    "Perustaso",
-    "KESKI",
-    "Keskitaso",
-    "YLIN",
-    "Ylin taso"
-  );
 
   private final ExamPaymentRepository examPaymentRepository;
   private final OrganizationService organizationService;
@@ -98,11 +66,11 @@ public class ClerkPaymentReportService {
       .lastName(row.getLastName())
       .firstName(row.getFirstName())
       .email(row.getEmail())
-      .paidAt(formatPaidAt(row.getPaidAt()))
+      .paidAt(DateUtil.formatOptionalDateTime(row.getPaidAt()))
       .examDate(row.getExamDate())
       .originalExamDate(row.getOriginalExamDate())
-      .examLanguage(LANGUAGE_NAMES_FI.getOrDefault(row.getLanguageCode(), row.getLanguageCode()))
-      .examLevel(LEVEL_NAMES_FI.getOrDefault(row.getLevelCode(), row.getLevelCode()))
+      .examLanguage(CodeNameMapper.languageName(row.getLanguageCode()))
+      .examLevel(CodeNameMapper.levelName(row.getLevelCode()))
       .amount(formatAmount(row.getAmount()))
       .reference(row.getReference())
       .frSource(formatFrSource(row.getFrSource()))
@@ -113,13 +81,6 @@ public class ClerkPaymentReportService {
       .frHigherEducationConcluded(row.getFrHigherEducationConcluded())
       .frHigherEducationEnrolled(row.getFrHigherEducationEnrolled())
       .build();
-  }
-
-  private static String formatPaidAt(final LocalDateTime paidAt) {
-    if (paidAt == null) {
-      return null;
-    }
-    return paidAt.format(DATETIME_FORMATTER);
   }
 
   private static String formatAmount(final BigDecimal amount) {

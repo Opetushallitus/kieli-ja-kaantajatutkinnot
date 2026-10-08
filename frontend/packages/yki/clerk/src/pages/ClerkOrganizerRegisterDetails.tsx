@@ -2,7 +2,7 @@ import { ChevronRight, HomeOutlined } from '@mui/icons-material';
 import { Box, Grid, IconButton } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 import { APIResponseStatus } from 'shared/enums';
 
 import { ClerkRegisterOrganizerDetails } from 'components/clerkRegister/ClerkRegisterOrganizerDetails';

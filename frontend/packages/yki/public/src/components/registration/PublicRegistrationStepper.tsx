@@ -1,6 +1,6 @@
 import { Step, StepLabel, Stepper, Typography } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router';
 import { CircularStepper, Text } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
@@ -52,7 +52,7 @@ export const PublicRegistrationStepper = () => {
         queue === 'true') &&
       stepNumber === PublicRegistrationFormStep.Register
     ) {
-      return t('step.EnrollToQueue');
+      return t('step.Register');
     } else {
       return t(`step.${PublicRegistrationFormStep[stepNumber]}`);
     }

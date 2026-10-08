@@ -1,6 +1,6 @@
 import { Box, Grid } from '@mui/material';
 import { useCallback, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 import { H1, H2, HeaderSeparator } from 'shared/components';
 import { APIResponseStatus, Severity } from 'shared/enums';
 import { useToast } from 'shared/hooks';

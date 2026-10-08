@@ -14,9 +14,10 @@ import MuiAccordionSummary, {
 } from '@mui/material/AccordionSummary';
 import { Box } from '@mui/system';
 import dayjs from 'dayjs';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import i18next from 'i18next';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { CustomButton, CustomCircularProgress } from 'shared/components';
 import { APIResponseStatus, Color, Severity } from 'shared/enums';
 import { useToast } from 'shared/hooks';
@@ -44,6 +45,8 @@ import {
   levelDescription,
 } from 'utils/clerk';
 import { SerializationUtils } from 'utils/serialization';
+
+dayjs.extend(isSameOrBefore);
 
 type ClerkRegisterListingProps = {
   page: number;
@@ -261,7 +264,7 @@ const ClerkRegisterCollapsibleRow = ({
     .map((examSession) => ({
       ...examSession,
     }))
-    .filter((exam) => dayjs().isBefore(exam.session_date, 'day'))
+    .filter((exam) => dayjs().isSameOrBefore(exam.session_date, 'day'))
     .filter((exam) => exam.organizer_oid === row.oid);
 
   const pastExams = examSessions

@@ -7,12 +7,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import fi.oph.yki.api.dto.clerk.ClerkCustomerDetailsDTO;
 import fi.oph.yki.api.dto.clerk.ClerkCustomerSearchRequestDTO;
 import fi.oph.yki.api.dto.clerk.ClerkCustomerSummaryDTO;
-import fi.oph.yki.config.ClerkEnabledCondition;
 import fi.oph.yki.service.ClerkCustomerService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
 import java.util.concurrent.ExecutionException;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/v2/api/clerk/customer", produces = APPLICATION_JSON_VALUE)
-@Conditional(ClerkEnabledCondition.class)
 public class ClerkCustomerController {
 
   @Resource

@@ -1,7 +1,7 @@
 import { Checkbox, TableCell, TableHead, TableRow } from '@mui/material';
 import { Box } from '@mui/system';
 import { FC, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { H2, ManagedPaginatedTable, Text } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
 import { DateUtils } from 'shared/utils';

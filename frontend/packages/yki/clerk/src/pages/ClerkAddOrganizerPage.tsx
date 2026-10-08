@@ -1,7 +1,7 @@
 import { ChevronRight, HomeOutlined } from '@mui/icons-material';
 import { Box, Grid, IconButton, Paper } from '@mui/material';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 import { ClerkAddOrganizer } from 'components/clerkRegister/ClerkAddOrganizer';
 import { usePublicTranslation } from 'configs/i18n';

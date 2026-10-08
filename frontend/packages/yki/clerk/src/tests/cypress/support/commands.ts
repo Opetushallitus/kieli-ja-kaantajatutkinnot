@@ -31,3 +31,7 @@ Cypress.Commands.add('openClerkQuarantinePage', () => {
     0,
   );
 });
+
+Cypress.Commands.add('openClerkStatisticsPage', () => {
+  cy.visit(AppRoutes.ClerkStatistics);
+});

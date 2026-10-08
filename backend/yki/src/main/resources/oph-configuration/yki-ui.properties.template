@@ -6,6 +6,9 @@ postgresql.password={{host_postgresql_yki_app_password}}
 
 virkailija.host.alb={{host_alb}}
 
+email.sending-enabled=true
+email.service-url=${virkailija.host.alb}/ryhmasahkoposti-service/email/firewall
+
 virkailija.cas.base-url=https://{{host_cas}}
 virkailija.cas.service-url=${virkailija.cas.base-url}/yki/v2/virkailija
 virkailija.cas.url=${virkailija.cas.base-url}/cas

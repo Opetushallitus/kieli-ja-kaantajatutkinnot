@@ -8,6 +8,7 @@ import fi.oph.yki.model.FreeRegistration;
 import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
 import fi.oph.yki.service.dto.FreeRegistrationDTO;
+import java.util.Map;
 
 public class RegistrationUtil {
 
@@ -39,13 +40,13 @@ public class RegistrationUtil {
       .build();
   }
 
-  public static ClerkPersonDTO createClerkPersonDTO(final Person person) {
+  public static ClerkPersonDTO createClerkPersonDTO(final Person person, final String socialSecurityNumber) {
     return ClerkPersonDTO
       .builder()
       .oid(person.getOid())
       .firstName(person.getFirstName())
       .lastName(person.getLastName())
-      .socialSecurityNumber("-") // TODO
+      .socialSecurityNumber(socialSecurityNumber)
       .email(person.getEmail())
       .phoneNumber(person.getPhoneNumber())
       .streetAddress(person.getSteetAddress())
@@ -56,7 +57,8 @@ public class RegistrationUtil {
 
   public static ClerkRegistrationDTO createClerkRegistrationDTO(
     final Registration registration,
-    final Long queuePosition
+    final Long queuePosition,
+    final Map<String, String> oidToSsn
   ) {
     final Person person = registration.getPerson();
 
@@ -67,7 +69,7 @@ public class RegistrationUtil {
       .kind(registration.getKind())
       .partialExamType(registration.getPartialExamType())
       .registrationDate(registration.getCreatedAt().toLocalDate())
-      .person(person != null ? createClerkPersonDTO(person) : null)
+      .person(person != null ? createClerkPersonDTO(person, oidToSsn.get(person.getOid())) : null)
       .queuePosition(queuePosition)
       .build();
   }

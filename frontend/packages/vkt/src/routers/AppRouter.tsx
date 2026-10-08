@@ -5,7 +5,7 @@ import {
   Outlet,
   Route,
   RouterProvider,
-} from 'react-router-dom';
+} from 'react-router';
 import { PersistGate } from 'reduxjs-toolkit-persist/integration/react';
 import {
   Notifier,

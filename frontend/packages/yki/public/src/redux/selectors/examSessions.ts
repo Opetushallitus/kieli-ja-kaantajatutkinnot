@@ -44,12 +44,50 @@ const filterExamSessions = (
 
   if (filters.excludeFullSessions || filters.excludeNonOpenSessions) {
     filteredData = filteredData.filter((es) => {
-      const { open, availablePlaces } =
+      if (es.type === 'READ_SPEAK') {
+        const { open } =
+          ExamSessionUtils.getEffectiveRegistrationPeriodDetails(es);
+        if (filters.excludeFullSessions && filters.excludeNonOpenSessions) {
+          return (
+            (es.partial_registration_kind.READ === 'ADMISSION' ||
+              es.partial_registration_kind.SPEAK === 'ADMISSION') &&
+            open
+          );
+        } else if (filters.excludeFullSessions) {
+          return (
+            es.partial_registration_kind.READ === 'ADMISSION' ||
+            es.partial_registration_kind.SPEAK === 'ADMISSION'
+          );
+        } else {
+          return open;
+        }
+      }
+
+      if (es.type === 'LISTEN_WRITE') {
+        const { open } =
+          ExamSessionUtils.getEffectiveRegistrationPeriodDetails(es);
+        if (filters.excludeFullSessions && filters.excludeNonOpenSessions) {
+          return (
+            (es.partial_registration_kind.LISTEN === 'ADMISSION' ||
+              es.partial_registration_kind.WRITE === 'ADMISSION') &&
+            open
+          );
+        } else if (filters.excludeFullSessions) {
+          return (
+            es.partial_registration_kind.LISTEN === 'ADMISSION' ||
+            es.partial_registration_kind.WRITE === 'ADMISSION'
+          );
+        } else {
+          return open;
+        }
+      }
+
+      const { open } =
         ExamSessionUtils.getEffectiveRegistrationPeriodDetails(es);
       if (filters.excludeFullSessions && filters.excludeNonOpenSessions) {
-        return availablePlaces > 0 && open;
+        return es.available_registration_kind === 'ADMISSION' && open;
       } else if (filters.excludeFullSessions) {
-        return availablePlaces > 0;
+        return es.available_registration_kind === 'ADMISSION';
       } else {
         return open;
       }

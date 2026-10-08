@@ -3,9 +3,10 @@ import { Box } from '@mui/material';
 import dayjs from 'dayjs';
 import i18next from 'i18next';
 import { useCallback, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 import { CustomButton } from 'shared/components';
-import { APIResponseStatus } from 'shared/enums';
+import { APIResponseStatus, Severity } from 'shared/enums';
+import { useToast } from 'shared/hooks';
 import { DateUtils } from 'shared/utils';
 
 import { ClerkExamSessionEditModal } from 'components/clerkExamSession/ClerkExamSessionEditModal';
@@ -37,6 +38,7 @@ export const ClerkRegisterOrganizerDetails = ({
   row: ClerkOrganizer;
   route: RouteType;
 }) => {
+  const { showToast } = useToast();
   const [examSessions, setExamSessions] = useState<ExamSession[]>([]);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const dispatch = useAppDispatch();
@@ -81,9 +83,18 @@ export const ClerkRegisterOrganizerDetails = ({
 
   useEffect(() => {
     if (createStatus === APIResponseStatus.Success) {
+      showToast({
+        severity: Severity.Success,
+        description: t('listing.modals.modifyAgreement.toasts.updateSuccess'),
+      });
       fetchExamSessions();
+    } else if (createStatus === APIResponseStatus.Error) {
+      showToast({
+        severity: Severity.Error,
+        description: t('listing.modals.modifyAgreement.toasts.updateError'),
+      });
     }
-  }, [createStatus, fetchExamSessions]);
+  }, [createStatus, showToast, t, fetchExamSessions]);
 
   const upcomingExams = examSessions
     .map((examSession) => ({

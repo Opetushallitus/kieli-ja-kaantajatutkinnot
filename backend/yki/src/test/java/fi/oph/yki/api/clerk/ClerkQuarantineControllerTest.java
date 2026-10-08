@@ -20,7 +20,6 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(ClerkQuarantineController.class)
-@TestPropertySource(properties = "app.clerk-enabled=true")
 class ClerkQuarantineControllerTest {
 
   private static final String MATCHES_URL = "/v2/api/clerk/quarantine/matches";

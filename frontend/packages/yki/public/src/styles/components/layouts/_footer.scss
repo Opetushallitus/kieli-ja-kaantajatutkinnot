@@ -71,8 +71,18 @@
       }
     }
 
-    & h2 {
-      font-size: 2rem;
+    & h4 {
+      font-size: 1.8rem;
+      line-height: 2.4rem;
+      font-weight: 700;
+      color: $color-text-primary;
+    }
+
+    & .label {
+      font-size: 1.6rem;
+      line-height: 2.4rem;
+      font-weight: 600;
+      color: $color-text-primary;
     }
 
     & a,

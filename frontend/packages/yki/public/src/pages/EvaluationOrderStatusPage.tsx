@@ -1,6 +1,6 @@
 import { Box, Paper } from '@mui/material';
 import { useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router';
 import { H1, HeaderSeparator, Text } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';

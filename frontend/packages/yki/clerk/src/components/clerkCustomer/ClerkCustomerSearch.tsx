@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 import { APIResponseStatus } from 'shared/enums';
 
 import { ClerkCustomerListingFilter } from 'components/clerkCustomer/ClerkCustomerListingFilter';

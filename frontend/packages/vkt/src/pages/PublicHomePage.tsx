@@ -1,7 +1,7 @@
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Box, Button, Container, Grid, Paper, Typography } from '@mui/material';
 import React, { FC } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { H1, H2, HeaderSeparator, Text, WebLink } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';

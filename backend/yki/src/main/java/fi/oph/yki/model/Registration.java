@@ -13,6 +13,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -41,6 +42,10 @@ public class Registration {
   @JoinColumn(name = "person_oid", referencedColumnName = "oid")
   private Person person;
 
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "participant_id", referencedColumnName = "id")
+  private Participant participant;
+
   @Column(name = "kind")
   @Enumerated
   @JdbcType(PostgreSQLEnumJdbcType.class)
@@ -68,6 +73,9 @@ public class Registration {
 
   @Column(name = "expires_at")
   private LocalDateTime expiresAt;
+
+  @Column(name = "strong_auth")
+  private Boolean strongAuth;
 
   @OneToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "exam_session_id", referencedColumnName = "id")

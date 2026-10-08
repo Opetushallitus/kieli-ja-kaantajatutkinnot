@@ -13,7 +13,6 @@ import fi.oph.yki.api.dto.clerk.ClerkExamSessionUpdateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkOrganizerDTO;
 import fi.oph.yki.api.dto.clerk.ClerkOrganizerExamSessionDTO;
 import fi.oph.yki.api.dto.clerk.ClerkPersonContactUpdateDTO;
-import fi.oph.yki.config.ClerkEnabledCondition;
 import fi.oph.yki.kayttooikeus.PermissionsService;
 import fi.oph.yki.kayttooikeus.dto.KayttooikeusResponseDTO;
 import fi.oph.yki.kayttooikeus.dto.OrganisaatioDTO;
@@ -31,7 +30,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.AccessDeniedException;
@@ -51,7 +49,6 @@ import org.springframework.web.servlet.view.document.AbstractXlsxView;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/v2/api/organizer/{oid}", produces = APPLICATION_JSON_VALUE)
-@Conditional(ClerkEnabledCondition.class)
 public class OrganizerController {
 
   @Resource

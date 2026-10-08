@@ -19,6 +19,7 @@ export enum AppRoutes {
   OrganizerCustomerSearch = '/yki/v2/jarjestaja/:oid/asiakashaku',
   OrganizerCustomerDetails = '/yki/v2/jarjestaja/:oid/asiakashaku/:personOid',
   OrganizerExamSession = '/yki/v2/jarjestaja/:oid/tilaisuus/:id',
+  ClerkStatistics = '/yki/v2/virkailija/tilastot',
 }
 
 export enum ExamLanguage {

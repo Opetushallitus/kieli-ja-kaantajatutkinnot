@@ -1,0 +1,17 @@
+.exam-session-format {
+  display: flex;
+  align-items: center;
+  color: $color-text-primary;
+  gap: 0.5rem;
+
+  & &__icon {
+    flex-shrink: 0;
+    font-size: 24px;
+    height: 24px;
+    width: 24px;
+  }
+
+  & &__label {
+    font-weight: 600;
+  }
+}

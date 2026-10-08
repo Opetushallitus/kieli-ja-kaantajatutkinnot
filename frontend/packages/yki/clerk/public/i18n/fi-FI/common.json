@@ -98,6 +98,7 @@
       "freeRegistration": "Maksuttomuus",
       "paymentReport": "Maksuraportti",
       "quarantine": "Osallistumiskiellot",
+      "statistics": "Tilastot",
       "full": "Täynnä",
       "gender": {
         "female": "Nainen",
@@ -189,6 +190,7 @@
         "notFound": "Etsimääsi sivua ei löytynyt",
         "paymentReport": "Maksuraportti",
         "reassessment": "Tarkistusarviointi",
+        "statistics": "Tilastot",
         "registration": "Ilmoittautuminen",
         "registrationPaymentStatus": "Ilmoittautuminen",
         "transferRegistration": "Siirrä ilmoittautuminen",

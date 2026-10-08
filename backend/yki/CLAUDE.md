@@ -1,5 +1,7 @@
 # YKI Backend
 
+Read the `./claude` - folder of this repository for repository-wide claude configurations.
+
 ## Database
 
 The database is older than our backend. The old backend is remotely at https://github.com/Opetushallitus/yki. The old database contains the data already, so when our code is missing tables or columns, that is very domain specific and should be reviewed manually.
@@ -16,8 +18,14 @@ The database is older than our backend. The old backend is remotely at https://g
 This is a shared project. Parent pom is at the root. `./mvnw` lives inside each submodule — always `cd` into the submodule first:
 
 ```bash
+# clean project and run the default lifecycle (validate compile test package)
 (cd backend/yki && ./mvnw clean install)
+
+# run a single test
 (cd backend/yki && ./mvnw test -Dtest="SomeTest")
+
+# run code formatting
+(cd backend/yki && ./mvnw validate)
 ```
 
 ## Code Structure

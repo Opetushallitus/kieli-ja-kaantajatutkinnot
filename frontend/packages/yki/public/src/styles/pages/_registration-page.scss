@@ -45,13 +45,13 @@
     }
 
     &__heading-description {
-      background-color: $color-blue-200;
+      background-color: $ods-green-6;
       color: $color-text-primary;
       position: relative;
 
       &::after {
         border-right: 3rem solid transparent;
-        border-top: 1.5rem solid $color-blue-200;
+        border-top: 1.5rem solid $ods-green-6;
         bottom: -1.5rem;
         content: ' ';
         left: 3rem;
@@ -65,7 +65,7 @@
   }
 
   & &__info-box {
-    background-color: $color-blue-200;
+    background-color: $ods-green-6;
     border-radius: 4px;
 
     @include phone {

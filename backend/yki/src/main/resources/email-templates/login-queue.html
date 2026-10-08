@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{base-message :: layout(~{::content})}">
+<body>
+  <th:block th:fragment="content">
+    <tr>
+      <td style="padding-left: 20px;">
+        <span th:text="#{email.login_queue.content.line1}"></span>:
+      </td>
+    </tr>
+
+    <tr>
+      <td style="padding-left: 20px; padding-top: 10px;">
+        <span th:text="#{common.test}"></span>: [[${language}]] [[${#strings.toLowerCase(level)}]]
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-left: 20px;">
+        <span th:text="#{common.subtest}"></span>: <th:block th:each="test, iterStat : ${subtests}">[[${test}]]<th:block th:if="${!iterStat.last}">, </th:block></th:block>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-left: 20px;">
+        <span th:text="#{common.testDay}"></span>: [[${exam_date}]]
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-left: 20px;">
+        <span th:text="#{common.testCentre}"></span>: [[${name}]], [[${street_address}]], [[${zip}]] [[${#strings.toUpperCase(post_office)}]]
+      </td>
+    </tr>
+
+    <tr>
+      <td style="padding-left: 20px; padding-top: 20px;">
+        <span th:text="#{email.login_queue.content.line2}"></span>:
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-left: 20px;">
+        <a style="color: #0093C4;" th:href="${login_url}" target="_blank" th:text="#{email.login_queue.link_text}"></a>
+      </td>
+    </tr>
+  </th:block>
+</body>
+</html>

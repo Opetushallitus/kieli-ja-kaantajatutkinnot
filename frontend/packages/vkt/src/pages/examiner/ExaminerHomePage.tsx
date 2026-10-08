@@ -1,6 +1,6 @@
 import { Box, Divider, Grid, Paper } from '@mui/material';
 import { FC, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { CustomButtonLink, H1, H2, Text } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
 

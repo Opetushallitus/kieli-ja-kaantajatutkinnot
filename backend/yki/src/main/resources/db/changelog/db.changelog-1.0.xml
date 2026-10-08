@@ -350,4 +350,197 @@
             </column>
         </createTable>
     </changeSet>
+
+    <changeSet id="2026-07-21-add-exam-session-statistics" author="miikavonbell">
+        <preConditions onFail="CONTINUE">
+            <not>
+                <tableExists tableName="exam_session_statistics"/>
+            </not>
+        </preConditions>
+        <createTable tableName="exam_session_statistics">
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="exam_session_statistics_pkey"/>
+            </column>
+            <column name="exam_session_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="participants" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="queue" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="max_participant_count" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="max_queue_count" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="max_participants_at" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="max_queue_at" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_processed_event_id" type="BIGINT"/>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="exam_session_statistics"
+                baseColumnNames="exam_session_id"
+                constraintName="fk_exam_session_statistics_exam_session"
+                referencedTableName="exam_session"
+                referencedColumnNames="id" />
+        <createIndex tableName="exam_session_statistics" indexName="exam_session_statistics_exam_session_id">
+            <column name="exam_session_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="2026-07-30-create-email-table" author="miikavonbell">
+        <preConditions onFail="CONTINUE">
+            <not>
+                <tableExists tableName="email"/>
+            </not>
+        </preConditions>
+        <createTable tableName="email">
+            <column autoIncrement="true" name="email_id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="email_pkey"/>
+            </column>
+            <column name="version" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="TEXT"/>
+            <column name="modified_by" type="TEXT"/>
+            <column name="deleted_by" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="email_type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="recipient_name" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="recipient_address" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="subject" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="body" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sent_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="ext_id" type="TEXT"/>
+            <column name="error" type="TEXT"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2026-07-30-create-email-attachment-table" author="miikavonbell">
+        <preConditions onFail="CONTINUE">
+            <not>
+                <tableExists tableName="email_attachment"/>
+            </not>
+        </preConditions>
+        <createTable tableName="email_attachment">
+            <column autoIncrement="true" name="email_attachment_id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="email_attachment_pkey"/>
+            </column>
+            <column name="version" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="TEXT"/>
+            <column name="modified_by" type="TEXT"/>
+            <column name="deleted_by" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="email_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="content_type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="data" type="${blob_type}">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="email_attachment"
+                baseColumnNames="email_id"
+                constraintName="fk_email_attachment_email"
+                referencedTableName="email"
+                referencedColumnNames="email_id" />
+    </changeSet>
+
+    <changeSet id="2026-09-23-create-registration-change-event" author="jrkkp">
+        <preConditions onFail="CONTINUE">
+            <not>
+                <tableExists tableName="registration_change_event"/>
+            </not>
+        </preConditions>
+        <createTable tableName="registration_change_event">
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="registration_change_event_pkey"/>
+            </column>
+            <column name="event" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="registration_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="exam_session_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="registration_state" type="registration_state">
+                <constraints nullable="false"/>
+            </column>
+            <column name="registration_kind" type="registration_kind">
+                <constraints nullable="false"/>
+            </column>
+            <column name="original_exam_session_id" type="BIGINT"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="created_by" type="TEXT"/>
+            <column name="author_type" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="registration_change_event"
+                baseColumnNames="registration_id"
+                constraintName="fk_registration_change_event_registration"
+                referencedTableName="registration"
+                referencedColumnNames="id" />
+        <addForeignKeyConstraint
+                baseTableName="registration_change_event"
+                baseColumnNames="exam_session_id"
+                constraintName="fk_registration_change_event_exam_session"
+                referencedTableName="exam_session"
+                referencedColumnNames="id" />
+        <addForeignKeyConstraint
+                baseTableName="registration_change_event"
+                baseColumnNames="original_exam_session_id"
+                constraintName="fk_registration_change_event_original_exam_session"
+                referencedTableName="exam_session"
+                referencedColumnNames="id" />
+        <createIndex tableName="registration_change_event" indexName="registration_change_event_exam_session_id_created_at">
+            <column name="exam_session_id"/>
+            <column name="created_at"/>
+        </createIndex>
+        <createIndex tableName="registration_change_event" indexName="registration_change_event_original_exam_session_id_created_at">
+            <column name="original_exam_session_id"/>
+            <column name="created_at"/>
+        </createIndex>
+    </changeSet>
 </databaseChangeLog>

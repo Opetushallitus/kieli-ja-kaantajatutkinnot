@@ -26,6 +26,6 @@
     "otr:tslint": "yarn g:tsc --pretty --noEmit"
   },
   "dependencies": {
-    "shared": "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@2.14.5"
+    "shared": "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.15.0"
   }
 }

@@ -6,13 +6,11 @@ import fi.oph.yki.api.dto.clerk.ClerkCreateExamDateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamDateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkUpdateEvaluationDTO;
 import fi.oph.yki.api.dto.clerk.ClerkUpdateExamDateDTO;
-import fi.oph.yki.config.ClerkEnabledCondition;
 import fi.oph.yki.service.ClerkExamDateService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import java.util.List;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/v2/api/clerk/examDate", produces = APPLICATION_JSON_VALUE)
-@Conditional(ClerkEnabledCondition.class)
 public class ClerkExamDateController {
 
   private static final String TAG_EXAM_DATE = "Clerk exam date API";

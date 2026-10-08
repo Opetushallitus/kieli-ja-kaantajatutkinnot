@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{base-message :: layout(~{::content})}">
+<body>
+  <th:block th:fragment="content">
+    <tr>
+      <td style="padding-left: 20px;">
+        <span th:text="#{email.queue.content.line1}"></span>:
+      </td>
+    </tr>
+
+    <tr>
+      <td style="padding-left: 20px; padding-top: 10px;">
+        <span th:text="#{common.test}"></span>: [[${language}]] [[${#strings.toLowerCase(level)}]]
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-left: 20px;">
+        <span th:text="#{common.subtest}"></span>: <th:block th:each="test, iterStat : ${subtests}">[[${test}]]<th:block th:if="${!iterStat.last}">, </th:block></th:block>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-left: 20px;">
+        <span th:text="#{common.testDay}"></span>: [[${exam_date}]]
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-left: 20px;">
+        <span th:text="#{common.testCentre}"></span>: [[${name}]], [[${street_address}]], [[${zip}]] [[${#strings.toUpperCase(post_office)}]]
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-left: 20px; padding-top: 20px;">
+        <span th:text="#{email.queue.content.line2.part1}"></span> <b th:text="#{email.queue.content.line2.part2}"></b>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-left: 20px; padding-top: 20px;">
+        <span th:text="#{email.queue.content.line3}"></span>:
+        <a th:href="${user_portal_link}" target="_blank" th:text="#{email.payment_success.content.line6.link.text}"></a>
+      </td>
+    </tr>
+
+    <tr>
+      <td style="padding-left: 20px; padding-top: 20px;">
+        <span th:text="#{email.queue.content.line4}"></span>:
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-left: 20px;">
+        <a th:href="#{email.queue.content.line4.link.url}" target="_blank" th:text="#{email.queue.content.line4.link.text}"></a>
+      </td>
+    </tr>
+  </th:block>
+</body>
+</html>

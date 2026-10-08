@@ -2,6 +2,7 @@ package fi.oph.yki.config;
 
 import fi.oph.yki.util.exception.APIException;
 import fi.oph.yki.util.exception.APIExceptionType;
+import fi.oph.yki.util.exception.NotFoundException;
 import jakarta.validation.ConstraintViolationException;
 import java.util.Map;
 import java.util.Set;
@@ -52,6 +53,13 @@ public class ControllerExceptionAdvice {
   @ResponseStatus(HttpStatus.NOT_FOUND)
   public ResponseEntity<Object> handleNoResourceFoundException(final NoResourceFoundException ex) {
     LOG.warn("NoResourceFoundException: " + ex.getMessage());
+    return notFound();
+  }
+
+  @ExceptionHandler(NotFoundException.class)
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  public ResponseEntity<Object> handleNotFoundException(final NotFoundException ex) {
+    LOG.warn("NotFoundException: " + ex.getMessage());
     return notFound();
   }
 

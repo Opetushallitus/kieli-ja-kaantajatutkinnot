@@ -102,7 +102,7 @@ export const AddressDetails = ({
             value={registration.address || ''}
             autoComplete={InputAutoComplete.Street}
           />
-          <div className="columns gapped">
+          <div className="columns gapped align-items-end">
             <LabeledTextField
               {...getLabeledTextFieldAttributes('postNumber')}
               value={registration.postNumber || ''}

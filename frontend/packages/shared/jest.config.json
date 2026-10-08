@@ -10,5 +10,5 @@
   "setupFilesAfterEnv": [
     "./jest-setup.ts"
   ],
-  "testEnvironment": "jsdom"
+  "testEnvironment": "./jest-environment-patched-jsdom.js"
 }

@@ -2,7 +2,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import { render, RenderOptions } from '@testing-library/react';
 import { FC, ReactElement } from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router';
 import { theme } from 'shared/configs';
 
 import store from 'redux/store';

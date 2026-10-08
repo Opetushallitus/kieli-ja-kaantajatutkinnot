@@ -1,5 +1,8 @@
 import { Authorisation, AuthorisationBasis } from 'interfaces/authorisation';
-import { ClerkTranslatorAuthorisations } from 'interfaces/clerkTranslator';
+import {
+  ClerkTranslator,
+  ClerkTranslatorAuthorisations,
+} from 'interfaces/clerkTranslator';
 import { LanguagePair } from 'interfaces/languagePair';
 import koodistoLangsFI from 'public/i18n/koodisto/langs/koodisto_langs_fi-FI.json';
 
@@ -43,5 +46,16 @@ export class AuthorisationUtils {
 
   static getKoodistoLangKeys() {
     return Object.keys(koodistoLangsFI?.akr?.koodisto?.languages);
+  }
+
+  static deceasedIsUnhandled(deceased: ClerkTranslator) {
+    return (
+      deceased.authorisations.effective.find((a) => a.permissionToPublish) ||
+      deceased.authorisations.expiring.find((a) => a.permissionToPublish) ||
+      deceased.authorisations.expiredDeduplicated.find(
+        (a) => a.permissionToPublish,
+      ) ||
+      deceased.authorisations.formerVir.find((a) => a.permissionToPublish)
+    );
   }
 }

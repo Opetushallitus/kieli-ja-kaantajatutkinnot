@@ -2,7 +2,7 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Container, Grid, Paper } from '@mui/material';
 import { ophColors } from '@opetushallitus/oph-design-system';
 import { Trans } from 'react-i18next';
-import { generatePath } from 'react-router-dom';
+import { generatePath } from 'react-router';
 import {
   CustomButton,
   H1,
@@ -21,7 +21,6 @@ import { PublicRegistrationStepper } from 'components/registration/PublicRegistr
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, RegistrationKind } from 'enums/app';
-import { clerkEnabled } from 'featureFlags';
 import { ExamSession } from 'interfaces/examSessions';
 import { cancelRegistration } from 'redux/reducers/registration';
 import { examSessionSelector } from 'redux/selectors/examSession';
@@ -44,10 +43,7 @@ const AlreadyLoggedIn = () => {
   const isEmailAuthenticatedSession =
     loggedInSession?.['auth-method'] === 'EMAIL';
   const toQueue =
-    ExamSessionUtils.getRegistrationKind({
-      examSession,
-      partialExamType: initRegistration.partialExamType,
-    }) === RegistrationKind.Queue;
+    examSession.available_registration_kind === RegistrationKind.Queue;
   const onAbort = () => {
     dispatch(cancelRegistration());
   };
@@ -193,13 +189,7 @@ export const PublicIdentificationGrid = () => {
           </div>
           <Paper
             elevation={isPhone ? 0 : 3}
-            style={
-              isPhone
-                ? {}
-                : clerkEnabled
-                  ? { borderTop: '5px solid' + ophColors.green2 }
-                  : undefined
-            }
+            style={isPhone ? {} : { borderTop: '5px solid' + ophColors.green2 }}
           >
             <div className="public-registration__grid__form-container">
               <div className="rows gapped">

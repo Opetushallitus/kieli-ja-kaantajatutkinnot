@@ -3,6 +3,7 @@ import { AppLanguage } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
 import {
+  EvaluationState,
   ExamLanguage,
   ExamLevel,
   GenderEnum,
@@ -42,6 +43,8 @@ import {
 import { KoskiEducationDTO } from 'interfaces/publicEducation';
 import {
   PublicEmailRegistration,
+  PublicRegistrationIdentifyPayload,
+  PublicRegistrationIdentifyRequest,
   PublicRegistrationInitPayload,
   PublicRegistrationInitRequest,
   PublicSuomiFiRegistration,
@@ -305,6 +308,9 @@ export class SerializationUtils {
             ? (v.position_in_queue || 0) + 1
             : undefined,
         isFreeRegistration: v.is_free_registration,
+        evaluationState: v.evaluation_state
+          ? (v.evaluation_state as EvaluationState)
+          : undefined,
         start_time_read_listen: v.start_time_read_listen,
         start_time_speak_write: v.start_time_speak_write,
       })),
@@ -342,6 +348,16 @@ export class SerializationUtils {
       exam_session_id: payload.examSessionId,
       to_queue: payload.registrationKind === RegistrationKind.Queue,
       partial_exam_type: payload.partialExamType,
+    };
+  }
+
+  static serializePublicRegistrationIdentifyRequest(
+    payload: PublicRegistrationIdentifyPayload,
+  ): PublicRegistrationIdentifyRequest {
+    return {
+      exam_session_id: payload.examSessionId,
+      to_queue: payload.registrationKind === RegistrationKind.Queue,
+      registration_id: payload.registrationId,
     };
   }
 

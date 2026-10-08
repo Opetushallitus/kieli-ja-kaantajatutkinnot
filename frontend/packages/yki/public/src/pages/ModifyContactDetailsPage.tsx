@@ -1,6 +1,6 @@
 import { Box, Grid, Paper } from '@mui/material';
 import { ChangeEvent, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import {
   CustomButton,
   CustomButtonLink,
@@ -427,7 +427,7 @@ export const ModifyContactDetailsPage = () => {
       dispatch(loadPersonDetails());
       dispatch(loadSession());
     }
-  });
+  }, [dispatch, modifyContactDetailsStatus, navigate, showToast, t]);
 
   // Clean-up
   useEffect(() => {

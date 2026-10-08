@@ -1,6 +1,6 @@
 import { Button, ButtonProps } from '@mui/material';
 import { FC } from 'react';
-import { LinkProps } from 'react-router-dom';
+import { LinkProps } from 'react-router';
 
 type CustomButtonProps = ButtonProps &
   Partial<Pick<LinkProps, 'target' | 'rel'>>;

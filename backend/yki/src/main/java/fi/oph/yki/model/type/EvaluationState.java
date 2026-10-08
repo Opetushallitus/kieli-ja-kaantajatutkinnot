@@ -3,7 +3,7 @@ package fi.oph.yki.model.type;
 import fi.oph.yki.api.dto.oauth2.KituEvaluationState;
 
 public enum EvaluationState {
-  EVALUATION_PENDING, // ARVIOITAVA
+  EVALUATION_PENDING, // ILMOITTAUTUNUT, ARVIOITAVA
   EVALUATION_COMPLETE, // ARVIOITU
   REVIEW_PENDING, // TARKISTUSARVIOITAVA
   REVIEW_COMPLETE, // TARKISTUSARVIOITU
@@ -14,7 +14,7 @@ public enum EvaluationState {
 
   public static EvaluationState fromKituEvaluationState(final KituEvaluationState state) {
     return switch (state) {
-      case ARVIOITAVA -> EVALUATION_PENDING;
+      case ILMOITTAUTUNUT, ARVIOITAVA -> EVALUATION_PENDING;
       case ARVIOITU -> EVALUATION_COMPLETE;
       case TARKISTUSARVIOITAVA -> REVIEW_PENDING;
       case TARKISTUSARVIOITU -> REVIEW_COMPLETE;

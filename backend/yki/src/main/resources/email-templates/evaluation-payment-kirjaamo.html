@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{base-message :: layout(~{::content})}">
+<body>
+  <th:block th:fragment="content">
+    <tr>
+      <td style="padding-left: 20px;">
+        <span th:text="#{email.evaluation_payment_kirjaamo.content.line1}"></span>:
+      </td>
+    </tr>
+
+    <tr>
+      <td style="padding-left: 20px; padding-top: 10px;">
+        [[${language}]] [[${#strings.toLowerCase(level)}]], [[${exam_date}]]
+      </td>
+    </tr>
+
+    <tr th:each="test : ${subtests}">
+      <td style="padding-left: 20px;">[[${test}]]</td>
+    </tr>
+
+    <tr>
+      <td style="padding-left: 20px; padding-top: 20px;">
+        <span th:text="#{common.lastName}"></span>: [[${last_name}]]
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-left: 20px;">
+        <span th:text="#{common.firstNames}"></span>: [[${first_names}]]
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-left: 20px;">
+        <span th:text="#{common.birthdate}"></span>: [[${birthdate}]]
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-left: 20px;">
+        <span th:text="#{common.email}"></span>: [[${email}]]
+      </td>
+    </tr>
+
+    <tr>
+      <td style="padding-left: 20px; padding-top: 20px;">
+        <span th:text="#{email.evaluation_payment.content.orderNumber}"></span>: [[${order_number}]]
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-left: 20px;">
+        <span th:text="#{email.evaluation_payment.content.paid}"></span>:
+        [[${order_time}]]
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-left: 20px;">
+        <span th:text="#{email.evaluation_payment.content.total}"></span>: [[${amount}]] €
+      </td>
+    </tr>
+  </th:block>
+</body>
+</html>

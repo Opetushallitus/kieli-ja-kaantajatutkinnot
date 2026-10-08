@@ -1,7 +1,7 @@
 import { ChevronRight, HomeOutlined } from '@mui/icons-material';
 import { Box, Grid, IconButton, Paper } from '@mui/material';
 import { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 import { APIResponseStatus, Severity } from 'shared/enums';
 import { useToast } from 'shared/hooks';
 

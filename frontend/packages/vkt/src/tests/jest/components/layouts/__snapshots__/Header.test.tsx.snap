@@ -23,6 +23,7 @@ exports[`Header should render Header correctly 1`] = `
         class="header__logo"
       >
         <a
+          data-discover="true"
           href="/vkt/etusivu"
         >
           <div
@@ -52,6 +53,7 @@ exports[`Header should render Header correctly 1`] = `
             <li>
               <a
                 aria-current="false"
+                data-discover="true"
                 href="/vkt/etusivu"
               >
                 <p
@@ -64,6 +66,7 @@ exports[`Header should render Header correctly 1`] = `
             <li>
               <a
                 aria-current="false"
+                data-discover="true"
                 href="/vkt/erinomainen-taito"
               >
                 <p

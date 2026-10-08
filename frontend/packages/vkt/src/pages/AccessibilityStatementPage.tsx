@@ -2,7 +2,7 @@ import { ArrowBackIosOutlined as ArrowBackIosOutlinedIcon } from '@mui/icons-mat
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Grid, Paper, Typography } from '@mui/material';
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import {
   CustomButtonLink,
   H1,

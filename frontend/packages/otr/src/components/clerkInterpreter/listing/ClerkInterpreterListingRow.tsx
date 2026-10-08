@@ -1,6 +1,6 @@
 import { TableCell, TableRow } from '@mui/material';
 import { useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { Text } from 'shared/components';
 import { DateUtils } from 'shared/utils';
 

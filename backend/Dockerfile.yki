@@ -1,5 +1,8 @@
 FROM eclipse-temurin:17-jdk
 
+RUN apt-get update && apt-get install -y \
+     wkhtmltopdf
+
 WORKDIR /app
 
 ADD ./pom.xml .

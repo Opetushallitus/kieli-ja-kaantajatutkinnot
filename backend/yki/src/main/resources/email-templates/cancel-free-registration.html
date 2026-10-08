@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{base-message :: layout(~{::content})}">
+<body>
+  <th:block th:fragment="content">
+    <tr>
+      <td style="padding-left: 20px;">
+        <span th:text="#{email.cancel_free_registration.content.line1}"></span>:
+      </td>
+    </tr>
+
+    <tr>
+      <td style="padding-left: 20px; padding-top: 10px;">
+        <span th:text="#{common.test}"></span>: [[${language}]] [[${#strings.toLowerCase(level)}]]
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-left: 20px;">
+        <span th:text="#{common.testDay}"></span>: [[${exam_date}]]
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-left: 20px;">
+        <span th:text="#{common.testCentre}"></span>: [[${name}]], [[${street_address}]], [[${zip}]] [[${#strings.toUpperCase(post_office)}]]
+      </td>
+    </tr>
+
+    <tr>
+      <td style="padding-left: 20px; padding-top: 20px;">
+        <span th:text="#{email.cancel_free_registration.content.line2}"></span>
+      </td>
+    </tr>
+
+    <tr>
+      <td style="padding-left: 20px;">
+        <a th:href="${user_portal_link}" target="_blank" th:text="#{email.cancel_free_registration.content.link.text}"></a>
+      </td>
+    </tr>
+  </th:block>
+</body>
+</html>

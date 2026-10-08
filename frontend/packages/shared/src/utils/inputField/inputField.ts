@@ -193,11 +193,10 @@ export class InputFieldUtils {
     return true;
   }
 
-  private static EMAIL_LOCAL_PART_REGEX = new RegExp(
-    /^[\p{Letter}0-9!#$%&'+\-\/=\?\^_`\.\{|\}~]{1,64}$/u,
-  );
-  private static EMAIL_SUBDOMAIN_REGEX = new RegExp(
-    /^[\p{Letter}0-9\-]{1,63}$/u,
-  );
+  private static EMAIL_LOCAL_PART_REGEX =
+    /^[\p{Letter}0-9!#$%&'+\-\/=\?\^_`.\{|}~]{1,64}$/u;
+
+  private static EMAIL_SUBDOMAIN_REGEX = /^[\p{Letter}0-9\-]{1,63}$/u;
+
   private static TEL_REG_EXR = /\d{7,14}$/;
 }

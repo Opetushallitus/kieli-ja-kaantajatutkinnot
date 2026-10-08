@@ -121,6 +121,11 @@ COPY public.exam_date (id, exam_date, registration_start_date, registration_end_
 44	2026-11-22	2025-12-02	2025-05-06	2025-12-02 15:33:16.721932+00	2025-12-02 15:33:16.721932+00	\N	\N	f	\N
 45	2026-09-05	2025-12-02	2025-05-06	2025-12-02 15:33:16.721932+00	2025-12-02 15:33:16.721932+00	\N	\N	f	\N
 46	2026-10-18	2025-12-02	2025-05-06	2025-12-02 15:33:16.721932+00	2025-12-02 15:33:16.721932+00	\N	\N	f	\N
+49	2027-04-10	2027-03-01	2027-03-31	2026-06-23 00:00:00+00	2026-06-23 00:00:00+00	\N	\N	f	\N
+50	2028-09-05	2028-08-01	2028-08-31	2026-06-23 00:00:00+00	2026-06-23 00:00:00+00	\N	\N	f	\N
+51	2030-08-20	2030-07-01	2030-07-31	2026-06-23 00:00:00+00	2026-06-23 00:00:00+00	\N	\N	f	\N
+47	2026-07-07	2026-05-01	2026-05-31	2026-07-14 12:00:00+00	2026-07-14 12:00:00+00	\N	\N	f	\N
+48	2036-10-20	2036-08-01	2036-08-31	2026-07-14 12:00:00+00	2026-07-14 12:00:00+00	\N	\N	f	\N
 \.
 
 
@@ -174,6 +179,19 @@ COPY public.exam_date_language (id, exam_date_id, language_code, created, level_
 43	27	eng	2022-11-30 14:13:51.664733+00	PERUS	\N
 44	27	fra	2022-11-30 14:13:51.665696+00	PERUS	\N
 45	28	fin	2022-12-01 12:21:45.799331+00	PERUS	\N
+46	47	fin	2026-07-14 12:00:00+00	PERUS	\N
+47	47	fin	2026-07-14 12:00:00+00	KESKI	\N
+48	47	spa	2026-07-14 12:00:00+00	KESKI	\N
+49	47	spa	2026-07-14 12:00:00+00	YLIN	\N
+50	47	eng	2026-07-14 12:00:00+00	KESKI	\N
+51	48	rus	2026-07-14 12:00:00+00	PERUS	\N
+52	48	sme	2026-07-14 12:00:00+00	YLIN	\N
+53	48	fin	2026-07-14 12:00:00+00	PERUS	\N
+54	48	swe	2026-07-14 12:00:00+00	YLIN	\N
+55	48	swe	2026-07-14 12:00:00+00	PERUS	\N
+56	48	swe	2026-07-14 12:00:00+00	KESKI	\N
+57	48	fin	2026-07-14 12:00:00+00	KESKI	\N
+58	48	fin	2026-07-14 12:00:00+00	YLIN	\N
 \.
 
 
@@ -182,6 +200,21 @@ COPY public.exam_date_language (id, exam_date_id, language_code, created, level_
 --
 
 COPY public.evaluation (id, exam_date_id, exam_date_language_id, evaluation_start_date, evaluation_end_date, deleted_at) FROM stdin;
+1	47	46	2026-07-13	2036-07-15	\N
+2	47	47	2026-07-13	2036-07-15	\N
+3	47	48	2026-07-13	2036-07-15	\N
+4	47	49	2026-07-13	2036-07-15	\N
+5	47	50	2026-07-13	2036-07-15	2026-07-01 12:00:00+00
+6	48	51	2036-10-25	2036-10-27	\N
+7	48	52	2036-10-25	2036-10-27	\N
+8	48	53	2036-10-25	2036-10-27	\N
+9	48	54	2036-10-25	2036-10-27	\N
+10	48	55	2036-10-25	2036-10-27	\N
+11	48	56	2036-10-25	2036-10-27	\N
+12	48	57	2036-10-25	2036-10-27	\N
+13	48	58	2036-10-25	2036-10-27	\N
+14	26	42	2021-02-01	2021-02-15	\N
+15	48	1	2018-02-01	2018-02-15	\N
 \.
 
 
@@ -190,18 +223,14 @@ COPY public.evaluation (id, exam_date_id, exam_date_language_id, evaluation_star
 --
 
 COPY public.evaluation_order (id, evaluation_id, first_names, last_name, email, birthdate, extra, created, deleted_at) FROM stdin;
-\.
-
-
---
--- Data for Name: subtest; Type: TABLE DATA; Schema: public; Owner: admin
---
-
-COPY public.subtest (code, created) FROM stdin;
-READING	2022-11-30 14:13:51.713412+00
-LISTENING	2022-11-30 14:13:51.713412+00
-WRITING	2022-11-30 14:13:51.713412+00
-SPEAKING	2022-11-30 14:13:51.713412+00
+1	1	Testi	Perus	testi.perus@invalid	1990-01-01	\N	2026-01-02 09:00:00+00	\N
+2	4	Testi	Ylin	testi.ylin@invalid	1985-05-05	\N	2026-01-02 09:00:00+00	\N
+3	7	Testi	Saame	testi.saame@invalid	1978-11-11	\N	2026-01-02 09:00:00+00	\N
+4	14	Testi	Menneisyys	testi.menneisyys@invalid	1970-02-02	\N	2021-01-05 09:00:00+00	\N
+5	1	Testi	Poistettu	testi.poistettu@invalid	1992-03-03	\N	2026-01-02 09:00:00+00	2026-02-01 12:00:00+00
+6	5	Testi	Poistettuarviointi	testi.poistettuarviointi@invalid	1994-04-04	\N	2026-01-02 09:00:00+00	\N
+7	15	Testi	Koepaiva	testi.koepaiva@invalid	1988-08-08	\N	2026-01-02 09:00:00+00	\N
+8	2	\N	\N	\N	\N	\N	2026-01-02 09:00:00+00	\N
 \.
 
 
@@ -210,6 +239,15 @@ SPEAKING	2022-11-30 14:13:51.713412+00
 --
 
 COPY public.evaluation_order_subtest (id, evaluation_order_id, subtest, created, deleted_at) FROM stdin;
+1	1	WRITING	2026-01-02 09:00:00+00	\N
+2	1	READING	2026-01-02 09:00:00+00	\N
+3	2	READING	2026-01-02 09:00:00+00	\N
+4	2	LISTENING	2026-01-02 09:00:00+00	\N
+5	2	WRITING	2026-01-02 09:00:00+00	\N
+6	2	SPEAKING	2026-01-02 09:00:00+00	\N
+7	3	SPEAKING	2026-01-02 09:00:00+00	\N
+8	4	READING	2021-01-05 09:00:00+00	\N
+9	4	WRITING	2021-01-05 09:00:00+00	2026-02-01 12:00:00+00
 \.
 
 
@@ -275,6 +313,22 @@ COPY public.exam_session (id, organizer_id, language_code, level_code, exam_date
 21	1	deu	YLIN	46	0	\N	\N	2025-12-02 15:33:16.761716+00	2025-12-02 15:33:16.761716+00	\N	f	\N	\N
 22	1	swe	PERUS	44	0	\N	\N	2025-12-02 15:33:16.761716+00	2025-12-02 15:33:16.761716+00	\N	f	\N	\N
 23	1	swe	PERUS	44	0	\N	\N	2025-12-02 15:33:16.761716+00	2025-12-02 15:33:16.761716+00	\N	f	\N	\N
+24	1	fin	PERUS	47	20	\N	\N	2026-06-23 00:00:00+00	2026-06-23 00:00:00+00	\N	f	\N	\N
+25	1	swe	KESKI	48	20	\N	\N	2026-06-23 00:00:00+00	2026-06-23 00:00:00+00	\N	f	\N	\N
+26	1	eng	YLIN	49	20	\N	\N	2026-06-23 00:00:00+00	2026-06-23 00:00:00+00	\N	f	\N	\N
+27	1	deu	PERUS	50	20	\N	\N	2026-06-23 00:00:00+00	2026-06-23 00:00:00+00	\N	f	\N	\N
+28	1	rus	KESKI	51	20	\N	\N	2026-06-23 00:00:00+00	2026-06-23 00:00:00+00	\N	f	\N	\N
+\.
+
+
+--
+-- Data for Name: exam_session_statistics; Type: TABLE DATA; Schema: public; Owner: admin
+--
+
+COPY public.exam_session_statistics (id, exam_session_id, created_at, participants, queue, max_participant_count, max_queue_count, max_participants_at, max_queue_at, last_processed_event_id) FROM stdin;
+1	1	2026-06-01 08:00:00+00	3	0	3	0	2026-06-01 08:00:00+00	2026-06-01 08:00:00+00	\N
+2	1	2026-06-03 09:00:00+00	8	0	8	0	2026-06-03 09:00:00+00	2026-06-01 08:00:00+00	\N
+3	1	2026-06-05 10:00:00+00	11	1	11	1	2026-06-05 10:00:00+00	2026-06-05 10:00:00+00	\N
 \.
 
 
@@ -333,6 +387,13 @@ COPY public.registration (id, state, exam_session_id, participant_id, started_at
 183	COMPLETED	4	750	\N	{"zip": "33100", "email": "aino.osallistuja@loremipsum.fi", "gender": "2", "birthdate": "1990-01-01", "exam_lang": "fi", "last_name": "Osallistuja", "first_name": "Aino", "post_office": "Tampere", "phone_number": "+358 401234567", "nationalities": ["246"], "street_address": "Katuosoite 123", "certificate_lang": "fi", "nationality_desc": "Suomi"}	\N	1.2.246.562.24.82364099322	\N	2025-12-02 15:34:28.685691+00	2025-12-02 15:34:28.685691+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
 184	CANCELLED	2	750	\N	{"zip": "33100", "email": "aino.osallistuja@loremipsum.fi", "gender": "2", "birthdate": "1990-01-01", "exam_lang": "sv", "last_name": "Osallistuja", "first_name": "Aino", "post_office": "Tampere", "phone_number": "+358 401234567", "nationalities": ["246"], "street_address": "Katuosoite 123", "certificate_lang": "fi", "nationality_desc": "Suomi"}	\N	1.2.246.562.24.82364099322	\N	2025-12-02 15:34:28.685691+00	2025-12-02 15:34:28.685691+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
 185	COMPLETED	3	750	\N	{"zip": "33100", "email": "aino.osallistuja@loremipsum.fi", "gender": "2", "birthdate": "1990-01-01", "exam_lang": "sv", "last_name": "Osallistuja", "first_name": "Aino", "post_office": "Tampere", "phone_number": "+358 401234567", "nationalities": ["246"], "street_address": "Katuosoite 123", "certificate_lang": "fi", "nationality_desc": "Suomi"}	\N	1.2.246.562.24.82364099322	\N	2025-12-02 15:34:28.685691+00	2025-12-02 15:34:28.685691+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
+186	COMPLETED	24	750	\N	{"zip": "33100", "email": "aino.osallistuja@loremipsum.fi", "gender": "2", "birthdate": "1990-01-01", "exam_lang": "fi", "last_name": "Osallistuja", "first_name": "Aino", "post_office": "Tampere", "phone_number": "+358 401234567", "nationalities": ["246"], "street_address": "Katuosoite 123", "certificate_lang": "fi", "nationality_desc": "Suomi"}	\N	1.2.246.562.24.82364099322	\N	2026-06-01 09:00:00+00	2026-06-01 09:00:00+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
+187	SUBMITTED	24	750	\N	{"zip": "33100", "email": "aino.osallistuja@loremipsum.fi", "gender": "2", "birthdate": "1990-01-01", "exam_lang": "fi", "last_name": "Osallistuja", "first_name": "Aino", "post_office": "Tampere", "phone_number": "+358 401234567", "nationalities": ["246"], "street_address": "Katuosoite 123", "certificate_lang": "fi", "nationality_desc": "Suomi"}	\N	1.2.246.562.24.82364099322	\N	2026-06-02 09:00:00+00	2026-06-02 09:00:00+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
+188	CANCELLED	25	750	\N	{"zip": "33100", "email": "aino.osallistuja@loremipsum.fi", "gender": "2", "birthdate": "1990-01-01", "exam_lang": "sv", "last_name": "Osallistuja", "first_name": "Aino", "post_office": "Tampere", "phone_number": "+358 401234567", "nationalities": ["246"], "street_address": "Katuosoite 123", "certificate_lang": "fi", "nationality_desc": "Suomi"}	\N	1.2.246.562.24.82364099322	\N	2026-06-03 09:00:00+00	2026-06-03 09:00:00+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
+189	COMPLETED	25	750	\N	{"zip": "33100", "email": "aino.osallistuja@loremipsum.fi", "gender": "2", "birthdate": "1990-01-01", "exam_lang": "sv", "last_name": "Osallistuja", "first_name": "Aino", "post_office": "Tampere", "phone_number": "+358 401234567", "nationalities": ["246"], "street_address": "Katuosoite 123", "certificate_lang": "fi", "nationality_desc": "Suomi"}	\N	1.2.246.562.24.82364099322	\N	2026-06-04 09:00:00+00	2026-06-04 09:00:00+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
+190	PAID_AND_CANCELLED	26	750	\N	{"zip": "33100", "email": "aino.osallistuja@loremipsum.fi", "gender": "2", "birthdate": "1990-01-01", "exam_lang": "en", "last_name": "Osallistuja", "first_name": "Aino", "post_office": "Tampere", "phone_number": "+358 401234567", "nationalities": ["246"], "street_address": "Katuosoite 123", "certificate_lang": "fi", "nationality_desc": "Suomi"}	\N	1.2.246.562.24.82364099322	\N	2026-06-05 09:00:00+00	2026-06-05 09:00:00+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
+191	SUBMITTED	27	750	\N	{"zip": "33100", "email": "aino.osallistuja@loremipsum.fi", "gender": "2", "birthdate": "1990-01-01", "exam_lang": "de", "last_name": "Osallistuja", "first_name": "Aino", "post_office": "Tampere", "phone_number": "+358 401234567", "nationalities": ["246"], "street_address": "Katuosoite 123", "certificate_lang": "fi", "nationality_desc": "Suomi"}	\N	1.2.246.562.24.82364099322	\N	2026-06-06 09:00:00+00	2026-06-06 09:00:00+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
+192	COMPLETED	28	750	\N	{"zip": "33100", "email": "aino.osallistuja@loremipsum.fi", "gender": "2", "birthdate": "1990-01-01", "exam_lang": "ru", "last_name": "Osallistuja", "first_name": "Aino", "post_office": "Tampere", "phone_number": "+358 401234567", "nationalities": ["246"], "street_address": "Katuosoite 123", "certificate_lang": "fi", "nationality_desc": "Suomi"}	\N	1.2.246.562.24.82364099322	\N	2026-06-07 09:00:00+00	2026-06-07 09:00:00+00	ADMISSION	\N	\N	f	\N	\N	\N	\N	\N
 \.
 
 
@@ -424,6 +485,11 @@ COPY public.exam_session_location (id, name, street_address, post_office, zip, o
 65	Lorem ipsun oppilaitos	Loremipsuminkatu 12	Helsinki	00100	\N	\N	fi	8	2025-12-02 15:33:16.822162+00
 66	Lorem ipsun oppilaitos	Loremipsuminkatu 12	Helsinki	00100	\N	\N	sv	8	2025-12-02 15:33:16.822162+00
 67	Lorem ipsun oppilaitos	Loremipsuminkatu 12	Helsinki	00100	\N	\N	en	8	2025-12-02 15:33:16.822162+00
+68	Helsingin testikoulu	Helsinginkatu 1	Helsinki	00100	\N	\N	fi	24	2026-06-23 00:00:00+00
+69	Tampereen testikoulu	Tampereenkatu 2	Tampere	33100	\N	\N	fi	25	2026-06-23 00:00:00+00
+70	Oulun testikoulu	Oulunkatu 3	Oulu	90100	\N	\N	fi	26	2026-06-23 00:00:00+00
+71	Turun testikoulu	Turunkatu 4	Turku	20100	\N	\N	fi	27	2026-06-23 00:00:00+00
+72	Jyväskylän testikoulu	Jyväskylänkatu 5	Jyväskylä	40100	\N	\N	fi	28	2026-06-23 00:00:00+00
 \.
 
 
@@ -635,7 +701,7 @@ SELECT pg_catalog.setval('public.evaluation_exam_date_language_id_seq', 1, false
 -- Name: evaluation_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.evaluation_id_seq', 1, false);
+SELECT pg_catalog.setval('public.evaluation_id_seq', 15, true);
 
 
 --
@@ -649,7 +715,7 @@ SELECT pg_catalog.setval('public.evaluation_order_evaluation_id_seq', 1, false);
 -- Name: evaluation_order_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.evaluation_order_id_seq', 1, false);
+SELECT pg_catalog.setval('public.evaluation_order_id_seq', 8, true);
 
 
 --
@@ -663,7 +729,7 @@ SELECT pg_catalog.setval('public.evaluation_order_subtest_evaluation_order_id_se
 -- Name: evaluation_order_subtest_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.evaluation_order_subtest_id_seq', 1, false);
+SELECT pg_catalog.setval('public.evaluation_order_subtest_id_seq', 9, true);
 
 
 --
@@ -705,7 +771,7 @@ SELECT pg_catalog.setval('public.evaluation_payment_order_number_seq', 1, false)
 -- Name: exam_date_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.exam_date_id_seq', 46, true);
+SELECT pg_catalog.setval('public.exam_date_id_seq', 51, true);
 
 
 --
@@ -719,7 +785,7 @@ SELECT pg_catalog.setval('public.exam_date_language_exam_date_id_seq', 1, false)
 -- Name: exam_date_language_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.exam_date_language_id_seq', 45, true);
+SELECT pg_catalog.setval('public.exam_date_language_id_seq', 58, true);
 
 
 --
@@ -782,14 +848,14 @@ SELECT pg_catalog.setval('public.exam_session_exam_date_id_seq', 1, false);
 -- Name: exam_session_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.exam_session_id_seq', 23, true);
+SELECT pg_catalog.setval('public.exam_session_id_seq', 28, true);
 
 
 --
 -- Name: exam_session_location_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.exam_session_location_id_seq', 67, true);
+SELECT pg_catalog.setval('public.exam_session_location_id_seq', 72, true);
 
 
 --
@@ -804,6 +870,13 @@ SELECT pg_catalog.setval('public.exam_session_organizer_id_seq', 1, false);
 --
 
 SELECT pg_catalog.setval('public.exam_session_queue_id_seq', 1, false);
+
+
+--
+-- Name: exam_session_statistics_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
+--
+
+SELECT pg_catalog.setval('public.exam_session_statistics_id_seq', 3, true);
 
 
 --
@@ -936,7 +1009,7 @@ SELECT pg_catalog.setval('public.quarantine_review_id_seq', 24, true);
 -- Name: registration_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.registration_id_seq', 185, true);
+SELECT pg_catalog.setval('public.registration_id_seq', 192, true);
 
 
 --

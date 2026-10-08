@@ -42,16 +42,25 @@ const BackToIdentificationButton = () => {
     keyPrefix: 'yki.component.registration.unavailable.unauthorized',
   });
   const { examSession } = useAppSelector(examSessionSelector);
+  const { registrationId } =
+    useAppSelector(registrationSelector).initRegistration;
 
   return (
     <CustomButton
       className="fit-content-max-width"
       color={Color.Secondary}
       variant={Variant.Contained}
-      href={AppRoutes.ExamSession.replace(
-        /:examSessionId/,
-        `${examSession?.id}`,
-      )}
+      href={
+        registrationId
+          ? `${AppRoutes.ExamSession.replace(
+              /:examSessionId/,
+              `${examSession?.id}`,
+            )}?registrationId=${registrationId}`
+          : AppRoutes.ExamSession.replace(
+              /:examSessionId/,
+              `${examSession?.id}`,
+            )
+      }
     >
       {t('backToIdentification')}
     </CustomButton>

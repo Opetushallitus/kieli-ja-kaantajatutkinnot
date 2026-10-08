@@ -1,10 +1,18 @@
 package fi.oph.yki;
 
+import fi.oph.yki.model.Email;
+import fi.oph.yki.model.EmailType;
+import fi.oph.yki.model.Evaluation;
+import fi.oph.yki.model.EvaluationOrder;
+import fi.oph.yki.model.EvaluationOrderSubtest;
 import fi.oph.yki.model.ExamDate;
+import fi.oph.yki.model.ExamDateLanguage;
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.ExamSessionLocation;
+import fi.oph.yki.model.ExamSessionStatistics;
 import fi.oph.yki.model.FreeRegistration;
 import fi.oph.yki.model.Organizer;
+import fi.oph.yki.model.Participant;
 import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Quarantine;
 import fi.oph.yki.model.Registration;
@@ -14,7 +22,9 @@ import fi.oph.yki.model.type.FreeRegistrationType;
 import fi.oph.yki.model.type.PartialExamType;
 import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
+import fi.oph.yki.model.type.Subtest;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class Factory {
@@ -36,6 +46,14 @@ public class Factory {
     registration.setPartialExamType(PartialExamType.ALL_PARTS);
 
     return registration;
+  }
+
+  public static Participant participant(final String email) {
+    final Participant participant = new Participant();
+    participant.setExternalUserId(email);
+    participant.setEmail(email);
+
+    return participant;
   }
 
   public static FreeRegistration freeRegistration(final Registration registration) {
@@ -62,6 +80,43 @@ public class Factory {
     examDate.setExamType(ExamSessionType.FULL);
 
     return examDate;
+  }
+
+  public static ExamDateLanguage examDateLanguage(final ExamDate examDate) {
+    final ExamDateLanguage examDateLanguage = new ExamDateLanguage();
+    examDateLanguage.setExamDate(examDate);
+    examDateLanguage.setLanguageCode("fin");
+    examDateLanguage.setLevelCode("PERUS");
+
+    return examDateLanguage;
+  }
+
+  public static Evaluation evaluation(final ExamDate examDate, final ExamDateLanguage examDateLanguage) {
+    final Evaluation evaluation = new Evaluation();
+    evaluation.setExamDate(examDate);
+    evaluation.setExamDateLanguage(examDateLanguage);
+    evaluation.setEvaluationStartDate(LocalDate.now().minusDays(10));
+    evaluation.setEvaluationEndDate(LocalDate.now().plusDays(10));
+
+    return evaluation;
+  }
+
+  public static EvaluationOrder evaluationOrder(final Evaluation evaluation) {
+    final EvaluationOrder evaluationOrder = new EvaluationOrder();
+    evaluationOrder.setEvaluation(evaluation);
+
+    return evaluationOrder;
+  }
+
+  public static EvaluationOrderSubtest evaluationOrderSubtest(
+    final EvaluationOrder evaluationOrder,
+    final Subtest subtest
+  ) {
+    final EvaluationOrderSubtest evaluationOrderSubtest = new EvaluationOrderSubtest();
+    evaluationOrderSubtest.setEvaluationOrder(evaluationOrder);
+    evaluationOrderSubtest.setSubtest(subtest);
+
+    return evaluationOrderSubtest;
   }
 
   public static ExamSession examSession(final ExamDate examDate) {
@@ -102,6 +157,19 @@ public class Factory {
     return quarantine;
   }
 
+  public static ExamSessionStatistics examSessionStatistics(final ExamSession examSession) {
+    final ExamSessionStatistics statistics = new ExamSessionStatistics();
+    statistics.setExamSession(examSession);
+    statistics.setParticipants(0);
+    statistics.setQueue(0);
+    statistics.setMaxParticipantCount(0);
+    statistics.setMaxQueueCount(0);
+    statistics.setMaxParticipantsAt(LocalDateTime.of(2026, 1, 1, 0, 0));
+    statistics.setMaxQueueAt(LocalDateTime.of(2026, 1, 1, 0, 0));
+
+    return statistics;
+  }
+
   public static ExamSessionLocation examSessionLocation(final ExamSession examSession) {
     final ExamSessionLocation location = new ExamSessionLocation();
     location.setExamSession(examSession);
@@ -112,5 +180,16 @@ public class Factory {
     location.setLang("fi");
 
     return location;
+  }
+
+  public static Email email() {
+    final Email email = new Email();
+    email.setEmailType(EmailType.LOGIN);
+    email.setRecipientName("Testi Henkilö");
+    email.setRecipientAddress("testi.henkilo@invalid");
+    email.setSubject("Otsikko");
+    email.setBody("Sisältö on tässä");
+
+    return email;
   }
 }

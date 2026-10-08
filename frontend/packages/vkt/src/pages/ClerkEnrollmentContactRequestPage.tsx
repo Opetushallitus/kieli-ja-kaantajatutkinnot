@@ -1,8 +1,7 @@
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Box, Divider, Grid, Paper } from '@mui/material';
 import { FC, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router';
 import {
   ComboBox,
   CustomButton,

@@ -19,6 +19,7 @@ exports[`Footer should render Footer correctly 1`] = `
           class="footer__container footer__container__links"
         >
           <a
+            data-discover="true"
             href="/akr/saavutettavuusseloste"
           >
             <p
@@ -28,6 +29,7 @@ exports[`Footer should render Footer correctly 1`] = `
             </p>
           </a>
           <a
+            data-discover="true"
             href="/akr/tietosuojaseloste"
           >
             <p

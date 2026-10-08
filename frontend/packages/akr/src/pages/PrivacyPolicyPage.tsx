@@ -4,7 +4,7 @@ import {
 } from '@mui/icons-material';
 import { Grid, Paper } from '@mui/material';
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import {
   CustomButtonLink,
   H1,

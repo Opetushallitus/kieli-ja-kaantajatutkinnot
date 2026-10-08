@@ -129,10 +129,7 @@ export const EmailIdentification = () => {
     [setError, translateCommon],
   );
 
-  const registrationKind = ExamSessionUtils.getRegistrationKind({
-    examSession,
-    partialExamType: initRegistration.partialExamType,
-  });
+  const registrationKind = examSession.available_registration_kind;
 
   const onSubmit = useCallback(() => {
     const error = validateEmail(email);

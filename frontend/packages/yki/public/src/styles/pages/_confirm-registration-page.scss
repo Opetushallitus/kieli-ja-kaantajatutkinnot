@@ -13,6 +13,7 @@
   }
 
   &__paper-contents {
+    border-top: 5px solid $color-secondary;
     @include phone {
       padding: 3rem 2rem;
     }

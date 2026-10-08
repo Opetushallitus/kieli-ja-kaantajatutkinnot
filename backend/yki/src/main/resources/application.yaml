@@ -53,14 +53,18 @@ springdoc:
     path: /api-docs
 app:
   proxy-token: ${proxy-token:"03e2f9b3-d1de-4846-884e-80e6c3d0fae4"}
+  customer-portal:
+    enabled: ${customer-portal.enabled:false}
   base-url:
     public: ${public-base-url:http://localhost:8083}/yki
     clerk: ${clerk-base-url:http://localhost:8083/yki}
+  user-portal:
+    success-url: ${app.base-url.public}/kayttaja/tiedot
+    expired-url: ${app.base-url.public}/linkki-vanhentunut/:code
   koski:
     url: ${koski.url:null}
     user: ${cas.username:null}
     password: ${cas.password:null}
-  clerk-enabled: ${clerk.enabled:false}
   organization-service:
     url: ${organisaatio-url:https://virkailija.untuvaopintopolku.fi/organisaatio-service}
   kayttooikeus-service:

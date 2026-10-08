@@ -4,7 +4,7 @@ import {
 } from '@mui/icons-material';
 import Button from '@mui/material/Button';
 import { FC, useEffect } from 'react';
-import { generatePath, Link, matchPath, useLocation } from 'react-router-dom';
+import { generatePath, Link, matchPath, useLocation } from 'react-router';
 import { Text } from 'shared/components';
 import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
 import { useDialog, useWindowProperties } from 'shared/hooks';

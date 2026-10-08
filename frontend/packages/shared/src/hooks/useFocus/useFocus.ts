@@ -7,7 +7,9 @@ interface Focusable {
 export const useFocus = <T extends Focusable>(): [RefObject<T>, () => void] => {
   const ref = useRef<T>(null);
   const setFocus = useCallback(() => {
-    ref.current && ref.current.focus();
+    if (ref.current) {
+      ref.current.focus();
+    }
   }, [ref]);
 
   return [ref, setFocus];

@@ -1,6 +1,6 @@
 import { Error } from '@mui/icons-material';
 import { Stack } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 import { ListTable } from 'components/oph-design/table/list-table';
 import { ListTableColumn, Row } from 'components/oph-design/table/table-types';

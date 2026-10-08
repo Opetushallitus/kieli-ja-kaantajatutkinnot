@@ -23,6 +23,7 @@
             "columns": {
               "actions": "Toiminnot",
               "date": "Tutkintopäivä",
+              "examSessionRegistrationDate": "Ilmoittautumispäivä",
               "examState": "Tila",
               "location": "Testipaikka",
               "name": "Tutkinto",
@@ -241,13 +242,10 @@
               "language": "Tutkintokieli",
               "level": "Tutkintotaso",
               "maxParticipants": "Osallistujien enimmäismäärä",
-              "maxParticipantsPart1": "Osakoe 1: enimmäismäärä",
-              "maxParticipantsPart2": "Osakoe 2: enimmäismäärä",
               "name": "Tila",
               "noExamDates": "Ei tutkintopäiviä valituilla valinnoilla",
               "postalCode": "Postinumero",
-              "startTimeReadListen": "Osakoe 1: alkamisaika",
-              "startTimeSpeakWrite": "Osakoe 2: alkamisaika",
+              "startTime": "Alkamisaika",
               "streetAddress": "Katuosoite",
               "type": "Tutkintotyyppi",
               "typeOptions": {
@@ -405,6 +403,23 @@
         "tabs": {
           "pending": "Odottavat tarkastukset",
           "previous": "Aiemmat tarkastukset"
+        }
+      },
+      "clerkStatistics": {
+        "clearFilters": "Tyhjennä hakuehdot",
+        "description": "Valitse alta päivämäärät, joiden ajalta haluat tarkastella tilastoja. Voit rajata tilastoja myös muilla valinnoilla.",
+        "download": "Muodosta raportti (.xlsx)",
+        "fields": {
+          "dateRange": "Aikaväli",
+          "language": "Kieli",
+          "level": "Taso",
+          "municipality": "Paikkakunta",
+          "organizer": "Järjestäjä"
+        },
+        "placeholder": "Valitse...",
+        "toasts": {
+          "downloadError": "Raportin luominen epäonnistui",
+          "emptyResult": "Ei hakutuloksia"
         }
       },
       "clerkPaymentReport": {
@@ -670,6 +685,9 @@
       },
       "clerkPaymentReportPage": {
         "heading": "Reports and statistics"
+      },
+      "clerkStatisticsPage": {
+        "heading": "Tilastot"
       },
       "clerkQuarantinePage": {
         "heading": "Osallistumiskiellot"

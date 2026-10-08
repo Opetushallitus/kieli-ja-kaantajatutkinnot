@@ -1,7 +1,7 @@
 import DownloadIcon from '@mui/icons-material/DownloadOutlined';
 import EditIcon from '@mui/icons-material/Edit';
 import { FC } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 import { CustomButtonLink, ExtLink, H2, H3, Text } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 

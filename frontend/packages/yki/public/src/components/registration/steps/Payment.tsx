@@ -1,6 +1,6 @@
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Link } from '@mui/material';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router';
 import { H2, Text } from 'shared/components';
 
 import { BackToFrontPageButton } from 'components/elements/BackToFrontPageButton';

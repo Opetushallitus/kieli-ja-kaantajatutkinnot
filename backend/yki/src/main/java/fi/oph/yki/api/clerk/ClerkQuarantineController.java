@@ -7,13 +7,11 @@ import fi.oph.yki.api.dto.clerk.ClerkQuarantineReviewDTO;
 import fi.oph.yki.api.dto.clerk.ClerkQuarantinesDTO;
 import fi.oph.yki.api.dto.clerk.CreateQuarantineRequest;
 import fi.oph.yki.api.dto.clerk.QuarantineReviewRequest;
-import fi.oph.yki.config.ClerkEnabledCondition;
 import fi.oph.yki.service.ClerkQuarantineService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import java.util.List;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/v2/api/clerk/quarantine", produces = APPLICATION_JSON_VALUE)
-@Conditional(ClerkEnabledCondition.class)
 public class ClerkQuarantineController {
 
   private static final String TAG_QUARANTINE = "Clerk quarantine API";
