@@ -63,6 +63,7 @@ class ParticipantsSyncScheduledTaskTest {
   void insertsStatusRowAndMarksSuccessOnSuccessfulSync() {
     final ExamSession examSession = examSession(1L);
     Mockito.when(examSessionRepository.findExamSessionsDueForParticipantSync(1)).thenReturn(List.of(examSession));
+    Mockito.when(solkiService.syncExamSessionParticipants(examSession)).thenReturn(true);
 
     task.syncParticipants();
 
@@ -83,6 +84,7 @@ class ParticipantsSyncScheduledTaskTest {
       .when(examSessionRepository.findExamSessionsDueForParticipantSync(1))
       .thenReturn(List.of(failing, succeeding));
     Mockito.doThrow(new RuntimeException("SOLKI down")).when(solkiService).syncExamSessionParticipants(failing);
+    Mockito.when(solkiService.syncExamSessionParticipants(succeeding)).thenReturn(true);
 
     task.syncParticipants();
 
@@ -97,6 +99,7 @@ class ParticipantsSyncScheduledTaskTest {
     final ExamSession examSession = examSession(1L);
     Mockito.when(examSessionRepository.findExamSessionsDueForParticipantSync(1)).thenReturn(List.of(examSession));
     Mockito.when(participantSyncStatusRepository.existsByExamSession(examSession)).thenReturn(true);
+    Mockito.when(solkiService.syncExamSessionParticipants(examSession)).thenReturn(true);
 
     task.syncParticipants();
 

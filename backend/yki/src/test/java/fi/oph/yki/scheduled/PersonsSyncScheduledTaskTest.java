@@ -60,6 +60,7 @@ class PersonsSyncScheduledTaskTest {
 
     Mockito.when(personSyncStatusRepository.findPendingSyncs(Mockito.any())).thenReturn(List.of(status));
     Mockito.when(personRepository.getByOid("1.2.3.4.5")).thenReturn(person);
+    Mockito.when(solkiService.syncPerson(person)).thenReturn(true);
 
     task.syncPersons();
 
@@ -147,6 +148,7 @@ class PersonsSyncScheduledTaskTest {
     Mockito.when(personRepository.getByOid("1.2.3.4.5")).thenReturn(firstPerson);
     Mockito.when(personRepository.getByOid("1.2.3.4.6")).thenReturn(secondPerson);
     Mockito.doThrow(new RuntimeException("boom")).when(solkiService).syncPerson(firstPerson);
+    Mockito.when(solkiService.syncPerson(secondPerson)).thenReturn(true);
 
     task.syncPersons();
 

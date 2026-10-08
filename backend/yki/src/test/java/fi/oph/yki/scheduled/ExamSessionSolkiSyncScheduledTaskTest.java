@@ -59,6 +59,8 @@ class ExamSessionSolkiSyncScheduledTaskTest {
   void syncsOrganizerThenExamSessionAndStampsLastSyncAtOnSuccess() {
     final ExamSession examSession = examSession();
     Mockito.when(examSessionRepository.findUnsyncedExamSessions(Mockito.any())).thenReturn(List.of(examSession));
+    Mockito.when(solkiService.syncOrganizer(examSession.getOrganizer(), examSession.getOfficeOid())).thenReturn(true);
+    Mockito.when(solkiService.syncExamSession(examSession)).thenReturn(true);
 
     task.syncExamSessions();
 
@@ -84,6 +86,8 @@ class ExamSessionSolkiSyncScheduledTaskTest {
       .doThrow(new RuntimeException("SOLKI down"))
       .when(solkiService)
       .syncOrganizer(failing.getOrganizer(), failing.getOfficeOid());
+    Mockito.when(solkiService.syncOrganizer(succeeding.getOrganizer(), succeeding.getOfficeOid())).thenReturn(true);
+    Mockito.when(solkiService.syncExamSession(succeeding)).thenReturn(true);
 
     task.syncExamSessions();
 

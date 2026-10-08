@@ -335,16 +335,16 @@ public class SolkiService {
     return value != null ? value : "";
   }
 
-  public void syncExamSessionParticipants(final ExamSession examSession) {
-    syncExamSessionParticipants(examSession, false);
+  public boolean syncExamSessionParticipants(final ExamSession examSession) {
+    return syncExamSessionParticipants(examSession, false);
   }
 
   /** Bypasses the person-sync-enabled flag - only for the manual debug/force-sync endpoint. */
-  public void forceSyncExamSessionParticipants(final ExamSession examSession) {
-    syncExamSessionParticipants(examSession, true);
+  public boolean forceSyncExamSessionParticipants(final ExamSession examSession) {
+    return syncExamSessionParticipants(examSession, true);
   }
 
-  private void syncExamSessionParticipants(final ExamSession examSession, final boolean force) {
+  private boolean syncExamSessionParticipants(final ExamSession examSession, final boolean force) {
     final String csv = buildParticipantsCsv(examSession);
 
     if (!force && !personSyncEnabled) {
@@ -353,10 +353,11 @@ public class SolkiService {
         examSession.getId(),
         csv
       );
-      return;
+      return false;
     }
 
     postParticipantsCsv(examSession, csv);
+    return true;
   }
 
   /** Fetches completed registrations and builds the CSV without sending it - used by the debug CSV export endpoint. */
@@ -413,18 +414,18 @@ public class SolkiService {
     return URLEncoder.encode(value, StandardCharsets.UTF_8);
   }
 
-  public void syncOrganizer(final Organizer organizer, final String officeOid) {
-    syncOrganizer(organizer, officeOid, false);
+  public boolean syncOrganizer(final Organizer organizer, final String officeOid) {
+    return syncOrganizer(organizer, officeOid, false);
   }
 
-  public void forceSyncOrganizer(final Organizer organizer, final String officeOid) {
-    syncOrganizer(organizer, officeOid, true);
+  public boolean forceSyncOrganizer(final Organizer organizer, final String officeOid) {
+    return syncOrganizer(organizer, officeOid, true);
   }
 
-  private void syncOrganizer(final Organizer organizer, final String officeOid, final boolean force) {
+  private boolean syncOrganizer(final Organizer organizer, final String officeOid, final boolean force) {
     if (!force && !examSessionSyncEnabled) {
       LOG.info("SOLKI organizer sync disabled, would have synced organizer {}", organizer.getOid());
-      return;
+      return false;
     }
 
     final OrganizationDetailsDTO orgDetails = organizationService.getOrganizationDetails(
@@ -433,6 +434,7 @@ public class SolkiService {
     final OrganizerSyncRequestDTO request = buildOrganizerSyncRequest(organizer, orgDetails);
 
     post("/jarjestaja", request);
+    return true;
   }
 
   public void deleteOrganizer(final String organizerOid) {
@@ -444,13 +446,13 @@ public class SolkiService {
     delete("/jarjestaja?oid=" + urlEncode(organizerOid));
   }
 
-  public void syncExamSession(final ExamSession examSession) {
-    syncExamSession(examSession, false);
+  public boolean syncExamSession(final ExamSession examSession) {
+    return syncExamSession(examSession, false);
   }
 
   /** Bypasses the exam-session-sync-enabled flag - only for the manual debug/force-sync endpoint. */
-  public void forceSyncExamSession(final ExamSession examSession) {
-    syncExamSession(examSession, true);
+  public boolean forceSyncExamSession(final ExamSession examSession) {
+    return syncExamSession(examSession, true);
   }
 
   /** Convenience for the debug/force-sync endpoint, mirroring what the backstop scheduled task does per session. */
@@ -459,18 +461,19 @@ public class SolkiService {
     forceSyncExamSession(examSession);
   }
 
-  private void syncExamSession(final ExamSession examSession, final boolean force) {
+  private boolean syncExamSession(final ExamSession examSession, final boolean force) {
     final ExamDateSyncRequestDTO examDateRequest = buildExamDateSyncRequest(examSession);
     final ExamSessionSyncRequestDTO examSessionRequest = buildExamSessionSyncRequest(examSession);
 
     if (!force && !examSessionSyncEnabled) {
       LOG.info("SOLKI exam session sync disabled, would have sent exam date request {}", examDateRequest);
       LOG.info("SOLKI exam session sync disabled, would have sent exam session request {}", examSessionRequest);
-      return;
+      return false;
     }
 
     post("/tutkinto", examDateRequest);
     post("/tutkintotilaisuus", examSessionRequest);
+    return true;
   }
 
   public void deleteExamSession(final ExamSession examSession) {
@@ -496,15 +499,16 @@ public class SolkiService {
     delete("/tutkintotilaisuus" + queryParams);
   }
 
-  public void syncPerson(final Person person) {
+  public boolean syncPerson(final Person person) {
     final PersonSyncRequestDTO request = buildPersonSyncRequest(person);
 
     if (!personSyncEnabled) {
       LOG.info("SOLKI person sync disabled, would have sent request {}", request);
-      return;
+      return false;
     }
 
     put("/osallistuja/" + urlEncode(person.getOid()), request);
+    return true;
   }
 
   private void postParticipantsCsv(final ExamSession examSession, final String csv) {

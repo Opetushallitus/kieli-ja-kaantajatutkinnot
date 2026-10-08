@@ -47,10 +47,15 @@ public class ExamSessionSolkiSyncScheduledTask {
 
   private void syncExamSession(final ExamSession examSession) {
     try {
-      solkiService.syncOrganizer(examSession.getOrganizer(), examSession.getOfficeOid());
-      solkiService.syncExamSession(examSession);
-      examSession.setLastSyncAt(LocalDateTime.now());
-      examSessionRepository.save(examSession);
+      final boolean organizerSynced = solkiService.syncOrganizer(
+        examSession.getOrganizer(),
+        examSession.getOfficeOid()
+      );
+      final boolean examSessionSynced = solkiService.syncExamSession(examSession);
+      if (organizerSynced && examSessionSynced) {
+        examSession.setLastSyncAt(LocalDateTime.now());
+        examSessionRepository.save(examSession);
+      }
     } catch (final Exception e) {
       LOG.error("Failed to sync exam session {} to SOLKI: {}", examSession.getId(), e.getMessage());
       LOG.debug("Full stack trace for exam session {} SOLKI sync failure", examSession.getId(), e);
