@@ -446,13 +446,8 @@
             },
             "title": "Vahvista ilmoittautuminen maksamalla tutkintomaksu",
             "verifyRegistrationDetails": {
-              "termsAndConditions": {
-                "label": "Ilmoittautumisen ehdot",
-                "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/ilmoittautuminen-yki-testiin#anchor-ilmoittautumisen-ehdot"
-              },
               "text1": "Tarkista ennen maksamista, että olet valinnut oikean YKI-testin.",
-              "text2": "Kun ilmoittautuminen on vahvistettu, et voi vaihtaa YKI-testin kieltä, tasoa, osakokeita, testipaikkaa tai testipäivää.",
-              "text3": "Lue ilmoittautumisen ehdot Opetushallituksen verkkosivuilta:"
+              "text2": "Kun ilmoittautuminen on vahvistettu, et voi vaihtaa YKI-testin kieltä, tasoa, osakokeita, testipaikkaa tai testipäivää."
             }
           },
           "queued": {

@@ -18,6 +18,10 @@ export const ConfirmRegistration = ({
     keyPrefix:
       'yki.component.registration.registrationFormSubmitted.proceedToPayment',
   });
+  const { t: translateTerms } = usePublicTranslation({
+    keyPrefix:
+      'yki.component.registration.registrationDetails.termsAndConditions',
+  });
   const { isPhone } = useWindowProperties();
 
   return (
@@ -25,12 +29,11 @@ export const ConfirmRegistration = ({
       <H2>{t('title')}</H2>
       <Text>
         <b>{t('verifyRegistrationDetails.text1')}</b>{' '}
-        {t('verifyRegistrationDetails.text2')}{' '}
-        {t('verifyRegistrationDetails.text3')}{' '}
+        {t('verifyRegistrationDetails.text2')} {translateTerms('description2')}:{' '}
         <WebLink
-          startIcon={<OpenInNewIcon color="inherit" />}
-          href={t('verifyRegistrationDetails.termsAndConditions.url')}
-          label={t('verifyRegistrationDetails.termsAndConditions.label')}
+          endIcon={<OpenInNewIcon color="inherit" />}
+          href={translateTerms('link')}
+          label={translateTerms('linkText')}
         />
       </Text>
       <Text>

@@ -446,13 +446,8 @@
             },
             "title": "Bekräfta anmälan genom att betala examensavgiften",
             "verifyRegistrationDetails": {
-              "termsAndConditions": {
-                "label": "Villkor för anmälan",
-                "url": "https://www.oph.fi/sv/utbildning-och-examina/anmalan-till-yki-test#anchor-villkoren-for-anmalan"
-              },
               "text1": "Innan du betalar ska du kontrollera att du har valt rätt YKI-test.",
-              "text2": "När anmälan har bekräftats kan du inte ändra YKI-testets språk, nivå, delprov, testplats eller testdag.",
-              "text3": "Läs villkoren för anmälan på Utbildningsstyrelsens webbplats:"
+              "text2": "När anmälan har bekräftats kan du inte ändra YKI-testets språk, nivå, delprov, testplats eller testdag."
             }
           },
           "queued": {
