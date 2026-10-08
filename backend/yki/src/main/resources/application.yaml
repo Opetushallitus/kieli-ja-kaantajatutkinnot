@@ -72,7 +72,7 @@ app:
   kayttooikeus-service:
     url: ${kayttooikeus-url:https://virkailija.untuvaopintopolku.fi/kayttooikeus-service}
   solki:
-    url: ${solki.url:https://yki.jyu.fi/oph}
+    url: ${solki.url:null}
     user: ${solki.user:null}
     password: ${solki.password:null}
     person-sync-enabled: ${solki.person-sync-enabled:false}

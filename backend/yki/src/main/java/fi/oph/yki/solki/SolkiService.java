@@ -56,9 +56,6 @@ public class SolkiService {
 
   private static final Map<String, String> LEVEL_CONVERSION = Map.of("PERUS", "PT", "KESKI", "KT", "YLIN", "YT");
 
-  // HOTFIX (ported as-is): if nationality/country is null, empty, or one of these codes,
-  // SOLKI and our koodisto codes disagree on the mapping, so we send "xxx" rather than a
-  // wrong value. See the equivalent comment in yki_register.clj for the "find out why" TODO.
   private static final Set<String> UNSUPPORTED_OR_MISSING_CODES = Set.of("ZAR", "YYY", "XKK", "");
   private static final String MISSING_CODE_FALLBACK = "xxx";
 
@@ -74,7 +71,6 @@ public class SolkiService {
   @Value("${app.solki.person-sync-enabled}")
   private boolean personSyncEnabled;
 
-  // Kept static and side-effect free for testability.
   static String convertLevel(final String level) {
     final String converted = LEVEL_CONVERSION.get(level);
     if (converted == null) {
@@ -104,11 +100,6 @@ public class SolkiService {
     return GenderCode.E;
   }
 
-  /**
-   * Finnish personal identity code if present, otherwise a SOLKI-specific pseudo-identifier
-   * derived from the birthdate: ddMMyy followed by a century marker ('-' for 1900s, 'A' for
-   * 2000s+, matching the two cases the legacy integration handles).
-   */
   static String ssnOrBirthdate(final String ssn, final String birthdate) {
     if (ssn != null && !ssn.isBlank()) {
       return ssn;
@@ -169,12 +160,6 @@ public class SolkiService {
     return part == PartialExamType.ALL_PARTS || part == candidate;
   }
 
-  /**
-   * Combines subtest flags across a person's registrations within the same exam session
-   * (a "FULL" session can be registered into via separate read+listen / speak+write pools,
-   * each becoming its own registration row for the same person and exam_session_id) into
-   * the single flag set SOLKI expects per participant.
-   */
   static SubtestFlags mergeFlags(final List<SubtestFlags> flagsList) {
     return flagsList.stream().reduce(SubtestFlags.NONE, SubtestFlags::mergeWith);
   }
@@ -349,9 +334,9 @@ public class SolkiService {
 
     if (!force && !personSyncEnabled) {
       LOG.info(
-        "SOLKI participant sync disabled, would have sent CSV for exam session {}:\n{}",
+        "SOLKI participant sync disabled, would have sent CSV for exam session {} ({} line(s))",
         examSession.getId(),
-        csv
+        csv.lines().count()
       );
       return false;
     }
@@ -360,7 +345,6 @@ public class SolkiService {
     return true;
   }
 
-  /** Fetches completed registrations and builds the CSV without sending it - used by the debug CSV export endpoint. */
   public String buildParticipantsCsv(final ExamSession examSession) {
     final List<Registration> registrations = registrationRepository.getByExamSessionAndState(
       examSession,
@@ -450,12 +434,10 @@ public class SolkiService {
     return syncExamSession(examSession, false);
   }
 
-  /** Bypasses the exam-session-sync-enabled flag - only for the manual debug/force-sync endpoint. */
   public boolean forceSyncExamSession(final ExamSession examSession) {
     return syncExamSession(examSession, true);
   }
 
-  /** Convenience for the debug/force-sync endpoint, mirroring what the backstop scheduled task does per session. */
   public void forceSyncExamSessionAndOrganizer(final ExamSession examSession) {
     forceSyncOrganizer(examSession.getOrganizer(), examSession.getOfficeOid());
     forceSyncExamSession(examSession);
@@ -503,7 +485,7 @@ public class SolkiService {
     final PersonSyncRequestDTO request = buildPersonSyncRequest(person);
 
     if (!personSyncEnabled) {
-      LOG.info("SOLKI person sync disabled, would have sent request {}", request);
+      LOG.info("SOLKI person sync disabled, would have sent request for person {}", person.getOid());
       return false;
     }
 
