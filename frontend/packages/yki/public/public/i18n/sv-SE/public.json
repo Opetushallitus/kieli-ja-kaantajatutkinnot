@@ -59,6 +59,7 @@
           }
         },
         "info": {
+          "paymentRecipient": "Betalningsmottagare är Utbildningsstyrelsen (FO-nummer 2769790-1). Avgiften grundar sig på 1 § 1 mom. 20 punkten i avgiftsförordningen (1508/2025).",
           "refundIfChangeInEvaluation": "Avgiften för kontrollbedömningen återbetalas om bedömningen av delprovet förändras i samband med kontrollbedömningen.",
           "requiredFields": "Fält markerade med en asterisk (*) är obligatoriska."
         },
@@ -716,8 +717,7 @@
             "body4": "Kontrollbedömningen tar cirka tre månader.",
             "body5": "När kontrollbedömningen är färdig får du beslutet om resultatet per e-post.",
             "body6": "Avgiften återbetalas om bedömningen av delprovet förändras i samband med kontrollbedömningen.",
-            "heading": "Att begära och betala kontrollbedömning",
-            "paymentRecipient": "Betalningsmottagare är Utbildningsstyrelsen (FO-nummer 2769790-1). Avgiften grundar sig på 1 § 1 mom. 20 punkten i avgiftsförordningen (1508/2025)."
+            "heading": "Att begära och betala kontrollbedömning"
           }
         },
         "introduction": {

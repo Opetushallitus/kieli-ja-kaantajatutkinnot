@@ -1,5 +1,6 @@
+import { Box } from '@mui/material';
 import { Trans } from 'react-i18next';
-import { H2, Text, WebLink } from 'shared/components';
+import { H3, Text, WebLink } from 'shared/components';
 
 import { usePublicTranslation } from 'configs/i18n';
 
@@ -10,9 +11,19 @@ export const PaymentServiceProvider = () => {
 
   return (
     <div className="rows gapped">
-      <H2>{t('title')}</H2>
-      <div>
+      <H3>{t('title')}</H3>
+      <Box
+        sx={{
+          '& .MuiTypography-root': {
+            margin: 0,
+            fontSize: '13px',
+            fontWeight: 400,
+            lineHeight: '16px',
+          },
+        }}
+      >
         <Text>{t('description')}</Text>
+        <br />
         <Text>
           <Trans t={t} i18nKey="contactDetails" />
         </Text>
@@ -20,7 +31,7 @@ export const PaymentServiceProvider = () => {
         <Text sx={{ overflowWrap: 'anywhere' }}>
           <WebLink href={t('url')} label={t('url')} />
         </Text>
-      </div>
+      </Box>
     </div>
   );
 };

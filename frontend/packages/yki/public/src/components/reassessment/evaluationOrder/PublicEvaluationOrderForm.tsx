@@ -391,6 +391,7 @@ export const PublicEvaluationOrderForm = () => {
       <Text>{t('info.refundIfChangeInEvaluation')}</Text>
       <FillParticipantDetails />
       <AcceptConditions />
+      <Text>{t('info.paymentRecipient')}</Text>
       <PaymentServiceProvider />
       <ActionButtons />
     </Paper>
