@@ -876,18 +876,18 @@
             "notFound": "Du har inga prestationer eller tidigare anmälningar"
           },
           "state": {
-            "ABORTED": "Suoritus keskeytetty",
+            "ABORTED": "Prestationen avbröts",
             "cancelled": "Annullerad",
             "enrolled": "Anmäld",
-            "EVALUATION_COMPLETE": "Arviointi valmis",
-            "EVALUATION_PENDING": "Arviointi kesken",
+            "EVALUATION_COMPLETE": "Bedömningen klar",
+            "EVALUATION_PENDING": "Bedömning pågår",
             "label": "Status",
-            "NO_SHOW": "Ei osallistunut",
+            "NO_SHOW": "Deltog inte",
             "queued": "I kö (på plats {{ positionInQueue }})",
             "RETAKE_PENDING": "-",
-            "REVIEW_COMPLETE": "Tarkistusarviointi kesken",
-            "REVIEW_FINALIZED": "Tarkistusarviointi valmis",
-            "REVIEW_PENDING": "Tarkistusarviointi kesken"
+            "REVIEW_COMPLETE": "Kontrollbedömning pågår",
+            "REVIEW_FINALIZED": "Kontrollbedömningen klar",
+            "REVIEW_PENDING": "Kontrollbedömning pågår"
           },
           "upcoming": {
             "notFound": "Du har inga kommande anmälningar."
