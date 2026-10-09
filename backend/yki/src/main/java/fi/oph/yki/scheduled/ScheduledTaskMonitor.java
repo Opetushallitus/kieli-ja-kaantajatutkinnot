@@ -1,6 +1,8 @@
 package fi.oph.yki.scheduled;
 
 import fi.oph.yki.config.Constants;
+import fi.oph.yki.model.RuntimeFlag;
+import fi.oph.yki.repository.RuntimeFlagRepository;
 import fi.oph.yki.repository.TaskLockRepository;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -9,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.env.Environment;
 import org.springframework.lang.NonNull;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -40,7 +41,7 @@ public class ScheduledTaskMonitor {
   );
 
   private final TaskLockRepository taskLockRepository;
-  private final Environment environment;
+  private final RuntimeFlagRepository runtimeFlagRepository;
 
   @Scheduled(cron = Constants.SCHEDULED_TASK_MONITOR_CRON)
   @SchedulerLock(name = "scheduledTaskMonitor", lockAtLeastFor = LOCK_AT_LEAST, lockAtMostFor = LOCK_AT_MOST)
@@ -68,12 +69,16 @@ public class ScheduledTaskMonitor {
     });
   }
 
-  // Enabling the Java handler goes together with removing the legacy one, which then stops stamping
-  // its task_lock row. Monitoring that row would report the job as stalled on every tick.
+  // Once this backend owns the queue, the legacy row only shows that the legacy scheduler is alive,
+  // and it stops being stamped altogether when the legacy handler is removed, which would report the
+  // job as stalled on every tick.
   private boolean isOwnedByThisBackend(final String task) {
     return (
       "REGISTRATION_QUEUE_HANDLER".equals(task) &&
-      environment.getProperty(RegistrationQueueHandler.ENABLED_PROPERTY, Boolean.class, false)
+      runtimeFlagRepository
+        .findById(RuntimeFlag.REGISTRATION_QUEUE_HANDLER_OWNER)
+        .map(flag -> RuntimeFlag.OWNER_JAVA.equals(flag.getValue()))
+        .orElse(false)
     );
   }
 }

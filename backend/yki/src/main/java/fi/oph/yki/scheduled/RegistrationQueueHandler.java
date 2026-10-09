@@ -1,8 +1,10 @@
 package fi.oph.yki.scheduled;
 
+import fi.oph.yki.model.RuntimeFlag;
 import fi.oph.yki.repository.RegistrationRepository;
 import fi.oph.yki.service.RegistrationQueueService;
 import fi.oph.yki.service.RegistrationQueueService.SessionLiftResult;
+import fi.oph.yki.service.RegistrationQueueService.StopReason;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
@@ -15,7 +17,9 @@ import org.springframework.stereotype.Component;
 /**
  * Lifts queued registrations into exam sessions that have free places. Ported from the legacy
  * backend's registration-queue-handler, which must not run at the same time: the per-session lock
- * that makes lifting safe is only taken by this implementation.
+ * that makes lifting safe is only taken by this implementation. Which of the two lifts is decided
+ * by the {@code registration_queue_handler.owner} runtime flag, checked in every lift. The property
+ * below is on in every environment and exists so that tests can keep the scheduler from running it.
  */
 @Component
 @ConditionalOnProperty(name = RegistrationQueueHandler.ENABLED_PROPERTY, havingValue = "true")
@@ -52,6 +56,7 @@ public class RegistrationQueueHandler {
 
     int lifted = 0;
     int sessionsProcessed = 0;
+    boolean notOwner = false;
     for (final long examSessionId : examSessionIds) {
       if (lifted >= MAX_LIFTS_PER_RUN) {
         break;
@@ -64,17 +69,22 @@ public class RegistrationQueueHandler {
           MAX_LIFTS_PER_RUN - lifted
         );
         lifted += result.lifted();
+        if (result.stopReason() == StopReason.NOT_OWNER) {
+          notOwner = true;
+          break;
+        }
       } catch (final Exception e) {
         LOG.error("Registration queue handler failed for exam session {} [ERROR_SCHEDULED_TASK]", examSessionId, e);
       }
     }
 
     LOG.info(
-      "Registration queue handler lifted {} registration(s) from {} of {} candidate exam session(s) in {} ms",
+      "Registration queue handler lifted {} registration(s) from {} of {} candidate exam session(s) in {} ms{}",
       lifted,
       sessionsProcessed,
       examSessionIds.size(),
-      (System.nanoTime() - startedAt) / 1_000_000
+      (System.nanoTime() - startedAt) / 1_000_000,
+      notOwner ? "; stopped, " + RuntimeFlag.REGISTRATION_QUEUE_HANDLER_OWNER + " is not " + RuntimeFlag.OWNER_JAVA : ""
     );
   }
 }

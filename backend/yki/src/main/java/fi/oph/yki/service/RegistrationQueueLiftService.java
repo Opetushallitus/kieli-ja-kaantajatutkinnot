@@ -2,9 +2,11 @@ package fi.oph.yki.service;
 
 import fi.oph.yki.model.Registration;
 import fi.oph.yki.model.RegistrationChangeEvent;
+import fi.oph.yki.model.RuntimeFlag;
 import fi.oph.yki.repository.LiftedRegistration;
 import fi.oph.yki.repository.RegistrationChangeEventRepository;
 import fi.oph.yki.repository.RegistrationRepository;
+import fi.oph.yki.repository.RuntimeFlagRepository;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -23,11 +25,13 @@ public class RegistrationQueueLiftService {
     LIFTED,
     NOTHING_TO_LIFT,
     SESSION_LOCKED,
+    NOT_OWNER,
   }
 
   private final RegistrationRepository registrationRepository;
   private final RegistrationChangeEventRepository registrationChangeEventRepository;
   private final RegistrationEmailService registrationEmailService;
+  private final RuntimeFlagRepository runtimeFlagRepository;
 
   /**
    * Lifts at most one registration from an exam session's queue. The session lock, the lift, its
@@ -37,6 +41,10 @@ public class RegistrationQueueLiftService {
   public Outcome liftNext(final long examSessionId) {
     if (!registrationRepository.tryLockExamSessionForQueueLift(examSessionId)) {
       return Outcome.SESSION_LOCKED;
+    }
+
+    if (!ownsRegistrationQueue()) {
+      return Outcome.NOT_OWNER;
     }
 
     final Optional<LiftedRegistration> lifted = registrationRepository.liftNextFromQueue(examSessionId);
@@ -60,6 +68,25 @@ public class RegistrationQueueLiftService {
       examSessionId
     );
     return Outcome.LIFTED;
+  }
+
+  // The share lock is held until this lift commits, so switching the owner waits for it. Every lift
+  // that starts after the switch sees the new owner, so the two backends never lift side by side.
+  private boolean ownsRegistrationQueue() {
+    final String owner = runtimeFlagRepository
+      .findValueForShare(RuntimeFlag.REGISTRATION_QUEUE_HANDLER_OWNER)
+      .orElse(RuntimeFlag.OWNER_LEGACY);
+    if (RuntimeFlag.OWNER_JAVA.equals(owner)) {
+      return true;
+    }
+    if (!RuntimeFlag.OWNER_LEGACY.equals(owner)) {
+      LOG.error(
+        "Unrecognised {} '{}', so neither backend lifts from the queue [ERROR_SCHEDULED_TASK]",
+        RuntimeFlag.REGISTRATION_QUEUE_HANDLER_OWNER,
+        owner
+      );
+    }
+    return false;
   }
 
   // Legacy writes the event from the post-update row, so kind is ADMISSION. The still-Clojure
