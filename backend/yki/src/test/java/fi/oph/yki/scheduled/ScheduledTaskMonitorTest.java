@@ -6,11 +6,15 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import fi.oph.yki.model.RuntimeFlag;
+import fi.oph.yki.repository.RuntimeFlagRepository;
 import fi.oph.yki.repository.ShedLockRepository;
 import fi.oph.yki.repository.TaskLockRepository;
 import java.time.Duration;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
-import org.springframework.mock.env.MockEnvironment;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class ScheduledTaskMonitorTest {
 
@@ -19,7 +23,8 @@ class ScheduledTaskMonitorTest {
     final TaskLockRepository taskLockRepository = mockTaskLockRepository(1.0);
     final ShedLockRepository shedLockRepository = mockShedLockRepository(1.0);
 
-    new ScheduledTaskMonitor(taskLockRepository, shedLockRepository, new MockEnvironment()).monitorScheduledTasks();
+    new ScheduledTaskMonitor(taskLockRepository, shedLockRepository, runtimeFlagRepository(null))
+      .monitorScheduledTasks();
 
     verify(taskLockRepository).findAgeInSeconds("REGISTRATION_QUEUE_HANDLER");
     verify(taskLockRepository).findAgeInSeconds("PERSONS_SYNC_HANDLER");
@@ -34,19 +39,35 @@ class ScheduledTaskMonitorTest {
     final TaskLockRepository taskLockRepository = mockTaskLockRepository(Duration.ofDays(1).toSeconds() * 1.0);
     final ShedLockRepository shedLockRepository = mockShedLockRepository(null);
 
-    new ScheduledTaskMonitor(taskLockRepository, shedLockRepository, new MockEnvironment()).monitorScheduledTasks();
+    new ScheduledTaskMonitor(taskLockRepository, shedLockRepository, runtimeFlagRepository(null))
+      .monitorScheduledTasks();
 
     verify(taskLockRepository).findAgeInSeconds("PERSONS_SYNC_HANDLER");
     verify(shedLockRepository).findAgeInSeconds("personsSyncHandler");
   }
 
-  @Test
-  void testSkipsLegacyQueueHandlerOnceJavaHandlerIsEnabled() {
+  @ParameterizedTest
+  @CsvSource(value = { "LEGACY", "NULL", "JAVE" }, nullValues = "NULL")
+  void testMonitorsLegacyQueueHandlerUnlessThisBackendOwnsTheQueue(final String owner) {
     final TaskLockRepository taskLockRepository = mockTaskLockRepository(1.0);
-    final MockEnvironment environment = new MockEnvironment()
-      .withProperty(RegistrationQueueHandler.ENABLED_PROPERTY, "true");
 
-    new ScheduledTaskMonitor(taskLockRepository, mockShedLockRepository(1.0), environment).monitorScheduledTasks();
+    new ScheduledTaskMonitor(taskLockRepository, mockShedLockRepository(1.0), runtimeFlagRepository(owner))
+      .monitorScheduledTasks();
+
+    verify(taskLockRepository).findAgeInSeconds("REGISTRATION_QUEUE_HANDLER");
+    verify(taskLockRepository).findAgeInSeconds("REGISTRATION_STATE_HANDLER");
+  }
+
+  @Test
+  void testSkipsLegacyQueueHandlerOnceThisBackendOwnsTheQueue() {
+    final TaskLockRepository taskLockRepository = mockTaskLockRepository(1.0);
+
+    new ScheduledTaskMonitor(
+      taskLockRepository,
+      mockShedLockRepository(1.0),
+      runtimeFlagRepository(RuntimeFlag.OWNER_JAVA)
+    )
+      .monitorScheduledTasks();
 
     verify(taskLockRepository, never()).findAgeInSeconds("REGISTRATION_QUEUE_HANDLER");
     verify(taskLockRepository).findAgeInSeconds("REGISTRATION_STATE_HANDLER");
@@ -62,5 +83,16 @@ class ScheduledTaskMonitorTest {
     final ShedLockRepository shedLockRepository = mock(ShedLockRepository.class);
     when(shedLockRepository.findAgeInSeconds(anyString())).thenReturn(ageInSeconds);
     return shedLockRepository;
+  }
+
+  private static RuntimeFlagRepository runtimeFlagRepository(final String owner) {
+    final RuntimeFlagRepository runtimeFlagRepository = mock(RuntimeFlagRepository.class);
+    if (owner != null) {
+      final RuntimeFlag flag = new RuntimeFlag();
+      flag.setName(RuntimeFlag.REGISTRATION_QUEUE_HANDLER_OWNER);
+      flag.setValue(owner);
+      when(runtimeFlagRepository.findById(RuntimeFlag.REGISTRATION_QUEUE_HANDLER_OWNER)).thenReturn(Optional.of(flag));
+    }
+    return runtimeFlagRepository;
   }
 }

@@ -58,6 +58,18 @@ class RegistrationQueueHandlerTest {
   }
 
   @Test
+  void testStopsIteratingSessionsWhenNotTheQueueOwner() {
+    when(registrationRepository.findExamSessionIdsWithQueueToLift()).thenReturn(List.of(1L, 2L));
+    when(registrationQueueService.liftFromQueue(1L, RegistrationQueueHandler.MAX_LIFTS_PER_RUN))
+      .thenReturn(new SessionLiftResult(0, StopReason.NOT_OWNER));
+
+    handler.action();
+
+    verify(registrationQueueService).liftFromQueue(1L, RegistrationQueueHandler.MAX_LIFTS_PER_RUN);
+    verifyNoMoreInteractions(registrationQueueService);
+  }
+
+  @Test
   void testFailingSessionDoesNotStopTheRest() {
     when(registrationRepository.findExamSessionIdsWithQueueToLift()).thenReturn(List.of(1L, 2L));
     when(registrationQueueService.liftFromQueue(1L, RegistrationQueueHandler.MAX_LIFTS_PER_RUN))

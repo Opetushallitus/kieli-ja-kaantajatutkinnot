@@ -7,6 +7,12 @@ spring:
       hibernate:
         jdbc:
           time_zone: UTC
+# Tests run the handler explicitly; a scheduled run in the background could lift their fixtures
+# while a test has the owner flag set to JAVA.
+app:
+  scheduling:
+    registration-queue-handler:
+      enabled: false
 # Distinct values, one with cents, so that a wrong pick or sum and a lost decimal both show.
 exam-fee:
   perus: 165
