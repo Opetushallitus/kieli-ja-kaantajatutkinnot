@@ -9,6 +9,8 @@ import {
 import { APIResponseStatus } from 'shared/enums';
 import { MobileAppBarState } from 'shared/interfaces';
 
+import { PaymentRecipient } from 'components/common/PaymentRecipient';
+import { PaymentServiceProvider } from 'components/common/PaymentServiceProvider';
 import { PublicEnrollmentControlButtons } from 'components/publicEnrollment/PublicEnrollmentControlButtons';
 import { PublicEnrollmentExamEventDetails } from 'components/publicEnrollment/PublicEnrollmentExamEventDetails';
 import { PublicEnrollmentPaymentSum } from 'components/publicEnrollment/PublicEnrollmentPaymentSum';
@@ -192,6 +194,12 @@ export const PublicEnrollmentPhoneGrid = ({
                 setIsStepValid={setIsStepValid}
                 showValidation={showValidation}
               />
+              {isPaymentSumAvailable && !enrollment.isFree && (
+                <div className="margin-top-lg rows gapped">
+                  <PaymentRecipient includeLegalBasis={false} />
+                  <PaymentServiceProvider />
+                </div>
+              )}
             </div>
           </LoadingProgressIndicator>
         </Paper>

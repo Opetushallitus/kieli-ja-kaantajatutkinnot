@@ -12,7 +12,7 @@
   "scripts": {
     "yki:clerk:build": "yarn g:webpack --env prod",
     "yki:clerk:eslint": "yarn g:eslint --fix \"./src/**/*.{js,jsx,ts,tsx,json}\"",
-    "yki:clerk:exportlint": "yarn g:exportlint --excludePathsFromReport=public",
+    "yki:clerk:exportlint": "yarn g:exportlint --excludePathsFromReport=/public/i18n/",
     "yki:clerk:format": "yarn g:prettier --check \"./src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
     "yki:clerk:format:write": "yarn g:prettier --write \"./src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
     "yki:clerk:lint": "yarn yki:clerk:eslint && yarn yki:clerk:tslint && yarn yki:clerk:stylelint && yarn yki:clerk:exportlint",

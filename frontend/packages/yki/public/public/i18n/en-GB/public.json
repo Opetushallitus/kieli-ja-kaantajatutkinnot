@@ -59,6 +59,7 @@
           }
         },
         "info": {
+          "paymentRecipient": "The recipient of the payment is the Finnish National Agency for Education (Business ID 2769790-1). The fee is based on the Decree on Fees (1508/2025) section 1, subsection 1, item 20.",
           "refundIfChangeInEvaluation": "The fee will be refunded if the reassessment changes the assessment of the subtest.",
           "requiredFields": "Sections marked with an asterisk (*) are mandatory."
         },
@@ -99,6 +100,13 @@
             "text": "Website of the National Certificates of Language Proficiency (YKI) (oph.fi)"
           }
         }
+      },
+      "paymentServiceProvider": {
+        "businessId": "Business ID 2122839-7",
+        "contactDetails": "Paytrail Oyj<br />Innova 2<br />Lutakonaukio 7<br />40100 Jyväskylä",
+        "description": "Paytrail Oyj is a collecting payment service provider and an authorized Payment Institution working in cooperation with Finnish banks and credit institutions. Paytrail Oyj will be shown as the recipient on your bank or credit card statement. Paytrail Oyj will forward the payment to the merchant. For complaints, please contact the website the payment was made to.",
+        "title": "Payment Service Provider",
+        "url": "https://www.paytrail.com/en/consumer/information-about-paying"
       },
       "publicEvaluationPeriodListing": {
         "evaluationPeriodNotYetOpen": "Request a reassessment starting from {{- startDate}}",
@@ -391,10 +399,10 @@
             "item5": "You cannot change the test day.",
             "item6": "Registration is personal. You cannot change the participant’s personal information.",
             "item7": "If you cannot participate in the YKI test, you may apply for a test fee refund from the Finnish National Agency for Education. The Finnish National Agency for Education will refund your test fee if your application meets all the conditions laid down in the Act on National Certificates of Language Proficiency (YKI).",
-            "label": "I accept the terms and conditions for registration *",
+            "label": "I accept the terms and conditions for registration and payment *",
             "link": "https://www.oph.fi/en/education-and-qualifications/registering-yki-test#anchor-terms-and-conditions-for-registration",
-            "linkText": "Terms and conditions for registration",
-            "subTitle": "Terms and conditions for registration",
+            "linkText": "Terms and conditions for registration and payment",
+            "subTitle": "Terms and conditions for test registration and payment",
             "title": "Accept terms"
           },
           "title": "Fill in your personal information",
@@ -439,13 +447,8 @@
             },
             "title": "Confirm the registration by paying the test fee",
             "verifyRegistrationDetails": {
-              "termsAndConditions": {
-                "label": "Terms and conditions for registration",
-                "url": "https://www.oph.fi/en/education-and-qualifications/registering-yki-test#anchor-terms-and-conditions-for-registration"
-              },
               "text1": "Before paying, please check that you have selected the correct YKI test.",
-              "text2": "Once the registration has been confirmed, you cannot change the language, level, subtests, test centre or test day of the YKI test.",
-              "text3": "Please read the terms and conditions for registration on the Finnish National Agency for Education's website:"
+              "text2": "Once the registration has been confirmed, you cannot change the language, level, subtests, test centre or test day of the YKI test."
             }
           },
           "queued": {

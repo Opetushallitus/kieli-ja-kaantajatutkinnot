@@ -71,6 +71,8 @@ const readRegistrationState = (
   }
 };
 
+// Used by Cypress support, which is excluded from the main tsconfig.
+// ts-unused-exports:disable-next-line
 export const resetData = () => {
   data.personDetails = personDetails;
   data.temporaryState = {};

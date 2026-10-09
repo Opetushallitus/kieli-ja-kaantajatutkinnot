@@ -12,6 +12,8 @@ import 'styles/styles.scss';
 // Initialize I18next
 initI18n();
 
+// Push commit
+
 export const App = () => (
   <Provider store={store}>
     <StyleCacheProvider appName="akr">
