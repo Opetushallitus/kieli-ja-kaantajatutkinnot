@@ -26,6 +26,17 @@
           }
         }
       },
+      "paymentRecipient": {
+        "description": "Maksun saaja on Opetushallitus (2769790-1). Maksu perustuu maksuasetuksen (1508/2025) 1 §:n 1 momentin 9 kohtaan.",
+        "recipient": "Maksun saaja on Opetushallitus (2769790-1)"
+      },
+      "paymentServiceProvider": {
+        "businessId": "y-tunnus: 2122839-7",
+        "contactDetails": "Paytrail Oyj<br />Innova 2<br />Lutakonaukio 7<br />40100 Jyväskylä",
+        "description": "Maksunvälityspalvelun toteuttajana ja maksupalveluntarjoajana toimii Paytrail Oyj (2122839-7) yhteistyössä suomalaisten pankkien ja luottolaitosten kanssa. Paytrail Oyj näkyy maksun saajana tiliotteella tai korttilaskulla ja välittää maksun kauppiaalle. Paytrail Oyj:llä on maksulaitoksen toimilupa. Reklamaatiotapauksissa pyydämme ottamaan ensisijaisesti yhteyttä tuotteen toimittajaan.",
+        "title": "Maksupalvelutarjoaja",
+        "url": "https://www.paytrail.com/kuluttaja/tietoa-maksamisesta"
+      },
       "publicEnrollment": {
         "controlButtons": {
           "cancelDialog": {

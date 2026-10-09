@@ -59,6 +59,7 @@
           }
         },
         "info": {
+          "paymentRecipient": "Maksun saaja on Opetushallitus (Y-tunnus 2769790-1). Maksu perustuu maksuasetuksen (1508/2025) 1 §:n 1 momentin 20 kohtaan.",
           "refundIfChangeInEvaluation": "Jos osakokeen arviointi muuttuu tarkistusarvioinnissa, palautamme tarkistusarviointimaksun.",
           "requiredFields": "Tähdellä (*) merkityt osiot ovat pakollisia."
         },
@@ -99,6 +100,13 @@
             "text": "Yleisten kielitutkintojen verkkosivu (oph.fi)"
           }
         }
+      },
+      "paymentServiceProvider": {
+        "businessId": "y-tunnus: 2122839-7",
+        "contactDetails": "Paytrail Oyj<br />Innova 2<br />Lutakonaukio 7<br />40100 Jyväskylä",
+        "description": "Maksunvälityspalvelun toteuttajana ja maksupalveluntarjoajana toimii Paytrail Oyj (2122839-7) yhteistyössä suomalaisten pankkien ja luottolaitosten kanssa. Paytrail Oyj näkyy maksun saajana tiliotteella tai korttilaskulla ja välittää maksun kauppiaalle. Paytrail Oyj:llä on maksulaitoksen toimilupa. Reklamaatiotapauksissa pyydämme ottamaan ensisijaisesti yhteyttä tuotteen toimittajaan.",
+        "title": "Maksupalvelutarjoaja",
+        "url": "https://www.paytrail.com/kuluttaja/tietoa-maksamisesta"
       },
       "publicEvaluationPeriodListing": {
         "evaluationPeriodNotYetOpen": "Pyydä tarkistusarviointia {{- startDate}} alkaen",
@@ -391,10 +399,10 @@
             "item5": "Et voi vaihtaa testipäivää.",
             "item6": "Ilmoittautuminen on henkilökohtainen. Et voi vaihtaa osallistujan henkilötietoja.",
             "item7": "Jos et pääse osallistumaan YKI-testiin, voit hakea tutkintomaksun palautusta Opetushallitukselta. Opetushallitus palauttaa tutkintomaksusi, jos hakemuksesi täyttää kaikki lain asettamat ehdot.",
-            "label": "Hyväksyn ilmoittautumisen ehdot *",
+            "label": "Hyväksyn ilmoittautumisen ja maksun ehdot *",
             "link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/ilmoittautuminen-yki-testiin#anchor-ilmoittautumisen-ehdot",
-            "linkText": "Ilmoittautumisen ehdot",
-            "subTitle": "Ilmoittautumisen ehdot",
+            "linkText": "Ilmoittautumisen ja maksun ehdot",
+            "subTitle": "Tutkintoon ilmoittautumisen ja maksun ehdot",
             "title": "Hyväksy ehdot"
           },
           "title": "Täytä tietosi",
@@ -439,13 +447,8 @@
             },
             "title": "Vahvista ilmoittautuminen maksamalla tutkintomaksu",
             "verifyRegistrationDetails": {
-              "termsAndConditions": {
-                "label": "Ilmoittautumisen ehdot",
-                "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/ilmoittautuminen-yki-testiin#anchor-ilmoittautumisen-ehdot"
-              },
               "text1": "Tarkista ennen maksamista, että olet valinnut oikean YKI-testin.",
-              "text2": "Kun ilmoittautuminen on vahvistettu, et voi vaihtaa YKI-testin kieltä, tasoa, osakokeita, testipaikkaa tai testipäivää.",
-              "text3": "Lue ilmoittautumisen ehdot Opetushallituksen verkkosivuilta:"
+              "text2": "Kun ilmoittautuminen on vahvistettu, et voi vaihtaa YKI-testin kieltä, tasoa, osakokeita, testipaikkaa tai testipäivää."
             }
           },
           "queued": {

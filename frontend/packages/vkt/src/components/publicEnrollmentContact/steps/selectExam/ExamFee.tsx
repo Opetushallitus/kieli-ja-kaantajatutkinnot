@@ -1,6 +1,7 @@
 import { H2, Text } from 'shared/components';
 
 import { BoldedTranslationString } from 'components/common/BoldedTranslationString';
+import { PaymentRecipient } from 'components/common/PaymentRecipient';
 import { usePublicTranslation } from 'configs/i18n';
 
 export const ExamFee = () => {
@@ -16,6 +17,7 @@ export const ExamFee = () => {
         <BoldedTranslationString t={t} i18nKey="part3" />
       </Text>
       <Text>{t('part4')}</Text>
+      <PaymentRecipient />
     </div>
   );
 };
