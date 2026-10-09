@@ -9,6 +9,7 @@ import fi.oph.yki.api.dto.clerk.ClerkOrganizerLanguageDTO;
 import fi.oph.yki.api.dto.clerk.ClerkOrganizerUpdateDTO;
 import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.audit.YkiOperation;
+import fi.oph.yki.audit.dto.ClerkOrganizerAuditDTO;
 import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamLanguage;
 import fi.oph.yki.model.ExamSession;
@@ -42,6 +43,8 @@ public class ClerkOrganizerService {
 
   @Transactional(readOnly = true)
   public List<ClerkOrganizerDTO> getOrganizers(final List<String> oids) {
+    auditService.logOperation(YkiOperation.LIST_ORGANIZERS);
+
     return organizerRepository.findAllByOidInAndDeletedAtIsNull(oids).stream().map(this::toDTO).toList();
   }
 
@@ -70,7 +73,7 @@ public class ClerkOrganizerService {
     }
 
     final ClerkOrganizerDTO result = toDTO(saved);
-    auditService.logCreate(YkiOperation.CREATE_ORGANIZER, saved.getId(), result);
+    auditService.logCreate(YkiOperation.CREATE_ORGANIZER, saved.getId(), new ClerkOrganizerAuditDTO(result));
 
     return result;
   }
@@ -108,7 +111,12 @@ public class ClerkOrganizerService {
     }
 
     final ClerkOrganizerDTO afterDTO = toDTO(organizer);
-    auditService.logUpdate(YkiOperation.UPDATE_ORGANIZER, organizer.getId(), beforeDTO, afterDTO);
+    auditService.logUpdate(
+      YkiOperation.UPDATE_ORGANIZER,
+      organizer.getId(),
+      new ClerkOrganizerAuditDTO(beforeDTO),
+      new ClerkOrganizerAuditDTO(afterDTO)
+    );
 
     return afterDTO;
   }

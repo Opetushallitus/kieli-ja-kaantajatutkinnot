@@ -39,6 +39,10 @@ a {
 .lang-selector {
   @include mobile {
     background-color: $color-secondary;
+
+    button:hover p {
+      color: $color-secondary;
+    }
   }
 }
 

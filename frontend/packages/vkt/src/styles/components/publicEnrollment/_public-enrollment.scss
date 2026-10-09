@@ -110,12 +110,6 @@
         margin-right: 0;
         padding-left: 1rem;
         width: 70%;
-
-        @include not-phone {
-          & span:last-child {
-            margin-bottom: -3rem;
-          }
-        }
       }
     }
 

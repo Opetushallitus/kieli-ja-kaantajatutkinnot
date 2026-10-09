@@ -61,7 +61,7 @@ public class AuditService {
   }
 
   private User getClerkUser() {
-    if (devWebSecurityOff) {
+    if (devWebSecurityOff != null && devWebSecurityOff) {
       LOG.warn("dev.web.security.off is OFF, auditing only IP");
       return AuditUtil.getUserOnlyWithIp();
     }
@@ -74,7 +74,7 @@ public class AuditService {
   }
 
   private User getUser() {
-    if (devWebSecurityOff) {
+    if (devWebSecurityOff != null && devWebSecurityOff) {
       // AuditUtil expects username to be Oid, anonymousUser does not work.
       LOG.warn("dev.web.security.off is OFF, auditing only IP");
       return AuditUtil.getUserOnlyWithIp();

@@ -7,6 +7,7 @@ import fi.oph.yki.api.dto.clerk.ClerkExamSessionUpdateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkRegistrationDTO;
 import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.audit.YkiOperation;
+import fi.oph.yki.audit.dto.ClerkExamSessionAuditDTO;
 import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.ExamSessionLocation;
@@ -331,7 +332,12 @@ public class ClerkExamSessionService {
     examSession.setContactPhoneNumber(dto.contactPhoneNumber());
 
     final ClerkExamSessionDTO afterDTO = toDTO(examSession);
-    auditService.logUpdate(YkiOperation.UPDATE_EXAM_SESSION, examSessionId, beforeDTO, afterDTO);
+    auditService.logUpdate(
+      YkiOperation.UPDATE_EXAM_SESSION,
+      examSessionId,
+      new ClerkExamSessionAuditDTO(beforeDTO),
+      new ClerkExamSessionAuditDTO(afterDTO)
+    );
 
     return afterDTO;
   }
@@ -380,7 +386,7 @@ public class ClerkExamSessionService {
 
     final ExamSession saved = examSessionRepository.save(examSession);
     final ClerkExamSessionDTO savedDto = toDTO(saved);
-    auditService.logCreate(YkiOperation.CREATE_ORGANIZER, saved.getId(), savedDto);
+    auditService.logCreate(YkiOperation.CREATE_EXAM_SESSION, saved.getId(), new ClerkExamSessionAuditDTO(savedDto));
 
     return savedDto;
   }

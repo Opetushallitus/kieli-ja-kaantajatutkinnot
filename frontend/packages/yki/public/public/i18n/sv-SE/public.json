@@ -59,6 +59,7 @@
           }
         },
         "info": {
+          "paymentRecipient": "Betalningsmottagare är Utbildningsstyrelsen (FO-nummer 2769790-1). Avgiften grundar sig på 1 § 1 mom. 20 punkten i avgiftsförordningen (1508/2025).",
           "refundIfChangeInEvaluation": "Avgiften för kontrollbedömningen återbetalas om bedömningen av delprovet förändras i samband med kontrollbedömningen.",
           "requiredFields": "Fält markerade med en asterisk (*) är obligatoriska."
         },
@@ -99,6 +100,13 @@
             "text": "Webbplatsen för allmänna språkexamina (YKI) (oph.fi)"
           }
         }
+      },
+      "paymentServiceProvider": {
+        "businessId": "FO-nummer: 2122839-7",
+        "contactDetails": "Paytrail Oyj<br />Innova 2<br />Lutakonaukio 7<br />40100 Jyväskylä",
+        "description": "Som betalningsförmedlingstjänst och betaltjänstleverantör fungerar Paytrail Oyj (2122839-7) i samarbete med finska banker och kreditinstitut. Paytrail Oyj visas som mottagare av betalningen på kontoutdraget eller kortfakturan och vidarebefordrar betalningen till handlaren. Paytrail Oyj har ett verksamhetstillstånd för betalningsinstitut. Vid reklamationer ber vi dig först kontakta produktens leverantör.",
+        "title": "Betaltjänstleverantör",
+        "url": "https://www.paytrail.com/kuluttaja/information-om-betalning"
       },
       "publicEvaluationPeriodListing": {
         "evaluationPeriodNotYetOpen": "Begär kontrollbedömning från och med {{- startDate}}",
@@ -391,10 +399,10 @@
             "item5": "Du kan inte ändra testdagen.",
             "item6": "Anmälan är personlig. Du kan inte ändra deltagarens personuppgifter.",
             "item7": "Om du inte kan delta i det YKI-test kan du ansöka om återbetalning av examensavgiften hos Utbildningsstyrelsen. Utbildningsstyrelsen återbetalar din examensavgift om din ansökan uppfyller alla villkor i lagen om allmänna språkexamina (YKI).",
-            "label": "Jag godkänner villkoren för anmälan *",
+            "label": "Jag godkänner villkoren för anmälan och betalning *",
             "link": "https://www.oph.fi/sv/utbildning-och-examina/anmalan-till-yki-test#anchor-villkoren-for-anmalan",
-            "linkText": "Villkoren för anmälan",
-            "subTitle": "Villkoren för anmälan",
+            "linkText": "Villkor för anmälan och betalning",
+            "subTitle": "Villkor för anmälan och betalning av examensavgift",
             "title": "Acceptera villkoren"
           },
           "title": "Fyll i dina uppgifter",
@@ -439,13 +447,8 @@
             },
             "title": "Bekräfta anmälan genom att betala examensavgiften",
             "verifyRegistrationDetails": {
-              "termsAndConditions": {
-                "label": "Villkor för anmälan",
-                "url": "https://www.oph.fi/sv/utbildning-och-examina/anmalan-till-yki-test#anchor-villkoren-for-anmalan"
-              },
               "text1": "Innan du betalar ska du kontrollera att du har valt rätt YKI-test.",
-              "text2": "När anmälan har bekräftats kan du inte ändra YKI-testets språk, nivå, delprov, testplats eller testdag.",
-              "text3": "Läs villkoren för anmälan på Utbildningsstyrelsens webbplats:"
+              "text2": "När anmälan har bekräftats kan du inte ändra YKI-testets språk, nivå, delprov, testplats eller testdag."
             }
           },
           "queued": {

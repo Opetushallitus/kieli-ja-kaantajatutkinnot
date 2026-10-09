@@ -23,6 +23,7 @@ import {
 import { useDialog, useWindowProperties } from 'shared/hooks';
 import { DateUtils, InputFieldUtils } from 'shared/utils';
 
+import { PaymentServiceProvider } from 'components/elements/PaymentServiceProvider';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
@@ -390,6 +391,8 @@ export const PublicEvaluationOrderForm = () => {
       <Text>{t('info.refundIfChangeInEvaluation')}</Text>
       <FillParticipantDetails />
       <AcceptConditions />
+      <Text>{t('info.paymentRecipient')}</Text>
+      <PaymentServiceProvider />
       <ActionButtons />
     </Paper>
   );
