@@ -15,6 +15,8 @@ import fi.oph.yki.api.dto.clerk.ClerkExamSessionLocationCreateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionUpdateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkRegistrationDTO;
 import fi.oph.yki.audit.AuditService;
+import fi.oph.yki.audit.LoggerImpl;
+import fi.oph.yki.config.Constants;
 import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.ExamSessionLocation;
@@ -30,6 +32,8 @@ import fi.oph.yki.repository.ExamDateRepository;
 import fi.oph.yki.repository.ExamSessionRepository;
 import fi.oph.yki.repository.OrganizerRepository;
 import fi.oph.yki.repository.RegistrationRepository;
+import fi.vm.sade.auditlog.ApplicationType;
+import fi.vm.sade.auditlog.Audit;
 import jakarta.annotation.Resource;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -70,9 +74,6 @@ public class ClerkExamSessionServiceTest {
   @MockitoBean
   private OnrService onrService;
 
-  @MockitoBean
-  private AuditService auditService;
-
   @Resource
   private TestEntityManager entityManager;
 
@@ -82,6 +83,9 @@ public class ClerkExamSessionServiceTest {
 
   @BeforeEach
   public void setup() {
+    final AuditService auditService = new AuditService(
+      new Audit(new LoggerImpl(), Constants.SERVICENAME, ApplicationType.VIRKAILIJA)
+    );
     clerkExamSessionService =
       new ClerkExamSessionService(
         examSessionRepository,

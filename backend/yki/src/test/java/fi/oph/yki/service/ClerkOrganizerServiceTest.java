@@ -11,11 +11,15 @@ import fi.oph.yki.api.dto.clerk.ClerkOrganizerDTO;
 import fi.oph.yki.api.dto.clerk.ClerkOrganizerLanguageDTO;
 import fi.oph.yki.api.dto.clerk.ClerkOrganizerUpdateDTO;
 import fi.oph.yki.audit.AuditService;
+import fi.oph.yki.audit.LoggerImpl;
+import fi.oph.yki.config.Constants;
 import fi.oph.yki.model.ExamLanguage;
 import fi.oph.yki.model.Organizer;
 import fi.oph.yki.repository.ExamLanguageRepository;
 import fi.oph.yki.repository.ExamSessionRepository;
 import fi.oph.yki.repository.OrganizerRepository;
+import fi.vm.sade.auditlog.ApplicationType;
+import fi.vm.sade.auditlog.Audit;
 import jakarta.annotation.Resource;
 import java.time.LocalDate;
 import java.util.List;
@@ -50,11 +54,11 @@ public class ClerkOrganizerServiceTest {
 
   private ClerkOrganizerService clerkOrganizerService;
 
-  @MockitoBean
-  private AuditService auditService;
-
   @BeforeEach
   public void setup() {
+    final AuditService auditService = new AuditService(
+      new Audit(new LoggerImpl(), Constants.SERVICENAME, ApplicationType.VIRKAILIJA)
+    );
     clerkOrganizerService =
       new ClerkOrganizerService(organizerRepository, examLanguageRepository, examSessionRepository, auditService);
   }
