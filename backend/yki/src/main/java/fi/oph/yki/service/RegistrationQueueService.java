@@ -18,6 +18,7 @@ public class RegistrationQueueService {
     NOTHING_TO_LIFT,
     LIFT_BUDGET_EXHAUSTED,
     SESSION_LOCKED,
+    NOT_OWNER,
   }
 
   public record SessionLiftResult(int lifted, StopReason stopReason) {}
@@ -50,6 +51,9 @@ public class RegistrationQueueService {
         case SESSION_LOCKED -> {
           return logged(examSessionId, new SessionLiftResult(lifted, StopReason.SESSION_LOCKED));
         }
+        case NOT_OWNER -> {
+          return logged(examSessionId, new SessionLiftResult(lifted, StopReason.NOT_OWNER));
+        }
       }
     }
     return logged(examSessionId, new SessionLiftResult(lifted, StopReason.LIFT_BUDGET_EXHAUSTED));
@@ -76,6 +80,8 @@ public class RegistrationQueueService {
         result.lifted(),
         result.stopReason()
       );
+      // Normal until the owner flag is switched to this backend, so it is the run's to report once.
+      case NOT_OWNER -> {}
       case NOTHING_TO_LIFT -> {
         if (result.lifted() > 0) {
           LOG.info("Lifted {} registration(s) from the queue of exam session {}", result.lifted(), examSessionId);

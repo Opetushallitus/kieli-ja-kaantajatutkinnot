@@ -663,4 +663,19 @@
             EXECUTE PROCEDURE error_if_exceeds_participant_limit();
         ]]></sql>
     </changeSet>
+    <changeSet id="2026-10-06-create-runtime-flag" author="lket">
+        <createTable tableName="runtime_flag"
+                     remarks="Switches that this backend and the legacy one must agree on at runtime, such as which of them runs a migrated job. Anything else belongs in configuration.">
+            <column name="name" type="TEXT">
+                <constraints primaryKey="true" primaryKeyName="runtime_flag_pkey"/>
+            </column>
+            <column name="value" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <insert tableName="runtime_flag">
+            <column name="name" value="registration_queue_handler.owner"/>
+            <column name="value" value="LEGACY"/>
+        </insert>
+    </changeSet>
 </databaseChangeLog>

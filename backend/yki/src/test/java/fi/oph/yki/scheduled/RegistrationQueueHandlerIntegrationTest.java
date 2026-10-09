@@ -11,6 +11,7 @@ import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.Participant;
 import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
+import fi.oph.yki.model.RuntimeFlag;
 import fi.oph.yki.model.type.PartialExamType;
 import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.repository.EmailRepository;
@@ -69,8 +70,16 @@ class RegistrationQueueHandlerIntegrationTest {
     final Registration queued = fixture[1];
     final long examSessionId = queued.getExamSession().getId();
 
+    final RegistrationQueueHandler handler = new RegistrationQueueHandler(
+      registrationRepository,
+      registrationQueueService
+    );
     try {
-      new RegistrationQueueHandler(registrationRepository, registrationQueueService).action();
+      handler.action();
+      assertEquals("QUEUE", kindOf(queued));
+
+      setQueueOwner(RuntimeFlag.OWNER_JAVA);
+      handler.action();
 
       assertEquals(
         List.of("ADMISSION", "SUBMITTED"),
@@ -96,10 +105,21 @@ class RegistrationQueueHandlerIntegrationTest {
           queued.getId()
         )
       );
+      // Compared in the database: both sides go through LocalDateTime on the way, and only the stored
+      // values show whether the conversions agree.
+      assertEquals(
+        Boolean.TRUE,
+        jdbcTemplate.queryForObject(
+          "SELECT ll.expires_at = r.expires_at FROM login_link ll JOIN registration r ON r.id = ll.registration_id WHERE ll.registration_id = ? AND ll.type = 'PAYMENT'",
+          Boolean.class,
+          queued.getId()
+        )
+      );
       final List<Email> emails = emailsToRecipient();
       assertEquals(1, emails.size());
       assertEquals(EmailType.PAYMENT_FROM_QUEUE, emails.get(0).getEmailType());
     } finally {
+      setQueueOwner(RuntimeFlag.OWNER_LEGACY);
       emailRepository.deleteAll(emailsToRecipient());
       jdbcTemplate.update("DELETE FROM login_link WHERE registration_id = ?", queued.getId());
       jdbcTemplate.update("DELETE FROM registration_change_event WHERE exam_session_id = ?", examSessionId);
@@ -158,5 +178,21 @@ class RegistrationQueueHandlerIntegrationTest {
 
   private List<Email> emailsToRecipient() {
     return emailRepository.findAll().stream().filter(email -> RECIPIENT.equals(email.getRecipientAddress())).toList();
+  }
+
+  private String kindOf(final Registration registration) {
+    return jdbcTemplate.queryForObject(
+      "SELECT kind::text FROM registration WHERE id = ?",
+      String.class,
+      registration.getId()
+    );
+  }
+
+  private void setQueueOwner(final String owner) {
+    jdbcTemplate.update(
+      "UPDATE runtime_flag SET value = ? WHERE name = ?",
+      owner,
+      RuntimeFlag.REGISTRATION_QUEUE_HANDLER_OWNER
+    );
   }
 }

@@ -89,8 +89,9 @@ app:
     service-url: ${email.service-url:null}
   scheduling:
     registration-queue-handler:
-      # Only ever true where the legacy backend's registration-queue-handler has been removed.
-      enabled: ${scheduling.registration-queue-handler.enabled:false}
+      # Which backend lifts is decided by the registration_queue_handler.owner runtime flag in the
+      # database, so this is on everywhere; tests turn it off.
+      enabled: true
 host:
   alb: ${virkailija.host.alb:localhost:${server.port}}
 cas:
