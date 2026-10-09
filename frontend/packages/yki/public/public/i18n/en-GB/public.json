@@ -879,18 +879,18 @@
             "notFound": "You have no completed tests or past registrations"
           },
           "state": {
-            "ABORTED": "Suoritus keskeytetty",
+            "ABORTED": "Completion interrupted",
             "cancelled": "Cancelled",
             "enrolled": "Registered",
-            "EVALUATION_COMPLETE": "Arviointi valmis",
-            "EVALUATION_PENDING": "Arviointi kesken",
+            "EVALUATION_COMPLETE": "Assessment completed",
+            "EVALUATION_PENDING": "Assessment in progress",
             "label": "Status",
-            "NO_SHOW": "Ei osallistunut",
+            "NO_SHOW": "Did not participate",
             "queued": "On the waiting list (position {{ positionInQueue }})",
             "RETAKE_PENDING": "-",
-            "REVIEW_COMPLETE": "Tarkistusarviointi kesken",
-            "REVIEW_FINALIZED": "Tarkistusarviointi valmis",
-            "REVIEW_PENDING": "Tarkistusarviointi kesken"
+            "REVIEW_COMPLETE": "Reassessment in progress",
+            "REVIEW_FINALIZED": "Reassessment completed",
+            "REVIEW_PENDING": "Reassessment in progress"
           },
           "upcoming": {
             "notFound": "You have no upcoming registrations."
