@@ -21,6 +21,7 @@ export interface User {
   oid: string;
   isAdmin: boolean;
   isOrganizer: boolean;
+  isCustomerService: boolean;
 }
 
 export interface Me {

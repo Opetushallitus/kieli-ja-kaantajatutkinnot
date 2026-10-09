@@ -17,6 +17,7 @@ import {
 } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { ExamSessionType } from 'enums/app';
+import { useCanManage } from 'hooks/useCanManage';
 import { ClerkExamSession } from 'interfaces/clerkExamSession';
 import { ExamDate } from 'interfaces/examDate';
 import { RouteType } from 'interfaces/user';
@@ -40,6 +41,7 @@ export const ClerkExamSessionDetails = ({
   });
   const { showToast } = useToast();
   const { updateStatus } = useAppSelector(clerkExamSessionDetailsSelector);
+  const canManage = useCanManage(route);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const prevUpdateStatus = useRef(updateStatus);
   const params = useParams();
@@ -177,15 +179,17 @@ export const ClerkExamSessionDetails = ({
           </div>
         </div>
       </div>
-      <div>
-        <OphButton
-          color="primary"
-          variant={Variant.Outlined}
-          onClick={() => setIsEditModalOpen(true)}
-        >
-          {t('buttons.edit')}
-        </OphButton>
-      </div>
+      {canManage && (
+        <div>
+          <OphButton
+            color="primary"
+            variant={Variant.Outlined}
+            onClick={() => setIsEditModalOpen(true)}
+          >
+            {t('buttons.edit')}
+          </OphButton>
+        </div>
+      )}
       <ClerkExamSessionEditModal
         isOpen={isEditModalOpen}
         setIsOpen={setIsEditModalOpen}

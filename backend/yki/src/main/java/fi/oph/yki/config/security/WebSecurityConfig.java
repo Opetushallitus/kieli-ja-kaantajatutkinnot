@@ -3,6 +3,7 @@ package fi.oph.yki.config.security;
 import fi.oph.yki.config.Constants;
 import fi.oph.yki.kayttooikeus.PermissionsService;
 import fi.oph.yki.kayttooikeus.dto.KayttooikeusResponseDTO;
+import fi.oph.yki.util.AuthorizationUtil;
 import fi.oph.yki.util.StringUtil;
 import fi.vm.sade.java_utils.security.OpintopolkuCasAuthenticationFilter;
 import fi.vm.sade.javautils.kayttooikeusclient.OphUserDetailsServiceImpl;
@@ -23,6 +24,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -223,7 +225,7 @@ public class WebSecurityConfig {
                 permissionsService.hasAdminPermission(kayttooikeusResponseDTO) ||
                 permissionsService.hasPermissionForOrganisation(kayttooikeusResponseDTO, targetOid, "JARJESTAJA") ||
                 permissionsService.hasPermissionForOrganisation(kayttooikeusResponseDTO, targetOid, "YLLAPITAJA") ||
-                permissionsService.hasReadPermission(kayttooikeusResponseDTO) // For SOLKI read access
+                AuthorizationUtil.hasRole(authentication, Constants.APP_CUSTOMER_SERVICE_ROLE)
               )
               : (
                 permissionsService.hasAdminPermission(kayttooikeusResponseDTO) ||
@@ -241,19 +243,35 @@ public class WebSecurityConfig {
       .addFilter(casAuthenticationFilter)
       .authorizeHttpRequests(auth ->
         auth
+          .requestMatchers(
+            HttpMethod.POST,
+            "/v2/api/clerk/person/{oid}/contactDetails",
+            "/v2/api/clerk/customer/search"
+          )
+          .hasAnyRole(Constants.APP_ADMIN_ROLE, Constants.APP_CUSTOMER_SERVICE_ROLE)
+          .requestMatchers(
+            HttpMethod.GET,
+            "/v2/api/clerk/customer/{oid}",
+            "/v2/api/clerk/organizer",
+            "/v2/api/clerk/examDate",
+            "/v2/api/clerk/examDate/all",
+            "/v2/api/clerk/examSession/{examSessionId}",
+            "/v2/api/clerk/examSession/{examSessionId}/excel",
+            "/v2/virkailija/asiakashaku",
+            "/v2/virkailija/asiakashaku/{personOid}",
+            "/v2/virkailija/jarjestajarekisteri",
+            "/v2/virkailija/jarjestajarekisteri/{oid}/tutkintotilaisuudet",
+            "/v2/virkailija/tilaisuus/{examSessionId}"
+          )
+          .hasAnyRole(Constants.APP_ADMIN_ROLE, Constants.APP_CUSTOMER_SERVICE_ROLE)
           .requestMatchers("/v2/api/clerk/**", "/v2/virkailija/**", "/v2/virkailija")
           .hasRole(Constants.APP_ADMIN_ROLE)
           .requestMatchers("/v2/api/organizer/{oid}/**")
           .access(organizerAuthorizationManager)
-          .requestMatchers(
-            "/v2/api/organizer/**",
-            "/v2/api/organizer",
-            "/v2/jarjestaja/**",
-            "/v2/jarjestaja",
-            "/v2/auth/**",
-            "/v2/auth"
-          )
+          .requestMatchers("/v2/api/organizer/**", "/v2/api/organizer", "/v2/jarjestaja/**", "/v2/jarjestaja")
           .hasAnyRole(Constants.APP_ADMIN_ROLE, Constants.APP_ORGANIZER_ROLE)
+          .requestMatchers("/v2/auth/**", "/v2/auth")
+          .hasAnyRole(Constants.APP_ADMIN_ROLE, Constants.APP_ORGANIZER_ROLE, Constants.APP_CUSTOMER_SERVICE_ROLE)
           .anyRequest()
           .authenticated()
       )

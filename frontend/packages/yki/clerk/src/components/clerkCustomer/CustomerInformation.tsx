@@ -15,6 +15,7 @@ import { resetCustomerContactUpdateStatus } from 'redux/reducers/clerkCustomerDe
 import { loadNationalities } from 'redux/reducers/nationalities';
 import { clerkCustomerDetailsSelector } from 'redux/selectors/clerkCustomerDetailsSelector';
 import { nationalitiesSelector } from 'redux/selectors/nationalities';
+import { userSelector } from 'redux/selectors/user';
 
 export const CustomerInformation = ({
   person,
@@ -32,7 +33,10 @@ export const CustomerInformation = ({
   const { showToast } = useToast();
   const { nationalities, status } = useAppSelector(nationalitiesSelector);
   const { updateStatus } = useAppSelector(clerkCustomerDetailsSelector);
+  const { user } = useAppSelector(userSelector);
   const params = useParams();
+  const canEditContactDetails =
+    route === 'organizer' || !!user?.isAdmin || !!user?.isCustomerService;
 
   useEffect(() => {
     if (status === APIResponseStatus.NotStarted) {
@@ -89,15 +93,17 @@ export const CustomerInformation = ({
           </div>
         </div>
       </div>
-      <div className="rows gapped-xs">
-        <CustomButton
-          className="align-self-start"
-          variant="outlined"
-          onClick={() => setIsEditModalOpen(true)}
-        >
-          {t('details.buttons.editContact')}
-        </CustomButton>
-      </div>
+      {canEditContactDetails && (
+        <div className="rows gapped-xs">
+          <CustomButton
+            className="align-self-start"
+            variant="outlined"
+            onClick={() => setIsEditModalOpen(true)}
+          >
+            {t('details.buttons.editContact')}
+          </CustomButton>
+        </div>
+      )}
       <EditCustomerInformationModal
         isModalOpen={isEditModalOpen}
         setIsModalOpen={setIsEditModalOpen}

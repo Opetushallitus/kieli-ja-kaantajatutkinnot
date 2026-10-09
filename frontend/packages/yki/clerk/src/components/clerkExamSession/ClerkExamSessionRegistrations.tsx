@@ -26,6 +26,7 @@ import {
   RegistrationKind,
   RegistrationStates,
 } from 'enums/app';
+import { useCanManage } from 'hooks/useCanManage';
 import { ClerkExamSession } from 'interfaces/clerkExamSession';
 import { ClerkRegistration } from 'interfaces/clerkRegistration';
 import { RouteType } from 'interfaces/user';
@@ -87,6 +88,7 @@ export const ClerkExamSessionRegistrations = ({
   examSession: ClerkExamSession;
   route: RouteType;
 }) => {
+  const canManage = useCanManage(route);
   const {
     id: examSessionId,
     registrations: examRegistrations,
@@ -269,7 +271,7 @@ export const ClerkExamSessionRegistrations = ({
     createPartialExamTypeColumn(t),
     createRegistrationStateColumn(t),
     createRegistrationDateColumn(t),
-    createActionsColumn(t),
+    ...(canManage ? [createActionsColumn(t)] : []),
   ];
 
   const queuedColumns = [
@@ -278,7 +280,7 @@ export const ClerkExamSessionRegistrations = ({
     createPartialExamTypeColumn(t),
     createRegistrationStateColumn(t),
     createRegistrationDateColumn(t),
-    createActionsColumn(t),
+    ...(canManage ? [createActionsColumn(t)] : []),
   ];
 
   const admissions = examRegistrations.filter(

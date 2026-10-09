@@ -25,7 +25,6 @@ import {
 } from 'redux/reducers/clerkOrganizer';
 import { loadExamDates, loadOrganizerExamDates } from 'redux/reducers/examDate';
 import { clerkCustomersSearchSelector } from 'redux/selectors/clerkCustomersSearchSelector';
-import { clerkOrganizersSelector } from 'redux/selectors/clerkOrganizers';
 import { examDateSelector } from 'redux/selectors/examDate';
 import { filteredClerkOrganizersSelector } from 'redux/selectors/filteredClerkOrganizers';
 import { LANGUAGES, languageToString, levelDescription } from 'utils/clerk';
@@ -47,10 +46,8 @@ export const ClerkCustomerListingFilter = ({
 
   const levels: LevelCode[] = ['PERUS', 'KESKI', 'YLIN'];
   const dispatch = useAppDispatch();
-  const { organizerRegistryStatus } = useAppSelector(clerkOrganizersSelector);
   const organizers = useAppSelector(filteredClerkOrganizersSelector);
-  const { status: examDateStatus, examDates } =
-    useAppSelector(examDateSelector);
+  const { examDates } = useAppSelector(examDateSelector);
   const {
     status,
     searchQueryFilter,
@@ -61,22 +58,18 @@ export const ClerkCustomerListingFilter = ({
   } = useAppSelector(clerkCustomersSearchSelector);
 
   useEffect(() => {
-    if (organizerRegistryStatus === APIResponseStatus.NotStarted) {
-      dispatch(
-        route === 'clerk'
-          ? loadClerkOrganizerRegistry()
-          : loadOrganizerRegistry(oid),
-      );
-    }
-  }, [dispatch, organizerRegistryStatus, route, oid]);
+    dispatch(
+      route === 'clerk'
+        ? loadClerkOrganizerRegistry()
+        : loadOrganizerRegistry(oid),
+    );
+  }, [dispatch, route, oid]);
 
   useEffect(() => {
-    if (examDateStatus === APIResponseStatus.NotStarted) {
-      dispatch(
-        route === 'clerk' ? loadExamDates(false) : loadOrganizerExamDates(oid),
-      );
-    }
-  }, [dispatch, examDateStatus, route, oid]);
+    dispatch(
+      route === 'clerk' ? loadExamDates(false) : loadOrganizerExamDates(oid),
+    );
+  }, [dispatch, route, oid]);
 
   return (
     <div

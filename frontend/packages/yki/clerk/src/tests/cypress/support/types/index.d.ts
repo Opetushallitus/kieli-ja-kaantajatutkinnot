@@ -19,6 +19,7 @@ declare global {
       openClerkExamDatesPage(): void;
       openClerkQuarantinePage(): void;
       openClerkStatisticsPage(): void;
+      mockAuthUser(user: import('interfaces/session').User): void;
     }
   }
 }
