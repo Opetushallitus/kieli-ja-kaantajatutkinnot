@@ -12,6 +12,8 @@ import fi.oph.yki.api.dto.clerk.ClerkUpdateEvaluationDTO;
 import fi.oph.yki.api.dto.clerk.ClerkUpdateExamDateDTO;
 import fi.oph.yki.api.dto.clerk.CreateClerkExamDateLanguageDTO;
 import fi.oph.yki.audit.AuditService;
+import fi.oph.yki.audit.LoggerImpl;
+import fi.oph.yki.config.Constants;
 import fi.oph.yki.model.type.ExamSessionType;
 import fi.oph.yki.model.type.LanguageCode;
 import fi.oph.yki.model.type.LevelCode;
@@ -20,6 +22,8 @@ import fi.oph.yki.repository.ExamDateRepository;
 import fi.oph.yki.repository.ExamSessionRepository;
 import fi.oph.yki.util.exception.APIException;
 import fi.oph.yki.util.exception.APIExceptionType;
+import fi.vm.sade.auditlog.ApplicationType;
+import fi.vm.sade.auditlog.Audit;
 import jakarta.annotation.Resource;
 import java.time.LocalDate;
 import java.util.List;
@@ -52,13 +56,13 @@ public class ClerkExamDateServiceTest {
   @Resource
   private JdbcTemplate jdbcTemplate;
 
-  @MockitoBean
-  private AuditService auditService;
-
   private ClerkExamDateService clerkExamDateService;
 
   @BeforeEach
   public void setup() {
+    final AuditService auditService = new AuditService(
+      new Audit(new LoggerImpl(), Constants.SERVICENAME, ApplicationType.VIRKAILIJA)
+    );
     clerkExamDateService =
       new ClerkExamDateService(examDateRepository, evaluationRepository, examSessionRepository, auditService);
   }
