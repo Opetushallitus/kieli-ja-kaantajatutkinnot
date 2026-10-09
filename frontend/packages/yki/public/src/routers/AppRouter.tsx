@@ -47,7 +47,6 @@ const ErrorToast = () => {
   return <></>;
 };
 
-// Trigger CI
 const YkiTitlePage = ({ title, children }: TitlePageProps) => {
   const translateCommon = useCommonTranslation();
   const appTitle = translateCommon('appTitle');
