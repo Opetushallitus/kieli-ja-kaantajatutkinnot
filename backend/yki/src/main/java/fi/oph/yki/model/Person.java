@@ -8,6 +8,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
+import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.JdbcType;
@@ -64,4 +65,7 @@ public class Person {
   @Size(max = 255)
   @Column(name = "country_code")
   private String countryCode;
+
+  @Column(name = "modified", insertable = false)
+  private LocalDateTime modifiedAt;
 }

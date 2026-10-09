@@ -3,6 +3,7 @@ package fi.oph.yki.repository;
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.Registration;
 import fi.oph.yki.model.type.PartialExamType;
+import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
 import java.time.LocalDate;
 import java.util.List;
@@ -17,6 +18,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface RegistrationRepository extends JpaRepository<Registration, Long> {
   List<Registration> getByPersonOid(String personOid);
+  Optional<Registration> getByIdAndPersonOidAndStateAndKind(
+    Long id,
+    String personOid,
+    RegistrationState state,
+    RegistrationKind kind
+  );
   List<Registration> getByExamSessionAndStateInAndFormIsNotNull(
     ExamSession examSession,
     List<RegistrationState> states
@@ -43,6 +50,33 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
   );
 
   int countByPersonOid(String personOid);
+
+  @Query(
+    "SELECT r FROM Registration r WHERE r.person.oid = ?1" +
+    " AND r.state <> 'STARTED'" +
+    " AND r.examSession.examDate.examDate >= ?2"
+  )
+  List<Registration> getByPersonOidAndExamDateFrom(final String personOid, final LocalDate examDateFrom);
+
+  @Query(
+    value = """
+      SELECT r.id AS id,
+          is_cancellable(r.id) AS cancellable,
+          is_transferable(r.id) AS transferable,
+          (SELECT COUNT(r2.id)
+           FROM registration r2
+           WHERE r2.exam_session_id = r.exam_session_id
+             AND r2.id <> r.id
+             AND r2.created < r.created
+             AND r2.kind = 'QUEUE'
+             AND r2.partial_exam_type = r.partial_exam_type
+             AND r2.state IN ('STARTED', 'SUBMITTED')) AS positionInQueue
+      FROM registration r
+      WHERE r.id IN (:ids)
+    """,
+    nativeQuery = true
+  )
+  List<PersonRegistrationStatusProjection> getPersonRegistrationStatuses(@Param("ids") List<Long> ids);
 
   @Query(
     "SELECT r FROM Registration r WHERE r.person.oid = ?1" +

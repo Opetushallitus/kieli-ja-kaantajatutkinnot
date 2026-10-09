@@ -35,4 +35,5 @@ public enum YkiOperation implements Operation {
   LIST_EXAM_SESSIONS,
   DOWNLOAD_EXAM_SESSION_EXCEL,
   UPDATE_EXAM_SESSION,
+  GET_REGISTRATION_TO_CONFIRM,
 }

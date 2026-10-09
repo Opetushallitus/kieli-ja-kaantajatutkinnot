@@ -5,6 +5,13 @@
 
 - Do not create new migration files. When assigned to update a migration, update the existing one.
 
+## JPA models
+
+- Timestamp columns: `LocalDateTime`.
+- `nullable` and `unique` in `@Column` match the database.
+- No `cascade` or `orphanRemoval` when the database already handles it.
+- When the database has a constraint (unique, start < end), check it in code too and return an error the user can read.
+
 ## Local database
 If the database is not up, ask the user to run `scripts/run-database.sh`. Do not run it yourself. Do not modify the database state (e.g., add/remove data, let queries modify id) without explicit permission from the user.
 

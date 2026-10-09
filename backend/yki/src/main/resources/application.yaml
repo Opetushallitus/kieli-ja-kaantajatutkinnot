@@ -67,6 +67,8 @@ app:
     password: ${cas.password:null}
   organization-service:
     url: ${organisaatio-url:https://virkailija.untuvaopintopolku.fi/organisaatio-service}
+  koodisto-service:
+    url: ${koodisto-url:https://virkailija.untuvaopintopolku.fi/koodisto-service}
   kayttooikeus-service:
     url: ${kayttooikeus-url:https://virkailija.untuvaopintopolku.fi/kayttooikeus-service}
   email:
