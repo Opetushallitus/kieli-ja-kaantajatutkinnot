@@ -43,6 +43,8 @@ public class ClerkOrganizerService {
 
   @Transactional(readOnly = true)
   public List<ClerkOrganizerDTO> getOrganizers(final List<String> oids) {
+    auditService.logOperation(YkiOperation.LIST_ORGANIZERS);
+
     return organizerRepository.findAllByOidInAndDeletedAtIsNull(oids).stream().map(this::toDTO).toList();
   }
 

@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import fi.oph.yki.Factory;
 import fi.oph.yki.PostgresTestcontainerConfig;
+import fi.oph.yki.api.dto.clerk.ClerkOrganizerCreateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkOrganizerDTO;
 import fi.oph.yki.api.dto.clerk.ClerkOrganizerLanguageDTO;
 import fi.oph.yki.api.dto.clerk.ClerkOrganizerUpdateDTO;
@@ -128,6 +129,97 @@ public class ClerkOrganizerServiceTest {
     assertEquals(0, examLanguageRepository.findAll().stream().filter(l -> "fin".equals(l.getLanguageCode())).count());
     assertEquals(1, examLanguageRepository.findAll().stream().filter(l -> "swe".equals(l.getLanguageCode())).count());
     assertEquals(1, examLanguageRepository.findAll().stream().filter(l -> "eng".equals(l.getLanguageCode())).count());
+  }
+
+  @Test
+  public void testCreateOrganizerWithoutLanguages() {
+    final ClerkOrganizerCreateDTO dto = ClerkOrganizerCreateDTO
+      .builder()
+      .oid("1.2.246.562.10.00000000099")
+      .agreementStartDate(LocalDate.of(2026, 1, 1))
+      .agreementEndDate(LocalDate.of(2027, 12, 31))
+      .contactName("Testi Järjestäjä")
+      .contactEmail("jarjestaja@example.com")
+      .contactPhoneNumber("0401234567")
+      .extra("lisätiedot")
+      .build();
+
+    final ClerkOrganizerDTO result = clerkOrganizerService.createOrganizer(dto);
+
+    assertEquals("1.2.246.562.10.00000000099", result.oid());
+    assertEquals(LocalDate.of(2026, 1, 1), result.agreementStartDate());
+    assertEquals(LocalDate.of(2027, 12, 31), result.agreementEndDate());
+    assertEquals("Testi Järjestäjä", result.contactName());
+    assertEquals("jarjestaja@example.com", result.contactEmail());
+    assertEquals("0401234567", result.contactPhoneNumber());
+    assertEquals("lisätiedot", result.extra());
+    assertNull(result.languages());
+  }
+
+  @Test
+  public void testCreateOrganizerWithLanguages() {
+    final ClerkOrganizerCreateDTO dto = ClerkOrganizerCreateDTO
+      .builder()
+      .oid("1.2.246.562.10.00000000098")
+      .agreementStartDate(LocalDate.of(2026, 1, 1))
+      .agreementEndDate(LocalDate.of(2027, 12, 31))
+      .contactName("Testi Järjestäjä")
+      .contactEmail("jarjestaja@example.com")
+      .contactPhoneNumber("0401234567")
+      .languages(
+        List.of(
+          ClerkOrganizerLanguageDTO.builder().languageCode("fin").levelCode("PERUS").build(),
+          ClerkOrganizerLanguageDTO.builder().languageCode("swe").levelCode("KESKI").build()
+        )
+      )
+      .build();
+
+    final ClerkOrganizerDTO result = clerkOrganizerService.createOrganizer(dto);
+
+    assertNotNull(result.languages());
+    assertEquals(2, result.languages().size());
+  }
+
+  @Test
+  public void testCreateOrganizerPersistsToDatabase() {
+    final ClerkOrganizerCreateDTO dto = ClerkOrganizerCreateDTO
+      .builder()
+      .oid("1.2.246.562.10.00000000097")
+      .agreementStartDate(LocalDate.of(2026, 1, 1))
+      .agreementEndDate(LocalDate.of(2027, 12, 31))
+      .contactName("Testi")
+      .contactEmail("testi@example.com")
+      .contactPhoneNumber("040111222")
+      .build();
+
+    clerkOrganizerService.createOrganizer(dto);
+    entityManager.flush();
+    entityManager.clear();
+
+    final var saved = organizerRepository.findByOidAndDeletedAtIsNull("1.2.246.562.10.00000000097");
+    assertNotNull(saved.orElse(null));
+    assertEquals("Testi", saved.get().getContactName());
+    assertEquals("testi@example.com", saved.get().getContactEmail());
+    assertEquals("040111222", saved.get().getContactPhoneNumber());
+  }
+
+  @Test
+  public void testCreateOrganizerWithNullOptionalFields() {
+    final ClerkOrganizerCreateDTO dto = ClerkOrganizerCreateDTO
+      .builder()
+      .oid("1.2.246.562.10.00000000095")
+      .agreementStartDate(LocalDate.of(2026, 1, 1))
+      .agreementEndDate(LocalDate.of(2027, 12, 31))
+      .build();
+
+    final ClerkOrganizerDTO result = clerkOrganizerService.createOrganizer(dto);
+
+    assertNotNull(result);
+    assertNull(result.contactName());
+    assertNull(result.contactEmail());
+    assertNull(result.contactPhoneNumber());
+    assertNull(result.extra());
+    assertNull(result.languages());
   }
 
   @Test
