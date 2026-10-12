@@ -543,4 +543,15 @@
             <column name="created_at"/>
         </createIndex>
     </changeSet>
+
+    <changeSet id="2026-10-01-add-last-sync-at-to-exam-session" author="miikavonbell">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="exam_session" columnName="last_sync_at"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="exam_session">
+            <column name="last_sync_at" type="TIMESTAMP WITH TIME ZONE"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

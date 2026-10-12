@@ -1,6 +1,7 @@
 package fi.oph.yki.scheduled;
 
 import fi.oph.yki.config.Constants;
+import fi.oph.yki.repository.ShedLockRepository;
 import fi.oph.yki.repository.TaskLockRepository;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -38,7 +39,21 @@ public class ScheduledTaskMonitor {
     Duration.ofHours(3) // interval: 57min
   );
 
+  // Java @Scheduled tasks locked via ShedLock (table `shedlock`), not the legacy `task_lock`
+  // table the map above reads from. These run unconditionally regardless of the
+  // app.solki.*-enabled flags (which only gate whether SolkiService actually calls out to
+  // SOLKI), so they're always safe to monitor.
+  private static final Map<String, Duration> MONITORED_SHEDLOCK_TASKS = Map.of(
+    "personsSyncHandler",
+    Duration.ofMinutes(20), // interval: 179s
+    "participantsSyncHandler",
+    Duration.ofHours(3), // interval: 59min
+    "examSessionSolkiSyncHandler",
+    Duration.ofHours(3) // interval: 59min
+  );
+
   private final TaskLockRepository taskLockRepository;
+  private final ShedLockRepository shedLockRepository;
 
   @Scheduled(cron = Constants.SCHEDULED_TASK_MONITOR_CRON)
   @SchedulerLock(name = "scheduledTaskMonitor", lockAtLeastFor = LOCK_AT_LEAST, lockAtMostFor = LOCK_AT_MOST)
@@ -59,6 +74,19 @@ public class ScheduledTaskMonitor {
             }
           },
           () -> LOG.error("Scheduled task {} not found in task_lock [ERROR_SCHEDULED_TASK]", task)
+        );
+    });
+    MONITORED_SHEDLOCK_TASKS.forEach((@NonNull final String task, final Duration maxAge) -> {
+      shedLockRepository
+        .findById(task)
+        .ifPresentOrElse(
+          shedLock -> {
+            final LocalDateTime threshold = LocalDateTime.now().minus(maxAge);
+            if (shedLock.getLockedAt().isBefore(threshold)) {
+              LOG.error("Scheduled task {} has not run since {} [ERROR_SCHEDULED_TASK]", task, shedLock.getLockedAt());
+            }
+          },
+          () -> LOG.error("Scheduled task {} not found in shedlock [ERROR_SCHEDULED_TASK]", task)
         );
     });
   }
