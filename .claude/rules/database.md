@@ -3,7 +3,7 @@
 
 ## Liquibase
 
-- Do not create new migration files. When assigned to update a migration, update the existing one.
+- Add schema changes as a new `<changeSet>` in the module's newest changelog file (`db.changelog-1.0.xml` in yki). Do not create new changelog files.
 
 ## JPA models
 
