@@ -243,11 +243,7 @@ public class WebSecurityConfig {
       .addFilter(casAuthenticationFilter)
       .authorizeHttpRequests(auth ->
         auth
-          .requestMatchers(
-            HttpMethod.POST,
-            "/v2/api/clerk/person/{oid}/contactDetails",
-            "/v2/api/clerk/customer/search"
-          )
+          .requestMatchers(HttpMethod.POST, "/v2/api/clerk/customer/search")
           .hasAnyRole(Constants.APP_ADMIN_ROLE, Constants.APP_CUSTOMER_SERVICE_ROLE)
           .requestMatchers(
             HttpMethod.GET,
