@@ -4,8 +4,7 @@ import { APIEndpoints } from 'enums/api';
 import { onInitRegistrationPage } from 'tests/cypress/support/page-objects/initRegistrationPage';
 import { onPublicRegistrationPage } from 'tests/cypress/support/page-objects/publicRegistrationPage';
 import { findDialogByText } from 'tests/cypress/support/utils/dialog';
-import { worker } from 'tests/msw/browser';
-import { SuomiFiAuthenticatedSessionResponse } from 'tests/msw/fixtures/identity';
+import { NoSessionResponse } from 'tests/msw/fixtures/identity';
 
 describe('PublicRegistrationPage', () => {
   beforeEach(() => {
@@ -61,6 +60,11 @@ describe('PublicRegistrationPage', () => {
 
   describe('allows starting the exam registration process', () => {
     it('by selecting an identification method', () => {
+      cy.useMswHandlers(
+        http.get(APIEndpoints.User, () => HttpResponse.json(NoSessionResponse)),
+      );
+      cy.openPublicRegistrationPage();
+
       onPublicRegistrationPage.selectExamLanguage('kaikki kielet');
       onPublicRegistrationPage.selectExamLevel('kaikki tasot');
       onPublicRegistrationPage.toggleShowOnlyIfAvailablePlaces();
@@ -73,16 +77,9 @@ describe('PublicRegistrationPage', () => {
         .click();
 
       onInitRegistrationPage.expectTitle('Tunnistaudu ilmoittautumista varten');
-    });
-
-    before(() => {
-      worker.stop();
-      worker.use(
-        http.get(APIEndpoints.User, () => {
-          return HttpResponse.json(SuomiFiAuthenticatedSessionResponse);
-        }),
-      );
-      worker.start();
+      cy.findByRole('heading', {
+        name: 'Valitse tunnistautumistapasi',
+      }).should('be.visible');
     });
 
     it('or by continuing with current identification data if already authenticated', () => {
@@ -99,12 +96,6 @@ describe('PublicRegistrationPage', () => {
 
       onInitRegistrationPage.expectTitle('Tunnistaudu ilmoittautumista varten');
       onInitRegistrationPage.expectVisibleContinueToRegistrationButton();
-    });
-
-    after(() => {
-      worker.stop();
-      worker.resetHandlers();
-      worker.start();
     });
   });
 
@@ -152,12 +143,6 @@ describe('PublicRegistrationPage', () => {
       onPublicRegistrationPage.alertModalContains(
         'Ilmoittautuminen on sulkeutunut',
       );
-    });
-
-    after(() => {
-      worker.stop();
-      worker.resetHandlers();
-      worker.start();
     });
   });
 

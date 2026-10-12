@@ -54,14 +54,14 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
                   testFormat
                 </dt>
                 <dd
-                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
                 >
                   <div
                     class="exam-session-format"
                   >
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium exam-session-format__icon css-1umw9bq-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium exam-session-format__icon css-v9aqz4-MuiSvgIcon-root"
                       data-testid="NoteAltOutlinedIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -74,7 +74,7 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
                       />
                     </svg>
                     <p
-                      class="MuiTypography-root MuiTypography-body1 exam-session-format__label css-rizt0-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 exam-session-format__label css-knyw76-MuiTypography-root"
                     >
                       paper.label
                     </p>
@@ -82,7 +82,7 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
                   </div>
                 </dd>
                 <dt
-                  class="MuiTypography-root MuiTypography-label css-z2uw0f-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                 >
                   examDate
                 </dt>
@@ -211,14 +211,14 @@ exports[`InitRegistrationPage should not let user proceed if registration period
                   testFormat
                 </dt>
                 <dd
-                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
                 >
                   <div
                     class="exam-session-format"
                   >
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium exam-session-format__icon css-1umw9bq-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium exam-session-format__icon css-v9aqz4-MuiSvgIcon-root"
                       data-testid="NoteAltOutlinedIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -231,7 +231,7 @@ exports[`InitRegistrationPage should not let user proceed if registration period
                       />
                     </svg>
                     <p
-                      class="MuiTypography-root MuiTypography-body1 exam-session-format__label css-rizt0-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 exam-session-format__label css-knyw76-MuiTypography-root"
                     >
                       paper.label
                     </p>
@@ -239,7 +239,7 @@ exports[`InitRegistrationPage should not let user proceed if registration period
                   </div>
                 </dd>
                 <dt
-                  class="MuiTypography-root MuiTypography-label css-z2uw0f-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                 >
                   examDate
                 </dt>
@@ -620,14 +620,14 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                     testFormat
                   </dt>
                   <dd
-                    class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
                   >
                     <div
                       class="exam-session-format"
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium exam-session-format__icon css-1umw9bq-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium exam-session-format__icon css-v9aqz4-MuiSvgIcon-root"
                         data-testid="NoteAltOutlinedIcon"
                         focusable="false"
                         viewBox="0 0 24 24"
@@ -640,7 +640,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                         />
                       </svg>
                       <p
-                        class="MuiTypography-root MuiTypography-body1 exam-session-format__label css-rizt0-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 exam-session-format__label css-knyw76-MuiTypography-root"
                       >
                         paper.label
                       </p>
@@ -648,7 +648,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                     </div>
                   </dd>
                   <dt
-                    class="MuiTypography-root MuiTypography-label css-z2uw0f-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                   >
                     examDate
                   </dt>
