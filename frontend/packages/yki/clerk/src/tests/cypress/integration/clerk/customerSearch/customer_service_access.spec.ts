@@ -4,7 +4,6 @@ import { DateUtils } from 'shared/utils';
 import { AppRoutes } from 'enums/app';
 import { onClerkCustomerDetailsPage } from 'tests/cypress/support/page-objects/clerkCustomerDetailsPage';
 import { onClerkRegisterListing } from 'tests/cypress/support/page-objects/clerkRegisterListing';
-import { onToast } from 'tests/cypress/support/page-objects/toast';
 
 const ORGANIZER_OID = '1.2.246.562.10.28646781493';
 const EXAM_SESSION_ID = '999';
@@ -120,34 +119,12 @@ describe('Customer service user who is also an organizer', () => {
     cy.findByText('Peru osallistuminen').should('not.exist');
   });
 
-  it('can edit customer contact information', () => {
+  it('can view customer details but not edit contact information', () => {
     cy.openClerkCustomerDetailsPage(CUSTOMER_OID);
     onClerkCustomerDetailsPage.isVisible(CUSTOMER_OID);
+    onClerkCustomerDetailsPage.expectDetailsVisible(CUSTOMER_OID);
 
-    onClerkCustomerDetailsPage.clickEditContactButton();
-
-    const newValues = {
-      email: 'asiakaspalvelu@example.com',
-      phoneNumber: '+358 501234567',
-      streetAddress: 'Muuttokatu 1',
-      zip: '40100',
-      postOffice: 'Jyväskylä',
-    };
-
-    const modal = () => cy.get('.custom-modal');
-
-    modal().find('input').eq(0).clear().type(newValues.email);
-    modal().find('input').eq(1).clear().type(newValues.email);
-    modal().find('input').eq(2).clear().type(newValues.phoneNumber);
-    modal().find('input').eq(3).clear().type(newValues.streetAddress);
-    modal().find('input').eq(4).clear().type(newValues.zip);
-    modal().find('input').eq(5).clear().type(newValues.postOffice);
-
-    cy.findByText('Tallenna tiedot').click();
-
-    onToast.expectText('Muutosten tallentaminen onnistui');
-
-    onClerkCustomerDetailsPage.expectContactDetailsVisible(newValues);
+    cy.findByText('Muokkaa yhteystietoja').should('not.exist');
   });
 });
 

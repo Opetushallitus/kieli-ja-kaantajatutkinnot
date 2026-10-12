@@ -35,8 +35,7 @@ export const CustomerInformation = ({
   const { updateStatus } = useAppSelector(clerkCustomerDetailsSelector);
   const { user } = useAppSelector(userSelector);
   const params = useParams();
-  const canEditContactDetails =
-    route === 'organizer' || !!user?.isAdmin || !!user?.isCustomerService;
+  const canEditContactDetails = route === 'organizer' || !!user?.isAdmin;
 
   useEffect(() => {
     if (status === APIResponseStatus.NotStarted) {

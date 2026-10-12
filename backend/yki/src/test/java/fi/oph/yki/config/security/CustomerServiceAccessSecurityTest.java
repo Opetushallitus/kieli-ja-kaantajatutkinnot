@@ -112,6 +112,9 @@ class CustomerServiceAccessSecurityTest {
     mockMvc.perform(get("/v2/api/clerk/examDate/all")).andExpect(expected);
     mockMvc.perform(get("/v2/api/clerk/examSession/1")).andExpect(expected);
     mockMvc.perform(get("/v2/api/clerk/examSession/1/excel")).andExpect(expected);
+  }
+
+  private void expectContactDetailsUpdate(final ResultMatcher expected) throws Exception {
     mockMvc
       .perform(
         post("/v2/api/clerk/person/" + PERSON_OID + "/contactDetails")
@@ -137,6 +140,20 @@ class CustomerServiceAccessSecurityTest {
   public void testCustomerServiceCanUseCustomerServiceEndpointsAndPages() throws Exception {
     expectCustomerServiceEndpoints(status().isOk());
     expectCustomerServicePages(status().isOk());
+  }
+
+  @Test
+  @WithMockUser(roles = CUSTOMER_SERVICE_ROLE)
+  public void testCustomerServiceCannotEditContactDetails() throws Exception {
+    expectContactDetailsUpdate(status().isForbidden());
+    mockMvc
+      .perform(
+        post("/v2/api/organizer/" + ORGANIZATION_OID + "/customer/" + PERSON_OID)
+          .with(csrf())
+          .contentType(MediaType.APPLICATION_JSON)
+          .content(contactDetails())
+      )
+      .andExpect(status().isForbidden());
   }
 
   @Test
@@ -208,6 +225,7 @@ class CustomerServiceAccessSecurityTest {
   public void testOrganizerCannotUseCustomerServiceEndpointsAndPages() throws Exception {
     expectCustomerServiceEndpoints(status().isForbidden());
     expectCustomerServicePages(status().isForbidden());
+    expectContactDetailsUpdate(status().isForbidden());
   }
 
   @Test
@@ -215,6 +233,7 @@ class CustomerServiceAccessSecurityTest {
   public void testAdminCanUseCustomerServiceEndpointsAndPages() throws Exception {
     expectCustomerServiceEndpoints(status().isOk());
     expectCustomerServicePages(status().isOk());
+    expectContactDetailsUpdate(status().isOk());
   }
 
   @Test
