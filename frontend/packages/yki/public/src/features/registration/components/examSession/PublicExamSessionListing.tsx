@@ -7,7 +7,6 @@ import {
   CustomButtonLink,
   CustomCircularProgress,
   CustomModal,
-  ManagedPaginatedTable,
   Pagination,
 } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
@@ -19,8 +18,6 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { RegistrationKind, RegistrationStates } from 'enums/app';
 import { PublicRegistrationInitError } from 'enums/publicRegistration';
 import { PublicExamSessionCard } from 'features/registration/components/examSession/PublicExamSessionCard';
-import { PublicExamSessionListingHeader } from 'features/registration/components/examSession/PublicExamSessionListingHeader';
-import { PublicExamSessionListingRow } from 'features/registration/components/examSession/PublicExamSessionListingRow';
 import {
   initRegistration,
   resetPublicRegistration,
@@ -296,51 +293,6 @@ const DisplayedRowsLabel = ({
   } else {
     return fullLabelText;
   }
-};
-
-const getRowDetails = (examSession: ExamSession) => {
-  return <PublicExamSessionListingRow examSession={examSession} />;
-};
-
-export const PublicExamSessionsTable = ({
-  examSessions,
-  onPageChange,
-  onRowsPerPageChange,
-  page,
-  rowsPerPage,
-  rowsPerPageOptions,
-}: {
-  examSessions: Array<ExamSession>;
-  onPageChange: (page: number) => void;
-  onRowsPerPageChange: (rowsPerPage: number) => void;
-  page: number;
-  rowsPerPage: number;
-  rowsPerPageOptions: Array<number>;
-}) => {
-  const translateCommon = useCommonTranslation();
-
-  return (
-    <ManagedPaginatedTable
-      className="public-exam-session-listing table-layout-auto"
-      data={examSessions}
-      header={<PublicExamSessionListingHeader />}
-      getRowDetails={getRowDetails}
-      rowsPerPageOptions={rowsPerPageOptions}
-      page={page}
-      onPageChange={onPageChange}
-      rowsPerPage={rowsPerPage}
-      onRowsPerPageChange={onRowsPerPageChange}
-      rowsPerPageLabel={translateCommon(
-        'component.table.pagination.rowsPerPage',
-      )}
-      labelDisplayedRows={({ from, to, count }) => (
-        <DisplayedRowsLabel from={from} to={to} count={count} />
-      )}
-      backIconButtonProps={TableUtils.getPaginationBackButtonProps()}
-      nextIconButtonProps={TableUtils.getPaginationNextButtonProps()}
-      stickyHeader
-    />
-  );
 };
 
 export const PublicExamSessionListing = ({

@@ -50,7 +50,7 @@ export interface RegistrationState {
   fetchRegistrationStatus: APIResponseStatus;
 }
 
-export const initialState: RegistrationState = {
+const initialState: RegistrationState = {
   activeStep: PublicRegistrationFormStep.Identify,
   initRegistration: {
     status: APIResponseStatus.NotStarted,

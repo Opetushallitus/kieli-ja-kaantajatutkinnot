@@ -49,6 +49,12 @@ const examSessionsSlice = createSlice({
       state.municipalities = Array.from(uniqueMunicipalities).sort(
         new Intl.Collator('fi').compare,
       );
+      if (
+        state.filters.municipality &&
+        !uniqueMunicipalities.has(state.filters.municipality)
+      ) {
+        state.filters.municipality = undefined;
+      }
     },
     setPublicExamSessionFilters(
       state,

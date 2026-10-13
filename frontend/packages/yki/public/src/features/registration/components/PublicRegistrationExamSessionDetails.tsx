@@ -10,6 +10,7 @@ import {
 } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
+import { ExamSessionFormat } from 'features/registration/components/examSession/ExamSessionFormat';
 import { publicFreeRegistrationSelector } from 'features/registration/redux/selectors/publicFreeRegistration';
 import { registrationSelector } from 'features/registration/redux/selectors/registration';
 import { ExamSession } from 'interfaces/examSessions';
@@ -168,6 +169,9 @@ export const PublicRegistrationExamSessionDetails = ({
             )}
           </DetailRow>
         )}
+        <DetailRow label={t('testFormat')}>
+          <ExamSessionFormat examSessionId={examSession.id} showDescription />
+        </DetailRow>
         <DetailRow label={translateCommon('examDate')}>
           {DateUtils.formatOptionalDate(examSession.session_date, 'l')}
         </DetailRow>

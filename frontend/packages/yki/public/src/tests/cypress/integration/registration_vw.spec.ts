@@ -145,12 +145,74 @@ describe('Registration feature at /vw', () => {
     cy.get('a[href="/yki/api/payment/v3/1338/redirect?lang=fi"]').should(
       'be.visible',
     );
+    cy.findByRole('heading', { name: 'Maksupalvelutarjoaja' }).should(
+      'be.visible',
+    );
+    cy.findByRole('link', { name: 'Ilmoittautumisen ja maksun ehdot' }).should(
+      'have.attr',
+      'href',
+      'https://www.oph.fi/fi/koulutus-ja-tutkinnot/ilmoittautuminen-yki-testiin#anchor-ilmoittautumisen-ehdot',
+    );
     cy.reload();
     onExamDetailsPage.isFormSubmitted();
     cy.get('a[href="/yki/api/payment/v3/1338/redirect?lang=fi"]').should(
       'be.visible',
     );
     cy.then(() => expect(requests).to.include(`GET ${detailsPath}`));
+  });
+
+  [false, true].forEach((isPhone) => {
+    [4390, 4391].forEach((examSessionId) => {
+      it(`shows session ${examSessionId} format on ${isPhone ? 'mobile' : 'desktop'} cards and registration pages`, () => {
+        const digital = examSessionId === 4390;
+        const label = digital ? 'Digitesti' : 'Paperitesti';
+        const description = digital
+          ? 'Testi tehdään testipaikalla järjestäjän tarjoamalla tietokoneella.'
+          : 'Testi tehdään testipaikalla kynällä paperille.';
+        const registration: PublicRegistrationDetails = {
+          ...details,
+          exam_session: {
+            ...details.exam_session,
+            id: examSessionId,
+            type: 'FULL',
+            available_registration_kind: RegistrationKind.Admission,
+            partial_registration_kind: {
+              ALL_PARTS: RegistrationKind.Admission,
+            },
+          },
+          partial_exam_type: 'ALL_PARTS',
+        };
+        cy.viewport(isPhone ? 375 : 1280, 900);
+        cy.intercept('GET', APIEndpoints.ExamSessions, {
+          body: { exam_sessions: [registration.exam_session] },
+        });
+        cy.intercept('POST', APIEndpoints.InitRegistration, {
+          body: registration,
+        });
+        cy.intercept('GET', `/yki/v2/api/registration/${examSessionId}/1338`, {
+          body: registration,
+        });
+        cy.visit(basePath);
+        onPublicRegistrationPage.selectExamLanguage('suomi', isPhone);
+        onPublicRegistrationPage.selectExamLevel('ylin taso', isPhone);
+        onPublicRegistrationPage.search();
+        cy.get('.exam-session-format')
+          .should('be.visible')
+          .and('have.text', label);
+        onPublicRegistrationPage
+          .getResultCards()
+          .findByRole('button', { name: 'Ilmoittaudu' })
+          .click();
+        cy.contains('dt', 'Testityyppi')
+          .next('dd')
+          .should('have.text', `${label} - ${description}`);
+        cy.findByRole('link', { name: 'Jatka ilmoittautumiseen' }).click();
+        onExamDetailsPage.isVisible();
+        cy.contains('dt', 'Testityyppi')
+          .next('dd')
+          .should('have.text', `${label} - ${description}`);
+      });
+    });
   });
 
   it('restores a submitted queue using the backend kind, without a reservation timer or payment button', () => {

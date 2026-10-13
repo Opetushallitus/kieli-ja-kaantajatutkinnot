@@ -12,6 +12,7 @@ import {
 } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
 import { RegistrationKind } from 'enums/app';
+import { ExamSessionFormat } from 'features/registration/components/examSession/ExamSessionFormat';
 import {
   initRegistration,
   resetPublicRegistration,
@@ -589,6 +590,7 @@ export const PublicExamSessionCard = ({
               <span>{t('examSessionCard.registrationType.allParts')}</span>
             </div>
           )}
+          <ExamSessionFormat examSessionId={examSession.id} />
         </div>
         <h3 className="exam-session-card__title">
           {ExamSessionUtils.languageAndLevelText(examSession)}

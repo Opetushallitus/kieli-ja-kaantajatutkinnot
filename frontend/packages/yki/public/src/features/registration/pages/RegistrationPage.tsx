@@ -4,7 +4,7 @@ import { FC, useEffect, useState } from 'react';
 import { Trans } from 'react-i18next';
 import { APIResponseStatus } from 'shared/enums';
 
-import { PartialExamsLink } from 'components/elements/PartialExamsLink';
+import { InfoBoxLink } from 'components/elements/InfoBoxLink';
 import { H1, H2, Text } from 'components/Text';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -30,7 +30,7 @@ const InformationBox = () => {
           i18nKey="part3"
           t={t}
           components={{
-            CustomLink: <PartialExamsLink />,
+            CustomLink: <InfoBoxLink />,
           }}
         />
       </Text>
