@@ -21,6 +21,12 @@ import { NewYkiFooter } from 'components/layouts/NewYkiFooter';
 import { useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, RegistrationKind } from 'enums/app';
+import { ExamDetailsPage as VwExamDetailsPage } from 'features/registration/pages/ExamDetailsPage';
+import { FreeRegistrationSuccessPage as VwFreeRegistrationSuccessPage } from 'features/registration/pages/FreeRegistrationSuccessPage';
+import { InitRegistrationPage as VwInitRegistrationPage } from 'features/registration/pages/InitRegistrationPage';
+import { RegistrationPage as VwRegistrationPage } from 'features/registration/pages/RegistrationPage';
+import { RegistrationPaymentStatusPage as VwRegistrationPaymentStatusPage } from 'features/registration/pages/RegistrationPaymentStatusPage';
+import { RegistrationRoutes } from 'features/registration/routes';
 import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
 import { YkiThemeProvider } from 'ophTheme/YkiThemeProvider';
 import { AccessibilityStatementPage } from 'pages/AccessibilityStatementPage';
@@ -122,6 +128,55 @@ export const AppRouter: FC = () => {
       <Route path={AppRoutes.PublicRoot} element={Root}>
         <Route index={true} element={FrontPage} />
         <Route path={AppRoutes.Registration} element={FrontPage} />
+        <Route
+          path={RegistrationRoutes.Registration}
+          element={
+            <YkiTitlePage title="registration">
+              <VwRegistrationPage />
+            </YkiTitlePage>
+          }
+        />
+        <Route
+          path={RegistrationRoutes.ExamSession}
+          element={
+            <YkiTitlePage title="registration">
+              <VwInitRegistrationPage />
+            </YkiTitlePage>
+          }
+        />
+        <Route
+          path={RegistrationRoutes.ExamSessionRegistration}
+          element={
+            <YkiTitlePage title="examDetails">
+              <VwExamDetailsPage />
+            </YkiTitlePage>
+          }
+        />
+        <Route
+          path={RegistrationRoutes.ExamSessionQueue}
+          element={
+            <YkiTitlePage title="examDetails">
+              <VwExamDetailsPage />
+            </YkiTitlePage>
+          }
+        />
+        <Route
+          path={RegistrationRoutes.RegistrationPaymentStatus}
+          element={
+            <YkiTitlePage title="registrationPaymentStatus">
+              <VwRegistrationPaymentStatusPage />
+            </YkiTitlePage>
+          }
+        />
+        <Route
+          path={RegistrationRoutes.FreeRegistrationSuccess}
+          element={
+            <YkiTitlePage title="freeRegistrationSuccess">
+              <VwFreeRegistrationSuccessPage />
+            </YkiTitlePage>
+          }
+        />
+
         <Route
           path={AppRoutes.ExamSession}
           element={

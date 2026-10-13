@@ -272,7 +272,12 @@ export const handlers = [
   http.get(APIEndpoints.LanguageCodes, () => HttpResponse.json(kieliResponse)),
   http.post(APIEndpoints.SubmitRegistration, async ({ params, request }) => {
     const { registrationId } = params;
-    const queued = Number(registrationId) % 2 === 1;
+    // Registrations created by the mock init use the exam-session ID as their
+    // registration ID. Preserve the selected part's admission/queue kind.
+    const persisted = readRegistrationState(Number(registrationId));
+    const queued = persisted
+      ? persisted.kind === RegistrationKind.Queue
+      : Number(registrationId) % 2 === 1;
     const body = (await request.clone().json()) as SubmitRequest;
     const state =
       !queued && body && !!body.free_registration_id
@@ -319,6 +324,30 @@ export const handlers = [
     APIEndpoints.IdentifyRegistration,
     identifyRegistration,
   ),
+  http.get(APIEndpoints.RegistrationDetails, ({ params }) => {
+    const examSessionId = Number(params.examSessionId);
+    const registrationId = Number(params.registrationId);
+    const examSession = examSessions.exam_sessions.find(
+      (session) => session.id === examSessionId,
+    );
+    if (
+      !examSession ||
+      !Number.isSafeInteger(registrationId) ||
+      registrationId <= 0
+    ) {
+      return notFound();
+    }
+    const persisted = readRegistrationState(examSessionId);
+
+    return HttpResponse.json({
+      ...buildRegistrationResponse(
+        examSessionId,
+        persisted?.kind ?? examSession.available_registration_kind,
+        persisted?.partial_exam_type ?? 'ALL_PARTS',
+      ),
+      registration_id: registrationId,
+    });
+  }),
   http.get(APIEndpoints.Logout, ({ request }) => {
     const url = new URL(request.url);
     const redirect = url.searchParams.get('redirect');
