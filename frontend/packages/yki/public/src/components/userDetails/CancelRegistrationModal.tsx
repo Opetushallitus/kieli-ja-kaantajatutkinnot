@@ -1,12 +1,14 @@
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import { Link } from '@mui/material';
+import { Typography } from '@mui/material';
 import { useCallback, useEffect } from 'react';
+import { Trans } from 'react-i18next';
 import {
   CustomButton,
   CustomModal,
   H3,
   LoadingProgressIndicator,
   Text,
+  WebLink,
 } from 'shared/components';
 import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
 import { useToast, useWindowProperties } from 'shared/hooks';
@@ -119,17 +121,47 @@ export const CancelRegistrationModal = ({
           )}
           {!registrationToCancel.isFreeRegistration && (
             <div className="rows gapped">
-              <Text>{t('descriptionPaid1')}</Text>
+              <Text>{t('descriptionPaid.notPaidYet')}</Text>
               <Text>
-                {t('descriptionPaid2')}{' '}
-                <div className="columns gapped-xs">
-                  <Link href={t('link.url')}>
-                    <Text color="textPrimary">{t('link.label')}</Text>
-                  </Link>
-                  <OpenInNewIcon color="inherit" />
-                </div>
+                <Trans t={t} i18nKey="descriptionPaid.alreadyPaid" />
               </Text>
-              <Text>{t('descriptionPaid3')}</Text>
+              <div>
+                <Text>
+                  <Trans t={t} i18nKey="descriptionPaid.refundOnlyIf" />
+                </Text>
+                <ul>
+                  <Typography variant="body1" component="li">
+                    <Trans
+                      t={t}
+                      i18nKey="descriptionPaid.refundConditions.ill"
+                    />
+                  </Typography>
+                  <Typography variant="body1" component="li">
+                    <Trans
+                      t={t}
+                      i18nKey="descriptionPaid.refundConditions.cancelledInTime"
+                    />
+                    <br />
+                    <strong>{t('descriptionPaid.refundConditions.and')}</strong>
+                  </Typography>
+                  <Typography variant="body1" component="li">
+                    <Trans
+                      t={t}
+                      i18nKey="descriptionPaid.refundConditions.applyInTime"
+                      components={{
+                        RefundLink: (
+                          <WebLink
+                            href={t('link.url')}
+                            label={t('link.label')}
+                            endIcon={<OpenInNewIcon color="inherit" />}
+                          />
+                        ),
+                      }}
+                    />
+                  </Typography>
+                </ul>
+              </div>
+              <Text>{t('descriptionPaid.cannotRestore')}</Text>
             </div>
           )}
           <div

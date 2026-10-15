@@ -6,11 +6,20 @@
         "confirm": "Peru ilmoittautuminen",
         "descriptionNotPaid1": "Jos täytät maksuttoman YKI-testin ehdot, voit ilmoittautua maksuttomasti suomen tai ruotsin kielen ylimmän tason YKI-testiin yhteensä kolme (3) kertaa. Jos perut tämän ilmoittautumisen, saat maksuttoman kerran takaisin.",
         "descriptionNotPaid2": "Jos perut ilmoittautumisen, et voi palauttaa sitä. Sinun täytyy ilmoittautua uudelleen, jos haluat osallistua YKI-testiin.",
-        "descriptionPaid1": "Jos perut ilmoittautumisen, tutkintomaksua ei palauteta automaattisesti.",
-        "descriptionPaid2": "Voit hakea tutkintomaksun palautusta Opetushallitukselta. Opetushallitus palauttaa tutkintomaksusi, jos hakemuksesi täyttää kaikki lain asettamat ehdot. Jos haluat hakea tutkintomaksun palautusta, lue ohjeet Opetushallituksen verkkosivuilta:",
-        "descriptionPaid3": "Jos perut ilmoittautumisen, et voi palauttaa sitä. Sinun täytyy ilmoittautua uudelleen, jos haluat osallistua YKI-testiin.",
+        "descriptionPaid": {
+          "alreadyPaid": "Jos olet jo maksanut tutkintomaksun, voit perua ilmoittautumisen, <strong>mutta et saa tutkintomaksua takaisin automaattisesti.</strong>",
+          "cannotRestore": "Jos perut ilmoittautumisen, et voi palauttaa sitä. Sinun täytyy ilmoittautua uudelleen, jos haluat osallistua YKI-testiin.",
+          "notPaidYet": "Jos et ole vielä maksanut tutkintomaksua, voit perua ilmoittautumisen.",
+          "refundConditions": {
+            "and": "ja",
+            "applyInTime": "<strong>haet maksua takaisin Opetushallitukselta kahden viikon aikana</strong>. Hakemus ja tarkemmat ohjeet ovat <RefundLink></RefundLink>",
+            "cancelledInTime": "<strong>olet perunut ilmoittautumisen ajoissa</strong> (viimeistään testipäivän aamuna klo 8)",
+            "ill": "<strong>olet sairastunut</strong> ja et voi osallistua testiin. Sinulla pitää olla testipäivältä sairastumisesta virallinen todistus, jonka voit saada lääkäriltä tai hoitajalta."
+          },
+          "refundOnlyIf": "Voit saada tutkintomaksun takaisin <strong>vain, jos</strong>"
+        },
         "link": {
-          "label": "Osallistumisen peruminen",
+          "label": "täällä (tutkintomaksun palautus).",
           "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/ennen-yki-testia#anchor-osallistumisen-peruminen"
         },
         "success": "Ilmoittautuminen peruttu onnistuneesti",
