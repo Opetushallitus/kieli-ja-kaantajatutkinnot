@@ -121,4 +121,9 @@
   & &__text--alert {
     color: $color-red-500;
   }
+
+  & &__small-text {
+    font-size: 13px;
+    line-height: 19px;
+  }
 }
