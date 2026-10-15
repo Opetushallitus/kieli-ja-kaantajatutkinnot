@@ -305,21 +305,27 @@ export const CommonRegistrationDetails = () => {
             <li>{t('termsAndConditions.item4')}</li>
             <li>{t('termsAndConditions.item5')}</li>
             <li>{t('termsAndConditions.item6')}</li>
-            {isFree !== 'YES' && <li>{t('termsAndConditions.item7')}</li>}
+            {isFree !== 'YES' && (
+              <>
+                <li>
+                  <Trans
+                    t={t}
+                    i18nKey="termsAndConditions.item7"
+                    components={{
+                      InstructionsLink: (
+                        <WebLink
+                          href={t('termsAndConditions.item7Link')}
+                          label={t('termsAndConditions.item7LinkText')}
+                          endIcon={<OpenInNewIcon color="inherit" />}
+                        />
+                      ),
+                    }}
+                  />
+                </li>
+                <li>{t('termsAndConditions.item8')}</li>
+              </>
+            )}
           </ul>
-          {t('termsAndConditions.description2')}:{' '}
-          <div
-            className="columns gapped-xxs"
-            style={{ display: 'inline-flex' }}
-          >
-            <Link href={t('termsAndConditions.link')} target="_blank">
-              <Text color="textPrimary">
-                {t('termsAndConditions.linkText')}
-              </Text>
-            </Link>
-            <OpenInNewIcon color="inherit" />
-          </div>
-          <br />
           <p>
             <b>
               {isFree === 'YES'
