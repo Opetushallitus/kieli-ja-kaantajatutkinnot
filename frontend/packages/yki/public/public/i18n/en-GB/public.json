@@ -807,10 +807,12 @@
       },
       "userDetailsPage": {
         "contactDetails": {
-          "description": {
-            "part1": "We will send you the certificate by post.",
-            "part2": "Please check that you have provided the correct address."
+          "certificateInfo": {
+            "part1": "If you logged in using Suomi.fi e-Identification when registering for the YKI test and you have activated the Suomi.fi Messages service, you will receive the YKI certificate in the My Studyinfo service. You will receive a notification via Suomi.fi messages when the certificate is ready.",
+            "part2": "If you do not have a Finnish personal identity code or you have not activated Suomi.fi Messages, the certificate will be sent to you by post when your certificate is ready.",
+            "part3": "Please note! If your registration details show “Assessment complete”, your certificate will be ready or sent by post soon."
           },
+          "checkAddress": "Please check that you have provided the correct postal address.",
           "heading": "Your contact information",
           "modify": "Edit contact information"
         },
