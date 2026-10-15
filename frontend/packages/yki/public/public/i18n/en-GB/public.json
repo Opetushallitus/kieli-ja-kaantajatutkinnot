@@ -6,15 +6,24 @@
         "confirm": "Cancel registration",
         "descriptionNotPaid1": "If you meet the conditions for free YKI tests, you can register for the advanced level YKI test in Finnish or Swedish free of charge a total of three (3) times. If you cancel this registration, one free test is not used.",
         "descriptionNotPaid2": "If you cancel your registration, you cannot restore it. You will need to register again if you want to take the YKI test.",
-        "descriptionPaid1": "If you cancel your registration, the test fee will not be automatically refunded.",
-        "descriptionPaid2": "You can apply for a test fee refund from the Finnish National Agency for Education. The Finnish National Agency for Education will refund your test fee if your application meets all the conditions laid down by law. If you want to apply for a refund of the test fee, please read the instructions on the Finnish National Agency for Education's website:",
-        "descriptionPaid3": "If you cancel your registration, you cannot restore it. You will need to register again if you want to take the YKI test.",
+        "descriptionPaid": {
+          "alreadyPaid": "If you have already paid the test fee, you can cancel your registration, <strong>but you will not automatically receive a refund</strong>.",
+          "cannotRestore": "If you cancel your registration, you cannot restore it. You will need to register again if you want to take the YKI test.",
+          "notPaidYet": "If you have not paid the test fee, you can cancel your registration.",
+          "refundConditions": {
+            "and": "and",
+            "applyInTime": "<strong>you apply for a refund from the Finnish National Agency for Education within two weeks</strong>. The application form and detailed instructions are available <RefundLink></RefundLink>",
+            "cancelledInTime": "<strong>you have cancelled your registration in time</strong> (no later than 8 a.m. on the day of the test)",
+            "ill": "<strong>you have fallen ill</strong> and cannot take the test. You must have an official certificate of your illness on the test day, which you can get from a doctor or a nurse."
+          },
+          "refundOnlyIf": "You can receive a refund of the test fee <strong>only if</strong>"
+        },
         "link": {
-          "label": "Cancelling your test registration",
+          "label": "here (How to apply for a refund?).",
           "url": "https://www.oph.fi/en/education-and-qualifications/yki-test#anchor-cancelling-your-test-registration"
         },
         "success": "Your registration has been cancelled",
-        "title": "Do you wish to cancel your registration?"
+        "title": "Do you want to cancel your registration?"
       },
       "cookieBanner": {
         "buttonAriaLabel": "Close the notification about cookies",
