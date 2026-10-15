@@ -86,6 +86,8 @@ app:
     duration: ${reservation.duration:PT30M}
   email:
     sending-enabled: ${email.sending-enabled:false}
+    new-api: ${email.new-api:false}
+    new-service-url: ${email.new-service-url:null}
     service-url: ${email.service-url:null}
   register:
     sync-enabled: ${register.sync-enabled:null}
@@ -107,5 +109,6 @@ app:
   onr:
     service-url: ${onr.service-url:https://virkailija.untuvaopintopolku.fi/oppijanumerorekisteri-service}
     cas:
+      endpoint-url: ${cas.endpoint-url:https://virkailija.untuvaopintopolku.fi/cas}
       username: ${cas.username:vkt}
       password: ${cas.password:password}
