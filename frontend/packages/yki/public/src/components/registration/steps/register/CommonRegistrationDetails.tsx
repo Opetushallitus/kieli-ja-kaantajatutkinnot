@@ -130,6 +130,13 @@ export const CommonRegistrationDetails = () => {
   const getRegistrationErrors = usePublicRegistrationErrors(true);
   const registrationErrors = getRegistrationErrors();
 
+  // TODO: Decide how the free flow keeps its old terms texts.
+  //   Saw: subTitle, description1 and item2–item6 are shown in both flows; OPHKIOS-441 changes them for the paid flow only
+  //   Did: old texts in …Free keys, like the existing description3Free. Other: separate …Paid keys, or one object per flow
+  //   Settled by: code review
+  const termsText = (key: string) =>
+    t(`termsAndConditions.${key}${isFree === 'YES' ? 'Free' : ''}`);
+
   return (
     <>
       {hideInstructionLanguageSelection ? null : (
@@ -293,18 +300,18 @@ export const CommonRegistrationDetails = () => {
       <H2 className="public-registration__grid__form-container__terms-and-conditions">
         {t('termsAndConditions.title')}
       </H2>
-      <H3>{t('termsAndConditions.subTitle')}</H3>
+      <H3>{termsText('subTitle')}</H3>
       <div>
         <Text>
-          {t('termsAndConditions.description1')}
+          {termsText('description1')}
           <br />
           <ul>
             <li>{t('termsAndConditions.item1')}</li>
-            <li>{t('termsAndConditions.item2')}</li>
-            <li>{t('termsAndConditions.item3')}</li>
-            <li>{t('termsAndConditions.item4')}</li>
-            <li>{t('termsAndConditions.item5')}</li>
-            <li>{t('termsAndConditions.item6')}</li>
+            <li>{termsText('item2')}</li>
+            <li>{termsText('item3')}</li>
+            <li>{termsText('item4')}</li>
+            <li>{termsText('item5')}</li>
+            <li>{termsText('item6')}</li>
             {isFree !== 'YES' && (
               <>
                 <li>
@@ -326,6 +333,23 @@ export const CommonRegistrationDetails = () => {
               </>
             )}
           </ul>
+          {isFree === 'YES' && (
+            <>
+              {t('termsAndConditions.description2')}:{' '}
+              <div
+                className="columns gapped-xxs"
+                style={{ display: 'inline-flex' }}
+              >
+                <Link href={t('termsAndConditions.link')} target="_blank">
+                  <Text color="textPrimary">
+                    {t('termsAndConditions.linkText')}
+                  </Text>
+                </Link>
+                <OpenInNewIcon color="inherit" />
+              </div>
+              <br />
+            </>
+          )}
           <p>
             <b>
               {isFree === 'YES'

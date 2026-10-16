@@ -23,7 +23,8 @@
           "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/ennen-yki-testia#anchor-osallistumisen-peruminen"
         },
         "success": "Ilmoittautuminen peruttu onnistuneesti",
-        "title": "Haluatko perua ilmoittautumisen?"
+        "title": "Haluatko perua ilmoittautumisen?",
+        "titleFree": "Haluatko perua ilmoittautumisen?"
       },
       "cookieBanner": {
         "buttonAriaLabel": "Sulje evästetiedot",
@@ -398,15 +399,21 @@
           "ssn": "Henkilötunnus",
           "termsAndConditions": {
             "description1": "Kun ilmoittaudut, hyväksyt alla olevat ehdot:",
+            "description1Free": "Ilmoittautumista varten sinun täytyy hyväksyä ilmoittautumisen ehdot:",
             "description2": "Lue lisää Opetushallituksen verkkosivuilta",
             "description3": "Maksettu ilmoittautuminen YKI-testiin on sitova. Tarkista, että olet valinnut oikean testin, kielen ja päivän. Tarkista myös omat tietosi.",
             "description3Free": "Vahvistettu ilmoittautuminen YKI-testiin on sitova. Tarkista, että olet valinnut oikean YKI-testin ja täyttänyt tietosi oikein.",
             "item1": "Et voi vaihtaa YKI-testin tasoa.",
             "item2": "Et voi vaihtaa YKI-testin kieltä.",
+            "item2Free": "Et voi vaihtaa YKI-testin kieltä.",
             "item3": "Et voi vaihtaa YKI-testin osakokeita.",
+            "item3Free": "Et voi vaihtaa YKI-testin osakokeita.",
             "item4": "Et voi vaihtaa testipaikkaa.",
+            "item4Free": "Et voi vaihtaa testipaikkaa.",
             "item5": "Et voi vaihtaa testipäivää.",
+            "item5Free": "Et voi vaihtaa testipäivää.",
             "item6": "Et voi vaihtaa osallistujan tietoja. Ilmoittautuminen on henkilökohtainen.",
+            "item6Free": "Ilmoittautuminen on henkilökohtainen. Et voi vaihtaa osallistujan henkilötietoja.",
             "item7": "Jos sairastut, etkä voi osallistua testiin, sinun täytyy perua ilmoittautuminen viimeistään testipäivän aamuna klo 8. Lue tarkemmat ohjeet <InstructionsLink></InstructionsLink>",
             "item7Link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/ilmoittautuminen-yki-testiin#anchor-tutkintoon-ilmoittautumisen-ja-maksun-ehdot",
             "item7LinkText": "Opetushallituksen verkkosivuilta.",
@@ -415,6 +422,7 @@
             "link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/ilmoittautuminen-yki-testiin#anchor-ilmoittautumisen-ehdot",
             "linkText": "Ilmoittautumisen ja maksun ehdot",
             "subTitle": "Tutkintoon ilmoittautumisen ja maksun ehdot",
+            "subTitleFree": "Tutkintoon ilmoittautumisen ja maksun ehdot",
             "title": "Hyväksy ehdot"
           },
           "title": "Täytä tietosi",

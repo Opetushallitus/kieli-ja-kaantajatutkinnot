@@ -23,7 +23,8 @@
           "url": "https://www.oph.fi/en/education-and-qualifications/yki-test#anchor-cancelling-your-test-registration"
         },
         "success": "Your registration has been cancelled",
-        "title": "Do you want to cancel your registration?"
+        "title": "Do you want to cancel your registration?",
+        "titleFree": "Do you wish to cancel your registration?"
       },
       "cookieBanner": {
         "buttonAriaLabel": "Close the notification about cookies",
@@ -398,15 +399,21 @@
           "ssn": "Personal identity code",
           "termsAndConditions": {
             "description1": "By registering, you accept the following:",
+            "description1Free": "To register, you must agree to the terms and conditions of the registration:",
             "description2": "Read more on the Finnish National Agency for Education's website",
             "description3": "Paid registration for the YKI test is binding. Please check that you are registering for the correct test, language and date. Also check your personal details, please.",
             "description3Free": "Confirmed registration for YKI test is binding. Check that you are registering for the correct YKI test, and you have filled in your personal information correctly.",
             "item1": "You cannot change the level of the YKI test.",
             "item2": "You cannot change the language of the YKI test.",
+            "item2Free": "You cannot change the language of the YKI test.",
             "item3": "You cannot change the subtests of the YKI test.",
+            "item3Free": "You cannot change the subtests of the YKI test.",
             "item4": "You cannot change the test location.",
+            "item4Free": "You cannot change the test centre.",
             "item5": "You cannot change the test date.",
+            "item5Free": "You cannot change the test day.",
             "item6": "You cannot change the participant’s details. Registration is personal.",
+            "item6Free": "Registration is personal. You cannot change the participant’s personal information.",
             "item7": "If you fall ill and cannot take the test, you must cancel your registration no later than 8 a.m. on the day of the test. Read more detailed instructions on <InstructionsLink></InstructionsLink>",
             "item7Link": "https://www.oph.fi/en/education-and-qualifications/registering-yki-test",
             "item7LinkText": "the Finnish National Agency for Education’s website.",
@@ -415,6 +422,7 @@
             "link": "https://www.oph.fi/en/education-and-qualifications/registering-yki-test#anchor-terms-and-conditions-for-registration",
             "linkText": "Terms and conditions for registration and payment",
             "subTitle": "Terms and conditions for test registration and payment",
+            "subTitleFree": "Terms and conditions for test registration and payment",
             "title": "Accept terms"
           },
           "title": "Fill in your personal information",

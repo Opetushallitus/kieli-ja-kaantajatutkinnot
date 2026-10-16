@@ -23,7 +23,8 @@
           "url": "https://www.oph.fi/sv/utbildning-och-examina/fore-yki-testdagen#anchor-annullering-av-deltagande"
         },
         "success": "Anmälan har avbrutits",
-        "title": "Vill du annulera anmälan?"
+        "title": "Vill du annulera anmälan?",
+        "titleFree": "Vill du annullera anmälan?"
       },
       "cookieBanner": {
         "buttonAriaLabel": "Stäng informationrutan om kakor",
@@ -398,15 +399,21 @@
           "ssn": "Personbeteckning",
           "termsAndConditions": {
             "description1": "När du anmäler dig, godkänner du följande villkor:",
+            "description1Free": "För att anmäla dig måste du godkänna anmälningsvillkoren:",
             "description2": "Läs mer på Utbildningsstyrelsen webbplats",
             "description3": "När examensavgiften har betalats, är anmälan till YKI-testet bindande. Kontrollera att du har valt rätt test, språk och dag. Kontrollera också dina egna uppgifter.",
             "description3Free": "När anmälan är bekräftad är anmälan till YKI-testet bindande. Kontrollera att du har valt det rätta YKI-testet och fyllt i dina uppgifter korrekt.",
             "item1": "Du kan inte ändra nivån på YKI-testet.",
             "item2": "Du kan inte ändra språket för YKI-testet.",
+            "item2Free": "Du kan inte ändra språket på YKI-testet.",
             "item3": "Du kan inte ändra delproven i YKI-testet.",
+            "item3Free": "Du kan inte ändra delprov i YKI-testet.",
             "item4": "Du kan inte ändra testplatsen.",
+            "item4Free": "Du kan inte ändra testplatsen.",
             "item5": "Du kan inte ändra testdagen.",
+            "item5Free": "Du kan inte ändra testdagen.",
             "item6": "Du kan inte ändra deltagarens uppgifter. Anmälan är personlig.",
+            "item6Free": "Anmälan är personlig. Du kan inte ändra deltagarens personuppgifter.",
             "item7": "Om du blir sjuk och inte kan delta i testet, måste du avboka din anmälan senast kl. 8 på morgonen på testdagen. Läs närmare anvisningar på <InstructionsLink></InstructionsLink>",
             "item7Link": "https://www.oph.fi/sv/utbildning-och-examina/anmalan-till-yki-test",
             "item7LinkText": "Utbildningsstyrelsens webbplats.",
@@ -415,6 +422,7 @@
             "link": "https://www.oph.fi/sv/utbildning-och-examina/anmalan-till-yki-test#anchor-villkoren-for-anmalan",
             "linkText": "Villkor för anmälan och betalning",
             "subTitle": "Villkoren för anmälan och betalning av examensavgift",
+            "subTitleFree": "Villkor för anmälan och betalning av examensavgift",
             "title": "Acceptera villkoren"
           },
           "title": "Fyll i dina uppgifter",

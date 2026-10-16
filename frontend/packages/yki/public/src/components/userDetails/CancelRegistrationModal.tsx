@@ -98,7 +98,9 @@ export const CancelRegistrationModal = ({
     <CustomModal
       className="cancel-registration-modal"
       open={modalOpen}
-      modalTitle={t('title')}
+      modalTitle={
+        registrationToCancel.isFreeRegistration ? t('titleFree') : t('title')
+      }
       onCloseModal={() => setModalOpen(false)}
     >
       <div className="rows gapped">
