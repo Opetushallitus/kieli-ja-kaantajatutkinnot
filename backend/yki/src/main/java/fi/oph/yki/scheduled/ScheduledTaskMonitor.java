@@ -6,7 +6,6 @@ import fi.oph.yki.repository.RuntimeFlagRepository;
 import fi.oph.yki.repository.ShedLockRepository;
 import fi.oph.yki.repository.TaskLockRepository;
 import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
@@ -66,35 +65,26 @@ public class ScheduledTaskMonitor {
       if (isOwnedByThisBackend(task)) {
         return;
       }
-      taskLockRepository
-        .findById(task)
-        .ifPresentOrElse(
-          taskLock -> {
-            final LocalDateTime threshold = LocalDateTime.now().minus(maxAge);
-            if (taskLock.getLastExecuted().isBefore(threshold)) {
-              LOG.error(
-                "Scheduled task {} has not run since {} [ERROR_SCHEDULED_TASK]",
-                task,
-                taskLock.getLastExecuted()
-              );
-            }
-          },
-          () -> LOG.error("Scheduled task {} not found in task_lock [ERROR_SCHEDULED_TASK]", task)
-        );
+      checkAge(task, maxAge, taskLockRepository.findAgeInSeconds(task), "task_lock");
     });
-    MONITORED_SHEDLOCK_TASKS.forEach((@NonNull final String task, final Duration maxAge) -> {
-      shedLockRepository
-        .findById(task)
-        .ifPresentOrElse(
-          shedLock -> {
-            final LocalDateTime threshold = LocalDateTime.now().minus(maxAge);
-            if (shedLock.getLockedAt().isBefore(threshold)) {
-              LOG.error("Scheduled task {} has not run since {} [ERROR_SCHEDULED_TASK]", task, shedLock.getLockedAt());
-            }
-          },
-          () -> LOG.error("Scheduled task {} not found in shedlock [ERROR_SCHEDULED_TASK]", task)
-        );
-    });
+    MONITORED_SHEDLOCK_TASKS.forEach((@NonNull final String task, final Duration maxAge) ->
+      checkAge(task, maxAge, shedLockRepository.findAgeInSeconds(task), "shedlock")
+    );
+  }
+
+  // Age is computed by the database itself (CURRENT_TIMESTAMP - last run, in the same query) so
+  // this comparison can't be thrown off by the JVM's and the database's clocks disagreeing on
+  // timezone - which previously caused false "stale" alerts here.
+  private void checkAge(final String task, final Duration maxAge, final Double ageInSeconds, final String table) {
+    if (ageInSeconds == null) {
+      LOG.error("Scheduled task {} not found in {} [ERROR_SCHEDULED_TASK]", task, table);
+    } else if (ageInSeconds > maxAge.getSeconds()) {
+      LOG.error(
+        "Scheduled task {} has not run in over {} [ERROR_SCHEDULED_TASK]",
+        task,
+        Duration.ofSeconds(ageInSeconds.longValue())
+      );
+    }
   }
 
   // Once this backend owns the queue, the legacy row only shows that the legacy scheduler is alive,
