@@ -807,10 +807,12 @@
       },
       "userDetailsPage": {
         "contactDetails": {
-          "description": {
-            "part1": "Vi skickar intyget till dig per post.",
-            "part2": "Kontrollera att du har uppgett rätt adress."
+          "certificateInfo": {
+            "part1": "Om du använde Suomi.fi-identifiering vid anmälan och du använder elektroniska Suomi.fi-meddelanden, kommer intyget till tjänsten Min Studieinfo. Du får en avisering via Suomi.fi-meddelanden när intyget är färdigt.",
+            "part2": "Om du inte har en finländsk personbeteckning eller inte använder Suomi.fi-meddelanden, får du intyget på papper per post när intyget blir klart.",
+            "part3": "Obs! Om det står ”Bedömning klar” i dina anmälningsuppgifter, blir ditt intyg snart klart eller skickas snart per post."
           },
+          "checkAddress": "Kontrollera att du har uppgett rätt adress.",
           "heading": "Dina kontaktuppgifter",
           "modify": "Redigera kontaktuppgifterna"
         },

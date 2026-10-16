@@ -296,9 +296,7 @@ const ContactDetails = () => {
       </H2>
       <Paper elevation={3} className="user-details-page__info">
         <div className="user-details-page__info__section rows gapped">
-          <Text>
-            {t('description.part1')} {t('description.part2')}
-          </Text>
+          <Text>{t('checkAddress')}</Text>
           <div className="rows">
             <Text>
               <b>{translateCommon('name')}:</b> {personDetails.firstName}{' '}
@@ -330,6 +328,15 @@ const ContactDetails = () => {
               {t('modify')}
             </CustomButtonLink>
           </div>
+          <Text className="user-details-page__small-text">
+            {t('certificateInfo.part1')}
+          </Text>
+          <Text className="user-details-page__small-text">
+            {t('certificateInfo.part2')}
+          </Text>
+          <Text className="user-details-page__small-text">
+            {t('certificateInfo.part3')}
+          </Text>
         </div>
       </Paper>
     </div>
