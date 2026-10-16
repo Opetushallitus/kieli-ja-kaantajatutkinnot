@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,4 +23,16 @@ public class PersonSyncStatus {
 
   @Column(name = "person_oid")
   private String personOid;
+
+  @Column(name = "success_at")
+  private LocalDateTime successAt;
+
+  @Column(name = "failed_at")
+  private LocalDateTime failedAt;
+
+  @Column(name = "should_retry")
+  private Boolean shouldRetry;
+
+  @Column(name = "created", insertable = false, updatable = false)
+  private LocalDateTime created;
 }

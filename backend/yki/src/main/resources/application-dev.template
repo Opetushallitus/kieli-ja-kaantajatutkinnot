@@ -13,6 +13,12 @@ server:
 cas:
   username: username
   password: password
+solki:
+  url: http://localhost:8099
+  user: test
+  password: test
+  person-sync-enabled: false
+  exam-session-sync-enabled: false
 customer-portal:
   enabled: true
 dev:
