@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 
 import fi.oph.yki.model.RuntimeFlag;
 import fi.oph.yki.repository.RuntimeFlagRepository;
+import fi.oph.yki.repository.ShedLockRepository;
 import fi.oph.yki.repository.TaskLockRepository;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
@@ -21,7 +22,8 @@ class ScheduledTaskMonitorTest {
   void testMonitorsLegacyQueueHandlerUnlessThisBackendOwnsTheQueue(final String owner) {
     final TaskLockRepository taskLockRepository = mockTaskLockRepository();
 
-    new ScheduledTaskMonitor(taskLockRepository, runtimeFlagRepository(owner)).monitorScheduledTasks();
+    new ScheduledTaskMonitor(taskLockRepository, runtimeFlagRepository(owner), mockShedLockRepository())
+      .monitorScheduledTasks();
 
     verify(taskLockRepository).findById("REGISTRATION_QUEUE_HANDLER");
     verify(taskLockRepository).findById("REGISTRATION_STATE_HANDLER");
@@ -31,7 +33,12 @@ class ScheduledTaskMonitorTest {
   void testSkipsLegacyQueueHandlerOnceThisBackendOwnsTheQueue() {
     final TaskLockRepository taskLockRepository = mockTaskLockRepository();
 
-    new ScheduledTaskMonitor(taskLockRepository, runtimeFlagRepository(RuntimeFlag.OWNER_JAVA)).monitorScheduledTasks();
+    new ScheduledTaskMonitor(
+      taskLockRepository,
+      runtimeFlagRepository(RuntimeFlag.OWNER_JAVA),
+      mockShedLockRepository()
+    )
+      .monitorScheduledTasks();
 
     verify(taskLockRepository, never()).findById("REGISTRATION_QUEUE_HANDLER");
     verify(taskLockRepository).findById("REGISTRATION_STATE_HANDLER");
@@ -41,6 +48,12 @@ class ScheduledTaskMonitorTest {
     final TaskLockRepository taskLockRepository = mock(TaskLockRepository.class);
     when(taskLockRepository.findById(anyString())).thenReturn(Optional.empty());
     return taskLockRepository;
+  }
+
+  private static ShedLockRepository mockShedLockRepository() {
+    final ShedLockRepository shedLockRepository = mock(ShedLockRepository.class);
+    when(shedLockRepository.findById(anyString())).thenReturn(Optional.empty());
+    return shedLockRepository;
   }
 
   private static RuntimeFlagRepository runtimeFlagRepository(final String owner) {
