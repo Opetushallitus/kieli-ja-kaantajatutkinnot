@@ -6,15 +6,24 @@
         "confirm": "Annullera anmälan",
         "descriptionNotPaid1": "Om du uppfyller villkoren för avgiftsfri YKI-testet kan du utan kostnad anmäla dig till totalt tre (3) examenstillfällen i finska eller svenska på högsta nivå. Om du annullerar denna anmälan används inte ett avgiftsfritt examenstillfälle.",
         "descriptionNotPaid2": "Om du annullerar din anmälan kan du inte återställa den. Du måste anmäla dig på nytt om du vill delta i YKI-testet.",
-        "descriptionPaid1": "Om du annullerar anmälan återbetalas examensavgiften inte automatiskt.",
-        "descriptionPaid2": "Du kan ansöka om återbetalning av examensavgift hos Utbildningsstyrelsen. Utbildningsstyrelsen återbetalar din examensavgift om din ansökan uppfyller alla lagstadgade villkor. Om du vill ansöka om återbetalning av examensavgiften, läs anvisningarna på Utbildningsstyrelsens webbplats:",
-        "descriptionPaid3": "Om du annullerar din anmälan kan du inte återställa den. Du måste anmäla dig på nytt om du vill delta i YKI-testet.",
+        "descriptionPaid": {
+          "alreadyPaid": "Om du redan har betalat examensavgiften, kan du annulera din anmälan, <strong>men du får inte automatiskt tillbaka examensavgiften</strong>.",
+          "cannotRestore": "Om du annullerar din anmälan kan du inte återställa den. Du måste anmäla dig på nytt om du vill delta i YKI-testet.",
+          "notPaidYet": "Om du inte har betalat examensavgiften, kan du annulera din anmälan.",
+          "refundConditions": {
+            "and": "och",
+            "applyInTime": "<strong>du ansöker om återbetalning hos Utbildningsstyrelsen inom två veckor.</strong> Ansökningsblanketten och närmare anvisningar finns <RefundLink></RefundLink>",
+            "cancelledInTime": "<strong>du har annulerat din anmälan i tid</strong> (senast kl. 8 på morgonen på testdagen)",
+            "ill": "<strong>du har blivit sjuk</strong> och inte kan delta i testet. Du måste ha ett officiellt intyg som styrker sjukdomen på provdagen; ett sådant kan du få av en läkare eller sjuksköterska."
+          },
+          "refundOnlyIf": "Du kan få tillbaka examensavgiften <strong>endast om</strong>"
+        },
         "link": {
-          "label": "Annullering av deltagandet",
+          "label": "här (Återbetalning av examensavgift)",
           "url": "https://www.oph.fi/sv/utbildning-och-examina/fore-yki-testdagen#anchor-annullering-av-deltagande"
         },
         "success": "Anmälan har avbrutits",
-        "title": "Vill du annullera anmälan?"
+        "title": "Vill du annulera anmälan?"
       },
       "cookieBanner": {
         "buttonAriaLabel": "Stäng informationrutan om kakor",
