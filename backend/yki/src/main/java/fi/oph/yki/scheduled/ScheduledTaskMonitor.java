@@ -82,7 +82,7 @@ public class ScheduledTaskMonitor {
       LOG.error(
         "Scheduled task {} has not run in over {} [ERROR_SCHEDULED_TASK]",
         task,
-        Duration.ofSeconds(ageInSeconds.longValue())
+        formatDuration(Duration.ofSeconds(ageInSeconds.longValue()))
       );
     }
   }
@@ -98,5 +98,26 @@ public class ScheduledTaskMonitor {
         .map(flag -> RuntimeFlag.OWNER_JAVA.equals(flag.getValue()))
         .orElse(false)
     );
+  }
+
+  // Duration.toString() gives the ISO-8601 form (e.g. "PT3H3M21S"), which isn't pleasant to read
+  // in an alert log.
+  private static String formatDuration(final Duration duration) {
+    final long days = duration.toDaysPart();
+    final long hours = duration.toHoursPart();
+    final long minutes = duration.toMinutesPart();
+    final long seconds = duration.toSecondsPart();
+    final StringBuilder result = new StringBuilder();
+    if (days > 0) {
+      result.append(days).append("d ");
+    }
+    if (days > 0 || hours > 0) {
+      result.append(hours).append("h ");
+    }
+    if (days > 0 || hours > 0 || minutes > 0) {
+      result.append(minutes).append("m ");
+    }
+    result.append(seconds).append("s");
+    return result.toString();
   }
 }
