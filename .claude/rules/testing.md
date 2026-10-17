@@ -1,5 +1,7 @@
 # Testing
 
+- A new or changed repository query gets a `@DataJpaTest`.
+
 ## Java — Test Data Setup
 
 In `@DataJpaTest` service tests, set up test data using `Factory.*()` methods with `TestEntityManager.persist()`.
