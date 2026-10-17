@@ -23,6 +23,7 @@ describe('ClerkHeader', () => {
         oid: '1.2.246.562.24.98107285507',
         isAdmin: true,
         isOrganizer: true,
+        isCustomerService: false,
       }),
     );
     const { container } = render(

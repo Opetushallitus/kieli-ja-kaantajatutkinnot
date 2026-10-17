@@ -24,6 +24,7 @@ import {
   usePublicTranslation,
 } from 'configs/i18n';
 import { RegistrationStates } from 'enums/app';
+import { useCanManage } from 'hooks/useCanManage';
 import {
   AdmissionedRegistration,
   ClerkCustomerDetails,
@@ -77,6 +78,8 @@ export const CustomerExamListings = ({
   route: RouteType;
 }) => {
   const translateCommon = useCommonTranslation();
+  const canCancelRegistrations = useCanManage(route);
+  const isClerkAdmin = route === 'clerk' && canCancelRegistrations;
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkCustomer.details.listing',
   });
@@ -214,7 +217,7 @@ export const CustomerExamListings = ({
       (registration.registrationState === RegistrationStates.Completed ||
         registration.registrationState === RegistrationStates.Submitted) && (
         <div className="rows gapped-xxs" style={{ alignItems: 'flex-start' }}>
-          {route === 'clerk' && (
+          {isClerkAdmin && (
             <IconButton
               color="secondary"
               onClick={() => setRelocateRegistration(registration)}
@@ -224,14 +227,16 @@ export const CustomerExamListings = ({
               {t('values.actions.relocate')}
             </IconButton>
           )}
-          <IconButton
-            color="secondary"
-            onClick={() => setCancelRegistration(registration)}
-            sx={{ width: 'fit-content' }}
-          >
-            <DeleteOutlined color="secondary" fontSize="large" />
-            {t('values.actions.cancel')}
-          </IconButton>
+          {canCancelRegistrations && (
+            <IconButton
+              color="secondary"
+              onClick={() => setCancelRegistration(registration)}
+              sx={{ width: 'fit-content' }}
+            >
+              <DeleteOutlined color="secondary" fontSize="large" />
+              {t('values.actions.cancel')}
+            </IconButton>
+          )}
         </div>
       ),
   });
@@ -300,7 +305,7 @@ export const CustomerExamListings = ({
     createExamLocationColumn(t),
     createRegistrationStateColumn(t),
     createRegistrationDateColumn(t),
-    createActionsColumn(t),
+    ...(canCancelRegistrations ? [createActionsColumn(t)] : []),
   ];
   const queuedExamsColumns = [
     createExamDateColumn(t),

@@ -17,6 +17,7 @@ import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIEndpoints } from 'enums/api';
 import { AppRoutes } from 'enums/app';
+import { useCanManage } from 'hooks/useCanManage';
 import { ClerkOrganizer } from 'interfaces/clerkOrganizer';
 import { ExamSession } from 'interfaces/examSessions';
 import { RouteType } from 'interfaces/user';
@@ -44,6 +45,7 @@ export const ClerkRegisterOrganizerDetails = ({
   const dispatch = useAppDispatch();
   const { examDates } = useAppSelector(examDateSelector);
   const { createStatus } = useAppSelector(clerkExamSessionDetailsSelector);
+  const canManage = useCanManage(route);
   const params = useParams();
   const oid = params.oid ?? '';
   const navigate = useNavigate();
@@ -244,17 +246,19 @@ export const ClerkRegisterOrganizerDetails = ({
           <Text>{row.extra}</Text>
         </div>
       </div>
-      <div
-        className="columns"
-        style={{ justifyContent: 'flex-end', gap: '1rem' }}
-      >
-        <CustomButton
-          variant="contained"
-          onClick={() => setIsAddModalOpen(true)}
+      {canManage && (
+        <div
+          className="columns"
+          style={{ justifyContent: 'flex-end', gap: '1rem' }}
         >
-          {t('listing.actionButtons.addExamSession')}
-        </CustomButton>
-      </div>
+          <CustomButton
+            variant="contained"
+            onClick={() => setIsAddModalOpen(true)}
+          >
+            {t('listing.actionButtons.addExamSession')}
+          </CustomButton>
+        </div>
+      )}
       <H4>{t('listing.contentLabels.upcomingExamSessions')}</H4>
       <ListTable
         rows={upcomingExams}
