@@ -83,6 +83,7 @@
           "street": "Hagnäskajen 6",
           "zipCity": "PB 380, 00531 Helsingfors"
         },
+        "description": "Utbildningsstyrelsen upprätthåller Studieinfo-portalen. Finländska läroanstalter och högskolor uppdaterar uppgifterna om sina egna utbildningar i studieinfo-tjänsten. Du kan kontrollera uppgifternas riktighet hos läroanstalterna eller högskolorna.",
         "headings": {
           "contacts": "Kontaktuppgifter",
           "info": "Mer information om allmänna språkexamina (YKI)",
@@ -99,7 +100,8 @@
           "ykiHomepage": {
             "text": "Webbplatsen för allmänna språkexamina (YKI) (oph.fi)"
           }
-        }
+        },
+        "studyinfoLogoAlt": "Studieinfo"
       },
       "paymentServiceProvider": {
         "businessId": "FO-nummer: 2122839-7",
@@ -776,7 +778,7 @@
           "information": "Sök här för att hitta ett lämpligt YKI-test. Välj språk och nivå. Tryck på Sök-knappen.",
           "selectExamDetails": {
             "prompt": "Välj examen",
-            "required": "(obligatorisk)"
+            "required": "*"
           }
         },
         "infoBox": {
@@ -790,15 +792,16 @@
         },
         "labels": {
           "allPartsAtOnce": "Alla delprov på en gång",
-          "excludeFullSessions": "Visa endast examenstillfällen med lediga platser",
+          "excludeFullSessions": "Visa endast examenstillfällen med lega platser",
           "excludeNonOpenSessions": "Visa endast examenstillfällen vars anmälan har börjat",
           "filterExamSessions": "Filtrera resultaten",
           "listen": "Talförståelse",
           "read": "Textförståelse",
           "selectExamType": "Vilka delprov vill du söka till?",
-          "selectLanguage": "Välj språk",
-          "selectLevel": "Välj nivå",
-          "selectMunicipality": "Välj ort",
+          "selectLanguage": "Välj...",
+          "selectLevel": "Välj...",
+          "selectMunicipality": "Ort",
+          "selectMunicipality2": "Välj...",
           "speak": "Muntlig framställning",
           "write": "Skriftlig framställning"
         },

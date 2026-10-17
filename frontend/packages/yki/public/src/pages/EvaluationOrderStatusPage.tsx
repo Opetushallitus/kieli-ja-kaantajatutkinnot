@@ -1,13 +1,13 @@
 import { Box, Paper } from '@mui/material';
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router';
-import { H1, HeaderSeparator, Text } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 import { DateUtils } from 'shared/utils';
 
 import { BackToFrontPageButton } from 'components/elements/BackToFrontPageButton';
 import { OrderStatus } from 'components/orderStatus/OrderStatus';
+import { H1, Text } from 'components/Text';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { EvaluationOrderDetails } from 'interfaces/evaluationOrder';
@@ -55,7 +55,6 @@ const EvaluationOrderStatusContents = ({
     <>
       <div className="public-evaluation-order-status-page__heading">
         <H1>{heading}</H1>
-        <HeaderSeparator />
       </div>
       <Paper
         elevation={isPhone ? 0 : 3}

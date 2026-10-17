@@ -7,18 +7,11 @@ import { Box } from '@mui/system';
 import dayjs from 'dayjs';
 import { FC, useEffect, useState } from 'react';
 import { Trans } from 'react-i18next';
-import {
-  CustomButton,
-  CustomButtonLink,
-  H1,
-  H2,
-  H3,
-  HeaderSeparator,
-  Text,
-} from 'shared/components';
+import { CustomButton, CustomButtonLink } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
+import { H1, H2, H3, Label, Text } from 'components/Text';
 import { CancelRegistrationModal } from 'components/userDetails/CancelRegistrationModal';
 import { RegistrationDetails } from 'components/userDetails/RegistrationDetails';
 import { RegistrationState } from 'components/userDetails/RegistrationState';
@@ -133,7 +126,7 @@ const ExamPayment = ({
   if (isFreeRegistration) {
     return (
       <div>
-        <Text className="bold">{t('label')}</Text>
+        <Label>{t('label')}</Label>
         <div className="columns gapped-xxs">
           <CheckCircleOutlinedIcon className="user-details-page__icon--ok" />{' '}
           <Text>{t('free')}</Text>
@@ -144,7 +137,7 @@ const ExamPayment = ({
 
   return (
     <div>
-      <Text className="bold">{t('label')}</Text>
+      <Label>{t('label')}</Label>
       {paidAt && (
         <div className="columns gapped-xxs">
           <CheckCircleOutlinedIcon className="user-details-page__icon--ok" />{' '}
@@ -360,7 +353,6 @@ const NotLoggedIn = () => {
           <H1 data-testid="user-details-page__title-heading">
             {t('notLoggedIn.title')}
           </H1>
-          <HeaderSeparator />
           <div className="rows gapped">
             <Text>
               <Trans t={t} i18nKey="notLoggedIn.loginRequired" />
@@ -467,7 +459,6 @@ export const UserDetailsPage: FC = () => {
       >
         <Grid className="user-details-page__grid-container__item-header">
           <H1 data-testid="user-details-page__title-heading">{t('title')}</H1>
-          <HeaderSeparator />
           <Text>{t('introduction.info')}</Text>
           <Typography className="margin-top-sm" variant="body1" component="ul">
             {renderBulletpoints()}

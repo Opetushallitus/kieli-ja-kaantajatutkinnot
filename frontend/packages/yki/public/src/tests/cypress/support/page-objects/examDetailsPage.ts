@@ -31,11 +31,19 @@ class ExamDetailsPage {
   }
 
   fillFieldByLabel(label: string, value: string) {
+    this.elements.textboxByLabel(label).clear();
     this.elements.textboxByLabel(label).type(value);
   }
 
   expectFieldText(label: string, value: string) {
     this.elements.textboxByLabel(label).should('have.value', value);
+  }
+
+  expectReadOnlyField(label: string, value: string) {
+    this.elements
+      .textboxByLabel(label)
+      .should('have.value', value)
+      .and('have.attr', 'readonly');
   }
 
   selectCertificateLanguage(language: string) {

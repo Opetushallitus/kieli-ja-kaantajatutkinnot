@@ -1,9 +1,9 @@
 import { ReactNode } from 'react';
-import { H2 } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
 import { ExamSessionFormat } from 'components/registration/examSession/ExamSessionFormat';
+import { H2, Label, Text } from 'components/Text';
 import {
   getCurrentLang,
   useCommonTranslation,
@@ -26,8 +26,8 @@ const DetailRow = ({
   children: ReactNode;
 }) => (
   <>
-    <dt>{label}</dt>
-    <dd>{children}</dd>
+    <Label component="dt">{label}</Label>
+    <Text component="dd">{children}</Text>
   </>
 );
 
@@ -158,11 +158,9 @@ export const PublicRegistrationExamSessionDetails = ({
     examSession.type !== 'FULL';
 
   return (
-    <div className="public-registration-exam-session-details rows">
-      <H2 style={{ marginBottom: '2rem' }}>
-        <b>{header}</b>
-      </H2>
-      <dl className="public-registration-exam-session-details__fields">
+    <div className="rows gapped">
+      <H2>{header}</H2>
+      <dl className="public-registration__exam-session-details">
         {!isPartialExamRegistrationEndStep && (
           <DetailRow label={translateCommon('partialExams')}>
             {ExamSessionUtils.getPartialExamTypeText(
@@ -175,7 +173,7 @@ export const PublicRegistrationExamSessionDetails = ({
           <ExamSessionFormat examSessionId={examSession.id} showDescription />
         </DetailRow>
         <DetailRow label={translateCommon('examDate')}>
-          {DateUtils.formatOptionalDate(examSession.session_date)}
+          {DateUtils.formatOptionalDate(examSession.session_date, 'l')}
         </DetailRow>
         {examSession.type !== 'FULL' &&
           activeStep !== PublicRegistrationFormStep.Done && (
@@ -193,7 +191,13 @@ export const PublicRegistrationExamSessionDetails = ({
           {`${location.name}, ${location.street_address}, ${ExamSessionUtils.getMunicipality(location)}`}
         </DetailRow>
         <DetailRow label={t('registrationTime')}>
-          {`${DateUtils.formatOptionalDate(start)} - ${DateUtils.formatOptionalDate(end)}`}
+          {`${DateUtils.formatOptionalDateTime(
+            start,
+            translateCommon('dates.dateTimeFormat'),
+          )} - ${DateUtils.formatOptionalDateTime(
+            end,
+            translateCommon('dates.dateTimeFormat'),
+          )}`}
         </DetailRow>
         {activeStep !== PublicRegistrationFormStep.Done && (
           <DetailRow label={t('examFee')}>{examFeeText}</DetailRow>
