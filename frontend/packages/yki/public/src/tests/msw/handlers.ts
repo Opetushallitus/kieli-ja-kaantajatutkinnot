@@ -320,6 +320,10 @@ export const handlers = [
     APIEndpoints.InitRegistration,
     initRegistration,
   ),
+  http.post<PathParams, PublicRegistrationInitRequest>(
+    APIEndpoints.InitRegistrationV2,
+    initRegistration,
+  ),
   http.post<PathParams, PublicRegistrationIdentifyRequest>(
     APIEndpoints.IdentifyRegistration,
     identifyRegistration,

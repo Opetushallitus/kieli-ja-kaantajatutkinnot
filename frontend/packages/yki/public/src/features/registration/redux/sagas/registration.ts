@@ -52,7 +52,10 @@ function* initRegistrationSaga(
   try {
     const response: AxiosResponse<PublicRegistrationDetails> = yield call(
       axiosInstance.post,
-      APIEndpoints.InitRegistration,
+      APIEndpoints.InitRegistrationV2.replace(
+        /:examSessionId/,
+        `${action.payload.examSessionId}`,
+      ),
       JSON.stringify(
         SerializationUtils.serializePublicRegistrationInitRequest(
           action.payload,

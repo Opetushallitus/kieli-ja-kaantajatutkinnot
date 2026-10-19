@@ -14,6 +14,7 @@ import { registrationInitResponse } from 'tests/msw/fixtures/registrationInit/re
 
 const basePath = '/yki/ilmoittautuminen/v2';
 const formPath = `${basePath}/tutkintotilaisuus/999/1338`;
+const initPath = '/yki/api/v2/999/registration/init';
 const detailsPath = '/yki/v2/api/registration/999/1338';
 const details: PublicRegistrationDetails = {
   ...registrationInitResponse,
@@ -89,6 +90,7 @@ describe('Registration feature at /v2', () => {
   });
 
   afterEach(() => {
+    expect(requests).not.to.include(`POST ${APIEndpoints.InitRegistration}`);
     expect(requests).not.to.include(
       `POST ${APIEndpoints.IdentifyRegistration}`,
     );
@@ -98,9 +100,7 @@ describe('Registration feature at /v2', () => {
 
   it('starts a partial registration once and restores its selected part after a refresh', () => {
     mockDetails();
-    cy.intercept('POST', APIEndpoints.InitRegistration, { body: details }).as(
-      'init',
-    );
+    cy.intercept('POST', initPath, { body: details }).as('init');
     cy.visit(basePath);
     cy.findByRole('combobox', { name: /^Kieli/ }).click();
     cy.findByRole('option', { name: 'suomi' }).click();
@@ -126,18 +126,16 @@ describe('Registration feature at /v2', () => {
       .next('dd')
       .should('have.text', 'Tekstin ymmärtäminen');
     cy.then(() => {
-      expect(
-        requests.filter((r) => r === `POST ${APIEndpoints.InitRegistration}`),
-      ).to.have.length(1);
+      expect(requests.filter((r) => r === `POST ${initPath}`)).to.have.length(
+        1,
+      );
       expect(requests).to.include('GET /yki/v2/api/registration/999/1338');
     });
   });
 
   it('stays on the listing after returning from identification and can start another registration', () => {
     mockDetails();
-    cy.intercept('POST', APIEndpoints.InitRegistration, { body: details }).as(
-      'init',
-    );
+    cy.intercept('POST', initPath, { body: details }).as('init');
     cy.visit(basePath);
     onPublicRegistrationPage.selectExamLanguage('suomi', false);
     onPublicRegistrationPage.selectExamLevel('ylin taso', false);
@@ -220,7 +218,7 @@ describe('Registration feature at /v2', () => {
         cy.intercept('GET', APIEndpoints.ExamSessions, {
           body: { exam_sessions: [registration.exam_session] },
         });
-        cy.intercept('POST', APIEndpoints.InitRegistration, {
+        cy.intercept('POST', `/yki/api/v2/${examSessionId}/registration/init`, {
           body: registration,
         });
         cy.intercept('GET', `/yki/v2/api/registration/${examSessionId}/1338`, {

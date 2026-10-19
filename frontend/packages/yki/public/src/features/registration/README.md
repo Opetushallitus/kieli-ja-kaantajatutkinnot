@@ -8,7 +8,8 @@ original implementation.
 
 ## API contract
 
-- Start a registration: the existing `POST /yki/api/registration/init`.
+- Start a registration: `POST /yki/api/v2/:examSessionId/registration/init`.
+  The body still contains `exam_session_id`, `to_queue` and `partial_exam_type`.
 - Load or resume it: `GET /yki/v2/api/registration/:examSessionId/:registrationId`.
   Both init and GET return `PublicRegistrationDetails`, formerly named
   `PublicRegistrationInitResponse`.
