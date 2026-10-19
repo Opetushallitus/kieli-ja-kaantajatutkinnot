@@ -38,6 +38,7 @@ import { H4, Label, Text } from 'ophTheme/Text';
 import { loadClerkOrganizerRegistry } from 'redux/reducers/clerkOrganizer';
 import { clerkOrganizersSelector } from 'redux/selectors/clerkOrganizers';
 import { filteredClerkOrganizersSelector } from 'redux/selectors/filteredClerkOrganizers';
+import { userSelector } from 'redux/selectors/user';
 import {
   getLanguagesWithLevelDescriptions,
   languagesToString,
@@ -95,6 +96,7 @@ export const ClerkRegisterListing = ({
     clerkOrganizersSelector,
   );
   const rows = useAppSelector(filteredClerkOrganizersSelector);
+  const { user } = useAppSelector(userSelector);
   const navigate = useNavigate();
 
   const pagination = {
@@ -197,14 +199,16 @@ export const ClerkRegisterListing = ({
             mb={2}
           >
             <ClerkRegisterListingFilters />
-            <CustomButton
-              variant="contained"
-              color="secondary"
-              onClick={() => navigate(AppRoutes.ClerkAddOrganizer)}
-              data-testid="add-organizer-button"
-            >
-              {t('listing.actionButtons.addOrganizer')}
-            </CustomButton>
+            {user?.isAdmin && (
+              <CustomButton
+                variant="contained"
+                color="secondary"
+                onClick={() => navigate(AppRoutes.ClerkAddOrganizer)}
+                data-testid="add-organizer-button"
+              >
+                {t('listing.actionButtons.addOrganizer')}
+              </CustomButton>
+            )}
           </Box>
           <ListTable
             rows={rows}
@@ -231,6 +235,7 @@ const ClerkRegisterCollapsibleRow = ({
 }) => {
   const [examSessions, setExamSessions] = useState<ExamSession[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { user } = useAppSelector(userSelector);
 
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkRegister',
@@ -411,12 +416,14 @@ const ClerkRegisterCollapsibleRow = ({
               >
                 {t('listing.actionButtons.adminUserView')}
               </CustomButton>
-              <CustomButton
-                variant="outlined"
-                onClick={() => setIsModalOpen(true)}
-              >
-                {t('listing.actionButtons.modify')}
-              </CustomButton>
+              {user?.isAdmin && (
+                <CustomButton
+                  variant="outlined"
+                  onClick={() => setIsModalOpen(true)}
+                >
+                  {t('listing.actionButtons.modify')}
+                </CustomButton>
+              )}
             </div>
             <ModifyAgreementModal
               isModalOpen={isModalOpen}

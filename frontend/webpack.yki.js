@@ -189,6 +189,12 @@ module.exports = (appName, env, dirName, port, entryPage = "etusivu", isClerk = 
         "context": [`/${CONTEXT_PATH}/api`],
         "target": env.proxy,
         "secure": false,
+      },
+      {
+        "context": ["/organisaatio-service"],
+        "target": "https://virkailija.untuvaopintopolku.fi",
+        "changeOrigin": true,
+        "headers": { "Caller-Id": "1.2.246.562.10.00000000001.yki-local" },
       }],
     },
   });

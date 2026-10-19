@@ -4,4 +4,9 @@ import lombok.Builder;
 import lombok.NonNull;
 
 @Builder
-public record UserDTO(@NonNull String oid, @NonNull Boolean isAdmin, @NonNull Boolean isOrganizer) {}
+public record UserDTO(
+  @NonNull String oid,
+  @NonNull Boolean isAdmin,
+  @NonNull Boolean isOrganizer,
+  @NonNull Boolean isCustomerService
+) {}
