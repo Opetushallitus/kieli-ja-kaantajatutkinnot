@@ -7,6 +7,7 @@ import {
 import { LabeledComboBox, LabeledTextField } from 'shared/ods-components';
 
 import { AddressDetails } from 'components/registration/steps/register/AddressDetails';
+import { Text } from 'components/Text';
 import {
   getCurrentLang,
   useCommonTranslation,
@@ -39,26 +40,23 @@ const PersonIdentityDetails = () => {
   return (
     <>
       <div className="grid-2-columns gapped">
-        <LabeledTextField
-          id="public-registration__contact-details__firstNames-field"
-          label={t('labels.firstNames')}
-          value={registration.firstNames || ''}
-          slotProps={{ input: { readOnly: true } }}
-        />
-        <LabeledTextField
-          id="public-registration__contact-details__lastName-field"
-          label={t('labels.lastName')}
-          value={registration.lastName || ''}
-          slotProps={{ input: { readOnly: true } }}
-        />
+        <Text data-testid="public-registration__identity__firstNames">
+          <b>{t('labels.firstNames')}</b>
+          <br />
+          {registration.firstNames}
+        </Text>
+        <Text data-testid="public-registration__identity__lastName">
+          <b>{t('labels.lastName')}</b>
+          <br />
+          {registration.lastName}
+        </Text>
       </div>
       <div className="grid-2-columns gapped">
-        <LabeledTextField
-          id="public-registration__contact-details__ssn-field"
-          label={t('labels.ssn')}
-          value={registration.ssn || ''}
-          slotProps={{ input: { readOnly: true } }}
-        />
+        <Text data-testid="public-registration__identity__ssn">
+          <b>{t('labels.ssn')}</b>
+          <br />
+          {registration.ssn}
+        </Text>
       </div>
     </>
   );

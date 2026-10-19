@@ -39,11 +39,13 @@ class ExamDetailsPage {
     this.elements.textboxByLabel(label).should('have.value', value);
   }
 
-  expectReadOnlyField(label: string, value: string) {
-    this.elements
-      .textboxByLabel(label)
-      .should('have.value', value)
-      .and('have.attr', 'readonly');
+  expectIdentityDetail(
+    field: 'firstNames' | 'lastName' | 'ssn',
+    value: string,
+  ) {
+    cy.findByTestId(`public-registration__identity__${field}`)
+      .should('be.visible')
+      .and('contain.text', value);
   }
 
   selectCertificateLanguage(language: string) {
