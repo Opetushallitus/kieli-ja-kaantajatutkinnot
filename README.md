@@ -26,8 +26,10 @@ Below are listed the OPH services which are a part of this mono-repo.
 - [OTR](./docs/otr.md)
 - [VKT](./docs/vkt.md)
 - [YKI](./docs/yki.md)
+- [kitu](./docs/kitu.md).
 
 In addition, the shared frontend content can be found [here](./docs/shared_frontend.md).
+
 
 &nbsp;
 
