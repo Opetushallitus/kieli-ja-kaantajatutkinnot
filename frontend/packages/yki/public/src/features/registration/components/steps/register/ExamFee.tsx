@@ -189,7 +189,7 @@ export const ExamFee = () => {
     publicFreeRegistrationSelector,
   );
   const { registrationKind } =
-    useAppSelector(registrationSelector).initRegistration;
+    useAppSelector(registrationSelector).registration;
 
   const isLoading = status === APIResponseStatus.InProgress;
   const hasKoskiEducation = basis && basis.source === 'KOSKI';

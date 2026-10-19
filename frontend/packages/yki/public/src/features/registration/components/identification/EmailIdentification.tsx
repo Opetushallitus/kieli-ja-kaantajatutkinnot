@@ -101,7 +101,7 @@ export const EmailIdentification = () => {
     .examSession as ExamSession;
   const isFreeRegistrationPossible =
     ExamSessionUtils.freeRegistrationPossible(examSession);
-  const { initRegistration } = useAppSelector(registrationSelector);
+  const { registration } = useAppSelector(registrationSelector);
 
   const { showDialog } = useDialog();
   const translateCommon = useCommonTranslation();
@@ -141,7 +141,7 @@ export const EmailIdentification = () => {
           examSessionId: examSession.id,
           email,
           registrationKind,
-          registrationId: initRegistration.registrationId,
+          registrationId: registration.id,
         }),
       );
     } else {
@@ -159,7 +159,7 @@ export const EmailIdentification = () => {
     email,
     examSession.id,
     registrationKind,
-    initRegistration.registrationId,
+    registration.id,
     showDialog,
     t,
     translateCommon,

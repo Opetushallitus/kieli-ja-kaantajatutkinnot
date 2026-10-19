@@ -30,13 +30,13 @@ const AlreadyLoggedIn = () => {
   const { loggedInSession } = useAppSelector(sessionSelector);
   const examSession = useAppSelector(examSessionSelector)
     .examSession as ExamSession;
-  const { initRegistration } = useAppSelector(registrationSelector);
+  const { registration } = useAppSelector(registrationSelector);
 
   const isSuomiFiAuthenticatedSession =
     loggedInSession?.['auth-method'] === 'SUOMIFI';
   const isEmailAuthenticatedSession =
     loggedInSession?.['auth-method'] === 'EMAIL';
-  const toQueue = initRegistration.registrationKind === RegistrationKind.Queue;
+  const toQueue = registration.registrationKind === RegistrationKind.Queue;
   const onAbort = () => {
     dispatch(cancelRegistration());
   };
@@ -75,7 +75,7 @@ const AlreadyLoggedIn = () => {
               : RegistrationRoutes.ExamSessionRegistration,
             {
               examSessionId: `${examSession.id}`,
-              registrationId: `${initRegistration.registrationId}`,
+              registrationId: `${registration.id}`,
             },
           )}
         >
@@ -146,7 +146,7 @@ export const PublicIdentificationGrid = () => {
   const { isPhone } = useWindowProperties();
 
   const { registrationKind } =
-    useAppSelector(registrationSelector).initRegistration;
+    useAppSelector(registrationSelector).registration;
   const { examSession } = useAppSelector(examSessionSelector);
   const { loggedInSession } = useAppSelector(sessionSelector);
 

@@ -22,7 +22,7 @@ export const ExamDetailsPage = () => {
     Number(registrationId),
     PublicRegistrationFormStep.Register,
   );
-  const { initRegistration, submitRegistration } =
+  const { registration, submitRegistration } =
     useAppSelector(registrationSelector);
   const submitted = searchParams.get('submitted') === 'true';
   const code = searchParams.get('code');
@@ -33,13 +33,13 @@ export const ExamDetailsPage = () => {
       !isError &&
       submitted &&
       code &&
-      initRegistration.registrationKind &&
+      registration.registrationKind &&
       submitRegistration.status === APIResponseStatus.NotStarted
     ) {
       dispatch(
         acceptPublicRegistrationSubmission({
           code,
-          registration_kind: initRegistration.registrationKind,
+          registration_kind: registration.registrationKind,
           state: RegistrationStates.Submitted,
         }),
       );
@@ -50,7 +50,7 @@ export const ExamDetailsPage = () => {
     isError,
     submitted,
     code,
-    initRegistration.registrationKind,
+    registration.registrationKind,
     submitRegistration.status,
   ]);
 

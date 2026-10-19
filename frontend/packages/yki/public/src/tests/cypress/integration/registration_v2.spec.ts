@@ -133,6 +133,40 @@ describe('Registration feature at /v2', () => {
     });
   });
 
+  it('stays on the listing after returning from identification and can start another registration', () => {
+    mockDetails();
+    cy.intercept('POST', APIEndpoints.InitRegistration, { body: details }).as(
+      'init',
+    );
+    cy.visit(basePath);
+    onPublicRegistrationPage.selectExamLanguage('suomi', false);
+    onPublicRegistrationPage.selectExamLevel('ylin taso', false);
+    onPublicRegistrationPage.search();
+    onPublicRegistrationPage
+      .getResultCardContaining('Tekstin ymmärtäminen ja puhuminen')
+      .findByRole('button', { name: 'Ilmoittaudu' })
+      .click();
+    cy.wait('@init');
+    cy.findByRole('link', { name: 'Jatka ilmoittautumiseen' }).should(
+      'be.visible',
+    );
+
+    cy.go('back');
+    onPublicRegistrationPage.search();
+    onPublicRegistrationPage
+      .getResultCards()
+      .should('have.length.greaterThan', 0);
+    cy.location('pathname').should('eq', basePath);
+    onPublicRegistrationPage
+      .getResultCardContaining('Tekstin ymmärtäminen ja puhuminen')
+      .findByRole('button', { name: 'Ilmoittaudu' })
+      .click();
+    cy.wait('@init');
+    cy.findByRole('link', { name: 'Jatka ilmoittautumiseen' }).should(
+      'be.visible',
+    );
+  });
+
   it('loads both IDs, submits to the existing API and reaches the payment link', () => {
     mockDetails();
     cy.visit(formPath);

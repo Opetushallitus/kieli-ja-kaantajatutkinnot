@@ -17,7 +17,7 @@ const DescribeInitError = () => {
     keyPrefix: 'yki.component.registration.unavailable',
   });
 
-  const { error } = useAppSelector(registrationSelector).initRegistration
+  const { error } = useAppSelector(registrationSelector).fetchRegistration
     .error as PublicRegistrationInitErrorState;
 
   switch (error) {
@@ -43,8 +43,8 @@ const BackToIdentificationButton = () => {
     keyPrefix: 'yki.component.registration.unavailable.unauthorized',
   });
   const { examSession } = useAppSelector(examSessionSelector);
-  const { registrationId, examSessionId } =
-    useAppSelector(registrationSelector).initRegistration;
+  const { id: registrationId, examSessionId } =
+    useAppSelector(registrationSelector).registration;
 
   return (
     <CustomButton
@@ -70,7 +70,7 @@ const BackToIdentificationButton = () => {
 
 export const PublicRegistrationInitErrorView = () => {
   const { examSession } = useAppSelector(examSessionSelector);
-  const { error } = useAppSelector(registrationSelector).initRegistration
+  const { error } = useAppSelector(registrationSelector).fetchRegistration
     .error as PublicRegistrationInitErrorState;
   const showExamSessionDetails =
     error === PublicRegistrationInitError.ExamSessionFull ||

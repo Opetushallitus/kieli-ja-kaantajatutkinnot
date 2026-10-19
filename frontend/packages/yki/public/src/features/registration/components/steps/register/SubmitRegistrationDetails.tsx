@@ -40,7 +40,7 @@ const FillRegistrationDetails = () => {
     useAppSelector(registrationSelector);
   const { isFree } = useAppSelector(publicFreeRegistrationSelector);
   const { registrationKind } =
-    useAppSelector(registrationSelector).initRegistration;
+    useAppSelector(registrationSelector).registration;
   const nationalitiesStatus = useAppSelector(nationalitiesSelector).status;
 
   useEffect(() => {

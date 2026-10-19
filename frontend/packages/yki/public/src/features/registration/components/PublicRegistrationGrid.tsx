@@ -24,8 +24,8 @@ import { registrationSelector } from 'features/registration/redux/selectors/regi
 import { ExamSession } from 'interfaces/examSessions';
 
 const RegistrationForm = () => {
-  const { status: initRegistrationStatus } =
-    useAppSelector(registrationSelector).initRegistration;
+  const { status: fetchRegistrationStatus } =
+    useAppSelector(registrationSelector).fetchRegistration;
   const { status: submitFormStatus, code } =
     useAppSelector(registrationSelector).submitRegistration;
   const { examSession } = useAppSelector(examSessionSelector);
@@ -59,7 +59,7 @@ const RegistrationForm = () => {
       </div>
     );
   } else {
-    switch (initRegistrationStatus) {
+    switch (fetchRegistrationStatus) {
       case APIResponseStatus.Cancelled:
       case APIResponseStatus.Error:
         return <PublicRegistrationInitErrorView />;
@@ -115,12 +115,12 @@ const ShowPaymentStatus = () => {
 
 const StepContentSelector = () => {
   const { activeStep } = useAppSelector(registrationSelector);
-  const { status: initRegistrationStatus } =
-    useAppSelector(registrationSelector).initRegistration;
+  const { status: fetchRegistrationStatus } =
+    useAppSelector(registrationSelector).fetchRegistration;
 
   switch (activeStep) {
     case PublicRegistrationFormStep.Identify:
-      if (initRegistrationStatus === APIResponseStatus.Error) {
+      if (fetchRegistrationStatus === APIResponseStatus.Error) {
         return <PublicRegistrationInitErrorView />;
       }
     case PublicRegistrationFormStep.Register:
@@ -134,8 +134,10 @@ const StepContentSelector = () => {
 
 const Heading = () => {
   const { activeStep } = useAppSelector(registrationSelector);
-  const { error: initRegistrationError, registrationKind } =
-    useAppSelector(registrationSelector).initRegistration;
+  const {
+    fetchRegistration: { error: fetchRegistrationError },
+    registration: { registrationKind },
+  } = useAppSelector(registrationSelector);
   const { status: submitFormStatus } =
     useAppSelector(registrationSelector).submitRegistration;
   const { isFree } = useAppSelector(publicFreeRegistrationSelector);
@@ -158,9 +160,9 @@ const Heading = () => {
     }
   } else if (
     activeStep === PublicRegistrationFormStep.Identify &&
-    initRegistrationError
+    fetchRegistrationError
   ) {
-    return t(`unavailable.${initRegistrationError}.title`);
+    return t(`unavailable.${fetchRegistrationError}.title`);
   } else if (
     activeStep === PublicRegistrationFormStep.Done &&
     isFree === 'YES'
@@ -181,8 +183,10 @@ const Heading = () => {
 export const PublicRegistrationGrid = () => {
   const { status: examSessionStatus } = useAppSelector(examSessionSelector);
   const { activeStep } = useAppSelector(registrationSelector);
-  const { status: initRegistrationStatus, expiresIn } =
-    useAppSelector(registrationSelector).initRegistration;
+  const {
+    fetchRegistration: { status: fetchRegistrationStatus },
+    registration: { expiresIn },
+  } = useAppSelector(registrationSelector);
 
   const stepHeading = <Heading />;
   const isLoading = examSessionStatus === APIResponseStatus.InProgress;
@@ -204,7 +208,7 @@ export const PublicRegistrationGrid = () => {
                 <div className="columns space-between align-items-start">
                   <H1>{stepHeading}</H1>
                   {!isPhone &&
-                    initRegistrationStatus === APIResponseStatus.Success &&
+                    fetchRegistrationStatus === APIResponseStatus.Success &&
                     expiresIn &&
                     activeStep === PublicRegistrationFormStep.Register && (
                       <MemoizedPublicRegistrationTimer expiresIn={expiresIn} />

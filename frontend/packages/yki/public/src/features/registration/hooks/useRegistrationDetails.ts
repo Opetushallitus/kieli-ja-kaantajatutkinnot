@@ -9,7 +9,6 @@ import { resetPublicFreeRegistration } from 'features/registration/redux/reducer
 import { resetPublicIdentificationState } from 'features/registration/redux/reducers/publicIdentification';
 import {
   fetchRegistrationDetails,
-  rejectPublicRegistrationInit,
   rejectRegistrationDetails,
   resetPublicRegistration,
   setActiveStep,
@@ -24,7 +23,7 @@ export const useRegistrationDetails = (
   step: PublicRegistrationFormStep,
 ) => {
   const dispatch = useAppDispatch();
-  const { initRegistration, fetchRegistrationStatus } =
+  const { registration, fetchRegistration } =
     useAppSelector(registrationSelector);
   const validIds =
     Number.isSafeInteger(examSessionId) &&
@@ -42,18 +41,17 @@ export const useRegistrationDetails = (
     if (validIds) {
       dispatch(fetchRegistrationDetails({ examSessionId, registrationId }));
     } else {
-      dispatch(rejectPublicRegistrationInit());
       dispatch(rejectRegistrationDetails());
     }
   }, [dispatch, examSessionId, registrationId, step, validIds]);
 
   return {
     isLoading:
-      fetchRegistrationStatus === APIResponseStatus.NotStarted ||
-      fetchRegistrationStatus === APIResponseStatus.InProgress ||
+      fetchRegistration.status === APIResponseStatus.NotStarted ||
+      fetchRegistration.status === APIResponseStatus.InProgress ||
       (validIds &&
-        (initRegistration.examSessionId !== examSessionId ||
-          initRegistration.registrationId !== registrationId)),
-    isError: fetchRegistrationStatus === APIResponseStatus.Error,
+        (registration.examSessionId !== examSessionId ||
+          registration.id !== registrationId)),
+    isError: fetchRegistration.status === APIResponseStatus.Error,
   };
 };

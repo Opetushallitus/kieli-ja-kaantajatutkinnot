@@ -33,7 +33,7 @@ import {
 import { TableUtils } from 'utils/table';
 
 const RegistrationInitLoadingModal = () => {
-  const { initRegistration } = useAppSelector(registrationSelector);
+  const { registration } = useAppSelector(registrationSelector);
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.enrollModal',
   });
@@ -50,7 +50,7 @@ const RegistrationInitLoadingModal = () => {
       <div className="registration-loading-modal__content columns">
         <CustomCircularProgress color={Color.Secondary} />
         <Text id="registration-loading-modal-description">
-          {initRegistration.registrationKind === RegistrationKind.Admission
+          {registration.registrationKind === RegistrationKind.Admission
             ? t('checkingOpenSeats')
             : t('reservingQueueSeat')}
         </Text>
@@ -316,7 +316,7 @@ export const PublicExamSessionListing = ({
   const translateCommon = useCommonTranslation();
   const navigate = useNavigate();
   const { status } = useAppSelector(examSessionsSelector);
-  const { initRegistration, fetchRegistrationStatus } =
+  const { initRegistration, registration } =
     useAppSelector(registrationSelector);
 
   const listingHeaderRef = useRef<HTMLDivElement>(null);
@@ -331,26 +331,22 @@ export const PublicExamSessionListing = ({
 
   useEffect(() => {
     if (
-      fetchRegistrationStatus === APIResponseStatus.NotStarted &&
       initRegistration.status === APIResponseStatus.Success &&
-      initRegistration.examSessionId
+      registration.examSessionId
     ) {
       navigate({
         pathname: RegistrationRoutes.ExamSession.replace(
           /:examSessionId$/,
-          `${initRegistration.examSessionId}`,
+          `${registration.examSessionId}`,
         ),
-        search: initRegistration.registrationId
-          ? `?registrationId=${initRegistration.registrationId}`
-          : '',
+        search: registration.id ? `?registrationId=${registration.id}` : '',
       });
     }
   }, [
     navigate,
-    fetchRegistrationStatus,
     initRegistration.status,
-    initRegistration.examSessionId,
-    initRegistration.registrationId,
+    registration.examSessionId,
+    registration.id,
   ]);
 
   const isRegistrationLoading =
@@ -379,11 +375,11 @@ export const PublicExamSessionListing = ({
         <>
           {isRegistrationLoading && <RegistrationInitLoadingModal />}
           {isRegistrationInitError &&
-            initRegistration.examSessionId &&
-            initRegistration.partialExamType && (
+            registration.examSessionId &&
+            registration.partialExamType && (
               <RegistrationInitErrorModal
-                examSessionId={initRegistration.examSessionId}
-                partialExamType={initRegistration.partialExamType}
+                examSessionId={registration.examSessionId}
+                partialExamType={registration.partialExamType}
               />
             )}
           <div ref={listingHeaderRef} style={{ marginBottom: '2rem' }}>

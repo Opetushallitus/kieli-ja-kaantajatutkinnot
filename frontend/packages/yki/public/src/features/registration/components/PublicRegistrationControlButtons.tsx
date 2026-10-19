@@ -137,7 +137,7 @@ export const PublicRegistrationControlButtons = () => {
     .emailLinkOrder.status;
   const {
     activeStep,
-    initRegistration: { expiresIn },
+    registration: { expiresIn },
     submitRegistration: {
       status: submitRegistrationStatus,
       error: submitRegistrationError,

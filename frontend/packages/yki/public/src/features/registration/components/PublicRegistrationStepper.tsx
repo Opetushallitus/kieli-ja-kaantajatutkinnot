@@ -18,8 +18,8 @@ import { registrationSelector } from 'features/registration/redux/selectors/regi
 export const PublicRegistrationStepper = () => {
   const { activeStep } = useAppSelector(registrationSelector);
   const { examSession } = useAppSelector(examSessionSelector);
-  const { status: initRegistrationStatus, error: initRegistrationError } =
-    useAppSelector(registrationSelector).initRegistration;
+  const { status: fetchRegistrationStatus, error: fetchRegistrationError } =
+    useAppSelector(registrationSelector).fetchRegistration;
   const { isFree } = useAppSelector(publicFreeRegistrationSelector);
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.stepper',
@@ -36,9 +36,9 @@ export const PublicRegistrationStepper = () => {
       paymentStatus !== PaymentStatus.Success &&
       isFree !== 'YES') ||
     (activeStep === PublicRegistrationFormStep.Register &&
-      initRegistrationStatus === APIResponseStatus.Error) ||
+      fetchRegistrationStatus === APIResponseStatus.Error) ||
     (activeStep === PublicRegistrationFormStep.Identify &&
-      initRegistrationError);
+      fetchRegistrationError);
 
   const doneStepNumber = PublicRegistrationFormStep.Done;
 

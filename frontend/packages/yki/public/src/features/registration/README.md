@@ -25,6 +25,15 @@ its existing `?id=<examSessionId>&status=...` contract. Payment-link metadata an
 education lookups are also unchanged; their data is not in
 `PublicRegistrationDetails`.
 
+## Registration state
+
+Both init and GET populate the same `registration` object: the ID, exam-session
+ID, queue/admission kind, partial exam, reservation time and editable form values.
+The exam-session response is stored in the existing `examSession` slice.
+`initRegistration` and `fetchRegistration` contain only their request status and
+error. The listing navigates after a successful init; registration pages use the
+GET status. Loading details does not mark initialization as successful.
+
 ## Backend integration
 
 The Java implementation is supplied by a separate branch. Authentication and

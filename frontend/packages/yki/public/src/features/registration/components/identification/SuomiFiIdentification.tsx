@@ -13,7 +13,7 @@ import { ExamSession } from 'interfaces/examSessions';
 export const SuomiFiIdentification = () => {
   const examSession = useAppSelector(examSessionSelector)
     .examSession as ExamSession;
-  const { initRegistration } = useAppSelector(registrationSelector);
+  const { registration } = useAppSelector(registrationSelector);
 
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.steps.identify',
@@ -36,7 +36,7 @@ export const SuomiFiIdentification = () => {
           examSession.id
         }&toQueue=${
           registrationKind === RegistrationKind.Queue
-        }&registrationId=${initRegistration.registrationId}`}
+        }&registrationId=${registration.id}`}
       >
         {t('suomiFiButtonText')}
       </CustomButton>

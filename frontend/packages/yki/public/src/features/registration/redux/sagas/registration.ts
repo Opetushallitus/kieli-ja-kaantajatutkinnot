@@ -132,7 +132,7 @@ function* submitRegistrationFormSaga() {
         window.location.href =
           RegistrationRoutes.FreeRegistrationSuccess.replace(
             /:examSessionId/,
-            `${registrationState.initRegistration.examSessionId}`,
+            `${registrationState.registration.examSessionId}`,
           ).replace(/:registrationId/, `${registrationState.registration.id}`);
       }
       yield put(resetUserOpenRegistrations());
@@ -199,8 +199,7 @@ function* fetchRegistrationDetailsSaga(action: PayloadAction<RegistrationKey>) {
     yield put(acceptFetchRegistrationDetails(response.data));
   } catch (error) {
     const response = isAxiosError(error) ? error.response : undefined;
-    yield put(rejectPublicRegistrationInit(response));
-    yield put(rejectRegistrationDetails());
+    yield put(rejectRegistrationDetails(response));
     if (response?.status === 401) {
       yield put(resetSession());
     }
