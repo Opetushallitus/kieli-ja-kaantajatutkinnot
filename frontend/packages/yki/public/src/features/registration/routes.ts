@@ -1,8 +1,8 @@
 export enum RegistrationRoutes {
-  Registration = '/yki/ilmoittautuminen/vw',
-  ExamSession = '/yki/ilmoittautuminen/vw/tutkintotilaisuus/:examSessionId',
-  ExamSessionRegistration = '/yki/ilmoittautuminen/vw/tutkintotilaisuus/:examSessionId/:registrationId',
-  ExamSessionQueue = '/yki/ilmoittautuminen/vw/tutkintotilaisuus/:examSessionId/:registrationId/jono',
-  RegistrationPaymentStatus = '/yki/ilmoittautuminen/vw/maksu/tila',
-  FreeRegistrationSuccess = '/yki/ilmoittautuminen/vw/maksuton/:examSessionId/:registrationId/valmis',
+  Registration = '/yki/ilmoittautuminen/v2',
+  ExamSession = '/yki/ilmoittautuminen/v2/tutkintotilaisuus/:examSessionId',
+  ExamSessionRegistration = '/yki/ilmoittautuminen/v2/tutkintotilaisuus/:examSessionId/:registrationId',
+  ExamSessionQueue = '/yki/ilmoittautuminen/v2/tutkintotilaisuus/:examSessionId/:registrationId/jono',
+  RegistrationPaymentStatus = '/yki/ilmoittautuminen/v2/maksu/tila',
+  FreeRegistrationSuccess = '/yki/ilmoittautuminen/v2/maksuton/:examSessionId/:registrationId/valmis',
 }

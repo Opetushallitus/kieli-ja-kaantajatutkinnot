@@ -1,4 +1,4 @@
 import { RootState } from 'configs/redux';
 
 export const examSessionSelector = (state: RootState) =>
-  state.registrationVw.examSession;
+  state.registrationV2.examSession;

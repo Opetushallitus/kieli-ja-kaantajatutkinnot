@@ -13,7 +13,7 @@ const initialState: ExamSessionState = {
 };
 
 const examSessionSlice = createSlice({
-  name: 'registrationVw/examSession',
+  name: 'registrationV2/examSession',
   initialState,
   reducers: {
     loadExamSession(state, _action: PayloadAction<number>) {

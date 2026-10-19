@@ -21,7 +21,7 @@ describe.each([
     storeExamSessions,
   },
   {
-    name: 'vw',
+    name: 'v2',
     examSessionsReducer: featureExamSessionsReducer,
     setPublicExamSessionFilters: setFeatureFilters,
     storeExamSessions: storeFeatureExamSessions,

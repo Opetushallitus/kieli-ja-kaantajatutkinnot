@@ -10,7 +10,7 @@ const initialState: PublicEducationState = {
 };
 
 const publicEducationSlice = createSlice({
-  name: 'registrationVw/publicEducation',
+  name: 'registrationV2/publicEducation',
   initialState,
   reducers: {
     getKoskiEducations(state) {

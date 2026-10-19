@@ -1,4 +1,4 @@
 import { RootState } from 'configs/redux';
 
 export const publicIdentificationSelector = (state: RootState) =>
-  state.registrationVw.publicIdentification;
+  state.registrationV2.publicIdentification;

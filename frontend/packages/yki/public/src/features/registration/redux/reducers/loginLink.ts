@@ -15,7 +15,7 @@ const initialState: LoginLinkState = {
 };
 
 const loginLinkSlice = createSlice({
-  name: 'registrationVw/loginLink',
+  name: 'registrationV2/loginLink',
   initialState,
   reducers: {
     acceptLoginLink(state, action: PayloadAction<LoginLinkDetails>) {

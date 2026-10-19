@@ -37,7 +37,7 @@ export const rootReducer = combineReducers({
   nationalities: nationalitiesReducer,
   publicIdentification: publicIdentificationReducer,
   registration: registrationReducer,
-  registrationVw: registrationFeatureReducer,
+  registrationV2: registrationFeatureReducer,
   session: sessionReducer,
   userOpenRegistrations: userOpenRegistrationsReducer,
   userDetails: userDetailsReducer,

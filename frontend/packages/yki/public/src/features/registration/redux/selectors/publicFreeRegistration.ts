@@ -3,4 +3,4 @@ import { PublicFreeRegistrationDetails } from 'interfaces/publicFreeRegistration
 
 export const publicFreeRegistrationSelector = (
   state: RootState,
-): PublicFreeRegistrationDetails => state.registrationVw.publicFreeRegistration;
+): PublicFreeRegistrationDetails => state.registrationV2.publicFreeRegistration;

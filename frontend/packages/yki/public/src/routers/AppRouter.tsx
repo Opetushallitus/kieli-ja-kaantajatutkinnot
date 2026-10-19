@@ -21,11 +21,11 @@ import { NewYkiFooter } from 'components/layouts/NewYkiFooter';
 import { useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, RegistrationKind } from 'enums/app';
-import { ExamDetailsPage as VwExamDetailsPage } from 'features/registration/pages/ExamDetailsPage';
-import { FreeRegistrationSuccessPage as VwFreeRegistrationSuccessPage } from 'features/registration/pages/FreeRegistrationSuccessPage';
-import { InitRegistrationPage as VwInitRegistrationPage } from 'features/registration/pages/InitRegistrationPage';
-import { RegistrationPage as VwRegistrationPage } from 'features/registration/pages/RegistrationPage';
-import { RegistrationPaymentStatusPage as VwRegistrationPaymentStatusPage } from 'features/registration/pages/RegistrationPaymentStatusPage';
+import { ExamDetailsPage as V2ExamDetailsPage } from 'features/registration/pages/ExamDetailsPage';
+import { FreeRegistrationSuccessPage as V2FreeRegistrationSuccessPage } from 'features/registration/pages/FreeRegistrationSuccessPage';
+import { InitRegistrationPage as V2InitRegistrationPage } from 'features/registration/pages/InitRegistrationPage';
+import { RegistrationPage as V2RegistrationPage } from 'features/registration/pages/RegistrationPage';
+import { RegistrationPaymentStatusPage as V2RegistrationPaymentStatusPage } from 'features/registration/pages/RegistrationPaymentStatusPage';
 import { RegistrationRoutes } from 'features/registration/routes';
 import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
 import { YkiThemeProvider } from 'ophTheme/YkiThemeProvider';
@@ -132,7 +132,7 @@ export const AppRouter: FC = () => {
           path={RegistrationRoutes.Registration}
           element={
             <YkiTitlePage title="registration">
-              <VwRegistrationPage />
+              <V2RegistrationPage />
             </YkiTitlePage>
           }
         />
@@ -140,7 +140,7 @@ export const AppRouter: FC = () => {
           path={RegistrationRoutes.ExamSession}
           element={
             <YkiTitlePage title="registration">
-              <VwInitRegistrationPage />
+              <V2InitRegistrationPage />
             </YkiTitlePage>
           }
         />
@@ -148,7 +148,7 @@ export const AppRouter: FC = () => {
           path={RegistrationRoutes.ExamSessionRegistration}
           element={
             <YkiTitlePage title="examDetails">
-              <VwExamDetailsPage />
+              <V2ExamDetailsPage />
             </YkiTitlePage>
           }
         />
@@ -156,7 +156,7 @@ export const AppRouter: FC = () => {
           path={RegistrationRoutes.ExamSessionQueue}
           element={
             <YkiTitlePage title="examDetails">
-              <VwExamDetailsPage />
+              <V2ExamDetailsPage />
             </YkiTitlePage>
           }
         />
@@ -164,7 +164,7 @@ export const AppRouter: FC = () => {
           path={RegistrationRoutes.RegistrationPaymentStatus}
           element={
             <YkiTitlePage title="registrationPaymentStatus">
-              <VwRegistrationPaymentStatusPage />
+              <V2RegistrationPaymentStatusPage />
             </YkiTitlePage>
           }
         />
@@ -172,7 +172,7 @@ export const AppRouter: FC = () => {
           path={RegistrationRoutes.FreeRegistrationSuccess}
           element={
             <YkiTitlePage title="freeRegistrationSuccess">
-              <VwFreeRegistrationSuccessPage />
+              <V2FreeRegistrationSuccessPage />
             </YkiTitlePage>
           }
         />

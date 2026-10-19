@@ -12,7 +12,7 @@ import { kieliResponse } from 'tests/msw/fixtures/kieli';
 import { maatJaValtiot2Response } from 'tests/msw/fixtures/maatjavaltiot2';
 import { registrationInitResponse } from 'tests/msw/fixtures/registrationInit/registrationInit';
 
-const basePath = '/yki/ilmoittautuminen/vw';
+const basePath = '/yki/ilmoittautuminen/v2';
 const formPath = `${basePath}/tutkintotilaisuus/999/1338`;
 const detailsPath = '/yki/v2/api/registration/999/1338';
 const details: PublicRegistrationDetails = {
@@ -42,7 +42,7 @@ const fillStronglyIdentifiedForm = () => {
   onExamDetailsPage.acceptPrivacyPolicy();
 };
 
-describe('Registration feature at /vw', () => {
+describe('Registration feature at /v2', () => {
   let requests: Array<string>;
   beforeEach(() => {
     requests = [];

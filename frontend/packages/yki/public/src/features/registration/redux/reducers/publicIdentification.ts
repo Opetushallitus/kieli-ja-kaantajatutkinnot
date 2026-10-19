@@ -25,7 +25,7 @@ const initialState: PublicIdentificationState = {
 };
 
 const publicIdentificationSlice = createSlice({
-  name: 'registrationVw/publicIdentification',
+  name: 'registrationV2/publicIdentification',
   initialState,
   reducers: {
     acceptEmailLinkOrder(state) {

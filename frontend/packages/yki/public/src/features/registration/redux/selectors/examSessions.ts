@@ -10,11 +10,11 @@ import {
 import { ExamSessionUtils } from 'utils/examSession';
 
 export const examSessionsSelector = (state: RootState) =>
-  state.registrationVw.examSessions;
+  state.registrationV2.examSessions;
 
 export const selectFilteredPublicExamSessions = createSelector(
-  (state: RootState) => state.registrationVw.examSessions.exam_sessions,
-  (state: RootState) => state.registrationVw.examSessions.filters,
+  (state: RootState) => state.registrationV2.examSessions.exam_sessions,
+  (state: RootState) => state.registrationV2.examSessions.filters,
   (examSessions, filters) => filterExamSessions(examSessions, filters),
 );
 

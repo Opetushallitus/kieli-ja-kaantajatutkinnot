@@ -11,7 +11,7 @@ const initialState: PublicFreeRegistrationDetails = {
 };
 
 const publicFreeRegistrationSlice = createSlice({
-  name: 'registrationVw/publicFreeRegistration',
+  name: 'registrationV2/publicFreeRegistration',
   initialState,
   reducers: {
     resetPublicFreeRegistration(_) {

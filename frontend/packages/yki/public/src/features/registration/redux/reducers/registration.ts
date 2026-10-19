@@ -112,7 +112,7 @@ const applyRegistrationDetails = (
 };
 
 const registrationSlice = createSlice({
-  name: 'registrationVw/registration',
+  name: 'registrationV2/registration',
   initialState,
   reducers: {
     initRegistration(

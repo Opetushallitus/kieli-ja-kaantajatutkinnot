@@ -1,9 +1,9 @@
-# Registration flow at `/yki/ilmoittautuminen/vw`
+# Registration flow at `/yki/ilmoittautuminen/v2`
 
 This is a copy of the existing registration flow for integrating the Java
 registration API. Components, pages, hooks and Redux state live here; shared
 translations, styles, domain types and session data are reused. Its Redux state
-and actions use the `registrationVw` namespace. The existing routes still use the
+and actions use the `registrationV2` namespace. The existing routes still use the
 original implementation.
 
 ## API contract
@@ -29,19 +29,19 @@ education lookups are also unchanged; their data is not in
 
 The Java implementation is supplied by a separate branch. Authentication and
 email-link redirects for this flow must return to
-`/yki/ilmoittautuminen/vw/tutkintotilaisuus/:examSessionId/:registrationId`
-(optionally with `/jono` for a queue). Payment callbacks must use the `/vw/maksu/tila`
+`/yki/ilmoittautuminen/v2/tutkintotilaisuus/:examSessionId/:registrationId`
+(optionally with `/jono` for a queue). Payment callbacks must use the `/v2/maksu/tila`
 route to remain in this flow. Authentication and payment endpoint URLs are
 unchanged, as are their request parameters.
 
 ## Local verification
 
 Run `yarn yki:start:msw` from `frontend/packages/yki/public`, then visit
-`http://localhost:4003/yki/ilmoittautuminen/vw`. The shared MSW handlers implement
+`http://localhost:4003/yki/ilmoittautuminen/v2`. The shared MSW handlers implement
 the new GET for local development. Real Suomi.fi, email-link and payment redirects
 require the backend integration.
 
-The Cypress spec `registration_vw.spec.ts` exercises the new API and routes with
+The Cypress spec `registration_v2.spec.ts` exercises the new API and routes with
 mocked responses. Run it against `yarn yki:start:ci`, which disables the app's own
 MSW worker. The spec unregisters the shared test worker and uses Cypress network
 intercepts to check requests across page reloads.
