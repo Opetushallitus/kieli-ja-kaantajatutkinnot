@@ -70,16 +70,16 @@ describe('ExamDetailsPage', () => {
         getInitRegistrationResponse(true).registration_id,
       );
       onExamDetailsPage.isVisible();
-      onExamDetailsPage.expectReadOnlyField(
-        'Etunimet',
+      onExamDetailsPage.expectIdentityDetail(
+        'firstNames',
         expectedSuomiFiRegistrationDetails.first_name,
       );
-      onExamDetailsPage.expectReadOnlyField(
-        'Sukunimi',
+      onExamDetailsPage.expectIdentityDetail(
+        'lastName',
         expectedSuomiFiRegistrationDetails.last_name,
       );
-      onExamDetailsPage.expectReadOnlyField(
-        'Henkilötunnus',
+      onExamDetailsPage.expectIdentityDetail(
+        'ssn',
         expectedSuomiFiRegistrationDetails.ssn,
       );
       onExamDetailsPage.fillFieldByLabel(
