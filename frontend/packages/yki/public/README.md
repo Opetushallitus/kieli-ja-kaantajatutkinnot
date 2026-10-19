@@ -11,7 +11,7 @@ when improving this application.
 | Standard OPH controls                                                            | `@opetushallitus/oph-design-system`        |
 | Reusable adapters, including responsive dropdowns, labeled inputs and navigation | `shared/ods-components`                    |
 | Application theme, selected UI language and color aliases                        | `src/ophTheme`                             |
-| YKI typography shortcuts (`Text`, `Label`, `H1`–`H5`)                            | `src/components/Text.tsx`                  |
+| YKI typography shortcuts (`Text`, `Label`, `H1`–`H3`)                            | `src/components/Text.tsx`                  |
 | Temporary styling for legacy shared components                                   | `src/styles/overrides/_legacy-shared.scss` |
 
 ## Theme
