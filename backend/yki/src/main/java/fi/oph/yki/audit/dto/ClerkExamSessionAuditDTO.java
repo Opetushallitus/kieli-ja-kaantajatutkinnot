@@ -1,8 +1,10 @@
 package fi.oph.yki.audit.dto;
 
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionDTO;
+import fi.oph.yki.api.dto.clerk.ClerkExamSessionLocationDTO;
 import fi.oph.yki.model.type.ExamSessionType;
 import fi.oph.yki.util.DateUtil;
+import java.util.List;
 import lombok.Builder;
 
 @Builder
@@ -23,7 +25,8 @@ public record ClerkExamSessionAuditDTO(
   String date,
   String registrationStartDate,
   String registrationEndDate,
-  String organizerOid
+  String organizerOid,
+  List<ClerkExamSessionLocationDTO> location
 ) {
   public ClerkExamSessionAuditDTO(final ClerkExamSessionDTO dto) {
     this(
@@ -43,7 +46,8 @@ public record ClerkExamSessionAuditDTO(
       DateUtil.formatOptionalDate(dto.date()),
       DateUtil.formatOptionalDate(dto.registrationStartDate()),
       DateUtil.formatOptionalDate(dto.registrationEndDate()),
-      dto.organizerOid()
+      dto.organizerOid(),
+      dto.location()
     );
   }
 }
