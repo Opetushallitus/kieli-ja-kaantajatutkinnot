@@ -16,6 +16,7 @@ const basePath = '/yki/ilmoittautuminen/v2';
 const formPath = `${basePath}/tutkintotilaisuus/999/1338`;
 const initPath = '/yki/api/v2/999/registration/init';
 const detailsPath = '/yki/api/v2/999/registration/1338';
+const submitPath = '/yki/api/v2/999/registration/1338/submit';
 const details: PublicRegistrationDetails = {
   ...registrationInitResponse,
   exam_session: examSessions.exam_sessions[0],
@@ -80,7 +81,7 @@ describe('Registration feature at /v2', () => {
       body: { id: 1337 },
       statusCode: 201,
     });
-    cy.intercept('POST', '/yki/api/registration/1338/submit*', {
+    cy.intercept('POST', `${submitPath}*`, {
       body: {
         code: 'payment-code',
         registration_kind: 'ADMISSION',
@@ -96,6 +97,7 @@ describe('Registration feature at /v2', () => {
     );
     expect(requests).not.to.include('GET /yki/api/exam-session/999');
     expect(requests).not.to.include('GET /yki/api/registration/1338');
+    expect(requests).not.to.include('POST /yki/api/registration/1338/submit');
   });
 
   it('starts a partial registration once and restores its selected part after a refresh', () => {
@@ -165,15 +167,17 @@ describe('Registration feature at /v2', () => {
     );
   });
 
-  it('loads both IDs, submits to the existing API and reaches the payment link', () => {
+  it('loads both IDs, submits to the Java API and reaches the payment link', () => {
     mockDetails();
     cy.visit(formPath);
     fillStronglyIdentifiedForm();
     onExamDetailsPage.submitForm();
     onExamDetailsPage.isFormSubmitted();
-    cy.wait('@submit')
-      .its('request.body')
-      .should('include', { phone_number: '+358501234567' });
+    cy.wait('@submit').then(({ request }) => {
+      expect(new URL(request.url).pathname).to.equal(submitPath);
+      expect(request.query).to.deep.equal({ lang: 'fi' });
+      expect(request.body).to.include({ phone_number: '+358501234567' });
+    });
     cy.get('a[href="/yki/api/payment/v3/1338/redirect?lang=fi"]').should(
       'be.visible',
     );
@@ -312,16 +316,21 @@ describe('Registration feature at /v2', () => {
         usedFreeRegistrations: 0,
       },
     });
-    cy.intercept('POST', '/yki/api/registration/1338/submit*', {
+    cy.intercept('POST', `${submitPath}*`, {
       body: {
         code: 'free-code',
         registration_kind: 'ADMISSION',
         state: 'COMPLETED',
       },
-    });
+    }).as('freeSubmit');
     cy.visit(formPath);
     fillStronglyIdentifiedForm();
     onExamDetailsPage.submitForm();
+    cy.wait('@freeSubmit').then(({ request }) => {
+      expect(new URL(request.url).pathname).to.equal(submitPath);
+      expect(request.query).to.deep.equal({ lang: 'fi' });
+      expect(request.body).to.include({ free_registration_id: 1337 });
+    });
     cy.location('pathname').should(
       'eq',
       `${basePath}/maksuton/999/1338/valmis`,

@@ -229,6 +229,33 @@ const identifyRegistration = async ({
   );
 };
 
+const submitRegistration = async ({
+  params,
+  request,
+}: {
+  params: PathParams;
+  request: StrictRequest<SubmitRequest>;
+}) => {
+  const { examSessionId, registrationId } = params;
+  // The legacy mock uses the exam-session ID as its registration ID.
+  const persisted = readRegistrationState(
+    Number(examSessionId ?? registrationId),
+  );
+  const queued = persisted
+    ? persisted.kind === RegistrationKind.Queue
+    : Number(registrationId) % 2 === 1;
+  const body = await request.json();
+  const state =
+    !queued && body && !!body.free_registration_id ? 'COMPLETED' : 'SUBMITTED';
+
+  return HttpResponse.json({
+    success: true,
+    code: 'foobar-123-' + (queued ? 'queue' : 'admission'),
+    registration_kind: queued ? 'QUEUE' : 'ADMISSION',
+    state,
+  });
+};
+
 export const handlers = [
   http.get(APIEndpoints.Evaluations, () =>
     HttpResponse.json(evaluationPeriods),
@@ -270,27 +297,14 @@ export const handlers = [
     HttpResponse.json(maatJaValtiot2Response),
   ),
   http.get(APIEndpoints.LanguageCodes, () => HttpResponse.json(kieliResponse)),
-  http.post(APIEndpoints.SubmitRegistration, async ({ params, request }) => {
-    const { registrationId } = params;
-    // Registrations created by the mock init use the exam-session ID as their
-    // registration ID. Preserve the selected part's admission/queue kind.
-    const persisted = readRegistrationState(Number(registrationId));
-    const queued = persisted
-      ? persisted.kind === RegistrationKind.Queue
-      : Number(registrationId) % 2 === 1;
-    const body = (await request.clone().json()) as SubmitRequest;
-    const state =
-      !queued && body && !!body.free_registration_id
-        ? 'COMPLETED'
-        : 'SUBMITTED';
-
-    return HttpResponse.json({
-      success: true,
-      code: 'foobar-123-' + (queued ? 'queue' : 'admission'),
-      registration_kind: queued ? 'QUEUE' : 'ADMISSION',
-      state,
-    });
-  }),
+  http.post<PathParams, SubmitRequest>(
+    APIEndpoints.SubmitRegistration,
+    submitRegistration,
+  ),
+  http.post<PathParams, SubmitRequest>(
+    APIEndpoints.SubmitRegistrationV2,
+    submitRegistration,
+  ),
   http.get(
     APIEndpoints.PersonDetails,
     () => HttpResponse.json(data.personDetails),

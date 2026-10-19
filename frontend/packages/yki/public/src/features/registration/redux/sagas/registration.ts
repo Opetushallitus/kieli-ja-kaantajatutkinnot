@@ -95,6 +95,11 @@ function* submitRegistrationFormSaga() {
     const { basis, isFree }: PublicFreeRegistrationDetails = yield select(
       publicFreeRegistrationSelector,
     );
+    const submitRegistrationEndpoint =
+      APIEndpoints.SubmitRegistrationV2.replace(
+        /:examSessionId/,
+        `${registrationState.registration.examSessionId}`,
+      ).replace(/:registrationId/, `${registrationState.registration.id}`);
     if (isFree === 'YES' && basis) {
       const registrationEducationEndpoint =
         APIEndpoints.PublicFreeRegistrationEducation.replace(
@@ -109,10 +114,7 @@ function* submitRegistrationFormSaga() {
       const response: AxiosResponse<PublicRegistrationFormSubmitSuccessResponse> =
         yield call(
           axiosInstance.post,
-          APIEndpoints.SubmitRegistration.replace(
-            /:registrationId/,
-            `${registrationState.registration.id}`,
-          ),
+          submitRegistrationEndpoint,
           JSON.stringify({
             ...SerializationUtils.serializeRegistrationForm(
               registrationState.registration,
@@ -143,10 +145,7 @@ function* submitRegistrationFormSaga() {
       const response: AxiosResponse<PublicRegistrationFormSubmitSuccessResponse> =
         yield call(
           axiosInstance.post,
-          APIEndpoints.SubmitRegistration.replace(
-            /:registrationId/,
-            `${registrationState.registration.id}`,
-          ),
+          submitRegistrationEndpoint,
           JSON.stringify(
             SerializationUtils.serializeRegistrationForm(
               registrationState.registration,

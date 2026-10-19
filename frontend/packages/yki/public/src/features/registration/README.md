@@ -13,7 +13,9 @@ original implementation.
 - Load or resume it: `GET /yki/api/v2/:examSessionId/registration/:registrationId`.
   Both init and GET return `PublicRegistrationDetails`, formerly named
   `PublicRegistrationInitResponse`.
-- Submit and cancel: the existing registration endpoints and payloads.
+- Submit: `POST /yki/api/v2/:examSessionId/registration/:registrationId/submit`,
+  with the existing form payload and `lang` query parameter.
+- Cancel: the existing registration endpoint.
 
 `useRegistrationDetails` loads the registration and exam session together on
 entry to the identification, contact-details and free-registration success
