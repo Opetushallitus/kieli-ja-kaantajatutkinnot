@@ -10,7 +10,7 @@ original implementation.
 
 - Start a registration: `POST /yki/api/v2/:examSessionId/registration/init`.
   The body still contains `exam_session_id`, `to_queue` and `partial_exam_type`.
-- Load or resume it: `GET /yki/v2/api/registration/:examSessionId/:registrationId`.
+- Load or resume it: `GET /yki/api/v2/:examSessionId/registration/:registrationId`.
   Both init and GET return `PublicRegistrationDetails`, formerly named
   `PublicRegistrationInitResponse`.
 - Submit and cancel: the existing registration endpoints and payloads.

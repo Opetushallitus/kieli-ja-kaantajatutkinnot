@@ -18,7 +18,7 @@ export enum APIEndpoints {
   LoginWithCode = '/yki/auth/login',
   Logout = '/yki/auth/logout',
   Registration = '/yki/api/registration/:registrationId',
-  RegistrationDetails = '/yki/v2/api/registration/:examSessionId/:registrationId',
+  RegistrationDetails = '/yki/api/v2/:examSessionId/registration/:registrationId',
   SubmitRegistration = '/yki/api/registration/:registrationId/submit',
   User = '/yki/api/user/identity',
   OpenRegistrations = '/yki/api/user/open-registrations',

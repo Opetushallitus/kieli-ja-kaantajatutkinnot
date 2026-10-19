@@ -15,7 +15,7 @@ import { registrationInitResponse } from 'tests/msw/fixtures/registrationInit/re
 const basePath = '/yki/ilmoittautuminen/v2';
 const formPath = `${basePath}/tutkintotilaisuus/999/1338`;
 const initPath = '/yki/api/v2/999/registration/init';
-const detailsPath = '/yki/v2/api/registration/999/1338';
+const detailsPath = '/yki/api/v2/999/registration/1338';
 const details: PublicRegistrationDetails = {
   ...registrationInitResponse,
   exam_session: examSessions.exam_sessions[0],
@@ -129,7 +129,7 @@ describe('Registration feature at /v2', () => {
       expect(requests.filter((r) => r === `POST ${initPath}`)).to.have.length(
         1,
       );
-      expect(requests).to.include('GET /yki/v2/api/registration/999/1338');
+      expect(requests).to.include(`GET ${detailsPath}`);
     });
   });
 
@@ -221,7 +221,7 @@ describe('Registration feature at /v2', () => {
         cy.intercept('POST', `/yki/api/v2/${examSessionId}/registration/init`, {
           body: registration,
         });
-        cy.intercept('GET', `/yki/v2/api/registration/${examSessionId}/1338`, {
+        cy.intercept('GET', `/yki/api/v2/${examSessionId}/registration/1338`, {
           body: registration,
         });
         cy.visit(basePath);
