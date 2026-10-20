@@ -9,25 +9,22 @@ exports[`EvaluationOrderStatusPage should render view correctly on cancelled pay
       class="public-evaluation-order-status-page__heading"
     >
       <h1
-        class="MuiTypography-root MuiTypography-h1 css-10l7o3s-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-h1 css-cihc9m-MuiTypography-root"
       >
         Maksu keskeytyi
       </h1>
-      <div
-        class="header-separator MuiBox-root css-0"
-      />
     </div>
     <div
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 public-evaluation-order-status-page__paper rows gapped css-1gtchvp-MuiPaper-root"
       style="--Paper-shadow: 0px 3px 3px -2px rgba(0,0,0,0.2),0px 3px 4px 0px rgba(0,0,0,0.14),0px 1px 8px 0px rgba(0,0,0,0.12);"
     >
       <p
-        class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
       >
         Voit yrittää maksua uudestaan. Käsittelemme vain maksetut tarkistusarviointipyynnöt.
       </p>
       <a
-        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary fit-content-max-width css-1mns5ui-MuiButtonBase-root-MuiButton-root"
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation fit-content-max-width css-1djo6p2-MuiButtonBase-root-MuiButton-root"
         href="/yki/ilmoittautuminen"
         tabindex="0"
       >
@@ -47,25 +44,22 @@ exports[`EvaluationOrderStatusPage should render view correctly on payment error
       class="public-evaluation-order-status-page__heading"
     >
       <h1
-        class="MuiTypography-root MuiTypography-h1 css-10l7o3s-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-h1 css-cihc9m-MuiTypography-root"
       >
         Maksu epäonnistui
       </h1>
-      <div
-        class="header-separator MuiBox-root css-0"
-      />
     </div>
     <div
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 public-evaluation-order-status-page__paper rows gapped css-1gtchvp-MuiPaper-root"
       style="--Paper-shadow: 0px 3px 3px -2px rgba(0,0,0,0.2),0px 3px 4px 0px rgba(0,0,0,0.14),0px 1px 8px 0px rgba(0,0,0,0.12);"
     >
       <p
-        class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
       >
         Tarkistusarviointimaksun maksaminen ei onnistunut. Yritä maksua uudestaan.
       </p>
       <a
-        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary fit-content-max-width css-1mns5ui-MuiButtonBase-root-MuiButton-root"
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation fit-content-max-width css-1djo6p2-MuiButtonBase-root-MuiButton-root"
         href="/yki/ilmoittautuminen"
         tabindex="0"
       >
@@ -85,13 +79,10 @@ exports[`EvaluationOrderStatusPage should render view correctly on successful pa
       class="public-evaluation-order-status-page__heading"
     >
       <h1
-        class="MuiTypography-root MuiTypography-h1 css-10l7o3s-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-h1 css-cihc9m-MuiTypography-root"
       >
         Olet pyytänyt tarkistusarviointia!
       </h1>
-      <div
-        class="header-separator MuiBox-root css-0"
-      />
     </div>
     <div
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 public-evaluation-order-status-page__paper rows gapped css-1gtchvp-MuiPaper-root"
@@ -99,7 +90,7 @@ exports[`EvaluationOrderStatusPage should render view correctly on successful pa
     >
       <div>
         <p
-          class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
         >
           Tutkinto
           :
@@ -109,7 +100,7 @@ exports[`EvaluationOrderStatusPage should render view correctly on successful pa
           </b>
         </p>
         <p
-          class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
         >
           Testipäivä
           :
@@ -120,12 +111,12 @@ exports[`EvaluationOrderStatusPage should render view correctly on successful pa
         </p>
       </div>
       <p
-        class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
       >
         Sinulle on lähetetty vahvistus tarkistusarviointipyynnöstäsi sähköpostilla. Sähköpostissa on myös kuitti tarkistusarviointimaksustasi. Jos et ole saanut viestiä, tarkista roskapostikansiosi.
       </p>
       <a
-        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary fit-content-max-width css-1mns5ui-MuiButtonBase-root-MuiButton-root"
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation fit-content-max-width css-1djo6p2-MuiButtonBase-root-MuiButton-root"
         href="/yki/ilmoittautuminen"
         tabindex="0"
       >

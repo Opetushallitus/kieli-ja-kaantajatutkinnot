@@ -83,6 +83,7 @@
           "street": "Hakaniemenranta 6",
           "zipCity": "P.O. Box 380, 00531 Helsinki"
         },
+        "description": "Studyinfo is an official website maintained by the Finnish National Agency for Education. The education providers and higher education institutions maintain their study programme information on Studyinfo. You can check the validity of the information directly from the educational institution or the higher education institution.",
         "headings": {
           "contacts": "Contact information",
           "info": "More information about the National Certificates of Language Proficiency (YKI)",
@@ -99,7 +100,8 @@
           "ykiHomepage": {
             "text": "Website of the National Certificates of Language Proficiency (YKI) (oph.fi)"
           }
-        }
+        },
+        "studyinfoLogoAlt": "Studyinfo"
       },
       "paymentServiceProvider": {
         "businessId": "Business ID 2122839-7",
@@ -776,7 +778,7 @@
           "information": "Search for a suitable YKI test by selecting the language and level. Click on the Search button to see the results.",
           "selectExamDetails": {
             "prompt": "Choose test",
-            "required": "(required)"
+            "required": "*"
           }
         },
         "infoBox": {
@@ -796,9 +798,10 @@
           "listen": "Listening comprehension",
           "read": "Reading comprehension",
           "selectExamType": "Which subtests do you want to search for?",
-          "selectLanguage": "Choose language",
-          "selectLevel": "Choose level",
-          "selectMunicipality": "Choose municipality",
+          "selectLanguage": "Choose...",
+          "selectLevel": "Choose...",
+          "selectMunicipality": "Municipality",
+          "selectMunicipality2": "Choose...",
           "speak": "Speaking",
           "write": "Writing"
         },

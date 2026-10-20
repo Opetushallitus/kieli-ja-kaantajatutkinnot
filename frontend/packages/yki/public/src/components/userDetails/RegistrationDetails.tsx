@@ -1,6 +1,6 @@
-import { Text } from 'shared/components';
 import { DateUtils } from 'shared/utils';
 
+import { Label, Text } from 'components/Text';
 import {
   getCurrentLang,
   useCommonTranslation,
@@ -25,7 +25,7 @@ export const RegistrationDetails = ({
   return (
     <>
       <div>
-        <Text className="bold">{t('partialExams.label')}</Text>
+        <Label>{t('partialExams.label')}</Label>
         <Text>
           {ExamSessionUtils.getPartialExamTypeText(
             registration.type,
@@ -34,14 +34,12 @@ export const RegistrationDetails = ({
         </Text>
       </div>
       <div>
-        <Text className="bold">{translateCommon('examDate')}</Text>
+        <Label>{translateCommon('examDate')}</Label>
         <Text>{DateUtils.formatOptionalDate(registration.examDate, 'l')}</Text>
       </div>
       {registration.type !== 'FULL' && (
         <div>
-          <Text className="bold">
-            {translateCommon('partialExamTimeLabel')}
-          </Text>
+          <Label>{translateCommon('partialExamTimeLabel')}</Label>
           <Text>
             {translateCommon('partialExamTime', {
               startTime:
@@ -54,7 +52,7 @@ export const RegistrationDetails = ({
       )}
       {registration.kind === RegistrationKind.Queue && (
         <div>
-          <Text className="bold">{translateCommon('registrationPeriod')}</Text>
+          <Label>{translateCommon('registrationPeriod')}</Label>
           <Text>
             {DateUtils.formatOptionalDate(
               registration.registrationStartDate,
@@ -69,7 +67,7 @@ export const RegistrationDetails = ({
         </div>
       )}
       <div>
-        <Text className="bold">{translateCommon('institution')}</Text>
+        <Label>{translateCommon('institution')}</Label>
         <Text>
           {location?.street_address}, {location?.post_office}
         </Text>

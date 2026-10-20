@@ -9,7 +9,7 @@ export const PublicEvaluationPeriodListingHeader = () => {
   });
 
   return (
-    <TableHead className="heading-text">
+    <TableHead>
       <TableRow>
         <TableCell>{translateCommon('examination')}</TableCell>
         <TableCell>{translateCommon('examDate')} </TableCell>

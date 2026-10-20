@@ -1,20 +1,19 @@
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import {
   Checkbox,
   FormControl,
   FormControlLabel,
-  Link,
   Radio,
   RadioGroup,
 } from '@mui/material';
+import { OphLink } from '@opetushallitus/oph-design-system';
 import { ChangeEvent, useEffect } from 'react';
 import { Trans } from 'react-i18next';
-import { H2, H3, Text, WebLink } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
 import { SuomiFiLink } from 'components/elements/SuomiFiLink';
 import { ExamFee } from 'components/registration/steps/register/ExamFee';
+import { H2, H3, Label, Text } from 'components/Text';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import {
@@ -135,9 +134,7 @@ export const CommonRegistrationDetails = () => {
       {hideInstructionLanguageSelection ? null : (
         <fieldset className="registration-details__radio-group">
           <legend>
-            <Text>
-              <b>{t('instructionLanguage')}</b>
-            </Text>
+            <Label>{t('instructionLanguage')}</Label>
           </legend>
           <FormControl
             error={showErrors && !!registrationErrors['instructionLanguage']}
@@ -246,17 +243,13 @@ export const CommonRegistrationDetails = () => {
       )}
       <Text>
         {t('certificate.furtherDetails.text')}{' '}
-        <WebLink
-          href={t('certificate.furtherDetails.url')}
-          label={t('certificate.furtherDetails.label')}
-          endIcon={<OpenInNewIcon color="inherit" />}
-        />
+        <OphLink href={t('certificate.furtherDetails.url')} target="_blank">
+          {t('certificate.furtherDetails.label')}
+        </OphLink>
       </Text>
       <fieldset className="registration-details__radio-group">
         <legend>
-          <Text>
-            <b>{t('certificateLanguage')}</b>
-          </Text>
+          <Label>{t('certificateLanguage')}</Label>
         </legend>
         <FormControl
           error={showErrors && !!registrationErrors['certificateLanguage']}
@@ -312,12 +305,9 @@ export const CommonRegistrationDetails = () => {
             className="columns gapped-xxs"
             style={{ display: 'inline-flex' }}
           >
-            <Link href={t('termsAndConditions.link')} target="_blank">
-              <Text color="textPrimary">
-                {t('termsAndConditions.linkText')}
-              </Text>
-            </Link>
-            <OpenInNewIcon color="inherit" />
+            <OphLink href={t('termsAndConditions.link')} target="_blank">
+              {t('termsAndConditions.linkText')}
+            </OphLink>
           </div>
           <br />
           <p>
@@ -352,15 +342,12 @@ export const CommonRegistrationDetails = () => {
           {translateCommon('privacyStatement.readConditions')}
         </Text>
         <div className="columns gapped-xxs">
-          <Link
+          <OphLink
             href={translateCommon('privacyStatement.link.url')}
             target="_blank"
           >
-            <Text color="textPrimary">
-              {translateCommon('privacyStatement.link.label')}
-            </Text>
-          </Link>
-          <OpenInNewIcon color="inherit" />
+            {translateCommon('privacyStatement.link.label')}
+          </OphLink>
         </div>
       </div>
       <FormControl

@@ -1,9 +1,9 @@
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Link } from '@mui/material';
 import { useSearchParams } from 'react-router';
-import { H2, Text } from 'shared/components';
 
 import { BackToFrontPageButton } from 'components/elements/BackToFrontPageButton';
+import { H2, Text } from 'components/Text';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { APIEndpoints, PaymentStatus } from 'enums/api';
@@ -34,7 +34,7 @@ const PaymentSuccess = () => {
         <Text>{t('beforeYkiTest.description')}</Text>
         <div className="columns gapped-xxs">
           <Link href={t('beforeYkiTest.url')} target="_blank">
-            <Text color="textPrimary" className="bold">
+            <Text component="span" sx={{ fontWeight: 700 }}>
               {t('beforeYkiTest.label')}
             </Text>
           </Link>
@@ -45,7 +45,7 @@ const PaymentSuccess = () => {
         <Text>{t('specialArrangements.description')}</Text>
         <div className="columns gapped-xxs">
           <Link href={t('specialArrangements.url')} target="_blank">
-            <Text color="textPrimary" className="bold">
+            <Text component="span" sx={{ fontWeight: 700 }}>
               {t('specialArrangements.label')}
             </Text>
           </Link>
@@ -53,12 +53,12 @@ const PaymentSuccess = () => {
         </div>
       </div>
       <div>
-        <Text>
+        <Text component="div">
           {t('toUserPortal.description')}
           <br />
           {isSuomiFiSession && (
             <Link href={`${APIEndpoints.Authenticate}?toUserPortal=true`}>
-              <Text color="textPrimary" className="bold">
+              <Text component="span" sx={{ fontWeight: 700 }}>
                 {t('toUserPortal.link.label')}
               </Text>
             </Link>
@@ -66,7 +66,7 @@ const PaymentSuccess = () => {
           {!isSuomiFiSession && (
             <div className="columns gapped-xxs">
               <Link href={omaOpintopolkuUrl} target="_blank">
-                <Text color="textPrimary" className="bold">
+                <Text component="span" sx={{ fontWeight: 700 }}>
                   {t('toUserPortal.link.omaOpintopolkuLabel')}
                 </Text>
               </Link>

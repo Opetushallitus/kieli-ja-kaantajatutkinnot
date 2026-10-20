@@ -1,6 +1,27 @@
-@use 'sass:color';
-
 .public-registration {
+  &__exam-session-details {
+    display: grid;
+    grid-template-columns: 148px minmax(0, 1fr);
+    column-gap: 24px;
+    row-gap: 8px;
+    margin: 0;
+
+    > dt,
+    > dd {
+      margin: 0;
+      overflow-wrap: anywhere;
+    }
+
+    @include phone {
+      grid-template-columns: minmax(0, 1fr);
+      row-gap: 4px;
+
+      > dd:not(:last-child) {
+        margin-bottom: 8px;
+      }
+    }
+  }
+
   & &__grid {
     &__no-stepper {
       @include phone {
@@ -14,8 +35,11 @@
     }
 
     &__heading {
+      padding-bottom: 2rem;
+
       @include phone {
         padding-left: 2rem;
+        padding-right: 2rem;
       }
     }
 
@@ -98,7 +122,7 @@
     }
 
     &__timer-progressbar {
-      background-color: color.adjust($color-secondary, $alpha: -0.7);
+      background-color: $color-secondary-muted;
 
       & span {
         background-color: $color-secondary;
@@ -114,9 +138,13 @@
     }
 
     &__progress-text {
-      font-size: 1.8em;
-      margin: 0 0 0.5em;
+      margin-bottom: 0.5rem;
     }
+  }
+
+  [class~='registration-details__address-grid']
+    [class~='MuiFormHelperText-root'] {
+    min-height: 2.4rem;
   }
 
   &--email-link-order__reveal-btn {

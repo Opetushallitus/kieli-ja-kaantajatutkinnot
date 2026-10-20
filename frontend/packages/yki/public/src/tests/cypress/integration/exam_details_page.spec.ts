@@ -3,7 +3,6 @@ import { http, HttpResponse } from 'msw';
 import { APIEndpoints } from 'enums/api';
 import { RegistrationKind } from 'enums/app';
 import { onExamDetailsPage } from 'tests/cypress/support/page-objects/examDetailsPage';
-import { worker } from 'tests/msw/browser';
 import { examSessions } from 'tests/msw/fixtures/examSession';
 
 const examSessionResponse = examSessions.exam_sessions.find(
@@ -58,7 +57,7 @@ const getInitRegistrationResponse = (is_strongly_identified: boolean) => {
 describe('ExamDetailsPage', () => {
   describe('allows filling registration form', () => {
     it('with credentials from Suomi.fi authentication', () => {
-      worker.use(
+      cy.useMswHandlers(
         http.post(APIEndpoints.IdentifyRegistration, () =>
           HttpResponse.json(getInitRegistrationResponse(true)),
         ),
@@ -69,18 +68,31 @@ describe('ExamDetailsPage', () => {
         getInitRegistrationResponse(true).registration_id,
       );
       onExamDetailsPage.isVisible();
-      onExamDetailsPage.fillFieldByLabel('Etunimet *', 'Teuvo Testi');
-      onExamDetailsPage.fillFieldByLabel('Kutsumanimi *', 'Teuvo');
-      onExamDetailsPage.fillFieldByLabel('Sukunimi *', 'Testaaja');
+      onExamDetailsPage.expectIdentityDetail(
+        'firstNames',
+        expectedSuomiFiRegistrationDetails.first_name,
+      );
+      onExamDetailsPage.expectIdentityDetail(
+        'lastName',
+        expectedSuomiFiRegistrationDetails.last_name,
+      );
+      onExamDetailsPage.expectIdentityDetail(
+        'ssn',
+        expectedSuomiFiRegistrationDetails.ssn,
+      );
+      onExamDetailsPage.fillFieldByLabel(
+        'Sähköpostiosoite *',
+        'teuvotesti@test.invalid',
+      );
+      onExamDetailsPage.fillFieldByLabel(
+        'Vahvista sähköpostiosoite *',
+        'teuvotesti@test.invalid',
+      );
       onExamDetailsPage.fillFieldByLabel('Katuosoite *', 'Testikatu 1');
       onExamDetailsPage.fillFieldByLabel('Postinumero *', '00100');
       onExamDetailsPage.fillFieldByLabel('Postitoimipaikka *', 'Helsinki');
       onExamDetailsPage.fillFieldByLabel('Puhelinnumero *', '+358501234567');
-      onExamDetailsPage.selectGender('Mies');
-      onExamDetailsPage.selectHasSSN(true);
-      onExamDetailsPage.fillFieldByLabel('Henkilötunnus *', '030594W903B');
       onExamDetailsPage.selectNationality('Serbia');
-      onExamDetailsPage.selectMotherTongue('suomi');
       onExamDetailsPage.selectCertificateLanguage('englanti');
 
       onExamDetailsPage.acceptTermsOfRegistration();
@@ -90,7 +102,7 @@ describe('ExamDetailsPage', () => {
     });
 
     it('by authenticating via a login link', () => {
-      worker.use(
+      cy.useMswHandlers(
         http.post(APIEndpoints.IdentifyRegistration, () =>
           HttpResponse.json(getInitRegistrationResponse(false)),
         ),
@@ -130,15 +142,15 @@ describe('ExamDetailsPage', () => {
     });
 
     it('text fields filled by user are trimmed of whitespace before sending to backend', () => {
-      worker.use(
+      cy.useMswHandlers(
         http.post(APIEndpoints.IdentifyRegistration, () =>
-          HttpResponse.json(getInitRegistrationResponse(true)),
+          HttpResponse.json(getInitRegistrationResponse(false)),
         ),
       );
 
       cy.openExamSessionRegistrationForm(
         examSessionResponse.id,
-        getInitRegistrationResponse(true).registration_id,
+        getInitRegistrationResponse(false).registration_id,
       );
       onExamDetailsPage.isVisible();
       const preferredName = 'Teuvo';
@@ -162,7 +174,7 @@ describe('ExamDetailsPage', () => {
 
   describe('critical session and submitted flows', () => {
     it('does not attempt identify when session fetch fails on normal registration flow', () => {
-      worker.use(
+      cy.useMswHandlers(
         http.get(APIEndpoints.User, () =>
           HttpResponse.json('Server error', { status: 500 }),
         ),
@@ -173,7 +185,7 @@ describe('ExamDetailsPage', () => {
     });
 
     it('continues submitted return flow even when session fetch fails', () => {
-      worker.use(
+      cy.useMswHandlers(
         http.get(APIEndpoints.User, () =>
           HttpResponse.json('Server error', { status: 500 }),
         ),
