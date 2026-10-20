@@ -10,12 +10,12 @@ import { AppRoutes, RegistrationKind } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { PublicFreeRegistrationDetails } from 'interfaces/publicFreeRegistration';
 import {
+  PublicRegistrationDetails,
   PublicRegistrationFormSubmitErrorResponse,
   PublicRegistrationFormSubmitSuccessResponse,
   PublicRegistrationIdentifyPayload,
   PublicRegistrationInitErrorResponse,
   PublicRegistrationInitPayload,
-  PublicRegistrationInitResponse,
   RegistrationDetailsResponse,
 } from 'interfaces/publicRegistration';
 import { resetExamSession, storeExamSession } from 'redux/reducers/examSession';
@@ -48,7 +48,7 @@ function* initRegistrationSaga(
   action: PayloadAction<PublicRegistrationInitPayload>,
 ) {
   try {
-    const response: AxiosResponse<PublicRegistrationInitResponse> = yield call(
+    const response: AxiosResponse<PublicRegistrationDetails> = yield call(
       axiosInstance.post,
       APIEndpoints.InitRegistration,
       JSON.stringify(
@@ -85,7 +85,7 @@ function* identifyRegistrationSaga(
   action: PayloadAction<PublicRegistrationIdentifyPayload>,
 ) {
   try {
-    const response: AxiosResponse<PublicRegistrationInitResponse> = yield call(
+    const response: AxiosResponse<PublicRegistrationDetails> = yield call(
       axiosInstance.post,
       APIEndpoints.IdentifyRegistration,
       JSON.stringify(

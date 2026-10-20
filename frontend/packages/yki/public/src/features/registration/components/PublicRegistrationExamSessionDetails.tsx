@@ -1,0 +1,218 @@
+import { ReactNode } from 'react';
+import { APIResponseStatus } from 'shared/enums';
+import { DateUtils } from 'shared/utils';
+
+import { H2, Label, Text } from 'components/Text';
+import {
+  getCurrentLang,
+  useCommonTranslation,
+  usePublicTranslation,
+} from 'configs/i18n';
+import { useAppSelector } from 'configs/redux';
+import { PublicRegistrationFormStep } from 'enums/publicRegistration';
+import { ExamSessionFormat } from 'features/registration/components/examSession/ExamSessionFormat';
+import { publicFreeRegistrationSelector } from 'features/registration/redux/selectors/publicFreeRegistration';
+import { registrationSelector } from 'features/registration/redux/selectors/registration';
+import { ExamSession } from 'interfaces/examSessions';
+import { PartialExamType } from 'interfaces/publicRegistration';
+import { sessionSelector } from 'redux/selectors/session';
+import { ExamSessionUtils } from 'utils/examSession';
+
+const DetailRow = ({
+  label,
+  children,
+}: {
+  label: string;
+  children: ReactNode;
+}) => (
+  <>
+    <Label component="dt">{label}</Label>
+    <Text component="dd">{children}</Text>
+  </>
+);
+
+// PartialExamTypeProp is only used when ConfirmRegistrationPage renders ExamSessionDetails
+export const PublicRegistrationExamSessionDetails = ({
+  examSession,
+  showOpenings,
+  partialExamType: partialExamTypeProp,
+}: {
+  examSession?: ExamSession;
+  showOpenings: boolean;
+  partialExamType?: PartialExamType;
+}) => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.component.registration.examSessionDetails',
+  });
+  const translateCommon = useCommonTranslation();
+
+  const { isFree, attemptsUsed } = useAppSelector(
+    publicFreeRegistrationSelector,
+  );
+  const { loggedInSession } = useAppSelector(sessionSelector);
+  const { activeStep, submitRegistration, registration } =
+    useAppSelector(registrationSelector);
+
+  if (!examSession) {
+    return null;
+  }
+
+  const { availablePlaces, start, end } =
+    ExamSessionUtils.getEffectiveRegistrationPeriodDetails(
+      examSession,
+      registration.partialExamType,
+    );
+
+  const header = ExamSessionUtils.languageAndLevelText(examSession);
+  const location = ExamSessionUtils.getLocationInfo(
+    examSession,
+    getCurrentLang(),
+  );
+
+  const freeRegistrationPossible = ExamSessionUtils.freeRegistrationPossible(
+    examSession,
+    loggedInSession,
+  );
+
+  let examFeeText: string;
+  if (freeRegistrationPossible) {
+    switch (activeStep) {
+      case PublicRegistrationFormStep.Identify:
+        // If user has not yet progressed to registration form, always display an undecided exam fee amount
+        examFeeText = `0 ${translateCommon(
+          'or',
+        )} ${ExamSessionUtils.getPartialExamFee(
+          examSession,
+          registration.partialExamType,
+        )} €`;
+        break;
+      case PublicRegistrationFormStep.Register:
+        if (submitRegistration.status === APIResponseStatus.Success) {
+          // If user is on register step and form is submitted,
+          // the registration is either free or not; however, not undecided.
+          switch (isFree) {
+            case 'YES':
+              examFeeText = '0 €';
+              break;
+            default:
+              examFeeText = `${ExamSessionUtils.getPartialExamFee(
+                examSession,
+                registration.partialExamType,
+              )} €`;
+              break;
+          }
+        } else {
+          // If user is on register step with form not yet submitted,
+          // registration can be free, paid or not yet definitely either.
+          switch (isFree) {
+            case 'YES':
+              examFeeText = '0 €';
+              break;
+            case 'NO':
+              examFeeText = `${ExamSessionUtils.getPartialExamFee(
+                examSession,
+                registration.partialExamType,
+              )} €`;
+              break;
+            case 'UNDECIDED':
+              examFeeText = `0 ${translateCommon(
+                'or',
+              )} ${ExamSessionUtils.getPartialExamFee(
+                examSession,
+                registration.partialExamType,
+              )} €`;
+              break;
+          }
+        }
+        break;
+      case PublicRegistrationFormStep.Payment:
+        examFeeText = `${ExamSessionUtils.getPartialExamFee(
+          examSession,
+          registration.partialExamType,
+        )} €`;
+        break;
+      case PublicRegistrationFormStep.Done:
+        switch (isFree) {
+          case 'YES':
+            examFeeText = '0 €';
+            break;
+          default:
+            examFeeText = `${ExamSessionUtils.getPartialExamFee(
+              examSession,
+              registration.partialExamType,
+            )} €`;
+            break;
+        }
+    }
+  } else {
+    examFeeText = `${ExamSessionUtils.getPartialExamFee(
+      examSession,
+      registration.partialExamType,
+    )} €`;
+  }
+
+  const attemptsLeft = 3 - (attemptsUsed || 0);
+
+  const isPartialExamRegistrationEndStep =
+    activeStep === PublicRegistrationFormStep.Done &&
+    examSession.type !== 'FULL';
+
+  return (
+    <div className="rows gapped">
+      <H2>{header}</H2>
+      <dl className="public-registration__exam-session-details">
+        {!isPartialExamRegistrationEndStep && (
+          <DetailRow label={translateCommon('partialExams')}>
+            {ExamSessionUtils.getPartialExamTypeText(
+              examSession.type,
+              partialExamTypeProp ?? registration.partialExamType,
+            )}
+          </DetailRow>
+        )}
+        <DetailRow label={t('testFormat')}>
+          <ExamSessionFormat examSessionId={examSession.id} showDescription />
+        </DetailRow>
+        <DetailRow label={translateCommon('examDate')}>
+          {DateUtils.formatOptionalDate(examSession.session_date, 'l')}
+        </DetailRow>
+        {examSession.type !== 'FULL' &&
+          activeStep !== PublicRegistrationFormStep.Done && (
+            <DetailRow label={translateCommon('partialExamTimeLabel')}>
+              {translateCommon('partialExamTime', {
+                startTime:
+                  ExamSessionUtils.getStartTime(
+                    examSession,
+                    registration.partialExamType,
+                  ) || '',
+              })}
+            </DetailRow>
+          )}
+        <DetailRow label={translateCommon('institution')}>
+          {`${location.name}, ${location.street_address}, ${ExamSessionUtils.getMunicipality(location)}`}
+        </DetailRow>
+        <DetailRow label={t('registrationTime')}>
+          {`${DateUtils.formatOptionalDateTime(
+            start,
+            translateCommon('dates.dateTimeFormat'),
+          )} - ${DateUtils.formatOptionalDateTime(
+            end,
+            translateCommon('dates.dateTimeFormat'),
+          )}`}
+        </DetailRow>
+        {activeStep !== PublicRegistrationFormStep.Done && (
+          <DetailRow label={t('examFee')}>{examFeeText}</DetailRow>
+        )}
+        {showOpenings && (
+          <DetailRow label={t('openings')}>
+            {availablePlaces ? availablePlaces : translateCommon('full')}
+          </DetailRow>
+        )}
+        {activeStep === PublicRegistrationFormStep.Register &&
+          freeRegistrationPossible &&
+          attemptsUsed !== undefined && (
+            <DetailRow label={t('freeAttemptsLeft')}>{attemptsLeft}</DetailRow>
+          )}
+      </dl>
+    </div>
+  );
+};

@@ -1,0 +1,142 @@
+import { Box, Container, Grid } from '@mui/material';
+import { OphLink } from '@opetushallitus/oph-design-system';
+import { FC, useEffect, useState } from 'react';
+import { Trans } from 'react-i18next';
+import { APIResponseStatus } from 'shared/enums';
+
+import { InfoBoxLink } from 'components/elements/InfoBoxLink';
+import { H1, H2, Text } from 'components/Text';
+import { usePublicTranslation } from 'configs/i18n';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { PublicExamSessionListing } from 'features/registration/components/examSession/PublicExamSessionListing';
+import { PublicExamSessionFilters } from 'features/registration/components/examSession/PublicExamSessionListingFilters';
+import { loadExamSessions } from 'features/registration/redux/reducers/examSessions';
+import {
+  examSessionsSelector,
+  selectFilteredPublicExamSessions,
+} from 'features/registration/redux/selectors/examSessions';
+import { ExamSession } from 'interfaces/examSessions';
+
+const InformationBox = () => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.pages.registrationPage.infoBox',
+  });
+
+  return (
+    <Container className="public-registration-page__info-box rows gapped">
+      <Text>
+        <strong>{t('part1')}</strong> {t('part2')}{' '}
+        <Trans
+          i18nKey="part3"
+          t={t}
+          components={{
+            CustomLink: <InfoBoxLink />,
+          }}
+        />
+      </Text>
+    </Container>
+  );
+};
+
+export const RegistrationPage: FC = () => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.pages.registrationPage',
+  });
+
+  const dispatch = useAppDispatch();
+  const { status } = useAppSelector(examSessionsSelector);
+  const [results, setResults] = useState<Array<ExamSession>>([]);
+  const [updateResults, setUpdateResults] = useState(false);
+  const [showResults, setShowResults] = useState(false);
+  const filteredExamSessions = useAppSelector(selectFilteredPublicExamSessions);
+  const onApplyFilters = () => {
+    dispatch(loadExamSessions());
+    setUpdateResults(true);
+    setShowResults(true);
+    setPage(0);
+  };
+
+  // Pagination
+  const [page, setPage] = useState(0);
+  const rowsPerPageOptions = [10, 20, 50];
+  const [rowsPerPage, setRowsPerPage] = useState(20);
+
+  const handleRowsPerPageChange = (newRowsPerPage: number) => {
+    setRowsPerPage(newRowsPerPage);
+    setPage(0);
+  };
+
+  useEffect(() => {
+    if (status === APIResponseStatus.NotStarted) {
+      dispatch(loadExamSessions());
+    } else if (status === APIResponseStatus.Success && updateResults) {
+      setResults(filteredExamSessions);
+      setUpdateResults(false);
+    }
+  }, [dispatch, updateResults, status, filteredExamSessions]);
+
+  return (
+    <Box className="public-registration-page">
+      <Grid
+        container
+        rowSpacing={4}
+        direction="column"
+        className="public-registration-page__grid-container"
+      >
+        <Grid className="public-registration-page__grid-container__item-header">
+          <InformationBox />
+          <div className="rows gapped">
+            <H1 data-testid="public-registration-page__title-heading">
+              {t('title')}
+            </H1>
+            <div>
+              <Text>{t('description.part1.text')}</Text>
+              <div className="columns gapped-xxs">
+                <OphLink href={t('description.part1.link.url')} target="_blank">
+                  {t('description.part1.link.label')}
+                </OphLink>
+              </div>
+            </div>
+            <div>
+              <Text>{t('description.part2.text')}</Text>
+              <div className="columns gapped-xxs">
+                <OphLink href={t('description.part2.link.url')} target="_blank">
+                  {t('description.part2.link.label')}
+                </OphLink>
+              </div>
+            </div>
+            <div>
+              <Text>{t('description.part3.text')}</Text>
+              <div className="columns gapped-xxs">
+                <OphLink href={t('description.part3.link.url')} target="_blank">
+                  {t('description.part3.link.label')}
+                </OphLink>
+              </div>
+            </div>
+          </div>
+        </Grid>
+        <Grid className="public-registration-page__grid-container__item-filters">
+          <H2 className="public-registration-page__filters__heading-title">
+            {t('filters.heading')}
+          </H2>
+          <PublicExamSessionFilters onApplyFilters={onApplyFilters} />
+        </Grid>
+        {showResults && (
+          <Grid
+            className="public-registration-page__grid-container__result-box"
+            data-testid="public-registration-page__grid-container__result-box"
+          >
+            <PublicExamSessionListing
+              examSessions={results}
+              onPageChange={setPage}
+              onRowsPerPageChange={handleRowsPerPageChange}
+              page={page}
+              rowsPerPage={rowsPerPage}
+              rowsPerPageOptions={rowsPerPageOptions}
+            />
+          </Grid>
+        )}
+      </Grid>
+    </Box>
+  );
+};

@@ -2,6 +2,7 @@ import createSagaMiddleware from '@redux-saga/core';
 import { combineReducers, configureStore, Tuple } from '@reduxjs/toolkit';
 
 import { RootState } from 'configs/redux';
+import { registrationFeatureReducer } from 'features/registration/redux/reducer';
 import { APIErrorReducer } from 'redux/reducers/APIError';
 import { confirmRegistrationReducer } from 'redux/reducers/confirmRegistration';
 import { evaluationOrderReducer } from 'redux/reducers/evaluationOrder';
@@ -36,6 +37,7 @@ export const rootReducer = combineReducers({
   nationalities: nationalitiesReducer,
   publicIdentification: publicIdentificationReducer,
   registration: registrationReducer,
+  registrationV2: registrationFeatureReducer,
   session: sessionReducer,
   userOpenRegistrations: userOpenRegistrationsReducer,
   userDetails: userDetailsReducer,

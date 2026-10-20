@@ -1,0 +1,50 @@
+import { useCallback } from 'react';
+import { Severity, Variant } from 'shared/enums';
+import {
+  useNavigationProtection as useCommonNavigationProtection,
+  useDialog,
+} from 'shared/hooks';
+
+import { usePublicTranslation } from 'configs/i18n';
+import { useAppDispatch } from 'configs/redux';
+import { cancelRegistration } from 'features/registration/redux/reducers/registration';
+
+export const useRegistrationNavigationProtection = (
+  when: boolean,
+  dialogContent: React.ReactNode,
+) => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.pages.registrationPage.abortDialog',
+  });
+  const { showDialog } = useDialog();
+  const dispatch = useAppDispatch();
+
+  const showConfirmationDialog = useCallback(
+    (confirmNavigation: () => void, cancelNavigation: () => void) => {
+      showDialog({
+        title: t('title'),
+        severity: Severity.Info,
+        content: dialogContent,
+        actions: [
+          {
+            title: t('actions.confirm'),
+            variant: Variant.Outlined,
+            action: () => {
+              dispatch(cancelRegistration());
+              confirmNavigation();
+            },
+          },
+          {
+            title: t('actions.cancel'),
+            variant: Variant.Contained,
+            action: cancelNavigation,
+          },
+        ],
+        onClose: cancelNavigation,
+      });
+    },
+    [dispatch, showDialog, t, dialogContent],
+  );
+
+  useCommonNavigationProtection(when, showConfirmationDialog);
+};
