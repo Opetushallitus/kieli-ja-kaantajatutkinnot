@@ -27,6 +27,7 @@ import { clerkExamSessionDetailsSelector } from 'redux/selectors/clerkExamSessio
 import { examDateSelector } from 'redux/selectors/examDate';
 import {
   getLanguagesWithLevelDescriptions,
+  isAgreementExpired,
   languageToString,
   levelDescription,
 } from 'utils/clerk';
@@ -216,7 +217,7 @@ export const ClerkRegisterOrganizerDetails = ({
             {`${DateUtils.formatOptionalDate(
               row.agreement_start_date,
             )} - ${DateUtils.formatOptionalDate(row.agreement_end_date)}`}
-            {!row.languages && (
+            {isAgreementExpired(row) && (
               <div className="columns" style={{ gap: '0.25rem' }}>
                 <Error color="error" fontSize="large" />{' '}
                 {t('examSessionListing.agreementExpired')}

@@ -1,8 +1,12 @@
+import dayjs from 'dayjs';
 import { t } from 'i18next';
 
 import { ExamLevel, ExamSessionType } from 'enums/app';
 import { ClerkExamSession } from 'interfaces/clerkExamSession';
-import { OrganizerLanguage } from 'interfaces/clerkOrganizer';
+import {
+  ClerkOrganizerType,
+  OrganizerLanguage,
+} from 'interfaces/clerkOrganizer';
 import { FindByOidsOrganization } from 'interfaces/clerkOrganizerRegistry';
 
 const LEVEL_TRANSLATIONS = {
@@ -133,6 +137,11 @@ export const getOrganizerAddress = (
     city: organization?.postiosoite?.postitoimipaikka ?? '',
   };
 };
+
+export const isAgreementExpired = ({
+  agreement_end_date,
+}: Pick<ClerkOrganizerType, 'agreement_end_date'>) =>
+  !!agreement_end_date && agreement_end_date.isBefore(dayjs(), 'day');
 
 // Combinations are either:
 // Tekstin ymmärtäminen + Puhuminen

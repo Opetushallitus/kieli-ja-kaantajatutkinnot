@@ -76,7 +76,6 @@ describe('ClerkRegisterListing', () => {
   });
 
   it('should display expired agreement warning', () => {
-    // Second organizer has null languages (expired agreement)
     onClerkRegisterListing.expectOrganizerAgreementExpired(2);
   });
 });
