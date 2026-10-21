@@ -23,7 +23,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @WebMvcTest(PublicCodeController.class)
 @Import(ControllerExceptionAdvice.class)
 @WithMockUser
-@TestPropertySource(properties = "app.customer-portal.enabled=true")
+@TestPropertySource(properties = "app.v2.enabled=true")
 class PublicCodeControllerTest {
 
   private static final String BASE_URL = "/v2/api/public/code";

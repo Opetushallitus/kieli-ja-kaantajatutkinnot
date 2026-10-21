@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/v2/api/public/code", produces = APPLICATION_JSON_VALUE)
-@ConditionalOnProperty(name = "app.customer-portal.enabled", havingValue = "true")
+@ConditionalOnProperty(name = "app.v2.enabled", havingValue = "true")
 public class PublicCodeController {
 
   private static final Set<String> COLLECTIONS = Set.of("kieli", "maatjavaltiot2");

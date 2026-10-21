@@ -38,7 +38,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @AutoConfigureMockMvc
 @ActiveProfiles("test-postgres")
 @Import(PostgresTestcontainerConfig.class)
-@TestPropertySource(properties = "app.customer-portal.enabled=true")
+@TestPropertySource(properties = "app.v2.enabled=true")
 class PublicPersonControllerIntegrationTest {
 
   private static final String PERSON_URL = "/v2/api/public/person";

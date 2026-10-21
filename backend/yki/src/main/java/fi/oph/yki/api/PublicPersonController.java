@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/v2/api/public/person", produces = APPLICATION_JSON_VALUE)
-@ConditionalOnProperty(name = "app.customer-portal.enabled", havingValue = "true")
+@ConditionalOnProperty(name = "app.v2.enabled", havingValue = "true")
 public class PublicPersonController {
 
   @Resource
