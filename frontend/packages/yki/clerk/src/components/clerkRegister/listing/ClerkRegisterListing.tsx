@@ -41,6 +41,7 @@ import { filteredClerkOrganizersSelector } from 'redux/selectors/filteredClerkOr
 import { userSelector } from 'redux/selectors/user';
 import {
   getLanguagesWithLevelDescriptions,
+  isAgreementExpired,
   languagesToString,
   languageToString,
   levelDescription,
@@ -125,13 +126,13 @@ export const ClerkRegisterListing = ({
     key: 'agreements',
     title: t('listing.header.agreements'),
     render: (rowProps) =>
-      rowProps.languages && rowProps.languages.length > 0 ? (
-        <span>{languagesToString(rowProps.languages)}</span>
-      ) : (
+      isAgreementExpired(rowProps) ? (
         <div className="columns" style={{ gap: '0.25rem' }}>
           <Error color="error" fontSize="large" />{' '}
           {t('examSessionListing.agreementExpired')}
         </div>
+      ) : (
+        <span>{languagesToString(rowProps.languages ?? [])}</span>
       ),
   });
 
