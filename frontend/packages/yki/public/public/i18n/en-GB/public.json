@@ -6,15 +6,24 @@
         "confirm": "Cancel registration",
         "descriptionNotPaid1": "If you meet the conditions for free YKI tests, you can register for the advanced level YKI test in Finnish or Swedish free of charge a total of three (3) times. If you cancel this registration, one free test is not used.",
         "descriptionNotPaid2": "If you cancel your registration, you cannot restore it. You will need to register again if you want to take the YKI test.",
-        "descriptionPaid1": "If you cancel your registration, the test fee will not be automatically refunded.",
-        "descriptionPaid2": "You can apply for a test fee refund from the Finnish National Agency for Education. The Finnish National Agency for Education will refund your test fee if your application meets all the conditions laid down by law. If you want to apply for a refund of the test fee, please read the instructions on the Finnish National Agency for Education's website:",
-        "descriptionPaid3": "If you cancel your registration, you cannot restore it. You will need to register again if you want to take the YKI test.",
+        "descriptionPaid": {
+          "alreadyPaid": "If you have already paid the test fee, you can cancel your registration, <strong>but you will not automatically receive a refund</strong>.",
+          "cannotRestore": "If you cancel your registration, you cannot restore it. You will need to register again if you want to take the YKI test.",
+          "notPaidYet": "If you have not paid the test fee, you can cancel your registration.",
+          "refundConditions": {
+            "and": "and",
+            "applyInTime": "<strong>you apply for a refund from the Finnish National Agency for Education within two weeks</strong>. The application form and detailed instructions are available <RefundLink></RefundLink>",
+            "cancelledInTime": "<strong>you have cancelled your registration in time</strong> (no later than 8 a.m. on the day of the test)",
+            "ill": "<strong>you have fallen ill</strong> and cannot take the test. You must have an official certificate of your illness on the test day, which you can get from a doctor or a nurse."
+          },
+          "refundOnlyIf": "You can receive a refund of the test fee <strong>only if</strong>"
+        },
         "link": {
-          "label": "Cancelling your test registration",
+          "label": "here (How to apply for a refund?).",
           "url": "https://www.oph.fi/en/education-and-qualifications/yki-test#anchor-cancelling-your-test-registration"
         },
         "success": "Your registration has been cancelled",
-        "title": "Do you wish to cancel your registration?"
+        "title": "Do you want to cancel your registration?"
       },
       "cookieBanner": {
         "buttonAriaLabel": "Close the notification about cookies",
@@ -388,21 +397,32 @@
           "requiredFields": "Sections marked with an asterisk (*) are mandatory.",
           "ssn": "Personal identity code",
           "termsAndConditions": {
-            "description1": "To register, you must agree to the terms and conditions of the registration:",
+            "description1": "By registering, you accept the following:",
+            "description1Free": "By registering, you agree to the following terms and conditions:",
             "description2": "Read more on the Finnish National Agency for Education's website",
-            "description3": "Paid registration for YKI test is binding. Check that you are registering for the correct YKI test, and you have filled in your personal information correctly.",
-            "description3Free": "Confirmed registration for YKI test is binding. Check that you are registering for the correct YKI test, and you have filled in your personal information correctly.",
+            "description3": "Paid registration for the YKI test is binding. Please check that you are registering for the correct test, language and date. Also check your personal details, please.",
+            "description3Free": "A confirmed registration for the YKI test is binding. Check that you have selected the correct YKI test and entered your details correctly.",
             "item1": "You cannot change the level of the YKI test.",
             "item2": "You cannot change the language of the YKI test.",
+            "item2Free": "You cannot change the language of the YKI test.",
             "item3": "You cannot change the subtests of the YKI test.",
-            "item4": "You cannot change the test centre.",
-            "item5": "You cannot change the test day.",
-            "item6": "Registration is personal. You cannot change the participant’s personal information.",
-            "item7": "If you cannot participate in the YKI test, you may apply for a test fee refund from the Finnish National Agency for Education. The Finnish National Agency for Education will refund your test fee if your application meets all the conditions laid down in the Act on National Certificates of Language Proficiency (YKI).",
+            "item4": "You cannot change the test location.",
+            "item4Free": "You cannot change the test centre.",
+            "item5": "You cannot change the test date.",
+            "item5Free": "You cannot change the test day.",
+            "item6": "You cannot change the participant’s details. Registration is personal.",
+            "item7": "If you fall ill and cannot take the test, you must cancel your registration no later than 8 a.m. on the day of the test. Read more detailed instructions on <InstructionsLink></InstructionsLink>",
+            "item7Free": "You can cancel your registration if you cannot take the test. If you cancel before the test, you can use that free registration again.",
+            "item7Link": "https://www.oph.fi/en/education-and-qualifications/registering-yki-test#anchor-terms-and-conditions-for-test-registration-and-payment-",
+            "item7LinkText": "the Finnish National Agency for Education’s website.",
+            "item8": "If you cannot take the test and cancel your registration for a reason other than illness, you will not receive a refund of the test fee (Act on National Certificates of Language Proficiency 964/2004, section 11).",
+            "item8Free": "If you do not take the test and do not cancel your registration, you will lose one free registration.",
             "label": "I accept the terms and conditions for registration and payment *",
-            "link": "https://www.oph.fi/en/education-and-qualifications/registering-yki-test#anchor-terms-and-conditions-for-registration",
-            "linkText": "Terms and conditions for registration and payment",
+            "labelFree": "I agree to the terms and conditions for registration *",
+            "link": "https://www.oph.fi/en/education-and-qualifications/registering-yki-test#anchor-terms-and-conditions-for-test-registration-and-payment-",
+            "linkText": "Terms and conditions for test registration and payment",
             "subTitle": "Terms and conditions for test registration and payment",
+            "subTitleFree": "Terms and conditions for test registration",
             "title": "Accept terms"
           },
           "title": "Fill in your personal information",
@@ -808,9 +828,14 @@
       "userDetailsPage": {
         "contactDetails": {
           "certificateInfo": {
-            "part1": "If you logged in using Suomi.fi e-Identification when registering for the YKI test and you have activated the Suomi.fi Messages service, you will receive the YKI certificate in the My Studyinfo service. You will receive a notification via Suomi.fi messages when the certificate is ready.",
-            "part2": "If you do not have a Finnish personal identity code or you have not activated Suomi.fi Messages, the certificate will be sent to you by post when your certificate is ready.",
-            "part3": "Please note! If your registration details show “Assessment complete”, your certificate will be ready or sent by post soon."
+            "link": {
+              "label": "My completed studies",
+              "url": "https://opintopolku.fi/koski/omattiedot"
+            },
+            "part1": "If you logged in using Suomi.fi e-Identification when registering for the YKI test, you will receive the digital YKI certificate in the My Studyinfo service. You can find it on the <CompletedStudiesLink></CompletedStudiesLink> page.",
+            "part2": "If you have activated the Suomi.fi Messages service, you will receive a notification via Suomi.fi messages when the certificate is ready.",
+            "part3": "If you do not have a Finnish personal identity code or you have not activated Suomi.fi Messages, the certificate will be sent to you by post when your certificate is ready.",
+            "part4": "Please note! If your registration details show “Assessment complete”, your certificate will be ready or sent by post soon."
           },
           "checkAddress": "Please check that you have provided the correct postal address.",
           "heading": "Your contact information",

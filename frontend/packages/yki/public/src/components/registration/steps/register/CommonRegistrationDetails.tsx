@@ -293,33 +293,79 @@ export const CommonRegistrationDetails = () => {
       <H2 className="public-registration__grid__form-container__terms-and-conditions">
         {t('termsAndConditions.title')}
       </H2>
-      <H3>{t('termsAndConditions.subTitle')}</H3>
+      <H3>
+        {isFree === 'YES'
+          ? t('termsAndConditions.subTitleFree')
+          : t('termsAndConditions.subTitle')}
+      </H3>
       <div>
         <Text>
-          {t('termsAndConditions.description1')}
+          {isFree === 'YES'
+            ? t('termsAndConditions.description1Free')
+            : t('termsAndConditions.description1')}
           <br />
           <ul>
             <li>{t('termsAndConditions.item1')}</li>
-            <li>{t('termsAndConditions.item2')}</li>
+            <li>
+              {isFree === 'YES'
+                ? t('termsAndConditions.item2Free')
+                : t('termsAndConditions.item2')}
+            </li>
             <li>{t('termsAndConditions.item3')}</li>
-            <li>{t('termsAndConditions.item4')}</li>
-            <li>{t('termsAndConditions.item5')}</li>
+            <li>
+              {isFree === 'YES'
+                ? t('termsAndConditions.item4Free')
+                : t('termsAndConditions.item4')}
+            </li>
+            <li>
+              {isFree === 'YES'
+                ? t('termsAndConditions.item5Free')
+                : t('termsAndConditions.item5')}
+            </li>
             <li>{t('termsAndConditions.item6')}</li>
-            {isFree !== 'YES' && <li>{t('termsAndConditions.item7')}</li>}
+            {isFree === 'YES' ? (
+              <>
+                <li>{t('termsAndConditions.item7Free')}</li>
+                <li>{t('termsAndConditions.item8Free')}</li>
+              </>
+            ) : (
+              <>
+                <li>
+                  <Trans
+                    t={t}
+                    i18nKey="termsAndConditions.item7"
+                    components={{
+                      InstructionsLink: (
+                        <WebLink
+                          href={t('termsAndConditions.item7Link')}
+                          label={t('termsAndConditions.item7LinkText')}
+                          endIcon={<OpenInNewIcon color="inherit" />}
+                        />
+                      ),
+                    }}
+                  />
+                </li>
+                <li>{t('termsAndConditions.item8')}</li>
+              </>
+            )}
           </ul>
-          {t('termsAndConditions.description2')}:{' '}
-          <div
-            className="columns gapped-xxs"
-            style={{ display: 'inline-flex' }}
-          >
-            <Link href={t('termsAndConditions.link')} target="_blank">
-              <Text color="textPrimary">
-                {t('termsAndConditions.linkText')}
-              </Text>
-            </Link>
-            <OpenInNewIcon color="inherit" />
-          </div>
-          <br />
+          {isFree === 'YES' && (
+            <>
+              {t('termsAndConditions.description2')}:{' '}
+              <div
+                className="columns gapped-xxs"
+                style={{ display: 'inline-flex' }}
+              >
+                <Link href={t('termsAndConditions.link')} target="_blank">
+                  <Text color="textPrimary">
+                    {t('termsAndConditions.linkText')}
+                  </Text>
+                </Link>
+                <OpenInNewIcon color="inherit" />
+              </div>
+              <br />
+            </>
+          )}
           <p>
             <b>
               {isFree === 'YES'
@@ -339,7 +385,11 @@ export const CommonRegistrationDetails = () => {
                 checked={registration.termsAndConditionsAgreed}
               />
             }
-            label={t('termsAndConditions.label')}
+            label={
+              isFree === 'YES'
+                ? t('termsAndConditions.labelFree')
+                : t('termsAndConditions.label')
+            }
             sx={ErrorLabelStyles}
           />
         </FormControl>
