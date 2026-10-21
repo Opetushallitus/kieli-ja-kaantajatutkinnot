@@ -11,9 +11,11 @@ import fi.oph.yki.service.PublicRegistrationService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,14 +31,19 @@ public class PublicRegistrationController {
   private final PublicIdentityService identityService;
 
   @PostMapping(path = "/init", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public PublicRegistrationInitResponseDTO initRegistration(
+  public ResponseEntity<PublicRegistrationInitResponseDTO> initRegistration(
     @PathVariable final long examSessionId,
     @RequestBody @Valid final PublicRegistrationInitDTO initDTO,
     final HttpSession session
   ) {
     final Identity identity = identityService.getOrCreateIdentityFromSession(session);
+    final PublicRegistrationInitResponseDTO result = publicRegistrationService.initRegistration(identity, initDTO);
 
-    return publicRegistrationService.initRegistration(identity, initDTO);
+    if (result.error() != null) {
+      return ResponseEntity.status(HttpStatus.CONFLICT).body(result);
+    }
+
+    return ResponseEntity.ok(result);
   }
 
   @PostMapping(path = "/{registrationId}/submit", consumes = MediaType.APPLICATION_JSON_VALUE)

@@ -1,14 +1,16 @@
 package fi.oph.yki.service;
 
-import fi.oph.yki.api.dto.PublicExamSessionDTO;
-import fi.oph.yki.api.dto.PublicRegistrationDetailsDTO;
-import fi.oph.yki.api.dto.PublicRegistrationFormDTO;
-import fi.oph.yki.api.dto.PublicRegistrationInitDTO;
-import fi.oph.yki.api.dto.PublicRegistrationInitResponseDTO;
-import fi.oph.yki.api.dto.PublicRegistrationSubmitResponseDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import fi.oph.yki.api.dto.PublicExamSessionDTO;
+import fi.oph.yki.api.dto.PublicOtherExamSessionRegistrationDTO;
+import fi.oph.yki.api.dto.PublicRegistrationDetailsDTO;
+import fi.oph.yki.api.dto.PublicRegistrationFormDTO;
+import fi.oph.yki.api.dto.PublicRegistrationInitDTO;
+import fi.oph.yki.api.dto.PublicRegistrationInitErrorDTO;
+import fi.oph.yki.api.dto.PublicRegistrationInitResponseDTO;
+import fi.oph.yki.api.dto.PublicRegistrationSubmitResponseDTO;
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.Identity;
 import fi.oph.yki.model.Registration;
@@ -63,33 +65,52 @@ public class PublicRegistrationService {
       .orElseThrow(() -> new APIException(APIExceptionType.NOT_FOUND));
     final PartialExamType partialExamType = initDTO.partialExamType();
 
-    if (!isRegistrationOpen(examSession)) {
-      throw new APIException(APIExceptionType.REGISTRATION_CLOSED);
-    }
-
     if (!isValidPartialExamType(examSession, partialExamType)) {
       throw new APIException(APIExceptionType.REGISTRATION_INVALID_PARTIAL_EXAM_TYPE);
     }
 
+    final boolean toQueueRequested = Boolean.TRUE.equals(initDTO.toQueue());
+    if (toQueueRequested && !isValidExamForQueue(examSession, partialExamType)) {
+      throw new APIException(APIExceptionType.REGISTRATION_TO_QUEUE_NOT_ALLOWED);
+    }
+
+    if (!isRegistrationOpen(examSession)) {
+      return buildErrorResponse(PublicRegistrationInitErrorDTO.builder().closed(true).build());
+    }
+
     final List<Registration> conflicting = findConflictingRegistrations(identity, examSession, partialExamType);
     if (!conflicting.isEmpty()) {
-      throw new APIException(APIExceptionType.REGISTRATION_CONFLICT);
+      final Registration other = conflicting.get(0);
+      final PublicOtherExamSessionRegistrationDTO otherDTO = PublicOtherExamSessionRegistrationDTO
+        .builder()
+        .id(other.getExamSession().getId())
+        .registrationId(other.getId())
+        .state(other.getState())
+        .build();
+      return buildErrorResponse(
+        PublicRegistrationInitErrorDTO.builder().otherExamSessionRegistration(otherDTO).build()
+      );
     }
 
-    final boolean toQueue = Boolean.TRUE.equals(initDTO.toQueue());
-    final RegistrationKind availableKind = selectRegistrationKind(examSession, partialExamType);
+    final boolean admissionAvailable =
+      selectRegistrationKind(examSession, partialExamType) == RegistrationKind.ADMISSION;
 
-    if (toQueue && availableKind == RegistrationKind.ADMISSION) {
+    if (toQueueRequested && admissionAvailable) {
       throw new APIException(APIExceptionType.REGISTRATION_QUEUE_NOT_AVAILABLE);
     }
-    if (!toQueue && availableKind == RegistrationKind.QUEUE) {
-      throw new APIException(APIExceptionType.REGISTRATION_FULL);
+
+    if (!toQueueRequested && !admissionAvailable) {
+      final boolean partialFull =
+        !isValidExamForQueue(examSession, partialExamType) && anySubPartHasAdmission(examSession);
+      return buildErrorResponse(
+        PublicRegistrationInitErrorDTO.builder().full(true).toQueue(false).partialFull(partialFull).build()
+      );
     }
 
     final Registration registration = createRegistration(
       initDTO.examSessionId(),
       identity,
-      toQueue ? RegistrationKind.QUEUE : RegistrationKind.ADMISSION,
+      toQueueRequested ? RegistrationKind.QUEUE : RegistrationKind.ADMISSION,
       partialExamType
     );
 
@@ -103,6 +124,10 @@ public class PublicRegistrationService {
     final LocalDate end = examSession.getExamDate().getRegistrationEndDate();
 
     return start != null && end != null && now.isAfter(start) && now.isBefore(end);
+  }
+
+  private boolean isValidExamForQueue(final ExamSession examSession, final PartialExamType partialExamType) {
+    return examSession.getType() == ExamSessionType.FULL || partialExamType != PartialExamType.ALL_PARTS;
   }
 
   private Boolean isValidPartialExamType(final ExamSession examSession, final PartialExamType partialExamType) {
@@ -149,6 +174,16 @@ public class PublicRegistrationService {
     }
 
     return RegistrationKind.ADMISSION;
+  }
+
+  private boolean anySubPartHasAdmission(final ExamSession examSession) {
+    final List<PartialExamType> subParts = examSession.getType() == ExamSessionType.READ_SPEAK
+      ? List.of(PartialExamType.READ, PartialExamType.SPEAK)
+      : List.of(PartialExamType.LISTEN, PartialExamType.WRITE);
+
+    return subParts
+      .stream()
+      .anyMatch(subPart -> selectRegistrationKind(examSession, subPart) == RegistrationKind.ADMISSION);
   }
 
   private boolean isPoolFull(final long examSessionId, final List<String> partialExamTypes, final int maxParticipants) {
@@ -204,7 +239,8 @@ public class PublicRegistrationService {
     LOG.info("START: Submitting registration id {}", registrationId);
 
     // Step 1: Load registration and verify it belongs to the identity and is in STARTED state
-    final Registration registration = registrationRepository.findById(registrationId)
+    final Registration registration = registrationRepository
+      .findById(registrationId)
       .orElseThrow(() -> new APIException(APIExceptionType.NOT_FOUND));
 
     if (registration.getIdentity() == null || registration.getIdentity().getId() != identity.getId()) {
@@ -320,7 +356,8 @@ public class PublicRegistrationService {
 
   @Transactional(readOnly = true)
   public PublicRegistrationDetailsDTO getRegistrationDetails(final Identity identity, final long registrationId) {
-    final Registration registration = registrationRepository.findById(registrationId)
+    final Registration registration = registrationRepository
+      .findById(registrationId)
       .orElseThrow(() -> new APIException(APIExceptionType.NOT_FOUND));
 
     if (registration.getIdentity() == null || registration.getIdentity().getId() != identity.getId()) {
@@ -353,24 +390,10 @@ public class PublicRegistrationService {
   private PublicRegistrationInitResponseDTO buildResponse(final Registration registration) {
     final ExamSession examSession = registration.getExamSession();
 
-    return PublicRegistrationInitResponseDTO
-      .builder()
-      .examSession(
-        PublicExamSessionDTO
-          .builder()
-          .id(examSession.getId())
-          .languageCode(examSession.getLanguage())
-          .levelCode(examSession.getLevel())
-          .type(examSession.getType())
-          .sessionDate(examSession.getExamDate().getExamDate())
-          .maxParticipants(examSession.getMaxParticipants())
-          .examFee(null)
-          .build()
-      )
-      .registrationId(registration.getId())
-      .registrationKind(registration.getKind())
-      .partialExamType(registration.getPartialExamType())
-      .expiresIn(null)
-      .build();
+    return PublicRegistrationInitResponseDTO.builder().registrationId(registration.getId()).build();
+  }
+
+  private PublicRegistrationInitResponseDTO buildErrorResponse(final PublicRegistrationInitErrorDTO error) {
+    return PublicRegistrationInitResponseDTO.builder().error(error).build();
   }
 }

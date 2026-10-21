@@ -18,6 +18,7 @@ import {
   PublicRegistrationFormSubmitSuccessResponse,
   PublicRegistrationInitErrorState,
   PublicRegistrationInitPayload,
+  PublicRegistrationInitResponse,
   PublicSuomiFiRegistration,
 } from 'interfaces/publicRegistration';
 
@@ -118,7 +119,6 @@ const getRegistrationError = (
   }
 };
 
-// Init and GET return the same registration details.
 const applyRegistrationDetails = (
   state: RegistrationState,
   details: PublicRegistrationDetails,
@@ -190,10 +190,10 @@ const registrationSlice = createSlice({
     },
     acceptPublicRegistrationInit(
       state,
-      action: PayloadAction<PublicRegistrationDetails>,
+      action: PayloadAction<PublicRegistrationInitResponse>,
     ) {
       state.initRegistration = { status: APIResponseStatus.Success };
-      applyRegistrationDetails(state, action.payload);
+      state.registration.id = action.payload.registration_id;
     },
     setShowErrors(state, action: PayloadAction<boolean>) {
       state.showErrors = action.payload;

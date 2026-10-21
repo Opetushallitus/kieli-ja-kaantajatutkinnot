@@ -1,8 +1,11 @@
 package fi.oph.yki.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import fi.oph.yki.Factory;
 import fi.oph.yki.PostgresTestcontainerConfig;
@@ -97,6 +100,37 @@ public class PublicRegistrationServiceTest {
       .build();
   }
 
+  private Registration savedRegistration(final PublicRegistrationInitResponseDTO result) {
+    assertNull(result.error());
+    assertNotNull(result.registrationId());
+
+    return registrationRepository.findById(result.registrationId()).orElseThrow();
+  }
+
+  private ExamSession persistReadSpeakSession(final int maxReadListen, final int maxSpeakWrite) {
+    final ExamDate examDate = openExamDate();
+    final ExamSession examSession = Factory.examSession(examDate);
+    examSession.setType(ExamSessionType.READ_SPEAK);
+    examSession.setMaxParticipants(maxReadListen + maxSpeakWrite);
+    examSession.setMaxParticipantsReadListen(maxReadListen);
+    examSession.setMaxParticipantsSpeakWrite(maxSpeakWrite);
+    entityManager.persist(examDate);
+    entityManager.persist(examSession);
+
+    return examSession;
+  }
+
+  private void persistAdmission(final ExamSession examSession, final PartialExamType partialExamType) {
+    final Registration registration = new Registration();
+    registration.setExamSession(examSession);
+    registration.setIdentity(persistIdentity());
+    registration.setState(RegistrationState.COMPLETED);
+    registration.setKind(RegistrationKind.ADMISSION);
+    registration.setPartialExamType(partialExamType);
+    registration.setCreatedAt(LocalDateTime.now());
+    entityManager.persist(registration);
+  }
+
   @Test
   public void testInitRegistrationSuccess() {
     final ExamDate examDate = openExamDate();
@@ -113,10 +147,10 @@ public class PublicRegistrationServiceTest {
       initDTO(examSession.getId(), PartialExamType.ALL_PARTS)
     );
 
-    assertNotNull(result);
-    assertEquals(examSession.getId(), result.examSession().id());
-    assertEquals(RegistrationKind.ADMISSION, result.registrationKind());
-    assertEquals(PartialExamType.ALL_PARTS, result.partialExamType());
+    final Registration saved = savedRegistration(result);
+    assertEquals(examSession.getId(), saved.getExamSession().getId());
+    assertEquals(RegistrationKind.ADMISSION, saved.getKind());
+    assertEquals(PartialExamType.ALL_PARTS, saved.getPartialExamType());
   }
 
   @Test
@@ -142,12 +176,14 @@ public class PublicRegistrationServiceTest {
     entityManager.flush();
     entityManager.clear();
 
-    final APIException ex = assertThrows(
-      APIException.class,
-      () ->
-        publicRegistrationService.initRegistration(identity, initDTO(examSession.getId(), PartialExamType.ALL_PARTS))
+    final var result = publicRegistrationService.initRegistration(
+      identity,
+      initDTO(examSession.getId(), PartialExamType.ALL_PARTS)
     );
-    assertEquals(APIExceptionType.REGISTRATION_CLOSED, ex.getExceptionType());
+
+    assertNull(result.registrationId());
+    assertNotNull(result.error());
+    assertTrue(result.error().closed());
   }
 
   @Test
@@ -212,12 +248,17 @@ public class PublicRegistrationServiceTest {
     entityManager.flush();
     entityManager.clear();
 
-    final APIException ex = assertThrows(
-      APIException.class,
-      () ->
-        publicRegistrationService.initRegistration(identity, initDTO(examSession2.getId(), PartialExamType.ALL_PARTS))
+    final var result = publicRegistrationService.initRegistration(
+      identity,
+      initDTO(examSession2.getId(), PartialExamType.ALL_PARTS)
     );
-    assertEquals(APIExceptionType.REGISTRATION_CONFLICT, ex.getExceptionType());
+
+    assertNull(result.registrationId());
+    assertNotNull(result.error());
+    final var other = result.error().otherExamSessionRegistration();
+    assertEquals(examSession1.getId(), other.id());
+    assertEquals(existing.getId(), other.registrationId());
+    assertEquals(RegistrationState.STARTED, other.state());
   }
 
   @Test
@@ -248,9 +289,9 @@ public class PublicRegistrationServiceTest {
       initDTO(examSession.getId(), PartialExamType.SPEAK)
     );
 
-    assertNotNull(result);
-    assertEquals(PartialExamType.SPEAK, result.partialExamType());
-    assertEquals(RegistrationKind.ADMISSION, result.registrationKind());
+    final Registration saved = savedRegistration(result);
+    assertEquals(PartialExamType.SPEAK, saved.getPartialExamType());
+    assertEquals(RegistrationKind.ADMISSION, saved.getKind());
   }
 
   @Test
@@ -280,8 +321,7 @@ public class PublicRegistrationServiceTest {
       initDTO(examSession.getId(), PartialExamType.ALL_PARTS, true)
     );
 
-    assertNotNull(result);
-    assertEquals(RegistrationKind.QUEUE, result.registrationKind());
+    assertEquals(RegistrationKind.QUEUE, savedRegistration(result).getKind());
   }
 
   @Test
@@ -306,15 +346,14 @@ public class PublicRegistrationServiceTest {
     entityManager.flush();
     entityManager.clear();
 
-    final APIException ex = assertThrows(
-      APIException.class,
-      () ->
-        publicRegistrationService.initRegistration(
-          identity2,
-          initDTO(examSession.getId(), PartialExamType.ALL_PARTS, false)
-        )
+    final var result = publicRegistrationService.initRegistration(
+      identity2,
+      initDTO(examSession.getId(), PartialExamType.ALL_PARTS, false)
     );
-    assertEquals(APIExceptionType.REGISTRATION_FULL, ex.getExceptionType());
+
+    assertNull(result.registrationId());
+    assertNotNull(result.error());
+    assertTrue(result.error().full());
   }
 
   @Test
@@ -381,8 +420,106 @@ public class PublicRegistrationServiceTest {
       initDTO(examSession.getId(), PartialExamType.READ)
     );
 
-    assertNotNull(result);
-    assertEquals(PartialExamType.READ, result.partialExamType());
-    assertEquals(RegistrationKind.ADMISSION, result.registrationKind());
+    final Registration saved = savedRegistration(result);
+    assertEquals(PartialExamType.READ, saved.getPartialExamType());
+    assertEquals(RegistrationKind.ADMISSION, saved.getKind());
+  }
+
+  @Test
+  public void testInitRegistrationPartialFullWhenAllPartsFullButSubPartAvailable() {
+    final ExamSession examSession = persistReadSpeakSession(1, 2);
+    persistAdmission(examSession, PartialExamType.ALL_PARTS);
+    final Identity identity = persistIdentity();
+    entityManager.flush();
+    entityManager.clear();
+
+    final PublicRegistrationInitResponseDTO result = publicRegistrationService.initRegistration(
+      identity,
+      initDTO(examSession.getId(), PartialExamType.ALL_PARTS)
+    );
+
+    assertNull(result.registrationId());
+    assertTrue(result.error().full());
+    assertTrue(result.error().partialFull());
+  }
+
+  @Test
+  public void testInitRegistrationNotPartialFullWhenAllSubPartsFull() {
+    final ExamSession examSession = persistReadSpeakSession(1, 1);
+    persistAdmission(examSession, PartialExamType.ALL_PARTS);
+    final Identity identity = persistIdentity();
+    entityManager.flush();
+    entityManager.clear();
+
+    final PublicRegistrationInitResponseDTO result = publicRegistrationService.initRegistration(
+      identity,
+      initDTO(examSession.getId(), PartialExamType.ALL_PARTS)
+    );
+
+    assertNull(result.registrationId());
+    assertTrue(result.error().full());
+    assertFalse(result.error().partialFull());
+  }
+
+  @Test
+  public void testInitRegistrationNotPartialFullForFullSession() {
+    final ExamDate examDate = openExamDate();
+    final ExamSession examSession = Factory.examSession(examDate);
+    examSession.setMaxParticipants(1);
+    entityManager.persist(examDate);
+    entityManager.persist(examSession);
+    persistAdmission(examSession, PartialExamType.ALL_PARTS);
+    final Identity identity = persistIdentity();
+    entityManager.flush();
+    entityManager.clear();
+
+    final PublicRegistrationInitResponseDTO result = publicRegistrationService.initRegistration(
+      identity,
+      initDTO(examSession.getId(), PartialExamType.ALL_PARTS)
+    );
+
+    assertTrue(result.error().full());
+    assertFalse(result.error().partialFull());
+  }
+
+  @Test
+  public void testInitRegistrationAllPartsOnPartialSessionIsNotQueued() {
+    final ExamSession examSession = persistReadSpeakSession(1, 2);
+    persistAdmission(examSession, PartialExamType.ALL_PARTS);
+    final Identity identity = persistIdentity();
+    entityManager.flush();
+    entityManager.clear();
+
+    final APIException ex = assertThrows(
+      APIException.class,
+      () ->
+        publicRegistrationService.initRegistration(
+          identity,
+          initDTO(examSession.getId(), PartialExamType.ALL_PARTS, true)
+        )
+    );
+    assertEquals(APIExceptionType.REGISTRATION_TO_QUEUE_NOT_ALLOWED, ex.getExceptionType());
+    assertEquals(
+      0,
+      registrationRepository.findAll().stream().filter(r -> r.getKind() == RegistrationKind.QUEUE).count()
+    );
+  }
+
+  @Test
+  public void testInitRegistrationSubPartOnPartialSessionCanBeQueued() {
+    final ExamSession examSession = persistReadSpeakSession(1, 2);
+    persistAdmission(examSession, PartialExamType.READ);
+    final Identity identity = persistIdentity();
+    entityManager.flush();
+    entityManager.clear();
+
+    final PublicRegistrationInitResponseDTO result = publicRegistrationService.initRegistration(
+      identity,
+      initDTO(examSession.getId(), PartialExamType.READ, true)
+    );
+
+    final Registration saved = savedRegistration(result);
+    assertEquals(RegistrationKind.QUEUE, saved.getKind());
+    assertEquals(PartialExamType.READ, saved.getPartialExamType());
   }
 }

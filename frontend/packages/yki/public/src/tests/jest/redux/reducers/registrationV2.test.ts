@@ -24,23 +24,45 @@ const details: PublicRegistrationDetails = {
 };
 
 describe('registration V2 state', () => {
+  it('stores the created registration id on init while keeping the requested exam session details', () => {
+    const started = registrationReducer(
+      undefined,
+      initRegistration({
+        examSessionId: 999,
+        registrationKind: RegistrationKind.Queue,
+        partialExamType: 'SPEAK',
+      }),
+    );
+    const initialized = registrationReducer(
+      started,
+      acceptPublicRegistrationInit({ registration_id: 42 }),
+    );
+
+    expect(initialized.initRegistration).toEqual({
+      status: APIResponseStatus.Success,
+    });
+    expect(initialized.registration).toMatchObject({
+      id: 42,
+      examSessionId: 999,
+      registrationKind: RegistrationKind.Queue,
+      partialExamType: 'SPEAK',
+    });
+    expect(initialized.fetchRegistration.status).toBe(
+      APIResponseStatus.NotStarted,
+    );
+  });
+
   it.each([true, false])(
-    'uses the same registration data for init and GET (strongly identified: %s)',
+    'stores registration details from GET (strongly identified: %s)',
     (isStronglyIdentified) => {
-      const response = {
-        ...details,
-        is_strongly_identified: isStronglyIdentified,
-      };
-      const initialized = registrationReducer(
-        undefined,
-        acceptPublicRegistrationInit(response),
-      );
       const fetched = registrationReducer(
         undefined,
-        acceptFetchRegistrationDetails(response),
+        acceptFetchRegistrationDetails({
+          ...details,
+          is_strongly_identified: isStronglyIdentified,
+        }),
       );
 
-      expect(fetched.registration).toEqual(initialized.registration);
       expect(fetched.registration).toMatchObject({
         id: 42,
         examSessionId: details.exam_session.id,
@@ -49,12 +71,6 @@ describe('registration V2 state', () => {
         expiresIn: 1800,
       });
       expect(fetched.isEmailRegistration).toBe(!isStronglyIdentified);
-      expect(initialized.initRegistration).toEqual({
-        status: APIResponseStatus.Success,
-      });
-      expect(initialized.fetchRegistration.status).toBe(
-        APIResponseStatus.NotStarted,
-      );
       // A successful GET must not trigger the listing's init redirect.
       expect(fetched.initRegistration).toEqual({
         status: APIResponseStatus.NotStarted,

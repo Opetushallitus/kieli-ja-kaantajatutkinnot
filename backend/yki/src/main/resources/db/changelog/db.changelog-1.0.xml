@@ -592,4 +592,94 @@
                 referencedTableName="identity"
                 referencedColumnNames="id" />
     </changeSet>
+
+    <!-- Same SQL as the old backend's migration 048-update-registration-full-trigger -->
+    <changeSet id="2026-10-20-update-registration-full-trigger" author="jrkkp">
+        <preConditions onFail="CONTINUE">
+            <dbms type="postgresql" />
+        </preConditions>
+        <sql>DROP FUNCTION IF EXISTS select_registration_kind(bigint)</sql>
+        <sql splitStatements="false"><![CDATA[
+CREATE OR REPLACE FUNCTION select_registration_kind(eid bigint, pet exam_session_ticket_type) RETURNS text AS $$
+DECLARE
+    es record;
+    rl_sub_type exam_session_ticket_type;
+    sw_sub_type exam_session_ticket_type;
+    queue_count bigint;
+    participants_count bigint;
+BEGIN
+    SELECT INTO es type, max_participants, max_participants_read_listen, max_participants_speak_write
+    FROM exam_session WHERE id = eid;
+
+    IF es.type = 'FULL' THEN
+        SELECT COUNT(*) INTO queue_count
+        FROM registration r
+        WHERE r.exam_session_id = eid AND r.kind = 'QUEUE' AND r.state IN ('STARTED', 'SUBMITTED');
+
+        SELECT COUNT(*) INTO participants_count
+        FROM registration r
+        WHERE r.exam_session_id = eid AND r.kind = 'ADMISSION' AND r.state IN ('STARTED', 'SUBMITTED', 'COMPLETED');
+
+        IF queue_count > 0 OR participants_count >= es.max_participants THEN RETURN 'QUEUE'; END IF;
+        RETURN 'ADMISSION';
+    END IF;
+
+    IF es.type = 'READ_SPEAK' THEN
+        rl_sub_type := 'READ';
+        sw_sub_type := 'SPEAK';
+    ELSE
+        rl_sub_type := 'LISTEN';
+        sw_sub_type := 'WRITE';
+    END IF;
+
+    IF pet IN (rl_sub_type, 'ALL_PARTS') THEN
+        SELECT COUNT(*) INTO queue_count
+        FROM registration r
+        WHERE r.exam_session_id = eid AND r.kind = 'QUEUE' AND r.state IN ('STARTED', 'SUBMITTED')
+          AND r.partial_exam_type IN ('ALL_PARTS', rl_sub_type);
+
+        SELECT COUNT(*) INTO participants_count
+        FROM registration r
+        WHERE r.exam_session_id = eid AND r.kind = 'ADMISSION' AND r.state IN ('STARTED', 'SUBMITTED', 'COMPLETED')
+          AND r.partial_exam_type IN ('ALL_PARTS', rl_sub_type);
+
+        IF queue_count > 0 OR participants_count >= es.max_participants_read_listen THEN RETURN 'QUEUE'; END IF;
+        IF pet = rl_sub_type THEN RETURN 'ADMISSION'; END IF;
+    END IF;
+
+    SELECT COUNT(*) INTO queue_count
+    FROM registration r
+    WHERE r.exam_session_id = eid AND r.kind = 'QUEUE' AND r.state IN ('STARTED', 'SUBMITTED')
+      AND r.partial_exam_type IN ('ALL_PARTS', sw_sub_type);
+
+    SELECT COUNT(*) INTO participants_count
+    FROM registration r
+    WHERE r.exam_session_id = eid AND r.kind = 'ADMISSION' AND r.state IN ('STARTED', 'SUBMITTED', 'COMPLETED')
+      AND r.partial_exam_type IN ('ALL_PARTS', sw_sub_type);
+
+    IF queue_count > 0 OR participants_count >= es.max_participants_speak_write THEN RETURN 'QUEUE'; END IF;
+    RETURN 'ADMISSION';
+END;
+$$ LANGUAGE plpgsql
+        ]]></sql>
+        <sql>DROP TRIGGER IF EXISTS participant_limit_trigger ON registration</sql>
+        <sql splitStatements="false"><![CDATA[
+CREATE OR REPLACE FUNCTION error_if_exceeds_participant_limit() RETURNS TRIGGER AS $$
+DECLARE
+    actual_kind TEXT := (
+        select_registration_kind(NEW.exam_session_id, NEW.partial_exam_type)
+    );
+BEGIN
+    IF NEW.kind = 'QUEUE' AND actual_kind = 'ADMISSION' THEN
+        RAISE EXCEPTION 'registration to queue is not available';
+    ELSIF NEW.kind = 'ADMISSION' AND actual_kind = 'QUEUE' THEN
+        RAISE EXCEPTION 'max_participants of exam_session exceeded.';
+    ELSE
+        RETURN NEW;
+    END IF;
+END;
+$$ LANGUAGE plpgsql
+        ]]></sql>
+        <sql>CREATE TRIGGER participant_limit_trigger BEFORE INSERT ON registration FOR EACH ROW EXECUTE PROCEDURE error_if_exceeds_participant_limit()</sql>
+    </changeSet>
 </databaseChangeLog>

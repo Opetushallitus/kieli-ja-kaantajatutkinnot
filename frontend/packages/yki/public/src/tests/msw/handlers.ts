@@ -186,6 +186,18 @@ const initRegistration = async ({
   );
 };
 
+const initRegistrationV2 = async (args: {
+  request: StrictRequest<PublicRegistrationInitRequest>;
+}) => {
+  const response = await initRegistration(args);
+  if (!response.ok) {
+    return response;
+  }
+  const { registration_id } = await response.json();
+
+  return HttpResponse.json({ registration_id });
+};
+
 const identifyRegistration = async ({
   request,
 }: {
@@ -336,7 +348,7 @@ export const handlers = [
   ),
   http.post<PathParams, PublicRegistrationInitRequest>(
     APIEndpoints.InitRegistrationV2,
-    initRegistration,
+    initRegistrationV2,
   ),
   http.post<PathParams, PublicRegistrationIdentifyRequest>(
     APIEndpoints.IdentifyRegistration,

@@ -40,6 +40,7 @@ import {
   PublicRegistrationFormSubmitSuccessResponse,
   PublicRegistrationInitErrorResponse,
   PublicRegistrationInitPayload,
+  PublicRegistrationInitResponse,
 } from 'interfaces/publicRegistration';
 import { resetSession } from 'redux/reducers/session';
 import { resetUserOpenRegistrations } from 'redux/reducers/userOpenRegistrations';
@@ -50,7 +51,7 @@ function* initRegistrationSaga(
   action: PayloadAction<PublicRegistrationInitPayload>,
 ) {
   try {
-    const response: AxiosResponse<PublicRegistrationDetails> = yield call(
+    const response: AxiosResponse<PublicRegistrationInitResponse> = yield call(
       axiosInstance.post,
       APIEndpoints.InitRegistrationV2.replace(
         /:examSessionId/,
@@ -62,16 +63,7 @@ function* initRegistrationSaga(
         ),
       ),
     );
-    const { data } = response;
-    yield put(
-      storeExamSession(
-        SerializationUtils.deserializeExamSessionResponse({
-          ...data.exam_session,
-          available_registration_kind: data.registration_kind,
-        }),
-      ),
-    );
-    yield put(acceptPublicRegistrationInit(data));
+    yield put(acceptPublicRegistrationInit(response.data));
   } catch (error) {
     if (isAxiosError(error) && error.response) {
       const response =
