@@ -828,7 +828,11 @@
       "userDetailsPage": {
         "contactDetails": {
           "certificateInfo": {
-            "part1": "Jos käytit Suomi.fi-tunnistautumista, kun ilmoittauduit YKI-testiin, saat digitaalisen YKI-todistuksen Oma Opintopolku -palveluun.",
+            "link": {
+              "label": "Omat opintosuoritukseni",
+              "url": "https://opintopolku.fi/koski/omattiedot"
+            },
+            "part1": "Jos käytit Suomi.fi-tunnistautumista, kun ilmoittauduit YKI-testiin, saat digitaalisen YKI-todistuksen Oma Opintopolku -palveluun. Löydät sen sivulta <CompletedStudiesLink></CompletedStudiesLink>.",
             "part2": "Jos käytät sähköisiä Suomi.fi-viestejä, sinulle ilmoitetaan todistuksen valmistumisesta Suomi.fi-viestillä.",
             "part3": "Jos sinulla ei ole suomalaista henkilötunnusta tai et käytä Suomi.fi-viestejä, saat paperisen YKI-todistuksen postitse, kun todistuksesi valmistuu.",
             "part4": "Huom! Jos ilmoittautumisesi tiedoissa lukee ”Arviointi valmis”, todistuksesi valmistuu tai postitetaan pian."

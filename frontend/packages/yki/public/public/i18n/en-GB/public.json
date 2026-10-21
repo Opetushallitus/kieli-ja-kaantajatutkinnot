@@ -828,7 +828,11 @@
       "userDetailsPage": {
         "contactDetails": {
           "certificateInfo": {
-            "part1": "If you logged in using Suomi.fi e-Identification when registering for the YKI test, you will receive the YKI certificate in the My Studyinfo service.",
+            "link": {
+              "label": "My completed studies",
+              "url": "https://opintopolku.fi/koski/omattiedot"
+            },
+            "part1": "If you logged in using Suomi.fi e-Identification when registering for the YKI test, you will receive the digital YKI certificate in the My Studyinfo service. You can find it on the <CompletedStudiesLink></CompletedStudiesLink> page.",
             "part2": "If you have activated the Suomi.fi Messages service, you will receive a notification via Suomi.fi messages when the certificate is ready.",
             "part3": "If you do not have a Finnish personal identity code or you have not activated Suomi.fi Messages, the certificate will be sent to you by post when your certificate is ready.",
             "part4": "Please note! If your registration details show “Assessment complete”, your certificate will be ready or sent by post soon."

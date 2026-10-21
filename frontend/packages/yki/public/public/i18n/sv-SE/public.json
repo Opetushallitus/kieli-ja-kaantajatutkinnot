@@ -828,7 +828,11 @@
       "userDetailsPage": {
         "contactDetails": {
           "certificateInfo": {
-            "part1": "Om du använde Suomi.fi-identifiering vid anmälan, kommer intyget till tjänsten Min Studieinfo.",
+            "link": {
+              "label": "Mina studieprestationer",
+              "url": "https://opintopolku.fi/koski/omattiedot"
+            },
+            "part1": "Om du använde Suomi.fi-identifiering vid anmälan, kommer det digitala YKI-intyget till tjänsten Min Studieinfo. Du hittar det på sidan <CompletedStudiesLink></CompletedStudiesLink>.",
             "part2": "Om du använder elektroniska Suomi.fi-meddelanden, får du en avisering via Suomi.fi-meddelanden när intyget är färdigt.",
             "part3": "Om du inte har en finländsk personbeteckning eller inte använder Suomi.fi-meddelanden, får du intyget på papper per post när intyget blir klart.",
             "part4": "Obs! Om det står ”Bedömning klar” i dina anmälningsuppgifter, blir ditt intyg snart klart eller skickas snart per post."
