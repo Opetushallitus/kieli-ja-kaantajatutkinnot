@@ -337,6 +337,9 @@ const ContactDetails = () => {
           <Text className="user-details-page__small-text">
             {t('certificateInfo.part3')}
           </Text>
+          <Text className="user-details-page__small-text">
+            {t('certificateInfo.part4')}
+          </Text>
         </div>
       </Paper>
     </div>

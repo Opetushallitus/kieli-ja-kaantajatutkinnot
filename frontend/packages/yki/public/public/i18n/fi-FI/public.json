@@ -828,9 +828,10 @@
       "userDetailsPage": {
         "contactDetails": {
           "certificateInfo": {
-            "part1": "Jos käytit Suomi.fi-tunnistautumista, kun ilmoittauduit YKI-testiin ja käytät sähköisiä Suomi.fi-viestejä, saat digitaalisen YKI-todistuksen Oma Opintopolku -palveluun. Sinulle ilmoitetaan todistuksen valmistumisesta Suomi.fi-viestillä.",
-            "part2": "Jos sinulla ei ole suomalaista henkilötunnusta tai et käytä Suomi.fi-viestejä, saat paperisen YKI-todistuksen postitse, kun todistuksesi valmistuu.",
-            "part3": "Huom! Jos ilmoittautumisesi tiedoissa lukee ”Arviointi valmis”, todistuksesi valmistuu tai postitetaan pian."
+            "part1": "Jos käytit Suomi.fi-tunnistautumista, kun ilmoittauduit YKI-testiin, saat digitaalisen YKI-todistuksen Oma Opintopolku -palveluun.",
+            "part2": "Jos käytät sähköisiä Suomi.fi-viestejä, sinulle ilmoitetaan todistuksen valmistumisesta Suomi.fi-viestillä.",
+            "part3": "Jos sinulla ei ole suomalaista henkilötunnusta tai et käytä Suomi.fi-viestejä, saat paperisen YKI-todistuksen postitse, kun todistuksesi valmistuu.",
+            "part4": "Huom! Jos ilmoittautumisesi tiedoissa lukee ”Arviointi valmis”, todistuksesi valmistuu tai postitetaan pian."
           },
           "checkAddress": "Tarkista, että olet antanut oikean postiosoitteen.",
           "heading": "Yhteystietosi",
