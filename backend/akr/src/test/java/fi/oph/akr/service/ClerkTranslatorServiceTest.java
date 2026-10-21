@@ -51,6 +51,7 @@ import fi.oph.akr.util.exception.APIExceptionType;
 import jakarta.annotation.Resource;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -297,7 +298,11 @@ class ClerkTranslatorServiceTest {
     when(onrService.getCachedPersonalDatas()).thenReturn(personalDatas);
 
     final ClerkTranslatorResponseDTO responseDTO = clerkTranslatorService.listTranslators();
-    final List<ClerkTranslatorDTO> translators = responseDTO.translators();
+    final List<ClerkTranslatorDTO> translators = responseDTO
+      .translators()
+      .stream()
+      .sorted(Comparator.comparing(ClerkTranslatorDTO::lastName))
+      .toList();
 
     assertEquals(3, translators.size());
 
@@ -855,6 +860,79 @@ class ClerkTranslatorServiceTest {
     verify(auditService)
       .logAuthorisation(AkrOperation.UPDATE_AUTHORISATION, translator, authorisationDTO.id(), oldDTO, newDTO);
     verifyNoMoreInteractions(auditService);
+  }
+
+  @Test
+  public void testAuthorisationUpdateFormerVir() {
+    final Translator translator = Factory.translator();
+    final Authorisation authorisation = Factory.formerVirAuthorisation(translator);
+
+    final PersonalData personalData = defaultPersonalData(translator.getOnrId());
+    when(onrService.getCachedPersonalDatas()).thenReturn(Map.of(translator.getOnrId(), personalData));
+
+    entityManager.persist(translator);
+    entityManager.persist(authorisation);
+
+    final AuthorisationAuditDTO oldDTO = new AuthorisationAuditDTO(authorisation);
+
+    final AuthorisationUpdateDTO updateDTO = AuthorisationUpdateDTO
+      .builder()
+      .id(authorisation.getId())
+      .version(authorisation.getVersion())
+      .basis(authorisation.getBasis())
+      .from(authorisation.getFromLang())
+      .to(authorisation.getToLang())
+      .permissionToPublish(!authorisation.isPermissionToPublish())
+      .diaryNumber("012345")
+      .build();
+
+    final ClerkTranslatorDTO response = clerkTranslatorService.updateAuthorisation(updateDTO);
+
+    assertResponseMatchesGet(response);
+
+    assertEquals(1, response.authorisations().formerVir().size());
+    final AuthorisationDTO authorisationDTO = response.authorisations().formerVir().get(0);
+    final AuthorisationAuditDTO newDTO = new AuthorisationAuditDTO(authorisationDTO);
+    assertEquals(updateDTO.id(), authorisationDTO.id());
+    assertEquals(updateDTO.version() + 1, authorisationDTO.version());
+    assertAuthorisationCommonFields(updateDTO, authorisationDTO);
+    assertNull(authorisationRepository.getReferenceById(authorisation.getId()).getMeetingDate());
+
+    verify(auditService)
+      .logAuthorisation(AkrOperation.UPDATE_AUTHORISATION, translator, authorisationDTO.id(), oldDTO, newDTO);
+    verifyNoMoreInteractions(auditService);
+  }
+
+  @Test
+  public void testAuthorisationUpdateFailsOnMissingMeetingDate() {
+    final MeetingDate meetingDate = Factory.meetingDate();
+    final Translator translator = Factory.translator();
+    final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate);
+
+    entityManager.persist(meetingDate);
+    entityManager.persist(translator);
+    entityManager.persist(authorisation);
+
+    final AuthorisationUpdateDTO updateDTO = AuthorisationUpdateDTO
+      .builder()
+      .id(authorisation.getId())
+      .version(authorisation.getVersion())
+      .basis(authorisation.getBasis())
+      .from(authorisation.getFromLang())
+      .to(authorisation.getToLang())
+      .permissionToPublish(authorisation.isPermissionToPublish())
+      .termBeginDate(meetingDate.getDate().plusDays(1))
+      .termEndDate(authorisation.getTermEndDate())
+      .diaryNumber(authorisation.getDiaryNumber())
+      .build();
+
+    final APIException ex = assertThrows(
+      APIException.class,
+      () -> clerkTranslatorService.updateAuthorisation(updateDTO)
+    );
+    assertEquals(APIExceptionType.AUTHORISATION_MISSING_MEETING_DATE, ex.getExceptionType());
+
+    verifyNoInteractions(auditService);
   }
 
   private void assertAuthorisationCommonFields(

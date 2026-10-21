@@ -496,7 +496,7 @@ public class ClerkTranslatorService {
     final Map<LocalDate, ExaminationDate> examinationDates
   ) {
     final MeetingDate meetingDate = meetingDates.get(dto.termBeginDate());
-    if (meetingDate == null) {
+    if (dto.termBeginDate() != null && meetingDate == null) {
       throw new APIException(APIExceptionType.AUTHORISATION_MISSING_MEETING_DATE);
     }
 
@@ -508,12 +508,16 @@ public class ClerkTranslatorService {
     authorisation.setBasis(dto.basis());
     authorisation.setFromLang(dto.from());
     authorisation.setToLang(dto.to());
-    authorisation.setTermBeginDate(dto.termBeginDate());
     authorisation.setTermEndDate(dto.termEndDate());
     authorisation.setPermissionToPublish(dto.permissionToPublish());
     authorisation.setDiaryNumber(dto.diaryNumber());
-    authorisation.setMeetingDate(meetingDate);
     authorisation.setExaminationDate(examinationDate);
+    if (dto.termBeginDate() != null) {
+      authorisation.setTermBeginDate(dto.termBeginDate());
+    }
+    if (meetingDate != null) {
+      authorisation.setMeetingDate(meetingDate);
+    }
 
     if (!authorisation.isBasisAndExaminationDateConsistent()) {
       throw new APIException(APIExceptionType.AUTHORISATION_BASIS_AND_EXAMINATION_DATE_MISMATCH);
