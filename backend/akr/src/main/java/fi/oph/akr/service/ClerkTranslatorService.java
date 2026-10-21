@@ -41,6 +41,7 @@ import fi.oph.akr.util.exception.APIException;
 import fi.oph.akr.util.exception.APIExceptionType;
 import fi.oph.akr.util.exception.NotFoundException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
@@ -85,7 +86,7 @@ public class ClerkTranslatorService {
     final Map<Long, List<AuthorisationProjection>> authorisationProjections = getAuthorisationProjections();
 
     final List<ClerkTranslatorDTO> clerkTranslatorDTOS = createClerkTranslatorDTOs(
-      translators,
+      sortByLatestModification(translators, authorisationProjections),
       personalDatas,
       authorisationProjections
     );
@@ -100,6 +101,27 @@ public class ClerkTranslatorService {
       .meetingDates(meetingDateDTOS)
       .examinationDates(examinationDateDTOS)
       .build();
+  }
+
+  static List<Translator> sortByLatestModification(
+    final List<Translator> translators,
+    final Map<Long, List<AuthorisationProjection>> authorisationProjectionsByTranslator
+  ) {
+    final Function<Translator, LocalDateTime> latestModification = translator ->
+      authorisationProjectionsByTranslator
+        .getOrDefault(translator.getId(), List.of())
+        .stream()
+        .map(AuthorisationProjection::modifiedAt)
+        .reduce(translator.getModifiedAt(), (a, b) -> a.isAfter(b) ? a : b);
+
+    return translators
+      .stream()
+      .sorted(
+        Comparator
+          .comparing(latestModification, Comparator.reverseOrder())
+          .thenComparing(Translator::getId, Comparator.reverseOrder())
+      )
+      .toList();
   }
 
   private Map<Long, List<AuthorisationProjection>> getAuthorisationProjections() {
