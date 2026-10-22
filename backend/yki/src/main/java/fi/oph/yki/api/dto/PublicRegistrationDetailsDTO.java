@@ -8,8 +8,8 @@ import lombok.Builder;
 
 @Builder
 public record PublicRegistrationDetailsDTO(
-  long id,
-  RegistrationKind kind,
+  @JsonProperty("registration_id") long id,
+  @JsonProperty("registration_kind") RegistrationKind kind,
   @JsonProperty("partial_exam_type") PartialExamType partialExamType,
   RegistrationState state,
   @JsonProperty("exam_session") PublicExamSessionDTO examSession

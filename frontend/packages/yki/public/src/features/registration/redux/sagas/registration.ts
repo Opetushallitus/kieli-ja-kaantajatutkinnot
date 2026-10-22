@@ -197,6 +197,7 @@ function* fetchRegistrationDetailsSaga(action: PayloadAction<RegistrationKey>) {
     if (response?.status === 401) {
       yield put(resetSession());
     }
+    throw error;
   }
 }
 

@@ -129,10 +129,10 @@ const applyRegistrationDetails = (
 
   const { registration_id, is_strongly_identified, user, registration_kind } =
     details;
-  const nationality = user.nationalities && user.nationalities[0];
+  const nationality = user?.nationalities && user?.nationalities[0];
   state.registration.registrationKind = registration_kind;
   state.registration.id = registration_id;
-  if (is_strongly_identified) {
+  if (user && is_strongly_identified) {
     state.isEmailRegistration = false;
     state.hasSuomiFiNationalityData = !!nationality;
     state.registration = {
@@ -150,7 +150,7 @@ const applyRegistrationDetails = (
     state.isEmailRegistration = true;
     state.registration = {
       ...state.registration,
-      email: user.email,
+      email: user?.email,
     };
   }
 };

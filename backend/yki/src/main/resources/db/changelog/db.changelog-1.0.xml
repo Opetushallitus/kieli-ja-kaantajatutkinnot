@@ -594,7 +594,7 @@
     </changeSet>
 
     <!-- Same SQL as the old backend's migration 048-update-registration-full-trigger. Test-only: the db/ dump predates 048 -->
-    <changeSet id="2026-10-20-update-registration-full-trigger" author="jrkkp" context="test">
+    <changeSet id="2026-10-20-update-registration-full-trigger" author="jrkkp">
         <preConditions onFail="CONTINUE">
             <dbms type="postgresql" />
         </preConditions>

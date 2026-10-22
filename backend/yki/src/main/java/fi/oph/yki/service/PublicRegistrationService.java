@@ -3,7 +3,9 @@ package fi.oph.yki.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import fi.oph.yki.api.dto.PublicExamSessionContactDTO;
 import fi.oph.yki.api.dto.PublicExamSessionDTO;
+import fi.oph.yki.api.dto.PublicExamSessionLocationDTO;
 import fi.oph.yki.api.dto.PublicOtherExamSessionRegistrationDTO;
 import fi.oph.yki.api.dto.PublicRegistrationDetailsDTO;
 import fi.oph.yki.api.dto.PublicRegistrationFormDTO;
@@ -11,7 +13,9 @@ import fi.oph.yki.api.dto.PublicRegistrationInitDTO;
 import fi.oph.yki.api.dto.PublicRegistrationInitErrorDTO;
 import fi.oph.yki.api.dto.PublicRegistrationInitResponseDTO;
 import fi.oph.yki.api.dto.PublicRegistrationSubmitResponseDTO;
+import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamSession;
+import fi.oph.yki.model.ExamSessionLocation;
 import fi.oph.yki.model.Identity;
 import fi.oph.yki.model.Registration;
 import fi.oph.yki.model.type.ExamSessionType;
@@ -24,6 +28,10 @@ import fi.oph.yki.util.exception.APIException;
 import fi.oph.yki.util.exception.APIExceptionType;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -364,27 +372,113 @@ public class PublicRegistrationService {
       throw new APIException(APIExceptionType.REGISTRATION_NOT_OWNED);
     }
 
-    final ExamSession examSession = registration.getExamSession();
-
     return PublicRegistrationDetailsDTO
       .builder()
       .id(registration.getId())
       .kind(registration.getKind())
       .partialExamType(registration.getPartialExamType())
       .state(registration.getState())
-      .examSession(
-        PublicExamSessionDTO
-          .builder()
-          .id(examSession.getId())
-          .languageCode(examSession.getLanguage())
-          .levelCode(examSession.getLevel())
-          .type(examSession.getType())
-          .sessionDate(examSession.getExamDate().getExamDate())
-          .maxParticipants(examSession.getMaxParticipants())
-          .examFee(null)
-          .build()
-      )
+      .examSession(buildExamSessionDTO(registration.getExamSession()))
       .build();
+  }
+
+  private PublicExamSessionDTO buildExamSessionDTO(final ExamSession examSession) {
+    final ExamDate examDate = examSession.getExamDate();
+    final List<String> allPartialExamTypes = Arrays.stream(PartialExamType.values()).map(Enum::name).toList();
+    final boolean isPartialSession = examSession.getType() != ExamSessionType.FULL;
+
+    return PublicExamSessionDTO
+      .builder()
+      .id(examSession.getId())
+      .languageCode(examSession.getLanguage())
+      .levelCode(examSession.getLevel())
+      .type(examSession.getType())
+      .sessionDate(examDate.getExamDate())
+      .registrationStartDate(examDate.getRegistrationStartDate())
+      .registrationEndDate(examDate.getRegistrationEndDate())
+      .startTimeReadListen(examSession.getStartTimeReadListen())
+      .startTimeSpeakWrite(examSession.getStartTimeSpeakWrite())
+      .maxParticipants(examSession.getMaxParticipants())
+      .maxParticipantsReadListen(examSession.getMaxParticipantsReadListen())
+      .maxParticipantsSpeakWrite(examSession.getMaxParticipantsSpeakWrite())
+      .participants(registrationRepository.countAdmissionRegistrations(examSession.getId(), allPartialExamTypes))
+      .participantsReadListen(isPartialSession ? countPoolParticipants(examSession, true) : null)
+      .participantsSpeakWrite(isPartialSession ? countPoolParticipants(examSession, false) : null)
+      .queue(registrationRepository.countQueueRegistrations(examSession.getId(), allPartialExamTypes))
+      .publishedAt(examSession.getPublishedAt())
+      .location(examSession.getLocations().stream().map(this::buildLocationDTO).toList())
+      .examFee(null)
+      .availableRegistrationKind(selectRegistrationKind(examSession, PartialExamType.ALL_PARTS))
+      .partialRegistrationKind(buildPartialRegistrationKinds(examSession))
+      .officeOid(examSession.getOfficeOid())
+      .organizerOid(examSession.getOrganizer().getOid())
+      .contact(buildContactDTOs(examSession))
+      .open(isRegistrationOpen(examSession))
+      .upcomingAdmission(isUpcomingAdmission(examDate))
+      .build();
+  }
+
+  private long countPoolParticipants(final ExamSession examSession, final boolean readListen) {
+    final PartialExamType subPart = examSession.getType() == ExamSessionType.READ_SPEAK
+      ? (readListen ? PartialExamType.READ : PartialExamType.SPEAK)
+      : (readListen ? PartialExamType.LISTEN : PartialExamType.WRITE);
+
+    return registrationRepository.countAdmissionRegistrations(
+      examSession.getId(),
+      List.of(PartialExamType.ALL_PARTS.name(), subPart.name())
+    );
+  }
+
+  private Map<PartialExamType, RegistrationKind> buildPartialRegistrationKinds(final ExamSession examSession) {
+    final List<PartialExamType> partialExamTypes =
+      switch (examSession.getType()) {
+        case FULL -> List.of(PartialExamType.ALL_PARTS);
+        case READ_SPEAK -> List.of(PartialExamType.ALL_PARTS, PartialExamType.READ, PartialExamType.SPEAK);
+        case LISTEN_WRITE -> List.of(PartialExamType.ALL_PARTS, PartialExamType.LISTEN, PartialExamType.WRITE);
+      };
+    final Map<PartialExamType, RegistrationKind> kinds = new LinkedHashMap<>();
+    partialExamTypes.forEach(pet -> kinds.put(pet, selectRegistrationKind(examSession, pet)));
+
+    return kinds;
+  }
+
+  private PublicExamSessionLocationDTO buildLocationDTO(final ExamSessionLocation location) {
+    return PublicExamSessionLocationDTO
+      .builder()
+      .name(location.getName())
+      .streetAddress(location.getStreetAddress())
+      .postOffice(location.getPostOffice())
+      .zip(location.getZip())
+      .otherLocationInfo(location.getOtherLocationInfo())
+      .extraInformation(location.getExtraInformation())
+      .lang(location.getLang())
+      .build();
+  }
+
+  private List<PublicExamSessionContactDTO> buildContactDTOs(final ExamSession examSession) {
+    if (
+      examSession.getContactName() == null &&
+      examSession.getContactEmail() == null &&
+      examSession.getContactPhoneNumber() == null
+    ) {
+      return List.of();
+    }
+
+    return List.of(
+      PublicExamSessionContactDTO
+        .builder()
+        .name(examSession.getContactName())
+        .email(examSession.getContactEmail())
+        .phoneNumber(examSession.getContactPhoneNumber())
+        .build()
+    );
+  }
+
+  private boolean isUpcomingAdmission(final ExamDate examDate) {
+    final ZoneId helsinki = ZoneId.of("Europe/Helsinki");
+    final ZonedDateTime admissionEnd = examDate.getRegistrationEndDate().atTime(16, 0).atZone(helsinki);
+
+    return ZonedDateTime.now(helsinki).isBefore(admissionEnd);
   }
 
   private PublicRegistrationInitResponseDTO buildResponse(final Registration registration) {
