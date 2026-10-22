@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository
-public interface RegistrationRepository extends JpaRepository<Registration, Long> {
+public interface RegistrationRepository extends JpaRepository<Registration, Long>, RegistrationQueueLiftRepository {
   List<Registration> getByPersonOid(String personOid);
   List<Registration> getByExamSessionAndStateInAndFormIsNotNull(
     ExamSession examSession,
@@ -51,6 +51,42 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
     @Param("examSessionId") long examSessionId,
     @Param("partialExamType") String partialExamType
   );
+
+  /**
+   * Exam sessions the queue-lifting job should try: those in the legacy eligibility window
+   * (registration open, or closed with the exam still at least a week away) that have at least one
+   * queued registration the lift can take.
+   *
+   * <p>Only a filter. Capacity is not decided here but in the lift statement itself, so a session
+   * included needlessly costs one lift attempt that finds nothing.
+   *
+   * <p>The window is copied verbatim from legacy {@code select-participant-and-queue-count-by-exam-session},
+   * including its use of the database's {@code current_date}. Unlike legacy's queue counts, which
+   * also include {@code STARTED}, only {@code SUBMITTED} is considered: that is the one state the lift
+   * can consume.
+   */
+  @Query(
+    value = """
+      SELECT es.id
+      FROM exam_session es
+      INNER JOIN exam_date ed ON es.exam_date_id = ed.id
+      WHERE (
+          within_dt_range(now(), ed.registration_start_date, ed.registration_end_date)
+          OR (ed.registration_end_date <= current_date
+              AND current_date + interval '1 week' <= ed.exam_date)
+        )
+        AND EXISTS (
+          SELECT 1
+          FROM registration r
+          WHERE r.exam_session_id = es.id
+            AND r.kind = 'QUEUE'
+            AND r.state = 'SUBMITTED'
+        )
+      ORDER BY es.id
+    """,
+    nativeQuery = true
+  )
+  List<Long> findExamSessionIdsWithQueueToLift();
 
   int countByPersonOid(String personOid);
 
@@ -121,6 +157,24 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
     @Param("organizers") String[] organizers,
     @Param("municipality") String municipality
   );
+
+  /**
+   * The last day a registration lifted from the queue can be paid, as shown in its email.
+   * {@code expires_at} is {@code at_midnight(d)}, the end of day d in Helsinki, so the day to show
+   * is the one before {@code expires_at}'s Helsinki date. Computed here rather than from
+   * {@code Registration.expiresAt} because a timestamptz read as a LocalDateTime is in whatever
+   * zone the JVM and Hibernate settings make it, and nothing pins those to Helsinki. Text, so that
+   * no date conversion happens on the way out either.
+   */
+  @Query(
+    value = """
+      SELECT CAST(CAST(r.expires_at AT TIME ZONE 'Europe/Helsinki' AS date) - 1 AS text)
+      FROM registration r
+      WHERE r.id = :registrationId
+      """,
+    nativeQuery = true
+  )
+  String findQueueLiftPaymentDueDate(@Param("registrationId") long registrationId);
 
   @Modifying
   @Transactional

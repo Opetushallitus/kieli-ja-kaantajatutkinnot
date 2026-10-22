@@ -81,6 +81,7 @@ public class ExamSessionXlsxDataRowUtil {
       case ADMISSION -> "Varsinainen ilmoittautuminen";
       case POST_ADMISSION -> "Jälki-ilmoittautuminen";
       case QUEUE -> "Jonoilmoittautuminen";
+      case OTHER -> "-";
     };
   }
 

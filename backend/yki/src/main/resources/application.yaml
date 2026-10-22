@@ -16,6 +16,10 @@ spring:
     password: ${postgresql.password:admin}
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.xml
+  task:
+    scheduling:
+      pool:
+        size: 16
   web:
     resources:
       static-locations: classpath:static/
@@ -61,6 +65,14 @@ app:
   user-portal:
     success-url: ${app.base-url.public}/kayttaja/tiedot
     expired-url: ${app.base-url.public}/linkki-vanhentunut/:code
+  exam-fee:
+    perus: ${exam-fee.perus}
+    keski: ${exam-fee.keski}
+    ylin: ${exam-fee.ylin}
+    keski-read: ${exam-fee.keski-read}
+    keski-listen: ${exam-fee.keski-listen}
+    keski-write: ${exam-fee.keski-write}
+    keski-speak: ${exam-fee.keski-speak}
   koski:
     url: ${koski.url:null}
     user: ${cas.username:null}
@@ -82,6 +94,10 @@ app:
   email:
     sending-enabled: ${email.sending-enabled:false}
     service-url: ${email.service-url:null}
+  scheduling:
+    registration-queue-handler:
+      # Only false for tests, otherwise decided by a runtime flag
+      enabled: true
 host:
   alb: ${virkailija.host.alb:localhost:${server.port}}
 cas:
