@@ -50,27 +50,27 @@ class ScheduledTaskMonitorTest {
   @CsvSource(value = { "LEGACY", "NULL", "JAVE" }, nullValues = "NULL")
   void testMonitorsLegacyQueueHandlerUnlessThisBackendOwnsTheQueue(final String owner) {
     final TaskLockRepository taskLockRepository = mockTaskLockRepository(1.0);
+    final ShedLockRepository shedLockRepository = mockShedLockRepository(1.0);
 
-    new ScheduledTaskMonitor(taskLockRepository, mockShedLockRepository(1.0), runtimeFlagRepository(owner))
+    new ScheduledTaskMonitor(taskLockRepository, shedLockRepository, runtimeFlagRepository(owner))
       .monitorScheduledTasks();
 
     verify(taskLockRepository).findAgeInSeconds("REGISTRATION_QUEUE_HANDLER");
     verify(taskLockRepository).findAgeInSeconds("REGISTRATION_STATE_HANDLER");
+    verify(shedLockRepository, never()).findAgeInSeconds("registrationQueueHandler");
   }
 
   @Test
-  void testSkipsLegacyQueueHandlerOnceThisBackendOwnsTheQueue() {
+  void testMonitorsThisBackendsQueueHandlerOnceThisBackendOwnsTheQueue() {
     final TaskLockRepository taskLockRepository = mockTaskLockRepository(1.0);
+    final ShedLockRepository shedLockRepository = mockShedLockRepository(1.0);
 
-    new ScheduledTaskMonitor(
-      taskLockRepository,
-      mockShedLockRepository(1.0),
-      runtimeFlagRepository(RuntimeFlag.OWNER_JAVA)
-    )
+    new ScheduledTaskMonitor(taskLockRepository, shedLockRepository, runtimeFlagRepository(RuntimeFlag.OWNER_JAVA))
       .monitorScheduledTasks();
 
     verify(taskLockRepository, never()).findAgeInSeconds("REGISTRATION_QUEUE_HANDLER");
     verify(taskLockRepository).findAgeInSeconds("REGISTRATION_STATE_HANDLER");
+    verify(shedLockRepository).findAgeInSeconds("registrationQueueHandler");
   }
 
   private static TaskLockRepository mockTaskLockRepository(final Double ageInSeconds) {
