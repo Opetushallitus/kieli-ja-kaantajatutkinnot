@@ -547,19 +547,6 @@
         <preConditions onFail="CONTINUE">
             <dbms type="postgresql"/>
         </preConditions>
-        <comment>
-            Takes ownership of select_registration_kind and participant_limit_trigger, which
-            until now existed here only in the pre-048 shape baked into db/1_tables.sql: a
-            single-argument function that counts every registration against max_participants
-            and ignores partial_exam_type entirely. Deployed environments have had the
-            partial-exam-aware version since the legacy repo's Ragtime migration
-            048-update-registration-full-trigger, so this reproduces that migration verbatim
-            and is a no-op in effect there, while local and test databases finally agree with
-            it. Deliberately unguarded beyond the dbms check: re-applying it is the point.
-            Must stay ordered after 2026-02-16-add-exam-session-tickets (which creates
-            exam_session_ticket_type) and 2026-04-09-add-max-participants-partial-exam (which
-            creates the columns the function reads).
-        </comment>
         <!-- splitStatements=false: the function bodies are $$-quoted and contain semicolons. -->
         <sql><![CDATA[
             -- Drop the old single-argument version. The new version takes a partial_exam_type parameter.
@@ -635,7 +622,6 @@
             $$ LANGUAGE plpgsql;
         ]]></sql>
         <sql><![CDATA[
-            -- Recreate trigger. Dropped first as recommended when updating related functionality.
             DROP TRIGGER IF EXISTS participant_limit_trigger ON registration;
         ]]></sql>
         <sql splitStatements="false"><![CDATA[

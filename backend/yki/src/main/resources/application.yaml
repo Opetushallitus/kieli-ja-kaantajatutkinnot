@@ -19,8 +19,6 @@ spring:
   task:
     scheduling:
       pool:
-        # The default of 1 makes every @Scheduled method share one thread, so a slow job would stall
-        # the others, email sending included. 16 as in the legacy scheduler; threads start lazily.
         size: 16
   web:
     resources:
@@ -67,7 +65,6 @@ app:
   user-portal:
     success-url: ${app.base-url.public}/kayttaja/tiedot
     expired-url: ${app.base-url.public}/linkki-vanhentunut/:code
-  # No defaults: a missing fee must fail loudly rather than be emailed as a made-up price.
   exam-fee:
     perus: ${exam-fee.perus}
     keski: ${exam-fee.keski}
@@ -99,8 +96,7 @@ app:
     service-url: ${email.service-url:null}
   scheduling:
     registration-queue-handler:
-      # Which backend lifts is decided by the registration_queue_handler.owner runtime flag in the
-      # database, so this is on everywhere; tests turn it off.
+      # Only false for tests, otherwise decided by a runtime flag
       enabled: true
 host:
   alb: ${virkailija.host.alb:localhost:${server.port}}

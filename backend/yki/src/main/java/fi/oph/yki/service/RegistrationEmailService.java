@@ -39,10 +39,6 @@ public class RegistrationEmailService {
   private final ExamFeeService examFeeService;
   private final RegistrationRepository registrationRepository;
 
-  /**
-   * Tells a participant lifted from the queue that they have a place, and how to pay for it. The
-   * payment link is created here, in the caller's transaction, so it is undone with the lift.
-   */
   public void sendLiftedFromQueueEmail(final Registration registration) {
     if (!hasEmailAddress(registration, "lifted-from-queue")) {
       return;
@@ -76,8 +72,6 @@ public class RegistrationEmailService {
     );
     final Participant participant = registration.getParticipant();
     params.put("login_url", loginLinkService.createPaymentLink(participant, registration, locale.getLanguage()));
-    // Deliberately strong_auth rather than legacy's participant.external_user_id = participant.email,
-    // as in sendCancelRegistrationEmail: it belongs to this registration and is not changed later.
     params.put(
       "user_portal_link",
       !Boolean.TRUE.equals(registration.getStrongAuth())
@@ -95,16 +89,14 @@ public class RegistrationEmailService {
     );
   }
 
-  /**
-   * Tells a participant with a free registration that they have been lifted from the queue, which
-   * for them completes the registration. Unlike legacy, this includes the location's extra
-   * information and the organizer's contact details, which both templates render but legacy never
-   * supplied.
-   */
   public void sendLiftedFromQueueForFreeEmail(final Registration registration) {
     if (!hasEmailAddress(registration, "lifted-from-queue for free")) {
       return;
-    }
+      /**
+   * Tells a participant lifted from the queue that they have a place, and how to pay for it. The
+   * payment link is created here, in the caller's transaction, so it is undone with the lift.
+   */
+}
 
     final Locale locale = resolveUiLocale(registration);
     final ExamSession examSession = registration.getExamSession();
@@ -113,7 +105,6 @@ public class RegistrationEmailService {
     final ExamSessionLocation location = resolveLocation(examSession, locale);
     params.put("extra_information", location != null ? location.getExtraInformation() : null);
     params.put("contact_info", contactInfo(examSession));
-    // As in legacy: always the static link, whatever the authentication, and as login_url.
     params.put("login_url", staticUserPortalLink());
 
     saveExamEmail(
@@ -126,11 +117,6 @@ public class RegistrationEmailService {
     );
   }
 
-  /**
-   * Legacy enqueues these with no recipient and the lift stands, so skipping keeps that outcome
-   * while saying so. Throwing instead would roll the lift back on every tick and block the queue
-   * behind this registration.
-   */
   private static boolean hasEmailAddress(final Registration registration, final String emailDescription) {
     if (StringUtils.hasText(registration.getPerson().getEmail())) {
       return true;
@@ -187,9 +173,6 @@ public class RegistrationEmailService {
     emailService.saveEmail(emailType, emailData);
   }
 
-  // From the session's own contact columns, which is what the current clerk UI maintains. Sessions
-  // created through the legacy clerk UI may have their contact only in the contact table, and then
-  // the email has no contact section at all, as legacy's never did.
   private static Map<String, String> contactInfo(final ExamSession examSession) {
     final Map<String, String> contactInfo = new HashMap<>();
     putIfText(contactInfo, "name", examSession.getContactName());
@@ -246,9 +229,6 @@ public class RegistrationEmailService {
     params.put("zip", location != null ? location.getZip() : "");
     params.put("post_office", location != null ? location.getPostOffice() : "");
     final Participant participant = registration.getParticipant();
-    // strongAuth is null for registrations predating its introduction, but cancellation is only
-    // possible while the exam date is still in the future (see RegistrationRepository.cancel), so
-    // any registration reaching this code was created recently enough for strongAuth to be set.
     params.put(
       "user_portal_link",
       !Boolean.TRUE.equals(registration.getStrongAuth())
@@ -278,8 +258,6 @@ public class RegistrationEmailService {
     emailService.saveEmail(emailType, emailData);
   }
 
-  // The language the participant registered in, defaulting to Finnish as legacy does. Not the
-  // certificate language that resolveLocale reads.
   private static Locale resolveUiLocale(final Registration registration) {
     return localeOf(registration.getUiLanguage());
   }
