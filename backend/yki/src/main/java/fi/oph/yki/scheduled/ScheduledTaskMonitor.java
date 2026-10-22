@@ -24,10 +24,13 @@ public class ScheduledTaskMonitor {
   private static final String LOCK_AT_LEAST = "PT1S";
   private static final String LOCK_AT_MOST = "PT4M";
 
+  private static final String LEGACY_QUEUE_HANDLER = "REGISTRATION_QUEUE_HANDLER";
+  private static final String QUEUE_HANDLER = "registrationQueueHandler";
+
   // task interval values from yki-repo
   private static final Map<String, Duration> MONITORED_TASKS = Map.of(
-    "REGISTRATION_QUEUE_HANDLER",
-    Duration.ofMinutes(10), // interval: 29s
+    LEGACY_QUEUE_HANDLER,
+    Duration.ofMinutes(10), // interval: 29s (legacy), 60s (this backend)
     "REGISTRATION_STATE_HANDLER",
     Duration.ofMinutes(10), // interval: 59s
     "PERSONS_SYNC_HANDLER",
@@ -61,8 +64,11 @@ public class ScheduledTaskMonitor {
   @SchedulerLock(name = "scheduledTaskMonitor", lockAtLeastFor = LOCK_AT_LEAST, lockAtMostFor = LOCK_AT_MOST)
   public void monitorScheduledTasks() {
     LOG.info("Monitoring scheduled tasks");
+    final boolean queueHandlerOwnedByThisBackend = isQueueHandlerOwnedByThisBackend();
     MONITORED_TASKS.forEach((@NonNull final String task, final Duration maxAge) -> {
-      if (!isOwnedByThisBackend(task)) {
+      if (LEGACY_QUEUE_HANDLER.equals(task) && queueHandlerOwnedByThisBackend) {
+        checkAge(QUEUE_HANDLER, maxAge, shedLockRepository.findAgeInSeconds(QUEUE_HANDLER), "shedlock");
+      } else {
         checkAge(task, maxAge, taskLockRepository.findAgeInSeconds(task), "task_lock");
       }
     });
@@ -108,15 +114,12 @@ public class ScheduledTaskMonitor {
   }
 
   // Once this backend owns the queue, the legacy row only shows that the legacy scheduler is alive,
-  // and it stops being stamped altogether when the legacy handler is removed, which would report the
-  // job as stalled on every tick.
-  private boolean isOwnedByThisBackend(final String task) {
-    return (
-      "REGISTRATION_QUEUE_HANDLER".equals(task) &&
-      runtimeFlagRepository
-        .findById(RuntimeFlag.REGISTRATION_QUEUE_HANDLER_OWNER)
-        .map(flag -> RuntimeFlag.OWNER_JAVA.equals(flag.getValue()))
-        .orElse(false)
-    );
+  // and it stops being stamped altogether when the legacy handler is removed. The job is then
+  // monitored through this backend's ShedLock row instead.
+  private boolean isQueueHandlerOwnedByThisBackend() {
+    return runtimeFlagRepository
+      .findById(RuntimeFlag.REGISTRATION_QUEUE_HANDLER_OWNER)
+      .map(flag -> RuntimeFlag.OWNER_JAVA.equals(flag.getValue()))
+      .orElse(false);
   }
 }

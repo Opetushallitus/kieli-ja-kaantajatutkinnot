@@ -39,6 +39,10 @@ public class RegistrationEmailService {
   private final ExamFeeService examFeeService;
   private final RegistrationRepository registrationRepository;
 
+  /**
+   * Tells a participant lifted from the queue that they have a place, and how to pay for it. The
+   * payment link is created here, in the caller's transaction, so it is undone with the lift.
+   */
   public void sendLiftedFromQueueEmail(final Registration registration) {
     if (!hasEmailAddress(registration, "lifted-from-queue")) {
       return;
@@ -92,11 +96,7 @@ public class RegistrationEmailService {
   public void sendLiftedFromQueueForFreeEmail(final Registration registration) {
     if (!hasEmailAddress(registration, "lifted-from-queue for free")) {
       return;
-      /**
-   * Tells a participant lifted from the queue that they have a place, and how to pay for it. The
-   * payment link is created here, in the caller's transaction, so it is undone with the lift.
-   */
-}
+    }
 
     final Locale locale = resolveUiLocale(registration);
     final ExamSession examSession = registration.getExamSession();
