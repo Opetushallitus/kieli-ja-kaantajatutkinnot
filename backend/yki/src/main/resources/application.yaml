@@ -16,6 +16,7 @@ spring:
     password: ${postgresql.password:admin}
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.xml
+    contexts: default
   web:
     resources:
       static-locations: classpath:static/
