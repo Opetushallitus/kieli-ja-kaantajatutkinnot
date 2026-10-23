@@ -2,7 +2,9 @@ package fi.oph.yki.koodisto;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.Objects;
@@ -15,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 class KoodistoServiceTest {
 
@@ -81,5 +84,45 @@ class KoodistoServiceTest {
     mockWebServer.enqueue(new MockResponse().setResponseCode(404));
 
     assertNull(koodistoService.getConvertedCountryCode("246"));
+  }
+
+  @Test
+  void getCodesReturnsResponseUnchanged() throws IOException, InterruptedException {
+    final String body =
+      """
+      [
+        {"koodiArvo": "246", "koodisto": {"koodistoUri": "maatjavaltiot2"}},
+        {"koodiArvo": "752", "koodisto": {"koodistoUri": "maatjavaltiot2"}}
+      ]
+      """;
+    mockWebServer.enqueue(
+      new MockResponse()
+        .setResponseCode(200)
+        .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+        .setBody(body)
+    );
+
+    final JsonNode codes = koodistoService.getCodes("maatjavaltiot2");
+
+    assertEquals(new ObjectMapper().readTree(body), codes);
+    final RecordedRequest request = mockWebServer.takeRequest();
+    assertEquals("GET", request.getMethod());
+    assertEquals("/rest/json/maatjavaltiot2/koodi?onlyValidKoodis=true", Objects.requireNonNull(request.getPath()));
+  }
+
+  @Test
+  void getCodesThrowsOnEmptyResponse() {
+    mockWebServer.enqueue(
+      new MockResponse().setResponseCode(200).setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+    );
+
+    assertThrows(RuntimeException.class, () -> koodistoService.getCodes("maatjavaltiot2"));
+  }
+
+  @Test
+  void getCodesThrowsOn500() {
+    mockWebServer.enqueue(new MockResponse().setResponseCode(500));
+
+    assertThrows(WebClientResponseException.class, () -> koodistoService.getCodes("maatjavaltiot2"));
   }
 }
