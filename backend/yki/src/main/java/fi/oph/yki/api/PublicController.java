@@ -4,7 +4,9 @@ import fi.oph.yki.api.dto.PublicEducationAndFreeRegistrationsCountDTO;
 import fi.oph.yki.api.dto.PublicEducationDTO;
 import fi.oph.yki.api.dto.PublicEducationUpdateDTO;
 import fi.oph.yki.api.dto.PublicFreeRegistrationDTO;
+import fi.oph.yki.api.dto.PublicIntegrationAssistanceDecisionDTO;
 import fi.oph.yki.model.Registration;
+import fi.oph.yki.service.IntegrationAssistanceService;
 import fi.oph.yki.service.RegistrationService;
 import fi.oph.yki.service.koski.KoskiService;
 import fi.oph.yki.util.StringUtil;
@@ -34,6 +36,9 @@ public class PublicController {
   @Resource
   private KoskiService koskiService;
 
+  @Resource
+  private IntegrationAssistanceService integrationAssistanceService;
+
   @PostMapping(
     path = "/education/{registrationId:\\d+}",
     consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -59,6 +64,23 @@ public class PublicController {
     }
 
     return registrationService.updateFreeRegistration(registration, educationUpdateDTO);
+  }
+
+  @PostMapping(path = "/integration-assistance/{registrationId:\\d+}")
+  @ResponseStatus(HttpStatus.OK)
+  public PublicIntegrationAssistanceDecisionDTO decideIntegrationAssistance(
+    @PathVariable final long registrationId,
+    final HttpServletRequest request
+  ) {
+    final String oid = StringUtil.getOidFromRequest(request);
+
+    if (oid == null || oid.isEmpty()) {
+      throw new APIException(APIExceptionType.SESSION_OID_NOT_FOUND);
+    }
+
+    final Registration registration = registrationService.findRegistration(registrationId, oid);
+
+    return integrationAssistanceService.decide(registration);
   }
 
   @GetMapping(path = "/education")
