@@ -14,7 +14,7 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
         <h1
           class="MuiTypography-root MuiTypography-h1 css-10l7o3s-MuiTypography-root"
         >
-          unavailable.upcoming.title
+          Ilmoittautumisaika ei ole alkanut
         </h1>
         <div
           class="header-separator MuiBox-root css-0"
@@ -38,20 +38,20 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
                 style="margin-bottom: 2rem;"
               >
                 <b>
-                  yki.common.languages.fin, yki.common.languageLevel.YLIN
+                  suomi, ylin taso
                 </b>
               </h2>
               <dl
                 class="public-registration-exam-session-details__fields"
               >
                 <dt>
-                  partialExams
+                  Osakokeet
                 </dt>
                 <dd>
-                  yki.component.registration.examSessionCard.examType.full
+                  Puheen ymmärtäminen, puhuminen, tekstin ymmärtäminen, kirjoittaminen
                 </dd>
                 <dt>
-                  testFormat
+                  Testityyppi
                 </dt>
                 <dd>
                   <div
@@ -74,40 +74,40 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
                     <p
                       class="MuiTypography-root MuiTypography-body1 exam-session-format__label css-rizt0-MuiTypography-root"
                     >
-                      paper.label
+                      Paperitesti
                     </p>
-                     - paper.description
+                     - Testi tehdään testipaikalla kynällä paperille.
                   </div>
                 </dd>
                 <dt>
-                  examDate
+                  Testipäivä
                 </dt>
                 <dd>
                   12/29/2039
                 </dd>
                 <dt>
-                  institution
+                  Testipaikka
                 </dt>
                 <dd>
                   Amiedu, Jokukatu 4, Tampere
                 </dd>
                 <dt>
-                  registrationTime
+                  Ilmoittautumisaika
                 </dt>
                 <dd>
                   12/01/2030 - 12/10/2039
                 </dd>
                 <dt>
-                  examFee
+                  Tutkintomaksu
                 </dt>
                 <dd>
-                  0 or 200 €
+                  0 tai 200 €
                 </dd>
                 <dt>
-                  openings
+                  Paikkoja vapaana
                 </dt>
                 <dd>
-                  full
+                  Täynnä
                 </dd>
               </dl>
             </div>
@@ -117,14 +117,14 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
               <p
                 class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
               >
-                upcoming.description
+                Ilmoittautuminen ei ole vielä mahdollista. Ilmoittautumisaika ei ole alkanut.
               </p>
               <a
                 class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary fit-content-max-width css-1mns5ui-MuiButtonBase-root-MuiButton-root"
                 href="/yki/ilmoittautuminen"
                 tabindex="0"
               >
-                backToHomePage
+                Takaisin aloitussivulle
               </a>
             </div>
           </div>
@@ -149,7 +149,7 @@ exports[`InitRegistrationPage should not let user proceed if registration period
         <h1
           class="MuiTypography-root MuiTypography-h1 css-10l7o3s-MuiTypography-root"
         >
-          unavailable.past.title
+          Ilmoittautumisaika on päättynyt
         </h1>
         <div
           class="header-separator MuiBox-root css-0"
@@ -173,20 +173,20 @@ exports[`InitRegistrationPage should not let user proceed if registration period
                 style="margin-bottom: 2rem;"
               >
                 <b>
-                  yki.common.languages.fin, yki.common.languageLevel.YLIN
+                  suomi, ylin taso
                 </b>
               </h2>
               <dl
                 class="public-registration-exam-session-details__fields"
               >
                 <dt>
-                  partialExams
+                  Osakokeet
                 </dt>
                 <dd>
-                  yki.component.registration.examSessionCard.examType.listenWrite
+                  Puheen ymmärtäminen ja kirjoittaminen
                 </dd>
                 <dt>
-                  testFormat
+                  Testityyppi
                 </dt>
                 <dd>
                   <div
@@ -209,46 +209,46 @@ exports[`InitRegistrationPage should not let user proceed if registration period
                     <p
                       class="MuiTypography-root MuiTypography-body1 exam-session-format__label css-rizt0-MuiTypography-root"
                     >
-                      paper.label
+                      Paperitesti
                     </p>
-                     - paper.description
+                     - Testi tehdään testipaikalla kynällä paperille.
                   </div>
                 </dd>
                 <dt>
-                  examDate
+                  Testipäivä
                 </dt>
                 <dd>
                   01/01/2035
                 </dd>
                 <dt>
-                  partialExamTimeLabel
+                  Testin alkamisaika
                 </dt>
                 <dd>
-                  partialExamTime
+                  klo 08:00
                 </dd>
                 <dt>
-                  institution
+                  Testipaikka
                 </dt>
                 <dd>
                   Amiedu, Jokukatu 4, Tampere
                 </dd>
                 <dt>
-                  registrationTime
+                  Ilmoittautumisaika
                 </dt>
                 <dd>
                   01/01/2023 - 01/03/2023
                 </dd>
                 <dt>
-                  examFee
+                  Tutkintomaksu
                 </dt>
                 <dd>
-                  0 or 113 €
+                  0 tai 113 €
                 </dd>
                 <dt>
-                  openings
+                  Paikkoja vapaana
                 </dt>
                 <dd>
-                  full
+                  Täynnä
                 </dd>
               </dl>
             </div>
@@ -258,14 +258,14 @@ exports[`InitRegistrationPage should not let user proceed if registration period
               <p
                 class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
               >
-                past.description
+                Tilaisuuteen ilmoittautuminen ei ole enää mahdollista. Ilmoittautumisaika on päättynyt.
               </p>
               <a
                 class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary fit-content-max-width css-1mns5ui-MuiButtonBase-root-MuiButton-root"
                 href="/yki/ilmoittautuminen"
                 tabindex="0"
               >
-                backToHomePage
+                Takaisin aloitussivulle
               </a>
             </div>
           </div>
@@ -291,7 +291,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
           class="rows gapped-xxl"
         >
           <div
-            aria-label="label"
+            aria-label="Ilmoittautumisen vaiheet"
             class="MuiStepper-root MuiStepper-horizontal public-registration__grid__stepper css-ibtndc-MuiStepper-root"
             role="group"
           >
@@ -336,12 +336,12 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-17f73yo-MuiTypography-root"
                     >
-                      phase phaseNumber: step.Identify
+                      Vaihe 1 kautta 4: Tunnistaudu
                     </p>
                     <span
                       aria-hidden="true"
                     >
-                      step.Identify
+                      Tunnistaudu
                     </span>
                   </span>
                 </span>
@@ -395,12 +395,12 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-17f73yo-MuiTypography-root"
                     >
-                      phase phaseNumber: step.Register
+                      Vaihe 2 kautta 4: Tiedot
                     </p>
                     <span
                       aria-hidden="true"
                     >
-                      step.Register
+                      Tiedot
                     </span>
                   </span>
                 </span>
@@ -454,12 +454,12 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-17f73yo-MuiTypography-root"
                     >
-                      phase phaseNumber: step.Payment
+                      Vaihe 3 kautta 4: Maksaminen
                     </p>
                     <span
                       aria-hidden="true"
                     >
-                      step.Payment
+                      Maksaminen
                     </span>
                   </span>
                 </span>
@@ -513,12 +513,12 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-17f73yo-MuiTypography-root"
                     >
-                      phase phaseNumber: step.Done
+                      Vaihe 4 kautta 4: Valmis
                     </p>
                     <span
                       aria-hidden="true"
                     >
-                      step.Done
+                      Valmis
                     </span>
                   </span>
                 </span>
@@ -531,7 +531,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
             <h1
               class="MuiTypography-root MuiTypography-h1 css-10l7o3s-MuiTypography-root"
             >
-              title
+              Tunnistaudu ilmoittautumista varten
             </h1>
             <div
               class="header-separator MuiBox-root css-0"
@@ -556,20 +556,20 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                   style="margin-bottom: 2rem;"
                 >
                   <b>
-                    yki.common.languages.fin, yki.common.languageLevel.KESKI
+                    suomi, keskitaso
                   </b>
                 </h2>
                 <dl
                   class="public-registration-exam-session-details__fields"
                 >
                   <dt>
-                    partialExams
+                    Osakokeet
                   </dt>
                   <dd>
-                    yki.component.registration.examSessionCard.examType.full
+                    Puheen ymmärtäminen, puhuminen, tekstin ymmärtäminen, kirjoittaminen
                   </dd>
                   <dt>
-                    testFormat
+                    Testityyppi
                   </dt>
                   <dd>
                     <div
@@ -592,37 +592,37 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                       <p
                         class="MuiTypography-root MuiTypography-body1 exam-session-format__label css-rizt0-MuiTypography-root"
                       >
-                        paper.label
+                        Paperitesti
                       </p>
-                       - paper.description
+                       - Testi tehdään testipaikalla kynällä paperille.
                     </div>
                   </dd>
                   <dt>
-                    examDate
+                    Testipäivä
                   </dt>
                   <dd>
                     04/06/2019
                   </dd>
                   <dt>
-                    institution
+                    Testipaikka
                   </dt>
                   <dd>
                     Amiedu, Jokukatu 4, Tampere
                   </dd>
                   <dt>
-                    registrationTime
+                    Ilmoittautumisaika
                   </dt>
                   <dd>
                     02/01/2019 - 02/28/2039
                   </dd>
                   <dt>
-                    examFee
+                    Tutkintomaksu
                   </dt>
                   <dd>
                     176 €
                   </dd>
                   <dt>
-                    openings
+                    Paikkoja vapaana
                   </dt>
                   <dd>
                     20
@@ -631,19 +631,24 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
               </div>
               <p
                 class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
-              />
+              >
+                <strong>
+                  Tarkista, että olet valinnut oikean YKI-testin!
+                </strong>
+                 Kun ilmoittautuminen on vahvistettu, et voi vaihtaa YKI-testin kieltä, tasoa, osakokeita, testipaikkaa tai testipäivää.
+              </p>
               <div
                 class="gapped rows"
               >
                 <h2
                   class="MuiTypography-root MuiTypography-h2 css-o2za6n-MuiTypography-root"
                 >
-                  selectIdentificationMethod
+                  Valitse tunnistautumistapasi
                 </h2>
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
                 >
-                  caption
+                  Sinun täytyy tunnistautua ilmoittautumista varten. Käytä tunnistautumiseen sen henkilön tietoja, joka osallistuu YKI-testiin.
                 </p>
                 <div
                   class="rows"
@@ -651,12 +656,12 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                   <h3
                     class="MuiTypography-root MuiTypography-h3 css-13msox4-MuiTypography-root"
                   >
-                    withFinnishSSN.description
+                    Tunnistaudu Suomi.fi-palvelussa
                   </h3>
                   <p
                     class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
                   >
-                    withFinnishSSN.info
+                    Tunnistautumisen jälkeen sinut ohjataan automaattisesti ilmoittautumislomakkeelle.
                   </p>
                 </div>
                 <a
@@ -664,7 +669,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                   href="/yki/auth/?examSessionId=11&toQueue=false&registrationId=123"
                   tabindex="0"
                 >
-                  suomiFiButtonText
+                  Tunnistaudu Suomi.fi-palvelussa
                 </a>
                 <div
                   class="columns"
@@ -689,7 +694,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
                     >
-                      withoutFinnishSSN.description
+                      Tunnistaudu sähköpostillasi
                     </p>
                   </button>
                 </div>
@@ -702,7 +707,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                   <p
                     class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
                   >
-                    withoutFinnishSSN.info
+                    Kun olet tunnistautunut, saat sähköpostiisi linkin. Linkistä pääset jatkamaan ilmoittautumista.
                   </p>
                   <div
                     class="columns gapped align-items-end"
@@ -717,14 +722,14 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                           class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
                         >
                           <b>
-                            label
+                            Kirjoita sähköpostiosoitteesi
                           </b>
                         </p>
                       </label>
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
                       >
-                        placeholder
+                        Esim. nimi@sahkoposti.fi
                       </p>
                       <div
                         class="MuiFormControl-root MuiTextField-root public-registration__grid__form-container__registration-text-field css-1xp5r68-MuiFormControl-root-MuiTextField-root"
@@ -766,7 +771,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                         tabindex="0"
                         type="button"
                       >
-                        emailButtonText
+                        tunnistaudu sähköpostilla
                       </button>
                     </div>
                      
@@ -789,7 +794,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                         tabindex="0"
                         type="button"
                       >
-                        abortRegistration
+                        Keskeytä ilmoittautuminen
                       </button>
                     </a>
                   </div>
