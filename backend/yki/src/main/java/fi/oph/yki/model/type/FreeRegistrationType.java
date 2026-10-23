@@ -10,7 +10,8 @@ public enum FreeRegistrationType {
   DIA,
   EB,
   Other,
-  None;
+  None,
+  IntegrationAssistance;
 
   public static FreeRegistrationType fromEducationDTO(PublicEducationDTO dto) {
     final String educationType = dto.educationType();
