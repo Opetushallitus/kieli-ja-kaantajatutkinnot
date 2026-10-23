@@ -9,7 +9,7 @@ exports[`Header should render Header correctly 1`] = `
     <p
       class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
     >
-      header.accessibility.continueToMain
+      Jatka sisältöön
     </p>
   </a>
   <header
@@ -25,13 +25,13 @@ exports[`Header should render Header correctly 1`] = `
         <p
           class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
         >
-          header.sessionState.activeRegistrations
+          Sinulla on 1 ilmoittautuminen kesken.
         </p>
         <a
           data-discover="true"
           href="/yki/ilmoittautuminen/tutkintotilaisuus/1/999"
         >
-          header.sessionState.continueToRegistration
+          Siirry takaisin ilmoittautumislomakkeelle.
         </a>
       </div>
       <p
@@ -66,7 +66,7 @@ exports[`Header should render Header correctly 1`] = `
             d="m17 8-1.41 1.41L17.17 11H9v2h8.17l-1.58 1.58L17 16l4-4zM5 5h7V3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h7v-2H5z"
           />
         </svg>
-        header.sessionState.logOut
+        Kirjaudu ulos
       </button>
     </div>
     <div
@@ -83,14 +83,14 @@ exports[`Header should render Header correctly 1`] = `
             class="oph-logo columns"
           >
             <img
-              alt="ophLogoToFrontPageAlt"
+              alt="Opetushallitus/Utbildningsstyrelsen – Yleisten kielitutkintojen ilmoittautumissivulle."
               class="header__logo__logo"
               src="test"
             />
             <p
               class="MuiTypography-root MuiTypography-body1 oph-logo__label--bold css-rizt0-MuiTypography-root"
             >
-              appNameAbbreviation
+              YKI
             </p>
           </div>
         </a>
@@ -99,7 +99,7 @@ exports[`Header should render Header correctly 1`] = `
         class="header__tabs"
       >
         <nav
-          aria-label="header.accessibility.mainNavigation"
+          aria-label="Päänavigaatio"
           class="navigation-links"
         >
           <ul>
@@ -112,7 +112,7 @@ exports[`Header should render Header correctly 1`] = `
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
                 >
-                  registration
+                  Ilmoittautuminen
                 </p>
               </a>
             </li>
@@ -125,7 +125,7 @@ exports[`Header should render Header correctly 1`] = `
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
                 >
-                  userRegistrations
+                  Omat ilmoittautumiset
                 </p>
               </a>
             </li>
@@ -138,7 +138,7 @@ exports[`Header should render Header correctly 1`] = `
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
                 >
-                  reassessment
+                  Tarkistusarviointi
                 </p>
               </a>
             </li>
@@ -149,7 +149,7 @@ exports[`Header should render Header correctly 1`] = `
         class="header__language-select"
       >
         <nav
-          aria-label="header.accessibility.langSelectorAriaLabel"
+          aria-label="Kieli / Språk / Language"
           class="lang-selector"
         >
           <svg
@@ -174,7 +174,7 @@ exports[`Header should render Header correctly 1`] = `
               class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
             >
               <b>
-                header.lang.fi
+                Suomeksi
               </b>
             </p>
           </button>
@@ -194,7 +194,7 @@ exports[`Header should render Header correctly 1`] = `
             <p
               class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
             >
-              header.lang.sv
+              På svenska
             </p>
           </button>
           <div
@@ -213,7 +213,7 @@ exports[`Header should render Header correctly 1`] = `
             <p
               class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
             >
-              header.lang.en
+              In English
             </p>
           </button>
         </nav>
@@ -231,7 +231,7 @@ exports[`Header should render Header correctly 1`] = `
       <h2
         id="cookie-banner__title"
       >
-        title
+        Tietoa sivuston evästeistä
       </h2>
       <div
         class="cookie-banner__content__dialog-container"
@@ -243,16 +243,16 @@ exports[`Header should render Header correctly 1`] = `
             class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
             data-testid="cookie-banner-description"
           >
-            description
+            Tämä sivusto käyttää välttämättömiä evästeitä toimiakseen.
           </p>
           <button
-            aria-label="buttonAriaLabel"
+            aria-label="Sulje evästetiedot"
             class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary cookie-banner__content__accept-button css-1mns5ui-MuiButtonBase-root-MuiButton-root"
             data-testid="cookie-banner-accept-button"
             tabindex="0"
             type="button"
           >
-            buttonText
+            Sulje
           </button>
         </div>
       </div>

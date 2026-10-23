@@ -16,15 +16,6 @@ jest.mock('configs/redux', () => ({
   useAppSelector: jest.fn(),
 }));
 
-jest.mock('configs/i18n', () => {
-  const translate = (key: string) => key;
-
-  return {
-    usePublicTranslation: () => ({ t: translate }),
-    useCommonTranslation: () => translate,
-  };
-});
-
 jest.mock('react-router', () => ({
   ...jest.requireActual('react-router'),
   useNavigate: jest.fn(),

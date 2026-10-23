@@ -1,11 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import dayjs from 'dayjs';
-import { APIResponseStatus, AppLanguage } from 'shared/enums';
+import { APIResponseStatus } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
 import { ExamSessionFormat } from 'components/registration/examSession/ExamSessionFormat';
 import { PublicRegistrationGrid } from 'components/registration/PublicRegistrationGrid';
-import { changeLang, initI18nForTests } from 'configs/i18n';
 import { RootState } from 'configs/redux';
 import { ExamLanguage, ExamLevel, RegistrationKind } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
@@ -18,7 +17,6 @@ import { examSessions } from 'tests/msw/fixtures/examSession';
 import { ExamSessionUtils } from 'utils/examSession';
 import { SerializationUtils } from 'utils/serialization';
 
-jest.unmock('configs/i18n');
 jest.mock('shared/hooks', () => ({
   ...jest.requireActual('shared/hooks'),
   useWindowProperties: jest.fn(),
@@ -101,12 +99,7 @@ const expectFormat = (digital: boolean, showDescription = true) => {
   ).toHaveAttribute('aria-hidden', 'true');
 };
 
-beforeAll(async () => {
-  await initI18nForTests();
-});
-
-beforeEach(async () => {
-  await changeLang(AppLanguage.Finnish);
+beforeEach(() => {
   jest.mocked(useWindowProperties).mockReturnValue({
     isPhone: false,
     isTablet: false,

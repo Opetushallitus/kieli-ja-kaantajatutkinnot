@@ -2,7 +2,6 @@ import { render } from '@testing-library/react';
 import * as reactRouterDom from 'react-router';
 import { APIResponseStatus } from 'shared/enums';
 
-import { initI18nForTests } from 'configs/i18n';
 import { RootState } from 'configs/redux';
 import { PaymentStatus } from 'enums/api';
 import { EvaluationOrderStatusPage } from 'pages/EvaluationOrderStatusPage';
@@ -10,13 +9,6 @@ import { initialState as initialEvaluationOrderState } from 'redux/reducers/eval
 import { DefaultProviders } from 'tests/jest/utils/DefaultProviders';
 import { evaluationOrderDetailsResponse } from 'tests/msw/fixtures/evaluationOrder';
 import { SerializationUtils } from 'utils/serialization';
-
-jest.unmock('configs/i18n');
-jest.requireActual('configs/i18n');
-
-beforeAll(() => {
-  initI18nForTests();
-});
 
 const mockUseSearchParams = (params: URLSearchParams) => {
   jest

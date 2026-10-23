@@ -372,40 +372,40 @@ describe('ExamSessionUtils', () => {
   });
 
   describe('getPartialExamTypeText', () => {
-    const keyPrefix = 'yki.component.registration.examSessionCard.examType';
-
     it('should return an empty string when no partial exam type is selected', () => {
       expect(ExamSessionUtils.getPartialExamTypeText('READ_SPEAK')).toEqual('');
     });
 
-    it('should return the full exam type key for FULL sessions', () => {
+    it('should return the translated full exam label for FULL sessions', () => {
       expect(
         ExamSessionUtils.getPartialExamTypeText('FULL', 'ALL_PARTS'),
-      ).toEqual(`${keyPrefix}.full`);
+      ).toEqual(
+        'Puheen ymmärtäminen, puhuminen, tekstin ymmärtäminen, kirjoittaminen',
+      );
     });
 
-    it('should map READ_SPEAK parts to the correct i18n key', () => {
+    it('should return translated labels for READ_SPEAK parts', () => {
       expect(
         ExamSessionUtils.getPartialExamTypeText('READ_SPEAK', 'ALL_PARTS'),
-      ).toEqual(`${keyPrefix}.readSpeak`);
+      ).toEqual('Tekstin ymmärtäminen ja puhuminen');
       expect(
         ExamSessionUtils.getPartialExamTypeText('READ_SPEAK', 'READ'),
-      ).toEqual(`${keyPrefix}.read`);
+      ).toEqual('Tekstin ymmärtäminen');
       expect(
         ExamSessionUtils.getPartialExamTypeText('READ_SPEAK', 'SPEAK'),
-      ).toEqual(`${keyPrefix}.speak`);
+      ).toEqual('Puhuminen');
     });
 
-    it('should map LISTEN_WRITE parts to the correct i18n key', () => {
+    it('should return translated labels for LISTEN_WRITE parts', () => {
       expect(
         ExamSessionUtils.getPartialExamTypeText('LISTEN_WRITE', 'ALL_PARTS'),
-      ).toEqual(`${keyPrefix}.listenWrite`);
+      ).toEqual('Puheen ymmärtäminen ja kirjoittaminen');
       expect(
         ExamSessionUtils.getPartialExamTypeText('LISTEN_WRITE', 'LISTEN'),
-      ).toEqual(`${keyPrefix}.listen`);
+      ).toEqual('Puheen ymmärtäminen');
       expect(
         ExamSessionUtils.getPartialExamTypeText('LISTEN_WRITE', 'WRITE'),
-      ).toEqual(`${keyPrefix}.write`);
+      ).toEqual('Kirjoittaminen');
     });
   });
 

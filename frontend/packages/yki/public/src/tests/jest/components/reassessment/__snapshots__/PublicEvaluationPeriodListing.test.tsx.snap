@@ -5,7 +5,7 @@ exports[`PublicEvaluationPeriodListing should render correctly 1`] = `
   <h2
     class="MuiTypography-root MuiTypography-h2 css-o2za6n-MuiTypography-root"
   >
-    heading
+    Valitse tutkinto, josta haluat pyytää tarkistusarviointia
   </h2>
   <table
     class="MuiTable-root MuiTable-stickyHeader table css-pvu7mv-MuiTable-root"
@@ -20,20 +20,20 @@ exports[`PublicEvaluationPeriodListing should render correctly 1`] = `
           class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader MuiTableCell-sizeMedium css-1jxw05q-MuiTableCell-root"
           scope="col"
         >
-          examination
+          Tutkinto
         </th>
         <th
           class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader MuiTableCell-sizeMedium css-1jxw05q-MuiTableCell-root"
           scope="col"
         >
-          examDate
+          Testipäivä
            
         </th>
         <th
           class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader MuiTableCell-sizeMedium css-1jxw05q-MuiTableCell-root"
           scope="col"
         >
-          evaluationPeriod
+          Aika, jolloin voit pyytää tarkistusarviointia
         </th>
         <th
           class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader MuiTableCell-sizeMedium css-1jxw05q-MuiTableCell-root"
@@ -51,21 +51,21 @@ exports[`PublicEvaluationPeriodListing should render correctly 1`] = `
         <td
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
-          yki.common.languages.fin, yki.common.languageLevel.KESKI
+          suomi, keskitaso
         </td>
         <td
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
-          5/10/2023
+          10.5.2023
         </td>
         <td
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
-          04/01/2023
+          01.04.2023
            
           –
            
-          12/30/2024
+          30.12.2024
         </td>
         <td
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
@@ -76,7 +76,7 @@ exports[`PublicEvaluationPeriodListing should render correctly 1`] = `
             tabindex="0"
             type="button"
           >
-            requestReassessment
+            Pyydä tarkistusarviointia
           </button>
         </td>
       </tr>
@@ -87,21 +87,21 @@ exports[`PublicEvaluationPeriodListing should render correctly 1`] = `
         <td
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
-          yki.common.languages.fin, yki.common.languageLevel.PERUS
+          suomi, perustaso
         </td>
         <td
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
-          12/24/2025
+          24.12.2025
         </td>
         <td
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
         >
-          04/21/2060
+          21.04.2060
            
           –
            
-          05/30/2060
+          30.05.2060
         </td>
         <td
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1dc80h3-MuiTableCell-root"
@@ -113,7 +113,7 @@ exports[`PublicEvaluationPeriodListing should render correctly 1`] = `
             tabindex="-1"
             type="button"
           >
-            evaluationPeriodNotYetOpen
+            Pyydä tarkistusarviointia 21.04.2060 alkaen
           </button>
         </td>
       </tr>
