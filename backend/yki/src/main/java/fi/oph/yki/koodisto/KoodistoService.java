@@ -65,6 +65,9 @@ public class KoodistoService {
     }
   }
 
+  // Note: IF we need to return only partial data from maatjavaltiot2 - endpoint,
+  // remove the configuration allowing 512KB response from AppConfig.
+  // Only maatjavaltiot2 should have responses exceeding the default limit.
   @Cacheable(CacheConfig.KOODISTO_CACHE)
   public JsonNode getCodes(final String collection) {
     return koodistoClient
