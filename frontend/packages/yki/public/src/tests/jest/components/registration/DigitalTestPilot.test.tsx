@@ -4,6 +4,7 @@ import { APIResponseStatus, AppLanguage } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
 import { ExamSessionFormat } from 'components/registration/examSession/ExamSessionFormat';
+import { PublicExamSessionCard } from 'components/registration/examSession/PublicExamSessionCard';
 import { PublicRegistrationGrid } from 'components/registration/PublicRegistrationGrid';
 import { changeLang, initI18nForTests } from 'configs/i18n';
 import { RootState } from 'configs/redux';
@@ -15,7 +16,6 @@ import { ContentSelector } from 'pages/InitRegistrationPage';
 import { initialState as initialRegistrationState } from 'redux/reducers/registration';
 import { DefaultProviders } from 'tests/jest/utils/DefaultProviders';
 import { examSessions } from 'tests/msw/fixtures/examSession';
-import { ExamSessionUtils } from 'utils/examSession';
 import { SerializationUtils } from 'utils/serialization';
 
 jest.unmock('configs/i18n');
@@ -36,13 +36,15 @@ const baseSession = SerializationUtils.deserializeExamSessionResponse(
 const createSession = (
   id: number,
   registrationKind: RegistrationKind,
+  language = ExamLanguage.FIN,
+  date = '2026-11-07',
 ): ExamSession => ({
   ...baseSession,
   id,
   type: 'FULL',
-  language_code: ExamLanguage.FIN,
+  language_code: language,
   level_code: ExamLevel.KESKI,
-  session_date: dayjs('2026-11-07'),
+  session_date: dayjs(date),
   open: true,
   upcoming_admission: true,
   available_registration_kind: registrationKind,
@@ -118,6 +120,28 @@ beforeEach(async () => {
   window.history.replaceState({}, '', '/?submitted=true&status=success');
 });
 
+describe('existing digital test pilot sessions', () => {
+  it.each(pilotIds)(
+    'keeps the digital badge and description for pilot session %i before 2027',
+    (examSessionId) => {
+      render(
+        <DefaultProviders>
+          <ExamSessionFormat
+            examSession={createSession(
+              examSessionId,
+              RegistrationKind.Admission,
+              ExamLanguage.FIN,
+              '2026-11-07',
+            )}
+            showDescription
+          />
+        </DefaultProviders>,
+      );
+      expectFormat(true);
+    },
+  );
+});
+
 describe.each([
   ['digital', 4390],
   ['paper', 4391],
@@ -126,7 +150,7 @@ describe.each([
     const { asFragment } = render(
       <DefaultProviders>
         <ExamSessionFormat
-          examSessionId={examSessionId}
+          examSession={createSession(examSessionId, RegistrationKind.Admission)}
           showDescription={showDescription}
         />
       </DefaultProviders>,
@@ -135,17 +159,38 @@ describe.each([
   });
 });
 
-describe('digital test pilot selection', () => {
-  it.each(pilotIds)('includes pilot exam session %i', (id) => {
-    expect(ExamSessionUtils.isDigitalTest(id)).toBe(true);
-  });
-
+describe.each([false, true])('exam cards with isPhone=%s', (isPhone) => {
   it.each([
-    0, 1, 4262, 4264, 4278, 4280, 4389, 4391, 4414, 4416, 4567, 4569, 4579,
-    4582, 99999,
-  ])('defaults unlisted exam session %i to paper', (id) => {
-    expect(ExamSessionUtils.isDigitalTest(id)).toBe(false);
-  });
+    [ExamLanguage.FIN, '2026-12-31', false],
+    [ExamLanguage.SWE, '2026-12-31', false],
+    [ExamLanguage.FIN, '2027-01-01', true],
+    [ExamLanguage.SWE, '2027-01-01', true],
+    [ExamLanguage.ENG, '2027-01-01', false],
+  ] as const)(
+    'shows the badge without a description for %s exams on %s',
+    (language, date, digital) => {
+      jest.mocked(useWindowProperties).mockReturnValue({
+        isPhone,
+        isTablet: false,
+        isDesktopXS: !isPhone,
+        isDesktop: !isPhone,
+        width: isPhone ? 375 : 1280,
+        height: 800,
+      });
+      const session = createSession(
+        4391,
+        RegistrationKind.Admission,
+        language,
+        date,
+      );
+      render(
+        <DefaultProviders>
+          <PublicExamSessionCard examSession={session} />
+        </DefaultProviders>,
+      );
+      expectFormat(digital, false);
+    },
+  );
 });
 
 describe.each([RegistrationKind.Admission, RegistrationKind.Queue])(
@@ -157,44 +202,62 @@ describe.each([RegistrationKind.Admission, RegistrationKind.Queue])(
       ['submission confirmation', PublicRegistrationFormStep.Register, true],
       ['completion', PublicRegistrationFormStep.Done, true],
     ] as const)('%s', (_label, step, submitted) => {
-      it.each([4390, 4581, 4391])('shows the format of session %i', (id) => {
-        const session = createSession(id, kind);
-        render(
-          <DefaultProviders
-            preloadedState={createState(session, step, submitted)}
-          >
-            {step === PublicRegistrationFormStep.Identify ? (
-              <ContentSelector />
-            ) : (
-              <PublicRegistrationGrid />
-            )}
-          </DefaultProviders>,
-        );
-        expectFormat(id !== 4391);
-        const formatLabel = screen.getByText('Testityyppi');
-        expect(formatLabel.tagName).toBe('DT');
-        expect(formatLabel.nextElementSibling).toContainElement(
-          screen.getByText(id === 4391 ? 'Paperitesti' : 'Digitesti'),
-        );
-        expect(
-          formatLabel.previousElementSibling?.previousElementSibling,
-        ).toHaveTextContent('Osakokeet');
-        expect(
-          formatLabel.nextElementSibling?.nextElementSibling,
-        ).toHaveTextContent('Testipäivä');
-      });
+      it.each([
+        [4390, ExamLanguage.FIN, '2026-11-07', true],
+        [4581, ExamLanguage.FIN, '2026-11-07', true],
+        [4391, ExamLanguage.FIN, '2026-11-07', false],
+        [4391, ExamLanguage.FIN, '2027-01-01', true],
+        [4391, ExamLanguage.SWE, '2027-01-01', true],
+        [4391, ExamLanguage.ENG, '2027-01-01', false],
+      ] as const)(
+        'shows the format of session %i (%s, %s)',
+        (id, language, date, digital) => {
+          const session = createSession(id, kind, language, date);
+          render(
+            <DefaultProviders
+              preloadedState={createState(session, step, submitted)}
+            >
+              {step === PublicRegistrationFormStep.Identify ? (
+                <ContentSelector />
+              ) : (
+                <PublicRegistrationGrid />
+              )}
+            </DefaultProviders>,
+          );
+          expectFormat(digital);
+          const formatLabel = screen.getByText('Testityyppi');
+          expect(formatLabel.tagName).toBe('DT');
+          expect(formatLabel.nextElementSibling).toContainElement(
+            screen.getByText(digital ? 'Digitesti' : 'Paperitesti'),
+          );
+          expect(
+            formatLabel.previousElementSibling?.previousElementSibling,
+          ).toHaveTextContent('Osakokeet');
+          expect(
+            formatLabel.nextElementSibling?.nextElementSibling,
+          ).toHaveTextContent('Testipäivä');
+        },
+      );
     });
   },
 );
 
 describe('payment confirmation from the user portal', () => {
   it.each([
-    [4390, 99999, true],
-    [4391, 4390, false],
+    [4390, 99999, ExamLanguage.FIN, '2026-11-07', true],
+    [4391, 4390, ExamLanguage.FIN, '2026-11-07', false],
+    [4391, 99999, ExamLanguage.FIN, '2027-01-01', true],
+    [4391, 99999, ExamLanguage.SWE, '2027-01-01', true],
+    [4391, 4390, ExamLanguage.ENG, '2027-01-01', false],
   ] as const)(
-    'uses session %i rather than registration %i for the test format',
-    (examSessionId, registrationId, digital) => {
-      const session = createSession(examSessionId, RegistrationKind.Admission);
+    'uses session %i rather than registration %i for the test format (%s, %s)',
+    (examSessionId, registrationId, language, date, digital) => {
+      const session = createSession(
+        examSessionId,
+        RegistrationKind.Admission,
+        language,
+        date,
+      );
       const state = createState(session);
       state.registration!.initRegistration.registrationId = registrationId;
       state.confirmRegistration = {
