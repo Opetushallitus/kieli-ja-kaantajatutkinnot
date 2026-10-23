@@ -13,13 +13,21 @@ import { AuthenticatedSession } from 'interfaces/session';
 import { PersonRegistrations } from 'interfaces/userDetails';
 
 export class ExamSessionUtils {
-  // OPHKIOS-383: the digital test pilot is limited to these exam sessions.
   private static readonly digitalTestPilotIds = [
     4390, 4415, 4279, 4580, 4568, 4263, 4581,
   ];
 
-  static isDigitalTest(examSessionId: number): boolean {
-    return ExamSessionUtils.digitalTestPilotIds.includes(examSessionId);
+  static isDigitalTest({
+    id,
+    language_code,
+    session_date,
+  }: Pick<ExamSession, 'id' | 'language_code' | 'session_date'>): boolean {
+    return (
+      ExamSessionUtils.digitalTestPilotIds.includes(id) ||
+      ((language_code === ExamLanguage.FIN ||
+        language_code === ExamLanguage.SWE) &&
+        session_date.year() >= 2027)
+    );
   }
 
   private static getRegistrationAvailablePlaces(
