@@ -10,6 +10,7 @@ import fi.oph.yki.api.dto.oauth2.EvaluationStatesDTO;
 import fi.oph.yki.api.dto.oauth2.EvaluationStatesResponseDTO;
 import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.audit.YkiOperation;
+import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.FreeRegistration;
 import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
@@ -17,6 +18,9 @@ import fi.oph.yki.model.RegistrationEvaluation;
 import fi.oph.yki.model.type.EvaluationState;
 import fi.oph.yki.model.type.FreeRegistrationSource;
 import fi.oph.yki.model.type.FreeRegistrationType;
+import fi.oph.yki.model.type.LanguageCode;
+import fi.oph.yki.model.type.LevelCode;
+import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.repository.FreeRegistrationRepository;
 import fi.oph.yki.repository.PersonRepository;
 import fi.oph.yki.repository.RegistrationEvaluationRepository;
@@ -44,6 +48,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class RegistrationService {
 
   private static final Logger LOG = LoggerFactory.getLogger(RegistrationService.class);
+  private static final Set<String> FREE_REGISTRATION_LANGUAGES = Set.of(
+    LanguageCode.fin.name(),
+    LanguageCode.swe.name()
+  );
   private final RegistrationRepository registrationRepository;
   private final FreeRegistrationRepository freeRegistrationRepository;
   private final PersonRepository personRepository;
@@ -80,11 +88,32 @@ public class RegistrationService {
     }
   }
 
+  private static boolean isFreeRegistrationAllowed(final Registration registration) {
+    final ExamSession examSession = registration.getExamSession();
+
+    return (
+      registration.getState() == RegistrationState.STARTED &&
+      LevelCode.YLIN.name().equals(examSession.getLevel()) &&
+      FREE_REGISTRATION_LANGUAGES.contains(examSession.getLanguage())
+    );
+  }
+
   @Transactional
   public PublicFreeRegistrationDTO updateFreeRegistration(
     final Registration registration,
     final PublicEducationUpdateDTO educationUpdateDTO
   ) {
+    if (!isFreeRegistrationAllowed(registration)) {
+      LOG.warn(
+        "Free registration not allowed. registrationId: {}, state: {}, level: {}, language: {}",
+        registration.getId(),
+        registration.getState(),
+        registration.getExamSession().getLevel(),
+        registration.getExamSession().getLanguage()
+      );
+      throw new APIException(APIExceptionType.FREE_REGISTRATION_NOT_ALLOWED);
+    }
+
     PublicEducationBasisDTO basis = educationUpdateDTO.basis();
     FreeRegistrationSource source = basis.source();
     final FreeRegistration freeRegistration = registration.getFreeRegistration() == null
