@@ -5,7 +5,11 @@ import { use } from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
 import { ClerkExamSessionRegistrations } from 'components/clerkExamSession/ClerkExamSessionRegistrations';
-import { RegistrationKind, RegistrationStates } from 'enums/app';
+import {
+  ExamSessionType,
+  RegistrationKind,
+  RegistrationStates,
+} from 'enums/app';
 import { ClerkRegistration } from 'interfaces/clerkRegistration';
 import { RouteType } from 'interfaces/user';
 import commonFI from 'public/i18n/fi-FI/common.json';
@@ -104,5 +108,79 @@ describe.each<RouteType>(['clerk', 'organizer'])(
       expect(screen.getByText('Erääntynyt')).toBeInTheDocument();
       expect(screen.queryByText('Peru osallistuminen')).not.toBeInTheDocument();
     });
+    it('labels full exams as all subtests without redundant participant counts', () => {
+      render(
+        <DefaultProviders>
+          <ClerkExamSessionRegistrations
+            examSession={examSession}
+            route={route}
+          />
+        </DefaultProviders>,
+      );
+      expect(screen.getAllByText('Kaikki osakokeet')).toHaveLength(2);
+      expect(screen.queryByText('Koko tutkinto')).not.toBeInTheDocument();
+      expect(screen.queryByText(/Ilmoittautuneita:/)).not.toBeInTheDocument();
+    });
+
+    it.each([
+      {
+        type: ExamSessionType.READ_SPEAK,
+        first: 'READ',
+        second: 'SPEAK',
+        firstLabel: 'Tekstin ymmärtäminen',
+        secondLabel: 'Puhuminen',
+        combinedLabel: 'Tekstin ymmärtäminen ja puhuminen',
+      },
+      {
+        type: ExamSessionType.LISTEN_WRITE,
+        first: 'LISTEN',
+        second: 'WRITE',
+        firstLabel: 'Puheen ymmärtäminen',
+        secondLabel: 'Kirjoittaminen',
+        combinedLabel: 'Puheen ymmärtäminen ja kirjoittaminen',
+      },
+    ])(
+      'counts only active admissions, including combinations for $type',
+      async ({
+        type,
+        first,
+        second,
+        firstLabel,
+        secondLabel,
+        combinedLabel,
+      }) => {
+        const user = userEvent.setup();
+        render(
+          <DefaultProviders>
+            <ClerkExamSessionRegistrations
+              examSession={{
+                ...examSession,
+                type,
+                registrations: [
+                  ...examSession.registrations,
+                  {
+                    ...registration(9, RegistrationStates.Completed),
+                    partialExamType: first,
+                  },
+                  {
+                    ...registration(10, RegistrationStates.Submitted),
+                    partialExamType: second,
+                  },
+                ],
+              }}
+              route={route}
+            />
+          </DefaultProviders>,
+        );
+        expect(screen.getByText(`${firstLabel}: 3 / 10`)).toBeInTheDocument();
+        expect(screen.getByText(`${secondLabel}: 3 / 10`)).toBeInTheDocument();
+        expect(screen.getByText(`${combinedLabel}: 2`)).toBeInTheDocument();
+        expect(screen.getAllByText(combinedLabel)).toHaveLength(2);
+        await user.click(screen.getByRole('button', { name: 'Jonossa (1)' }));
+        expect(
+          screen.queryByText(`${combinedLabel}: 2`),
+        ).not.toBeInTheDocument();
+      },
+    );
   },
 );
