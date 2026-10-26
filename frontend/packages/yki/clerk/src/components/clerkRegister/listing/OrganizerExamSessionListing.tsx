@@ -168,6 +168,7 @@ export const OrganizerExamSessionListing = ({
   return (
     <ListTable
       data-testid={testId}
+      sx={{ '& a': { textDecoration: 'none' } }}
       rows={subtestRows}
       rowKeyProp="rowId"
       columns={columns}
