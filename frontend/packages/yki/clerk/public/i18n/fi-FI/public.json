@@ -209,6 +209,8 @@
           "participants": "Ilmoittautuneita: {{count}} / {{max}}",
           "participantsListen": "Puheen ymmärtäminen: {{count}} / {{max}}",
           "participantsRead": "Tekstin ymmärtäminen: {{count}} / {{max}}",
+          "participantsReadSpeak": "Tekstin ymmärtäminen ja puhuminen: {{count}}",
+          "participantsListenWrite": "Puheen ymmärtäminen ja kirjoittaminen: {{count}}",
           "participantsSpeak": "Puhuminen: {{count}} / {{max}}",
           "participantsWrite": "Kirjoittaminen: {{count}} / {{max}}"
         },
