@@ -209,6 +209,8 @@
           "participants": "Anmälda: {{count}} / {{max}}",
           "participantsListen": "Talförståelse: {{count}} / {{max}}",
           "participantsRead": "Textförståelse: {{count}} / {{max}}",
+          "participantsReadSpeak": "Textförståelse och muntlig framställning: {{count}}",
+          "participantsListenWrite": "Talförståelse och skriftlig framställning: {{count}}",
           "participantsSpeak": "Muntlig framställning: {{count}} / {{max}}",
           "participantsWrite": "Skriftlig framställning: {{count}} / {{max}}"
         },

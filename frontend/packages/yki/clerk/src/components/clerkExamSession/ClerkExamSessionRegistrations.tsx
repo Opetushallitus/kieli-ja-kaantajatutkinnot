@@ -100,10 +100,6 @@ export const ClerkExamSessionRegistrations = ({
     id: examSessionId,
     registrations: examRegistrations,
     type: examSessionType,
-    participants,
-    participantsReadListen,
-    participantsSpeakWrite,
-    maxParticipantsTotal,
     maxParticipantsReadListen,
     maxParticipantsSpeakWrite,
     language,
@@ -150,7 +146,10 @@ export const ClerkExamSessionRegistrations = ({
     title: t('columns.partialExamType'),
     render: ({ partialExamType }) => {
       const displayType =
-        partialExamType === 'ALL_PARTS' ? examSessionType : partialExamType;
+        partialExamType === 'ALL_PARTS' &&
+        examSessionType !== ExamSessionType.FULL
+          ? examSessionType
+          : partialExamType;
 
       return <Text>{t(`values.partialExamType.${displayType}`)}</Text>;
     },
@@ -342,29 +341,48 @@ export const ClerkExamSessionRegistrations = ({
           />
         </div>
         <div className="grid-2-columns">
-          {examSessionType === ExamSessionType.FULL ? (
-            <Text>
-              {tButtons('participants', {
-                count: participants,
-                max: maxParticipantsTotal,
-              })}
-            </Text>
-          ) : (
-            <div className="rows gapped-xxs">
-              <Text>
-                {tButtons(translatePartialExamTypeReadListen(), {
-                  count: participantsReadListen,
-                  max: maxParticipantsReadListen,
-                })}
-              </Text>
-              <Text>
-                {tButtons(translatePartialExamTypeSpeakWrite(), {
-                  count: participantsSpeakWrite,
-                  max: maxParticipantsSpeakWrite,
-                })}
-              </Text>
-            </div>
-          )}
+          <div>
+            {activeTab === 'admissions' &&
+              examSessionType !== ExamSessionType.FULL && (
+                <div className="rows gapped-xxs">
+                  <Text>
+                    {tButtons(translatePartialExamTypeReadListen(), {
+                      count: registrationsByTab.admissions.filter(
+                        ({ partialExamType }) =>
+                          ['READ', 'LISTEN', 'ALL_PARTS'].includes(
+                            partialExamType,
+                          ),
+                      ).length,
+                      max: maxParticipantsReadListen,
+                    })}
+                  </Text>
+                  <Text>
+                    {tButtons(translatePartialExamTypeSpeakWrite(), {
+                      count: registrationsByTab.admissions.filter(
+                        ({ partialExamType }) =>
+                          ['SPEAK', 'WRITE', 'ALL_PARTS'].includes(
+                            partialExamType,
+                          ),
+                      ).length,
+                      max: maxParticipantsSpeakWrite,
+                    })}
+                  </Text>
+                  <Text>
+                    {tButtons(
+                      examSessionType === ExamSessionType.READ_SPEAK
+                        ? 'participantsReadSpeak'
+                        : 'participantsListenWrite',
+                      {
+                        count: registrationsByTab.admissions.filter(
+                          ({ partialExamType }) =>
+                            partialExamType === 'ALL_PARTS',
+                        ).length,
+                      },
+                    )}
+                  </Text>
+                </div>
+              )}
+          </div>
           <div className="clerk-exam-session-registrations__filter-buttons">
             <OphButton
               color="primary"
