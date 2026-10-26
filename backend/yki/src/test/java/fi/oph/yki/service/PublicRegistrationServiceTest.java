@@ -3,19 +3,29 @@ package fi.oph.yki.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.Mockito.when;
 
 import fi.oph.yki.Factory;
 import fi.oph.yki.PostgresTestcontainerConfig;
+import fi.oph.yki.api.dto.PublicRegistrationFormDTO;
 import fi.oph.yki.api.dto.PublicRegistrationInitDTO;
 import fi.oph.yki.api.dto.PublicRegistrationInitResponseDTO;
+import fi.oph.yki.api.dto.PublicRegistrationSubmitResponseDTO;
 import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.Identity;
+import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
 import fi.oph.yki.model.type.ExamSessionType;
 import fi.oph.yki.model.type.PartialExamType;
 import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
+import fi.oph.yki.onr.OnrService;
 import fi.oph.yki.repository.ExamSessionRepository;
 import fi.oph.yki.repository.RegistrationRepository;
 import fi.oph.yki.util.exception.APIException;
@@ -23,6 +33,9 @@ import fi.oph.yki.util.exception.APIExceptionType;
 import jakarta.annotation.Resource;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -31,6 +44,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 @WithMockUser
 @DataJpaTest
@@ -48,11 +62,15 @@ public class PublicRegistrationServiceTest {
   @Resource
   private TestEntityManager entityManager;
 
+  @MockitoBean
+  private OnrService onrService;
+
   private PublicRegistrationService publicRegistrationService;
 
   @BeforeEach
   public void setup() {
-    publicRegistrationService = new PublicRegistrationService(registrationRepository, examSessionRepository);
+    publicRegistrationService =
+      new PublicRegistrationService(registrationRepository, examSessionRepository, onrService);
   }
 
   private ExamDate openExamDate() {
@@ -384,5 +402,106 @@ public class PublicRegistrationServiceTest {
     assertNotNull(result);
     assertEquals(PartialExamType.READ, result.partialExamType());
     assertEquals(RegistrationKind.ADMISSION, result.registrationKind());
+  }
+
+  private Registration persistStartedRegistration(final Identity identity) {
+    final ExamDate examDate = openExamDate();
+    final ExamSession examSession = Factory.examSession(examDate);
+
+    entityManager.persist(examDate);
+    entityManager.persist(examSession);
+
+    final Registration registration = new Registration();
+    registration.setExamSession(examSession);
+    registration.setIdentity(identity);
+    registration.setState(RegistrationState.STARTED);
+    registration.setKind(RegistrationKind.ADMISSION);
+    registration.setPartialExamType(PartialExamType.ALL_PARTS);
+    registration.setCreatedAt(LocalDateTime.now());
+    entityManager.persist(registration);
+    entityManager.flush();
+    entityManager.clear();
+
+    return registration;
+  }
+
+  private PublicRegistrationFormDTO formDTO() {
+    return PublicRegistrationFormDTO
+      .builder()
+      .firstName("Testi")
+      .lastName("Henkilö")
+      .nationalities(List.of("246"))
+      .certificateLang("fi")
+      .examLang("fi")
+      .birthdate("1990-01-01")
+      .postOffice("Helsinki")
+      .zip("00100")
+      .streetAddress("Testikatu 1")
+      .phoneNumber("+358401234567")
+      .email("testi@example.com")
+      .build();
+  }
+
+  @Test
+  public void testSubmitRegistrationGetsPersonFromOnr() throws Exception {
+    final Identity identity = persistIdentity();
+    final Registration registration = persistStartedRegistration(identity);
+    final PublicRegistrationFormDTO form = formDTO();
+    when(onrService.findOrCreatePerson(form, registration.getId())).thenReturn(Optional.of("1.2.246.562.24.1"));
+
+    final PublicRegistrationSubmitResponseDTO result = publicRegistrationService.submitRegistration(
+      identity,
+      registration.getId(),
+      "fi",
+      form
+    );
+
+    assertTrue(result.success());
+    verify(onrService).findOrCreatePerson(form, registration.getId());
+  }
+
+  @Test
+  public void testSubmitRegistrationUsesPersonOfIdentityWithoutCallingOnr() {
+    final Person person = Factory.person();
+    entityManager.persist(person);
+    final Identity identity = persistIdentity();
+    identity.setPerson(person);
+    final Registration registration = persistStartedRegistration(identity);
+
+    final PublicRegistrationSubmitResponseDTO result = publicRegistrationService.submitRegistration(
+      identity,
+      registration.getId(),
+      "fi",
+      formDTO()
+    );
+
+    assertTrue(result.success());
+    verifyNoInteractions(onrService);
+  }
+
+  @Test
+  public void testSubmitRegistrationFailsWhenOnrReturnsNoPerson() throws Exception {
+    final Identity identity = persistIdentity();
+    final Registration registration = persistStartedRegistration(identity);
+    when(onrService.findOrCreatePerson(any(), anyLong())).thenReturn(Optional.empty());
+
+    final APIException ex = assertThrows(
+      APIException.class,
+      () -> publicRegistrationService.submitRegistration(identity, registration.getId(), "fi", formDTO())
+    );
+    assertEquals(APIExceptionType.PERSON_CREATION_FAILED, ex.getExceptionType());
+  }
+
+  @Test
+  public void testSubmitRegistrationFailsWhenOnrCallFails() throws Exception {
+    final Identity identity = persistIdentity();
+    final Registration registration = persistStartedRegistration(identity);
+    when(onrService.findOrCreatePerson(any(), anyLong())).thenThrow(new ExecutionException("timeout", null));
+
+    final APIException ex = assertThrows(
+      APIException.class,
+      () -> publicRegistrationService.submitRegistration(identity, registration.getId(), "fi", formDTO())
+    );
+    assertEquals(APIExceptionType.PERSON_CREATION_FAILED, ex.getExceptionType());
   }
 }
