@@ -344,5 +344,56 @@ describe.each<RouteType>(['clerk', 'organizer'])(
         ).toEqual(['3', '2', '4', '1']);
       }
     });
+    it('filters paid admissions while preserving totals, sorting and the other tabs', async () => {
+      const user = userEvent.setup();
+      render(
+        <DefaultProviders>
+          <ClerkExamSessionRegistrations
+            examSession={{ ...examSession, type: ExamSessionType.READ_SPEAK }}
+            route={route}
+          />
+        </DefaultProviders>,
+      );
+      await user.click(
+        screen.getByRole('checkbox', { name: 'Näytä vain maksaneet' }),
+      );
+      expect(participantNames()).toEqual(['Person1 Testaaja']);
+      expect(
+        screen.getByRole('button', { name: 'Ilmoittautuneet (2)' }),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText('Tekstin ymmärtäminen ja puhuminen: 2'),
+      ).toBeInTheDocument();
+      await user.click(
+        screen.getByRole('button', {
+          name: publicFI.yki.component.clerkCustomer.details.listing.columns
+            .personName,
+        }),
+      );
+      expect(participantNames()).toEqual(['Person1 Testaaja']);
+      await user.click(screen.getByRole('button', { name: 'Jonossa (1)' }));
+      expect(participantNames()).toEqual(['Person3 Testaaja']);
+      expect(
+        screen.queryByRole('checkbox', { name: 'Näytä vain maksaneet' }),
+      ).not.toBeInTheDocument();
+      await user.click(
+        screen.getByRole('button', { name: 'Maksanut ja peruttu (1)' }),
+      );
+      expect(participantNames()).toEqual(['Person4 Testaaja']);
+      await user.click(
+        screen.getByRole('button', { name: 'Ilmoittautuneet (2)' }),
+      );
+      expect(
+        screen.getByRole('checkbox', { name: 'Näytä vain maksaneet' }),
+      ).toBeChecked();
+      expect(participantNames()).toEqual(['Person1 Testaaja']);
+      await user.click(
+        screen.getByRole('checkbox', { name: 'Näytä vain maksaneet' }),
+      );
+      expect(participantNames()).toEqual([
+        'Person1 Testaaja',
+        'Person2 Testaaja',
+      ]);
+    });
   },
 );
