@@ -5,7 +5,7 @@ import { MemoryRouter } from 'react-router';
 
 import { OrganizerExamSessionListing } from 'components/clerkRegister/listing/OrganizerExamSessionListing';
 import { initI18n } from 'configs/i18n';
-import { ExamLanguage, ExamLevel } from 'enums/app';
+import { ExamLanguage, ExamLevel, ExamSessionType } from 'enums/app';
 import { ExamSession } from 'interfaces/examSessions';
 import { examSessions } from 'tests/msw/fixtures/examSession';
 import { SerializationUtils } from 'utils/serialization';
@@ -47,7 +47,10 @@ const links = () =>
 const ids = () => links().map((link) => Number(link!.split('/').pop()));
 
 beforeAll(async () => {
-  global.REACT_ENV_PRODUCTION = true;
+  Object.defineProperty(global, 'REACT_ENV_PRODUCTION', {
+    value: true,
+    configurable: true,
+  });
   await initI18n();
 });
 
@@ -123,3 +126,32 @@ it('sorts each requested column in both directions and restores the default orde
     within(screen.getAllByRole('row')[1]).getByText('1.9.2026 – 31.12.2030'),
   ).toBeInTheDocument();
 });
+
+it.each([
+  [ExamSessionType.READ_SPEAK, 'Tekstin ymmärtäminen', 'Puhuminen'],
+  [ExamSessionType.LISTEN_WRITE, 'Puheen ymmärtäminen', 'Kirjoittaminen'],
+])(
+  'shows separate counts and capacities for %s and keeps its rows together when sorting',
+  async (type, firstPart, secondPart) => {
+    const user = userEvent.setup();
+    renderListing([
+      session(1, '2026-11-01', {
+        type,
+        participants_read_listen: 2,
+        participants_speak_write: 3,
+        max_participants_read_listen: 12,
+        max_participants_speak_write: 8,
+      }),
+      session(2, '2026-12-01'),
+    ]);
+    const rows = screen.getAllByRole('row');
+    expect(within(rows[1]).getByText(firstPart)).toBeInTheDocument();
+    expect(within(rows[1]).getByText('2 / 12')).toBeInTheDocument();
+    expect(within(rows[2]).getByText(secondPart)).toBeInTheDocument();
+    expect(within(rows[2]).getByText('3 / 8')).toBeInTheDocument();
+    expect(within(rows[3]).getByText('Kaikki osakokeet')).toBeInTheDocument();
+    expect(within(rows[3]).getByText('15 / 15')).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Tutkintopäivä' }));
+    expect(ids()).toEqual([2, 1, 1]);
+  },
+);
