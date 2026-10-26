@@ -14,8 +14,16 @@ import fi.oph.yki.api.dto.clerk.ClerkOrganizerUpdateDTO;
 import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.audit.LoggerImpl;
 import fi.oph.yki.config.Constants;
+import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamLanguage;
+import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.Organizer;
+import fi.oph.yki.model.Person;
+import fi.oph.yki.model.Registration;
+import fi.oph.yki.model.type.ExamSessionType;
+import fi.oph.yki.model.type.PartialExamType;
+import fi.oph.yki.model.type.RegistrationKind;
+import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.repository.ExamLanguageRepository;
 import fi.oph.yki.repository.ExamSessionRepository;
 import fi.oph.yki.repository.OrganizerRepository;
@@ -26,6 +34,8 @@ import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
@@ -62,6 +72,83 @@ public class ClerkOrganizerServiceTest {
     );
     clerkOrganizerService =
       new ClerkOrganizerService(organizerRepository, examLanguageRepository, examSessionRepository, auditService);
+  }
+
+  @ParameterizedTest
+  @EnumSource(ExamSessionType.class)
+  public void testExamSessionListingCountsOnlyActiveAdmissionsBySubtest(final ExamSessionType type) {
+    final Organizer organizer = entityManager.persist(Factory.organizer());
+    final ExamDate examDate = Factory.examDate();
+    examDate.setExamType(type);
+    entityManager.persist(examDate);
+    final ExamSession examSession = Factory.examSession(examDate);
+    examSession.setOrganizer(organizer);
+    examSession.setType(type);
+    examSession.setMaxParticipantsReadListen(12);
+    examSession.setMaxParticipantsSpeakWrite(8);
+    entityManager.persist(examSession);
+    entityManager.persist(Factory.examSessionLocation(examSession));
+    final PartialExamType firstPart = type == ExamSessionType.READ_SPEAK
+      ? PartialExamType.READ
+      : PartialExamType.LISTEN;
+    final PartialExamType secondPart = type == ExamSessionType.READ_SPEAK
+      ? PartialExamType.SPEAK
+      : PartialExamType.WRITE;
+    addRegistration(examSession, PartialExamType.ALL_PARTS, RegistrationState.COMPLETED, RegistrationKind.ADMISSION);
+    if (type != ExamSessionType.FULL) {
+      addRegistration(examSession, firstPart, RegistrationState.SUBMITTED, RegistrationKind.ADMISSION);
+      addRegistration(examSession, secondPart, RegistrationState.COMPLETED, RegistrationKind.ADMISSION);
+      addRegistration(examSession, secondPart, RegistrationState.SUBMITTED, RegistrationKind.ADMISSION);
+    }
+    addRegistration(examSession, PartialExamType.ALL_PARTS, RegistrationState.CANCELLED, RegistrationKind.ADMISSION);
+    addRegistration(examSession, PartialExamType.ALL_PARTS, RegistrationState.STARTED, RegistrationKind.ADMISSION);
+    addRegistration(examSession, PartialExamType.ALL_PARTS, RegistrationState.EXPIRED, RegistrationKind.ADMISSION);
+    addRegistration(
+      examSession,
+      PartialExamType.ALL_PARTS,
+      RegistrationState.PAID_AND_CANCELLED,
+      RegistrationKind.ADMISSION
+    );
+    // Queue registration requires a full session; afterwards the organizer increases capacity.
+    examSession.setMaxParticipants(type == ExamSessionType.FULL ? 2 : 5);
+    entityManager.flush();
+    addRegistration(examSession, PartialExamType.ALL_PARTS, RegistrationState.SUBMITTED, RegistrationKind.QUEUE);
+    examSession.setMaxParticipants(20);
+    entityManager.flush();
+    entityManager.clear();
+
+    final var result = clerkOrganizerService.getExamSessionsByOrganizerOid(
+      organizer.getOid(),
+      LocalDate.of(2026, 1, 1)
+    );
+    assertEquals(1, result.size());
+    final var session = result.getFirst();
+    assertEquals(type, session.type());
+    assertEquals(type == ExamSessionType.FULL ? 1 : 4, session.participants());
+    assertEquals(type == ExamSessionType.FULL ? 1 : 2, session.participantsReadListen());
+    assertEquals(type == ExamSessionType.FULL ? 1 : 3, session.participantsSpeakWrite());
+    assertEquals(20, session.maxParticipants());
+    assertEquals(12, session.maxParticipantsReadListen());
+    assertEquals(8, session.maxParticipantsSpeakWrite());
+    assertEquals(1, session.queue());
+  }
+
+  private void addRegistration(
+    final ExamSession examSession,
+    final PartialExamType partialExamType,
+    final RegistrationState state,
+    final RegistrationKind kind
+  ) {
+    final Person person = Factory.person();
+    person.setOid("1.2.3.4.5." + examSession.getRegistrations().size());
+    entityManager.persist(person);
+    final Registration registration = Factory.registration(person);
+    registration.setExamSession(examSession);
+    registration.setPartialExamType(partialExamType);
+    registration.setState(state);
+    registration.setKind(kind);
+    entityManager.persist(registration);
+    examSession.getRegistrations().add(registration);
   }
 
   @Test

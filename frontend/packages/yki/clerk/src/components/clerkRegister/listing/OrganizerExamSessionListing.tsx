@@ -5,10 +5,17 @@ import { Link } from 'react-router';
 import { ListTable } from 'components/oph-design/table/list-table';
 import { ListTableColumn } from 'components/oph-design/table/table-types';
 import { usePublicTranslation } from 'configs/i18n';
-import { AppRoutes, ExamLevel } from 'enums/app';
+import { AppRoutes, ExamLevel, ExamSessionType } from 'enums/app';
 import { ExamSession } from 'interfaces/examSessions';
 import { RouteType } from 'interfaces/user';
 import { languageToString, levelDescription } from 'utils/clerk';
+
+type ExamSessionRow = ExamSession & {
+  rowId: string;
+  subtest: 'ALL_PARTS' | 'READ' | 'SPEAK' | 'LISTEN' | 'WRITE';
+  subtestParticipants: number;
+  subtestCapacity: number | null;
+};
 
 const levels = [ExamLevel.PERUS, ExamLevel.KESKI, ExamLevel.YLIN];
 
@@ -75,7 +82,38 @@ export const OrganizerExamSessionListing = ({
       );
     });
 
-  const columns: ListTableColumn<ExamSession>[] = [
+  const subtestRows = rows.flatMap<ExamSessionRow>((exam) => {
+    if (exam.type === ExamSessionType.FULL) {
+      return [
+        {
+          ...exam,
+          rowId: `${exam.id}-ALL_PARTS`,
+          subtest: 'ALL_PARTS',
+          subtestParticipants: exam.participants,
+          subtestCapacity: exam.max_participants,
+        },
+      ];
+    }
+
+    return [
+      {
+        ...exam,
+        rowId: `${exam.id}-read-listen`,
+        subtest: exam.type === ExamSessionType.READ_SPEAK ? 'READ' : 'LISTEN',
+        subtestParticipants: exam.participants_read_listen,
+        subtestCapacity: exam.max_participants_read_listen,
+      },
+      {
+        ...exam,
+        rowId: `${exam.id}-speak-write`,
+        subtest: exam.type === ExamSessionType.READ_SPEAK ? 'SPEAK' : 'WRITE',
+        subtestParticipants: exam.participants_speak_write,
+        subtestCapacity: exam.max_participants_speak_write,
+      },
+    ];
+  });
+
+  const columns: ListTableColumn<ExamSessionRow>[] = [
     {
       key: 'session_date',
       title: t('header.sessionDate'),
@@ -115,17 +153,23 @@ export const OrganizerExamSessionListing = ({
         `${exam.registration_start_date.format('D.M.YYYY')} – ${exam.registration_end_date.format('D.M.YYYY')}`,
     },
     {
+      key: 'subtest',
+      title: t('header.subtest'),
+      render: (exam) => t(`subtests.${exam.subtest}`),
+    },
+    {
       key: 'participants',
       title: t('header.registrations'),
-      render: (exam) => `${exam.participants} / ${exam.max_participants}`,
+      render: (exam) =>
+        `${exam.subtestParticipants} / ${exam.subtestCapacity ?? '–'}`,
     },
   ];
 
   return (
     <ListTable
       data-testid={testId}
-      rows={rows}
-      rowKeyProp="id"
+      rows={subtestRows}
+      rowKeyProp="rowId"
       columns={columns}
       sort={sort}
       setSort={(value) => setSort(value || defaultSort)}
