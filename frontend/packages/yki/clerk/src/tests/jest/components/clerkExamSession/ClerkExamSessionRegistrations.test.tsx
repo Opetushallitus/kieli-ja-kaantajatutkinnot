@@ -49,6 +49,43 @@ const examSession = {
   ],
 };
 
+const sortableRegistrations = [
+  {
+    ...registration(1, RegistrationStates.Completed),
+    person: { ...registrations[0].person, firstName: 'Zed', lastName: 'Öhman' },
+    partialExamType: 'ALL_PARTS',
+    registrationDate: dayjs('2026-01-15'),
+  },
+  {
+    ...registration(2, RegistrationStates.Submitted),
+    person: { ...registrations[0].person, firstName: 'Zed', lastName: 'Aalto' },
+    partialExamType: 'READ',
+    registrationDate: dayjs('2025-12-30'),
+  },
+  {
+    ...registration(3, RegistrationStates.Completed),
+    person: {
+      ...registrations[0].person,
+      firstName: 'Anna',
+      lastName: 'Aalto',
+    },
+    partialExamType: 'SPEAK',
+    registrationDate: dayjs('2026-02-01'),
+  },
+  {
+    ...registration(4, RegistrationStates.Submitted),
+    person: { ...registrations[0].person, firstName: 'Åsa', lastName: 'Åberg' },
+    partialExamType: 'READ',
+    registrationDate: dayjs('2026-01-02'),
+  },
+];
+const sortedNames = (ids: number[]) =>
+  ids.map((id) => {
+    const { person } = sortableRegistrations[id - 1];
+
+    return `${person.firstName} ${person.lastName}`;
+  });
+
 beforeAll(async () => {
   await use(initReactI18next).init({
     lng: 'fi-FI',
@@ -182,5 +219,130 @@ describe.each<RouteType>(['clerk', 'organizer'])(
         ).not.toBeInTheDocument();
       },
     );
+    it.each([
+      {
+        column: 'personName',
+        ascending: [3, 2, 4, 1],
+        descending: [1, 4, 2, 3],
+      },
+      {
+        column: 'partialExamType',
+        ascending: [1, 3, 2, 4],
+        descending: [2, 4, 3, 1],
+      },
+      {
+        column: 'registrationState',
+        ascending: [2, 4, 1, 3],
+        descending: [1, 3, 2, 4],
+      },
+      {
+        column: 'examSessionRegistrationDate',
+        ascending: [2, 4, 1, 3],
+        descending: [3, 1, 4, 2],
+      },
+    ] as const)(
+      'sorts $column ascending, descending and back to original order',
+      async ({ column, ascending, descending }) => {
+        const user = userEvent.setup();
+        render(
+          <DefaultProviders>
+            <ClerkExamSessionRegistrations
+              examSession={{
+                ...examSession,
+                registrations: sortableRegistrations,
+              }}
+              route={route}
+            />
+          </DefaultProviders>,
+        );
+        const label =
+          publicFI.yki.component.clerkCustomer.details.listing.columns[column];
+        const header = screen.getByRole('columnheader', { name: label });
+        const button = within(header).getByRole('button', { name: label });
+        await user.click(button);
+        expect(header).toHaveAttribute('aria-sort', 'ascending');
+        expect(participantNames()).toEqual(sortedNames([...ascending]));
+        await user.click(button);
+        expect(header).toHaveAttribute('aria-sort', 'descending');
+        expect(participantNames()).toEqual(sortedNames([...descending]));
+        await user.click(button);
+        expect(header).not.toHaveAttribute('aria-sort');
+        expect(participantNames()).toEqual(sortedNames([1, 2, 3, 4]));
+        expect(sortableRegistrations.map(({ id }) => id)).toEqual([1, 2, 3, 4]);
+      },
+    );
+
+    it('sorts cancelled queue entries by their displayed status', async () => {
+      const user = userEvent.setup();
+      render(
+        <DefaultProviders>
+          <ClerkExamSessionRegistrations
+            examSession={examSession}
+            route={route}
+          />
+        </DefaultProviders>,
+      );
+      await user.click(
+        screen.getByRole('button', { name: 'Peruttu tai erääntynyt (3)' }),
+      );
+      await user.click(
+        screen.getByRole('button', {
+          name: publicFI.yki.component.clerkCustomer.details.listing.columns
+            .registrationState,
+        }),
+      );
+      expect(participantNames()).toEqual([
+        'Person7 Testaaja',
+        'Person6 Testaaja',
+        'Person5 Testaaja',
+      ]);
+    });
+
+    it.each([
+      {
+        kind: RegistrationKind.Queue,
+        state: RegistrationStates.Submitted,
+        tab: 'Jonossa (4)',
+      },
+      {
+        kind: RegistrationKind.Admission,
+        state: RegistrationStates.PaidAndCancelled,
+        tab: 'Maksanut ja peruttu (4)',
+      },
+    ])('sorts the $tab tab', async ({ kind, state, tab }) => {
+      const user = userEvent.setup();
+      render(
+        <DefaultProviders>
+          <ClerkExamSessionRegistrations
+            examSession={{
+              ...examSession,
+              registrations: sortableRegistrations.map((r) => ({
+                ...r,
+                kind,
+                state,
+                queuePosition: r.id,
+              })),
+            }}
+            route={route}
+          />
+        </DefaultProviders>,
+      );
+      await user.click(screen.getByRole('button', { name: tab }));
+      await user.click(
+        screen.getByRole('button', {
+          name: publicFI.yki.component.clerkCustomer.details.listing.columns
+            .personName,
+        }),
+      );
+      expect(participantNames()).toEqual(sortedNames([3, 2, 4, 1]));
+      if (kind === RegistrationKind.Queue) {
+        expect(
+          within(screen.getByRole('table'))
+            .getAllByRole('row')
+            .slice(1)
+            .map((row) => within(row).getAllByRole('cell')[0].textContent),
+        ).toEqual(['3', '2', '4', '1']);
+      }
+    });
   },
 );
