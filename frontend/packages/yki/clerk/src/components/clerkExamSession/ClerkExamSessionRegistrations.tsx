@@ -6,8 +6,8 @@ import {
 import BlockIcon from '@mui/icons-material/Block';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import WarningIcon from '@mui/icons-material/Warning';
-import { Divider, IconButton, Stack } from '@mui/material';
-import { OphButton } from '@opetushallitus/oph-design-system';
+import { Divider, FormControlLabel, IconButton, Stack } from '@mui/material';
+import { OphButton, OphCheckbox } from '@opetushallitus/oph-design-system';
 import i18next from 'i18next';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { Link, useParams } from 'react-router';
@@ -113,6 +113,7 @@ export const ClerkExamSessionRegistrations = ({
   });
   const [activeTab, setActiveTab] = useState<Tab>('admissions');
   const [sort, setSort] = useState('');
+  const [onlyPaid, setOnlyPaid] = useState(false);
   const [relocateRegistrationId, setRelocateRegistrationId] = useState<
     number | null
   >(null);
@@ -344,7 +345,12 @@ export const ClerkExamSessionRegistrations = ({
   };
   const [sortColumn, sortDirection] = sort.split(':');
   const getSortValue = sortValues[sortColumn];
-  const rows = [...registrationsByTab[activeTab]];
+  const rows = registrationsByTab[activeTab].filter(
+    ({ state }) =>
+      activeTab !== 'admissions' ||
+      !onlyPaid ||
+      state === RegistrationStates.Completed,
+  );
   if (getSortValue) {
     const collator = new Intl.Collator(getCurrentLang(), {
       sensitivity: 'base',
@@ -447,6 +453,18 @@ export const ClerkExamSessionRegistrations = ({
           </div>
         </div>
       </div>
+      {activeTab === 'admissions' && (
+        <FormControlLabel
+          control={
+            <OphCheckbox
+              checked={onlyPaid}
+              onChange={(_, checked) => setOnlyPaid(checked)}
+              sx={{ '& .MuiSvgIcon-root': { fontSize: 24 } }}
+            />
+          }
+          label={tButtons('onlyPaid')}
+        />
+      )}
       <ListTable
         className="clerk-customer-exams-listing__table"
         rows={rows}

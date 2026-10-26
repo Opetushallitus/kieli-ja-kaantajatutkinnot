@@ -205,6 +205,7 @@
       "clerkExamSessionRegistrations": {
         "buttons": {
           "downloadExcel": "Ladda ner Excel",
+          "onlyPaid": "Visa endast betalda",
           "edit": "Redigera",
           "participants": "Anmälda: {{count}} / {{max}}",
           "participantsListen": "Talförståelse: {{count}} / {{max}}",
