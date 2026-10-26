@@ -32,21 +32,24 @@ import { ClerkRegistration } from 'interfaces/clerkRegistration';
 import { RouteType } from 'interfaces/user';
 import { Text } from 'ophTheme/Text';
 
-const TABS = [RegistrationKind.Admission, RegistrationKind.Queue] as const;
+const TABS = [
+  'admissions',
+  'queued',
+  'paidAndCancelled',
+  'cancelledOrExpired',
+] as const;
 type Tab = (typeof TABS)[number];
 
 type ExamsListingTabsProps = {
   activeTab: Tab;
   setActiveTab: Dispatch<SetStateAction<Tab>>;
-  admissionCount: number;
-  queuedCount: number;
+  registrationsByTab: Record<Tab, ClerkRegistration[]>;
 };
 
 const ExamsListingTabs = ({
   activeTab,
   setActiveTab,
-  admissionCount,
-  queuedCount,
+  registrationsByTab,
 }: ExamsListingTabsProps) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkExamSessionRegistrations.tabs',
@@ -68,11 +71,15 @@ const ExamsListingTabs = ({
             onClick={() => handleTabChange(tab)}
             role="button"
             tabIndex={0}
-            onKeyDown={() => handleTabChange(tab)}
+            aria-pressed={activeTab === tab}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                handleTabChange(tab);
+              }
+            }}
           >
-            {tab === RegistrationKind.Admission
-              ? t('admissions', { num: admissionCount })
-              : t('queued', { num: queuedCount })}
+            {t(tab, { num: registrationsByTab[tab].length })}
           </div>
         ))}
       </div>
@@ -108,7 +115,7 @@ export const ClerkExamSessionRegistrations = ({
   const { t: tButtons } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkExamSessionRegistrations.buttons',
   });
-  const [activeTab, setActiveTab] = useState<Tab>(RegistrationKind.Admission);
+  const [activeTab, setActiveTab] = useState<Tab>('admissions');
   const [relocateRegistrationId, setRelocateRegistrationId] = useState<
     number | null
   >(null);
@@ -154,12 +161,21 @@ export const ClerkExamSessionRegistrations = ({
   ): ListTableColumn<ClerkRegistration> => ({
     key: 'state',
     title: t('columns.registrationState'),
-    render: ({ state, person }) => {
+    render: ({ state, kind, person }) => {
       return (
         <div className="rows gapped-xs">
           <Text>
             {registrationStateIconMapping[state]}
-            <strong>{t(`values.registrationState.${state}`)}</strong>
+            <strong>
+              {t(
+                `values.registrationState.${
+                  state === RegistrationStates.Cancelled &&
+                  kind === RegistrationKind.Queue
+                    ? 'QUEUE_CANCELLED'
+                    : state
+                }`,
+              )}
+            </strong>
           </Text>
           {person && (
             <>
@@ -255,7 +271,7 @@ export const ClerkExamSessionRegistrations = ({
   const createPositionInQueueColumn = (
     t: typeof i18next.t,
   ): ListTableColumn<ClerkRegistration> => ({
-    key: 'person',
+    key: 'queuePosition',
     title: t('columns.positionInQueue'),
     render: ({ queuePosition }) => (
       <div className="rows gapped-xxs">{queuePosition}</div>
@@ -283,12 +299,27 @@ export const ClerkExamSessionRegistrations = ({
     ...(canManage ? [createActionsColumn(t)] : []),
   ];
 
-  const admissions = examRegistrations.filter(
-    (r) => r.kind === RegistrationKind.Admission,
+  const activeRegistrations = examRegistrations.filter(
+    ({ state }) =>
+      state === RegistrationStates.Completed ||
+      state === RegistrationStates.Submitted,
   );
-  const queued = examRegistrations.filter(
-    (r) => r.kind === RegistrationKind.Queue,
-  );
+  const registrationsByTab: Record<Tab, ClerkRegistration[]> = {
+    admissions: activeRegistrations.filter(
+      ({ kind }) => kind === RegistrationKind.Admission,
+    ),
+    queued: activeRegistrations.filter(
+      ({ kind }) => kind === RegistrationKind.Queue,
+    ),
+    paidAndCancelled: examRegistrations.filter(
+      ({ state }) => state === RegistrationStates.PaidAndCancelled,
+    ),
+    cancelledOrExpired: examRegistrations.filter(
+      ({ state }) =>
+        state === RegistrationStates.Cancelled ||
+        state === RegistrationStates.Expired,
+    ),
+  };
 
   const translatePartialExamTypeReadListen = () =>
     examSessionType === ExamSessionType.READ_SPEAK
@@ -303,10 +334,9 @@ export const ClerkExamSessionRegistrations = ({
   return (
     <Stack spacing={4}>
       <div className="clerk-exam-session-registrations__tabs">
-        <div className="clerk-exam-session-registrations__tabs grid-2-columns">
+        <div className="clerk-exam-session-registrations__tabs">
           <ExamsListingTabs
-            admissionCount={admissions.length ?? 0}
-            queuedCount={queued.length ?? 0}
+            registrationsByTab={registrationsByTab}
             activeTab={activeTab}
             setActiveTab={setActiveTab}
           />
@@ -358,23 +388,13 @@ export const ClerkExamSessionRegistrations = ({
           </div>
         </div>
       </div>
-      {activeTab === RegistrationKind.Admission ? (
-        <ListTable
-          className="clerk-customer-exams-listing__table"
-          rows={admissions}
-          rowKeyProp="id"
-          columns={admissionsColumns}
-          translateHeader={false}
-        />
-      ) : (
-        <ListTable
-          className="clerk-customer-exams-listing__table"
-          rows={queued}
-          rowKeyProp="id"
-          columns={queuedColumns}
-          translateHeader={false}
-        />
-      )}
+      <ListTable
+        className="clerk-customer-exams-listing__table"
+        rows={registrationsByTab[activeTab]}
+        rowKeyProp="id"
+        columns={activeTab === 'queued' ? queuedColumns : admissionsColumns}
+        translateHeader={false}
+      />
 
       <ClerkExamSessionRelocateModal
         registrationId={relocateRegistrationId}
