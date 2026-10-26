@@ -172,7 +172,12 @@ export const OrganizerExamSessionListing = ({
       rowKeyProp="rowId"
       columns={columns}
       sort={sort}
-      setSort={(value) => setSort(value || defaultSort)}
+      setSort={(value) =>
+        setSort(
+          value ||
+            (sort === 'session_date:desc' ? 'session_date:asc' : defaultSort),
+        )
+      }
       translateHeader={false}
       rowHeight="small"
     />

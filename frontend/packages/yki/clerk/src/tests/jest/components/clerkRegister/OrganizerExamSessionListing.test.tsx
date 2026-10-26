@@ -75,7 +75,8 @@ it('orders upcoming exams by date, language and level, including today and only 
   ).toHaveAttribute('aria-sort', 'ascending');
 });
 
-it('orders past exams newest first and uses organizer links', () => {
+it('orders past exams newest first, toggles their order and uses organizer links', async () => {
+  const user = userEvent.setup();
   renderListing(
     [
       session(1, '2026-09-01'),
@@ -90,6 +91,10 @@ it('orders past exams newest first and uses organizer links', () => {
   expect(
     screen.getByRole('columnheader', { name: /Tutkintopäivä/ }),
   ).toHaveAttribute('aria-sort', 'descending');
+  await user.click(screen.getByRole('button', { name: 'Tutkintopäivä' }));
+  expect(ids()).toEqual([1, 2]);
+  await user.click(screen.getByRole('button', { name: 'Tutkintopäivä' }));
+  expect(ids()).toEqual([2, 1]);
 });
 
 it('sorts each requested column in both directions and restores the default order', async () => {
