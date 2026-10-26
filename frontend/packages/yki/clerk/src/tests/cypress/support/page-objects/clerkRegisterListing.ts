@@ -4,7 +4,7 @@ class ClerkRegisterListing {
     organizerRows: () => cy.get('tbody tr'),
     organizerRowByIndex: (index: number) => cy.get('tbody tr').eq(index),
     expandButton: (index: number) =>
-      cy.get('tbody tr').eq(index).findByLabelText('expand row'),
+      cy.get('tbody tr').eq(index).find('button[aria-expanded]'),
     organizerAgreementDates: () =>
       cy.contains('Järjestäjäsopimus').parent().find('p'),
     languageProficienciesSection: () => cy.contains('Kielitutkinnot').parent(),
