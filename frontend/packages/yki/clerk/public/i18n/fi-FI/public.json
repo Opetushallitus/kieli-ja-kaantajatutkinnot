@@ -76,6 +76,7 @@
               },
               "registrationState": {
                 "CANCELLED": "Peruttu",
+                "QUEUE_CANCELLED": "Jonotus peruttu",
                 "COMPLETED": "Maksanut",
                 "EXPIRED": "Erääntynyt",
                 "PAID_AND_CANCELLED": "Maksanut ja peruttu",
@@ -270,7 +271,9 @@
         },
         "tabs": {
           "admissions": "Ilmoittautuneet ({{ num }})",
-          "queued": "Jonossa ({{ num }})"
+          "queued": "Jonossa ({{ num }})",
+          "paidAndCancelled": "Maksanut ja peruttu ({{ num }})",
+          "cancelledOrExpired": "Peruttu tai erääntynyt ({{ num }})"
         }
       },
       "clerkFreeRegistration": {

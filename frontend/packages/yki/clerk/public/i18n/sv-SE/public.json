@@ -76,6 +76,7 @@
               },
               "registrationState": {
                 "CANCELLED": "Annullerad",
+                "QUEUE_CANCELLED": "Köplats annullerad",
                 "COMPLETED": "Betald",
                 "EXPIRED": "Förfallen",
                 "PAID_AND_CANCELLED": "Betald och annullerad",
@@ -270,7 +271,9 @@
         },
         "tabs": {
           "admissions": "Anmälda ({{ num }})",
-          "queued": "I kö ({{ num }})"
+          "queued": "I kö ({{ num }})",
+          "paidAndCancelled": "Betald och annullerad ({{ num }})",
+          "cancelledOrExpired": "Annullerad eller förfallen ({{ num }})"
         }
       },
       "clerkFreeRegistration": {
