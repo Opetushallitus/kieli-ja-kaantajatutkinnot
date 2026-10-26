@@ -18,7 +18,7 @@ import { ClerkExamSessionCancelModal } from 'components/clerkExamSession/ClerkEx
 import { ClerkExamSessionRelocateModal } from 'components/clerkExamSession/ClerkExamSessionRelocateModal';
 import { ListTable } from 'components/oph-design/table/list-table';
 import { ListTableColumn } from 'components/oph-design/table/table-types';
-import { usePublicTranslation } from 'configs/i18n';
+import { getCurrentLang, usePublicTranslation } from 'configs/i18n';
 import { APIEndpoints } from 'enums/api';
 import {
   AppRoutes,
@@ -113,6 +113,7 @@ export const ClerkExamSessionRegistrations = ({
     keyPrefix: 'yki.component.clerkExamSessionRegistrations.buttons',
   });
   const [activeTab, setActiveTab] = useState<Tab>('admissions');
+  const [sort, setSort] = useState('');
   const [relocateRegistrationId, setRelocateRegistrationId] = useState<
     number | null
   >(null);
@@ -140,20 +141,35 @@ export const ClerkExamSessionRegistrations = ({
     ),
   };
 
+  const getPartialExamTypeLabel = ({ partialExamType }: ClerkRegistration) => {
+    const displayType =
+      partialExamType === 'ALL_PARTS' &&
+      examSessionType !== ExamSessionType.FULL
+        ? examSessionType
+        : partialExamType;
+
+    return t(`values.partialExamType.${displayType}`);
+  };
+
+  const getRegistrationStateLabel = ({ state, kind }: ClerkRegistration) =>
+    t(
+      `values.registrationState.${
+        state === RegistrationStates.Cancelled &&
+        kind === RegistrationKind.Queue
+          ? 'QUEUE_CANCELLED'
+          : state
+      }`,
+    );
+
   const createPartialExamTypeColumn = (
     t: typeof i18next.t,
   ): ListTableColumn<ClerkRegistration> => ({
     key: 'partialExamType',
     title: t('columns.partialExamType'),
-    render: ({ partialExamType }) => {
-      const displayType =
-        partialExamType === 'ALL_PARTS' &&
-        examSessionType !== ExamSessionType.FULL
-          ? examSessionType
-          : partialExamType;
-
-      return <Text>{t(`values.partialExamType.${displayType}`)}</Text>;
-    },
+    sortable: true,
+    render: (registration) => (
+      <Text>{getPartialExamTypeLabel(registration)}</Text>
+    ),
   });
 
   const createRegistrationStateColumn = (
@@ -161,7 +177,10 @@ export const ClerkExamSessionRegistrations = ({
   ): ListTableColumn<ClerkRegistration> => ({
     key: 'state',
     title: t('columns.registrationState'),
-    render: ({ state, kind, person }) => {
+    sortable: true,
+    render: (registration) => {
+      const { state, kind, person } = registration;
+
       return (
         <div className="rows gapped-xs">
           <div className="columns gapped-xxs">
@@ -203,6 +222,7 @@ export const ClerkExamSessionRegistrations = ({
   ): ListTableColumn<ClerkRegistration> => ({
     key: 'person',
     title: t('columns.personName'),
+    sortable: true,
     render: ({ person }) =>
       person && (
         <div className="rows gapped-xxs">
@@ -237,6 +257,7 @@ export const ClerkExamSessionRegistrations = ({
   ): ListTableColumn<ClerkRegistration> => ({
     key: 'registrationDate',
     title: t('columns.examSessionRegistrationDate'),
+    sortable: true,
     render: ({ registrationDate }) => (
       <div className="rows gapped-xs">
         <Text>{DateUtils.formatOptionalDate(registrationDate, 'l')}</Text>
@@ -328,6 +349,35 @@ export const ClerkExamSessionRegistrations = ({
     ),
   };
 
+  const sortValues: Record<
+    string,
+    (registration: ClerkRegistration) => string | number
+  > = {
+    person: ({ person }) =>
+      person ? `${person.lastName} ${person.firstName}` : '',
+    partialExamType: getPartialExamTypeLabel,
+    state: getRegistrationStateLabel,
+    registrationDate: ({ registrationDate }) => registrationDate.valueOf(),
+  };
+  const [sortColumn, sortDirection] = sort.split(':');
+  const getSortValue = sortValues[sortColumn];
+  const rows = [...registrationsByTab[activeTab]];
+  if (getSortValue) {
+    const collator = new Intl.Collator(getCurrentLang(), {
+      sensitivity: 'base',
+    });
+    rows.sort((a, b) => {
+      const aValue = getSortValue(a);
+      const bValue = getSortValue(b);
+      const comparison =
+        typeof aValue === 'number' && typeof bValue === 'number'
+          ? aValue - bValue
+          : collator.compare(String(aValue), String(bValue));
+
+      return sortDirection === 'desc' ? -comparison : comparison;
+    });
+  }
+
   const translatePartialExamTypeReadListen = () =>
     examSessionType === ExamSessionType.READ_SPEAK
       ? 'participantsRead'
@@ -416,7 +466,9 @@ export const ClerkExamSessionRegistrations = ({
       </div>
       <ListTable
         className="clerk-customer-exams-listing__table"
-        rows={registrationsByTab[activeTab]}
+        rows={rows}
+        sort={sort}
+        setSort={setSort}
         rowKeyProp="id"
         columns={activeTab === 'queued' ? queuedColumns : admissionsColumns}
         translateHeader={false}
