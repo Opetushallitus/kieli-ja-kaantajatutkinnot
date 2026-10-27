@@ -20,6 +20,8 @@ import fi.oph.yki.model.type.PartialExamType;
 import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.repository.ExamSessionRepository;
+import fi.oph.yki.repository.IdentityRepository;
+import fi.oph.yki.repository.PersonRepository;
 import fi.oph.yki.repository.RegistrationRepository;
 import fi.oph.yki.util.exception.APIException;
 import fi.oph.yki.util.exception.APIExceptionType;
@@ -49,13 +51,25 @@ public class PublicRegistrationServiceTest {
   private ExamSessionRepository examSessionRepository;
 
   @Resource
+  private IdentityRepository identityRepository;
+
+  @Resource
+  private PersonRepository personRepository;
+
+  @Resource
   private TestEntityManager entityManager;
 
   private PublicRegistrationService publicRegistrationService;
 
   @BeforeEach
   public void setup() {
-    publicRegistrationService = new PublicRegistrationService(registrationRepository, examSessionRepository);
+    publicRegistrationService =
+      new PublicRegistrationService(
+        registrationRepository,
+        examSessionRepository,
+        identityRepository,
+        personRepository
+      );
   }
 
   private ExamDate openExamDate() {

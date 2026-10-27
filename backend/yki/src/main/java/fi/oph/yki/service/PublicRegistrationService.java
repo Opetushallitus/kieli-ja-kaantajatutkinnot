@@ -17,12 +17,15 @@ import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.ExamSessionLocation;
 import fi.oph.yki.model.Identity;
+import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
 import fi.oph.yki.model.type.ExamSessionType;
 import fi.oph.yki.model.type.PartialExamType;
 import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.repository.ExamSessionRepository;
+import fi.oph.yki.repository.IdentityRepository;
+import fi.oph.yki.repository.PersonRepository;
 import fi.oph.yki.repository.RegistrationRepository;
 import fi.oph.yki.util.exception.APIException;
 import fi.oph.yki.util.exception.APIExceptionType;
@@ -51,6 +54,8 @@ public class PublicRegistrationService {
 
   private final RegistrationRepository registrationRepository;
   private final ExamSessionRepository examSessionRepository;
+  private final IdentityRepository identityRepository;
+  private final PersonRepository personRepository;
 
   private static final Map<ExamSessionType, Set<PartialExamType>> ALLOWED_PARTIAL_EXAM_TYPES = Map.of(
     ExamSessionType.FULL,
@@ -360,6 +365,34 @@ public class PublicRegistrationService {
     }
 
     return RegistrationState.SUBMITTED;
+  }
+
+  @Transactional
+  public Person createPersonForIdentity(
+    final long identityId,
+    final String personOid,
+    final String firstName,
+    final String lastName
+  ) {
+    final Identity identity = identityRepository
+      .findById(identityId)
+      .orElseThrow(() -> new APIException(APIExceptionType.NO_IDENTITY_SESSION));
+
+    final Person person = personRepository
+      .findById(personOid)
+      .orElseGet(() -> {
+        final Person newPerson = new Person();
+        newPerson.setOid(personOid);
+        newPerson.setFirstName(firstName);
+        newPerson.setLastName(lastName);
+        return personRepository.saveAndFlush(newPerson);
+      });
+
+    identity.setPerson(person);
+    identity.setModifiedAt(LocalDateTime.now());
+    identityRepository.save(identity);
+
+    return person;
   }
 
   @Transactional(readOnly = true)

@@ -98,6 +98,12 @@ cas:
   url: ${virkailija.cas.url:http://localhost:${server.port}/yki}
   cas-url: ${virkailija.cas.url:https://virkailija.untuvaopintopolku.fi/cas}
   login-url: ${virkailija.cas.login-url:http://localhost:${server.port}/login}
+  oppija:
+    login-url: ${cas-oppija.login-url:https://untuvaopintopolku.fi/cas-oppija/login}
+    logout-url: ${cas-oppija.logout-url:https://testiopintopolku.fi/cas-oppija/logout}
+    service-url: ${cas-oppija.service-url:http://localhost:${server.port}/yki/v2/login/cas}
+    service-logout-url: ${public-base-url:http://localhost:4002}/vkt/uloskirjautuminen-onnistui
+    validate-ticket-url: ${cas-oppija.validate-ticket-url:https://untuvaopintopolku.fi/cas-oppija}
   onr:
     username: ${cas.username:null}
     password: ${cas.password:null}
