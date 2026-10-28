@@ -10,6 +10,7 @@ import { watchLoginLinkRenew } from 'redux/sagas/loginLinkRenew';
 import { watchNationalities } from 'redux/sagas/nationalities';
 import { watchGetKoskiEducations } from 'redux/sagas/publicEducation';
 import { watchPublicIdentification } from 'redux/sagas/publicIdentification';
+import { watchCheckIntegrationAssistance } from 'redux/sagas/publicIntegrationAssistance';
 import { watchRegistration } from 'redux/sagas/registration';
 import { watchSession } from 'redux/sagas/session';
 import { watchUserDetails } from 'redux/sagas/userDetails';
@@ -31,5 +32,6 @@ export default function* rootSaga() {
     watchLoginLink(),
     watchLoginLinkRenew(),
     watchGetKoskiEducations(),
+    watchCheckIntegrationAssistance(),
   ]);
 }

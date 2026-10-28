@@ -27,6 +27,7 @@ export enum APIEndpoints {
   RedirectToPaymentFromUserPortal = '/yki/api/person/registration/:registrationId/payment-redirect?lang=:lang',
   PublicKoskiEducations = '/yki/api/public/education',
   PublicFreeRegistrationEducation = '/yki/api/public/education/:registrationId',
+  PublicIntegrationAssistance = '/yki/api/public/integration-assistance/:registrationId',
 }
 
 export enum PaymentStatus {

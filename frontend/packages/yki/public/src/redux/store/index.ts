@@ -15,6 +15,7 @@ import { nationalitiesReducer } from 'redux/reducers/nationalities';
 import { publicEducationReducer } from 'redux/reducers/publicEducation';
 import { publicFreeRegistrationReducer } from 'redux/reducers/publicFreeRegistration';
 import { publicIdentificationReducer } from 'redux/reducers/publicIdentification';
+import { publicIntegrationAssistanceReducer } from 'redux/reducers/publicIntegrationAssistance';
 import { registrationReducer } from 'redux/reducers/registration';
 import { sessionReducer } from 'redux/reducers/session';
 import { userDetailsReducer } from 'redux/reducers/userDetails';
@@ -41,6 +42,7 @@ export const rootReducer = combineReducers({
   userDetails: userDetailsReducer,
   publicEducation: publicEducationReducer,
   publicFreeRegistration: publicFreeRegistrationReducer,
+  publicIntegrationAssistance: publicIntegrationAssistanceReducer,
 });
 
 export const setupStore = (preloadedState?: Partial<RootState>) => {

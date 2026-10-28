@@ -26,6 +26,7 @@ export interface PublicFreeRegistrationDetails {
   basis?: KoskiEducation | UserDeclaredEducation;
   attemptsUsed?: number;
   isFree: IsFreeRegistration;
+  freeRegistrationId?: number;
 }
 
 type IsFreeRegistration = 'YES' | 'NO' | 'UNDECIDED';
