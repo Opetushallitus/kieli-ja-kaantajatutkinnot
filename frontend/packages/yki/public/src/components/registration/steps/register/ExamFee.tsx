@@ -17,6 +17,7 @@ import { RegistrationKind } from 'enums/app';
 import { setUserDeclaredFreeRegistration } from 'redux/reducers/publicFreeRegistration';
 import { publicEducationSelector } from 'redux/selectors/publicEducation';
 import { publicFreeRegistrationSelector } from 'redux/selectors/publicFreeRegistration';
+import { publicIntegrationAssistanceSelector } from 'redux/selectors/publicIntegrationAssistance';
 import { registrationSelector } from 'redux/selectors/registration';
 
 const ErrorLabelStyles = {
@@ -256,6 +257,41 @@ export const ExamFee = () => {
         </>
       )}
       {attemptsLeft > 0 && !hasKoskiEducation && <UserEducationSelection />}
+    </>
+  );
+};
+
+export const IntegrationAssistanceExamFee = () => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.component.registration.registrationDetails.examFee',
+  });
+  const { status, decision } = useAppSelector(
+    publicIntegrationAssistanceSelector,
+  );
+  const { registrationKind } =
+    useAppSelector(registrationSelector).initRegistration;
+
+  const isLoading =
+    status === APIResponseStatus.NotStarted ||
+    status === APIResponseStatus.InProgress;
+
+  return (
+    <>
+      <H2 className="public-registration__grid__form-container__exam-fee">
+        {t('title')}
+      </H2>
+      {isLoading && <Text>{t('loading.pleaseWait')}</Text>}
+      {!isLoading && decision === 'FREE' && <Text>{t('noFeeRequired')}</Text>}
+      {!isLoading &&
+        decision !== 'FREE' &&
+        registrationKind === RegistrationKind.Admission && (
+          <Text>{t('paymentRequired')}</Text>
+        )}
+      {!isLoading &&
+        decision !== 'FREE' &&
+        registrationKind === RegistrationKind.Queue && (
+          <Text>{t('paymentRequiredIfLiftedFromQueue')}</Text>
+        )}
     </>
   );
 };

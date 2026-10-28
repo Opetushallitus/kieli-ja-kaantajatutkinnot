@@ -14,7 +14,10 @@ import { APIResponseStatus, Color } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
 import { SuomiFiLink } from 'components/elements/SuomiFiLink';
-import { ExamFee } from 'components/registration/steps/register/ExamFee';
+import {
+  ExamFee,
+  IntegrationAssistanceExamFee,
+} from 'components/registration/steps/register/ExamFee';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import {
@@ -31,10 +34,12 @@ import {
 } from 'interfaces/publicRegistration';
 import { getKoskiEducations } from 'redux/reducers/publicEducation';
 import { setPublicFreeRegistration } from 'redux/reducers/publicFreeRegistration';
+import { checkIntegrationAssistance } from 'redux/reducers/publicIntegrationAssistance';
 import { updatePublicRegistration } from 'redux/reducers/registration';
 import { examSessionSelector } from 'redux/selectors/examSession';
 import { publicEducationSelector } from 'redux/selectors/publicEducation';
 import { publicFreeRegistrationSelector } from 'redux/selectors/publicFreeRegistration';
+import { publicIntegrationAssistanceSelector } from 'redux/selectors/publicIntegrationAssistance';
 import { registrationSelector } from 'redux/selectors/registration';
 import { sessionSelector } from 'redux/selectors/session';
 import { ExamSessionUtils } from 'utils/examSession';
@@ -91,6 +96,15 @@ export const CommonRegistrationDetails = () => {
     loggedInSession,
   );
   const showExamFeeSection = shouldGetKoskiEducations;
+  const shouldCheckIntegrationAssistance =
+    ExamSessionUtils.integrationAssistancePossible(
+      examSession,
+      loggedInSession,
+    );
+  const {
+    status: integrationAssistanceStatus,
+    registrationId: integrationAssistanceRegistrationId,
+  } = useAppSelector(publicIntegrationAssistanceSelector);
   useEffect(() => {
     if (hideInstructionLanguageSelection) {
       const instructionLanguage =
@@ -125,6 +139,23 @@ export const CommonRegistrationDetails = () => {
     publicEducationStatus,
     basis?.source,
     attemptsUsed,
+  ]);
+
+  useEffect(() => {
+    if (
+      shouldCheckIntegrationAssistance &&
+      registration.id &&
+      (integrationAssistanceStatus === APIResponseStatus.NotStarted ||
+        integrationAssistanceRegistrationId !== registration.id)
+    ) {
+      dispatch(checkIntegrationAssistance(registration.id));
+    }
+  }, [
+    dispatch,
+    shouldCheckIntegrationAssistance,
+    registration.id,
+    integrationAssistanceStatus,
+    integrationAssistanceRegistrationId,
   ]);
 
   const getRegistrationErrors = usePublicRegistrationErrors(true);
@@ -290,6 +321,7 @@ export const CommonRegistrationDetails = () => {
         </FormControl>
       </fieldset>
       {showExamFeeSection && <ExamFee />}
+      {shouldCheckIntegrationAssistance && <IntegrationAssistanceExamFee />}
       <H2 className="public-registration__grid__form-container__terms-and-conditions">
         {t('termsAndConditions.title')}
       </H2>

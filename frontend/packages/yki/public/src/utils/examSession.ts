@@ -242,6 +242,17 @@ export class ExamSessionUtils {
     return true;
   }
 
+  static integrationAssistancePossible(
+    { level_code, language_code }: ExamSession,
+    authenticatedSession?: AuthenticatedSession,
+  ) {
+    return (
+      authenticatedSession?.['auth-method'] === 'SUOMIFI' &&
+      level_code === ExamLevel.KESKI &&
+      (language_code === ExamLanguage.FIN || language_code === ExamLanguage.SWE)
+    );
+  }
+
   static getPartialExamTypeText(
     examSessionType: ExamSessionType,
     partialExamType?: PartialExamType,
