@@ -611,7 +611,7 @@ export const ClerkExamSessionEditModal = ({
           />
         </div>
         <OphInputFormField
-          label={t('fields.name')}
+          label={t('fields.otherLocationInfo')}
           value={form.location[0]?.otherLocationInfo ?? ''}
           onChange={(e) =>
             updateLocationField('fi', 'otherLocationInfo', e.target.value)
