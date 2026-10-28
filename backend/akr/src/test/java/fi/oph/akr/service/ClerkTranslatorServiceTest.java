@@ -41,6 +41,7 @@ import fi.oph.akr.onr.OnrService;
 import fi.oph.akr.onr.dto.ContactDetailsGroupSource;
 import fi.oph.akr.onr.dto.ContactDetailsGroupType;
 import fi.oph.akr.onr.model.PersonalData;
+import fi.oph.akr.repository.AuthorisationProjection;
 import fi.oph.akr.repository.AuthorisationRepository;
 import fi.oph.akr.repository.AuthorisationTermReminderRepository;
 import fi.oph.akr.repository.ExaminationDateRepository;
@@ -50,7 +51,9 @@ import fi.oph.akr.util.exception.APIException;
 import fi.oph.akr.util.exception.APIExceptionType;
 import jakarta.annotation.Resource;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -297,7 +300,11 @@ class ClerkTranslatorServiceTest {
     when(onrService.getCachedPersonalDatas()).thenReturn(personalDatas);
 
     final ClerkTranslatorResponseDTO responseDTO = clerkTranslatorService.listTranslators();
-    final List<ClerkTranslatorDTO> translators = responseDTO.translators();
+    final List<ClerkTranslatorDTO> translators = responseDTO
+      .translators()
+      .stream()
+      .sorted(Comparator.comparing(ClerkTranslatorDTO::lastName))
+      .toList();
 
     assertEquals(3, translators.size());
 
@@ -857,6 +864,79 @@ class ClerkTranslatorServiceTest {
     verifyNoMoreInteractions(auditService);
   }
 
+  @Test
+  public void testAuthorisationUpdateFormerVir() {
+    final Translator translator = Factory.translator();
+    final Authorisation authorisation = Factory.formerVirAuthorisation(translator);
+
+    final PersonalData personalData = defaultPersonalData(translator.getOnrId());
+    when(onrService.getCachedPersonalDatas()).thenReturn(Map.of(translator.getOnrId(), personalData));
+
+    entityManager.persist(translator);
+    entityManager.persist(authorisation);
+
+    final AuthorisationAuditDTO oldDTO = new AuthorisationAuditDTO(authorisation);
+
+    final AuthorisationUpdateDTO updateDTO = AuthorisationUpdateDTO
+      .builder()
+      .id(authorisation.getId())
+      .version(authorisation.getVersion())
+      .basis(authorisation.getBasis())
+      .from(authorisation.getFromLang())
+      .to(authorisation.getToLang())
+      .permissionToPublish(!authorisation.isPermissionToPublish())
+      .diaryNumber("012345")
+      .build();
+
+    final ClerkTranslatorDTO response = clerkTranslatorService.updateAuthorisation(updateDTO);
+
+    assertResponseMatchesGet(response);
+
+    assertEquals(1, response.authorisations().formerVir().size());
+    final AuthorisationDTO authorisationDTO = response.authorisations().formerVir().get(0);
+    final AuthorisationAuditDTO newDTO = new AuthorisationAuditDTO(authorisationDTO);
+    assertEquals(updateDTO.id(), authorisationDTO.id());
+    assertEquals(updateDTO.version() + 1, authorisationDTO.version());
+    assertAuthorisationCommonFields(updateDTO, authorisationDTO);
+    assertNull(authorisationRepository.getReferenceById(authorisation.getId()).getMeetingDate());
+
+    verify(auditService)
+      .logAuthorisation(AkrOperation.UPDATE_AUTHORISATION, translator, authorisationDTO.id(), oldDTO, newDTO);
+    verifyNoMoreInteractions(auditService);
+  }
+
+  @Test
+  public void testAuthorisationUpdateFailsOnMissingMeetingDate() {
+    final MeetingDate meetingDate = Factory.meetingDate();
+    final Translator translator = Factory.translator();
+    final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate);
+
+    entityManager.persist(meetingDate);
+    entityManager.persist(translator);
+    entityManager.persist(authorisation);
+
+    final AuthorisationUpdateDTO updateDTO = AuthorisationUpdateDTO
+      .builder()
+      .id(authorisation.getId())
+      .version(authorisation.getVersion())
+      .basis(authorisation.getBasis())
+      .from(authorisation.getFromLang())
+      .to(authorisation.getToLang())
+      .permissionToPublish(authorisation.isPermissionToPublish())
+      .termBeginDate(meetingDate.getDate().plusDays(1))
+      .termEndDate(authorisation.getTermEndDate())
+      .diaryNumber(authorisation.getDiaryNumber())
+      .build();
+
+    final APIException ex = assertThrows(
+      APIException.class,
+      () -> clerkTranslatorService.updateAuthorisation(updateDTO)
+    );
+    assertEquals(APIExceptionType.AUTHORISATION_MISSING_MEETING_DATE, ex.getExceptionType());
+
+    verifyNoInteractions(auditService);
+  }
+
   private void assertAuthorisationCommonFields(
     final AuthorisationDTOCommonFields expected,
     final AuthorisationDTO authorisationDTO
@@ -1018,6 +1098,76 @@ class ClerkTranslatorServiceTest {
     assertEquals(APIExceptionType.AUTHORISATION_BASIS_AND_TERM_END_DATE_MISMATCH, ex.getExceptionType());
 
     verifyNoInteractions(auditService);
+  }
+
+  @Test
+  public void testSortByLatestModificationUsesNewerOfTranslatorAndAuthorisations() {
+    final LocalDateTime now = LocalDateTime.now();
+    final Translator modifiedTranslator = translatorModifiedAt(1L, now.minusDays(1));
+    final Translator modifiedAuthorisation = translatorModifiedAt(2L, now.minusDays(5));
+    final Translator untouched = translatorModifiedAt(3L, now.minusDays(10));
+
+    final Map<Long, List<AuthorisationProjection>> authorisations = Map.of(
+      modifiedTranslator.getId(),
+      List.of(authorisationProjectionModifiedAt(modifiedTranslator.getId(), now.minusDays(3))),
+      modifiedAuthorisation.getId(),
+      List.of(
+        authorisationProjectionModifiedAt(modifiedAuthorisation.getId(), now.minusDays(4)),
+        authorisationProjectionModifiedAt(modifiedAuthorisation.getId(), now)
+      ),
+      untouched.getId(),
+      List.of(authorisationProjectionModifiedAt(untouched.getId(), now.minusDays(10)))
+    );
+
+    final List<Translator> sorted = ClerkTranslatorService.sortByLatestModification(
+      List.of(untouched, modifiedTranslator, modifiedAuthorisation),
+      authorisations
+    );
+
+    assertEquals(List.of(modifiedAuthorisation, modifiedTranslator, untouched), sorted);
+  }
+
+  @Test
+  public void testSortByLatestModificationHandlesMissingAuthorisationsAndTies() {
+    final LocalDateTime modifiedAt = LocalDateTime.now();
+    final Translator withoutAuthorisations = translatorModifiedAt(1L, modifiedAt);
+    final Translator tiedLowerId = translatorModifiedAt(2L, modifiedAt.minusDays(1));
+    final Translator tiedHigherId = translatorModifiedAt(3L, modifiedAt.minusDays(1));
+
+    final List<Translator> sorted = ClerkTranslatorService.sortByLatestModification(
+      List.of(tiedLowerId, tiedHigherId, withoutAuthorisations),
+      Map.of()
+    );
+
+    assertEquals(List.of(withoutAuthorisations, tiedHigherId, tiedLowerId), sorted);
+  }
+
+  private Translator translatorModifiedAt(final long id, final LocalDateTime modifiedAt) {
+    final Translator translator = Factory.translator();
+    translator.setId(id);
+    translator.setModifiedAt(modifiedAt);
+
+    return translator;
+  }
+
+  private AuthorisationProjection authorisationProjectionModifiedAt(
+    final long translatorId,
+    final LocalDateTime modifiedAt
+  ) {
+    return new AuthorisationProjection(
+      0L,
+      0,
+      translatorId,
+      AuthorisationBasis.KKT,
+      null,
+      FI,
+      SV,
+      true,
+      null,
+      null,
+      null,
+      modifiedAt
+    );
   }
 
   private void assertResponseMatchesGet(final ClerkTranslatorDTO response) {

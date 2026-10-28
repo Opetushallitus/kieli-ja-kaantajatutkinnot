@@ -16,7 +16,7 @@ public record AuthorisationUpdateDTO(
   @NonNull @NotNull AuthorisationBasis basis,
   @Size(max = 10) @NonNull @NotBlank String from,
   @Size(max = 10) @NonNull @NotBlank String to,
-  @NonNull @NotNull LocalDate termBeginDate,
+  LocalDate termBeginDate,
   LocalDate termEndDate,
   @NonNull @NotNull Boolean permissionToPublish,
   @Size(max = 255) String diaryNumber,

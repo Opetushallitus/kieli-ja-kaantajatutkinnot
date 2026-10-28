@@ -8,6 +8,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
+import java.time.LocalDateTime;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
@@ -65,6 +66,9 @@ public class Person {
   @Size(max = 255)
   @Column(name = "country_code")
   private String countryCode;
+
+  @Column(name = "modified", insertable = false)
+  private LocalDateTime modifiedAt;
 
   @Column(name = "uuid", unique = true)
   private UUID uuid;
