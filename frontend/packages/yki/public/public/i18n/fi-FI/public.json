@@ -297,6 +297,7 @@
               "educationType": "Kerro, onko sinulla opintoja, jotka oikeuttavat maksuttomaan YKI-testiin",
               "email": "Sähköpostiosoite",
               "emailConfirmation": "Sähköpostiosoitteen vahvistus",
+              "examFee": "Tutkintomaksun tarkistus on vielä kesken",
               "firstNames": "Etunimet",
               "gender": "Sukupuoli",
               "hasSSN": "Onko sinulla suomalainen henkilötunnus?",

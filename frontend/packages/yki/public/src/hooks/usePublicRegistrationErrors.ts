@@ -1,4 +1,8 @@
-import { CustomTextFieldErrors, TextFieldTypes } from 'shared/enums';
+import {
+  APIResponseStatus,
+  CustomTextFieldErrors,
+  TextFieldTypes,
+} from 'shared/enums';
 import { InputFieldUtils, StringUtils } from 'shared/utils';
 
 import { useAppSelector } from 'configs/redux';
@@ -13,6 +17,7 @@ import {
 } from 'interfaces/publicRegistration';
 import { examSessionSelector } from 'redux/selectors/examSession';
 import { publicFreeRegistrationSelector } from 'redux/selectors/publicFreeRegistration';
+import { publicIntegrationAssistanceSelector } from 'redux/selectors/publicIntegrationAssistance';
 import { registrationSelector } from 'redux/selectors/registration';
 import { sessionSelector } from 'redux/selectors/session';
 import { ExamSessionUtils } from 'utils/examSession';
@@ -23,7 +28,7 @@ export type PublicRegistrationErrors = {
       PublicSuomiFiRegistration &
       Omit<UserDeclaredEducation, 'source'>
   >]: string;
-};
+} & { examFee?: string };
 
 const preferredNameSearchCollator = new Intl.Collator('fi-FI', {
   usage: 'search',
@@ -36,6 +41,7 @@ const getErrors = (
   registration: Partial<PublicEmailRegistration & PublicSuomiFiRegistration>,
   isEligibleForFreeRegistration: boolean,
   freeRegistrationDetails: PublicFreeRegistrationDetails,
+  isIntegrationAssistancePending: boolean,
 ) => {
   if (!showErrors) {
     return {};
@@ -155,6 +161,9 @@ const getErrors = (
       }
     }
   }
+  if (isIntegrationAssistancePending) {
+    errors['examFee'] = CustomTextFieldErrors.Required;
+  }
   if (!registration.termsAndConditionsAgreed) {
     errors['termsAndConditionsAgreed'] = CustomTextFieldErrors.Required;
   }
@@ -178,6 +187,18 @@ export const usePublicRegistrationErrors = (showErrors: boolean) => {
     examSession &&
     ExamSessionUtils.freeRegistrationPossible(examSession, loggedInSession) &&
     (attemptsUsed || 0) < 3;
+  const integrationAssistance = useAppSelector(
+    publicIntegrationAssistanceSelector,
+  );
+  const isIntegrationAssistancePending =
+    !!examSession &&
+    ExamSessionUtils.integrationAssistancePossible(
+      examSession,
+      loggedInSession,
+    ) &&
+    (integrationAssistance.registrationId !== registration.id ||
+      integrationAssistance.status === APIResponseStatus.NotStarted ||
+      integrationAssistance.status === APIResponseStatus.InProgress);
 
   return () =>
     getErrors(
@@ -186,5 +207,6 @@ export const usePublicRegistrationErrors = (showErrors: boolean) => {
       registration,
       !!isEligibleForFreeRegistration,
       publicFreeRegistrationDetails,
+      isIntegrationAssistancePending,
     );
 };

@@ -297,6 +297,7 @@
               "educationType": "Select whether you have studies that entitle you to free YKI tests",
               "email": "Email address",
               "emailConfirmation": "Confirm email address",
+              "examFee": "The test fee check is still in progress",
               "firstNames": "First names",
               "gender": "Gender",
               "hasSSN": "Do you have a Finnish personal identity code?",
