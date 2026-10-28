@@ -9,6 +9,7 @@ import { APIEndpoints } from 'enums/api';
 import { AppRoutes, RegistrationKind } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { PublicFreeRegistrationDetails } from 'interfaces/publicFreeRegistration';
+import { PublicIntegrationAssistanceState } from 'interfaces/publicIntegrationAssistance';
 import {
   PublicRegistrationFormSubmitErrorResponse,
   PublicRegistrationFormSubmitSuccessResponse,
@@ -41,6 +42,7 @@ import { resetSession } from 'redux/reducers/session';
 import { resetUserOpenRegistrations } from 'redux/reducers/userOpenRegistrations';
 import { nationalitiesSelector } from 'redux/selectors/nationalities';
 import { publicFreeRegistrationSelector } from 'redux/selectors/publicFreeRegistration';
+import { publicIntegrationAssistanceSelector } from 'redux/selectors/publicIntegrationAssistance';
 import { registrationSelector } from 'redux/selectors/registration';
 import { SerializationUtils } from 'utils/serialization';
 
@@ -122,20 +124,32 @@ function* submitRegistrationFormSaga() {
     const registrationState: RegistrationState =
       yield select(registrationSelector);
     const { nationalities } = yield select(nationalitiesSelector);
-    const { basis, isFree }: PublicFreeRegistrationDetails = yield select(
-      publicFreeRegistrationSelector,
-    );
-    if (isFree === 'YES' && basis) {
-      const registrationEducationEndpoint =
-        APIEndpoints.PublicFreeRegistrationEducation.replace(
-          /:registrationId/,
-          `${registrationState.registration.id}`,
+    const { basis, isFree, freeRegistrationId }: PublicFreeRegistrationDetails =
+      yield select(publicFreeRegistrationSelector);
+    const integrationAssistance: PublicIntegrationAssistanceState =
+      yield select(publicIntegrationAssistanceSelector);
+    const integrationAssistanceFreeRegistrationId =
+      integrationAssistance.registrationId === registrationState.registration.id
+        ? freeRegistrationId
+        : undefined;
+    if (
+      isFree === 'YES' &&
+      (integrationAssistanceFreeRegistrationId || basis)
+    ) {
+      let submittedFreeRegistrationId = integrationAssistanceFreeRegistrationId;
+      if (!submittedFreeRegistrationId) {
+        const registrationEducationEndpoint =
+          APIEndpoints.PublicFreeRegistrationEducation.replace(
+            /:registrationId/,
+            `${registrationState.registration.id}`,
+          );
+        const freeRegistrationResponse: AxiosResponse<WithId> = yield call(
+          axiosInstance.post,
+          registrationEducationEndpoint,
+          JSON.stringify({ basis }),
         );
-      const freeRegistrationResponse: AxiosResponse<WithId> = yield call(
-        axiosInstance.post,
-        registrationEducationEndpoint,
-        JSON.stringify({ basis }),
-      );
+        submittedFreeRegistrationId = freeRegistrationResponse.data.id;
+      }
       const response: AxiosResponse<PublicRegistrationFormSubmitSuccessResponse> =
         yield call(
           axiosInstance.post,
@@ -148,7 +162,7 @@ function* submitRegistrationFormSaga() {
               registrationState.registration,
               nationalities,
             ),
-            free_registration_id: freeRegistrationResponse.data.id,
+            free_registration_id: submittedFreeRegistrationId,
           }),
           {
             params: {
