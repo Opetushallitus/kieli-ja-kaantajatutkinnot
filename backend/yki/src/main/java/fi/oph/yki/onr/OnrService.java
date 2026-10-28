@@ -3,10 +3,13 @@ package fi.oph.yki.onr;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import fi.oph.yki.api.dto.PublicRegistrationFormDTO;
 import fi.oph.yki.onr.dto.PersonalDataDTO;
+import fi.oph.yki.util.DateUtil;
 import fi.vm.sade.javautils.nio.cas.CasClient;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +33,9 @@ public class OnrService {
 
   private static final Logger LOG = LoggerFactory.getLogger(OnrService.class);
 
-  private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+  private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper()
+    .registerModule(new JavaTimeModule())
+    .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
   private static final int FIND_OR_CREATE_PERSON_ATTEMPTS = 3;
 
@@ -146,12 +151,7 @@ public class OnrService {
         return Optional.ofNullable(person.getOidHenkilo());
       }
 
-      // TODO: Decide how birthdates are compared.
-      //   Saw: legacy compares the form birthdate and ONR syntymaaika as strings (yki onr.clj:84); ONR's date
-      //        format is not verified.
-      //   Did: string comparison, as legacy. Other: parse both as LocalDate.
-      //   Settled by: one findOrCreateHenkiloPerustieto response from untuva ONR.
-      if (Objects.equals(form.birthdate(), person.getBirthdate())) {
+      if (Objects.equals(DateUtil.parseOptionalDate(form.birthdate()), person.getBirthdate())) {
         return Optional.ofNullable(person.getOidHenkilo());
       }
 
