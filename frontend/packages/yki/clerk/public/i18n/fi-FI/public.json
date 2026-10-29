@@ -203,6 +203,8 @@
         }
       },
       "clerkExamSessionRegistrations": {
+        "queueEnds": "Jonotus päättyy",
+        "queueEnded": "Jonotus päättynyt",
         "buttons": {
           "downloadExcel": "Lataa excel",
           "onlyPaid": "Näytä vain maksaneet",

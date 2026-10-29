@@ -203,6 +203,8 @@
         }
       },
       "clerkExamSessionRegistrations": {
+        "queueEnds": "Queue closes",
+        "queueEnded": "Queue closed",
         "buttons": {
           "downloadExcel": "Lataa excel",
           "onlyPaid": "Näytä vain maksaneet",
