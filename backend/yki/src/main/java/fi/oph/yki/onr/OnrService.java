@@ -124,48 +124,49 @@ public class OnrService {
         .build();
 
       final Response response = casOnrClient.executeBlocking(request);
+      final int status = response.getStatusCode();
 
-      if (response.getStatusCode() != HttpStatus.OK.value() && response.getStatusCode() != HttpStatus.CREATED.value()) {
-        LOG.error(
-          "ONR findOrCreateHenkiloPerustieto returned status {} for registration id {}",
-          response.getStatusCode(),
-          registrationId
-        );
-        return Optional.empty();
-      }
-
-      final PersonalDataDTO person = OBJECT_MAPPER.readValue(response.getResponseBody(), new TypeReference<>() {});
-
-      if (response.getStatusCode() == HttpStatus.CREATED.value()) {
+      // New person created within ONR -> return response body
+      if (status == HttpStatus.CREATED.value()) {
+        final PersonalDataDTO person = OBJECT_MAPPER.readValue(response.getResponseBody(), new TypeReference<>() {});
         return Optional.ofNullable(person.getOidHenkilo());
       }
 
-      if (hasSsn) {
-        if (!Objects.equals(form.lastName(), person.getLastName())) {
-          LOG.warn(
-            "Found ONR person by hetu, but last names differ. Registration id: {}, OID: {}",
-            registrationId,
-            person.getOidHenkilo()
-          );
+      // Found an existing person in ONR -> check and return details if they look like a reasonable match
+      // Otherwise try again with slightly altered identification details to avoid using someone else's OID.
+      if (status == HttpStatus.OK.value()) {
+        final PersonalDataDTO person = OBJECT_MAPPER.readValue(response.getResponseBody(), new TypeReference<>() {});
+
+        if (hasSsn) {
+          if (!Objects.equals(form.lastName(), person.getLastName())) {
+            LOG.warn(
+              "Found ONR person by hetu, but last names differ. Registration id: {}, OID: {}",
+              registrationId,
+              person.getOidHenkilo()
+            );
+          }
+          return Optional.ofNullable(person.getOidHenkilo());
         }
-        return Optional.ofNullable(person.getOidHenkilo());
+
+        if (Objects.equals(DateUtil.parseOptionalDate(form.birthdate()), person.getBirthdate())) {
+          return Optional.ofNullable(person.getOidHenkilo());
+        }
+
+        LOG.warn(
+          "Found ONR person, but birthdates differ. Registration id: {}, OID: {}, attempt: {}",
+          registrationId,
+          person.getOidHenkilo(),
+          attempt
+        );
+        lastMismatch = person;
+        continue;
       }
 
-      if (Objects.equals(DateUtil.parseOptionalDate(form.birthdate()), person.getBirthdate())) {
-        return Optional.ofNullable(person.getOidHenkilo());
-      }
-
-      LOG.warn(
-        "Found ONR person, but birthdates differ. Registration id: {}, OID: {}, attempt: {}",
-        registrationId,
-        person.getOidHenkilo(),
-        attempt
-      );
-      lastMismatch = person;
+      // Else log error
+      LOG.error("ONR findOrCreateHenkiloPerustieto returned status {} for registration id {}", status, registrationId);
+      return Optional.empty();
     }
 
-    // Not reached with ONR: it matches only by OID, identifications, hetu and eIDAS, and the last attempt sends
-    // none of them, so it always gets 201. Returns the last mismatch, as legacy does (yki onr.clj:115-122).
     LOG.error(
       "ONR attempts exhausted, returning the last mismatch. Registration id: {}, OID: {}",
       registrationId,
