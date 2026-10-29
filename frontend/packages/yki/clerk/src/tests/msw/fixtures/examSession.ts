@@ -1,5 +1,11 @@
-import { ExamLanguage, ExamLevel, RegistrationKind } from 'enums/app';
+import {
+  ExamLanguage,
+  ExamLevel,
+  ExamSessionType,
+  RegistrationKind,
+} from 'enums/app';
 import { ExamSessionsResponse } from 'interfaces/examSessions';
+import { clerkExamSessions } from 'tests/msw/fixtures/clerkExamSession';
 
 export const examSessions: ExamSessionsResponse = {
   exam_sessions: [
@@ -684,3 +690,20 @@ export const examSessions: ExamSessionsResponse = {
     },
   ],
 };
+
+// Include partial exams in the organizer accordion, using the same dates and
+// capacities as their session details so they can be opened through the UI.
+examSessions.exam_sessions.push(
+  ...clerkExamSessions
+    .filter(({ type }) => type !== ExamSessionType.FULL)
+    .map((session) => ({
+      ...examSessions.exam_sessions[0],
+      id: session.id,
+      session_date: session.date,
+      registration_start_date: session.registrationStartDate,
+      registration_end_date: session.registrationEndDate,
+      participants: session.participants,
+      max_participants: session.maxParticipantsTotal,
+      queue: session.queue,
+    })),
+);
