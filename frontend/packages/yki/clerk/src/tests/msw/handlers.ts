@@ -252,6 +252,16 @@ export const handlers = [
       return HttpResponse.json(examDates);
     },
   ),
+  http.get(APIEndpoints.OrganizerExamSession, ({ params, request }) => {
+    const from = new URL(request.url).searchParams.get('from');
+    const sessions = examSessions.exam_sessions.filter(
+      (session) =>
+        session.organizer_oid === params.oid &&
+        (!from || !dayjs(session.session_date).isBefore(dayjs(from), 'day')),
+    );
+
+    return HttpResponse.json({ exam_sessions: sessions });
+  }),
   http.get(`${APIEndpoints.OrganizerExamSession}/:id`, ({ params }) => {
     const examSession = clerkExamSessions.find(
       ({ id }) => id === Number(params.id),
