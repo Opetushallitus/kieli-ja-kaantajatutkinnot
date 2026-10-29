@@ -13,15 +13,15 @@ export const clerkExamSession: ClerkExamSessionResponse = {
   type: ExamSessionType.FULL,
   open: true,
   upcomingAdmission: true,
-  participants: 15,
+  participants: 5,
   participantsReadListen: 5,
-  participantsSpeakWrite: 10,
+  participantsSpeakWrite: 5,
   maxParticipantsTotal: 15,
   maxParticipantsReadListen: 10,
   maxParticipantsSpeakWrite: 10,
   startTimeReadListen: '11:00',
   startTimeSpeakWrite: '13:00',
-  queue: 0,
+  queue: 2,
   contactName: 'Teppo-Testi Järjestäjä',
   contactPhoneNumber: '+358401234567',
   contactEmail: 'jarjestaja@testi.invalid',
@@ -63,5 +63,38 @@ export const clerkExamSession: ClerkExamSessionResponse = {
   examFee: 200,
   registrationEndDate: '2030-12-31',
   availableRegistrationKind: RegistrationKind.Admission,
-  registrations: registrations,
+  registrations: registrations.map((registration) => ({
+    ...registration,
+    partialExamType: 'ALL_PARTS',
+    queuePosition: registration.id === 7 ? 2 : registration.queuePosition,
+  })),
 };
+
+// Direct URLs: /yki/v2/virkailija/tilaisuus/999, /1000 and /1001.
+export const clerkExamSessions: ClerkExamSessionResponse[] = [
+  clerkExamSession,
+  {
+    ...clerkExamSession,
+    id: 1000,
+    type: ExamSessionType.READ_SPEAK,
+    participantsReadListen: 4,
+    participantsSpeakWrite: 3,
+    registrations,
+  },
+  {
+    ...clerkExamSession,
+    id: 1001,
+    type: ExamSessionType.LISTEN_WRITE,
+    participantsReadListen: 4,
+    participantsSpeakWrite: 3,
+    registrations: registrations.map((registration) => ({
+      ...registration,
+      partialExamType:
+        registration.partialExamType === 'READ'
+          ? 'LISTEN'
+          : registration.partialExamType === 'SPEAK'
+            ? 'WRITE'
+            : registration.partialExamType,
+    })),
+  },
+];
