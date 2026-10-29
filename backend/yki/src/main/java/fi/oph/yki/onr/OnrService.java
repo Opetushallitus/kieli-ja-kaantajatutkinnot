@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import fi.oph.yki.api.dto.PublicRegistrationFormDTO;
+import fi.oph.yki.config.Constants;
 import fi.oph.yki.onr.dto.FindOrCreatePersonRequestDTO;
 import fi.oph.yki.onr.dto.FindOrCreatePersonRequestDTO.Identification;
 import fi.oph.yki.onr.dto.FindOrCreatePersonRequestDTO.Language;
@@ -13,6 +14,7 @@ import fi.oph.yki.onr.dto.FindOrCreatePersonRequestDTO.Nationality;
 import fi.oph.yki.onr.dto.PersonalDataDTO;
 import fi.oph.yki.util.DateUtil;
 import fi.vm.sade.javautils.nio.cas.CasClient;
+import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -24,9 +26,9 @@ import org.asynchttpclient.Response;
 import org.asynchttpclient.util.HttpConstants.Methods;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -42,22 +44,16 @@ public class OnrService {
   private static final int FIND_OR_CREATE_PERSON_ATTEMPTS = 3;
 
   private final CasClient casOnrClient;
-  private final RequestBuilder defaultRequestBuilder;
   private final String onrServiceUrl;
 
-  public OnrService(
-    CasClient casOnrClient,
-    @Qualifier("casRequestBuilder") RequestBuilder requestBuilder,
-    @Value("${cas.onr-url}") String onrServiceUrl
-  ) {
+  public OnrService(CasClient casOnrClient, @Value("${cas.onr-url}") String onrServiceUrl) {
     this.casOnrClient = casOnrClient;
-    this.defaultRequestBuilder = requestBuilder;
     this.onrServiceUrl = onrServiceUrl;
   }
 
   public PersonalDataDTO getPersonalData(final String oidNumber)
     throws RuntimeException, ExecutionException, InterruptedException, JsonProcessingException {
-    final Request request = defaultRequestBuilder
+    final Request request = defaultRequestBuilder()
       .setUrl(onrServiceUrl + "/henkilo/" + oidNumber)
       .setMethod(Methods.GET)
       .build();
@@ -74,7 +70,7 @@ public class OnrService {
   public List<PersonalDataDTO> listPersonDetails(final List<String> oids)
     throws RuntimeException, ExecutionException, InterruptedException, JsonProcessingException {
     final String body = OBJECT_MAPPER.writeValueAsString(Map.of("henkiloOids", oids));
-    final Request request = defaultRequestBuilder
+    final Request request = defaultRequestBuilder()
       .setUrl(onrServiceUrl + "/s2s/henkilo/perustiedotAsAdmin")
       .setMethod(Methods.POST)
       .setBody(body)
@@ -90,7 +86,7 @@ public class OnrService {
 
   public Optional<PersonalDataDTO> findPersonalDataByIdentityNumber(final String identityNumber)
     throws ExecutionException, InterruptedException, JsonProcessingException, RuntimeException {
-    final Request request = defaultRequestBuilder
+    final Request request = defaultRequestBuilder()
       .setUrl(onrServiceUrl + "/henkilo/hetu=" + identityNumber)
       .setMethod(Methods.GET)
       .build();
@@ -122,7 +118,7 @@ public class OnrService {
     // https://github.com/Opetushallitus/yki/pull/165). The legacy loop/recur is this for loop: each attempt sends the
     // request again with the identifications findOrCreatePersonBody gives for that attempt.
     for (int attempt = 1; attempt <= FIND_OR_CREATE_PERSON_ATTEMPTS; attempt++) {
-      final Request request = defaultRequestBuilder
+      final Request request = defaultRequestBuilder()
         .setUrl(onrServiceUrl + "/s2s/findOrCreateHenkiloPerustieto")
         .setMethod(Methods.POST)
         .setBody(OBJECT_MAPPER.writeValueAsString(findOrCreatePersonBody(form, hasSsn, attempt)))
@@ -226,5 +222,13 @@ public class OnrService {
       // Without identifications, ONR creates a new person instead of matching an existing one.
       default -> null;
     };
+  }
+
+  private RequestBuilder defaultRequestBuilder() {
+    return new RequestBuilder()
+      .addHeader("Accept", MediaType.APPLICATION_JSON_VALUE)
+      .addHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+      .addHeader("Caller-Id", Constants.CALLER_ID)
+      .setRequestTimeout(Duration.ofMinutes(2));
   }
 }

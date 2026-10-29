@@ -247,6 +247,7 @@ public class PublicRegistrationService {
     // Step 3: Get or create person in ONR (oppijanumerorekisteri)
     // TODO: Should we call this inside a transaction,
     //  because we make (possibly multiple) HTTP request(s) inside this method?
+    // TODO: Do something with personOid
     final String personOid = getOrCreatePerson(identity, registrationId, formDTO);
 
     // Step 4: Upsert person in local person table

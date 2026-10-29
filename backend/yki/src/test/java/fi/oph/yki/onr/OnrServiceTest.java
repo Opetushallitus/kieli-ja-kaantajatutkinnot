@@ -2,6 +2,7 @@ package fi.oph.yki.onr;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -9,16 +10,17 @@ import static org.mockito.Mockito.when;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.oph.yki.api.dto.PublicRegistrationFormDTO;
+import fi.oph.yki.config.Constants;
 import fi.vm.sade.javautils.nio.cas.CasClient;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import org.asynchttpclient.Request;
-import org.asynchttpclient.RequestBuilder;
 import org.asynchttpclient.Response;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 
 public class OnrServiceTest {
 
@@ -26,7 +28,7 @@ public class OnrServiceTest {
 
   private final CasClient casClient = mock(CasClient.class);
 
-  private final OnrService onrService = new OnrService(casClient, new RequestBuilder(), "http://localhost");
+  private final OnrService onrService = new OnrService(casClient, "http://localhost");
 
   private static Response response(final HttpStatus status, final String body) {
     final Response response = mock(Response.class);
@@ -162,5 +164,32 @@ public class OnrServiceTest {
 
     assertEquals(Optional.empty(), oid);
     assertEquals(1, requests.size());
+  }
+
+  @Test
+  public void testRequestDoesNotCarryEarlierRequestBody() throws Exception {
+    final Iterator<Response> responses = List
+      .of(
+        response(HttpStatus.CREATED, "{\"oidHenkilo\": \"1.1.1\"}"),
+        response(HttpStatus.OK, "{\"oidHenkilo\": \"1.1.1\"}")
+      )
+      .iterator();
+    final List<Request> requests = new ArrayList<>();
+    when(casClient.executeBlocking(any()))
+      .thenAnswer(invocation -> {
+        requests.add(invocation.getArgument(0, Request.class));
+
+        return responses.next();
+      });
+
+    onrService.findOrCreatePerson(form().build(), 1L);
+    onrService.getPersonalData("1.1.1");
+
+    final Request request = requests.get(1);
+    assertEquals("http://localhost/henkilo/1.1.1", request.getUrl());
+    assertNull(request.getStringData());
+    assertEquals(MediaType.APPLICATION_JSON_VALUE, request.getHeaders().get("Accept"));
+    assertEquals(MediaType.APPLICATION_JSON_VALUE, request.getHeaders().get("Content-Type"));
+    assertEquals(Constants.CALLER_ID, request.getHeaders().get("Caller-Id"));
   }
 }
