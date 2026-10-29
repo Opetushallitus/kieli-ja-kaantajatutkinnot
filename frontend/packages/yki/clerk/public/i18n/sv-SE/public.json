@@ -204,6 +204,8 @@
         }
       },
       "clerkExamSessionRegistrations": {
+        "queueEnds": "Köanmälan avslutas",
+        "queueEnded": "Köanmälan avslutad",
         "buttons": {
           "downloadExcel": "Ladda ner Excel",
           "onlyPaid": "Visa endast betalda",
