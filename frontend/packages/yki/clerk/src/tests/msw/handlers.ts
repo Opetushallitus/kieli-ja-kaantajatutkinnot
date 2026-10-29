@@ -11,7 +11,10 @@ import {
   UpdateEvaluationRequest,
 } from 'interfaces/examDate';
 import { activeQuarantines } from 'tests/msw/fixtures/activeQuarantines';
-import { clerkExamSession } from 'tests/msw/fixtures/clerkExamSession';
+import {
+  clerkExamSession,
+  clerkExamSessions,
+} from 'tests/msw/fixtures/clerkExamSession';
 import { customerDetails } from 'tests/msw/fixtures/customerDetails';
 import { allCustomers } from 'tests/msw/fixtures/customersSearch';
 import { examDates } from 'tests/msw/fixtures/examDate';
@@ -244,10 +247,13 @@ export const handlers = [
       return HttpResponse.json(examDates);
     },
   ),
-  http.get(
-    APIEndpoints.Organizer + '/1.2.246.562.10.28646781493/examSession/999',
-    () => HttpResponse.json(clerkExamSession),
-  ),
+  http.get(`${APIEndpoints.OrganizerExamSession}/:id`, ({ params }) => {
+    const examSession = clerkExamSessions.find(
+      ({ id }) => id === Number(params.id),
+    );
+
+    return examSession ? HttpResponse.json(examSession) : notFound();
+  }),
   http.get(`${APIEndpoints.ClerkExamDate}/all`, () => {
     return HttpResponse.json(examDates);
   }),
@@ -345,9 +351,13 @@ export const handlers = [
 
     return new HttpResponse(null, { status: 200 });
   }),
-  http.get(APIEndpoints.ClerkExamSession, () =>
-    HttpResponse.json(clerkExamSession),
-  ),
+  http.get(APIEndpoints.ClerkExamSession, ({ params }) => {
+    const examSession = clerkExamSessions.find(
+      ({ id }) => id === Number(params.id),
+    );
+
+    return HttpResponse.json(examSession ?? clerkExamSession);
+  }),
   http.put(
     APIEndpoints.ClerkRegistrationMove,
     () => new HttpResponse(null, { status: 200 }),
