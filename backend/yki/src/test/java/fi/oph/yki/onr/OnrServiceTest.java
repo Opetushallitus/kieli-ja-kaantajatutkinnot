@@ -2,7 +2,6 @@ package fi.oph.yki.onr;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -79,7 +78,6 @@ public class OnrServiceTest {
     assertEquals(Optional.of("1.1.1"), oid);
     assertEquals(1, requests.size());
     assertEquals("010190-123A", requests.get(0).get("hetu").asText());
-    assertFalse(requests.get(0).get("eiSuomalaistaHetua").asBoolean());
     assertFalse(requests.get(0).has("identifications"));
     assertFalse(requests.get(0).has("syntymaaika"));
   }
@@ -92,18 +90,14 @@ public class OnrServiceTest {
 
     assertEquals(Optional.of("1.1.1"), oid);
     final JsonNode body = requests.get(0);
-    assertEquals("YHTEYSTIETO_SAHKOPOSTI", body.get("yhteystieto").get(0).get("yhteystietoTyyppi").asText());
-    assertEquals("testi@example.com", body.get("yhteystieto").get(0).get("yhteystietoArvo").asText());
     assertEquals("Testi Matti", body.get("etunimet").asText());
     assertEquals("Testi", body.get("kutsumanimi").asText());
     assertEquals("Henkilö", body.get("sukunimi").asText());
-    assertTrue(body.get("sukupuoli").isNull());
+    assertFalse(body.has("sukupuoli"));
     assertEquals("fi", body.get("asiointiKieli").get("kieliKoodi").asText());
     assertEquals("246", body.get("kansalaisuus").get(0).get("kansalaisuusKoodi").asText());
-    assertEquals("OPPIJA", body.get("henkiloTyyppi").asText());
     assertEquals("fi", body.get("aidinkieli").get("kieliKoodi").asText());
     assertEquals("1990-01-01", body.get("syntymaaika").asText());
-    assertTrue(body.get("eiSuomalaistaHetua").asBoolean());
     assertFalse(body.has("hetu"));
   }
 
@@ -144,7 +138,7 @@ public class OnrServiceTest {
 
     assertEquals(Optional.of("3.3.3"), oid);
     assertEquals(3, requests.size());
-    assertTrue(requests.get(2).get("identifications").isNull());
+    assertFalse(requests.get(2).has("identifications"));
   }
 
   @Test

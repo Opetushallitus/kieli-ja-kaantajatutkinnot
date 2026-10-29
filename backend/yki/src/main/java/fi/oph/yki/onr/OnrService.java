@@ -4,10 +4,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import fi.oph.yki.api.dto.PublicRegistrationFormDTO;
+import fi.oph.yki.onr.dto.FindOrCreatePersonRequestDTO;
+import fi.oph.yki.onr.dto.FindOrCreatePersonRequestDTO.Identification;
+import fi.oph.yki.onr.dto.FindOrCreatePersonRequestDTO.Language;
+import fi.oph.yki.onr.dto.FindOrCreatePersonRequestDTO.Nationality;
 import fi.oph.yki.onr.dto.PersonalDataDTO;
 import fi.oph.yki.util.DateUtil;
 import fi.vm.sade.javautils.nio.cas.CasClient;
@@ -178,60 +180,51 @@ public class OnrService {
     return Optional.ofNullable(lastMismatch.getOidHenkilo());
   }
 
-  private static ObjectNode findOrCreatePersonBody(
+  private static FindOrCreatePersonRequestDTO findOrCreatePersonBody(
     final PublicRegistrationFormDTO form,
     final boolean hasSsn,
     final int attempt
   ) {
     final String nickname = form.firstName().split(" ")[0];
-    final ObjectNode node = OBJECT_MAPPER.createObjectNode();
 
-    node
-      .putArray("yhteystieto")
-      .addObject()
-      .put("yhteystietoTyyppi", "YHTEYSTIETO_SAHKOPOSTI")
-      .put("yhteystietoArvo", form.email());
-    node.put("etunimet", form.firstName());
-    node.put("kutsumanimi", Objects.requireNonNullElse(form.preferredName(), nickname));
-    node.put("sukunimi", form.lastName());
-    node.put("sukupuoli", StringUtils.hasText(form.gender()) ? form.gender() : null);
-    node.putObject("asiointiKieli").put("kieliKoodi", form.examLang());
-    final ArrayNode nationalities = node.putArray("kansalaisuus");
-    form.nationalities().forEach(code -> nationalities.addObject().put("kansalaisuusKoodi", code));
-    node.put("henkiloTyyppi", "OPPIJA");
-    if (form.nativeLanguage() != null) {
-      node.putObject("aidinkieli").put("kieliKoodi", form.nativeLanguage().toLowerCase());
-    }
+    return FindOrCreatePersonRequestDTO
+      .builder()
+      .identifications(hasSsn ? null : identifications(form, nickname, attempt))
+      .identityNumber(hasSsn ? form.ssn().toUpperCase() : null)
+      .firstNames(form.firstName())
+      .nickname(StringUtils.hasText(form.preferredName()) ? form.preferredName() : nickname)
+      .lastName(form.lastName())
+      .birthdate(hasSsn ? null : form.birthdate())
+      .nativeLanguage(
+        StringUtils.hasText(form.nativeLanguage()) ? new Language(form.nativeLanguage().toLowerCase()) : null
+      )
+      .contactLanguage(new Language(form.examLang()))
+      .nationalities(form.nationalities().stream().map(Nationality::new).toList())
+      .gender(StringUtils.hasText(form.gender()) ? form.gender() : null)
+      .build();
+  }
 
-    if (hasSsn) {
-      node.put("hetu", form.ssn().toUpperCase());
-      node.put("eiSuomalaistaHetua", false);
-      return node;
-    }
-
-    node.put("syntymaaika", form.birthdate());
-    node.put("eiSuomalaistaHetua", true);
-    switch (attempt) {
-      case 1 -> node
-        .putArray("identifications")
-        .addObject()
-        .put("idpEntityId", "oppijaToken")
-        .put("identifier", form.email());
-      case 2 -> node
-        .putArray("identifications")
-        .addObject()
-        .put("idpEntityId", "oppijaToken")
-        .put(
-          "identifier",
-          String
-            .join("_", form.lastName(), nickname, Objects.requireNonNullElse(form.birthdate(), ""))
-            .replaceAll("\\s+", "")
-            .toLowerCase()
-        );
+  private static List<Identification> identifications(
+    final PublicRegistrationFormDTO form,
+    final String nickname,
+    final int attempt
+  ) {
+    return switch (attempt) {
+      case 1 -> List.of(Identification.builder().idpEntityId("oppijaToken").identifier(form.email()).build());
+      case 2 -> List.of(
+        Identification
+          .builder()
+          .idpEntityId("oppijaToken")
+          .identifier(
+            String
+              .join("_", form.lastName(), nickname, Objects.requireNonNullElse(form.birthdate(), ""))
+              .replaceAll("\\s+", "")
+              .toLowerCase()
+          )
+          .build()
+      );
       // Without identifications, ONR creates a new person instead of matching an existing one.
-      default -> node.putNull("identifications");
-    }
-
-    return node;
+      default -> null;
+    };
   }
 }
