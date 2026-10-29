@@ -76,6 +76,9 @@ export const clerkExamSessions: ClerkExamSessionResponse[] = [
   {
     ...clerkExamSession,
     id: 1000,
+    date: '2035-01-15',
+    maxParticipantsReadListen: 12,
+    maxParticipantsSpeakWrite: 8,
     type: ExamSessionType.READ_SPEAK,
     participantsReadListen: 4,
     participantsSpeakWrite: 3,
@@ -84,6 +87,11 @@ export const clerkExamSessions: ClerkExamSessionResponse[] = [
   {
     ...clerkExamSession,
     id: 1001,
+    date: '2026-11-01',
+    registrationStartDate: '2026-09-01',
+    registrationEndDate: '2026-10-20',
+    maxParticipantsReadListen: 12,
+    maxParticipantsSpeakWrite: 8,
     type: ExamSessionType.LISTEN_WRITE,
     participantsReadListen: 4,
     participantsSpeakWrite: 3,
