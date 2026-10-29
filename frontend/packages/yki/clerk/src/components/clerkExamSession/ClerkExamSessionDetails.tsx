@@ -1,5 +1,5 @@
-import { Chip } from '@mui/material';
-import { OphButton } from '@opetushallitus/oph-design-system';
+import { Box, Chip } from '@mui/material';
+import { OphButton, ophColors } from '@opetushallitus/oph-design-system';
 import dayjs from 'dayjs';
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router';
@@ -143,14 +143,32 @@ export const ClerkExamSessionDetails = ({
           </div>
           <div className="rows gapped-xs">
             <Label>{t('queueEnds')}</Label>
-            <Text>{DateTimeUtils.renderDate(queueEndDate)}</Text>
-            {queueHasEnded && (
-              <Chip
-                label={t('queueEnded')}
-                size="small"
-                sx={{ alignSelf: 'flex-start' }}
-              />
-            )}
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                flexWrap: 'wrap',
+              }}
+            >
+              <Text>{DateTimeUtils.renderDate(queueEndDate)}</Text>
+              {queueHasEnded && (
+                <Chip
+                  label={t('queueEnded')}
+                  size="small"
+                  sx={{
+                    height: '24px',
+                    borderRadius: '4px',
+                    backgroundColor: ophColors.lightBlue2,
+                    color: ophColors.cyan1,
+                    fontSize: '14px',
+                    fontWeight: 600,
+                    lineHeight: '24px',
+                    '& .MuiChip-label': { padding: '0 5px' },
+                  }}
+                />
+              )}
+            </Box>
           </div>
         </div>
         <div className="rows gapped-xs">
