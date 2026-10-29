@@ -26,18 +26,25 @@ beforeAll(async () => {
   DateUtils.setDayjsLocale(AppLanguage.Finnish);
 });
 
-beforeEach(() => jest.useFakeTimers());
+beforeEach(() => {
+  jest.useFakeTimers();
+  jest.setSystemTime(new Date('2026-10-29T12:00:00'));
+});
 afterEach(() => jest.useRealTimers());
 
 describe.each<RouteType>(['clerk', 'organizer'])(
   '%s session details',
   (route) => {
     it.each([
-      { today: '2026-12-28T12:00:00', ended: false },
-      { today: '2026-12-29T23:59:59', ended: false },
-      { today: '2026-12-30T00:00:00', ended: true },
+      { daysRemaining: 8, today: '2026-12-28T12:00:00', ended: false },
+      { daysRemaining: 7, today: '2026-12-29T00:00:00', ended: false },
+      { daysRemaining: 7, today: '2026-12-29T12:00:00', ended: false },
+      { daysRemaining: 7, today: '2026-12-29T23:59:59', ended: false },
+      { daysRemaining: 6, today: '2026-12-30T00:00:00', ended: true },
+      { daysRemaining: 0, today: '2027-01-05T12:00:00', ended: true },
+      { daysRemaining: -1, today: '2027-01-06T12:00:00', ended: true },
     ])(
-      'shows the queue deadline and closed badge appropriately on $today',
+      'shows closed=$ended with $daysRemaining calendar days remaining at $today',
       ({ today, ended }) => {
         jest.setSystemTime(new Date(today));
         render(
@@ -63,6 +70,49 @@ describe.each<RouteType>(['clerk', 'organizer'])(
             screen.queryByText('Jonotus päättynyt'),
           ).not.toBeInTheDocument();
         }
+      },
+    );
+
+    it.each([
+      {
+        type: ExamSessionType.FULL,
+        examDate: '2027-01-05',
+        today: '2026-12-30',
+        deadline: '29.12.2026',
+      },
+      {
+        type: ExamSessionType.READ_SPEAK,
+        examDate: '2026-03-05',
+        today: '2026-02-27',
+        deadline: '26.2.2026',
+      },
+      {
+        type: ExamSessionType.LISTEN_WRITE,
+        examDate: '2028-03-05',
+        today: '2028-02-28',
+        deadline: '27.2.2028',
+      },
+    ])(
+      'calculates $type deadline across calendar boundaries for $examDate',
+      ({ type, examDate, today, deadline }) => {
+        jest.setSystemTime(new Date(`${today}T12:00:00`));
+        render(
+          <DefaultProviders>
+            <ClerkExamSessionDetails
+              examSessionDetails={{
+                ...SerializationUtils.deserializeClerkExamSessionResponse(
+                  clerkExamSession,
+                ),
+                type,
+                date: dayjs(examDate),
+              }}
+              examDates={[]}
+              route={route}
+            />
+          </DefaultProviders>,
+        );
+        expect(screen.getByText(deadline)).toBeInTheDocument();
+        expect(screen.getByText('Jonotus päättynyt')).toBeInTheDocument();
       },
     );
 
