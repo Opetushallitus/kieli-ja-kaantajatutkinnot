@@ -1,4 +1,6 @@
+import { Chip } from '@mui/material';
 import { OphButton } from '@opetushallitus/oph-design-system';
+import dayjs from 'dayjs';
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router';
 import {
@@ -104,6 +106,9 @@ export const ClerkExamSessionDetails = ({
       : getExamSessionMaxParticipantsPartial();
   };
 
+  const queueEndDate = examSessionDetails.date.subtract(7, 'day');
+  const queueHasEnded = queueEndDate.isBefore(dayjs(), 'day');
+
   const lang = getCurrentLang();
   const location = examSessionDetails.location.find(
     (esl) =>
@@ -135,6 +140,17 @@ export const ClerkExamSessionDetails = ({
               {' - '}
               {DateTimeUtils.renderDate(examSessionDetails.registrationEndDate)}
             </div>
+          </div>
+          <div className="rows gapped-xs">
+            <Label>{t('queueEnds')}</Label>
+            <Text>{DateTimeUtils.renderDate(queueEndDate)}</Text>
+            {queueHasEnded && (
+              <Chip
+                label={t('queueEnded')}
+                size="small"
+                sx={{ alignSelf: 'flex-start' }}
+              />
+            )}
           </div>
         </div>
         <div className="rows gapped-xs">
