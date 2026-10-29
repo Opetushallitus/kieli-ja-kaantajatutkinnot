@@ -2,8 +2,10 @@ package fi.oph.yki.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import fi.oph.yki.Factory;
@@ -30,6 +32,7 @@ import fi.oph.yki.model.type.ExamSessionType;
 import fi.oph.yki.model.type.FreeRegistrationSource;
 import fi.oph.yki.model.type.FreeRegistrationType;
 import fi.oph.yki.model.type.PartialExamType;
+import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.repository.FreeRegistrationRepository;
 import fi.oph.yki.repository.PersonRepository;
@@ -39,6 +42,8 @@ import fi.oph.yki.service.dto.FreeRegistrationDTO;
 import fi.oph.yki.service.koski.KoskiService;
 import fi.oph.yki.service.koski.dto.KoulutusTyyppi;
 import fi.oph.yki.util.RegistrationUtil;
+import fi.oph.yki.util.exception.APIException;
+import fi.oph.yki.util.exception.APIExceptionType;
 import jakarta.annotation.Resource;
 import java.time.LocalDate;
 import java.util.List;
@@ -99,8 +104,10 @@ public class RegistrationServiceTest {
     final Person person = Factory.person();
     final ExamDate examDate = Factory.examDate();
     final ExamSession examSession = Factory.examSession(examDate);
+    examSession.setLevel("YLIN");
     final Registration registration = Factory.registration(person);
     registration.setExamSession(examSession);
+    registration.setState(RegistrationState.STARTED);
     final List<PublicEducationDTO> educationDTOs = List.of(
       PublicEducationDTO.builder().educationType(KoulutusTyyppi.HigherEducation.toString()).isActive(true).build()
     );
@@ -137,8 +144,10 @@ public class RegistrationServiceTest {
     final Person person = Factory.person();
     final ExamDate examDate = Factory.examDate();
     final ExamSession examSession = Factory.examSession(examDate);
+    examSession.setLevel("YLIN");
     final Registration registration = Factory.registration(person);
     registration.setExamSession(examSession);
+    registration.setState(RegistrationState.STARTED);
     final FreeRegistration freeRegistration = Factory.freeRegistration(registration);
     final List<PublicEducationDTO> educationDTOs = List.of(
       PublicEducationDTO.builder().educationType(KoulutusTyyppi.HigherEducation.toString()).isActive(true).build()
@@ -173,6 +182,135 @@ public class RegistrationServiceTest {
         freeRegistrationBeforeDTO,
         RegistrationUtil.createFreeRegistrationDTO(registration.getFreeRegistration())
       );
+  }
+
+  @Test
+  public void testCreateFreeRegistrationFromKoskiForSwedishAdvancedLevel() {
+    final Registration registration = persistRegistration("YLIN", "swe", RegistrationState.STARTED);
+    final List<PublicEducationDTO> educationDTOs = List.of(
+      PublicEducationDTO.builder().educationType(KoulutusTyyppi.HigherEducation.toString()).isActive(true).build()
+    );
+    when(koskiService.getEducations(registration.getPerson().getOid())).thenReturn(educationDTOs);
+
+    registrationService.updateFreeRegistration(registration, educationUpdate(FreeRegistrationSource.KOSKI));
+
+    entityManager.refresh(registration);
+    final FreeRegistration freeRegistration = registration.getFreeRegistration();
+    assertNotNull(freeRegistration);
+    assertEquals(FreeRegistrationSource.KOSKI, freeRegistration.getSource());
+    assertEquals(FreeRegistrationType.HigherEducationEnrolled, freeRegistration.getType());
+  }
+
+  @Test
+  public void testFreeRegistrationNotAllowedForBasicLevel() {
+    assertFreeRegistrationNotAllowed(persistRegistration("PERUS", "fin", RegistrationState.STARTED));
+  }
+
+  @Test
+  public void testFreeRegistrationNotAllowedForIntermediateLevel() {
+    assertFreeRegistrationNotAllowed(persistRegistration("KESKI", "swe", RegistrationState.STARTED));
+  }
+
+  @Test
+  public void testFreeRegistrationNotAllowedForEnglish() {
+    assertFreeRegistrationNotAllowed(persistRegistration("YLIN", "eng", RegistrationState.STARTED));
+  }
+
+  @Test
+  public void testFreeRegistrationNotAllowedForGerman() {
+    assertFreeRegistrationNotAllowed(persistRegistration("YLIN", "deu", RegistrationState.STARTED));
+  }
+
+  @Test
+  public void testFreeRegistrationNotAllowedForSubmittedRegistration() {
+    assertFreeRegistrationNotAllowed(persistRegistration("YLIN", "fin", RegistrationState.SUBMITTED));
+  }
+
+  @Test
+  public void testFreeRegistrationNotAllowedForSubmittedQueueRegistration() {
+    final Registration registration = persistRegistration("YLIN", "fin", RegistrationState.SUBMITTED);
+    registration.setKind(RegistrationKind.QUEUE);
+    entityManager.persist(registration);
+
+    assertFreeRegistrationNotAllowed(registration);
+  }
+
+  @Test
+  public void testFreeRegistrationNotAllowedForCompletedRegistration() {
+    assertFreeRegistrationNotAllowed(persistRegistration("YLIN", "fin", RegistrationState.COMPLETED));
+  }
+
+  @Test
+  public void testFreeRegistrationNotAllowedForExpiredRegistration() {
+    assertFreeRegistrationNotAllowed(persistRegistration("YLIN", "fin", RegistrationState.EXPIRED));
+  }
+
+  @Test
+  public void testFreeRegistrationUpdateNotAllowedForSubmittedRegistration() {
+    final Registration registration = persistRegistration("YLIN", "fin", RegistrationState.SUBMITTED);
+    final FreeRegistration freeRegistration = Factory.freeRegistration(registration);
+    registration.setFreeRegistration(freeRegistration);
+    entityManager.persist(freeRegistration);
+
+    final APIException exception = assertThrows(
+      APIException.class,
+      () ->
+        registrationService.updateFreeRegistration(
+          registration,
+          educationUpdate(FreeRegistrationSource.USER, FreeRegistrationType.HigherEducationConcluded)
+        )
+    );
+
+    assertEquals(APIExceptionType.FREE_REGISTRATION_NOT_ALLOWED, exception.getExceptionType());
+    entityManager.refresh(freeRegistration);
+    assertEquals(FreeRegistrationSource.KOSKI, freeRegistration.getSource());
+    assertEquals(FreeRegistrationType.MatriculationExam, freeRegistration.getType());
+    verifyNoInteractions(koskiService, auditService);
+  }
+
+  private Registration persistRegistration(final String level, final String language, final RegistrationState state) {
+    final Person person = Factory.person();
+    final ExamDate examDate = Factory.examDate();
+    final ExamSession examSession = Factory.examSession(examDate);
+    examSession.setLevel(level);
+    examSession.setLanguage(language);
+    final Registration registration = Factory.registration(person);
+    registration.setExamSession(examSession);
+    registration.setState(state);
+
+    entityManager.persist(examDate);
+    entityManager.persist(examSession);
+    entityManager.persist(person);
+    entityManager.persist(registration);
+
+    return registration;
+  }
+
+  private static PublicEducationUpdateDTO educationUpdate(final FreeRegistrationSource source) {
+    return educationUpdate(source, FreeRegistrationType.MatriculationExam);
+  }
+
+  private static PublicEducationUpdateDTO educationUpdate(
+    final FreeRegistrationSource source,
+    final FreeRegistrationType educationType
+  ) {
+    return PublicEducationUpdateDTO
+      .builder()
+      .basis(PublicEducationBasisDTO.builder().source(source).educationType(educationType).build())
+      .build();
+  }
+
+  private void assertFreeRegistrationNotAllowed(final Registration registration) {
+    for (final FreeRegistrationSource source : FreeRegistrationSource.values()) {
+      final APIException exception = assertThrows(
+        APIException.class,
+        () -> registrationService.updateFreeRegistration(registration, educationUpdate(source))
+      );
+      assertEquals(APIExceptionType.FREE_REGISTRATION_NOT_ALLOWED, exception.getExceptionType());
+    }
+
+    assertEquals(0, freeRegistrationRepository.count());
+    verifyNoInteractions(koskiService, auditService);
   }
 
   private Registration persistCompletedRegistration(final Person person, final ExamDate examDate) {
