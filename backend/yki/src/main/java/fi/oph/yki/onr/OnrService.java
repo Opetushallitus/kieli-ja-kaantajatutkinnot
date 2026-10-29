@@ -116,6 +116,9 @@ public class OnrService {
     final boolean hasSsn = StringUtils.hasText(form.ssn());
     PersonalDataDTO lastMismatch = null;
 
+    // Port of get-or-create-person-with-retries in yki src/yki/boundary/onr.clj (https://github.com/Opetushallitus/yki,
+    // https://github.com/Opetushallitus/yki/pull/165). The legacy loop/recur is this for loop: each attempt sends the
+    // request again with the identifications findOrCreatePersonBody gives for that attempt.
     for (int attempt = 1; attempt <= FIND_OR_CREATE_PERSON_ATTEMPTS; attempt++) {
       final Request request = defaultRequestBuilder
         .setUrl(onrServiceUrl + "/s2s/findOrCreateHenkiloPerustieto")
@@ -189,14 +192,14 @@ public class OnrService {
       .put("yhteystietoTyyppi", "YHTEYSTIETO_SAHKOPOSTI")
       .put("yhteystietoArvo", form.email());
     node.put("etunimet", form.firstName());
-    node.put("kutsumanimi", StringUtils.hasText(form.preferredName()) ? form.preferredName() : nickname);
+    node.put("kutsumanimi", Objects.requireNonNullElse(form.preferredName(), nickname));
     node.put("sukunimi", form.lastName());
     node.put("sukupuoli", StringUtils.hasText(form.gender()) ? form.gender() : null);
     node.putObject("asiointiKieli").put("kieliKoodi", form.examLang());
     final ArrayNode nationalities = node.putArray("kansalaisuus");
     form.nationalities().forEach(code -> nationalities.addObject().put("kansalaisuusKoodi", code));
     node.put("henkiloTyyppi", "OPPIJA");
-    if (StringUtils.hasText(form.nativeLanguage())) {
+    if (form.nativeLanguage() != null) {
       node.putObject("aidinkieli").put("kieliKoodi", form.nativeLanguage().toLowerCase());
     }
 
