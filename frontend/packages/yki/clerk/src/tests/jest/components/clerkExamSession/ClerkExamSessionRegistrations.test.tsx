@@ -46,6 +46,7 @@ const examSession = {
     registration(6, RegistrationStates.Cancelled, RegistrationKind.Queue),
     registration(7, RegistrationStates.Expired),
     registration(8, RegistrationStates.Started),
+    registration(12, RegistrationStates.Expired, RegistrationKind.Queue),
   ],
 };
 
@@ -133,16 +134,17 @@ describe.each<RouteType>(['clerk', 'organizer'])(
       expect(participantNames()).toEqual(['Person4 Testaaja']);
 
       await user.click(
-        screen.getByRole('button', { name: 'Peruttu tai erääntynyt (3)' }),
+        screen.getByRole('button', { name: 'Peruttu tai erääntynyt (4)' }),
       );
       expect(participantNames()).toEqual([
         'Person5 Testaaja',
         'Person6 Testaaja',
         'Person7 Testaaja',
+        'Person12 Testaaja',
       ]);
       expect(screen.getByText('Peruttu')).toBeInTheDocument();
       expect(screen.getByText('Jonotus peruttu')).toBeInTheDocument();
-      expect(screen.getByText('Erääntynyt')).toBeInTheDocument();
+      expect(screen.getAllByText('Erääntynyt')).toHaveLength(2);
       expect(screen.queryByText('Peru osallistuminen')).not.toBeInTheDocument();
     });
     it('labels full exams as all subtests without redundant participant counts', () => {
@@ -193,6 +195,8 @@ describe.each<RouteType>(['clerk', 'organizer'])(
               examSession={{
                 ...examSession,
                 type,
+                maxParticipantsReadListen: 12,
+                maxParticipantsSpeakWrite: 8,
                 registrations: [
                   ...examSession.registrations,
                   {
@@ -203,14 +207,22 @@ describe.each<RouteType>(['clerk', 'organizer'])(
                     ...registration(10, RegistrationStates.Submitted),
                     partialExamType: second,
                   },
+                  {
+                    ...registration(11, RegistrationStates.Submitted),
+                    partialExamType: first,
+                  },
                 ],
               }}
               route={route}
             />
           </DefaultProviders>,
         );
-        expect(screen.getByText(`${firstLabel}: 3 / 10`)).toBeInTheDocument();
-        expect(screen.getByText(`${secondLabel}: 3 / 10`)).toBeInTheDocument();
+        expect(
+          screen.getByRole('button', { name: 'Ilmoittautuneet (5)' }),
+        ).toBeInTheDocument();
+        expect(participantNames()).toHaveLength(5);
+        expect(screen.getByText(`${firstLabel}: 4 / 12`)).toBeInTheDocument();
+        expect(screen.getByText(`${secondLabel}: 3 / 8`)).toBeInTheDocument();
         expect(screen.getByText(`${combinedLabel}: 2`)).toBeInTheDocument();
         expect(screen.getAllByText(combinedLabel)).toHaveLength(2);
         await user.click(screen.getByRole('button', { name: 'Jonossa (1)' }));
@@ -283,7 +295,7 @@ describe.each<RouteType>(['clerk', 'organizer'])(
         </DefaultProviders>,
       );
       await user.click(
-        screen.getByRole('button', { name: 'Peruttu tai erääntynyt (3)' }),
+        screen.getByRole('button', { name: 'Peruttu tai erääntynyt (4)' }),
       );
       await user.click(
         screen.getByRole('button', {
@@ -293,6 +305,7 @@ describe.each<RouteType>(['clerk', 'organizer'])(
       );
       expect(participantNames()).toEqual([
         'Person7 Testaaja',
+        'Person12 Testaaja',
         'Person6 Testaaja',
         'Person5 Testaaja',
       ]);
@@ -394,6 +407,87 @@ describe.each<RouteType>(['clerk', 'organizer'])(
         'Person1 Testaaja',
         'Person2 Testaaja',
       ]);
+    });
+    it('renders empty tabs and zero subtest counts', async () => {
+      const user = userEvent.setup();
+      render(
+        <DefaultProviders>
+          <ClerkExamSessionRegistrations
+            examSession={{
+              ...examSession,
+              type: ExamSessionType.READ_SPEAK,
+              registrations: [],
+            }}
+            route={route}
+          />
+        </DefaultProviders>,
+      );
+      expect(
+        screen.getByText('Tekstin ymmärtäminen: 0 / 10'),
+      ).toBeInTheDocument();
+      expect(screen.getByText('Puhuminen: 0 / 10')).toBeInTheDocument();
+      expect(
+        screen.getByText('Tekstin ymmärtäminen ja puhuminen: 0'),
+      ).toBeInTheDocument();
+      for (const tab of [
+        'Ilmoittautuneet (0)',
+        'Jonossa (0)',
+        'Maksanut ja peruttu (0)',
+        'Peruttu tai erääntynyt (0)',
+      ]) {
+        await user.click(screen.getByRole('button', { name: tab }));
+        expect(participantNames()).toEqual([]);
+      }
+    });
+
+    it('keeps unpaid registrations accessible when the paid-only result is empty', async () => {
+      const user = userEvent.setup();
+      render(
+        <DefaultProviders>
+          <ClerkExamSessionRegistrations
+            examSession={{
+              ...examSession,
+              registrations: [registration(1, RegistrationStates.Submitted)],
+            }}
+            route={route}
+          />
+        </DefaultProviders>,
+      );
+      await user.click(
+        screen.getByRole('checkbox', { name: 'Näytä vain maksaneet' }),
+      );
+      expect(participantNames()).toEqual([]);
+      expect(
+        screen.getByRole('button', { name: 'Ilmoittautuneet (1)' }),
+      ).toBeInTheDocument();
+      await user.click(
+        screen.getByRole('checkbox', { name: 'Näytä vain maksaneet' }),
+      );
+      expect(participantNames()).toEqual(['Person1 Testaaja']);
+    });
+
+    it('sorts combination registrations by the displayed partial-exam label', async () => {
+      const user = userEvent.setup();
+      render(
+        <DefaultProviders>
+          <ClerkExamSessionRegistrations
+            examSession={{
+              ...examSession,
+              type: ExamSessionType.READ_SPEAK,
+              registrations: sortableRegistrations,
+            }}
+            route={route}
+          />
+        </DefaultProviders>,
+      );
+      const button = screen.getByRole('button', {
+        name: publicFI.yki.component.clerkCustomer.details.listing.columns
+          .partialExamType,
+      });
+      await user.click(button);
+      expect(participantNames()).toEqual(sortedNames([3, 2, 4, 1]));
+      await user.click(button);
+      expect(participantNames()).toEqual(sortedNames([1, 2, 4, 3]));
     });
   },
 );
