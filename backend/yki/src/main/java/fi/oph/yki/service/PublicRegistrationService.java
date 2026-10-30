@@ -1,14 +1,14 @@
 package fi.oph.yki.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import fi.oph.yki.api.dto.PublicExamSessionDTO;
 import fi.oph.yki.api.dto.PublicRegistrationDetailsDTO;
 import fi.oph.yki.api.dto.PublicRegistrationFormDTO;
 import fi.oph.yki.api.dto.PublicRegistrationInitDTO;
 import fi.oph.yki.api.dto.PublicRegistrationInitResponseDTO;
 import fi.oph.yki.api.dto.PublicRegistrationSubmitResponseDTO;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.Identity;
 import fi.oph.yki.model.Registration;
@@ -16,6 +16,7 @@ import fi.oph.yki.model.type.ExamSessionType;
 import fi.oph.yki.model.type.PartialExamType;
 import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
+import fi.oph.yki.onr.OnrService;
 import fi.oph.yki.repository.ExamSessionRepository;
 import fi.oph.yki.repository.RegistrationRepository;
 import fi.oph.yki.util.exception.APIException;
@@ -24,6 +25,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -41,6 +43,7 @@ public class PublicRegistrationService {
 
   private final RegistrationRepository registrationRepository;
   private final ExamSessionRepository examSessionRepository;
+  private final OnrService onrService;
 
   private static final Map<ExamSessionType, Set<PartialExamType>> ALLOWED_PARTIAL_EXAM_TYPES = Map.of(
     ExamSessionType.FULL,
@@ -194,6 +197,27 @@ public class PublicRegistrationService {
     return registrationRepository.saveAndFlush(registration);
   }
 
+  /**
+   * Gets or creates a person. Returns OID the person.
+   */
+  private String getOrCreatePerson(
+    final Identity identity,
+    final long registrationId,
+    final PublicRegistrationFormDTO formDTO
+  ) {
+    if (identity.getPerson() != null && identity.getPerson().getOid() != null) {
+      return identity.getPerson().getOid();
+    }
+    final Optional<String> personOid;
+    try {
+      personOid = onrService.findOrCreatePerson(formDTO, registrationId);
+    } catch (final Exception e) {
+      LOG.error("Unable to find or create person in ONR for registration id {}", registrationId, e);
+      throw new APIException(APIExceptionType.PERSON_CREATION_FAILED);
+    }
+    return personOid.orElseThrow(() -> new APIException(APIExceptionType.PERSON_CREATION_FAILED));
+  }
+
   @Transactional
   public PublicRegistrationSubmitResponseDTO submitRegistration(
     final Identity identity,
@@ -204,7 +228,8 @@ public class PublicRegistrationService {
     LOG.info("START: Submitting registration id {}", registrationId);
 
     // Step 1: Load registration and verify it belongs to the identity and is in STARTED state
-    final Registration registration = registrationRepository.findById(registrationId)
+    final Registration registration = registrationRepository
+      .findById(registrationId)
       .orElseThrow(() -> new APIException(APIExceptionType.NOT_FOUND));
 
     if (registration.getIdentity() == null || registration.getIdentity().getId() != identity.getId()) {
@@ -220,9 +245,10 @@ public class PublicRegistrationService {
     registrationRepository.saveAndFlush(registration);
 
     // Step 3: Get or create person in ONR (oppijanumerorekisteri)
-    // TODO: call OnrService to get or create person with form data
-    //   Returns person OID
-    //   (see: onr/get-or-create-person in registration.clj)
+    // TODO: Should we call this inside a transaction,
+    //  because we make (possibly multiple) HTTP request(s) inside this method?
+    // TODO: Do something with personOid
+    final String personOid = getOrCreatePerson(identity, registrationId, formDTO);
 
     // Step 4: Upsert person in local person table
     // TODO: call PersonRepository to upsert person with oid, name, gender, nationality
@@ -320,7 +346,8 @@ public class PublicRegistrationService {
 
   @Transactional(readOnly = true)
   public PublicRegistrationDetailsDTO getRegistrationDetails(final Identity identity, final long registrationId) {
-    final Registration registration = registrationRepository.findById(registrationId)
+    final Registration registration = registrationRepository
+      .findById(registrationId)
       .orElseThrow(() -> new APIException(APIExceptionType.NOT_FOUND));
 
     if (registration.getIdentity() == null || registration.getIdentity().getId() != identity.getId()) {

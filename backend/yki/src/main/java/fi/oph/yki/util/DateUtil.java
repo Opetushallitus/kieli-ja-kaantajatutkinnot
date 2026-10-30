@@ -21,4 +21,8 @@ public class DateUtil {
   public static String formatOptionalDateTime(final LocalDateTime dateTime) {
     return dateTime == null ? null : dateTime.format(DATETIME_FORMAT);
   }
+
+  public static LocalDate parseOptionalDate(final String date) {
+    return date == null || date.isBlank() ? null : LocalDate.parse(date.trim());
+  }
 }
