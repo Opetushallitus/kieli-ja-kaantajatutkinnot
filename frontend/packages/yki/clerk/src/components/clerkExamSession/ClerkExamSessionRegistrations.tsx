@@ -96,6 +96,7 @@ export const ClerkExamSessionRegistrations = ({
   route: RouteType;
 }) => {
   const canManage = useCanManage(route);
+  const isClerkAdmin = route === 'clerk' && canManage;
   const {
     id: examSessionId,
     registrations: examRegistrations,
@@ -258,7 +259,7 @@ export const ClerkExamSessionRegistrations = ({
       (state === RegistrationStates.Completed ||
         state === RegistrationStates.Submitted) && (
         <div className="rows gapped-xxs" style={{ alignItems: 'flex-start' }}>
-          {route === 'clerk' && (
+          {isClerkAdmin && (
             <IconButton
               color="secondary"
               onClick={() => setRelocateRegistrationId(id)}
@@ -475,13 +476,15 @@ export const ClerkExamSessionRegistrations = ({
         translateHeader={false}
       />
 
-      <ClerkExamSessionRelocateModal
-        registrationId={relocateRegistrationId}
-        onClose={() => setRelocateRegistrationId(null)}
-        examSessionId={examSessionId}
-        language={language}
-        level={level}
-      />
+      {isClerkAdmin && (
+        <ClerkExamSessionRelocateModal
+          registrationId={relocateRegistrationId}
+          onClose={() => setRelocateRegistrationId(null)}
+          examSessionId={examSessionId}
+          language={language}
+          level={level}
+        />
+      )}
 
       <ClerkExamSessionCancelModal
         registrationId={cancelRegistrationId}
