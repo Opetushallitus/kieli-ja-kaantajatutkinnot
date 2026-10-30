@@ -348,13 +348,15 @@ export const CustomerExamListings = ({
         noRowsText={t('noRowsTexts.pastExams')}
       />
 
-      <ClerkExamSessionRelocateModal
-        registrationId={relocateRegistration?.id ?? null}
-        onClose={() => setRelocateRegistration(null)}
-        examSessionId={relocateRegistration?.exam?.id ?? 0}
-        language={relocateRegistration?.exam?.language ?? ''}
-        level={relocateRegistration?.exam?.level ?? ''}
-      />
+      {isClerkAdmin && (
+        <ClerkExamSessionRelocateModal
+          registrationId={relocateRegistration?.id ?? null}
+          onClose={() => setRelocateRegistration(null)}
+          examSessionId={relocateRegistration?.exam?.id ?? 0}
+          language={relocateRegistration?.exam?.language ?? ''}
+          level={relocateRegistration?.exam?.level ?? ''}
+        />
+      )}
 
       <ClerkExamSessionCancelModal
         registrationId={cancelRegistration?.id ?? null}
