@@ -6,8 +6,8 @@ import {
 import BlockIcon from '@mui/icons-material/Block';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import WarningIcon from '@mui/icons-material/Warning';
-import { Divider, IconButton, Stack } from '@mui/material';
-import { OphButton } from '@opetushallitus/oph-design-system';
+import { Divider, FormControlLabel, IconButton, Stack } from '@mui/material';
+import { OphButton, OphCheckbox } from '@opetushallitus/oph-design-system';
 import i18next from 'i18next';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { Link, useParams } from 'react-router';
@@ -18,7 +18,7 @@ import { ClerkExamSessionCancelModal } from 'components/clerkExamSession/ClerkEx
 import { ClerkExamSessionRelocateModal } from 'components/clerkExamSession/ClerkExamSessionRelocateModal';
 import { ListTable } from 'components/oph-design/table/list-table';
 import { ListTableColumn } from 'components/oph-design/table/table-types';
-import { usePublicTranslation } from 'configs/i18n';
+import { getCurrentLang, usePublicTranslation } from 'configs/i18n';
 import { APIEndpoints } from 'enums/api';
 import {
   AppRoutes,
@@ -32,21 +32,24 @@ import { ClerkRegistration } from 'interfaces/clerkRegistration';
 import { RouteType } from 'interfaces/user';
 import { Text } from 'ophTheme/Text';
 
-const TABS = [RegistrationKind.Admission, RegistrationKind.Queue] as const;
+const TABS = [
+  'admissions',
+  'queued',
+  'paidAndCancelled',
+  'cancelledOrExpired',
+] as const;
 type Tab = (typeof TABS)[number];
 
 type ExamsListingTabsProps = {
   activeTab: Tab;
   setActiveTab: Dispatch<SetStateAction<Tab>>;
-  admissionCount: number;
-  queuedCount: number;
+  registrationsByTab: Record<Tab, ClerkRegistration[]>;
 };
 
 const ExamsListingTabs = ({
   activeTab,
   setActiveTab,
-  admissionCount,
-  queuedCount,
+  registrationsByTab,
 }: ExamsListingTabsProps) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkExamSessionRegistrations.tabs',
@@ -68,11 +71,15 @@ const ExamsListingTabs = ({
             onClick={() => handleTabChange(tab)}
             role="button"
             tabIndex={0}
-            onKeyDown={() => handleTabChange(tab)}
+            aria-pressed={activeTab === tab}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                handleTabChange(tab);
+              }
+            }}
           >
-            {tab === RegistrationKind.Admission
-              ? t('admissions', { num: admissionCount })
-              : t('queued', { num: queuedCount })}
+            {t(tab, { num: registrationsByTab[tab].length })}
           </div>
         ))}
       </div>
@@ -93,10 +100,6 @@ export const ClerkExamSessionRegistrations = ({
     id: examSessionId,
     registrations: examRegistrations,
     type: examSessionType,
-    participants,
-    participantsReadListen,
-    participantsSpeakWrite,
-    maxParticipantsTotal,
     maxParticipantsReadListen,
     maxParticipantsSpeakWrite,
     language,
@@ -108,7 +111,9 @@ export const ClerkExamSessionRegistrations = ({
   const { t: tButtons } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkExamSessionRegistrations.buttons',
   });
-  const [activeTab, setActiveTab] = useState<Tab>(RegistrationKind.Admission);
+  const [activeTab, setActiveTab] = useState<Tab>('admissions');
+  const [sort, setSort] = useState('');
+  const [onlyPaid, setOnlyPaid] = useState(false);
   const [relocateRegistrationId, setRelocateRegistrationId] = useState<
     number | null
   >(null);
@@ -136,17 +141,35 @@ export const ClerkExamSessionRegistrations = ({
     ),
   };
 
+  const getPartialExamTypeLabel = ({ partialExamType }: ClerkRegistration) => {
+    const displayType =
+      partialExamType === 'ALL_PARTS' &&
+      examSessionType !== ExamSessionType.FULL
+        ? examSessionType
+        : partialExamType;
+
+    return t(`values.partialExamType.${displayType}`);
+  };
+
+  const getRegistrationStateLabel = ({ state, kind }: ClerkRegistration) =>
+    t(
+      `values.registrationState.${
+        state === RegistrationStates.Cancelled &&
+        kind === RegistrationKind.Queue
+          ? 'QUEUE_CANCELLED'
+          : state
+      }`,
+    );
+
   const createPartialExamTypeColumn = (
     t: typeof i18next.t,
   ): ListTableColumn<ClerkRegistration> => ({
     key: 'partialExamType',
     title: t('columns.partialExamType'),
-    render: ({ partialExamType }) => {
-      const displayType =
-        partialExamType === 'ALL_PARTS' ? examSessionType : partialExamType;
-
-      return <Text>{t(`values.partialExamType.${displayType}`)}</Text>;
-    },
+    sortable: true,
+    render: (registration) => (
+      <Text>{getPartialExamTypeLabel(registration)}</Text>
+    ),
   });
 
   const createRegistrationStateColumn = (
@@ -154,12 +177,15 @@ export const ClerkExamSessionRegistrations = ({
   ): ListTableColumn<ClerkRegistration> => ({
     key: 'state',
     title: t('columns.registrationState'),
-    render: ({ state, person }) => {
+    sortable: true,
+    render: (registration) => {
+      const { state, person } = registration;
+
       return (
         <div className="rows gapped-xs">
           <Text>
             {registrationStateIconMapping[state]}
-            <strong>{t(`values.registrationState.${state}`)}</strong>
+            <strong>{getRegistrationStateLabel(registration)}</strong>
           </Text>
           {person && (
             <>
@@ -185,6 +211,7 @@ export const ClerkExamSessionRegistrations = ({
   ): ListTableColumn<ClerkRegistration> => ({
     key: 'person',
     title: t('columns.personName'),
+    sortable: true,
     render: ({ person }) =>
       person && (
         <div className="rows gapped-xxs">
@@ -214,6 +241,7 @@ export const ClerkExamSessionRegistrations = ({
   ): ListTableColumn<ClerkRegistration> => ({
     key: 'registrationDate',
     title: t('columns.examSessionRegistrationDate'),
+    sortable: true,
     render: ({ registrationDate }) => (
       <div className="rows gapped-xs">
         <Text>{DateUtils.formatOptionalDate(registrationDate, 'l')}</Text>
@@ -255,7 +283,7 @@ export const ClerkExamSessionRegistrations = ({
   const createPositionInQueueColumn = (
     t: typeof i18next.t,
   ): ListTableColumn<ClerkRegistration> => ({
-    key: 'person',
+    key: 'queuePosition',
     title: t('columns.positionInQueue'),
     render: ({ queuePosition }) => (
       <div className="rows gapped-xxs">{queuePosition}</div>
@@ -283,12 +311,61 @@ export const ClerkExamSessionRegistrations = ({
     ...(canManage ? [createActionsColumn(t)] : []),
   ];
 
-  const admissions = examRegistrations.filter(
-    (r) => r.kind === RegistrationKind.Admission,
+  const activeRegistrations = examRegistrations.filter(
+    ({ state }) =>
+      state === RegistrationStates.Completed ||
+      state === RegistrationStates.Submitted,
   );
-  const queued = examRegistrations.filter(
-    (r) => r.kind === RegistrationKind.Queue,
+  const registrationsByTab: Record<Tab, ClerkRegistration[]> = {
+    admissions: activeRegistrations.filter(
+      ({ kind }) => kind === RegistrationKind.Admission,
+    ),
+    queued: activeRegistrations.filter(
+      ({ kind }) => kind === RegistrationKind.Queue,
+    ),
+    paidAndCancelled: examRegistrations.filter(
+      ({ state }) => state === RegistrationStates.PaidAndCancelled,
+    ),
+    cancelledOrExpired: examRegistrations.filter(
+      ({ state }) =>
+        state === RegistrationStates.Cancelled ||
+        state === RegistrationStates.Expired,
+    ),
+  };
+
+  const sortValues: Record<
+    string,
+    (registration: ClerkRegistration) => string | number
+  > = {
+    person: ({ person }) =>
+      person ? `${person.lastName} ${person.firstName}` : '',
+    partialExamType: getPartialExamTypeLabel,
+    state: getRegistrationStateLabel,
+    registrationDate: ({ registrationDate }) => registrationDate.valueOf(),
+  };
+  const [sortColumn, sortDirection] = sort.split(':');
+  const getSortValue = sortValues[sortColumn];
+  const rows = registrationsByTab[activeTab].filter(
+    ({ state }) =>
+      activeTab !== 'admissions' ||
+      !onlyPaid ||
+      state === RegistrationStates.Completed,
   );
+  if (getSortValue) {
+    const collator = new Intl.Collator(getCurrentLang(), {
+      sensitivity: 'base',
+    });
+    rows.sort((a, b) => {
+      const aValue = getSortValue(a);
+      const bValue = getSortValue(b);
+      const comparison =
+        typeof aValue === 'number' && typeof bValue === 'number'
+          ? aValue - bValue
+          : collator.compare(String(aValue), String(bValue));
+
+      return sortDirection === 'desc' ? -comparison : comparison;
+    });
+  }
 
   const translatePartialExamTypeReadListen = () =>
     examSessionType === ExamSessionType.READ_SPEAK
@@ -303,38 +380,56 @@ export const ClerkExamSessionRegistrations = ({
   return (
     <Stack spacing={4}>
       <div className="clerk-exam-session-registrations__tabs">
-        <div className="clerk-exam-session-registrations__tabs grid-2-columns">
+        <div className="clerk-exam-session-registrations__tabs">
           <ExamsListingTabs
-            admissionCount={admissions.length ?? 0}
-            queuedCount={queued.length ?? 0}
+            registrationsByTab={registrationsByTab}
             activeTab={activeTab}
             setActiveTab={setActiveTab}
           />
         </div>
         <div className="grid-2-columns">
-          {examSessionType === ExamSessionType.FULL ? (
-            <Text>
-              {tButtons('participants', {
-                count: participants,
-                max: maxParticipantsTotal,
-              })}
-            </Text>
-          ) : (
-            <div className="rows gapped-xxs">
-              <Text>
-                {tButtons(translatePartialExamTypeReadListen(), {
-                  count: participantsReadListen,
-                  max: maxParticipantsReadListen,
-                })}
-              </Text>
-              <Text>
-                {tButtons(translatePartialExamTypeSpeakWrite(), {
-                  count: participantsSpeakWrite,
-                  max: maxParticipantsSpeakWrite,
-                })}
-              </Text>
-            </div>
-          )}
+          <div>
+            {activeTab === 'admissions' &&
+              examSessionType !== ExamSessionType.FULL && (
+                <div className="rows gapped-xxs">
+                  <Text>
+                    {tButtons(translatePartialExamTypeReadListen(), {
+                      count: registrationsByTab.admissions.filter(
+                        ({ partialExamType }) =>
+                          ['READ', 'LISTEN', 'ALL_PARTS'].includes(
+                            partialExamType,
+                          ),
+                      ).length,
+                      max: maxParticipantsReadListen,
+                    })}
+                  </Text>
+                  <Text>
+                    {tButtons(translatePartialExamTypeSpeakWrite(), {
+                      count: registrationsByTab.admissions.filter(
+                        ({ partialExamType }) =>
+                          ['SPEAK', 'WRITE', 'ALL_PARTS'].includes(
+                            partialExamType,
+                          ),
+                      ).length,
+                      max: maxParticipantsSpeakWrite,
+                    })}
+                  </Text>
+                  <Text>
+                    {tButtons(
+                      examSessionType === ExamSessionType.READ_SPEAK
+                        ? 'participantsReadSpeak'
+                        : 'participantsListenWrite',
+                      {
+                        count: registrationsByTab.admissions.filter(
+                          ({ partialExamType }) =>
+                            partialExamType === 'ALL_PARTS',
+                        ).length,
+                      },
+                    )}
+                  </Text>
+                </div>
+              )}
+          </div>
           <div className="clerk-exam-session-registrations__filter-buttons">
             <OphButton
               color="primary"
@@ -358,23 +453,27 @@ export const ClerkExamSessionRegistrations = ({
           </div>
         </div>
       </div>
-      {activeTab === RegistrationKind.Admission ? (
-        <ListTable
-          className="clerk-customer-exams-listing__table"
-          rows={admissions}
-          rowKeyProp="id"
-          columns={admissionsColumns}
-          translateHeader={false}
-        />
-      ) : (
-        <ListTable
-          className="clerk-customer-exams-listing__table"
-          rows={queued}
-          rowKeyProp="id"
-          columns={queuedColumns}
-          translateHeader={false}
+      {activeTab === 'admissions' && (
+        <FormControlLabel
+          control={
+            <OphCheckbox
+              checked={onlyPaid}
+              onChange={(_, checked) => setOnlyPaid(checked)}
+              sx={{ '& .MuiSvgIcon-root': { fontSize: 24 } }}
+            />
+          }
+          label={tButtons('onlyPaid')}
         />
       )}
+      <ListTable
+        className="clerk-customer-exams-listing__table"
+        rows={rows}
+        sort={sort}
+        setSort={setSort}
+        rowKeyProp="id"
+        columns={activeTab === 'queued' ? queuedColumns : admissionsColumns}
+        translateHeader={false}
+      />
 
       <ClerkExamSessionRelocateModal
         registrationId={relocateRegistrationId}

@@ -76,6 +76,7 @@
               },
               "registrationState": {
                 "CANCELLED": "Peruttu",
+                "QUEUE_CANCELLED": "Jonotus peruttu",
                 "COMPLETED": "Maksanut",
                 "EXPIRED": "Erääntynyt",
                 "PAID_AND_CANCELLED": "Maksanut ja peruttu",
@@ -202,12 +203,17 @@
         }
       },
       "clerkExamSessionRegistrations": {
+        "queueEnds": "Queue closes",
+        "queueEnded": "Queue closed",
         "buttons": {
           "downloadExcel": "Lataa excel",
+          "onlyPaid": "Näytä vain maksaneet",
           "edit": "Muokkaa",
           "participants": "Ilmoittautuneita: {{count}} / {{max}}",
           "participantsListen": "Puheen ymmärtäminen: {{count}} / {{max}}",
           "participantsRead": "Tekstin ymmärtäminen: {{count}} / {{max}}",
+          "participantsReadSpeak": "Tekstin ymmärtäminen ja puhuminen: {{count}}",
+          "participantsListenWrite": "Puheen ymmärtäminen ja kirjoittaminen: {{count}}",
           "participantsSpeak": "Puhuminen: {{count}} / {{max}}",
           "participantsWrite": "Kirjoittaminen: {{count}} / {{max}}"
         },
@@ -270,7 +276,9 @@
         },
         "tabs": {
           "admissions": "Ilmoittautuneet ({{ num }})",
-          "queued": "Jonossa ({{ num }})"
+          "queued": "Jonossa ({{ num }})",
+          "paidAndCancelled": "Maksanut ja peruttu ({{ num }})",
+          "cancelledOrExpired": "Peruttu tai erääntynyt ({{ num }})"
         }
       },
       "clerkFreeRegistration": {
