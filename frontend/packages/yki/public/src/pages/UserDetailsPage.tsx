@@ -1,14 +1,14 @@
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import InfoFilledIcon from '@mui/icons-material/Info';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import WarningOutlinedIcon from '@mui/icons-material/WarningOutlined';
 import { Grid, Paper, Typography } from '@mui/material';
 import { Box } from '@mui/system';
+import { OphLink } from '@opetushallitus/oph-design-system';
 import dayjs from 'dayjs';
 import { FC, useEffect, useState } from 'react';
 import { Trans } from 'react-i18next';
-import { CustomButton, CustomButtonLink, WebLink } from 'shared/components';
+import { CustomButton, CustomButtonLink } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
@@ -267,6 +267,18 @@ const Registrations: FC<RegistrationsProps> = ({
   });
 };
 
+const CompletedStudiesLink = () => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.pages.userDetailsPage.contactDetails.certificateInfo.link',
+  });
+
+  return (
+    <OphLink href={t('url')} target="_blank" rel="noreferrer">
+      {t('label')}
+    </OphLink>
+  );
+};
+
 const ContactDetails = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.pages.userDetailsPage.contactDetails',
@@ -327,13 +339,7 @@ const ContactDetails = () => {
               t={t}
               i18nKey="certificateInfo.part1"
               components={{
-                CompletedStudiesLink: (
-                  <WebLink
-                    href={t('certificateInfo.link.url')}
-                    label={t('certificateInfo.link.label')}
-                    endIcon={<OpenInNewIcon color="inherit" />}
-                  />
-                ),
+                CompletedStudiesLink: <CompletedStudiesLink />,
               }}
             />
           </Text>
