@@ -5,7 +5,6 @@ import {
   RadioGroup,
 } from '@mui/material';
 import { ChangeEvent, useCallback, useEffect } from 'react';
-import { LabeledComboBox, LabeledTextField, Text } from 'shared/components';
 import {
   APIResponseStatus,
   InputAutoComplete,
@@ -13,8 +12,10 @@ import {
   TextFieldVariant,
 } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
+import { LabeledComboBox, LabeledTextField } from 'shared/ods-components';
 
 import { AddressDetails } from 'components/registration/steps/register/AddressDetails';
+import { Label } from 'components/Text';
 import {
   getCurrentLang,
   useCommonTranslation,
@@ -149,12 +150,14 @@ export const EmailRegistrationDetails = ({
   return (
     <>
       <div className="registration-details rows gapped margin-top-sm">
-        <div className="columns gapped">
-          <Text>
-            <b>{t('labels.email')}</b>
-            <br />
-            {registration.email}
-          </Text>
+        <div className="grid-2-columns gapped">
+          <LabeledTextField
+            id="public-registration__contact-details__email-field"
+            label={t('labels.email')}
+            value={registration.email || ''}
+            type={TextFieldTypes.Email}
+            slotProps={{ input: { readOnly: true } }}
+          />
         </div>
         <div className="grid-2-columns gapped">
           <LabeledTextField
@@ -282,9 +285,7 @@ export const EmailRegistrationDetails = ({
       </div>
       <fieldset className="registration-details__radio-group">
         <legend>
-          <Text>
-            <b>{t('finnishSSN')}</b>
-          </Text>
+          <Label>{t('finnishSSN')}</Label>
         </legend>
         <FormControl error={showErrors && !!registrationErrors['hasSSN']}>
           <RadioGroup

@@ -1,16 +1,8 @@
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Container, Grid, Paper } from '@mui/material';
-import { ophColors } from '@opetushallitus/oph-design-system';
+import { ophColors, OphLink } from '@opetushallitus/oph-design-system';
 import { Trans } from 'react-i18next';
 import { generatePath } from 'react-router';
-import {
-  CustomButton,
-  H1,
-  H2,
-  HeaderSeparator,
-  Text,
-  WebLink,
-} from 'shared/components';
+import { CustomButton } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
@@ -18,6 +10,7 @@ import { SelectIdentificationMethod } from 'components/registration/identificati
 import { PublicRegistrationControlButtons } from 'components/registration/PublicRegistrationControlButtons';
 import { PublicRegistrationExamSessionDetails } from 'components/registration/PublicRegistrationExamSessionDetails';
 import { PublicRegistrationStepper } from 'components/registration/PublicRegistrationStepper';
+import { H1, H2, Text } from 'components/Text';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, RegistrationKind } from 'enums/app';
@@ -129,11 +122,9 @@ const FreeRegistrationInfoBox = () => {
       </Text>
       <Text>
         {t('readMore.text')}:{' '}
-        <WebLink
-          label={t('readMore.link.label')}
-          href={t('readMore.link.url')}
-          endIcon={<OpenInNewIcon color="inherit" />}
-        />
+        <OphLink href={t('readMore.link.url')} target="_blank">
+          {t('readMore.link.label')}
+        </OphLink>
       </Text>
     </Container>
   );
@@ -184,7 +175,6 @@ export const PublicIdentificationGrid = () => {
                     ? t('alreadyLoggedIn.title')
                     : t('title')}
               </H1>
-              <HeaderSeparator />
             </div>
           </div>
           <Paper

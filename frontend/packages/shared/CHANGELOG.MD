@@ -9,6 +9,55 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.17.1] - 2026-10-07
+
+### Changed
+
+- YKI public style entry no longer imports the legacy Roboto root and desktop font-size reduction; the consuming app owns root typography.
+
+## [1.17.0] - 2026-10-07
+
+### Added
+
+- ODS language selector, navigation links and skip link with theme-based styling, independent of legacy component stylesheets.
+
+## [1.16.4] - 2026-10-07
+
+### Changed
+
+- Initial loading spinner accepts a CSS color variable while retaining the existing default for legacy applications.
+
+## [1.16.3] - 2026-10-07
+
+### Changed
+
+- ODS LabeledTextField composes the ODS form wrapper and owns its layout without legacy Sass utilities.
+- Field layout props apply to the entire labeled field; existing validation and read-only inputs remain supported.
+
+## [1.16.2] - 2026-10-07
+
+### Fixed
+
+- ODS mobile dropdowns preserve label associations, accessibility attributes, validation state and focus handlers.
+- LanguageSelect uses the same responsive dropdown as ComboBox.
+
+## [1.16.1] - 2026-09-28
+
+### Added
+
+- ODS LabeledComboBox
+
+### Changed
+
+- ODS Combobox
+- eslint and jest config
+
+## [1.16.0] - 2026-08-31
+
+### Added
+
+- ODS specific shared components
+
 ## [1.15.0] - 2026-08-20
 
 ### Changed
