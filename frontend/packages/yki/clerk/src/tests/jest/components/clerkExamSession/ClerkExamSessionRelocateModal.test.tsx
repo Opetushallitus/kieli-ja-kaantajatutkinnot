@@ -3,6 +3,7 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 
 import { ClerkExamSessionRelocateModal } from 'components/clerkExamSession/ClerkExamSessionRelocateModal';
+import { ClerkExamSessionSummary } from 'interfaces/clerkExamSession';
 import {
   rejectRelocateExamSessions,
   relocateRegistration,
@@ -19,12 +20,20 @@ const props = {
   level: clerkExamSession.level,
 };
 
+const summary: ClerkExamSessionSummary = {
+  id: clerkExamSession.id,
+  date: clerkExamSession.date,
+  language: clerkExamSession.language,
+  level: clerkExamSession.level,
+  location: clerkExamSession.location,
+};
+
 const sessions = [
-  { ...clerkExamSession, id: 1, date: '2026-10-22' },
-  { ...clerkExamSession, id: 2, date: '2026-10-24' },
-  { ...clerkExamSession, id: 3, date: '2026-10-23' },
-  { ...clerkExamSession, id: 4, date: '2027-01-01' },
-  { ...clerkExamSession, date: '2027-02-01' },
+  { ...summary, id: 1, date: '2026-10-22' },
+  { ...summary, id: 2, date: '2026-10-24' },
+  { ...summary, id: 3, date: '2026-10-23' },
+  { ...summary, id: 4, date: '2027-01-01' },
+  { ...summary, date: '2027-02-01' },
 ];
 
 const renderModal = () => {
@@ -66,6 +75,9 @@ describe('ClerkExamSessionRelocateModal', () => {
     const destinationOptions = screen.getAllByRole('radio');
     expect(destinationOptions).toHaveLength(3);
     expect(destinationOptions[0]).toHaveAccessibleName(/^2027-01-01/);
+    expect(destinationOptions[0]).toHaveAccessibleName(
+      /languages.fin - languageLevel.YLIN — Jälkiedu, Jokukatu 4, Tampere$/,
+    );
     expect(destinationOptions[1]).toHaveAccessibleName(/^2026-10-24/);
     expect(destinationOptions[2]).toHaveAccessibleName(/^2026-10-23/);
     expect(store.getState().clerkExamSession.relocateExamSessions).toEqual(
@@ -85,6 +97,24 @@ describe('ClerkExamSessionRelocateModal', () => {
         currentExamSessionId: props.examSessionId,
       }),
     );
+  });
+
+  it('keeps sessions without locations selectable', () => {
+    const { store } = renderModal();
+    act(() => {
+      store.dispatch(
+        storeRelocateExamSessions([
+          { ...summary, id: 4, date: '2027-01-01', location: [] },
+        ]),
+      );
+    });
+    const option = screen.getByRole('radio', {
+      name: '2027-01-01 — languages.fin - languageLevel.YLIN',
+    });
+    fireEvent.click(option);
+    expect(
+      screen.getByRole('button', { name: 'values.actions.relocate' }),
+    ).toBeEnabled();
   });
 
   it('stops loading when the request fails and keeps transfer disabled', () => {

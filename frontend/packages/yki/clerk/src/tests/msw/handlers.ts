@@ -259,6 +259,11 @@ export const handlers = [
   http.get(APIEndpoints.ClerkExamSessions, () =>
     HttpResponse.json([clerkExamSession]),
   ),
+  http.get(APIEndpoints.ClerkExamSessionSummaries, () => {
+    const { id, date, language, level, location } = clerkExamSession;
+
+    return HttpResponse.json([{ id, date, language, level, location }]);
+  }),
   http.post(APIEndpoints.ClerkExamDate, async ({ request }) => {
     const body = (await request.json()) as Omit<
       ExamDateResponse,

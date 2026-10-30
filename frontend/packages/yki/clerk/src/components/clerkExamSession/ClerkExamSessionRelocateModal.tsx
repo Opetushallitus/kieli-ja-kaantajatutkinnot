@@ -9,7 +9,11 @@ import { useEffect, useState } from 'react';
 import { CustomModal, LoadingProgressIndicator } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
 
-import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
+import {
+  getCurrentLang,
+  useCommonTranslation,
+  usePublicTranslation,
+} from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { H2, Text } from 'ophTheme/Text';
 import {
@@ -51,6 +55,7 @@ export const ClerkExamSessionRelocateModal = ({
     relocateExamSessionsStatus === APIResponseStatus.NotStarted ||
     relocateExamSessionsStatus === APIResponseStatus.InProgress;
   const today = dayjs();
+  const locationLanguage = getCurrentLang()?.split('-')[0];
 
   useEffect(() => {
     if (registrationId !== null) {
@@ -117,12 +122,31 @@ export const ClerkExamSessionRelocateModal = ({
                       (a, b) =>
                         dayjs(b.date).valueOf() - dayjs(a.date).valueOf(),
                     )
-                    .map((es) => ({
-                      value: String(es.id),
-                      label: `${es.date} — ${translateCommon(
-                        'languages.' + es.language,
-                      )} - ${translateCommon('languageLevel.' + es.level)}`,
-                    }))}
+                    .map((es) => {
+                      const location =
+                        es.location.find((l) => l.lang === locationLanguage) ??
+                        es.location.find((l) => l.lang === 'fi') ??
+                        es.location[0];
+                      const locationLabel = [
+                        location?.name,
+                        location?.streetAddress,
+                        location?.postOffice,
+                      ]
+                        .filter(Boolean)
+                        .join(', ');
+
+                      return {
+                        value: String(es.id),
+                        label: [
+                          `${es.date} — ${translateCommon(
+                            'languages.' + es.language,
+                          )} - ${translateCommon('languageLevel.' + es.level)}`,
+                          locationLabel,
+                        ]
+                          .filter(Boolean)
+                          .join(' — '),
+                      };
+                    })}
                 />
               )}
               <div className="columns gapped flex-end">

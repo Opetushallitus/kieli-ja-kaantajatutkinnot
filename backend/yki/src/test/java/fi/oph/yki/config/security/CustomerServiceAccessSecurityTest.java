@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import fi.oph.yki.PostgresTestcontainerConfig;
+import fi.oph.yki.api.dto.clerk.ClerkExamSessionSummaryDTO;
 import fi.oph.yki.kayttooikeus.PermissionsService;
 import fi.oph.yki.kayttooikeus.dto.KayttooikeusDTO;
 import fi.oph.yki.kayttooikeus.dto.KayttooikeusResponseDTO;
@@ -21,6 +22,7 @@ import fi.oph.yki.service.ClerkOrganizerService;
 import fi.oph.yki.service.ClerkRegistrationService;
 import fi.oph.yki.service.PersonService;
 import jakarta.annotation.Resource;
+import java.time.LocalDate;
 import java.util.List;
 import net.minidev.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
@@ -164,6 +166,9 @@ class CustomerServiceAccessSecurityTest {
     mockMvc
       .perform(get("/v2/api/clerk/examSession").param("language", "fin").param("level", "KESKI"))
       .andExpect(status().isForbidden());
+    mockMvc
+      .perform(get("/v2/api/clerk/examSession/summary").param("language", "fin").param("level", "KESKI"))
+      .andExpect(status().isForbidden());
   }
 
   @Test
@@ -222,6 +227,50 @@ class CustomerServiceAccessSecurityTest {
 
   @Test
   @WithMockUser(roles = "APP_YKI_JARJESTAJA")
+  public void testOrganizerCanOnlyReadTransferTargetsForAuthorizedOrganizer() throws Exception {
+    Mockito
+      .when(
+        permissionsService.hasPermissionForOrganisation(
+          ArgumentMatchers.any(),
+          ArgumentMatchers.eq(ORGANIZATION_OID),
+          ArgumentMatchers.eq("JARJESTAJA")
+        )
+      )
+      .thenReturn(true);
+    Mockito
+      .when(clerkExamSessionService.getOrganizerTransferTargets(ORGANIZATION_OID, 42L))
+      .thenReturn(List.of(new ClerkExamSessionSummaryDTO(43L, LocalDate.of(2026, 8, 31), "swe", "YLIN", List.of())));
+
+    mockMvc
+      .perform(get("/v2/api/organizer/" + ORGANIZATION_OID + "/examSession/42/transferTargets"))
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("$[0].id").value(43))
+      .andExpect(jsonPath("$[0].date").value("2026-08-31"))
+      .andExpect(jsonPath("$[0].language").value("swe"))
+      .andExpect(jsonPath("$[0].level").value("YLIN"))
+      .andExpect(jsonPath("$[0].location").isArray())
+      .andExpect(jsonPath("$[0].registrations").doesNotExist());
+    mockMvc
+      .perform(get("/v2/api/organizer/other-oid/examSession/42/transferTargets"))
+      .andExpect(status().isForbidden());
+    Mockito.verify(clerkExamSessionService, Mockito.never()).getOrganizerTransferTargets("other-oid", 42L);
+    mockMvc
+      .perform(get("/v2/api/clerk/examSession/summary").param("language", "swe").param("level", "YLIN"))
+      .andExpect(status().isForbidden());
+  }
+
+  @Test
+  public void testAnonymousUserCannotReadOrganizerTransferTargets() throws Exception {
+    mockMvc
+      .perform(get("/v2/api/organizer/" + ORGANIZATION_OID + "/examSession/42/transferTargets"))
+      .andExpect(status().is3xxRedirection());
+    Mockito
+      .verify(clerkExamSessionService, Mockito.never())
+      .getOrganizerTransferTargets(ArgumentMatchers.anyString(), ArgumentMatchers.anyLong());
+  }
+
+  @Test
+  @WithMockUser(roles = "APP_YKI_JARJESTAJA")
   public void testOrganizerCannotUseCustomerServiceEndpointsAndPages() throws Exception {
     expectCustomerServiceEndpoints(status().isForbidden());
     expectCustomerServicePages(status().isForbidden());
@@ -234,6 +283,9 @@ class CustomerServiceAccessSecurityTest {
     expectCustomerServiceEndpoints(status().isOk());
     expectCustomerServicePages(status().isOk());
     expectContactDetailsUpdate(status().isOk());
+    mockMvc
+      .perform(get("/v2/api/clerk/examSession/summary").param("language", "fin").param("level", "KESKI"))
+      .andExpect(status().isOk());
   }
 
   @Test

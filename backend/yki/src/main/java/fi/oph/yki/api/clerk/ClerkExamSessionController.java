@@ -4,6 +4,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionCreateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionDTO;
+import fi.oph.yki.api.dto.clerk.ClerkExamSessionSummaryDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionUpdateDTO;
 import fi.oph.yki.service.ClerkExamSessionService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -36,6 +37,18 @@ public class ClerkExamSessionController {
     @RequestParam final String level
   ) {
     return clerkExamSessionService.getExamSessionsByLanguageAndLevel(language, level);
+  }
+
+  @GetMapping(path = "/summary")
+  @Operation(
+    tags = TAG_EXAM_SESSION,
+    summary = "Get exam session summaries by language and level without registrations"
+  )
+  public List<ClerkExamSessionSummaryDTO> getExamSessionSummaries(
+    @RequestParam final String language,
+    @RequestParam final String level
+  ) {
+    return clerkExamSessionService.getExamSessionSummariesByLanguageAndLevel(language, level);
   }
 
   @GetMapping(path = "/{examSessionId:\\d+}")

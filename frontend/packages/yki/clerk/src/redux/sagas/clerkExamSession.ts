@@ -4,7 +4,10 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
-import { ClerkExamSessionResponse } from 'interfaces/clerkExamSession';
+import {
+  ClerkExamSessionResponse,
+  ClerkExamSessionSummary,
+} from 'interfaces/clerkExamSession';
 import {
   acceptCancelRegistration,
   acceptCreateExamSession,
@@ -152,9 +155,9 @@ function* loadRelocateExamSessionsSaga(
 ) {
   try {
     const { language, level } = action.payload;
-    const response: AxiosResponse<ClerkExamSessionResponse[]> = yield call(
+    const response: AxiosResponse<ClerkExamSessionSummary[]> = yield call(
       axiosInstance.get,
-      APIEndpoints.ClerkExamSessions,
+      APIEndpoints.ClerkExamSessionSummaries,
       { params: { language, level } },
     );
 

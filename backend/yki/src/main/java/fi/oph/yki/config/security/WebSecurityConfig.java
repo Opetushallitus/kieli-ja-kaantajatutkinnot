@@ -245,6 +245,8 @@ public class WebSecurityConfig {
         auth
           .requestMatchers(HttpMethod.POST, "/v2/api/clerk/customer/search")
           .hasAnyRole(Constants.APP_ADMIN_ROLE, Constants.APP_CUSTOMER_SERVICE_ROLE)
+          .requestMatchers(HttpMethod.GET, "/v2/api/clerk/examSession/summary")
+          .hasRole(Constants.APP_ADMIN_ROLE)
           .requestMatchers(
             HttpMethod.GET,
             "/v2/api/clerk/customer/{oid}",

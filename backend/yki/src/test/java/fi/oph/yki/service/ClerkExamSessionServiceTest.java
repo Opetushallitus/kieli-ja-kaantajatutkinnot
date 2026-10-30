@@ -3,8 +3,10 @@ package fi.oph.yki.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,6 +14,7 @@ import fi.oph.yki.Factory;
 import fi.oph.yki.PostgresTestcontainerConfig;
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionLocationCreateDTO;
+import fi.oph.yki.api.dto.clerk.ClerkExamSessionSummaryDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionUpdateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkRegistrationDTO;
 import fi.oph.yki.audit.AuditService;
@@ -20,6 +23,7 @@ import fi.oph.yki.config.Constants;
 import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.ExamSessionLocation;
+import fi.oph.yki.model.Organizer;
 import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
 import fi.oph.yki.model.type.ExamSessionType;
@@ -42,12 +46,15 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import org.hibernate.Hibernate;
+import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -95,6 +102,212 @@ public class ClerkExamSessionServiceTest {
         auditService,
         onrService
       );
+  }
+
+  @Test
+  public void testGetExamSessionSummariesUsesOneQueryWithoutRegistrations() {
+    final ExamDate examDate = Factory.examDate();
+    entityManager.persist(examDate);
+    final ExamSession session = Factory.examSession(examDate);
+    final ExamSession withoutLocation = Factory.examSession(examDate);
+    final ExamSession otherLanguage = Factory.examSession(examDate);
+    otherLanguage.setLanguage("swe");
+    final ExamSession otherLevel = Factory.examSession(examDate);
+    otherLevel.setLevel("KESKI");
+    for (final ExamSession examSession : List.of(session, withoutLocation, otherLanguage, otherLevel)) {
+      entityManager.persist(examSession);
+    }
+    final ExamSessionLocation finnish = Factory.examSessionLocation(session);
+    final ExamSessionLocation swedish = Factory.examSessionLocation(session);
+    swedish.setLang("sv");
+    swedish.setName("Provplats");
+    entityManager.persist(finnish);
+    entityManager.persist(swedish);
+    final Person person = Factory.person();
+    entityManager.persist(person);
+    final Registration registration = Factory.registration(person);
+    registration.setExamSession(session);
+    registration.setState(RegistrationState.COMPLETED);
+    registration.setForm(objectMapper.createObjectNode());
+    entityManager.persist(registration);
+    entityManager.flush();
+    entityManager.clear();
+
+    final var statistics = entityManager
+      .getEntityManager()
+      .getEntityManagerFactory()
+      .unwrap(SessionFactory.class)
+      .getStatistics();
+    statistics.setStatisticsEnabled(true);
+    statistics.clear();
+    try {
+      final List<ClerkExamSessionSummaryDTO> results = clerkExamSessionService.getExamSessionSummariesByLanguageAndLevel(
+        "fin",
+        "PERUS"
+      );
+      assertEquals(1, statistics.getPrepareStatementCount());
+      assertEquals(
+        Set.of(session.getId(), withoutLocation.getId()),
+        results.stream().map(ClerkExamSessionSummaryDTO::id).collect(Collectors.toSet())
+      );
+      final ClerkExamSessionSummaryDTO result = results
+        .stream()
+        .filter(dto -> dto.id() == session.getId())
+        .findFirst()
+        .orElseThrow();
+      assertEquals(examDate.getExamDate(), result.date());
+      assertEquals("fin", result.language());
+      assertEquals("PERUS", result.level());
+      assertEquals(
+        Set.of("fi", "sv"),
+        result.location().stream().map(location -> location.lang()).collect(Collectors.toSet())
+      );
+      assertTrue(result.location().stream().allMatch(location -> "Testikatu 1".equals(location.streetAddress())));
+      assertTrue(
+        results
+          .stream()
+          .filter(dto -> dto.id() == withoutLocation.getId())
+          .findFirst()
+          .orElseThrow()
+          .location()
+          .isEmpty()
+      );
+      assertFalse(Hibernate.isInitialized(entityManager.find(ExamSession.class, session.getId()).getRegistrations()));
+      verifyNoInteractions(onrService);
+    } finally {
+      statistics.setStatisticsEnabled(false);
+    }
+  }
+
+  private ExamDate persistTransferExamDate(final LocalDate date) {
+    final ExamDate examDate = Factory.examDate();
+    examDate.setExamDate(date);
+    return entityManager.persist(examDate);
+  }
+
+  private ExamSession persistTransferSession(
+    final Organizer organizer,
+    final ExamDate date,
+    final String language,
+    final String level
+  ) {
+    final ExamSession session = Factory.examSession(date);
+    session.setOrganizer(organizer);
+    session.setLanguage(language);
+    session.setLevel(level);
+    return entityManager.persist(session);
+  }
+
+  @Test
+  public void testOrganizerTransferTargetsMatchLegacyRestrictionsWithoutLoadingRegistrations() {
+    final Organizer organizer = entityManager.persist(Factory.organizer());
+    final Organizer otherOrganizer = Factory.organizer();
+    otherOrganizer.setOid("1.2.246.562.10.00000000002");
+    entityManager.persist(otherOrganizer);
+    final LocalDate sourceDate = LocalDate.of(2026, 1, 31);
+    final ExamDate date = persistTransferExamDate(sourceDate);
+    final ExamSession source = persistTransferSession(organizer, date, "fin", "PERUS");
+    final ExamSession sameDay = persistTransferSession(organizer, date, "fin", "PERUS");
+    final ExamSession lastDay = persistTransferSession(
+      organizer,
+      persistTransferExamDate(sourceDate.plusYears(1)),
+      "fin",
+      "PERUS"
+    );
+    persistTransferSession(organizer, persistTransferExamDate(sourceDate.minusDays(1)), "fin", "PERUS");
+    persistTransferSession(organizer, persistTransferExamDate(sourceDate.plusYears(1).plusDays(1)), "fin", "PERUS");
+    persistTransferSession(otherOrganizer, date, "fin", "PERUS");
+    persistTransferSession(organizer, date, "swe", "PERUS");
+    persistTransferSession(organizer, date, "fin", "KESKI");
+    entityManager.persist(Factory.examSessionLocation(sameDay));
+    final ExamSessionLocation swedish = Factory.examSessionLocation(sameDay);
+    swedish.setLang("sv");
+    entityManager.persist(swedish);
+    entityManager.flush();
+    entityManager.clear();
+
+    final var statistics = entityManager
+      .getEntityManager()
+      .getEntityManagerFactory()
+      .unwrap(SessionFactory.class)
+      .getStatistics();
+    statistics.setStatisticsEnabled(true);
+    statistics.clear();
+    try {
+      final List<ClerkExamSessionSummaryDTO> targets = clerkExamSessionService.getOrganizerTransferTargets(
+        organizer.getOid(),
+        source.getId()
+      );
+      assertEquals(2, statistics.getPrepareStatementCount());
+      assertEquals(
+        List.of(sameDay.getId(), lastDay.getId()),
+        targets.stream().map(ClerkExamSessionSummaryDTO::id).toList()
+      );
+      assertEquals(2, targets.get(0).location().size());
+      assertEquals("Testikatu 1", targets.get(0).location().get(0).streetAddress());
+      assertEquals(sourceDate, targets.get(0).date());
+      assertEquals("fin", targets.get(0).language());
+      assertEquals("PERUS", targets.get(0).level());
+      assertTrue(targets.get(1).location().isEmpty());
+      assertFalse(Hibernate.isInitialized(entityManager.find(ExamSession.class, sameDay.getId()).getRegistrations()));
+      verifyNoInteractions(onrService);
+    } finally {
+      statistics.setStatisticsEnabled(false);
+    }
+  }
+
+  @Test
+  public void testOrganizerTransferTargetsFallBackToOnlyEarliestCandidateAfterOneYear() {
+    final Organizer organizer = entityManager.persist(Factory.organizer());
+    final LocalDate sourceDate = LocalDate.of(2026, 1, 31);
+    final ExamSession source = persistTransferSession(organizer, persistTransferExamDate(sourceDate), "fin", "PERUS");
+    persistTransferSession(organizer, persistTransferExamDate(sourceDate.plusYears(2)), "fin", "PERUS");
+    final ExamDate firstDate = persistTransferExamDate(sourceDate.plusYears(1).plusDays(1));
+    final ExamSession first = persistTransferSession(organizer, firstDate, "fin", "PERUS");
+    persistTransferSession(organizer, firstDate, "fin", "PERUS");
+    entityManager.flush();
+    entityManager.clear();
+
+    final var targets = clerkExamSessionService.getOrganizerTransferTargets(organizer.getOid(), source.getId());
+    assertEquals(List.of(first.getId()), targets.stream().map(ClerkExamSessionSummaryDTO::id).toList());
+  }
+
+  @Test
+  public void testOrganizerTransferTargetsReturnEmptyWhenNoEligibleSessionsExist() {
+    final Organizer organizer = entityManager.persist(Factory.organizer());
+    final ExamDate date = persistTransferExamDate(LocalDate.of(2026, 1, 31));
+    final ExamSession source = persistTransferSession(organizer, date, "fin", "PERUS");
+    persistTransferSession(organizer, date, "swe", "PERUS");
+    entityManager.flush();
+    entityManager.clear();
+
+    assertTrue(clerkExamSessionService.getOrganizerTransferTargets(organizer.getOid(), source.getId()).isEmpty());
+  }
+
+  @Test
+  public void testOrganizerTransferTargetsRejectSourceOutsideOrganizer() {
+    final Organizer organizer = entityManager.persist(Factory.organizer());
+    final Organizer otherOrganizer = Factory.organizer();
+    otherOrganizer.setOid("1.2.246.562.10.00000000002");
+    entityManager.persist(otherOrganizer);
+    final ExamSession source = persistTransferSession(
+      organizer,
+      persistTransferExamDate(LocalDate.of(2026, 1, 31)),
+      "fin",
+      "PERUS"
+    );
+    entityManager.flush();
+    entityManager.clear();
+
+    assertThrows(
+      AccessDeniedException.class,
+      () -> clerkExamSessionService.getOrganizerTransferTargets(otherOrganizer.getOid(), source.getId())
+    );
+    assertThrows(
+      AccessDeniedException.class,
+      () -> clerkExamSessionService.getOrganizerTransferTargets(organizer.getOid(), Long.MAX_VALUE)
+    );
+    verifyNoInteractions(onrService);
   }
 
   @Test

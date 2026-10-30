@@ -68,3 +68,8 @@ export interface ClerkExamSession {
   availableRegistrationKind: RegistrationKind;
   registrations: Array<ClerkRegistration>;
 }
+
+export type ClerkExamSessionSummary = Pick<
+  ClerkExamSessionResponse,
+  'id' | 'date' | 'language' | 'level' | 'location'
+>;

@@ -9,6 +9,7 @@ import fi.oph.yki.api.dto.clerk.ClerkCustomerSummaryDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamDateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionCreateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionDTO;
+import fi.oph.yki.api.dto.clerk.ClerkExamSessionSummaryDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionUpdateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkOrganizerDTO;
 import fi.oph.yki.api.dto.clerk.ClerkOrganizerExamSessionDTO;
@@ -105,6 +106,15 @@ public class OrganizerController {
     @PathVariable final long examSessionId
   ) {
     return clerkExamSessionService.getExamSession(oid, examSessionId);
+  }
+
+  @GetMapping(path = "/examSession/{examSessionId:\\d+}/transferTargets")
+  @Operation(tags = TAG_ORGANIZER, summary = "Get eligible transfer targets within the organizer without registrations")
+  public List<ClerkExamSessionSummaryDTO> getTransferTargets(
+    @PathVariable("oid") final String oid,
+    @PathVariable final long examSessionId
+  ) {
+    return clerkExamSessionService.getOrganizerTransferTargets(oid, examSessionId);
   }
 
   @PostMapping(path = "/examSession", consumes = APPLICATION_JSON_VALUE)

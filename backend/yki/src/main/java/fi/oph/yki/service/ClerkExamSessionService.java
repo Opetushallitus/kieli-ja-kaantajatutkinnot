@@ -3,6 +3,7 @@ package fi.oph.yki.service;
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionCreateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionLocationDTO;
+import fi.oph.yki.api.dto.clerk.ClerkExamSessionSummaryDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionUpdateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkRegistrationDTO;
 import fi.oph.yki.audit.AuditService;
@@ -26,6 +27,7 @@ import fi.oph.yki.repository.RegistrationWithQueuePositionProjection;
 import fi.oph.yki.util.RegistrationUtil;
 import fi.oph.yki.view.ExamSessionXlsxDataRowUtil;
 import fi.oph.yki.view.ExamSessionXlsxView;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -81,6 +83,51 @@ public class ClerkExamSessionService {
   public List<ClerkExamSessionDTO> getExamSessionsByLanguageAndLevel(final String language, final String level) {
     auditService.logOperation(YkiOperation.LIST_EXAM_SESSIONS);
     return examSessionRepository.getByLanguageAndLevel(language, level).stream().map(this::toDTO).toList();
+  }
+
+  @Transactional(readOnly = true)
+  public List<ClerkExamSessionSummaryDTO> getExamSessionSummariesByLanguageAndLevel(
+    final String language,
+    final String level
+  ) {
+    auditService.logOperation(YkiOperation.LIST_EXAM_SESSIONS);
+    return examSessionRepository
+      .findByLanguageAndLevelWithDateAndLocations(language, level)
+      .stream()
+      .map(ClerkExamSessionService::toSummaryDTO)
+      .toList();
+  }
+
+  @Transactional(readOnly = true)
+  public List<ClerkExamSessionSummaryDTO> getOrganizerTransferTargets(final String oid, final long examSessionId) {
+    final ExamSession source = examSessionRepository
+      .findByIdAndOrganizerOidWithDate(examSessionId, oid)
+      .orElseThrow(() ->
+        new AccessDeniedException(String.format("Exam session (%s) not related to organizer (%s)", examSessionId, oid))
+      );
+    auditService.logOperation(YkiOperation.LIST_EXAM_SESSIONS);
+
+    final List<ExamSession> candidates = examSessionRepository.findTransferCandidatesWithDateAndLocations(
+      examSessionId
+    );
+    final LocalDate limitDate = source.getExamDate().getExamDate().plusYears(1);
+    final List<ExamSession> withinYear = candidates
+      .stream()
+      .filter(candidate -> !candidate.getExamDate().getExamDate().isAfter(limitDate))
+      .toList();
+    // Match the legacy organizer flow: if none are within one year, offer only the earliest candidate.
+    final List<ExamSession> targets = withinYear.isEmpty() ? candidates.stream().limit(1).toList() : withinYear;
+    return targets.stream().map(ClerkExamSessionService::toSummaryDTO).toList();
+  }
+
+  private static ClerkExamSessionSummaryDTO toSummaryDTO(final ExamSession session) {
+    return new ClerkExamSessionSummaryDTO(
+      session.getId(),
+      session.getExamDate().getExamDate(),
+      session.getLanguage(),
+      session.getLevel(),
+      session.getLocations().stream().map(RegistrationUtil::createClerkExamSessionLocationDTO).toList()
+    );
   }
 
   private static final List<RegistrationState> VISIBLE_STATES = List.of(
