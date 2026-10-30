@@ -514,7 +514,7 @@
               "title": "Tunnistaudu ilmoittautumista varten"
             },
             "caption": "Sinun täytyy tunnistautua ilmoittautumista varten. Käytä tunnistautumiseen sen henkilön tietoja, joka osallistuu YKI-testiin.",
-            "emailButtonText": "tunnistaudu sähköpostilla",
+            "emailButtonText": "Tunnistaudu sähköpostilla",
             "emailError": "Virheellinen sähköpostiosoite",
             "emailInput": {
               "label": "Kirjoita sähköpostiosoitteesi",

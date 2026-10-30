@@ -1,5 +1,4 @@
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import { Link } from '@mui/material';
+import { OphLink } from '@opetushallitus/oph-design-system';
 import { useSearchParams } from 'react-router';
 
 import { BackToFrontPageButton } from 'components/elements/BackToFrontPageButton';
@@ -32,46 +31,29 @@ const PaymentSuccess = () => {
       </Text>
       <div>
         <Text>{t('beforeYkiTest.description')}</Text>
-        <div className="columns gapped-xxs">
-          <Link href={t('beforeYkiTest.url')} target="_blank">
-            <Text component="span" sx={{ fontWeight: 700 }}>
-              {t('beforeYkiTest.label')}
-            </Text>
-          </Link>
-          <OpenInNewIcon color="inherit" />
-        </div>
+        <OphLink href={t('beforeYkiTest.url')} target="_blank">
+          {t('beforeYkiTest.label')}
+        </OphLink>
       </div>
       <div>
         <Text>{t('specialArrangements.description')}</Text>
-        <div className="columns gapped-xxs">
-          <Link href={t('specialArrangements.url')} target="_blank">
-            <Text component="span" sx={{ fontWeight: 700 }}>
-              {t('specialArrangements.label')}
-            </Text>
-          </Link>
-          <OpenInNewIcon color="inherit" />
-        </div>
+        <OphLink href={t('specialArrangements.url')} target="_blank">
+          {t('specialArrangements.label')}
+        </OphLink>
       </div>
       <div>
         <Text component="div">
           {t('toUserPortal.description')}
           <br />
           {isSuomiFiSession && (
-            <Link href={`${APIEndpoints.Authenticate}?toUserPortal=true`}>
-              <Text component="span" sx={{ fontWeight: 700 }}>
-                {t('toUserPortal.link.label')}
-              </Text>
-            </Link>
+            <OphLink href={`${APIEndpoints.Authenticate}?toUserPortal=true`}>
+              {t('toUserPortal.link.label')}
+            </OphLink>
           )}
           {!isSuomiFiSession && (
-            <div className="columns gapped-xxs">
-              <Link href={omaOpintopolkuUrl} target="_blank">
-                <Text component="span" sx={{ fontWeight: 700 }}>
-                  {t('toUserPortal.link.omaOpintopolkuLabel')}
-                </Text>
-              </Link>
-              <OpenInNewIcon color="inherit" />
-            </div>
+            <OphLink href={omaOpintopolkuUrl} target="_blank">
+              {t('toUserPortal.link.omaOpintopolkuLabel')}
+            </OphLink>
           )}
         </Text>
       </div>
