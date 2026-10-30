@@ -1,7 +1,7 @@
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Divider, Paper } from '@mui/material';
 import { Link } from 'react-router';
-import { OPHLogoViewer, Svg } from 'shared/components';
+import { OPHLogoViewer } from 'shared/components';
 import { AppLanguage, Direction } from 'shared/enums';
 
 import { Text } from 'components/Text';
@@ -16,9 +16,9 @@ import FooterLogoSV from 'static/OPO_Logo_Footer_ruotsi.svg';
 import FooterLogoFI from 'static/OPO_Logo_Footer_suomi.svg';
 
 const footerLogos = {
-  [AppLanguage.Finnish]: FooterLogoFI,
-  [AppLanguage.Swedish]: FooterLogoSV,
-  [AppLanguage.English]: FooterLogoEN,
+  [AppLanguage.Finnish]: { src: FooterLogoFI, width: 174, height: 28 },
+  [AppLanguage.Swedish]: { src: FooterLogoSV, width: 167, height: 29 },
+  [AppLanguage.English]: { src: FooterLogoEN, width: 152, height: 29 },
 };
 
 export const NewYkiFooter = () => {
@@ -30,9 +30,9 @@ export const NewYkiFooter = () => {
       <Paper className="footer" elevation={0}>
         <div className="footer__brand">
           <Divider className="footer__divider">
-            <Svg
+            <img
               className="footer__brand__logo"
-              src={footerLogos[getCurrentLang()]}
+              {...footerLogos[getCurrentLang()]}
               alt={t('studyinfoLogoAlt')}
             />
           </Divider>

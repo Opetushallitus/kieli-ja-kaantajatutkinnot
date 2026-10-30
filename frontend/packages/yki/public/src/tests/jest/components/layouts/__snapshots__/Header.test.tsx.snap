@@ -81,7 +81,9 @@ exports[`Header should render Header correctly 1`] = `
           <img
             alt="ophLogoToFrontPageAlt"
             class="header__logo__logo"
+            height="2457"
             src="test"
+            width="15387"
           />
         </a>
       </div>

@@ -47,6 +47,8 @@
 
   &__logo-row__oph {
     height: 6.4rem;
+    // Both language variants have a 79 × 54 viewBox.
+    width: calc(6.4rem * 79 / 54);
     margin: 0 2rem;
   }
 

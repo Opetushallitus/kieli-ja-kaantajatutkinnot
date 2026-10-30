@@ -1,10 +1,17 @@
 import { FC } from 'react';
-import { Svg } from 'shared/components';
 import { AppLanguage } from 'shared/enums';
 
 import OPHLogoEN from 'static/opintopolku_logo_header_en.svg';
 import OPHLogoFI from 'static/opintopolku_logo_header_fi.svg';
 import OPHLogoSV from 'static/opintopolku_logo_header_sv.svg';
+
+// Scale the fractional SVG viewBox dimensions to integer HTML dimensions.
+// CSS sets the displayed height; these dimensions reserve the correct ratio.
+const logos = {
+  [AppLanguage.Finnish]: { src: OPHLogoFI, width: 15387, height: 2457 },
+  [AppLanguage.English]: { src: OPHLogoEN, width: 10718, height: 1812 },
+  [AppLanguage.Swedish]: { src: OPHLogoSV, width: 12018, height: 2100 },
+};
 
 interface OPHLogoViewerProps {
   className?: string;
@@ -17,15 +24,5 @@ export const OPHLogoViewer: FC<OPHLogoViewerProps> = ({
   alt,
   currentLang,
 }) => {
-  const getLogo = () => {
-    if (currentLang === AppLanguage.Finnish) {
-      return OPHLogoFI;
-    } else if (currentLang === AppLanguage.English) {
-      return OPHLogoEN;
-    } else if (currentLang === AppLanguage.Swedish) {
-      return OPHLogoSV;
-    }
-  };
-
-  return <Svg className={className} src={getLogo()} alt={alt} />;
+  return <img className={className} {...logos[currentLang]} alt={alt} />;
 };
