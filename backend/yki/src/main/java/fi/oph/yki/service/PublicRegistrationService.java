@@ -27,6 +27,7 @@ import fi.oph.yki.repository.ExamSessionRepository;
 import fi.oph.yki.repository.IdentityRepository;
 import fi.oph.yki.repository.PersonRepository;
 import fi.oph.yki.repository.RegistrationRepository;
+import fi.oph.yki.service.dto.PersonDTO;
 import fi.oph.yki.util.exception.APIException;
 import fi.oph.yki.util.exception.APIExceptionType;
 import java.time.LocalDate;
@@ -368,31 +369,32 @@ public class PublicRegistrationService {
   }
 
   @Transactional
-  public Person createPersonForIdentity(
-    final long identityId,
-    final String personOid,
-    final String firstName,
-    final String lastName
-  ) {
-    final Identity identity = identityRepository
-      .findById(identityId)
-      .orElseThrow(() -> new APIException(APIExceptionType.NO_IDENTITY_SESSION));
+  public void updateRegistrationPerson(final long registrationId, final Identity identity, final Person person) {
+    final String personOid = person.getOid();
 
-    final Person person = personRepository
-      .findById(personOid)
-      .orElseGet(() -> {
-        final Person newPerson = new Person();
-        newPerson.setOid(personOid);
-        newPerson.setFirstName(firstName);
-        newPerson.setLastName(lastName);
-        return personRepository.saveAndFlush(newPerson);
-      });
+    final Registration registration = registrationRepository
+      .findById(registrationId)
+      .orElseThrow(() -> new APIException(APIExceptionType.NOT_FOUND));
+
+    if (registration.getIdentity().getId() != identity.getId()) {
+      throw new APIException(APIExceptionType.REGISTRATION_IDENTITY_MISMATCH);
+    }
+
+    if (!RegistrationState.STARTED.equals(registration.getState())) {
+      throw new APIException(APIExceptionType.REGISTRATION_NOT_STARTED);
+    }
+
+    if (registration.getPerson() != null && !registration.getPerson().getOid().equals(personOid)) {
+      throw new APIException(APIExceptionType.REGISTRATION_PERSON_MISMATCH);
+    }
 
     identity.setPerson(person);
     identity.setModifiedAt(LocalDateTime.now());
     identityRepository.save(identity);
 
-    return person;
+    registration.setPerson(person);
+    registration.setStrongAuth(true);
+    registrationRepository.save(registration);
   }
 
   @Transactional(readOnly = true)

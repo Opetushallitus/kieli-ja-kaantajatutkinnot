@@ -73,4 +73,20 @@ public class RegistrationUtil {
       .queuePosition(queuePosition)
       .build();
   }
+
+  public static String createRegistrationAuthSucessHandlerRedirectUrl(
+    final String baseUrl,
+    final long examSessionId,
+    final long registrationId
+  ) {
+    return baseUrl + "/v2/login/registration/" + examSessionId + "/" + registrationId + "/success";
+  }
+
+  public static String createRegistrationAuthSucessFrontendRedirectUrl(
+    final String frontendBaseUrl,
+    final long examSessionId,
+    final long registrationId
+  ) {
+    return frontendBaseUrl + "/ilmoittautuminen/v2/tutkintotilaisuus/" + examSessionId + "/" + registrationId;
+  }
 }

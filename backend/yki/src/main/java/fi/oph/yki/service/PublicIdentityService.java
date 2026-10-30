@@ -1,7 +1,9 @@
 package fi.oph.yki.service;
 
 import fi.oph.yki.model.Identity;
+import fi.oph.yki.model.Person;
 import fi.oph.yki.repository.IdentityRepository;
+import fi.oph.yki.service.dto.PersonDTO;
 import fi.oph.yki.util.exception.APIException;
 import fi.oph.yki.util.exception.APIExceptionType;
 import jakarta.servlet.http.HttpSession;
@@ -64,4 +66,6 @@ public class PublicIdentityService {
 
     return identityRepository.saveAndFlush(identity);
   }
+
+  public void updatePerson(Identity identity, Person person) {}
 }

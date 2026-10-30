@@ -14,5 +14,5 @@ public class Constants {
   public static final String APP_ORGANIZER_ROLE = "APP_YKI_JARJESTAJA";
   public static final String APP_CUSTOMER_SERVICE_ROLE = "APP_YKI_ILMOITTAUTUMISET_R";
 
-  public static final String OPPIJA_LOGIN_REDIRECT = "oppijaLoginRedirect";
+  public static final String CAS_OPPIJA_LOGIN_REDIRECT_URL = "casOppijaLoginRedirectUrl";
 }

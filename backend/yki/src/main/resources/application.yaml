@@ -58,6 +58,7 @@ app:
     enabled: ${customer-portal.enabled:false}
   base-url:
     public: ${public-base-url:http://localhost:8083}/yki
+    public-frontend: ${public-base-url:http://localhost:4003}/yki
     clerk: ${clerk-base-url:http://localhost:8083/yki}
   user-portal:
     success-url: ${app.base-url.public}/kayttaja/tiedot

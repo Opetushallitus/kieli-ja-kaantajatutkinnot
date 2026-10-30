@@ -7,6 +7,7 @@ import fi.oph.yki.model.Person;
 import fi.oph.yki.model.PersonSyncStatus;
 import fi.oph.yki.repository.PersonRepository;
 import fi.oph.yki.repository.PersonSyncStatusRepository;
+import fi.oph.yki.service.dto.PersonDTO;
 import fi.oph.yki.util.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
@@ -56,5 +57,22 @@ public class PersonService {
     final var syncStatus = new PersonSyncStatus();
     syncStatus.setPersonOid(oid);
     personSyncStatusRepository.saveAndFlush(syncStatus);
+  }
+
+  @Transactional
+  public Person createOrUpdatePerson(final PersonDTO personDTO) {
+    final String personOid = personDTO.personOid();
+
+    return personRepository
+      .findById(personOid)
+      .orElseGet(() -> {
+        final Person newPerson = new Person();
+
+        newPerson.setOid(personOid);
+        newPerson.setFirstName(personDTO.firstName());
+        newPerson.setLastName(personDTO.lastName());
+
+        return personRepository.saveAndFlush(newPerson);
+      });
   }
 }

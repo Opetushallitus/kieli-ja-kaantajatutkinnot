@@ -3,9 +3,6 @@ package fi.oph.yki.config.security;
 import fi.oph.yki.config.Constants;
 import fi.oph.yki.kayttooikeus.PermissionsService;
 import fi.oph.yki.kayttooikeus.dto.KayttooikeusResponseDTO;
-import fi.oph.yki.model.Identity;
-import fi.oph.yki.service.PublicIdentityService;
-import fi.oph.yki.service.PublicRegistrationService;
 import fi.oph.yki.util.AuthorizationUtil;
 import fi.oph.yki.util.StringUtil;
 import fi.vm.sade.java_utils.security.OpintopolkuCasAuthenticationFilter;
@@ -25,23 +22,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.AuthorizationManager;
 import org.springframework.security.cas.ServiceProperties;
 import org.springframework.security.cas.authentication.CasAuthenticationProvider;
-import org.springframework.security.cas.authentication.CasAuthenticationToken;
 import org.springframework.security.cas.web.CasAuthenticationEntryPoint;
 import org.springframework.security.cas.web.CasAuthenticationFilter;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -65,23 +58,17 @@ public class WebSecurityConfig {
   private final Environment environment;
   private final PermissionsService permissionsService;
   private final SessionMappingStorage sessionMappingStorage;
-  private final PublicIdentityService publicIdentityService;
-  private final PublicRegistrationService publicRegistrationService;
   private static final Logger LOG = LoggerFactory.getLogger(WebSecurityConfig.class);
 
   @Autowired
   public WebSecurityConfig(
     final Environment environment,
     final PermissionsService permissionsService,
-    final SessionMappingStorage sessionMappingStorage,
-    final PublicIdentityService publicIdentityService,
-    final PublicRegistrationService publicRegistrationService
+    final SessionMappingStorage sessionMappingStorage
   ) {
     this.environment = environment;
     this.permissionsService = permissionsService;
     this.sessionMappingStorage = sessionMappingStorage;
-    this.publicIdentityService = publicIdentityService;
-    this.publicRegistrationService = publicRegistrationService;
   }
 
   @Bean
@@ -173,28 +160,12 @@ public class WebSecurityConfig {
 
   private AuthenticationSuccessHandler casOppijaAuthenticationSuccessHandler() {
     return (request, response, authentication) -> {
-      final String baseUrl = environment.getRequiredProperty("app.base-url.public");
       final HttpSession session = request.getSession();
-      final Object target = session.getAttribute(Constants.OPPIJA_LOGIN_REDIRECT);
+      final String targetUrl = (String) session.getAttribute(Constants.CAS_OPPIJA_LOGIN_REDIRECT_URL);
 
-      if (authentication instanceof final CasAuthenticationToken casToken) {
-        final Map<String, Object> attributes = casToken.getAssertion().getPrincipal().getAttributes();
+      session.removeAttribute(Constants.CAS_OPPIJA_LOGIN_REDIRECT_URL);
 
-        final String personOid = (String) attributes.get("personOid");
-        final String firstName = (String) attributes.get("firstName");
-        final String familyName = (String) attributes.get("sn") != null
-          ? (String) attributes.get("sn")
-          : (String) attributes.get("familyName");
-
-        if (personOid != null) {
-          final Identity identity = publicIdentityService.getIdentityFromSession(session);
-          publicRegistrationService.createPersonForIdentity(identity.getId(), personOid, firstName, familyName);
-        }
-      }
-
-      session.removeAttribute(Constants.OPPIJA_LOGIN_REDIRECT);
-
-      response.sendRedirect(baseUrl + (target instanceof String path ? path : ""));
+      response.sendRedirect(targetUrl);
     };
   }
 

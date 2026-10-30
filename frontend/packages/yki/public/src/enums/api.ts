@@ -1,5 +1,6 @@
 export enum APIEndpoints {
   Authenticate = '/yki/auth/',
+  AuthenticateV2 = '/yki/v2/login/registration/:examSessionId/:registrationId/redirect',
   CountryCodes = '/yki/api/code/maatjavaltiot2',
   ExamSessions = '/yki/api/exam-session',
   ExamSession = '/yki/api/exam-session/:examSessionId',

@@ -5,7 +5,6 @@ import { H3, Text } from 'components/Text';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { APIEndpoints } from 'enums/api';
-import { RegistrationKind } from 'enums/app';
 import { examSessionSelector } from 'features/registration/redux/selectors/examSession';
 import { registrationSelector } from 'features/registration/redux/selectors/registration';
 import { ExamSession } from 'interfaces/examSessions';
@@ -19,8 +18,6 @@ export const SuomiFiIdentification = () => {
     keyPrefix: 'yki.component.registration.steps.identify',
   });
 
-  const registrationKind = examSession.available_registration_kind;
-
   return (
     <>
       <div className="rows">
@@ -32,11 +29,10 @@ export const SuomiFiIdentification = () => {
         size="large"
         variant={Variant.Contained}
         color={Color.Secondary}
-        href={`${APIEndpoints.Authenticate}?examSessionId=${
-          examSession.id
-        }&toQueue=${
-          registrationKind === RegistrationKind.Queue
-        }&registrationId=${registration.id}`}
+        href={APIEndpoints.AuthenticateV2.replace(
+          ':examSessionId',
+          String(examSession.id),
+        ).replace(':registrationId', String(registration.id))}
       >
         {t('suomiFiButtonText')}
       </CustomButton>
