@@ -514,7 +514,7 @@
               "title": "Log in for registration"
             },
             "caption": "You must log in to register for a YKI test. When you log in, use the personal information of the person taking the YKI test.",
-            "emailButtonText": "log in with email",
+            "emailButtonText": "Log in with email",
             "emailError": "Invalid email address",
             "emailInput": {
               "label": "Fill in your email address",

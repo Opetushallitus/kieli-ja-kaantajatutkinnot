@@ -30,8 +30,7 @@ export const ConfirmRegistration = ({
       <H2>{t('title')}</H2>
       <Text>
         <b>{t('verifyRegistrationDetails.text1')}</b>{' '}
-        {t('verifyRegistrationDetails.text2')}{' '}
-        {t('verifyRegistrationDetails.text3')}{' '}
+        {t('verifyRegistrationDetails.text2')} {translateTerms('description2')}:{' '}
         <OphLink href={translateTerms('link')} target="_blank">
           {translateTerms('linkText')}
         </OphLink>

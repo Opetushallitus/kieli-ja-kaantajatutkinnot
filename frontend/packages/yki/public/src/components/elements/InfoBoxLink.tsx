@@ -6,8 +6,8 @@ export const InfoBoxLink = () => {
   const translateCommon = useCommonTranslation();
 
   return (
-    <OphLink href={translateCommon('partialExamsLink.url')} target="_blank">
-      {translateCommon('partialExamsLink.label')}
+    <OphLink href={translateCommon('infoBoxLink.url')} target="_blank">
+      {translateCommon('infoBoxLink.label')}
     </OphLink>
   );
 };
