@@ -2,7 +2,10 @@ import dayjs from 'dayjs';
 import { t } from 'i18next';
 
 import { ExamLevel, ExamSessionType } from 'enums/app';
-import { ClerkExamSession } from 'interfaces/clerkExamSession';
+import {
+  ClerkExamSession,
+  ClerkExamSessionSummary,
+} from 'interfaces/clerkExamSession';
 import {
   ClerkOrganizerType,
   OrganizerLanguage,
@@ -170,4 +173,34 @@ export const getExamSessionStartTimesDescription = (
         time1: examSession.startTimeReadListen,
         time2: examSession.startTimeSpeakWrite,
       });
+};
+
+export const getExamSessionOption = (
+  examSession: ClerkExamSessionSummary,
+  locationLanguage: string | undefined,
+  translateCommon: (key: string) => string,
+) => {
+  const location =
+    examSession.location.find((l) => l.lang === locationLanguage) ??
+    examSession.location.find((l) => l.lang === 'fi') ??
+    examSession.location[0];
+  const locationLabel = [
+    location?.name,
+    location?.streetAddress,
+    location?.postOffice,
+  ]
+    .filter(Boolean)
+    .join(', ');
+
+  return {
+    value: String(examSession.id),
+    label: [
+      `${examSession.date} — ${translateCommon(
+        'languages.' + examSession.language,
+      )} - ${translateCommon('languageLevel.' + examSession.level)}`,
+      locationLabel,
+    ]
+      .filter(Boolean)
+      .join(' — '),
+  };
 };

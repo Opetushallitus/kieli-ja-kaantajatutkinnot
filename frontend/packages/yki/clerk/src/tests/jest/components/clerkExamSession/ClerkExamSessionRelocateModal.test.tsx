@@ -29,7 +29,6 @@ const summary: ClerkExamSessionSummary = {
 };
 
 const sessions = [
-  { ...summary, id: 1, date: '2026-10-22' },
   { ...summary, id: 2, date: '2026-10-24' },
   { ...summary, id: 3, date: '2026-10-23' },
   { ...summary, id: 4, date: '2027-01-01' },
@@ -47,16 +46,7 @@ const renderModal = () => {
 };
 
 describe('ClerkExamSessionRelocateModal', () => {
-  beforeEach(() => {
-    jest.useFakeTimers();
-    jest.setSystemTime(new Date('2026-10-23T15:00:00'));
-  });
-
-  afterEach(() => {
-    jest.useRealTimers();
-  });
-
-  it('waits for destination sessions and lists today and future dates latest first', () => {
+  it('lists returned destinations latest first and excludes the current session', () => {
     const { store, dispatch } = renderModal();
 
     expect(screen.getByRole('progressbar')).toBeInTheDocument();

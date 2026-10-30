@@ -22,6 +22,7 @@ import {
   resetRelocate,
 } from 'redux/reducers/clerkExamSession';
 import { clerkExamSessionDetailsSelector } from 'redux/selectors/clerkExamSessionDetailsSelector';
+import { getExamSessionOption } from 'utils/clerk';
 
 type ClerkExamSessionRelocateModalProps = {
   registrationId: number | null;
@@ -54,8 +55,11 @@ export const ClerkExamSessionRelocateModal = ({
   const isLoading =
     relocateExamSessionsStatus === APIResponseStatus.NotStarted ||
     relocateExamSessionsStatus === APIResponseStatus.InProgress;
-  const today = dayjs();
   const locationLanguage = getCurrentLang()?.split('-')[0];
+  const examSessionOptions = relocateExamSessions
+    .filter((es) => es.id !== examSessionId)
+    .sort((a, b) => dayjs(b.date).valueOf() - dayjs(a.date).valueOf())
+    .map((es) => getExamSessionOption(es, locationLanguage, translateCommon));
 
   useEffect(() => {
     if (registrationId !== null) {
@@ -112,41 +116,7 @@ export const ClerkExamSessionRelocateModal = ({
                       (e.target as HTMLInputElement).value,
                     )
                   }
-                  options={relocateExamSessions
-                    .filter(
-                      (es) =>
-                        es.id !== examSessionId &&
-                        !dayjs(es.date).isBefore(today, 'day'),
-                    )
-                    .sort(
-                      (a, b) =>
-                        dayjs(b.date).valueOf() - dayjs(a.date).valueOf(),
-                    )
-                    .map((es) => {
-                      const location =
-                        es.location.find((l) => l.lang === locationLanguage) ??
-                        es.location.find((l) => l.lang === 'fi') ??
-                        es.location[0];
-                      const locationLabel = [
-                        location?.name,
-                        location?.streetAddress,
-                        location?.postOffice,
-                      ]
-                        .filter(Boolean)
-                        .join(', ');
-
-                      return {
-                        value: String(es.id),
-                        label: [
-                          `${es.date} — ${translateCommon(
-                            'languages.' + es.language,
-                          )} - ${translateCommon('languageLevel.' + es.level)}`,
-                          locationLabel,
-                        ]
-                          .filter(Boolean)
-                          .join(' — '),
-                      };
-                    })}
+                  options={examSessionOptions}
                 />
               )}
               <div className="columns gapped flex-end">
