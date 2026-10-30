@@ -1,0 +1,17 @@
+.status-badge {
+  // stylelint-disable-next-line selector-class-pattern
+  &.MuiChip-root {
+    background-color: #c1eaff;
+    border-radius: 4px;
+    color: #006699;
+    font-size: 14px;
+    font-weight: 600;
+    height: 24px;
+    line-height: 24px;
+  }
+
+  // stylelint-disable-next-line selector-class-pattern
+  .MuiChip-label {
+    padding: 0 5px;
+  }
+}
