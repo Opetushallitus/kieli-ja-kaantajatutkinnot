@@ -28,6 +28,7 @@ import fi.oph.yki.util.RegistrationUtil;
 import fi.oph.yki.view.ExamSessionXlsxDataRowUtil;
 import fi.oph.yki.view.ExamSessionXlsxView;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -92,7 +93,7 @@ public class ClerkExamSessionService {
   ) {
     auditService.logOperation(YkiOperation.LIST_EXAM_SESSIONS);
     return examSessionRepository
-      .findByLanguageAndLevelWithDateAndLocations(language, level)
+      .findUpcomingByLanguageAndLevelWithDateAndLocations(language, level, LocalDate.now(ZoneId.of("Europe/Helsinki")))
       .stream()
       .map(ClerkExamSessionService::toSummaryDTO)
       .toList();
@@ -108,7 +109,8 @@ public class ClerkExamSessionService {
     auditService.logOperation(YkiOperation.LIST_EXAM_SESSIONS);
 
     final List<ExamSession> candidates = examSessionRepository.findTransferCandidatesWithDateAndLocations(
-      examSessionId
+      examSessionId,
+      LocalDate.now(ZoneId.of("Europe/Helsinki"))
     );
     final LocalDate limitDate = source.getExamDate().getExamDate().plusYears(1);
     final List<ExamSession> withinYear = candidates

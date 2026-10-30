@@ -13,13 +13,14 @@ public interface ExamSessionRepository extends BaseRepository<ExamSession> {
 
   @Query(
     "SELECT DISTINCT es FROM ExamSession es" +
-    " JOIN FETCH es.examDate" +
+    " JOIN FETCH es.examDate examDate" +
     " LEFT JOIN FETCH es.locations" +
-    " WHERE es.language = :language AND es.level = :level"
+    " WHERE es.language = :language AND es.level = :level AND examDate.examDate >= :today"
   )
-  List<ExamSession> findByLanguageAndLevelWithDateAndLocations(
+  List<ExamSession> findUpcomingByLanguageAndLevelWithDateAndLocations(
     @Param("language") String language,
-    @Param("level") String level
+    @Param("level") String level,
+    @Param("today") LocalDate today
   );
 
   @Query(
@@ -39,9 +40,13 @@ public interface ExamSessionRepository extends BaseRepository<ExamSession> {
     " AND target.organizer = source.organizer" +
     " AND target.language = source.language AND target.level = source.level" +
     " AND targetDate.examDate >= source.examDate.examDate" +
+    " AND targetDate.examDate >= :today" +
     " ORDER BY targetDate.examDate, target.id"
   )
-  List<ExamSession> findTransferCandidatesWithDateAndLocations(@Param("examSessionId") long examSessionId);
+  List<ExamSession> findTransferCandidatesWithDateAndLocations(
+    @Param("examSessionId") long examSessionId,
+    @Param("today") LocalDate today
+  );
 
   List<ExamSession> findByOrganizerOid_Oid(String oid);
 

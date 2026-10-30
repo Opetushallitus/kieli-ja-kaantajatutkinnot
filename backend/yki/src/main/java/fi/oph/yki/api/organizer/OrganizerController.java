@@ -109,7 +109,10 @@ public class OrganizerController {
   }
 
   @GetMapping(path = "/examSession/{examSessionId:\\d+}/transferTargets")
-  @Operation(tags = TAG_ORGANIZER, summary = "Get eligible transfer targets within the organizer without registrations")
+  @Operation(
+    tags = TAG_ORGANIZER,
+    summary = "Get upcoming and eligible transfer targets within the organizer without registrations"
+  )
   public List<ClerkExamSessionSummaryDTO> getTransferTargets(
     @PathVariable("oid") final String oid,
     @PathVariable final long examSessionId

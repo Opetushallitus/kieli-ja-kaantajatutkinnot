@@ -42,7 +42,7 @@ public class ClerkExamSessionController {
   @GetMapping(path = "/summary")
   @Operation(
     tags = TAG_EXAM_SESSION,
-    summary = "Get exam session summaries by language and level without registrations"
+    summary = "Get upcoming exam session summaries by language and level without registrations"
   )
   public List<ClerkExamSessionSummaryDTO> getExamSessionSummaries(
     @RequestParam final String language,

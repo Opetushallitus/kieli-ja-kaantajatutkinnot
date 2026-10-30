@@ -41,6 +41,7 @@ import fi.vm.sade.auditlog.Audit;
 import jakarta.annotation.Resource;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -106,10 +107,13 @@ public class ClerkExamSessionServiceTest {
 
   @Test
   public void testGetExamSessionSummariesUsesOneQueryWithoutRegistrations() {
+    final LocalDate today = LocalDate.now(ZoneId.of("Europe/Helsinki"));
     final ExamDate examDate = Factory.examDate();
+    examDate.setExamDate(today);
     entityManager.persist(examDate);
     final ExamSession session = Factory.examSession(examDate);
-    final ExamSession withoutLocation = Factory.examSession(examDate);
+    final ExamSession withoutLocation = Factory.examSession(persistTransferExamDate(today.plusDays(1)));
+    entityManager.persist(Factory.examSession(persistTransferExamDate(today.minusDays(1))));
     final ExamSession otherLanguage = Factory.examSession(examDate);
     otherLanguage.setLanguage("swe");
     final ExamSession otherLevel = Factory.examSession(examDate);
@@ -204,7 +208,7 @@ public class ClerkExamSessionServiceTest {
     final Organizer otherOrganizer = Factory.organizer();
     otherOrganizer.setOid("1.2.246.562.10.00000000002");
     entityManager.persist(otherOrganizer);
-    final LocalDate sourceDate = LocalDate.of(2026, 1, 31);
+    final LocalDate sourceDate = LocalDate.now(ZoneId.of("Europe/Helsinki")).plusDays(10);
     final ExamDate date = persistTransferExamDate(sourceDate);
     final ExamSession source = persistTransferSession(organizer, date, "fin", "PERUS");
     final ExamSession sameDay = persistTransferSession(organizer, date, "fin", "PERUS");
@@ -259,7 +263,7 @@ public class ClerkExamSessionServiceTest {
   @Test
   public void testOrganizerTransferTargetsFallBackToOnlyEarliestCandidateAfterOneYear() {
     final Organizer organizer = entityManager.persist(Factory.organizer());
-    final LocalDate sourceDate = LocalDate.of(2026, 1, 31);
+    final LocalDate sourceDate = LocalDate.now(ZoneId.of("Europe/Helsinki"));
     final ExamSession source = persistTransferSession(organizer, persistTransferExamDate(sourceDate), "fin", "PERUS");
     persistTransferSession(organizer, persistTransferExamDate(sourceDate.plusYears(2)), "fin", "PERUS");
     final ExamDate firstDate = persistTransferExamDate(sourceDate.plusYears(1).plusDays(1));
@@ -275,9 +279,76 @@ public class ClerkExamSessionServiceTest {
   @Test
   public void testOrganizerTransferTargetsReturnEmptyWhenNoEligibleSessionsExist() {
     final Organizer organizer = entityManager.persist(Factory.organizer());
-    final ExamDate date = persistTransferExamDate(LocalDate.of(2026, 1, 31));
+    final ExamDate date = persistTransferExamDate(LocalDate.now(ZoneId.of("Europe/Helsinki")));
     final ExamSession source = persistTransferSession(organizer, date, "fin", "PERUS");
     persistTransferSession(organizer, date, "swe", "PERUS");
+    entityManager.flush();
+    entityManager.clear();
+
+    assertTrue(clerkExamSessionService.getOrganizerTransferTargets(organizer.getOid(), source.getId()).isEmpty());
+  }
+
+  @Test
+  public void testOrganizerTransferTargetsIncludeTodayAndExcludeYesterdayForPastSource() {
+    final Organizer organizer = entityManager.persist(Factory.organizer());
+    final LocalDate today = LocalDate.now(ZoneId.of("Europe/Helsinki"));
+    final ExamSession source = persistTransferSession(
+      organizer,
+      persistTransferExamDate(today.minusDays(5)),
+      "fin",
+      "PERUS"
+    );
+    persistTransferSession(organizer, persistTransferExamDate(today.minusDays(1)), "fin", "PERUS");
+    final ExamSession sameDay = persistTransferSession(organizer, persistTransferExamDate(today), "fin", "PERUS");
+    final ExamSession tomorrow = persistTransferSession(
+      organizer,
+      persistTransferExamDate(today.plusDays(1)),
+      "fin",
+      "PERUS"
+    );
+    entityManager.flush();
+    entityManager.clear();
+
+    final var targets = clerkExamSessionService.getOrganizerTransferTargets(organizer.getOid(), source.getId());
+    assertEquals(
+      List.of(sameDay.getId(), tomorrow.getId()),
+      targets.stream().map(ClerkExamSessionSummaryDTO::id).toList()
+    );
+  }
+
+  @Test
+  public void testOrganizerTransferFallbackIgnoresPastCandidatesInsideAndOutsideOneYear() {
+    final Organizer organizer = entityManager.persist(Factory.organizer());
+    final LocalDate today = LocalDate.now(ZoneId.of("Europe/Helsinki"));
+    final LocalDate sourceDate = today.minusYears(2);
+    final ExamSession source = persistTransferSession(organizer, persistTransferExamDate(sourceDate), "fin", "PERUS");
+    persistTransferSession(organizer, persistTransferExamDate(sourceDate.plusMonths(6)), "fin", "PERUS");
+    persistTransferSession(organizer, persistTransferExamDate(today.minusDays(1)), "fin", "PERUS");
+    persistTransferSession(organizer, persistTransferExamDate(today.plusDays(10)), "fin", "PERUS");
+    final ExamSession earliest = persistTransferSession(
+      organizer,
+      persistTransferExamDate(today.plusDays(5)),
+      "fin",
+      "PERUS"
+    );
+    entityManager.flush();
+    entityManager.clear();
+
+    final var targets = clerkExamSessionService.getOrganizerTransferTargets(organizer.getOid(), source.getId());
+    assertEquals(List.of(earliest.getId()), targets.stream().map(ClerkExamSessionSummaryDTO::id).toList());
+  }
+
+  @Test
+  public void testOrganizerTransferTargetsReturnEmptyWhenAllCandidatesArePast() {
+    final Organizer organizer = entityManager.persist(Factory.organizer());
+    final LocalDate today = LocalDate.now(ZoneId.of("Europe/Helsinki"));
+    final ExamSession source = persistTransferSession(
+      organizer,
+      persistTransferExamDate(today.minusYears(2)),
+      "fin",
+      "PERUS"
+    );
+    persistTransferSession(organizer, persistTransferExamDate(today.minusDays(1)), "fin", "PERUS");
     entityManager.flush();
     entityManager.clear();
 
