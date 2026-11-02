@@ -102,6 +102,48 @@ public class ClerkExamSessionServiceTest {
   }
 
   @Test
+  public void testGetExamSessionsByLanguageAndLevelOrdersNewestFirstIncludingPastDates() {
+    final LocalDate today = LocalDate.now();
+    final LocalDate oldestDate = today.minusYears(2);
+    final LocalDate futureDate = today.plusMonths(2);
+    final LocalDate recentDate = today.minusMonths(2);
+
+    for (final LocalDate date : List.of(oldestDate, futureDate, recentDate)) {
+      final ExamDate examDate = Factory.examDate();
+      examDate.setExamDate(date);
+      entityManager.persist(examDate);
+      entityManager.persist(Factory.examSession(examDate));
+
+      final ExamSession otherLanguage = Factory.examSession(examDate);
+      otherLanguage.setLanguage("swe");
+      entityManager.persist(otherLanguage);
+      final ExamSession otherLevel = Factory.examSession(examDate);
+      otherLevel.setLevel("YLIN");
+      entityManager.persist(otherLevel);
+    }
+    entityManager.flush();
+    entityManager.clear();
+
+    final List<ClerkExamSessionDTO> result = clerkExamSessionService.getExamSessionsByLanguageAndLevel("fin", "PERUS");
+
+    assertEquals(List.of(futureDate, recentDate, oldestDate), result.stream().map(ClerkExamSessionDTO::date).toList());
+    final List<ClerkExamSessionSummaryDTO> summaries = clerkExamSessionService.getExamSessionSummariesByLanguageAndLevel(
+      "fin",
+      "PERUS"
+    );
+    assertEquals(
+      List.of(futureDate, recentDate, oldestDate),
+      summaries.stream().map(ClerkExamSessionSummaryDTO::date).toList()
+    );
+    assertTrue(
+      summaries.stream().allMatch(session -> session.language().equals("fin") && session.level().equals("PERUS"))
+    );
+    assertTrue(
+      result.stream().allMatch(session -> session.language().equals("fin") && session.level().equals("PERUS"))
+    );
+  }
+
+  @Test
   public void testGetExamSessionSummariesUsesOneQueryWithoutRegistrations() {
     final LocalDate today = LocalDate.now();
     final ExamDate examDate = Factory.examDate();
@@ -109,7 +151,9 @@ public class ClerkExamSessionServiceTest {
     entityManager.persist(examDate);
     final ExamSession session = Factory.examSession(examDate);
     final ExamSession withoutLocation = Factory.examSession(persistTransferExamDate(today.plusDays(1)));
-    entityManager.persist(Factory.examSession(persistTransferExamDate(today.minusDays(1))));
+    final ExamSession pastSession = entityManager.persist(
+      Factory.examSession(persistTransferExamDate(today.minusDays(1)))
+    );
     final ExamSession otherLanguage = Factory.examSession(examDate);
     otherLanguage.setLanguage("swe");
     final ExamSession otherLevel = Factory.examSession(examDate);
@@ -147,8 +191,8 @@ public class ClerkExamSessionServiceTest {
       );
       assertEquals(1, statistics.getPrepareStatementCount());
       assertEquals(
-        Set.of(session.getId(), withoutLocation.getId()),
-        results.stream().map(ClerkExamSessionSummaryDTO::id).collect(Collectors.toSet())
+        List.of(withoutLocation.getId(), session.getId(), pastSession.getId()),
+        results.stream().map(ClerkExamSessionSummaryDTO::id).toList()
       );
       final ClerkExamSessionSummaryDTO result = results
         .stream()

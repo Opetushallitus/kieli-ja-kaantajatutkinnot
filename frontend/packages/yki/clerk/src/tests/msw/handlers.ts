@@ -276,8 +276,10 @@ export const handlers = [
       .filter(
         (session) =>
           session.language_code === searchParams.get('language') &&
-          session.level_code === searchParams.get('level') &&
-          !dayjs(session.session_date).isBefore(dayjs(), 'day'),
+          session.level_code === searchParams.get('level'),
+      )
+      .sort(
+        (a, b) => b.session_date.localeCompare(a.session_date) || a.id - b.id,
       )
       .map<ClerkExamSessionSummary>((session) => ({
         id: session.id,
