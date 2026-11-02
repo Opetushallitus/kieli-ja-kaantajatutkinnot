@@ -14,6 +14,7 @@ import fi.oph.yki.model.ExamSessionStatistics;
 import fi.oph.yki.model.FreeRegistration;
 import fi.oph.yki.model.Organizer;
 import fi.oph.yki.model.Participant;
+import fi.oph.yki.model.ParticipantOnr;
 import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Quarantine;
 import fi.oph.yki.model.Registration;
@@ -88,6 +89,15 @@ public class Factory {
     participant.setEmail(email);
 
     return participant;
+  }
+
+  public static ParticipantOnr participantOnr(final Registration registration) {
+    final ParticipantOnr participantOnr = new ParticipantOnr();
+    participantOnr.setOid(registration.getPerson().getOid());
+    participantOnr.setParticipantId(registration.getParticipant().getId());
+    participantOnr.setIndividualised(false);
+
+    return participantOnr;
   }
 
   public static FreeRegistration freeRegistration(final Registration registration) {
