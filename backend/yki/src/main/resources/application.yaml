@@ -55,6 +55,8 @@ app:
   proxy-token: ${proxy-token:"03e2f9b3-d1de-4846-884e-80e6c3d0fae4"}
   v2:
     enabled: ${v2.enabled:false}
+    onr-participant-sync:
+      enabled: ${v2.onr-participant-sync.enabled:${v2.enabled:false}}
   base-url:
     public: ${public-base-url:http://localhost:8083}/yki
     clerk: ${clerk-base-url:http://localhost:8083/yki}
@@ -71,6 +73,8 @@ app:
     url: ${koodisto-url:https://virkailija.untuvaopintopolku.fi/koodisto-service}
   kayttooikeus-service:
     url: ${kayttooikeus-url:https://virkailija.untuvaopintopolku.fi/kayttooikeus-service}
+  henkilo-ui:
+    url: ${henkilo-ui-url:https://virkailija.untuvaopintopolku.fi/henkilo-ui}
   solki:
     url: ${solki.url:null}
     user: ${solki.user:null}
