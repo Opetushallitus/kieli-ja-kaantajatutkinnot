@@ -41,6 +41,7 @@ const targetSession = {
 
 const renderModal = (location = targetSession.location) => {
   const store = configureStore({ reducer: rootReducer });
+  const dispatch = jest.spyOn(store, 'dispatch');
   render(
     <DefaultProviders store={store}>
       <ClerkExamSessionRelocateModal
@@ -61,7 +62,7 @@ const renderModal = (location = targetSession.location) => {
     );
   });
 
-  return store;
+  return { store, dispatch };
 };
 
 it.each([
@@ -72,7 +73,7 @@ it.each([
   'uses the location name and address for UI language %s',
   async (language, name, postOffice) => {
     const user = userEvent.setup();
-    const store = renderModal();
+    const { dispatch } = renderModal();
     await act(async () => {
       await changeLanguage(language);
     });
@@ -90,7 +91,6 @@ it.each([
       );
     }
 
-    const dispatch = jest.spyOn(store, 'dispatch');
     await user.click(options[0]);
     await user.click(
       screen.getByRole('button', { name: 'Siirrä tilaisuuteen' }),
