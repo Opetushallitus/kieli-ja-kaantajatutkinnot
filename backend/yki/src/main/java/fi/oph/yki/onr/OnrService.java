@@ -66,6 +66,22 @@ public class OnrService {
     return OBJECT_MAPPER.readValue(response.getResponseBody(), new TypeReference<>() {});
   }
 
+  public Map<String, PersonalDataDTO> listMasterPersonsByOids(final List<String> oids)
+    throws RuntimeException, ExecutionException, InterruptedException, JsonProcessingException {
+    final Request request = defaultRequestBuilder()
+      .setUrl(onrServiceUrl + "/henkilo/masterHenkilosByOidList")
+      .setMethod(Methods.POST)
+      .setBody(OBJECT_MAPPER.writeValueAsString(oids))
+      .build();
+
+    final Response response = casOnrClient.executeBlocking(request);
+    if (response.getStatusCode() != HttpStatus.OK.value()) {
+      throw new RuntimeException("Unexpected status code from ONR: " + response.getStatusCode());
+    }
+
+    return OBJECT_MAPPER.readValue(response.getResponseBody(), new TypeReference<>() {});
+  }
+
   public Optional<PersonalDataDTO> findPersonalDataByIdentityNumber(final String identityNumber)
     throws ExecutionException, InterruptedException, JsonProcessingException, RuntimeException {
     final Request request = defaultRequestBuilder()
