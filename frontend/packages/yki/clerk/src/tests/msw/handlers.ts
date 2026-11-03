@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import { http, HttpResponse } from 'msw';
 
 import { APIEndpoints } from 'enums/api';
+import { ClerkExamSessionSummary } from 'interfaces/clerkExamSession';
 import { ClerkOrganizerResponse } from 'interfaces/clerkOrganizer';
 import {
   ExamDateLanguage,
@@ -227,21 +228,15 @@ export const handlers = [
       return HttpResponse.json(findByOidResponse);
     },
   ),
-  http.get(APIEndpoints.ClerkOrganizer + '/:oid/exam-session', ({ params }) => {
-    const { from } = params;
-
-    const filteredExamSessions = from
-      ? examSessions.exam_sessions.filter((e) => {
-          return (
-            dayjs().isSame(dayjs(e.session_date), 'day') ||
-            dayjs().isAfter(dayjs(e.session_date), 'day')
-          );
-        })
-      : examSessions.exam_sessions;
+  http.get(APIEndpoints.OrganizerExamSession, ({ params, request }) => {
+    const from = new URL(request.url).searchParams.get('from');
+    const filteredExamSessions = examSessions.exam_sessions.filter(
+      (session) =>
+        session.organizer_oid === params.oid &&
+        (!from || !dayjs(session.session_date).isBefore(dayjs(from), 'day')),
+    );
 
     return HttpResponse.json({ exam_sessions: filteredExamSessions });
-    // all exam dates
-    // return HttpResponse.json({ dates: examDates.dates });
   }),
   http.get(
     APIEndpoints.Organizer + '/1.2.246.562.10.28646781493/examDates',
@@ -259,10 +254,32 @@ export const handlers = [
   http.get(APIEndpoints.ClerkExamSessions, () =>
     HttpResponse.json([clerkExamSession]),
   ),
-  http.get(APIEndpoints.ClerkExamSessionSummaries, () => {
-    const { id, date, language, level, location } = clerkExamSession;
+  http.get(APIEndpoints.ClerkExamSessionSummaries, ({ request }) => {
+    const { searchParams } = new URL(request.url);
+    const summaries = examSessions.exam_sessions
+      .filter(
+        (session) =>
+          session.language_code === searchParams.get('language') &&
+          session.level_code === searchParams.get('level') &&
+          !dayjs(session.session_date).isBefore(dayjs(), 'day'),
+      )
+      .map<ClerkExamSessionSummary>((session) => ({
+        id: session.id,
+        date: session.session_date,
+        language: session.language_code,
+        level: session.level_code,
+        location: session.location.map((location) => ({
+          lang: location.lang,
+          name: location.name,
+          streetAddress: location.street_address,
+          postOffice: location.post_office,
+          zip: location.zip,
+          otherLocationInfo: location.other_location_info,
+          extraInformation: location.extra_information ?? '',
+        })),
+      }));
 
-    return HttpResponse.json([{ id, date, language, level, location }]);
+    return HttpResponse.json(summaries);
   }),
   http.post(APIEndpoints.ClerkExamDate, async ({ request }) => {
     const body = (await request.json()) as Omit<

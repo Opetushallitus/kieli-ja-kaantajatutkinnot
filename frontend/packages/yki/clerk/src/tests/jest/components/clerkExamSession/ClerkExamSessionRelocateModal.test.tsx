@@ -64,12 +64,11 @@ describe('ClerkExamSessionRelocateModal', () => {
     expect(screen.getByText('relocate.subTitle')).toBeInTheDocument();
     const destinationOptions = screen.getAllByRole('radio');
     expect(destinationOptions).toHaveLength(3);
-    expect(destinationOptions[0]).toHaveAccessibleName(/^2027-01-01/);
     expect(destinationOptions[0]).toHaveAccessibleName(
-      /languages.fin - languageLevel.YLIN — Jälkiedu, Jokukatu 4, Tampere$/,
+      'languages.fin - languageLevel.YLIN 1.1.2027 — Jälkiedu, Jokukatu 4, Tampere',
     );
-    expect(destinationOptions[1]).toHaveAccessibleName(/^2026-10-24/);
-    expect(destinationOptions[2]).toHaveAccessibleName(/^2026-10-23/);
+    expect(destinationOptions[1]).toHaveAccessibleName(/24\.10\.2026/);
+    expect(destinationOptions[2]).toHaveAccessibleName(/23\.10\.2026/);
     expect(store.getState().clerkExamSession.relocateExamSessions).toEqual(
       sessions,
     );
@@ -78,7 +77,7 @@ describe('ClerkExamSessionRelocateModal', () => {
       name: 'values.actions.relocate',
     });
     expect(transferButton).toBeDisabled();
-    fireEvent.click(screen.getByRole('radio', { name: /2027-01-01/ }));
+    fireEvent.click(screen.getByRole('radio', { name: /1\.1\.2027/ }));
     fireEvent.click(transferButton);
     expect(dispatch).toHaveBeenCalledWith(
       relocateRegistration({
@@ -99,7 +98,7 @@ describe('ClerkExamSessionRelocateModal', () => {
       );
     });
     const option = screen.getByRole('radio', {
-      name: '2027-01-01 — languages.fin - languageLevel.YLIN',
+      name: 'languages.fin -languageLevel.YLIN 1.1.2027',
     });
     fireEvent.click(option);
     expect(
@@ -127,7 +126,7 @@ describe('ClerkExamSessionRelocateModal', () => {
     act(() => {
       store.dispatch(storeRelocateExamSessions(sessions));
     });
-    fireEvent.click(screen.getByRole('radio', { name: /2027-01-01/ }));
+    fireEvent.click(screen.getByRole('radio', { name: /1\.1\.2027/ }));
 
     rerender(
       <ClerkExamSessionRelocateModal {...props} registrationId={null} />,

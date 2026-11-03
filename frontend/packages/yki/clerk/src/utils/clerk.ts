@@ -195,12 +195,12 @@ export const getExamSessionOption = (
   return {
     value: String(examSession.id),
     label: [
-      `${examSession.date} — ${translateCommon(
-        'languages.' + examSession.language,
-      )} - ${translateCommon('languageLevel.' + examSession.level)}`,
+      `${translateCommon('languages.' + examSession.language)} - ${translateCommon(
+        'languageLevel.' + examSession.level,
+      )} ${dayjs(examSession.date).format('D.M.YYYY')}`,
       locationLabel,
     ]
       .filter(Boolean)
-      .join(' — '),
+      .join(': '),
   };
 };
