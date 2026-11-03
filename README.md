@@ -370,6 +370,14 @@ The frontend workspaces share `frontend/yarn.lock`, so an update can affect mult
    yarn up 'axios@^1.20.0' --mode=update-lockfile
    ```
 
+   Prefer updates within the existing dependency ranges. If those ranges exclude the patched version,
+   upgrade the parent dependency to a release that supports it.
+
+   Treat `package.json` `resolutions` overrides as a last resort.
+   The remaining overrides are:
+   - `react-is`: matches React 18 for [Material UI compatibility](https://mui.com/material-ui/getting-started/installation/#react-18-and-below).
+   - `sockjs/uuid`: keeps SockJS on a patched UUID version. Upgrading `webpack-dev-server` to version 6 removes SockJS and allows this override to be removed after validation.
+
 3. Verify the resolved versions:
 
    ```sh

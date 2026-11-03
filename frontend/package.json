@@ -7,11 +7,7 @@
   "private": true,
   "repository": "https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot",
   "resolutions": {
-    "@xmldom/xmldom": "^0.8.10",
-    "loader-utils": "^2.0.4",
-    "terser": "^5.19.2",
     "react-is": "^18.3.1",
-    "express/qs": "^6.16.0",
     "sockjs/uuid": "^11.1.1"
   },
   "scripts": {
