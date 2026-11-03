@@ -4,7 +4,6 @@ import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.Organizer;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -20,31 +19,6 @@ public interface ExamSessionRepository extends BaseRepository<ExamSession> {
   List<ExamSession> findUpcomingByLanguageAndLevelWithDateAndLocations(
     @Param("language") String language,
     @Param("level") String level,
-    @Param("today") LocalDate today
-  );
-
-  @Query(
-    "SELECT es FROM ExamSession es" +
-    " JOIN FETCH es.examDate" +
-    " JOIN es.organizer organizer" +
-    " WHERE es.id = :id AND organizer.oid = :oid AND organizer.deletedAt IS NULL"
-  )
-  Optional<ExamSession> findByIdAndOrganizerOidWithDate(@Param("id") long id, @Param("oid") String oid);
-
-  @Query(
-    "SELECT DISTINCT target FROM ExamSession source, ExamSession target" +
-    " JOIN FETCH target.examDate targetDate" +
-    " LEFT JOIN FETCH target.locations" +
-    " WHERE source.id = :examSessionId" +
-    " AND target.id <> source.id" +
-    " AND target.organizer = source.organizer" +
-    " AND target.language = source.language AND target.level = source.level" +
-    " AND targetDate.examDate >= source.examDate.examDate" +
-    " AND targetDate.examDate >= :today" +
-    " ORDER BY targetDate.examDate, target.id"
-  )
-  List<ExamSession> findTransferCandidatesWithDateAndLocations(
-    @Param("examSessionId") long examSessionId,
     @Param("today") LocalDate today
   );
 

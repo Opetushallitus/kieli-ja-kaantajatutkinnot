@@ -98,29 +98,6 @@ public class ClerkExamSessionService {
       .toList();
   }
 
-  @Transactional(readOnly = true)
-  public List<ClerkExamSessionSummaryDTO> getOrganizerTransferTargets(final String oid, final long examSessionId) {
-    final ExamSession source = examSessionRepository
-      .findByIdAndOrganizerOidWithDate(examSessionId, oid)
-      .orElseThrow(() ->
-        new AccessDeniedException(String.format("Exam session (%s) not related to organizer (%s)", examSessionId, oid))
-      );
-    auditService.logOperation(YkiOperation.LIST_EXAM_SESSIONS);
-
-    final List<ExamSession> candidates = examSessionRepository.findTransferCandidatesWithDateAndLocations(
-      examSessionId,
-      LocalDate.now()
-    );
-    final LocalDate limitDate = source.getExamDate().getExamDate().plusYears(1);
-    final List<ExamSession> withinYear = candidates
-      .stream()
-      .filter(candidate -> !candidate.getExamDate().getExamDate().isAfter(limitDate))
-      .toList();
-    // Match the legacy organizer flow: if none are within one year, offer only the earliest candidate.
-    final List<ExamSession> targets = withinYear.isEmpty() ? candidates.stream().limit(1).toList() : withinYear;
-    return targets.stream().map(ClerkExamSessionService::toSummaryDTO).toList();
-  }
-
   private static ClerkExamSessionSummaryDTO toSummaryDTO(final ExamSession session) {
     return new ClerkExamSessionSummaryDTO(
       session.getId(),
