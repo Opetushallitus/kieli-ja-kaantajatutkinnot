@@ -1,6 +1,7 @@
 package fi.oph.yki.koodisto;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.oph.yki.config.CacheConfig;
 import fi.oph.yki.koodisto.dto.KoodistoRelationDTO;
@@ -12,6 +13,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
+import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
@@ -61,5 +63,25 @@ public class KoodistoService {
       LOG.error("Could not get country code from koodisto for {}", countryCode, e);
       throw new RuntimeException("Could not get country code from koodisto for " + countryCode, e);
     }
+  }
+
+  // Note: IF we need to return only partial data from maatjavaltiot2 - endpoint,
+  // remove the configuration allowing 512KB response from AppConfig.
+  // Only maatjavaltiot2 should have responses exceeding the default limit.
+  @Cacheable(CacheConfig.KOODISTO_CACHE)
+  public JsonNode getCodes(final String collection) {
+    return koodistoClient
+      .get()
+      .uri(uriBuilder ->
+        uriBuilder.path("/rest/json/{collection}/koodi").queryParam("onlyValidKoodis", true).build(collection)
+      )
+      .retrieve()
+      .bodyToMono(JsonNode.class)
+      .switchIfEmpty(
+        Mono.error(() ->
+          new RuntimeException(String.format("Empty response from koodisto for collection %s", collection))
+        )
+      )
+      .block();
   }
 }

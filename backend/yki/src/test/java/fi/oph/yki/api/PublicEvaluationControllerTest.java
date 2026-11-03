@@ -25,7 +25,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(PublicEvaluationController.class)
 @Import(ControllerExceptionAdvice.class)
-@TestPropertySource(properties = "app.customer-portal.enabled=true")
+@TestPropertySource(properties = "app.v2.enabled=true")
 @WithMockUser
 class PublicEvaluationControllerTest {
 

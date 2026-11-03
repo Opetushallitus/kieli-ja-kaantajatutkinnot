@@ -587,7 +587,7 @@ export const PublicExamSessionCard = ({
               <span>{t('examSessionCard.registrationType.allParts')}</span>
             </div>
           )}
-          <ExamSessionFormat examSessionId={examSession.id} />
+          <ExamSessionFormat examSession={examSession} />
         </div>
         <h3 className="exam-session-card__title">
           {ExamSessionUtils.languageAndLevelText(examSession)}

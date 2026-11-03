@@ -16,7 +16,7 @@ public record AuthorisationAuditDTO(
   @NonNull @NotNull AuthorisationBasis basis,
   @Size(max = 10) @NonNull @NotBlank String from,
   @Size(max = 10) @NonNull @NotBlank String to,
-  @NonNull @NotNull String termBeginDate,
+  String termBeginDate,
   String termEndDate,
   @NonNull @NotNull Boolean permissionToPublish,
   @Size(max = 255) String diaryNumber,

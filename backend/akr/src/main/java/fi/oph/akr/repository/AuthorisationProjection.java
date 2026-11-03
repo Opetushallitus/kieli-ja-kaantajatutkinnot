@@ -2,6 +2,7 @@ package fi.oph.akr.repository;
 
 import fi.oph.akr.model.AuthorisationBasis;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public record AuthorisationProjection(
   long id,
@@ -14,5 +15,6 @@ public record AuthorisationProjection(
   boolean permissionToPublish,
   LocalDate termBeginDate,
   LocalDate termEndDate,
-  LocalDate examinationDate
+  LocalDate examinationDate,
+  LocalDateTime modifiedAt
 ) {}

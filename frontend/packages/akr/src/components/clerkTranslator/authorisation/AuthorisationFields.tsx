@@ -171,9 +171,10 @@ export const AuthorisationFields = ({
       basis === AuthorisationBasisEnum.AUT &&
       (!examinationDate || !dayjs(examinationDate).isValid());
 
-    const isRequiredPropsEmpty = [fromLang, toLang, basis, termBeginDate].some(
-      (p) => !p,
-    );
+    const requiredProps = isExistingAuthorisation
+      ? [fromLang, toLang, basis]
+      : [fromLang, toLang, basis, termBeginDate];
+    const isRequiredPropsEmpty = requiredProps.some((p) => !p);
 
     return (
       isLoading || isExaminationDateNotDefinedOrInvalid || isRequiredPropsEmpty

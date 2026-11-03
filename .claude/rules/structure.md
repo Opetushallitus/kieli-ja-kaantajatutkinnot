@@ -1,3 +1,0 @@
-- Codebase is split by frontend and backend, then by domains.
-- Backend logic for yki domain: `backend/yki/`
-- Frontend logic for yki domain: `frontend/packages/yki/`
