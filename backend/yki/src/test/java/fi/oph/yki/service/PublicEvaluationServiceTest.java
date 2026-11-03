@@ -21,7 +21,6 @@ import fi.oph.yki.util.exception.NotFoundException;
 import jakarta.annotation.Resource;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -99,15 +98,15 @@ public class PublicEvaluationServiceTest {
     assertEquals(LocalDate.of(2026, 6, 15), period.examDate());
     assertEquals("fin", period.languageCode());
     assertEquals("PERUS", period.levelCode());
-    assertEquals(LocalDate.now(ZoneId.of("Europe/Helsinki")).minusDays(10), period.evaluationStartDate());
-    assertEquals(LocalDate.now(ZoneId.of("Europe/Helsinki")).plusDays(10), period.evaluationEndDate());
+    assertEquals(LocalDate.now().minusDays(10), period.evaluationStartDate());
+    assertEquals(LocalDate.now().plusDays(10), period.evaluationEndDate());
     assertTrue(period.open());
   }
 
   @Test
   public void testPeriodStartingInFutureIsReturnedButNotOpen() {
     final Evaluation evaluation = createEvaluation("swe");
-    evaluation.setEvaluationStartDate(LocalDate.now(ZoneId.of("Europe/Helsinki")).plusDays(5));
+    evaluation.setEvaluationStartDate(LocalDate.now().plusDays(5));
 
     persistAndDetach(evaluation);
     final List<PublicEvaluationPeriodDTO> result = publicEvaluationService.getUpcomingEvaluationPeriods();
@@ -119,8 +118,8 @@ public class PublicEvaluationServiceTest {
   @Test
   public void testPeriodEndedBeforeTodayIsExcluded() {
     final Evaluation evaluation = createEvaluation("eng");
-    evaluation.setEvaluationStartDate(LocalDate.now(ZoneId.of("Europe/Helsinki")).minusDays(20));
-    evaluation.setEvaluationEndDate(LocalDate.now(ZoneId.of("Europe/Helsinki")).minusDays(1));
+    evaluation.setEvaluationStartDate(LocalDate.now().minusDays(20));
+    evaluation.setEvaluationEndDate(LocalDate.now().minusDays(1));
 
     persistAndDetach(evaluation);
     final List<PublicEvaluationPeriodDTO> result = publicEvaluationService.getUpcomingEvaluationPeriods();
@@ -131,7 +130,7 @@ public class PublicEvaluationServiceTest {
   @Test
   public void testPeriodEndingTodayIsReturnedAndOpen() {
     final Evaluation evaluation = createEvaluation("fin");
-    evaluation.setEvaluationEndDate(LocalDate.now(ZoneId.of("Europe/Helsinki")));
+    evaluation.setEvaluationEndDate(LocalDate.now());
 
     persistAndDetach(evaluation);
     final List<PublicEvaluationPeriodDTO> result = publicEvaluationService.getUpcomingEvaluationPeriods();
@@ -143,7 +142,7 @@ public class PublicEvaluationServiceTest {
   @Test
   public void testPeriodStartingTodayIsOpen() {
     final Evaluation evaluation = createEvaluation("fin");
-    evaluation.setEvaluationStartDate(LocalDate.now(ZoneId.of("Europe/Helsinki")));
+    evaluation.setEvaluationStartDate(LocalDate.now());
 
     persistAndDetach(evaluation);
     final List<PublicEvaluationPeriodDTO> result = publicEvaluationService.getUpcomingEvaluationPeriods();
@@ -155,7 +154,7 @@ public class PublicEvaluationServiceTest {
   @Test
   public void testDeletedPeriodIsExcluded() {
     final Evaluation evaluation = createEvaluation("fin");
-    evaluation.setDeletedAt(LocalDateTime.now(ZoneId.of("Europe/Helsinki")));
+    evaluation.setDeletedAt(LocalDateTime.now());
 
     persistAndDetach(evaluation);
     final List<PublicEvaluationPeriodDTO> result = publicEvaluationService.getUpcomingEvaluationPeriods();
@@ -179,16 +178,16 @@ public class PublicEvaluationServiceTest {
     assertEquals(LocalDate.of(2026, 6, 15), period.examDate());
     assertEquals("fin", period.languageCode());
     assertEquals("PERUS", period.levelCode());
-    assertEquals(LocalDate.now(ZoneId.of("Europe/Helsinki")).minusDays(10), period.evaluationStartDate());
-    assertEquals(LocalDate.now(ZoneId.of("Europe/Helsinki")).plusDays(10), period.evaluationEndDate());
+    assertEquals(LocalDate.now().minusDays(10), period.evaluationStartDate());
+    assertEquals(LocalDate.now().plusDays(10), period.evaluationEndDate());
     assertTrue(period.open());
   }
 
   @Test
   public void testPeriodEndedBeforeTodayIsStillReturnedByIdButNotOpen() {
     final Evaluation evaluation = createEvaluation("eng");
-    evaluation.setEvaluationStartDate(LocalDate.now(ZoneId.of("Europe/Helsinki")).minusDays(20));
-    evaluation.setEvaluationEndDate(LocalDate.now(ZoneId.of("Europe/Helsinki")).minusDays(1));
+    evaluation.setEvaluationStartDate(LocalDate.now().minusDays(20));
+    evaluation.setEvaluationEndDate(LocalDate.now().minusDays(1));
 
     final long id = persistAndDetach(evaluation);
     final PublicEvaluationPeriodDTO period = publicEvaluationService.getEvaluationPeriod(id);
@@ -200,7 +199,7 @@ public class PublicEvaluationServiceTest {
   @Test
   public void testDeletedPeriodIsNotFoundById() {
     final Evaluation evaluation = createEvaluation("fin");
-    evaluation.setDeletedAt(LocalDateTime.now(ZoneId.of("Europe/Helsinki")));
+    evaluation.setDeletedAt(LocalDateTime.now());
 
     final long id = persistAndDetach(evaluation);
 
@@ -246,7 +245,7 @@ public class PublicEvaluationServiceTest {
   @Test
   public void testDeletedOrderIsNotFoundById() {
     final EvaluationOrder evaluationOrder = Factory.evaluationOrder(createEvaluation("fin"));
-    evaluationOrder.setDeletedAt(LocalDateTime.now(ZoneId.of("Europe/Helsinki")));
+    evaluationOrder.setDeletedAt(LocalDateTime.now());
 
     final long id = persistAndDetach(evaluationOrder);
 

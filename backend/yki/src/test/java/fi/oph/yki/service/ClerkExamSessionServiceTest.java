@@ -41,7 +41,6 @@ import fi.vm.sade.auditlog.Audit;
 import jakarta.annotation.Resource;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -107,7 +106,7 @@ public class ClerkExamSessionServiceTest {
 
   @Test
   public void testGetExamSessionSummariesUsesOneQueryWithoutRegistrations() {
-    final LocalDate today = LocalDate.now(ZoneId.of("Europe/Helsinki"));
+    final LocalDate today = LocalDate.now();
     final ExamDate examDate = Factory.examDate();
     examDate.setExamDate(today);
     entityManager.persist(examDate);
@@ -208,7 +207,7 @@ public class ClerkExamSessionServiceTest {
     final Organizer otherOrganizer = Factory.organizer();
     otherOrganizer.setOid("1.2.246.562.10.00000000002");
     entityManager.persist(otherOrganizer);
-    final LocalDate sourceDate = LocalDate.now(ZoneId.of("Europe/Helsinki")).plusDays(10);
+    final LocalDate sourceDate = LocalDate.now().plusDays(10);
     final ExamDate date = persistTransferExamDate(sourceDate);
     final ExamSession source = persistTransferSession(organizer, date, "fin", "PERUS");
     final ExamSession sameDay = persistTransferSession(organizer, date, "fin", "PERUS");
@@ -263,7 +262,7 @@ public class ClerkExamSessionServiceTest {
   @Test
   public void testOrganizerTransferTargetsFallBackToOnlyEarliestCandidateAfterOneYear() {
     final Organizer organizer = entityManager.persist(Factory.organizer());
-    final LocalDate sourceDate = LocalDate.now(ZoneId.of("Europe/Helsinki"));
+    final LocalDate sourceDate = LocalDate.now();
     final ExamSession source = persistTransferSession(organizer, persistTransferExamDate(sourceDate), "fin", "PERUS");
     persistTransferSession(organizer, persistTransferExamDate(sourceDate.plusYears(2)), "fin", "PERUS");
     final ExamDate firstDate = persistTransferExamDate(sourceDate.plusYears(1).plusDays(1));
@@ -279,7 +278,7 @@ public class ClerkExamSessionServiceTest {
   @Test
   public void testOrganizerTransferTargetsReturnEmptyWhenNoEligibleSessionsExist() {
     final Organizer organizer = entityManager.persist(Factory.organizer());
-    final ExamDate date = persistTransferExamDate(LocalDate.now(ZoneId.of("Europe/Helsinki")));
+    final ExamDate date = persistTransferExamDate(LocalDate.now());
     final ExamSession source = persistTransferSession(organizer, date, "fin", "PERUS");
     persistTransferSession(organizer, date, "swe", "PERUS");
     entityManager.flush();
@@ -291,7 +290,7 @@ public class ClerkExamSessionServiceTest {
   @Test
   public void testOrganizerTransferTargetsIncludeTodayAndExcludeYesterdayForPastSource() {
     final Organizer organizer = entityManager.persist(Factory.organizer());
-    final LocalDate today = LocalDate.now(ZoneId.of("Europe/Helsinki"));
+    final LocalDate today = LocalDate.now();
     final ExamSession source = persistTransferSession(
       organizer,
       persistTransferExamDate(today.minusDays(5)),
@@ -319,7 +318,7 @@ public class ClerkExamSessionServiceTest {
   @Test
   public void testOrganizerTransferFallbackIgnoresPastCandidatesInsideAndOutsideOneYear() {
     final Organizer organizer = entityManager.persist(Factory.organizer());
-    final LocalDate today = LocalDate.now(ZoneId.of("Europe/Helsinki"));
+    final LocalDate today = LocalDate.now();
     final LocalDate sourceDate = today.minusYears(2);
     final ExamSession source = persistTransferSession(organizer, persistTransferExamDate(sourceDate), "fin", "PERUS");
     persistTransferSession(organizer, persistTransferExamDate(sourceDate.plusMonths(6)), "fin", "PERUS");
@@ -341,7 +340,7 @@ public class ClerkExamSessionServiceTest {
   @Test
   public void testOrganizerTransferTargetsReturnEmptyWhenAllCandidatesArePast() {
     final Organizer organizer = entityManager.persist(Factory.organizer());
-    final LocalDate today = LocalDate.now(ZoneId.of("Europe/Helsinki"));
+    final LocalDate today = LocalDate.now();
     final ExamSession source = persistTransferSession(
       organizer,
       persistTransferExamDate(today.minusYears(2)),
