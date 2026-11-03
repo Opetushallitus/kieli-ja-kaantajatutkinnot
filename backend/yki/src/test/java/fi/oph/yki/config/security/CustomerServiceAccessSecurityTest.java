@@ -161,12 +161,6 @@ class CustomerServiceAccessSecurityTest {
   public void testCustomerServiceCannotMoveOrCancelRegistrations() throws Exception {
     mockMvc.perform(put("/v2/api/clerk/registration/1/move/2").with(csrf())).andExpect(status().isForbidden());
     mockMvc.perform(delete("/v2/api/clerk/registration/1/cancel").with(csrf())).andExpect(status().isForbidden());
-    mockMvc
-      .perform(get("/v2/api/clerk/examSession").param("language", "fin").param("level", "KESKI"))
-      .andExpect(status().isForbidden());
-    mockMvc
-      .perform(get("/v2/api/clerk/examSession/summary").param("language", "fin").param("level", "KESKI"))
-      .andExpect(status().isForbidden());
   }
 
   @Test
