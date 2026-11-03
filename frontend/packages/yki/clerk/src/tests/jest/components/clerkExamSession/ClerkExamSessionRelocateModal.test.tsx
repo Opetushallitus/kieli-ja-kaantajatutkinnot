@@ -65,7 +65,7 @@ describe('ClerkExamSessionRelocateModal', () => {
     const destinationOptions = screen.getAllByRole('radio');
     expect(destinationOptions).toHaveLength(3);
     expect(destinationOptions[0]).toHaveAccessibleName(
-      'languages.fin - languageLevel.YLIN 1.1.2027 — Jälkiedu, Jokukatu 4, Tampere',
+      'languages.fin - languageLevel.YLIN 1.1.2027: Jälkiedu, Jokukatu 4, Tampere',
     );
     expect(destinationOptions[1]).toHaveAccessibleName(/24\.10\.2026/);
     expect(destinationOptions[2]).toHaveAccessibleName(/23\.10\.2026/);
@@ -98,7 +98,7 @@ describe('ClerkExamSessionRelocateModal', () => {
       );
     });
     const option = screen.getByRole('radio', {
-      name: 'languages.fin -languageLevel.YLIN 1.1.2027',
+      name: 'languages.fin - languageLevel.YLIN 1.1.2027',
     });
     fireEvent.click(option);
     expect(
