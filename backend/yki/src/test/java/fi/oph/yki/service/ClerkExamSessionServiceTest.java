@@ -35,6 +35,7 @@ import fi.oph.yki.repository.RegistrationRepository;
 import fi.vm.sade.auditlog.ApplicationType;
 import fi.vm.sade.auditlog.Audit;
 import jakarta.annotation.Resource;
+import java.io.ByteArrayInputStream;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -42,12 +43,18 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -406,5 +413,119 @@ public class ClerkExamSessionServiceTest {
     assertEquals(1L, byId.get(queueSpeak1.getId()).queuePosition());
     assertEquals(2L, byId.get(queueSpeak2.getId()).queuePosition());
     assertNull(byId.get(admission.getId()).queuePosition());
+  }
+
+  @Test
+  public void testGetExamSessionExcel() throws Exception {
+    final ExamDate examDate = Factory.examDate();
+    final ExamSession examSession = Factory.examSession(examDate);
+    examSession.setMaxParticipants(2);
+
+    entityManager.persist(examDate);
+    entityManager.persist(examSession);
+
+    final Person completedPerson = Factory.person();
+    final Registration completed = Factory.registration(completedPerson);
+    completed.setExamSession(examSession);
+    completed.setState(RegistrationState.COMPLETED);
+    completed.setCreatedAt(LocalDateTime.of(2026, 4, 1, 10, 0));
+    completed.setForm(objectMapper.createObjectNode().put("birthdate", "1990-01-01"));
+
+    final Person queuedPerson = Factory.person();
+    queuedPerson.setOid("1.2.3.4.6");
+    final Registration queued = Factory.registration(queuedPerson);
+    queued.setExamSession(examSession);
+    queued.setState(RegistrationState.SUBMITTED);
+    queued.setKind(RegistrationKind.QUEUE);
+    queued.setCreatedAt(LocalDateTime.of(2026, 4, 2, 10, 0));
+    queued.setForm(objectMapper.createObjectNode());
+
+    final Person queueCancelledPerson = Factory.person();
+    queueCancelledPerson.setOid("1.2.3.4.7");
+    final Registration queueCancelled = Factory.registration(queueCancelledPerson);
+    queueCancelled.setExamSession(examSession);
+    queueCancelled.setState(RegistrationState.CANCELLED);
+    queueCancelled.setKind(RegistrationKind.QUEUE);
+    queueCancelled.setCreatedAt(LocalDateTime.of(2026, 4, 3, 10, 0));
+    queueCancelled.setForm(objectMapper.createObjectNode());
+
+    final Person noFormPerson = Factory.person();
+    noFormPerson.setOid("1.2.3.4.8");
+    final Registration noForm = Factory.registration(noFormPerson);
+    noForm.setExamSession(examSession);
+    noForm.setState(RegistrationState.EXPIRED);
+    noForm.setCreatedAt(LocalDateTime.of(2026, 4, 4, 10, 0));
+
+    final Registration noPerson = Factory.registration(null);
+    noPerson.setExamSession(examSession);
+    noPerson.setState(RegistrationState.CANCELLED);
+    noPerson.setCreatedAt(LocalDateTime.of(2026, 4, 5, 10, 0));
+
+    final Person startedPerson = Factory.person();
+    startedPerson.setOid("1.2.3.4.9");
+    final Registration started = Factory.registration(startedPerson);
+    started.setExamSession(examSession);
+    started.setState(RegistrationState.STARTED);
+    started.setCreatedAt(LocalDateTime.of(2026, 4, 6, 10, 0));
+    started.setForm(objectMapper.createObjectNode());
+
+    // Admissions first: the database allows queue registrations only to a full exam session
+    entityManager.persist(completedPerson);
+    entityManager.persist(completed);
+    entityManager.persist(noFormPerson);
+    entityManager.persist(noForm);
+    entityManager.persist(noPerson);
+    entityManager.persist(startedPerson);
+    entityManager.persist(started);
+    entityManager.persist(queuedPerson);
+    entityManager.persist(queued);
+    entityManager.persist(queueCancelledPerson);
+    entityManager.persist(queueCancelled);
+    entityManager.flush();
+    entityManager.clear();
+
+    final PersonalDataDTO personalDataDTO = new PersonalDataDTO();
+    personalDataDTO.setOidHenkilo(completedPerson.getOid());
+    personalDataDTO.setIdentityNumber("010190-9981");
+    when(onrService.listPersonDetails(any())).thenReturn(List.of(personalDataDTO));
+
+    final MockHttpServletResponse response = new MockHttpServletResponse();
+    clerkExamSessionService
+      .getExamSessionExcel(examSession.getId())
+      .render(Map.of(), new MockHttpServletRequest(), response);
+
+    try (final Workbook workbook = new XSSFWorkbook(new ByteArrayInputStream(response.getContentAsByteArray()))) {
+      assertEquals(4, workbook.getNumberOfSheets());
+      assertEquals("Ilmoittautuneet", workbook.getSheetName(0));
+      assertEquals("Jonossa", workbook.getSheetName(1));
+      assertEquals("Maksanut ja peruttu", workbook.getSheetName(2));
+      assertEquals("Peruttu tai erääntynyt", workbook.getSheetName(3));
+
+      final Sheet registered = workbook.getSheetAt(0);
+      final Row header = registered.getRow(0);
+      assertEquals("Hetu", header.getCell(3).getStringCellValue());
+      assertEquals("Osakoe / Koe", header.getCell(6).getStringCellValue());
+      assertEquals("Alkuperäinen tutkintopäivä", header.getCell(16).getStringCellValue());
+      assertEquals(17, header.getLastCellNum());
+
+      assertEquals(1, registered.getLastRowNum());
+      assertEquals(completedPerson.getOid(), registered.getRow(1).getCell(0).getStringCellValue());
+      assertEquals("010190-9981", registered.getRow(1).getCell(3).getStringCellValue());
+      assertEquals("1990-01-01", registered.getRow(1).getCell(4).getStringCellValue());
+      assertEquals("Maksanut", registered.getRow(1).getCell(5).getStringCellValue());
+      assertEquals("Koko tutkinto", registered.getRow(1).getCell(6).getStringCellValue());
+
+      final Sheet queue = workbook.getSheetAt(1);
+      assertEquals(1, queue.getLastRowNum());
+      assertEquals(queuedPerson.getOid(), queue.getRow(1).getCell(0).getStringCellValue());
+      assertEquals("Jonossa", queue.getRow(1).getCell(5).getStringCellValue());
+
+      assertEquals(0, workbook.getSheetAt(2).getLastRowNum());
+
+      final Sheet cancelledOrExpired = workbook.getSheetAt(3);
+      assertEquals(1, cancelledOrExpired.getLastRowNum());
+      assertEquals(queueCancelledPerson.getOid(), cancelledOrExpired.getRow(1).getCell(0).getStringCellValue());
+      assertEquals("Jonotus peruttu", cancelledOrExpired.getRow(1).getCell(5).getStringCellValue());
+    }
   }
 }
