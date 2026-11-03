@@ -30,33 +30,35 @@ Below are listed the OPH services which are a part of this mono-repo.
 
 In addition, the shared frontend content can be found [here](./docs/shared_frontend.md).
 
-
 &nbsp;
 
 ## Development setup initialisation
 
-Make sure you have listed technologies installed on your machine. 
+Make sure you have listed technologies installed on your machine.
 
 ### Database
-* This project is still dependent on https://github.com/Opetushallitus/yki
+
+- This project is still dependent on https://github.com/Opetushallitus/yki
+
 1. git clone https://github.com/Opetushallitus/yki
 2. Follow it's `README.md` to setup it's environment
 
 ### Backend with IntelliJ IDEA
+
 1. Open the repository with Idea
 2. To run a service, open a service folder under `backend` - folder, that you want to run
 3. Right-click `pom.xml` -> `Add as maven project`
 
-Also make sure you set dev profile for local development. You can use `application-dev.yaml` for local configuration overrides. 
+Also make sure you set dev profile for local development. You can use `application-dev.yaml` for local configuration overrides.
 
 At the time of writing Java 21 is current version in use.
-
 
 #### Github maven authentication
 
 To read packages from github maven repository you need to enable token authentication from maven settings file:
 
 ~/.m2/settings.xml
+
 ```xml
 <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -97,18 +99,20 @@ To read packages from github maven repository you need to enable token authentic
 
 &nbsp;
 
-
 ### Frontend
+
 Add your `ghp_TOKEN_CLASSIC` to your .bashrc/.zshrc - file:
+
 ```sh
 # Change your token to the actual token
 echo "export GITHUB_REGISTRY_TOKEN=ghp_TOKEN_CLASSIC" >> ~/.zshrc
 ```
 
 To run the frontend
+
 ```sh
 cd frontend
-yarn 
+yarn
 yarn run yki:start:dev-server
 ```
 
@@ -148,7 +152,6 @@ scripts/stop-tmux.sh
 scripts/stop-tmux.sh --gracefully=3
 ```
 
-
 ## Development
 
 Create and start database, backend, and frontend containers for a specific application:
@@ -180,8 +183,6 @@ docker-compose -f docker-compose-<app>.yml up --build --force-recreate --renew-a
 ```
 
 After starting the services, the frontend runs on > <http://localhost:4000>
-
-
 
 ## Deployment
 
@@ -276,7 +277,6 @@ spring:
         format_sql: true
 ```
 
-
 ## Git conventions
 
 ### Commit message conventions
@@ -325,10 +325,13 @@ Merging pull requests:
 Production releases for different applications are marked with tags. For example for AKR, tags are named as `AKR-ga-1234` where `ga-1234` stands for the Github Action workflow number. The name of the tag also matches the name of the release in Jira.
 
 In order to create a new release for example for AKR, check the commit ID of the build to be released, hard reset your local repository to that commit, create tag
+
 ```sh
 git tag AKR-ga-1234
 ```
+
 and push the tag to remote repository
+
 ```sh
 git push origin AKR-ga-1234
 ```
@@ -337,7 +340,46 @@ git push origin AKR-ga-1234
 
 ### Vulnerabilities
 
-Vulnerabilities in dependencies used by the applications are scanned daily with [Trivy](https://trivy.dev/latest/ecosystem/cicd/#trivy-action-official). 
+Vulnerabilities in dependencies used by the applications are scanned daily with [Trivy](https://trivy.dev/latest/ecosystem/cicd/#trivy-action-official).
 The scan is performed only against the default branch of the repository.
 
 Results of the scan are uploaded to the GitHub Security tab and are found under the section [Code scanning](https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot/security/code-scanning). The results are only available to GitHub users belonging to the Opetushallitus organization.
+
+### Updating frontend dependencies for security fixes
+
+Run these commands from `frontend`, using the Yarn version configured by the project.
+The frontend workspaces share `frontend/yarn.lock`, so an update can affect multiple applications (AKR, OTR, VKT, YKI/public and YKI/clerk).
+
+1. Check the alert's affected versions and patched version, then inspect the dependency path and current audit:
+
+   ```sh
+   cd frontend
+   yarn why -R proxy-addr
+   yarn npm audit --all --recursive
+   ```
+
+2. Update the affected package with Yarn. For a transitive dependency, such as `proxy-addr`:
+
+   ```sh
+   yarn up -R proxy-addr --mode=update-lockfile
+   ```
+
+   For a direct dependency declared in `package.json`, update its declared requirement too. For example:
+
+   ```sh
+   yarn up 'axios@^1.20.0' --mode=update-lockfile
+   ```
+
+3. Verify the resolved versions:
+
+   ```sh
+   yarn why -R proxy-addr
+   ```
+
+4. Install the updated dependencies, review the diff, and run the affected applications' checks before merging:
+
+   ```sh
+   yarn install --immutable
+   ```
+
+   Run tests and verify apps still work locally. If good, create PR
