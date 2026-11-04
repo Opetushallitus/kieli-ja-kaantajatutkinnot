@@ -102,6 +102,23 @@ export default defineConfig([
       'no-restricted-imports': [
         'error',
         {
+          paths: [
+            {
+              name: 'shared/components',
+              importNames: [
+                'ComboBox',
+                'LabeledComboBox',
+                'LabeledMultipleCheckboxDropdown',
+                'LabeledTextField',
+                'LabeledTextFieldProps',
+                'LanguageSelect',
+                'LangSelector',
+                'NavigationLinks',
+                'SkipLink',
+              ],
+              message: 'Use shared/ods-components in YKI public.',
+            },
+          ],
           patterns: ['.*'],
         },
       ],

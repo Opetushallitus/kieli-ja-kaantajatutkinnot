@@ -8,9 +8,9 @@ import {
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { Trans } from 'react-i18next';
-import { H2, H3, Text } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
 
+import { H2, H3, Label, Text } from 'components/Text';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { RegistrationKind } from 'enums/app';
@@ -67,9 +67,7 @@ const UserEducationSelection = () => {
       </Text>
       <fieldset className="registration-details__radio-group">
         <legend>
-          <Text>
-            <b>{t('userSelection.countryOfStudies.prompt')} *</b>
-          </Text>
+          <Label>{t('userSelection.countryOfStudies.prompt')} *</Label>
         </legend>
         <FormControl error={showErrors && !countryOfEducation}>
           <RadioGroup
@@ -105,9 +103,7 @@ const UserEducationSelection = () => {
         countryOfEducation === 'finland') && (
         <fieldset className="registration-details__radio-group">
           <legend>
-            <Text>
-              <b>{t('userSelection.educationDetails.prompt')} *</b>
-            </Text>
+            <Label>{t('userSelection.educationDetails.prompt')} *</Label>
           </legend>
           <FormControl error={showErrors && !educationDetails}>
             <RadioGroup

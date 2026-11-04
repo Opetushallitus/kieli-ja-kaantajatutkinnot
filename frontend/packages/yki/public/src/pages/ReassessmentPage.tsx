@@ -1,12 +1,12 @@
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Grid, Paper } from '@mui/material';
 import { Box } from '@mui/system';
+import { OphLink } from '@opetushallitus/oph-design-system';
 import { FC, useEffect } from 'react';
-import { H1, H2, HeaderSeparator, Text } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 
 import { PublicEvaluationPeriodListing } from 'components/reassessment/PublicEvaluationPeriodListing';
 import { PublicEvaluationPeriodListingSkeleton } from 'components/skeletons/PublicEvaluationPeriodListingSkeleton';
+import { H1, H2, Text } from 'components/Text';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { loadEvaluationPeriods } from 'redux/reducers/evaluationPeriods';
@@ -38,7 +38,6 @@ export const ReassessmentPage: FC = () => {
           <H1 data-testid="public-reassessment-page__title-heading">
             {t('title')}
           </H1>
-          <HeaderSeparator />
           <Text>{t('introduction.info')}</Text>
         </Grid>
         <Grid className="public-reassessment-page__grid-container__item-info">
@@ -51,15 +50,14 @@ export const ReassessmentPage: FC = () => {
               <br />
               <Text>
                 {t('info.general.body2')}
-                <a
+                <OphLink
                   className="columns gapped-xxs"
                   href={t('info.general.link')}
                   rel="noreferrer"
-                  target="_black"
+                  target="_blank"
                 >
                   {t('info.general.linkText')}
-                  <OpenInNewIcon color="inherit" />
-                </a>
+                </OphLink>
               </Text>
               <br />
               <Text>{t('info.general.body3')}</Text>
@@ -74,15 +72,14 @@ export const ReassessmentPage: FC = () => {
               <br />
               <Text>
                 {t('info.pricing.body3')}
-                <a
+                <OphLink
                   className="columns gapped-xxs"
                   href={t('info.general.link')}
                   rel="noreferrer"
-                  target="_black"
+                  target="_blank"
                 >
                   {t('info.general.linkText')}
-                  <OpenInNewIcon />
-                </a>
+                </OphLink>
               </Text>
               <br />
               <Text>{t('info.pricing.body4')}</Text>

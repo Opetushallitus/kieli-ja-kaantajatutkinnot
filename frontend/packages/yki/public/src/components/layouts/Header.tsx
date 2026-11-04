@@ -1,17 +1,14 @@
 import { AppBar, Toolbar } from '@mui/material';
 import { Link } from 'react-router';
-import {
-  CookieBanner,
-  LangSelector,
-  OPHLogoViewer,
-  SkipLink,
-  Text,
-} from 'shared/components';
-import { AppLanguage, Direction } from 'shared/enums';
+import { CookieBanner } from 'shared/components';
+import { AppLanguage } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
+import { LangSelector, SkipLink } from 'shared/ods-components';
 
+import { OPHLogoViewer } from 'components/elements/OPHLogoViewer';
 import { PublicNavigationLinks } from 'components/layouts/publicHeader/PublicNavigationLinks';
 import { SessionStateHeader } from 'components/layouts/SessionStateHeader';
+import { Text } from 'components/Text';
 import {
   changeLang,
   getCurrentLang,
@@ -43,7 +40,7 @@ export const Header = (): JSX.Element => {
         href="#main-content"
         text={translateCommon('header.accessibility.continueToMain')}
       />
-      <AppBar className="header" position="static">
+      <AppBar className="header" position="static" elevation={0}>
         {!isDesktopXS && (
           <Toolbar className="header__toolbar header__toolbar__mobile-lang-select">
             <LangSelector
@@ -57,21 +54,17 @@ export const Header = (): JSX.Element => {
           </Toolbar>
         )}
         <SessionStateHeader />
-        <Toolbar className="header__toolbar header__toolbar__logo-and-tabs">
+        <Toolbar className="header__toolbar header__toolbar__logo-and-lang">
           <div className="header__logo">
             <Link to={logoRedirectURL}>
               <OPHLogoViewer
                 className="header__logo__logo"
-                direction={Direction.Horizontal}
                 alt={translateCommon('ophLogoToFrontPageAlt')}
                 currentLang={getCurrentLang()}
-                title={translateCommon('appNameAbbreviation')}
               />
             </Link>
           </div>
-          <div className="header__tabs">
-            <PublicNavigationLinks />
-          </div>
+          <span className="header__product-name">YKI</span>
           <div className="header__language-select">
             {isDesktopXS && (
               <LangSelector
@@ -85,6 +78,9 @@ export const Header = (): JSX.Element => {
             )}
           </div>
         </Toolbar>
+        <div className="header__nav">
+          <PublicNavigationLinks />
+        </div>
       </AppBar>
       <CookieBanner
         title={t('title')}
