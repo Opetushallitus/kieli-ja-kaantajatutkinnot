@@ -4,6 +4,7 @@ import fi.oph.yki.onr.OnrDebugService;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Hidden
 @RestController
 @RequestMapping(value = "/v2/api/clerk/onr-debug")
+@ConditionalOnProperty(name = "app.v2.enabled", havingValue = "true")
 public class OnrDebugController {
 
   private static final String TAG_ONR_DEBUG = "ONR debug API";
