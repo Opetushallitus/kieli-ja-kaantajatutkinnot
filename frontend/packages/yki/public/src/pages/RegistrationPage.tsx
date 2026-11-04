@@ -1,10 +1,6 @@
 import { Box, Container, Grid } from '@mui/material';
 import { OphLink } from '@opetushallitus/oph-design-system';
 import { FC, useEffect, useState } from 'react';
-<<<<<<< HEAD
-import { Trans } from 'react-i18next';
-=======
->>>>>>> dev
 import { APIResponseStatus } from 'shared/enums';
 
 import { PublicExamSessionListing } from 'components/registration/examSession/PublicExamSessionListing';

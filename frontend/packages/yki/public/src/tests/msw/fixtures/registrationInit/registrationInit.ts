@@ -1,5 +1,5 @@
 import { ExamLanguage, ExamLevel, RegistrationKind } from 'enums/app';
-import { PublicRegistrationInitResponse } from 'interfaces/publicRegistration';
+import { PublicRegistrationDetails } from 'interfaces/publicRegistration';
 import { SuomiFiAuthenticatedSessionResponse } from 'tests/msw/fixtures/identity';
 
 export const registrationInitResponse: PublicRegistrationDetails = {
