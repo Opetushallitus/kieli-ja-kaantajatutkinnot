@@ -170,7 +170,7 @@ export const PublicRegistrationExamSessionDetails = ({
           </DetailRow>
         )}
         <DetailRow label={t('testFormat')}>
-          <ExamSessionFormat examSessionId={examSession.id} showDescription />
+          <ExamSessionFormat examSession={examSession} showDescription />
         </DetailRow>
         <DetailRow label={translateCommon('examDate')}>
           {DateUtils.formatOptionalDate(examSession.session_date, 'l')}

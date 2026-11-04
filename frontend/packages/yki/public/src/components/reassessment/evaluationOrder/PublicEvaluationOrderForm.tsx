@@ -1,14 +1,12 @@
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import {
   Checkbox,
   FormControl,
   FormControlLabel,
   FormGroup,
-  Link,
   Paper,
   Typography,
 } from '@mui/material';
-import { ophColors } from '@opetushallitus/oph-design-system';
+import { ophColors, OphLink } from '@opetushallitus/oph-design-system';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router';
 import { CustomButton } from 'shared/components';
@@ -224,15 +222,12 @@ const AcceptConditions = () => {
           {translateCommon('privacyStatement.readConditions')}
         </Text>
         <div className="columns gapped-xxs">
-          <Link
+          <OphLink
             href={translateCommon('privacyStatement.link.url')}
             target="_blank"
           >
-            <Text color="textPrimary">
-              {translateCommon('privacyStatement.link.label')}
-            </Text>
-          </Link>
-          <OpenInNewIcon color="inherit" />
+            {translateCommon('privacyStatement.link.label')}
+          </OphLink>
         </div>
       </div>
       <FormControl error={showErrors && !acceptConditions}>

@@ -1,8 +1,15 @@
+import dayjs from 'dayjs';
 import { t } from 'i18next';
 
 import { ExamLevel, ExamSessionType } from 'enums/app';
-import { ClerkExamSession } from 'interfaces/clerkExamSession';
-import { OrganizerLanguage } from 'interfaces/clerkOrganizer';
+import {
+  ClerkExamSession,
+  ClerkExamSessionSummary,
+} from 'interfaces/clerkExamSession';
+import {
+  ClerkOrganizerType,
+  OrganizerLanguage,
+} from 'interfaces/clerkOrganizer';
 import { FindByOidsOrganization } from 'interfaces/clerkOrganizerRegistry';
 
 const LEVEL_TRANSLATIONS = {
@@ -134,6 +141,11 @@ export const getOrganizerAddress = (
   };
 };
 
+export const isAgreementExpired = ({
+  agreement_end_date,
+}: Pick<ClerkOrganizerType, 'agreement_end_date'>) =>
+  !!agreement_end_date && agreement_end_date.isBefore(dayjs(), 'day');
+
 // Combinations are either:
 // Tekstin ymmärtäminen + Puhuminen
 // or
@@ -161,4 +173,34 @@ export const getExamSessionStartTimesDescription = (
         time1: examSession.startTimeReadListen,
         time2: examSession.startTimeSpeakWrite,
       });
+};
+
+export const getExamSessionOption = (
+  examSession: ClerkExamSessionSummary,
+  locationLanguage: string | undefined,
+  translateCommon: (key: string) => string,
+) => {
+  const location =
+    examSession.location.find((l) => l.lang === locationLanguage) ??
+    examSession.location.find((l) => l.lang === 'fi') ??
+    examSession.location[0];
+  const locationLabel = [
+    location?.name,
+    location?.streetAddress,
+    location?.postOffice,
+  ]
+    .filter(Boolean)
+    .join(', ');
+
+  return {
+    value: String(examSession.id),
+    label: [
+      `${translateCommon('languages.' + examSession.language)} - ${translateCommon(
+        'languageLevel.' + examSession.level,
+      )} ${dayjs(examSession.date).format('D.M.YYYY')}`,
+      locationLabel,
+    ]
+      .filter(Boolean)
+      .join(': '),
+  };
 };

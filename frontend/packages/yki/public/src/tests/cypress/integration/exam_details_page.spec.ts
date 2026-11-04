@@ -1,7 +1,7 @@
 import { http, HttpResponse } from 'msw';
 
 import { APIEndpoints } from 'enums/api';
-import { RegistrationKind } from 'enums/app';
+import { ExamLanguage, ExamLevel, RegistrationKind } from 'enums/app';
 import { onExamDetailsPage } from 'tests/cypress/support/page-objects/examDetailsPage';
 import { examSessions } from 'tests/msw/fixtures/examSession';
 
@@ -32,6 +32,7 @@ const getInitRegistrationResponse = (is_strongly_identified: boolean) => {
       exam_session: examSessionResponse,
       registration_id: 1337,
       registration_kind: RegistrationKind.Admission,
+      partial_exam_type: 'ALL_PARTS',
       user: {
         first_name,
         last_name,
@@ -47,6 +48,7 @@ const getInitRegistrationResponse = (is_strongly_identified: boolean) => {
       exam_session: examSessionResponse,
       registration_id: 1337,
       registration_kind: RegistrationKind.Admission,
+      partial_exam_type: 'ALL_PARTS',
       user: {
         email: 'teuvotesti@test.invalid',
       },
@@ -99,6 +101,87 @@ describe('ExamDetailsPage', () => {
       onExamDetailsPage.acceptPrivacyPolicy();
       onExamDetailsPage.submitForm();
       onExamDetailsPage.isFormSubmitted();
+    });
+
+    it('shows payment terms for paid registration when all free attempts are used', () => {
+      cy.useMswHandlers(
+        http.post(APIEndpoints.IdentifyRegistration, () =>
+          HttpResponse.json(getInitRegistrationResponse(true)),
+        ),
+        http.get(APIEndpoints.PublicKoskiEducations, () =>
+          HttpResponse.json({
+            educations: [
+              { educationType: 'ylioppilastutkinto', isActive: true },
+            ],
+            usedFreeRegistrations: 3,
+          }),
+        ),
+      );
+
+      cy.openExamSessionRegistrationForm(
+        examSessionResponse.id,
+        getInitRegistrationResponse(true).registration_id,
+      );
+      onExamDetailsPage.isVisible();
+      cy.contains('Olet käyttänyt kaikki ilmaiset kerrat.').should(
+        'be.visible',
+      );
+      cy.contains('dt', /^Tutkintomaksu$/)
+        .next('dd')
+        .should('have.text', '127 €');
+      cy.findByRole('checkbox', {
+        name: 'Hyväksyn ilmoittautumisen ja maksun ehdot *',
+      })
+        .closest('label')
+        .should('be.visible');
+    });
+
+    it('shows the fee and payment terms for Finnish intermediate level without requesting KOSKI details', () => {
+      const intermediateExamSession = examSessions.exam_sessions.find(
+        (es) =>
+          es.language_code === ExamLanguage.FIN &&
+          es.level_code === ExamLevel.KESKI &&
+          es.type === 'FULL',
+      );
+      if (!intermediateExamSession) {
+        throw new Error('Expected a Finnish intermediate-level exam fixture');
+      }
+      const koskiRequest = cy.spy().as('koskiRequest');
+
+      cy.useMswHandlers(
+        http.post(APIEndpoints.IdentifyRegistration, () =>
+          HttpResponse.json({
+            ...getInitRegistrationResponse(true),
+            exam_session: intermediateExamSession,
+          }),
+        ),
+        http.get(APIEndpoints.PublicKoskiEducations, () => {
+          koskiRequest();
+
+          return HttpResponse.json({
+            educations: [],
+            usedFreeRegistrations: 0,
+          });
+        }),
+      );
+
+      cy.openExamSessionRegistrationForm(
+        intermediateExamSession.id,
+        getInitRegistrationResponse(true).registration_id,
+      );
+      onExamDetailsPage.isVisible();
+      cy.findByRole('heading', { name: 'suomi, keskitaso' }).should(
+        'be.visible',
+      );
+      cy.contains('dt', /^Tutkintomaksu$/)
+        .next('dd')
+        .should('have.text', `${intermediateExamSession.exam_fee} €`);
+      cy.findByRole('checkbox', {
+        name: 'Hyväksyn ilmoittautumisen ja maksun ehdot *',
+      })
+        .closest('label')
+        .should('be.visible');
+      cy.get('@koskiRequest').should('not.have.been.called');
     });
 
     it('by authenticating via a login link', () => {

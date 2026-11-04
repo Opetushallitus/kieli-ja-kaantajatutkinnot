@@ -11,7 +11,7 @@ class ExamDetailsPage {
     submitButton: () => cy.findByRole('button', { name: 'Lähetä' }),
     acceptTermsOfRegistrationCheckbox: () =>
       cy.findByRole('checkbox', {
-        name: 'Hyväksyn ilmoittautumisen ja maksun ehdot *',
+        name: 'Hyväksyn ilmoittautumisen ehdot *',
       }),
     acceptPrivacyPolicyCheckbox: () =>
       cy.findByRole('checkbox', {

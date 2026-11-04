@@ -20,6 +20,61 @@ const expectEffectiveRegistrationDetails = (
 };
 
 describe('ExamSessionUtils', () => {
+  describe('isDigitalTest', () => {
+    it.each([4390, 4415, 4279, 4580, 4568, 4263, 4581])(
+      'includes pilot exam session %i before the 2027 rollout',
+      (id) => {
+        expect(
+          ExamSessionUtils.isDigitalTest({
+            id,
+            language_code: ExamLanguage.FIN,
+            session_date: dayjs('2026-11-07'),
+          }),
+        ).toBe(true);
+      },
+    );
+
+    it.each([
+      0, 1, 4262, 4264, 4278, 4280, 4389, 4391, 4414, 4416, 4567, 4569, 4579,
+      4582, 99999,
+    ])('keeps non-pilot session %i on paper before 2027', (id) => {
+      expect(
+        ExamSessionUtils.isDigitalTest({
+          id,
+          language_code: ExamLanguage.FIN,
+          session_date: dayjs('2026-12-31'),
+        }),
+      ).toBe(false);
+    });
+
+    it.each([
+      [ExamLanguage.FIN, '2026-12-31', false],
+      [ExamLanguage.SWE, '2026-12-31', false],
+      [ExamLanguage.FIN, '2027-01-01', true],
+      [ExamLanguage.SWE, '2027-01-01', true],
+      [ExamLanguage.FIN, '2028-06-15', true],
+      [ExamLanguage.SWE, '2028-06-15', true],
+      [ExamLanguage.DEU, '2027-01-01', false],
+      [ExamLanguage.ENG, '2027-01-01', false],
+      [ExamLanguage.FRA, '2027-01-01', false],
+      [ExamLanguage.ITA, '2027-01-01', false],
+      [ExamLanguage.RUS, '2027-01-01', false],
+      [ExamLanguage.SME, '2027-01-01', false],
+      [ExamLanguage.SPA, '2027-01-01', false],
+    ] as const)(
+      'classifies non-pilot %s exams on %s as digital=%s',
+      (language, date, digital) => {
+        expect(
+          ExamSessionUtils.isDigitalTest({
+            id: 99999,
+            language_code: language,
+            session_date: dayjs(date),
+          }),
+        ).toBe(digital);
+      },
+    );
+  });
+
   const baseExamSession: ExamSession = {
     id: 1,
     type: 'FULL',

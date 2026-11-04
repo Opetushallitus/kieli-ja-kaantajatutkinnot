@@ -1,15 +1,17 @@
 package fi.oph.yki.api.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Builder;
 
 @Builder
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public record PublicExamSessionLocationDTO(
   String name,
-  @JsonProperty("street_address") String streetAddress,
-  @JsonProperty("post_office") String postOffice,
+  String streetAddress,
+  String postOffice,
   String zip,
-  @JsonProperty("other_location_info") String otherLocationInfo,
-  @JsonProperty("extra_information") String extraInformation,
+  String otherLocationInfo,
+  String extraInformation,
   String lang
 ) {}

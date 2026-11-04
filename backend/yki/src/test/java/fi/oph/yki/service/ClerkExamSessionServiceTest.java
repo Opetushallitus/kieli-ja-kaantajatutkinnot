@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,6 +13,7 @@ import fi.oph.yki.Factory;
 import fi.oph.yki.PostgresTestcontainerConfig;
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionLocationCreateDTO;
+import fi.oph.yki.api.dto.clerk.ClerkExamSessionSummaryDTO;
 import fi.oph.yki.api.dto.clerk.ClerkExamSessionUpdateDTO;
 import fi.oph.yki.api.dto.clerk.ClerkRegistrationDTO;
 import fi.oph.yki.audit.AuditService;
@@ -42,6 +44,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import org.hibernate.Hibernate;
+import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -95,6 +99,90 @@ public class ClerkExamSessionServiceTest {
         auditService,
         onrService
       );
+  }
+
+  @Test
+  public void testGetExamSessionSummariesUsesOneQueryWithoutRegistrations() {
+    final LocalDate today = LocalDate.now();
+    final ExamDate examDate = Factory.examDate();
+    examDate.setExamDate(today);
+    entityManager.persist(examDate);
+    final ExamSession session = Factory.examSession(examDate);
+    final ExamSession withoutLocation = Factory.examSession(persistTransferExamDate(today.plusDays(1)));
+    entityManager.persist(Factory.examSession(persistTransferExamDate(today.minusDays(1))));
+    final ExamSession otherLanguage = Factory.examSession(examDate);
+    otherLanguage.setLanguage("swe");
+    final ExamSession otherLevel = Factory.examSession(examDate);
+    otherLevel.setLevel("KESKI");
+    for (final ExamSession examSession : List.of(session, withoutLocation, otherLanguage, otherLevel)) {
+      entityManager.persist(examSession);
+    }
+    final ExamSessionLocation finnish = Factory.examSessionLocation(session);
+    final ExamSessionLocation swedish = Factory.examSessionLocation(session);
+    swedish.setLang("sv");
+    swedish.setName("Provplats");
+    entityManager.persist(finnish);
+    entityManager.persist(swedish);
+    final Person person = Factory.person();
+    entityManager.persist(person);
+    final Registration registration = Factory.registration(person);
+    registration.setExamSession(session);
+    registration.setState(RegistrationState.COMPLETED);
+    registration.setForm(objectMapper.createObjectNode());
+    entityManager.persist(registration);
+    entityManager.flush();
+    entityManager.clear();
+
+    final var statistics = entityManager
+      .getEntityManager()
+      .getEntityManagerFactory()
+      .unwrap(SessionFactory.class)
+      .getStatistics();
+    statistics.setStatisticsEnabled(true);
+    statistics.clear();
+    try {
+      final List<ClerkExamSessionSummaryDTO> results = clerkExamSessionService.getExamSessionSummariesByLanguageAndLevel(
+        "fin",
+        "PERUS"
+      );
+      assertEquals(1, statistics.getPrepareStatementCount());
+      assertEquals(
+        Set.of(session.getId(), withoutLocation.getId()),
+        results.stream().map(ClerkExamSessionSummaryDTO::id).collect(Collectors.toSet())
+      );
+      final ClerkExamSessionSummaryDTO result = results
+        .stream()
+        .filter(dto -> dto.id() == session.getId())
+        .findFirst()
+        .orElseThrow();
+      assertEquals(examDate.getExamDate(), result.date());
+      assertEquals("fin", result.language());
+      assertEquals("PERUS", result.level());
+      assertEquals(
+        Set.of("fi", "sv"),
+        result.location().stream().map(location -> location.lang()).collect(Collectors.toSet())
+      );
+      assertTrue(result.location().stream().allMatch(location -> "Testikatu 1".equals(location.streetAddress())));
+      assertTrue(
+        results
+          .stream()
+          .filter(dto -> dto.id() == withoutLocation.getId())
+          .findFirst()
+          .orElseThrow()
+          .location()
+          .isEmpty()
+      );
+      assertFalse(Hibernate.isInitialized(entityManager.find(ExamSession.class, session.getId()).getRegistrations()));
+      verifyNoInteractions(onrService);
+    } finally {
+      statistics.setStatisticsEnabled(false);
+    }
+  }
+
+  private ExamDate persistTransferExamDate(final LocalDate date) {
+    final ExamDate examDate = Factory.examDate();
+    examDate.setExamDate(date);
+    return entityManager.persist(examDate);
   }
 
   @Test

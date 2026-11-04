@@ -1,6 +1,8 @@
 import { Grid, Paper } from '@mui/material';
 import { LoadingProgressIndicator } from 'shared/components';
 
+import { PaymentRecipient } from 'components/common/PaymentRecipient';
+import { PaymentServiceProvider } from 'components/common/PaymentServiceProvider';
 import { PublicEnrollmentAppointmentControlButtons } from 'components/publicEnrollmentAppointment/PublicEnrollmentAppointmentControlButtons';
 import { PublicEnrollmentAppointmentExamEvent } from 'components/publicEnrollmentAppointment/PublicEnrollmentAppointmentExamEvent';
 import { PublicEnrollmentAppointmentPaymentSum } from 'components/publicEnrollmentAppointment/PublicEnrollmentAppointmentPaymentSum';
@@ -67,9 +69,15 @@ export const PublicEnrollmentAppointmentDesktopGrid = ({
                 showValidation={showValidation}
               />
               {showPaymentSum && (
-                <PublicEnrollmentAppointmentPaymentSum
-                  enrollment={enrollment}
-                />
+                <>
+                  <div className="margin-top-lg rows gapped">
+                    <PaymentRecipient includeLegalBasis={false} />
+                    <PaymentServiceProvider />
+                  </div>
+                  <PublicEnrollmentAppointmentPaymentSum
+                    enrollment={enrollment}
+                  />
+                </>
               )}
               {showControlButtons && (
                 <PublicEnrollmentAppointmentControlButtons

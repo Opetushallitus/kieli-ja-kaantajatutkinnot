@@ -9,6 +9,7 @@ import fi.oph.yki.repository.PersonRepository;
 import fi.oph.yki.repository.PersonSyncStatusRepository;
 import fi.oph.yki.service.dto.PersonDTO;
 import fi.oph.yki.util.exception.NotFoundException;
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
@@ -52,6 +53,7 @@ public class PersonService {
     person.setSteetAddress(dto.streetAddress());
     person.setPostOffice(dto.postOffice());
     person.setZip(dto.zip());
+    person.setModifiedAt(LocalDateTime.now());
     personRepository.saveAndFlush(person);
 
     final var syncStatus = new PersonSyncStatus();

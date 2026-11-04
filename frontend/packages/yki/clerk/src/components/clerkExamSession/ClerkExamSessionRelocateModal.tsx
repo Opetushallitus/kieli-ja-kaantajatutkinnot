@@ -4,11 +4,16 @@ import {
   OphButton,
   OphRadioGroupFormField,
 } from '@opetushallitus/oph-design-system';
+import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
-import { CustomModal } from 'shared/components';
+import { CustomModal, LoadingProgressIndicator } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
 
-import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
+import {
+  getCurrentLang,
+  useCommonTranslation,
+  usePublicTranslation,
+} from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { H2, Text } from 'ophTheme/Text';
 import {
@@ -17,6 +22,7 @@ import {
   resetRelocate,
 } from 'redux/reducers/clerkExamSession';
 import { clerkExamSessionDetailsSelector } from 'redux/selectors/clerkExamSessionDetailsSelector';
+import { getExamSessionOption } from 'utils/clerk';
 
 type ClerkExamSessionRelocateModalProps = {
   registrationId: number | null;
@@ -46,6 +52,14 @@ export const ClerkExamSessionRelocateModal = ({
 
   const [selectedTargetExamSessionId, setSelectedTargetExamSessionId] =
     useState<string>('');
+  const isLoading =
+    relocateExamSessionsStatus === APIResponseStatus.NotStarted ||
+    relocateExamSessionsStatus === APIResponseStatus.InProgress;
+  const locationLanguage = getCurrentLang()?.split('-')[0];
+  const examSessionOptions = relocateExamSessions
+    .filter((es) => es.id !== examSessionId)
+    .sort((a, b) => dayjs(b.date).valueOf() - dayjs(a.date).valueOf())
+    .map((es) => getExamSessionOption(es, locationLanguage, translateCommon));
 
   useEffect(() => {
     if (registrationId !== null) {
@@ -84,53 +98,58 @@ export const ClerkExamSessionRelocateModal = ({
         </Box>
       }
     >
-      <div className="rows gapped">
-        <Text className="margin-top">{t('relocate.subTitle')}</Text>
-        {relocateExamSessionsStatus === APIResponseStatus.Success && (
-          <OphRadioGroupFormField
-            label={t('relocate.selectExamSession')}
-            value={selectedTargetExamSessionId}
-            onChange={(e) =>
-              setSelectedTargetExamSessionId(
-                (e.target as HTMLInputElement).value,
-              )
-            }
-            options={relocateExamSessions
-              .filter((es) => es.id !== examSessionId)
-              .map((es) => ({
-                value: String(es.id),
-                label: `${es.date} — ${translateCommon(
-                  'languages.' + es.language,
-                )} - ${translateCommon('languageLevel.' + es.level)}`,
-              }))}
-          />
-        )}
-        <div className="columns gapped flex-end">
-          <OphButton variant={Variant.Outlined} onClick={onClose}>
-            {translateCommon('cancel')}
-          </OphButton>
-          <OphButton
-            variant={Variant.Contained}
-            disabled={
-              !selectedTargetExamSessionId ||
-              relocateStatus === APIResponseStatus.InProgress
-            }
-            onClick={() => {
-              if (registrationId && selectedTargetExamSessionId) {
-                dispatch(
-                  relocateRegistration({
-                    registrationId,
-                    targetExamSessionId: Number(selectedTargetExamSessionId),
-                    currentExamSessionId: examSessionId,
-                  }),
-                );
-              }
-            }}
-          >
-            {tActions('values.actions.relocate')}
-          </OphButton>
-        </div>
-      </div>
+      <LoadingProgressIndicator
+        isLoading={isLoading}
+        translateCommon={translateCommon}
+        displayBlock
+      >
+        <Box sx={{ minHeight: '4rem' }}>
+          {!isLoading && (
+            <div className="rows gapped">
+              <Text className="margin-top">{t('relocate.subTitle')}</Text>
+              {relocateExamSessionsStatus === APIResponseStatus.Success && (
+                <OphRadioGroupFormField
+                  label={t('relocate.selectExamSession')}
+                  value={selectedTargetExamSessionId}
+                  onChange={(e) =>
+                    setSelectedTargetExamSessionId(
+                      (e.target as HTMLInputElement).value,
+                    )
+                  }
+                  options={examSessionOptions}
+                />
+              )}
+              <div className="columns gapped flex-end">
+                <OphButton variant={Variant.Outlined} onClick={onClose}>
+                  {translateCommon('cancel')}
+                </OphButton>
+                <OphButton
+                  variant={Variant.Contained}
+                  disabled={
+                    !selectedTargetExamSessionId ||
+                    relocateStatus === APIResponseStatus.InProgress
+                  }
+                  onClick={() => {
+                    if (registrationId && selectedTargetExamSessionId) {
+                      dispatch(
+                        relocateRegistration({
+                          registrationId,
+                          targetExamSessionId: Number(
+                            selectedTargetExamSessionId,
+                          ),
+                          currentExamSessionId: examSessionId,
+                        }),
+                      );
+                    }
+                  }}
+                >
+                  {tActions('values.actions.relocate')}
+                </OphButton>
+              </div>
+            </div>
+          )}
+        </Box>
+      </LoadingProgressIndicator>
     </CustomModal>
   );
 };

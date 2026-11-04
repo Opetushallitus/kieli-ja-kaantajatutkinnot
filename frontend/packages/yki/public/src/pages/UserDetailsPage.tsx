@@ -4,6 +4,7 @@ import InfoFilledIcon from '@mui/icons-material/Info';
 import WarningOutlinedIcon from '@mui/icons-material/WarningOutlined';
 import { Grid, Paper, Typography } from '@mui/material';
 import { Box } from '@mui/system';
+import { OphLink } from '@opetushallitus/oph-design-system';
 import dayjs from 'dayjs';
 import { FC, useEffect, useState } from 'react';
 import { Trans } from 'react-i18next';
@@ -266,6 +267,18 @@ const Registrations: FC<RegistrationsProps> = ({
   });
 };
 
+const CompletedStudiesLink = () => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.pages.userDetailsPage.contactDetails.certificateInfo.link',
+  });
+
+  return (
+    <OphLink href={t('url')} target="_blank" rel="noreferrer">
+      {t('label')}
+    </OphLink>
+  );
+};
+
 const ContactDetails = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.pages.userDetailsPage.contactDetails',
@@ -322,13 +335,22 @@ const ContactDetails = () => {
             </CustomButtonLink>
           </div>
           <Text className="user-details-page__small-text">
-            {t('certificateInfo.part1')}
+            <Trans
+              t={t}
+              i18nKey="certificateInfo.part1"
+              components={{
+                CompletedStudiesLink: <CompletedStudiesLink />,
+              }}
+            />
           </Text>
           <Text className="user-details-page__small-text">
             {t('certificateInfo.part2')}
           </Text>
           <Text className="user-details-page__small-text">
             {t('certificateInfo.part3')}
+          </Text>
+          <Text className="user-details-page__small-text">
+            {t('certificateInfo.part4')}
           </Text>
         </div>
       </Paper>

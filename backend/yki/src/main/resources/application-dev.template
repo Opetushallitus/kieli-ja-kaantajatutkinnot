@@ -19,7 +19,7 @@ solki:
   password: test
   person-sync-enabled: false
   exam-session-sync-enabled: false
-customer-portal:
+v2:
   enabled: true
 dev:
   web:

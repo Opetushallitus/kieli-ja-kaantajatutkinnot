@@ -1,0 +1,46 @@
+[
+  {
+    "koodiUri": "maatjavaltiot2_246",
+    "resourceUri": "https://virkailija.untuvaopintopolku.fi/koodisto-service/rest/codeelement/maatjavaltiot2_246",
+    "version": 1,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "maatjavaltiot2",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [1]
+    },
+    "koodiArvo": "246",
+    "paivitysPvm": "2013-11-05T12:00:00.000+0200",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "1990-01-01",
+    "voimassaLoppuPvm": null,
+    "tila": "HYVAKSYTTY",
+    "metadata": [
+      { "nimi": "Suomi", "kuvaus": "Suomi", "lyhytNimi": "Suomi", "kayttoohje": null, "kasite": null, "sisaltaaMerkityksen": null, "eiSisallaMerkitysta": null, "huomioitavaKoodi": null, "sisaltaaKoodiston": null, "kieli": "FI" },
+      { "nimi": "Finland", "kuvaus": "Finland", "lyhytNimi": "Finland", "kayttoohje": null, "kasite": null, "sisaltaaMerkityksen": null, "eiSisallaMerkitysta": null, "huomioitavaKoodi": null, "sisaltaaKoodiston": null, "kieli": "SV" },
+      { "nimi": "Finland", "kuvaus": "Finland", "lyhytNimi": "Finland", "kayttoohje": null, "kasite": null, "sisaltaaMerkityksen": null, "eiSisallaMerkitysta": null, "huomioitavaKoodi": null, "sisaltaaKoodiston": null, "kieli": "EN" }
+    ]
+  },
+  {
+    "koodiUri": "maatjavaltiot2_752",
+    "resourceUri": "https://virkailija.untuvaopintopolku.fi/koodisto-service/rest/codeelement/maatjavaltiot2_752",
+    "version": 1,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "maatjavaltiot2",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [1]
+    },
+    "koodiArvo": "752",
+    "paivitysPvm": "2013-11-05T12:00:00.000+0200",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "1990-01-01",
+    "voimassaLoppuPvm": null,
+    "tila": "HYVAKSYTTY",
+    "metadata": [
+      { "nimi": "Ruotsi", "kuvaus": "Ruotsi", "lyhytNimi": "Ruotsi", "kayttoohje": null, "kasite": null, "sisaltaaMerkityksen": null, "eiSisallaMerkitysta": null, "huomioitavaKoodi": null, "sisaltaaKoodiston": null, "kieli": "FI" },
+      { "nimi": "Sverige", "kuvaus": "Sverige", "lyhytNimi": "Sverige", "kayttoohje": null, "kasite": null, "sisaltaaMerkityksen": null, "eiSisallaMerkitysta": null, "huomioitavaKoodi": null, "sisaltaaKoodiston": null, "kieli": "SV" },
+      { "nimi": "Sweden", "kuvaus": "Sweden", "lyhytNimi": "Sweden", "kayttoohje": null, "kasite": null, "sisaltaaMerkityksen": null, "eiSisallaMerkitysta": null, "huomioitavaKoodi": null, "sisaltaaKoodiston": null, "kieli": "EN" }
+    ]
+  }
+]

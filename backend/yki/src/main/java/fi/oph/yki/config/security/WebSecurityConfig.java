@@ -26,6 +26,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.ProviderManager;
@@ -47,6 +48,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtGra
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -372,6 +374,18 @@ public class WebSecurityConfig {
 
   @Bean
   @Order(5)
+  public SecurityFilterChain customerPortalSecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
+    return configCsrf(httpSecurity)
+      .securityMatcher("/v2/api/public/person/**")
+      .authorizeHttpRequests(registry -> registry.anyRequest().authenticated())
+      .exceptionHandling(configurer ->
+        configurer.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
+      )
+      .build();
+  }
+
+  @Bean
+  @Order(6)
   public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
     return configCsrf(httpSecurity)
       .authorizeHttpRequests(registry -> registry.requestMatchers("/", "/**").permitAll().anyRequest().authenticated())

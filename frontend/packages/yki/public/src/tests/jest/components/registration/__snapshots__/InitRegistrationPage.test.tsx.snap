@@ -14,7 +14,7 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
         <h1
           class="MuiTypography-root MuiTypography-h1 css-cihc9m-MuiTypography-root"
         >
-          unavailable.upcoming.title
+          Ilmoittautumisaika ei ole alkanut
         </h1>
       </div>
       <div
@@ -33,7 +33,7 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
               <h2
                 class="MuiTypography-root MuiTypography-h2 css-f5bj0c-MuiTypography-root"
               >
-                yki.common.languages.fin, yki.common.languageLevel.YLIN
+                suomi, ylin taso
               </h2>
               <dl
                 class="public-registration__exam-session-details"
@@ -41,17 +41,17 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
                 <dt
                   class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                 >
-                  partialExams
+                  Osakokeet
                 </dt>
                 <dd
                   class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
                 >
-                  yki.component.registration.examSessionCard.examType.full
+                  Puheen ymmärtäminen, puhuminen, tekstin ymmärtäminen, kirjoittaminen
                 </dd>
                 <dt
                   class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                 >
-                  testFormat
+                  Testityyppi
                 </dt>
                 <dd
                   class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
@@ -62,29 +62,26 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
                     <svg
                       aria-hidden="true"
                       class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium exam-session-format__icon css-v9aqz4-MuiSvgIcon-root"
-                      data-testid="NoteAltOutlinedIcon"
+                      data-testid="LaptopIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
                     >
                       <path
-                        d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-7-.25c.41 0 .75.34.75.75s-.34.75-.75.75-.75-.34-.75-.75.34-.75.75-.75M19 19H5V5h14z"
-                      />
-                      <path
-                        d="m15.08 11.03-2.12-2.12L7 14.86V17h2.1zm1.77-1.76c.2-.2.2-.51 0-.71l-1.41-1.41c-.2-.2-.51-.2-.71 0l-1.06 1.06 2.12 2.12z"
+                        d="M20 18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2zM4 6h16v10H4z"
                       />
                     </svg>
                     <p
                       class="MuiTypography-root MuiTypography-body1 exam-session-format__label css-knyw76-MuiTypography-root"
                     >
-                      paper.label
+                      Digitesti
                     </p>
-                     - paper.description
+                     - Testi tehdään testipaikalla järjestäjän tarjoamalla tietokoneella.
                   </div>
                 </dd>
                 <dt
                   class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                 >
-                  examDate
+                  Testipäivä
                 </dt>
                 <dd
                   class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
@@ -94,7 +91,7 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
                 <dt
                   class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                 >
-                  institution
+                  Testipaikka
                 </dt>
                 <dd
                   class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
@@ -104,7 +101,7 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
                 <dt
                   class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                 >
-                  registrationTime
+                  Ilmoittautumisaika
                 </dt>
                 <dd
                   class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
@@ -114,22 +111,22 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
                 <dt
                   class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                 >
-                  examFee
+                  Tutkintomaksu
                 </dt>
                 <dd
                   class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
                 >
-                  0 or 200 €
+                  0 tai 200 €
                 </dd>
                 <dt
                   class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                 >
-                  openings
+                  Paikkoja vapaana
                 </dt>
                 <dd
                   class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
                 >
-                  full
+                  Täynnä
                 </dd>
               </dl>
             </div>
@@ -139,14 +136,14 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
               <p
                 class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
               >
-                upcoming.description
+                Ilmoittautuminen ei ole vielä mahdollista. Ilmoittautumisaika ei ole alkanut.
               </p>
               <a
-                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation fit-content-max-width css-1djo6p2-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation fit-content-max-width css-o592h3-MuiButtonBase-root-MuiButton-root"
                 href="/yki/ilmoittautuminen"
                 tabindex="0"
               >
-                backToHomePage
+                Takaisin aloitussivulle
               </a>
             </div>
           </div>
@@ -171,7 +168,7 @@ exports[`InitRegistrationPage should not let user proceed if registration period
         <h1
           class="MuiTypography-root MuiTypography-h1 css-cihc9m-MuiTypography-root"
         >
-          unavailable.past.title
+          Ilmoittautumisaika on päättynyt
         </h1>
       </div>
       <div
@@ -190,7 +187,7 @@ exports[`InitRegistrationPage should not let user proceed if registration period
               <h2
                 class="MuiTypography-root MuiTypography-h2 css-f5bj0c-MuiTypography-root"
               >
-                yki.common.languages.fin, yki.common.languageLevel.YLIN
+                suomi, ylin taso
               </h2>
               <dl
                 class="public-registration__exam-session-details"
@@ -198,17 +195,17 @@ exports[`InitRegistrationPage should not let user proceed if registration period
                 <dt
                   class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                 >
-                  partialExams
+                  Osakokeet
                 </dt>
                 <dd
                   class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
                 >
-                  yki.component.registration.examSessionCard.examType.listenWrite
+                  Puheen ymmärtäminen ja kirjoittaminen
                 </dd>
                 <dt
                   class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                 >
-                  testFormat
+                  Testityyppi
                 </dt>
                 <dd
                   class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
@@ -219,29 +216,26 @@ exports[`InitRegistrationPage should not let user proceed if registration period
                     <svg
                       aria-hidden="true"
                       class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium exam-session-format__icon css-v9aqz4-MuiSvgIcon-root"
-                      data-testid="NoteAltOutlinedIcon"
+                      data-testid="LaptopIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
                     >
                       <path
-                        d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-7-.25c.41 0 .75.34.75.75s-.34.75-.75.75-.75-.34-.75-.75.34-.75.75-.75M19 19H5V5h14z"
-                      />
-                      <path
-                        d="m15.08 11.03-2.12-2.12L7 14.86V17h2.1zm1.77-1.76c.2-.2.2-.51 0-.71l-1.41-1.41c-.2-.2-.51-.2-.71 0l-1.06 1.06 2.12 2.12z"
+                        d="M20 18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2zM4 6h16v10H4z"
                       />
                     </svg>
                     <p
                       class="MuiTypography-root MuiTypography-body1 exam-session-format__label css-knyw76-MuiTypography-root"
                     >
-                      paper.label
+                      Digitesti
                     </p>
-                     - paper.description
+                     - Testi tehdään testipaikalla järjestäjän tarjoamalla tietokoneella.
                   </div>
                 </dd>
                 <dt
                   class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                 >
-                  examDate
+                  Testipäivä
                 </dt>
                 <dd
                   class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
@@ -251,17 +245,17 @@ exports[`InitRegistrationPage should not let user proceed if registration period
                 <dt
                   class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                 >
-                  partialExamTimeLabel
+                  Testin alkamisaika
                 </dt>
                 <dd
                   class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
                 >
-                  partialExamTime
+                  klo 08:00
                 </dd>
                 <dt
                   class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                 >
-                  institution
+                  Testipaikka
                 </dt>
                 <dd
                   class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
@@ -271,7 +265,7 @@ exports[`InitRegistrationPage should not let user proceed if registration period
                 <dt
                   class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                 >
-                  registrationTime
+                  Ilmoittautumisaika
                 </dt>
                 <dd
                   class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
@@ -281,22 +275,22 @@ exports[`InitRegistrationPage should not let user proceed if registration period
                 <dt
                   class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                 >
-                  examFee
+                  Tutkintomaksu
                 </dt>
                 <dd
                   class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
                 >
-                  0 or 113 €
+                  0 tai 113 €
                 </dd>
                 <dt
                   class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                 >
-                  openings
+                  Paikkoja vapaana
                 </dt>
                 <dd
                   class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
                 >
-                  full
+                  Täynnä
                 </dd>
               </dl>
             </div>
@@ -306,14 +300,14 @@ exports[`InitRegistrationPage should not let user proceed if registration period
               <p
                 class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
               >
-                past.description
+                Tilaisuuteen ilmoittautuminen ei ole enää mahdollista. Ilmoittautumisaika on päättynyt.
               </p>
               <a
-                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation fit-content-max-width css-1djo6p2-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation fit-content-max-width css-o592h3-MuiButtonBase-root-MuiButton-root"
                 href="/yki/ilmoittautuminen"
                 tabindex="0"
               >
-                backToHomePage
+                Takaisin aloitussivulle
               </a>
             </div>
           </div>
@@ -339,7 +333,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
           class="rows gapped-xxl"
         >
           <div
-            aria-label="label"
+            aria-label="Ilmoittautumisen vaiheet"
             class="MuiStepper-root MuiStepper-horizontal public-registration__grid__stepper css-ibtndc-MuiStepper-root"
             role="group"
           >
@@ -384,12 +378,12 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-17iea8h-MuiTypography-root"
                     >
-                      phase phaseNumber: step.Identify
+                      Vaihe 1 kautta 4: Tunnistaudu
                     </p>
                     <span
                       aria-hidden="true"
                     >
-                      step.Identify
+                      Tunnistaudu
                     </span>
                   </span>
                 </span>
@@ -443,12 +437,12 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-17iea8h-MuiTypography-root"
                     >
-                      phase phaseNumber: step.Register
+                      Vaihe 2 kautta 4: Tiedot
                     </p>
                     <span
                       aria-hidden="true"
                     >
-                      step.Register
+                      Tiedot
                     </span>
                   </span>
                 </span>
@@ -502,12 +496,12 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-17iea8h-MuiTypography-root"
                     >
-                      phase phaseNumber: step.Payment
+                      Vaihe 3 kautta 4: Maksaminen
                     </p>
                     <span
                       aria-hidden="true"
                     >
-                      step.Payment
+                      Maksaminen
                     </span>
                   </span>
                 </span>
@@ -561,12 +555,12 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-17iea8h-MuiTypography-root"
                     >
-                      phase phaseNumber: step.Done
+                      Vaihe 4 kautta 4: Valmis
                     </p>
                     <span
                       aria-hidden="true"
                     >
-                      step.Done
+                      Valmis
                     </span>
                   </span>
                 </span>
@@ -579,7 +573,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
             <h1
               class="MuiTypography-root MuiTypography-h1 css-cihc9m-MuiTypography-root"
             >
-              title
+              Tunnistaudu ilmoittautumista varten
             </h1>
           </div>
         </div>
@@ -599,7 +593,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                 <h2
                   class="MuiTypography-root MuiTypography-h2 css-f5bj0c-MuiTypography-root"
                 >
-                  yki.common.languages.fin, yki.common.languageLevel.KESKI
+                  suomi, keskitaso
                 </h2>
                 <dl
                   class="public-registration__exam-session-details"
@@ -607,17 +601,17 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                   <dt
                     class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                   >
-                    partialExams
+                    Osakokeet
                   </dt>
                   <dd
                     class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
                   >
-                    yki.component.registration.examSessionCard.examType.full
+                    Puheen ymmärtäminen, puhuminen, tekstin ymmärtäminen, kirjoittaminen
                   </dd>
                   <dt
                     class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                   >
-                    testFormat
+                    Testityyppi
                   </dt>
                   <dd
                     class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
@@ -642,15 +636,15 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                       <p
                         class="MuiTypography-root MuiTypography-body1 exam-session-format__label css-knyw76-MuiTypography-root"
                       >
-                        paper.label
+                        Paperitesti
                       </p>
-                       - paper.description
+                       - Testi tehdään testipaikalla kynällä paperille.
                     </div>
                   </dd>
                   <dt
                     class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                   >
-                    examDate
+                    Testipäivä
                   </dt>
                   <dd
                     class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
@@ -660,7 +654,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                   <dt
                     class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                   >
-                    institution
+                    Testipaikka
                   </dt>
                   <dd
                     class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
@@ -670,7 +664,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                   <dt
                     class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                   >
-                    registrationTime
+                    Ilmoittautumisaika
                   </dt>
                   <dd
                     class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
@@ -680,7 +674,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                   <dt
                     class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                   >
-                    examFee
+                    Tutkintomaksu
                   </dt>
                   <dd
                     class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
@@ -690,7 +684,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                   <dt
                     class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                   >
-                    openings
+                    Paikkoja vapaana
                   </dt>
                   <dd
                     class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
@@ -702,7 +696,10 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
               <p
                 class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
               >
-                registrationIsBindingAdvisory
+                <strong>
+                  Tarkista, että olet valinnut oikean YKI-testin!
+                </strong>
+                 Kun ilmoittautuminen on vahvistettu, et voi vaihtaa YKI-testin kieltä, tasoa, osakokeita, testipaikkaa tai testipäivää.
               </p>
               <div
                 class="gapped rows"
@@ -710,12 +707,12 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                 <h2
                   class="MuiTypography-root MuiTypography-h2 css-f5bj0c-MuiTypography-root"
                 >
-                  selectIdentificationMethod
+                  Valitse tunnistautumistapasi
                 </h2>
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
                 >
-                  caption
+                  Sinun täytyy tunnistautua ilmoittautumista varten. Käytä tunnistautumiseen sen henkilön tietoja, joka osallistuu YKI-testiin.
                 </p>
                 <div
                   class="rows"
@@ -723,20 +720,20 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                   <h3
                     class="MuiTypography-root MuiTypography-h3 css-3jfbde-MuiTypography-root"
                   >
-                    withFinnishSSN.description
+                    Tunnistaudu Suomi.fi-palvelussa
                   </h3>
                   <p
                     class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
                   >
-                    withFinnishSSN.info
+                    Tunnistautumisen jälkeen sinut ohjataan automaattisesti ilmoittautumislomakkeelle.
                   </p>
                 </div>
                 <a
-                  class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-colorSecondary MuiButton-disableElevation public-registration__grid__form-container__registration-button css-1klxn64-MuiButtonBase-root-MuiButton-root"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-colorSecondary MuiButton-disableElevation public-registration__grid__form-container__registration-button css-1j9jszp-MuiButtonBase-root-MuiButton-root"
                   href="/yki/auth/?examSessionId=11&toQueue=false&registrationId=123"
                   tabindex="0"
                 >
-                  suomiFiButtonText
+                  Tunnistaudu Suomi.fi-palvelussa
                 </a>
                 <div
                   class="columns"
@@ -761,7 +758,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
                     >
-                      withoutFinnishSSN.description
+                      Tunnistaudu sähköpostillasi
                     </p>
                   </button>
                 </div>
@@ -774,7 +771,7 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                   <p
                     class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
                   >
-                    withoutFinnishSSN.info
+                    Kun olet tunnistautunut, saat sähköpostiisi linkin. Linkistä pääset jatkamaan ilmoittautumista.
                   </p>
                   <div
                     class="columns gapped align-items-end"
@@ -786,18 +783,18 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                         class="MuiFormLabel-root MuiFormLabel-colorPrimary css-1g0jfx8-MuiFormLabel-root"
                         id="OphFormFieldWrapper-:r2:-label"
                       >
-                        label
+                        Kirjoita sähköpostiosoitteesi
                       </label>
                       <p
                         class="MuiFormHelperText-root MuiFormHelperText-sizeSmall MuiFormHelperText-contained css-f22tlf-MuiFormHelperText-root"
                       >
-                        placeholder
+                        Esim. nimi@sahkoposti.fi
                       </p>
                       <div
                         class="MuiFormControl-root MuiTextField-root css-1xp5r68-MuiFormControl-root-MuiTextField-root"
                       >
                         <div
-                          class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall css-yi29u8-MuiInputBase-root-MuiOutlinedInput-root"
+                          class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall css-1651wxe-MuiInputBase-root-MuiOutlinedInput-root"
                         >
                           <input
                             aria-invalid="false"
@@ -830,11 +827,11 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                       class="rows"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation public-registration__grid__form-container__registration-button css-1djo6p2-MuiButtonBase-root-MuiButton-root"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation public-registration__grid__form-container__registration-button css-o592h3-MuiButtonBase-root-MuiButton-root"
                         tabindex="0"
                         type="button"
                       >
-                        emailButtonText
+                        Tunnistaudu sähköpostilla
                       </button>
                     </div>
                      
@@ -852,12 +849,12 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
                       href="/yki/ilmoittautuminen"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary MuiButton-disableElevation css-1jnk4e2-MuiButtonBase-root-MuiButton-root"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary MuiButton-disableElevation css-1lrqxj-MuiButtonBase-root-MuiButton-root"
                         data-testid="public-registration__controlButtons__abort"
                         tabindex="0"
                         type="button"
                       >
-                        abortRegistration
+                        Keskeytä ilmoittautuminen
                       </button>
                     </a>
                   </div>

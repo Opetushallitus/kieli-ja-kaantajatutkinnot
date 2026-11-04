@@ -42,11 +42,16 @@ export const organizers: { organizers: ClerkOrganizerResponse[] } = {
       id: 2,
       oid: '1.2.246.562.10.39706139522',
       agreement_start_date: '2018-01-01T00:00:00.000Z',
-      agreement_end_date: '2029-01-01T00:00:00.000Z',
+      agreement_end_date: '2021-01-01T00:00:00.000Z',
       contact_name: 'Ismo8 Supinen',
       contact_email: 'ismo.supinen@jkl.fi',
       contact_phone_number: '01412345467',
-      languages: null,
+      languages: [
+        {
+          language_code: 'fin',
+          level_code: 'KESKI',
+        },
+      ],
       extra: 'Sisäänkäynti hämyiseltä sivuovelta',
     },
   ],
