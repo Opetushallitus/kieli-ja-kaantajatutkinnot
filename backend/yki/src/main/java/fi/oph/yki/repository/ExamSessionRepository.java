@@ -10,6 +10,18 @@ import org.springframework.data.repository.query.Param;
 public interface ExamSessionRepository extends BaseRepository<ExamSession> {
   List<ExamSession> getByLanguageAndLevel(String language, String level);
 
+  @Query(
+    "SELECT DISTINCT es FROM ExamSession es" +
+    " JOIN FETCH es.examDate examDate" +
+    " LEFT JOIN FETCH es.locations" +
+    " WHERE es.language = :language AND es.level = :level AND examDate.examDate >= :today"
+  )
+  List<ExamSession> findUpcomingByLanguageAndLevelWithDateAndLocations(
+    @Param("language") String language,
+    @Param("level") String level,
+    @Param("today") LocalDate today
+  );
+
   List<ExamSession> findByOrganizerOid_Oid(String oid);
 
   boolean existsByExamDateId(long examDateId);

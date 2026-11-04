@@ -168,7 +168,7 @@ export const CommonRegistrationDetails = () => {
       <Text>{t('certificate.part2')}</Text>
       {isEmailRegistration && (
         <>
-          <Text>
+          <Text component="div">
             {t('certificate.part3')}{' '}
             {t('certificate.weaklyAuthenticated.part4')}
             <ol>
@@ -292,7 +292,7 @@ export const CommonRegistrationDetails = () => {
           : t('termsAndConditions.subTitle')}
       </H3>
       <div>
-        <Text>
+        <Text component="div">
           {isFree === 'YES'
             ? t('termsAndConditions.description1Free')
             : t('termsAndConditions.description1')}

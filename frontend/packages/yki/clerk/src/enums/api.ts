@@ -11,6 +11,7 @@ export enum APIEndpoints {
   ClerkCustomerDetails = '/yki/v2/api/clerk/customer/:oid',
   ClerkExamSession = '/yki/v2/api/clerk/examSession/:id',
   ClerkExamSessions = '/yki/v2/api/clerk/examSession',
+  ClerkExamSessionSummaries = '/yki/v2/api/clerk/examSession/summary',
   ClerkExamSessionExcel = '/yki/v2/api/clerk/examSession/:id/excel',
   ClerkRegistrationMove = '/yki/v2/api/clerk/registration/:registrationId/move/:targetExamSessionId',
   ClerkRegistrationCancel = '/yki/v2/api/clerk/registration/:registrationId/cancel',
