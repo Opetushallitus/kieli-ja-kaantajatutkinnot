@@ -1,9 +1,10 @@
 import { Box, LinearProgress } from '@mui/material';
 import { memo, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { CustomButton, CustomModal, Text } from 'shared/components';
+import { CustomButton, CustomModal } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 
+import { Text } from 'components/Text';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
 import { AppRoutes } from 'enums/app';

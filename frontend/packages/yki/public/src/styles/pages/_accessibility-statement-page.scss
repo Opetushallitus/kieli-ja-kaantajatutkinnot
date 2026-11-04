@@ -9,6 +9,8 @@
   }
 
   & &__heading {
+    padding-bottom: 2rem;
+
     @include phone {
       padding: 2rem 2rem 0;
     }

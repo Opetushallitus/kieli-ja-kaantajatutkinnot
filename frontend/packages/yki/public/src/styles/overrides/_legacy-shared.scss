@@ -1,0 +1,15 @@
+// Temporary adapters for shared components that still use the legacy Sass
+// palette. Remove each rule when that component gains an ODS implementation.
+.color-secondary-dark {
+  &#{&} {
+    color: $color-secondary;
+  }
+}
+
+.dialog-box {
+  &--info {
+    & [role='dialog'] {
+      @include dialog-border($color-secondary);
+    }
+  }
+}

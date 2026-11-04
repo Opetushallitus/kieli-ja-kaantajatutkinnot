@@ -1,10 +1,11 @@
 import { Dayjs } from 'dayjs';
-import { CustomButton, Text } from 'shared/components';
+import { CustomButton } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 import { DateUtils } from 'shared/utils';
 
 import { ExamSessionFormat } from 'components/registration/examSession/ExamSessionFormat';
+import { Label, Text } from 'components/Text';
 import {
   getCurrentLang,
   useCommonTranslation,
@@ -104,7 +105,9 @@ const MetaField = ({
   value: string | React.ReactNode;
 }) => (
   <div className="exam-session-card__meta-field">
-    <div className="exam-session-card__meta-label">{label}</div>
+    <div className="exam-session-card__meta-label">
+      <Label>{label}</Label>
+    </div>
     <div className="exam-session-card__meta-value">{value}</div>
   </div>
 );
