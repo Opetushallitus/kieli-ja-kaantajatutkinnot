@@ -21,13 +21,13 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
           component.table.pagination.rowsPerPage
         </p>
         <div
-          class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-select MuiSelect-root MuiTablePagination-input css-i2fgdw-MuiInputBase-root-MuiTablePagination-select"
+          class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-select MuiSelect-root MuiTablePagination-input css-1ks2767-MuiInputBase-root-MuiTablePagination-select"
         >
           <div
             aria-expanded="false"
             aria-haspopup="listbox"
             aria-labelledby=":r2: :r1:"
-            class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-1egcb6g-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input"
+            class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-1q0lyl3-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input"
             id=":r1:"
             role="combobox"
             tabindex="0"
@@ -210,7 +210,7 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1yp32ax-MuiTableCell-root"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation css-1afpdjp-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation css-15duqzd-MuiButtonBase-root-MuiButton-root"
             tabindex="0"
             type="button"
           >
@@ -420,7 +420,7 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1yp32ax-MuiTableCell-root"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation css-1afpdjp-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation css-15duqzd-MuiButtonBase-root-MuiButton-root"
             tabindex="0"
             type="button"
           >
@@ -477,7 +477,7 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1yp32ax-MuiTableCell-root"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation css-1afpdjp-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation css-15duqzd-MuiButtonBase-root-MuiButton-root"
             tabindex="0"
             type="button"
           >
@@ -534,7 +534,7 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1yp32ax-MuiTableCell-root"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation css-1afpdjp-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation css-15duqzd-MuiButtonBase-root-MuiButton-root"
             tabindex="0"
             type="button"
           >
@@ -591,7 +591,7 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1yp32ax-MuiTableCell-root"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation css-1afpdjp-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation css-15duqzd-MuiButtonBase-root-MuiButton-root"
             tabindex="0"
             type="button"
           >
@@ -648,7 +648,7 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1yp32ax-MuiTableCell-root"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation css-1afpdjp-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation css-15duqzd-MuiButtonBase-root-MuiButton-root"
             tabindex="0"
             type="button"
           >
@@ -756,7 +756,7 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1yp32ax-MuiTableCell-root"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation css-1afpdjp-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation css-15duqzd-MuiButtonBase-root-MuiButton-root"
             tabindex="0"
             type="button"
           >
@@ -813,7 +813,7 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1yp32ax-MuiTableCell-root"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation css-1afpdjp-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation css-15duqzd-MuiButtonBase-root-MuiButton-root"
             tabindex="0"
             type="button"
           >
@@ -870,7 +870,7 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1yp32ax-MuiTableCell-root"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation css-1afpdjp-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation css-15duqzd-MuiButtonBase-root-MuiButton-root"
             tabindex="0"
             type="button"
           >
@@ -899,13 +899,13 @@ exports[`PublicExamSessionsTable should render correctly 1`] = `
           component.table.pagination.rowsPerPage
         </p>
         <div
-          class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-select MuiSelect-root MuiTablePagination-input css-i2fgdw-MuiInputBase-root-MuiTablePagination-select"
+          class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-select MuiSelect-root MuiTablePagination-input css-1ks2767-MuiInputBase-root-MuiTablePagination-select"
         >
           <div
             aria-expanded="false"
             aria-haspopup="listbox"
             aria-labelledby=":rg: :rf:"
-            class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-1egcb6g-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input"
+            class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-1q0lyl3-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input"
             id=":rf:"
             role="combobox"
             tabindex="0"
