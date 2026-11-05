@@ -50,11 +50,11 @@ export const ClerkExamSessionPage = ({ route }: { route: RouteType }) => {
     <Box className="clerk-exam-session-page">
       <div className="columns gapped-xs">
         <IconButton
-          color="secondary"
+          color="primary"
           className="clerk-exam-session-page__home-button"
           onClick={() => navigate(AppRoutes.CustomerSearch)}
         >
-          <HomeOutlined color="secondary" fontSize="large" />
+          <HomeOutlined color="primary" fontSize="large" />
         </IconButton>
         <ChevronRight color="disabled" fontSize="large" />
         <H2>{translateCommon('pageTitle.customerExamSession')}</H2>
