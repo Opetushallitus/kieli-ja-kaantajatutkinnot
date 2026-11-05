@@ -12,5 +12,7 @@ public record PublicRegistrationDetailsDTO(
   @JsonProperty("registration_kind") RegistrationKind kind,
   @JsonProperty("partial_exam_type") PartialExamType partialExamType,
   RegistrationState state,
-  @JsonProperty("exam_session") PublicExamSessionDTO examSession
+  @JsonProperty("exam_session") PublicExamSessionDTO examSession,
+  PublicRegistrationUserDTO user,
+  @JsonProperty("is_strongly_identified") boolean isStronglyIdentified
 ) {}

@@ -13,6 +13,7 @@ import fi.oph.yki.api.dto.PublicRegistrationInitDTO;
 import fi.oph.yki.api.dto.PublicRegistrationInitErrorDTO;
 import fi.oph.yki.api.dto.PublicRegistrationInitResponseDTO;
 import fi.oph.yki.api.dto.PublicRegistrationSubmitResponseDTO;
+import fi.oph.yki.api.dto.PublicRegistrationUserDTO;
 import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.ExamSessionLocation;
@@ -414,6 +415,27 @@ public class PublicRegistrationService {
       .partialExamType(registration.getPartialExamType())
       .state(registration.getState())
       .examSession(buildExamSessionDTO(registration.getExamSession()))
+      .user(buildUserDTO(registration.getIdentity().getPerson()))
+      .isStronglyIdentified(Boolean.TRUE.equals(registration.getStrongAuth()))
+      .build();
+  }
+
+  private static PublicRegistrationUserDTO buildUserDTO(final Person person) {
+    if (person == null) {
+      return null;
+    }
+
+    return PublicRegistrationUserDTO
+      .builder()
+      .oid(person.getOid())
+      .firstName(person.getFirstName())
+      .lastName(person.getLastName())
+      .email(person.getEmail())
+      .streetAddress(person.getSteetAddress())
+      .postOffice(person.getPostOffice())
+      .zip(person.getZip())
+      .ssn("210281-9988") // TODO fix this
+      .nationalities(person.getNationalityCode() != null ? List.of(person.getNationalityCode()) : List.of())
       .build();
   }
 

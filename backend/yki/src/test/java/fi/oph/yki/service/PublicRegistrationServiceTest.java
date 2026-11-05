@@ -9,11 +9,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import fi.oph.yki.Factory;
 import fi.oph.yki.PostgresTestcontainerConfig;
+import fi.oph.yki.api.dto.PublicRegistrationDetailsDTO;
 import fi.oph.yki.api.dto.PublicRegistrationInitDTO;
 import fi.oph.yki.api.dto.PublicRegistrationInitResponseDTO;
+import fi.oph.yki.api.dto.PublicRegistrationUserDTO;
 import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.Identity;
+import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
 import fi.oph.yki.model.type.ExamSessionType;
 import fi.oph.yki.model.type.PartialExamType;
@@ -28,6 +31,7 @@ import fi.oph.yki.util.exception.APIExceptionType;
 import jakarta.annotation.Resource;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -143,6 +147,70 @@ public class PublicRegistrationServiceTest {
     registration.setPartialExamType(partialExamType);
     registration.setCreatedAt(LocalDateTime.now());
     entityManager.persist(registration);
+  }
+
+  private Registration persistStartedRegistration(final Identity identity, final Person person) {
+    final ExamDate examDate = openExamDate();
+    final ExamSession examSession = Factory.examSession(examDate);
+    examSession.setOrganizer(entityManager.persist(Factory.organizer()));
+    entityManager.persist(examDate);
+    entityManager.persist(examSession);
+
+    final Registration registration = Factory.registration(person);
+    registration.setExamSession(examSession);
+    registration.setIdentity(identity);
+    registration.setState(RegistrationState.STARTED);
+    registration.setStrongAuth(person != null);
+    registration.setCreatedAt(LocalDateTime.now());
+    entityManager.persist(registration);
+    entityManager.flush();
+    entityManager.clear();
+
+    return registration;
+  }
+
+  @Test
+  public void testGetRegistrationDetailsIncludesPersonOfIdentity() {
+    final Person person = Factory.person();
+    person.setEmail("testi@example.com");
+    person.setSteetAddress("Testikatu 1");
+    person.setPostOffice("Helsinki");
+    person.setZip("00100");
+    person.setNationalityCode("246");
+    entityManager.persist(person);
+    final Identity identity = persistIdentity();
+    identity.setPerson(person);
+    final Registration registration = persistStartedRegistration(identity, person);
+
+    final PublicRegistrationDetailsDTO result = publicRegistrationService.getRegistrationDetails(
+      identity,
+      registration.getId()
+    );
+
+    assertTrue(result.isStronglyIdentified());
+    final PublicRegistrationUserDTO user = result.user();
+    assertEquals("1.2.3.4.5", user.oid());
+    assertEquals("Testi", user.firstName());
+    assertEquals("Henkilö", user.lastName());
+    assertEquals("testi@example.com", user.email());
+    assertEquals("Testikatu 1", user.streetAddress());
+    assertEquals("Helsinki", user.postOffice());
+    assertEquals("00100", user.zip());
+    assertEquals(List.of("246"), user.nationalities());
+  }
+
+  @Test
+  public void testGetRegistrationDetailsWithoutPersonHasNoUser() {
+    final Identity identity = persistIdentity();
+    final Registration registration = persistStartedRegistration(identity, null);
+
+    final PublicRegistrationDetailsDTO result = publicRegistrationService.getRegistrationDetails(
+      identity,
+      registration.getId()
+    );
+
+    assertFalse(result.isStronglyIdentified());
+    assertNull(result.user());
   }
 
   @Test
