@@ -484,7 +484,6 @@
                 referencedColumnNames="email_id" />
     </changeSet>
 
-<<<<<<< HEAD
     <changeSet id="2026-09-23-create-registration-change-event" author="jrkkp">
         <preConditions onFail="CONTINUE">
             <not>
@@ -683,26 +682,42 @@ $$ LANGUAGE plpgsql
         ]]></sql>
         <sql>CREATE TRIGGER participant_limit_trigger BEFORE INSERT ON registration FOR EACH ROW EXECUTE PROCEDURE error_if_exceeds_participant_limit()</sql>
     </changeSet>
-    <changeSet id="2026-11-05-payment-table" author="jrkkp">
-        <createTable tableName="payment">
+    <changeSet id="2026-11-05-registration-payment-table" author="jrkkp">
+        <createTable tableName="registration_payment">
             <column autoIncrement="true" name="payment_id" type="BIGSERIAL">
-                <constraints primaryKey="true" primaryKeyName="payment_id_pkey"/>
+                <constraints primaryKey="true" primaryKeyName="registration_payment_pkey"/>
             </column>
-            <column name="enrollment_id" type="BIGINT">
+            <column name="registration_id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="amount" type="BIGINT">
+            <column name="amount" type="INT">
                 <constraints nullable="false"/>
             </column>
             <column name="transaction_id" type="TEXT"/>
             <column name="reference" type="TEXT"/>
+            <column name="merchant_reference" type="TEXT"/>
             <column name="payment_url" type="TEXT"/>
             <column name="payment_status" type="TEXT"/>
+            <column name="paid_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="refunded_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="version" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="TEXT"/>
+            <column name="modified_by" type="TEXT"/>
+            <column name="deleted_by" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="TIMESTAMP WITH TIME ZONE"/>
         </createTable>
 
-        <addForeignKeyConstraint baseTableName="payment" baseColumnNames="registration_id"
-                                 referencedTableName="registration" referencedColumnNames="registration_id"
-                                 constraintName="fk_payment_registration"
+        <addForeignKeyConstraint baseTableName="registration_payment" baseColumnNames="registration_id"
+                                 referencedTableName="registration" referencedColumnNames="id"
+                                 constraintName="fk_registration_payment_registration"
                                  onDelete="NO ACTION" onUpdate="NO ACTION"/>
     </changeSet>
 </databaseChangeLog>

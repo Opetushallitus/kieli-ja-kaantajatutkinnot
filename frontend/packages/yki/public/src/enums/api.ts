@@ -28,6 +28,7 @@ export enum APIEndpoints {
   CancelUserRegistration = '/yki/api/person/registration/:registrationId',
   ConfirmRegistration = '/yki/api/person/registration/:registrationId/confirm',
   RedirectToPayment = '/yki/api/payment/v3/:registrationId/redirect?lang=:lang',
+  RedirectToPaymentV2 = '/yki/api/v2/:examSessionId/registration/:registrationId/payment/redirect?lang=:lang',
   RedirectToPaymentFromUserPortal = '/yki/api/person/registration/:registrationId/payment-redirect?lang=:lang',
   PublicKoskiEducations = '/yki/api/public/education',
   PublicFreeRegistrationEducation = '/yki/api/public/education/:registrationId',

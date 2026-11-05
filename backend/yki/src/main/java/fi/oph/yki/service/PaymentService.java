@@ -1,28 +1,32 @@
 package fi.oph.yki.service;
 
-import fi.oph.vkt.api.dto.FreeEnrollmentDetails;
-import fi.oph.vkt.model.Enrollment;
-import fi.oph.vkt.model.EnrollmentAppointment;
-import fi.oph.vkt.model.Payment;
-import fi.oph.vkt.model.Person;
-import fi.oph.vkt.model.type.AppLocale;
-import fi.oph.vkt.model.type.EnrollmentAppointmentStatus;
-import fi.oph.vkt.model.type.EnrollmentSkill;
-import fi.oph.vkt.model.type.EnrollmentStatus;
-import fi.oph.vkt.model.type.ExamLevel;
-import fi.oph.vkt.model.type.PaymentStatus;
-import fi.oph.vkt.payment.PaymentProvider;
-import fi.oph.vkt.payment.paytrail.Customer;
-import fi.oph.vkt.payment.paytrail.Item;
-import fi.oph.vkt.payment.paytrail.PaytrailConfig;
-import fi.oph.vkt.payment.paytrail.PaytrailResponseDTO;
-import fi.oph.vkt.repository.EnrollmentAppointmentRepository;
-import fi.oph.vkt.repository.EnrollmentRepository;
-import fi.oph.vkt.repository.PaymentRepository;
-import fi.oph.vkt.util.EnrollmentUtil;
-import fi.oph.vkt.util.exception.APIException;
-import fi.oph.vkt.util.exception.APIExceptionType;
-import fi.oph.vkt.util.exception.NotFoundException;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import fi.oph.yki.model.ExamSession;
+import fi.oph.yki.model.Identity;
+import fi.oph.yki.model.Payment;
+import fi.oph.yki.model.Registration;
+import fi.oph.yki.model.RegistrationChangeEvent;
+import fi.oph.yki.model.type.AppLocale;
+import fi.oph.yki.model.type.ExamSessionType;
+import fi.oph.yki.model.type.PartialExamType;
+import fi.oph.yki.model.type.PaymentStatus;
+import fi.oph.yki.model.type.RegistrationState;
+import fi.oph.yki.payment.PaymentProvider;
+import fi.oph.yki.payment.paytrail.Customer;
+import fi.oph.yki.payment.paytrail.Item;
+import fi.oph.yki.payment.paytrail.PaytrailConfig;
+import fi.oph.yki.payment.paytrail.PaytrailResponseDTO;
+import fi.oph.yki.repository.PaymentRepository;
+import fi.oph.yki.repository.RegistrationChangeEventRepository;
+import fi.oph.yki.repository.RegistrationRepository;
+import fi.oph.yki.util.UUIDSource;
+import fi.oph.yki.util.exception.APIException;
+import fi.oph.yki.util.exception.APIExceptionType;
+import fi.oph.yki.util.exception.NotFoundException;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,94 +34,84 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 @Service
 @RequiredArgsConstructor
 public class PaymentService {
 
   private static final Logger LOG = LoggerFactory.getLogger(PaymentService.class);
-  public static final String REFERENCE_PREFIX_EXCELLENT = "VKTET-";
-  public static final String REFERENCE_PREFIX_GOOD_AND_SATISFACTORY = "VKTHTT-";
+  public static final String REFERENCE_PREFIX = "YKI-EXAM-";
 
   private final PaymentProvider paymentProvider;
   private final PaymentRepository paymentRepository;
-  private final EnrollmentRepository enrollmentRepository;
-  private final EnrollmentAppointmentRepository enrollmentAppointmentRepository;
+  private final RegistrationRepository registrationRepository;
+  private final RegistrationChangeEventRepository registrationChangeEventRepository;
   private final Environment environment;
-  private final PublicEnrollmentEmailService publicEnrollmentEmailService;
+  private final UUIDSource uuidSource;
 
-  private Item getItem(final EnrollmentSkill enrollmentSkill, final int unitPrice, final ExamLevel examLevel) {
-    return Item
-      .builder()
-      .units(1)
-      .unitPrice(unitPrice)
-      .vatPercentage(PaytrailConfig.VAT)
-      .productCode(examLevel.toString() + "-" + enrollmentSkill.toString())
-      .build();
+  private int getConfiguredExamFee(final String feeKey) {
+    return environment.getRequiredProperty("app.exam-fee." + feeKey, Integer.class);
   }
 
-  private List<Item> getItems(final Enrollment enrollment, final FreeEnrollmentDetails freeEnrollmentDetails) {
-    final List<Item> itemList = new ArrayList<>();
+  private List<String> getExamFeeKeys(final Registration registration) {
+    final ExamSession examSession = registration.getExamSession();
+    final PartialExamType partialExamType = registration.getPartialExamType();
 
-    if (enrollment.isTextualSkill()) {
-      itemList.add(
-        getItem(
-          EnrollmentSkill.TEXTUAL,
-          EnrollmentUtil.getTextualSkillFee(enrollment, freeEnrollmentDetails),
-          ExamLevel.EXCELLENT
-        )
-      );
+    if (examSession.getType() == ExamSessionType.READ_SPEAK) {
+      return switch (partialExamType) {
+        case READ -> List.of("keski-read");
+        case SPEAK -> List.of("keski-speak");
+        default -> List.of("keski-read", "keski-speak");
+      };
     }
-    if (enrollment.isOralSkill()) {
-      itemList.add(
-        getItem(
-          EnrollmentSkill.ORAL,
-          EnrollmentUtil.getOralSkillFee(enrollment, freeEnrollmentDetails),
-          ExamLevel.EXCELLENT
-        )
-      );
-    }
-    if (enrollment.isUnderstandingSkill()) {
-      itemList.add(
-        getItem(EnrollmentSkill.UNDERSTANDING, EnrollmentUtil.getUnderstandingSkillFee(enrollment), ExamLevel.EXCELLENT)
-      );
+    if (examSession.getType() == ExamSessionType.LISTEN_WRITE) {
+      return switch (partialExamType) {
+        case LISTEN -> List.of("keski-listen");
+        case WRITE -> List.of("keski-write");
+        default -> List.of("keski-listen", "keski-write");
+      };
     }
 
-    return itemList;
+    return List.of(examSession.getLevel().toLowerCase());
   }
 
-  private EnrollmentStatus getPaymentSuccessEnrollmentNextStatus(final Enrollment enrollment) {
-    // Enrollment can be partially paid but still needs approval
-    // This can happen if you have free enrollment for only one
-    // skill but you apply for both
-    return enrollment.enrollmentNeedsApproval() ? EnrollmentStatus.AWAITING_APPROVAL : EnrollmentStatus.COMPLETED;
+  private int getExamFeeInCents(final Registration registration) {
+    final int examFee = registration.getExamFee() != null
+      ? registration.getExamFee()
+      : getExamFeeKeys(registration).stream().mapToInt(this::getConfiguredExamFee).sum();
+
+    return examFee * 100;
   }
 
-  private void setEnrollmentStatus(final Enrollment enrollment, final PaymentStatus paymentStatus) {
-    switch (paymentStatus) {
-      case NEW -> {
-        if (enrollment.isCancelled()) {
-          enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT);
-        }
-      }
-      case OK -> enrollment.setStatus(getPaymentSuccessEnrollmentNextStatus(enrollment));
-      case FAIL -> {
-        if (enrollment.getStatus() == EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT) {
-          enrollment.setStatus(EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT);
-        }
-      }
-      case PENDING, DELAYED -> {}
+  private void completeRegistration(final Registration registration) {
+    final RegistrationState state = registration.getState();
+
+    if (state == RegistrationState.SUBMITTED) {
+      registration.setState(RegistrationState.COMPLETED);
+    } else if (state == RegistrationState.EXPIRED || state == RegistrationState.CANCELLED) {
+      // Payment can arrive after the registration has expired or been cancelled
+      registration.setState(RegistrationState.PAID_AND_CANCELLED);
+    } else {
+      LOG.error("Payment completed for registration {} in unexpected state {}", registration.getId(), state);
+      return;
     }
+    registrationRepository.save(registration);
+
+    final RegistrationChangeEvent changeEvent = new RegistrationChangeEvent();
+    changeEvent.setEvent("COMPLETE_PAYMENT");
+    changeEvent.setRegistrationId(registration.getId());
+    changeEvent.setExamSessionId(registration.getExamSession().getId());
+    changeEvent.setRegistrationState(registration.getState());
+    changeEvent.setRegistrationKind(registration.getKind());
+    if (registration.getOriginalExamSession() != null) {
+      changeEvent.setOriginalExamSessionId(registration.getOriginalExamSession().getId());
+    }
+    changeEvent.setCreatedAt(LocalDateTime.now());
+    changeEvent.setAuthorType("INTEGRATION");
+    registrationChangeEventRepository.save(changeEvent);
   }
 
   @Transactional
-  public Payment finalizePayment(final Long paymentId, final Map<String, String> paymentParams)
-    throws IOException, InterruptedException {
+  public Payment finalizePayment(final Long paymentId, final Map<String, String> paymentParams) {
     final Payment payment = paymentRepository
       .findWithLockingById(paymentId)
       .orElseThrow(() -> new NotFoundException("Payment not found"));
@@ -155,129 +149,124 @@ public class PaymentService {
       throw new APIException(APIExceptionType.PAYMENT_REFERENCE_MISMATCH);
     }
 
-    if (payment.getEnrollment() != null) {
-      final Enrollment enrollment = payment.getEnrollment();
-      final FreeEnrollmentDetails freeEnrollmentDetails = enrollmentRepository.countEnrollmentsByPerson(
-        enrollment.getPerson()
-      );
-
-      if (enrollment.getStatus() != EnrollmentStatus.COMPLETED) {
-        setEnrollmentStatus(enrollment, newStatus);
-      }
-
-      payment.setPaymentStatus(newStatus);
-      if (newStatus == PaymentStatus.OK) {
-        payment.setPaidAt(LocalDateTime.now());
-      }
-      paymentRepository.saveAndFlush(payment);
-
-      if (newStatus == PaymentStatus.OK) {
-        if (enrollment.getFreeEnrollment() != null) {
-          publicEnrollmentEmailService.sendPartiallyFreeEnrollmentConfirmationEmail(
-            enrollment,
-            enrollment.getPerson(),
-            freeEnrollmentDetails
-          );
-        } else {
-          publicEnrollmentEmailService.sendEnrollmentConfirmationEmail(enrollment);
-        }
-      }
-    } else {
-      final EnrollmentAppointment enrollmentAppointment = payment.getEnrollmentAppointment();
-      if (enrollmentAppointment.getStatus() != EnrollmentAppointmentStatus.COMPLETED) {
-        setEnrollmentStatus(enrollmentAppointment, newStatus);
-      }
-
-      payment.setPaymentStatus(newStatus);
-      if (newStatus == PaymentStatus.OK) {
-        payment.setPaidAt(LocalDateTime.now());
-      }
-      paymentRepository.saveAndFlush(payment);
-
-      if (newStatus == PaymentStatus.OK) {
-        publicEnrollmentEmailService.sendEnrollmentAppointmentConfirmationEmail(enrollmentAppointment);
-      }
+    payment.setPaymentStatus(newStatus);
+    if (newStatus == PaymentStatus.OK) {
+      payment.setPaidAt(LocalDateTime.now());
+      completeRegistration(payment.getRegistration());
     }
+    paymentRepository.saveAndFlush(payment);
 
     return payment;
   }
 
   @Transactional(readOnly = true)
-  public String getFinalizePaymentSuccessRedirectUrlNonAuth(final Long paymentId) {
-    return getFinalizePaymentRedirectUrl(paymentId, "valmis", false);
-  }
-
-  @Transactional(readOnly = true)
   public String getFinalizePaymentSuccessRedirectUrl(final Long paymentId) {
-    return getFinalizePaymentRedirectUrl(paymentId, "valmis", true);
+    return getFinalizePaymentRedirectUrl(paymentId, "payment-success");
   }
 
   @Transactional(readOnly = true)
   public String getFinalizePaymentCancelRedirectUrl(final Long paymentId) {
-    return getFinalizePaymentRedirectUrl(paymentId, "peruutettu", true);
+    return getFinalizePaymentRedirectUrl(paymentId, "payment-cancel");
   }
 
-  private String getFinalizePaymentRedirectUrl(
-    final Long paymentId,
-    final String state,
-    final boolean isAuthenticated
-  ) {
-    final String baseUrl = environment.getRequiredProperty("app.base-url.public");
+  @Transactional(readOnly = true)
+  public String getFinalizePaymentErrorRedirectUrl(final Long paymentId) {
+    final Long examSessionId = paymentRepository
+      .findById(paymentId)
+      .map(payment -> payment.getRegistration().getExamSession().getId())
+      .orElse(null);
+
+    return getPaymentErrorRedirectUrl(examSessionId);
+  }
+
+  public String getPaymentSuccessRedirectUrl(final long examSessionId) {
+    return getPaymentStatusRedirectUrl(examSessionId, "payment-success");
+  }
+
+  public String getPaymentErrorRedirectUrl(final Long examSessionId) {
+    return getPaymentStatusRedirectUrl(examSessionId, "payment-error");
+  }
+
+  private String getFinalizePaymentRedirectUrl(final Long paymentId, final String status) {
     final Payment payment = paymentRepository
       .findById(paymentId)
       .orElseThrow(() -> new NotFoundException("Payment not found"));
 
-    if (payment.getEnrollment() != null) {
-      return String.format(
-        "%s/erinomainen-taito/ilmoittaudu/%d/maksu/%s",
-        baseUrl,
-        payment.getEnrollment().getExamEvent().getId(),
-        state
-      );
-    }
+    return getPaymentStatusRedirectUrl(payment.getRegistration().getExamSession().getId(), status);
+  }
 
-    return isAuthenticated
-      ? String.format(
-        "%s/hyva-ja-tyydyttava-taito/ilmoittaudu/%d/maksu/%s",
-        baseUrl,
-        payment.getEnrollmentAppointment().getId(),
-        state
-      )
-      : String.format("%s/hyva-ja-tyydyttava-taito/ilmoittaudu/maksu/%s", baseUrl, state);
+  private String getPaymentStatusRedirectUrl(final Long examSessionId, final String status) {
+    final String statusUrl = String.format(
+      "%s/ilmoittautuminen/v2/maksu/tila?status=%s",
+      environment.getRequiredProperty("app.base-url.public-frontend"),
+      status
+    );
+
+    return examSessionId != null ? statusUrl + "&id=" + examSessionId : statusUrl;
   }
 
   @Transactional
-  public String createPaymentForEnrollment(final Long enrollmentId, final Person person, final AppLocale appLocale) {
-    final Enrollment enrollment = enrollmentRepository
-      .findById(enrollmentId)
-      .orElseThrow(() -> new NotFoundException("Enrollment not found"));
+  public String createPaymentForRegistration(
+    final Long registrationId,
+    final Identity identity,
+    final AppLocale appLocale
+  ) {
+    final Registration registration = registrationRepository
+      .findById(registrationId)
+      .orElseThrow(() -> new NotFoundException("Registration not found"));
 
-    if (enrollment.getPerson().getId() != person.getId()) {
-      throw new APIException(APIExceptionType.PAYMENT_PERSON_SESSION_MISMATCH);
+    if (registration.getIdentity() == null || registration.getIdentity().getId() != identity.getId()) {
+      throw new APIException(APIExceptionType.REGISTRATION_NOT_OWNED);
     }
 
-    if (enrollment.getStatus() == EnrollmentStatus.COMPLETED) {
-      throw new APIException(APIExceptionType.ENROLLMENT_ALREADY_PAID);
+    if (registration.getState() == RegistrationState.COMPLETED) {
+      throw new APIException(APIExceptionType.REGISTRATION_ALREADY_PAID);
     }
 
-    final FreeEnrollmentDetails freeEnrollmentDetails = enrollmentRepository.countEnrollmentsByPerson(person);
-    final List<Item> itemList = getItems(enrollment, freeEnrollmentDetails);
+    if (registration.getState() != RegistrationState.SUBMITTED) {
+      throw new APIException(APIExceptionType.PAYMENT_INVALID_REGISTRATION_STATE);
+    }
+
+    final Optional<Payment> unfinishedPayment = paymentRepository.findFirstByRegistrationIdAndPaymentStatusOrderByIdDesc(
+      registrationId,
+      PaymentStatus.NEW
+    );
+    if (unfinishedPayment.isPresent()) {
+      return unfinishedPayment.get().getPaymentUrl();
+    }
+
+    final ExamSession examSession = registration.getExamSession();
+    final int amount = getExamFeeInCents(registration);
+    final List<Item> itemList = List.of(
+      Item
+        .builder()
+        .units(1)
+        .unitPrice(amount)
+        .vatPercentage(PaytrailConfig.VAT)
+        .productCode(String.valueOf(examSession.getId()))
+        .build()
+    );
+    final ObjectNode form = registration.getForm();
     final Customer customer = Customer
       .builder()
-      .email(getCustomerField(enrollment.getEmail(), Customer.EMAIL_MAX_LENGTH))
-      .phone(getCustomerField(enrollment.getPhoneNumber(), Customer.PHONE_MAX_LENGTH))
-      .firstName(getCustomerField(person.getFirstName(), Customer.FIRST_NAME_MAX_LENGTH))
-      .lastName(getCustomerField(person.getLastName(), Customer.LAST_NAME_MAX_LENGTH))
+      .email(getCustomerField(form.path("email").asText(null), Customer.EMAIL_MAX_LENGTH))
+      .phone(getCustomerField(form.path("phone_number").asText(null), Customer.PHONE_MAX_LENGTH))
+      .firstName(getCustomerField(form.path("first_name").asText(null), Customer.FIRST_NAME_MAX_LENGTH))
+      .lastName(getCustomerField(form.path("last_name").asText(null), Customer.LAST_NAME_MAX_LENGTH))
       .build();
 
-    final int amount = EnrollmentUtil.getTotalFee(enrollment, freeEnrollmentDetails);
-
     final Payment payment = new Payment();
-    payment.setEnrollment(enrollment);
+    payment.setRegistration(registration);
     payment.setAmount(amount);
     paymentRepository.saveAndFlush(payment);
 
-    final String paymentReference = REFERENCE_PREFIX_EXCELLENT + payment.getId() + "-" + person.getId();
+    final String paymentReference = String.join(
+      "-",
+      REFERENCE_PREFIX + examSession.getOrganizer().getId(),
+      String.valueOf(examSession.getId()),
+      String.valueOf(registration.getId()),
+      uuidSource.getRandomNonce()
+    );
     final PaytrailResponseDTO response = paymentProvider.createPayment(
       itemList,
       payment.getId(),
@@ -286,10 +275,6 @@ public class PaymentService {
       amount,
       appLocale
     );
-
-    // Ensures the enrollment is in EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT state after payment creation.
-    // Necessary for the case when a person enrolls again to the same exam event with an existing cancelled enrollment.
-    setEnrollmentStatus(enrollment, PaymentStatus.NEW);
 
     payment.setTransactionId(response.getTransactionId());
     payment.setReference(response.getReference());
@@ -302,6 +287,10 @@ public class PaymentService {
   }
 
   private String getCustomerField(final String content, final int maxLength) {
+    if (content == null) {
+      return null;
+    }
+
     return content.substring(0, Math.min(content.length(), maxLength));
   }
 }

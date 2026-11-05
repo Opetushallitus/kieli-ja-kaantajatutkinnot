@@ -28,7 +28,6 @@ import { publicFreeRegistrationSelector } from 'features/registration/redux/sele
 import { registrationSelector } from 'features/registration/redux/selectors/registration';
 import { loadNationalities } from 'redux/reducers/nationalities';
 import { nationalitiesSelector } from 'redux/selectors/nationalities';
-import { sessionSelector } from 'redux/selectors/session';
 import { SerializationUtils } from 'utils/serialization';
 
 const FillRegistrationDetails = () => {
@@ -168,10 +167,9 @@ const SuccessQueued = () => {
 const SuccessRegistered = () => {
   const dispatch = useAppDispatch();
 
-  const { id: registrationId } =
+  const { id: registrationId, examSessionId } =
     useAppSelector(registrationSelector).registration;
 
-  const { loggedInSession } = useAppSelector(sessionSelector);
   const { code } = useAppSelector(registrationSelector).submitRegistration;
   const { expires_at, status } = useAppSelector(loginLinkSelector);
   const lang = getCurrentLang();
@@ -188,29 +186,18 @@ const SuccessRegistered = () => {
     };
   }, [dispatch]);
 
-  if (!code) {
+  if (!code || !registrationId || !examSessionId) {
     return null;
   }
 
-  const paymentUrl = new URL(
-    APIEndpoints.LoginWithCode,
-    window.location.origin,
-  );
-  const queryParams = paymentUrl.searchParams;
-  queryParams.append('code', code);
-  queryParams.append('lang', SerializationUtils.serializeAppLanguage(lang));
-
   const paymentDetails = {
     due_date: expires_at as Dayjs,
-    payment_url:
-      loggedInSession &&
-      loggedInSession['auth-method'] === 'SUOMIFI' &&
-      registrationId
-        ? APIEndpoints.RedirectToPayment.replace(
-            /:registrationId/,
-            `${registrationId}`,
-          ).replace(/:lang/, SerializationUtils.serializeAppLanguage(lang))
-        : paymentUrl.toString(),
+    payment_url: APIEndpoints.RedirectToPaymentV2.replace(
+      /:examSessionId/,
+      `${examSessionId}`,
+    )
+      .replace(/:registrationId/, `${registrationId}`)
+      .replace(/:lang/, SerializationUtils.serializeAppLanguage(lang)),
   };
 
   return <ConfirmRegistration paymentDetails={paymentDetails} />;

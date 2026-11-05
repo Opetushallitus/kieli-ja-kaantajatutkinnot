@@ -19,8 +19,13 @@ solki:
   password: test
   person-sync-enabled: false
   exam-session-sync-enabled: false
-v2:
-  enabled: true
+app:
+  v2:
+    enabled: true
+  payment:
+    paytrail:
+      secret: SAIPPUAKAUPPIAS
+      account: 375917
 dev:
   web:
     security:

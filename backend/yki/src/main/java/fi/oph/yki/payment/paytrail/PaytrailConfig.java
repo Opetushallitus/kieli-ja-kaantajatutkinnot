@@ -1,11 +1,10 @@
 package fi.oph.yki.payment.paytrail;
 
-import lombok.Builder;
-import lombok.Getter;
-
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import lombok.Builder;
+import lombok.Getter;
 
 @Builder
 @Getter

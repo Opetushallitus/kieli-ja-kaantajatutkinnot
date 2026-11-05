@@ -84,6 +84,20 @@ app:
   email:
     sending-enabled: ${email.sending-enabled:false}
     service-url: ${email.service-url:null}
+  payment:
+    paytrail:
+      url: https://services.paytrail.com
+      secret: ${payment.paytrail.secret:null}
+      account: ${payment.paytrail.account:null}
+      callback-base-url: ${app.base-url.public}/api/v2
+  exam-fee:
+    perus: ${exam-fee.perus}
+    keski: ${exam-fee.keski}
+    ylin: ${exam-fee.ylin}
+    keski-read: ${exam-fee.keski-read}
+    keski-listen: ${exam-fee.keski-listen}
+    keski-write: ${exam-fee.keski-write}
+    keski-speak: ${exam-fee.keski-speak}
 host:
   alb: ${virkailija.host.alb:localhost:${server.port}}
 cas:

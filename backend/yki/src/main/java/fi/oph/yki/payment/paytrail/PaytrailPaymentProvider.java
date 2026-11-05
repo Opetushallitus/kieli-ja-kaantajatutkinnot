@@ -1,5 +1,8 @@
 package fi.oph.yki.payment.paytrail;
 
+import static fi.oph.yki.payment.CryptoUtil.calculateHmac;
+import static fi.oph.yki.payment.CryptoUtil.collectHeaders;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.oph.yki.model.type.AppLocale;
 import fi.oph.yki.payment.PaymentProvider;
@@ -8,6 +11,9 @@ import fi.oph.yki.payment.paytrail.Item;
 import fi.oph.yki.payment.paytrail.PaytrailConfig;
 import fi.oph.yki.payment.paytrail.RedirectUrls;
 import fi.oph.yki.util.UUIDSource;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -17,13 +23,6 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
-
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import static fi.oph.yki.payment.CryptoUtil.calculateHmac;
-import static fi.oph.yki.payment.CryptoUtil.collectHeaders;
 
 @RequiredArgsConstructor
 public class PaytrailPaymentProvider implements PaymentProvider {

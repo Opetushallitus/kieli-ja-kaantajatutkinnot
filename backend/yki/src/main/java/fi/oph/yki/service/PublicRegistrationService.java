@@ -266,26 +266,10 @@ public class PublicRegistrationService {
       throw new APIException(APIExceptionType.REGISTRATION_NOT_STARTED);
     }
 
-    // Step 2: Persist form data to registration
-    registration.setForm(buildFormJson(formDTO));
-    registrationRepository.saveAndFlush(registration);
-
-    // Step 3: Get or create person in ONR (oppijanumerorekisteri)
-    // TODO: call OnrService to get or create person with form data
-    //   Returns person OID
-    //   (see: onr/get-or-create-person in registration.clj)
-
-    // Step 4: Upsert person in local person table
-    // TODO: call PersonRepository to upsert person with oid, name, gender, nationality
-    //   (see: person-db/upsert-person! in registration.clj)
-
-    // Step 5: Determine submitted state
-    //   QUEUE registrations → SUBMITTED
-    //   ADMISSION with free registration → COMPLETED
-    //   ADMISSION without free registration → SUBMITTED
-    // TODO: validate free_registration_id if provided
-    //   (see: validate-free-registration in registration.clj)
     final RegistrationState submittedState = resolveSubmittedState(registration, formDTO.freeRegistrationId());
+    registration.setForm(buildFormJson(formDTO));
+    registration.setState(submittedState);
+    registrationRepository.saveAndFlush(registration);
 
     // Step 6: Update registration details
     //   Set state, form, person_oid, expires_at
