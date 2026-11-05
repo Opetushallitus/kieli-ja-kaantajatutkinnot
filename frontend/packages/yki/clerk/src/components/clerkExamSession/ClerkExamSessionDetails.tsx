@@ -146,11 +146,7 @@ export const ClerkExamSessionDetails = ({
             <div className="clerk-exam-session-details__queue-deadline">
               <Text>{DateTimeUtils.renderDate(queueEndDate)}</Text>
               {queueHasEnded && (
-                <Chip
-                  className="status-badge"
-                  label={t('queueEnded')}
-                  size="small"
-                />
+                <Chip variant="status" label={t('queueEnded')} size="small" />
               )}
             </div>
           </div>
