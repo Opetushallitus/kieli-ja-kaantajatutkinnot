@@ -484,6 +484,7 @@
                 referencedColumnNames="email_id" />
     </changeSet>
 
+<<<<<<< HEAD
     <changeSet id="2026-09-23-create-registration-change-event" author="jrkkp">
         <preConditions onFail="CONTINUE">
             <not>
@@ -681,5 +682,27 @@ END;
 $$ LANGUAGE plpgsql
         ]]></sql>
         <sql>CREATE TRIGGER participant_limit_trigger BEFORE INSERT ON registration FOR EACH ROW EXECUTE PROCEDURE error_if_exceeds_participant_limit()</sql>
+    </changeSet>
+    <changeSet id="2026-11-05-payment-table" author="jrkkp">
+        <createTable tableName="payment">
+            <column autoIncrement="true" name="payment_id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="payment_id_pkey"/>
+            </column>
+            <column name="enrollment_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amount" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="transaction_id" type="TEXT"/>
+            <column name="reference" type="TEXT"/>
+            <column name="payment_url" type="TEXT"/>
+            <column name="payment_status" type="TEXT"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="payment" baseColumnNames="registration_id"
+                                 referencedTableName="registration" referencedColumnNames="registration_id"
+                                 constraintName="fk_payment_registration"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"/>
     </changeSet>
 </databaseChangeLog>
