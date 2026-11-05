@@ -44,7 +44,11 @@ public class RegistrationEmailService {
    * payment link is created here, in the caller's transaction, so it is undone with the lift.
    */
   public void sendLiftedFromQueueEmail(final Registration registration) {
-    if (!hasEmailAddress(registration, "lifted-from-queue")) {
+    if (!hasEmailAddress(registration)) {
+      LOG.error(
+        "Not sending lifted-from-queue email for registration {}: person has no email address",
+        registration.getId()
+      );
       return;
     }
 
@@ -94,7 +98,11 @@ public class RegistrationEmailService {
   }
 
   public void sendLiftedFromQueueForFreeEmail(final Registration registration) {
-    if (!hasEmailAddress(registration, "lifted-from-queue for free")) {
+    if (!hasEmailAddress(registration)) {
+      LOG.error(
+        "Not sending lifted-from-queue for free email for registration {}: person has no email address",
+        registration.getId()
+      );
       return;
     }
 
@@ -117,16 +125,8 @@ public class RegistrationEmailService {
     );
   }
 
-  private static boolean hasEmailAddress(final Registration registration, final String emailDescription) {
-    if (StringUtils.hasText(registration.getPerson().getEmail())) {
-      return true;
-    }
-    LOG.error(
-      "Not sending {} email for registration {}: person has no email address",
-      emailDescription,
-      registration.getId()
-    );
-    return false;
+  private static boolean hasEmailAddress(final Registration registration) {
+    return registration.getPerson() != null && StringUtils.hasText(registration.getPerson().getEmail());
   }
 
   private Map<String, Object> examParams(final ExamSession examSession, final Locale locale) {
