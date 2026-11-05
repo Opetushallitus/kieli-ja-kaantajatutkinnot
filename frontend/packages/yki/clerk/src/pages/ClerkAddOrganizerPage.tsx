@@ -26,11 +26,11 @@ export const ClerkAddOrganizerPage = () => {
     <Box className="clerk-add-organizer-page">
       <div className="columns gapped-xs">
         <IconButton
-          color="secondary"
+          color="primary"
           className="clerk-add-organizer-page__home-button"
           onClick={() => navigate(AppRoutes.ClerkOrganizerRegister)}
         >
-          <HomeOutlined color="secondary" fontSize="large" />
+          <HomeOutlined color="primary" fontSize="large" />
         </IconButton>
         <ChevronRight color="disabled" fontSize="large" />
         <H2>{t('heading')}</H2>

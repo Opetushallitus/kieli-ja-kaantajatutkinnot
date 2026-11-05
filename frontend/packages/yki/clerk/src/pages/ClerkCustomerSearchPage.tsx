@@ -17,10 +17,10 @@ export const ClerkCustomerSearchPage = ({ route }: { route: RouteType }) => {
         {route === 'clerk' && (
           <>
             <IconButton
-              color="secondary"
+              color="primary"
               className="clerk-customers-search-page__home-button"
             >
-              <HomeOutlined color="secondary" fontSize="large" />
+              <HomeOutlined color="primary" fontSize="large" />
             </IconButton>
             <ChevronRight color="disabled" fontSize="large" />
           </>

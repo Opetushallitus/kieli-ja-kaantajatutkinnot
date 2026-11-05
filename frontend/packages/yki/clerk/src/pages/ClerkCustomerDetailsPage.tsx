@@ -96,7 +96,7 @@ export const ClerkCustomerDetailsPage = ({
     <Box className="clerk-customer-details-page">
       <div className="columns gapped-xs">
         <IconButton
-          color="secondary"
+          color="primary"
           className="clerk-customer-details-page__home-button"
           onClick={() =>
             route === 'clerk'
@@ -106,7 +106,7 @@ export const ClerkCustomerDetailsPage = ({
                 )
           }
         >
-          <HomeOutlined color="secondary" fontSize="large" />
+          <HomeOutlined color="primary" fontSize="large" />
         </IconButton>
         <ChevronRight color="disabled" fontSize="large" />
         <H2>

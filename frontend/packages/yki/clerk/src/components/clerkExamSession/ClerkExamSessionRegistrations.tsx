@@ -232,20 +232,20 @@ export const ClerkExamSessionRegistrations = ({
         <div className="rows gapped-xxs" style={{ alignItems: 'flex-start' }}>
           {route === 'clerk' && (
             <IconButton
-              color="secondary"
+              color="primary"
               onClick={() => setRelocateRegistrationId(id)}
               sx={{ width: 'fit-content' }}
             >
-              <TurnRightOutlined color="secondary" fontSize="large" />
+              <TurnRightOutlined color="primary" fontSize="large" />
               {t('values.actions.relocate')}
             </IconButton>
           )}
           <IconButton
-            color="secondary"
+            color="primary"
             onClick={() => setCancelRegistrationId(id)}
             sx={{ width: 'fit-content' }}
           >
-            <DeleteOutlined color="secondary" fontSize="large" />
+            <DeleteOutlined color="primary" fontSize="large" />
             {t('values.actions.cancel')}
           </IconButton>
         </div>
