@@ -1,9 +1,19 @@
-import { ExamLanguage, ExamLevel, RegistrationKind } from 'enums/app';
+import {
+  ExamLanguage,
+  ExamLevel,
+  ExamSessionType,
+  RegistrationKind,
+} from 'enums/app';
 import { ExamSessionsResponse } from 'interfaces/examSessions';
 
 export const examSessions: ExamSessionsResponse = {
   exam_sessions: [
     {
+      type: ExamSessionType.FULL,
+      participants_read_listen: 15,
+      participants_speak_write: 15,
+      max_participants_read_listen: null,
+      max_participants_speak_write: null,
       level_code: ExamLevel.YLIN,
       language_code: ExamLanguage.FIN,
       open: true,
@@ -56,6 +66,11 @@ export const examSessions: ExamSessionsResponse = {
       available_registration_kind: RegistrationKind.Admission,
     },
     {
+      type: ExamSessionType.FULL,
+      participants_read_listen: 15,
+      participants_speak_write: 15,
+      max_participants_read_listen: null,
+      max_participants_speak_write: null,
       level_code: ExamLevel.YLIN,
       language_code: ExamLanguage.FIN,
       open: false,
@@ -108,6 +123,11 @@ export const examSessions: ExamSessionsResponse = {
       available_registration_kind: RegistrationKind.Queue,
     },
     {
+      type: ExamSessionType.FULL,
+      participants_read_listen: 15,
+      participants_speak_write: 15,
+      max_participants_read_listen: null,
+      max_participants_speak_write: null,
       level_code: ExamLevel.YLIN,
       language_code: ExamLanguage.FIN,
       open: false,
@@ -160,6 +180,11 @@ export const examSessions: ExamSessionsResponse = {
       available_registration_kind: RegistrationKind.Queue,
     },
     {
+      type: ExamSessionType.FULL,
+      participants_read_listen: 15,
+      participants_speak_write: 15,
+      max_participants_read_listen: null,
+      max_participants_speak_write: null,
       level_code: ExamLevel.PERUS,
       language_code: ExamLanguage.FIN,
       open: false,
@@ -212,6 +237,11 @@ export const examSessions: ExamSessionsResponse = {
       available_registration_kind: RegistrationKind.Admission,
     },
     {
+      type: ExamSessionType.FULL,
+      participants_read_listen: 15,
+      participants_speak_write: 15,
+      max_participants_read_listen: null,
+      max_participants_speak_write: null,
       level_code: ExamLevel.KESKI,
       language_code: ExamLanguage.FIN,
       open: true,
@@ -266,6 +296,11 @@ export const examSessions: ExamSessionsResponse = {
       available_registration_kind: RegistrationKind.Admission,
     },
     {
+      type: ExamSessionType.FULL,
+      participants_read_listen: 15,
+      participants_speak_write: 15,
+      max_participants_read_listen: null,
+      max_participants_speak_write: null,
       level_code: ExamLevel.YLIN,
       language_code: ExamLanguage.FIN,
       open: true,
@@ -318,6 +353,11 @@ export const examSessions: ExamSessionsResponse = {
       available_registration_kind: RegistrationKind.Admission,
     },
     {
+      type: ExamSessionType.FULL,
+      participants_read_listen: 15,
+      participants_speak_write: 15,
+      max_participants_read_listen: null,
+      max_participants_speak_write: null,
       level_code: ExamLevel.YLIN,
       language_code: ExamLanguage.DEU,
       open: true,
@@ -369,6 +409,11 @@ export const examSessions: ExamSessionsResponse = {
       available_registration_kind: RegistrationKind.Queue,
     },
     {
+      type: ExamSessionType.FULL,
+      participants_read_listen: 15,
+      participants_speak_write: 15,
+      max_participants_read_listen: null,
+      max_participants_speak_write: null,
       level_code: ExamLevel.PERUS,
       language_code: ExamLanguage.FIN,
       open: true,
@@ -420,6 +465,11 @@ export const examSessions: ExamSessionsResponse = {
       available_registration_kind: RegistrationKind.Admission,
     },
     {
+      type: ExamSessionType.FULL,
+      participants_read_listen: 15,
+      participants_speak_write: 15,
+      max_participants_read_listen: null,
+      max_participants_speak_write: null,
       level_code: ExamLevel.PERUS,
       language_code: ExamLanguage.FIN,
       open: true,
@@ -471,6 +521,11 @@ export const examSessions: ExamSessionsResponse = {
       available_registration_kind: RegistrationKind.Queue,
     },
     {
+      type: ExamSessionType.FULL,
+      participants_read_listen: 15,
+      participants_speak_write: 15,
+      max_participants_read_listen: null,
+      max_participants_speak_write: null,
       level_code: ExamLevel.KESKI,
       language_code: ExamLanguage.FIN,
       open: false,
@@ -524,6 +579,11 @@ export const examSessions: ExamSessionsResponse = {
       available_registration_kind: RegistrationKind.Admission,
     },
     {
+      type: ExamSessionType.FULL,
+      participants_read_listen: 15,
+      participants_speak_write: 15,
+      max_participants_read_listen: null,
+      max_participants_speak_write: null,
       level_code: ExamLevel.KESKI,
       language_code: ExamLanguage.FIN,
       open: true,
@@ -577,6 +637,11 @@ export const examSessions: ExamSessionsResponse = {
       available_registration_kind: RegistrationKind.Admission,
     },
     {
+      type: ExamSessionType.FULL,
+      participants_read_listen: 15,
+      participants_speak_write: 15,
+      max_participants_read_listen: null,
+      max_participants_speak_write: null,
       level_code: ExamLevel.KESKI,
       language_code: ExamLanguage.FIN,
       open: true,
@@ -630,6 +695,11 @@ export const examSessions: ExamSessionsResponse = {
       available_registration_kind: RegistrationKind.Admission,
     },
     {
+      type: ExamSessionType.FULL,
+      participants_read_listen: 15,
+      participants_speak_write: 15,
+      max_participants_read_listen: null,
+      max_participants_speak_write: null,
       level_code: ExamLevel.KESKI,
       language_code: ExamLanguage.FIN,
       open: true,

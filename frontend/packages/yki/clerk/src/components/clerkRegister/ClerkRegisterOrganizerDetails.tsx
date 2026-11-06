@@ -1,22 +1,19 @@
 import { Error } from '@mui/icons-material';
 import { Box } from '@mui/material';
 import dayjs from 'dayjs';
-import i18next from 'i18next';
 import { useCallback, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import { CustomButton } from 'shared/components';
 import { APIResponseStatus, Severity } from 'shared/enums';
 import { useToast } from 'shared/hooks';
 import { DateUtils } from 'shared/utils';
 
 import { ClerkExamSessionEditModal } from 'components/clerkExamSession/ClerkExamSessionEditModal';
-import { ListTable } from 'components/oph-design/table/list-table';
-import { ListTableColumn } from 'components/oph-design/table/table-types';
+import { OrganizerExamSessionListing } from 'components/clerkRegister/listing/OrganizerExamSessionListing';
 import axiosInstance from 'configs/axios';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIEndpoints } from 'enums/api';
-import { AppRoutes } from 'enums/app';
 import { useCanManage } from 'hooks/useCanManage';
 import { ClerkOrganizer } from 'interfaces/clerkOrganizer';
 import { ExamSession } from 'interfaces/examSessions';
@@ -28,8 +25,6 @@ import { examDateSelector } from 'redux/selectors/examDate';
 import {
   getLanguagesWithLevelDescriptions,
   isAgreementExpired,
-  languageToString,
-  levelDescription,
 } from 'utils/clerk';
 import { SerializationUtils } from 'utils/serialization';
 
@@ -49,7 +44,6 @@ export const ClerkRegisterOrganizerDetails = ({
   const canManage = useCanManage(route);
   const params = useParams();
   const oid = params.oid ?? '';
-  const navigate = useNavigate();
 
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkRegister',
@@ -98,103 +92,6 @@ export const ClerkRegisterOrganizerDetails = ({
       });
     }
   }, [createStatus, showToast, t, fetchExamSessions]);
-
-  const upcomingExams = examSessions
-    .map((examSession) => ({
-      ...examSession,
-    }))
-    .filter((exam) => dayjs().isBefore(exam.session_date, 'day'))
-    .filter((exam) => exam.organizer_oid === row.oid);
-
-  const pastExams = examSessions
-    .map((examSession) => ({
-      ...examSession,
-    }))
-    .filter((exam) => dayjs().isAfter(exam.session_date, 'day'))
-    .filter((exam) => exam.organizer_oid === row.oid);
-
-  const createExamDateColumn = (
-    t: typeof i18next.t,
-  ): ListTableColumn<ExamSession> => ({
-    key: 'session_date',
-    title: t('examSessionListing.header.sessionDate'),
-    render: (rowProps) =>
-      route === 'clerk' ? (
-        <a
-          href={AppRoutes.ClerkExamSession.replace(':id', String(rowProps.id))}
-          onClick={() =>
-            navigate(
-              AppRoutes.ClerkExamSession.replace(':id', String(rowProps.id)),
-            )
-          }
-        >
-          <span>{rowProps.session_date.format('D.M.YYYY')}</span>
-        </a>
-      ) : (
-        <a
-          href={AppRoutes.OrganizerExamSession.replace(':oid', oid).replace(
-            ':id',
-            String(rowProps.id),
-          )}
-          onClick={() =>
-            navigate(
-              AppRoutes.OrganizerExamSession.replace(':oid', oid).replace(
-                ':id',
-                String(rowProps.id),
-              ),
-            )
-          }
-        >
-          <span>{rowProps.session_date.format('D.M.YYYY')}</span>
-        </a>
-      ),
-  });
-
-  const createExamLanguageColumn = (
-    t: typeof i18next.t,
-  ): ListTableColumn<ExamSession> => ({
-    key: 'language_code',
-    title: t('examSessionListing.header.language'),
-    render: (rowProps) => (
-      <span>{languageToString(rowProps.language_code)}</span>
-    ),
-  });
-
-  const createExamLevelColumn = (
-    t: typeof i18next.t,
-  ): ListTableColumn<ExamSession> => ({
-    key: 'level_code',
-    title: t('examSessionListing.header.level'),
-    render: (rowProps) => <span>{levelDescription(rowProps.level_code)}</span>,
-  });
-
-  const createExamRegistrationPerioidColumn = (
-    t: typeof i18next.t,
-  ): ListTableColumn<ExamSession> => ({
-    key: 'registration_period',
-    title: t('examSessionListing.header.registrationPerioid'),
-    render: (rowProps) => (
-      <span>{rowProps.registration_start_date.format('YYYY-MM-DD')}</span>
-    ),
-  });
-
-  const createExamRegistrationsColumn = (
-    t: typeof i18next.t,
-  ): ListTableColumn<ExamSession> => ({
-    key: 'max_participants',
-    title: t('examSessionListing.header.registrations'),
-    render: (rowProps) => (
-      <span>{`${rowProps.participants} / ${rowProps.max_participants}`}</span>
-    ),
-  });
-
-  const columns = [
-    createExamDateColumn(t),
-    createExamLanguageColumn(t),
-    createExamLevelColumn(t),
-    createExamRegistrationPerioidColumn(t),
-    createExamRegistrationsColumn(t),
-  ];
 
   return (
     <Box
@@ -261,23 +158,21 @@ export const ClerkRegisterOrganizerDetails = ({
         </div>
       )}
       <H4>{t('listing.contentLabels.upcomingExamSessions')}</H4>
-      <ListTable
-        rows={upcomingExams}
-        rowKeyProp="id"
-        columns={columns}
-        translateHeader={false}
-        rowHeight="small"
+      <OrganizerExamSessionListing
+        examSessions={examSessions}
+        organizerOid={row.oid}
+        route={route}
+        period="upcoming"
       />
       <div className="columns gapped-xxs">
         <H4>{t('listing.contentLabels.pastExamSessions')}</H4>
         <Text>{` ${t('listing.contentLabels.pastExamSessionsDetails')}`}</Text>
       </div>
-      <ListTable
-        rows={pastExams}
-        rowKeyProp="id"
-        columns={columns}
-        translateHeader={false}
-        rowHeight="small"
+      <OrganizerExamSessionListing
+        examSessions={examSessions}
+        organizerOid={row.oid}
+        route={route}
+        period="past"
       />
       <ClerkExamSessionEditModal
         isOpen={isAddModalOpen}

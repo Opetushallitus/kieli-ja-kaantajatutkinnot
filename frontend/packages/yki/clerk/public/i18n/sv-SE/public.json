@@ -603,7 +603,15 @@
             "level": "Nivå",
             "registrationPerioid": "Anmälningstid",
             "registrations": "Anmälda",
-            "sessionDate": "Testdatum"
+            "sessionDate": "Testdatum",
+            "subtest": "Delprov"
+          },
+          "subtests": {
+            "ALL_PARTS": "Alla delprov",
+            "READ": "Textförståelse",
+            "SPEAK": "Muntlig framställning",
+            "LISTEN": "Talförståelse",
+            "WRITE": "Skriftlig framställning"
           }
         },
         "listing": {
