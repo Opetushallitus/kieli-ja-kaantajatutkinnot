@@ -1,6 +1,7 @@
 package fi.oph.yki.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -39,6 +40,7 @@ import fi.oph.yki.repository.FreeRegistrationRepository;
 import fi.oph.yki.repository.PersonRepository;
 import fi.oph.yki.service.keha.KehaClient;
 import fi.oph.yki.service.keha.KehaDecision;
+import fi.oph.yki.service.keha.KehaException;
 import fi.oph.yki.util.exception.APIException;
 import fi.oph.yki.util.exception.APIExceptionType;
 import jakarta.annotation.Resource;
@@ -115,22 +117,24 @@ public class IntegrationAssistanceServiceTest {
       persistExamSession("KESKI", "fin"),
       RegistrationState.STARTED
     );
-    when(kehaClient.checkEligibility(eq(SSN), any(UUID.class))).thenReturn(KehaDecision.ELIGIBLE);
+    when(kehaClient.checkEligibility(eq(SSN), any(UUID.class), any(UUID.class))).thenReturn(KehaDecision.ELIGIBLE);
 
     final PublicIntegrationAssistanceDecisionDTO result = integrationAssistanceService.decide(registration);
 
     assertEquals(IntegrationAssistanceDecision.FREE, result.decision());
     final FreeRegistration freeRegistration = freeRegistrationRepository.findByRegistration(registration).orElseThrow();
     assertEquals(freeRegistration.getId(), result.freeRegistrationId());
-    assertEquals(FreeRegistrationSource.KEHA, freeRegistration.getSource());
+    assertEquals(FreeRegistrationSource.OTHER, freeRegistration.getSource());
     assertEquals(FreeRegistrationType.IntegrationAssistance, freeRegistration.getType());
     verify(auditService).logCreate(eq(YkiOperation.CREATE_FREE_REGISTRATION), eq(freeRegistration.getId()), any());
 
     final ArgumentCaptor<UUID> personUuid = ArgumentCaptor.forClass(UUID.class);
-    verify(kehaClient).checkEligibility(eq(SSN), personUuid.capture());
+    final ArgumentCaptor<UUID> correlationId = ArgumentCaptor.forClass(UUID.class);
+    verify(kehaClient).checkEligibility(eq(SSN), personUuid.capture(), correlationId.capture());
     final IntegrationAssistanceCheckAuditDTO check = auditedCheck(registration);
     assertEquals(IntegrationAssistanceCheckResult.ELIGIBLE, check.result());
     assertEquals(personUuid.getValue().toString(), check.personUuid());
+    assertEquals(correlationId.getValue().toString(), check.correlationId());
     assertNull(check.errorDetail());
 
     entityManager.flush();
@@ -146,11 +150,11 @@ public class IntegrationAssistanceServiceTest {
       persistExamSession("KESKI", "fin"),
       RegistrationState.STARTED
     );
-    when(kehaClient.checkEligibility(eq(SSN), any(UUID.class))).thenReturn(KehaDecision.NOT_ELIGIBLE);
+    when(kehaClient.checkEligibility(eq(SSN), any(UUID.class), any(UUID.class))).thenReturn(KehaDecision.NOT_ELIGIBLE);
 
     integrationAssistanceService.decide(registration);
 
-    verify(kehaClient).checkEligibility(SSN, existingUuid);
+    verify(kehaClient).checkEligibility(eq(SSN), eq(existingUuid), any(UUID.class));
     assertEquals(existingUuid.toString(), auditedCheck(registration).personUuid());
     assertEquals(existingUuid, person.getUuid());
   }
@@ -159,7 +163,7 @@ public class IntegrationAssistanceServiceTest {
   public void testPersonUuidCreatedOnceAcrossChecks() {
     final Registration first = persistRegistration(persistExamSession("KESKI", "fin"), RegistrationState.STARTED);
     final Registration second = persistRegistration(persistExamSession("KESKI", "swe"), RegistrationState.STARTED);
-    when(kehaClient.checkEligibility(eq(SSN), any(UUID.class))).thenReturn(KehaDecision.NOT_ELIGIBLE);
+    when(kehaClient.checkEligibility(eq(SSN), any(UUID.class), any(UUID.class))).thenReturn(KehaDecision.NOT_ELIGIBLE);
 
     integrationAssistanceService.decide(first);
     final UUID createdUuid = person.getUuid();
@@ -167,7 +171,7 @@ public class IntegrationAssistanceServiceTest {
 
     assertNotNull(createdUuid);
     assertEquals(createdUuid, person.getUuid());
-    verify(kehaClient, times(2)).checkEligibility(SSN, createdUuid);
+    verify(kehaClient, times(2)).checkEligibility(eq(SSN), eq(createdUuid), any(UUID.class));
   }
 
   @Test
@@ -176,7 +180,7 @@ public class IntegrationAssistanceServiceTest {
       persistExamSession("KESKI", "swe"),
       RegistrationState.STARTED
     );
-    when(kehaClient.checkEligibility(eq(SSN), any(UUID.class))).thenReturn(KehaDecision.ELIGIBLE);
+    when(kehaClient.checkEligibility(eq(SSN), any(UUID.class), any(UUID.class))).thenReturn(KehaDecision.ELIGIBLE);
 
     assertEquals(IntegrationAssistanceDecision.FREE, integrationAssistanceService.decide(registration).decision());
   }
@@ -187,7 +191,7 @@ public class IntegrationAssistanceServiceTest {
       persistExamSession("KESKI", "fin"),
       RegistrationState.STARTED
     );
-    when(kehaClient.checkEligibility(eq(SSN), any(UUID.class))).thenReturn(KehaDecision.NOT_ELIGIBLE);
+    when(kehaClient.checkEligibility(eq(SSN), any(UUID.class), any(UUID.class))).thenReturn(KehaDecision.NOT_ELIGIBLE);
 
     final PublicIntegrationAssistanceDecisionDTO result = integrationAssistanceService.decide(registration);
 
@@ -204,7 +208,8 @@ public class IntegrationAssistanceServiceTest {
       persistExamSession("KESKI", "fin"),
       RegistrationState.STARTED
     );
-    when(kehaClient.checkEligibility(eq(SSN), any(UUID.class))).thenThrow(new IllegalStateException("boom"));
+    when(kehaClient.checkEligibility(eq(SSN), any(UUID.class), any(UUID.class)))
+      .thenThrow(new IllegalStateException("boom"));
 
     final PublicIntegrationAssistanceDecisionDTO result = integrationAssistanceService.decide(registration);
 
@@ -213,6 +218,37 @@ public class IntegrationAssistanceServiceTest {
     final IntegrationAssistanceCheckAuditDTO check = auditedCheck(registration);
     assertEquals(IntegrationAssistanceCheckResult.ERROR, check.result());
     assertEquals("KEHA: IllegalStateException", check.errorDetail());
+  }
+
+  @Test
+  public void testKehaErrorDetailIsAudited() {
+    final Registration registration = persistRegistration(
+      persistExamSession("KESKI", "fin"),
+      RegistrationState.STARTED
+    );
+    when(kehaClient.checkEligibility(eq(SSN), any(UUID.class), any(UUID.class)))
+      .thenThrow(new KehaException("HTTP 503", true));
+
+    final PublicIntegrationAssistanceDecisionDTO result = integrationAssistanceService.decide(registration);
+
+    assertEquals(IntegrationAssistanceDecision.UNAVAILABLE, result.decision());
+    final IntegrationAssistanceCheckAuditDTO check = auditedCheck(registration);
+    assertEquals("KEHA: HTTP 503", check.errorDetail());
+    assertNotNull(check.correlationId());
+  }
+
+  @Test
+  public void testEachCheckHasOwnCorrelationId() {
+    final Registration first = persistRegistration(persistExamSession("KESKI", "fin"), RegistrationState.STARTED);
+    final Registration second = persistRegistration(persistExamSession("KESKI", "swe"), RegistrationState.STARTED);
+    when(kehaClient.checkEligibility(eq(SSN), any(UUID.class), any(UUID.class))).thenReturn(KehaDecision.NOT_ELIGIBLE);
+
+    integrationAssistanceService.decide(first);
+    integrationAssistanceService.decide(second);
+
+    final ArgumentCaptor<UUID> correlationIds = ArgumentCaptor.forClass(UUID.class);
+    verify(kehaClient, times(2)).checkEligibility(eq(SSN), any(UUID.class), correlationIds.capture());
+    assertNotEquals(correlationIds.getAllValues().get(0), correlationIds.getAllValues().get(1));
   }
 
   @Test
@@ -256,7 +292,7 @@ public class IntegrationAssistanceServiceTest {
       persistExamSession("KESKI", "fin"),
       RegistrationState.STARTED
     );
-    final FreeRegistration existing = persistKehaFreeRegistration(registration);
+    final FreeRegistration existing = persistIntegrationAssistanceFreeRegistration(registration);
 
     final PublicIntegrationAssistanceDecisionDTO result = integrationAssistanceService.decide(registration);
 
@@ -282,12 +318,12 @@ public class IntegrationAssistanceServiceTest {
 
   @Test
   public void testCancelledOtherExamSessionDoesNotCount() {
-    assertOtherExamSessionDoesNotCount(RegistrationState.PAID_AND_CANCELLED, FreeRegistrationSource.KEHA);
+    assertOtherExamSessionDoesNotCount(RegistrationState.PAID_AND_CANCELLED, FreeRegistrationSource.OTHER);
   }
 
   @Test
   public void testExpiredOtherExamSessionDoesNotCount() {
-    assertOtherExamSessionDoesNotCount(RegistrationState.EXPIRED, FreeRegistrationSource.KEHA);
+    assertOtherExamSessionDoesNotCount(RegistrationState.EXPIRED, FreeRegistrationSource.OTHER);
   }
 
   @Test
@@ -300,10 +336,10 @@ public class IntegrationAssistanceServiceTest {
     final ExamSession examSession = persistExamSession("KESKI", "fin");
     final Registration readRegistration = persistRegistration(examSession, RegistrationState.COMPLETED);
     readRegistration.setPartialExamType(PartialExamType.READ);
-    persistKehaFreeRegistration(readRegistration);
+    persistIntegrationAssistanceFreeRegistration(readRegistration);
     final Registration speakRegistration = persistRegistration(examSession, RegistrationState.STARTED);
     speakRegistration.setPartialExamType(PartialExamType.SPEAK);
-    when(kehaClient.checkEligibility(eq(SSN), any(UUID.class))).thenReturn(KehaDecision.ELIGIBLE);
+    when(kehaClient.checkEligibility(eq(SSN), any(UUID.class), any(UUID.class))).thenReturn(KehaDecision.ELIGIBLE);
 
     final PublicIntegrationAssistanceDecisionDTO result = integrationAssistanceService.decide(speakRegistration);
 
@@ -360,7 +396,7 @@ public class IntegrationAssistanceServiceTest {
   private void assertAlreadyUsedByOtherExamSession(final RegistrationState state, final RegistrationKind kind) {
     final Registration other = persistRegistration(persistExamSession("KESKI", "swe"), state);
     other.setKind(kind);
-    persistKehaFreeRegistration(other);
+    persistIntegrationAssistanceFreeRegistration(other);
     final Registration registration = persistRegistration(
       persistExamSession("KESKI", "fin"),
       RegistrationState.STARTED
@@ -384,7 +420,7 @@ public class IntegrationAssistanceServiceTest {
       persistExamSession("KESKI", "fin"),
       RegistrationState.STARTED
     );
-    when(kehaClient.checkEligibility(eq(SSN), any(UUID.class))).thenReturn(KehaDecision.ELIGIBLE);
+    when(kehaClient.checkEligibility(eq(SSN), any(UUID.class), any(UUID.class))).thenReturn(KehaDecision.ELIGIBLE);
 
     assertEquals(IntegrationAssistanceDecision.FREE, integrationAssistanceService.decide(registration).decision());
   }
@@ -427,9 +463,9 @@ public class IntegrationAssistanceServiceTest {
     return registration;
   }
 
-  private FreeRegistration persistKehaFreeRegistration(final Registration registration) {
+  private FreeRegistration persistIntegrationAssistanceFreeRegistration(final Registration registration) {
     final FreeRegistration freeRegistration = Factory.freeRegistration(registration);
-    freeRegistration.setSource(FreeRegistrationSource.KEHA);
+    freeRegistration.setSource(FreeRegistrationSource.OTHER);
     freeRegistration.setType(FreeRegistrationType.IntegrationAssistance);
     freeRegistration.setMatriculationExam(false);
     entityManager.persist(freeRegistration);

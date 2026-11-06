@@ -15,6 +15,7 @@ import fi.oph.yki.repository.FreeRegistrationRepository;
 import fi.oph.yki.repository.PersonRepository;
 import fi.oph.yki.service.keha.KehaClient;
 import fi.oph.yki.service.keha.KehaDecision;
+import fi.oph.yki.service.keha.KehaException;
 import fi.oph.yki.util.exception.APIException;
 import fi.oph.yki.util.exception.APIExceptionType;
 import java.util.Optional;
@@ -56,15 +57,26 @@ public class IntegrationAssistanceService {
 
   private static IntegrationAssistanceCheckAuditDTO checkResult(
     final UUID personUuid,
+    final UUID correlationId,
     final IntegrationAssistanceCheckResult result
   ) {
-    return IntegrationAssistanceCheckAuditDTO.builder().personUuid(personUuid.toString()).result(result).build();
-  }
-
-  private static IntegrationAssistanceCheckAuditDTO checkError(final UUID personUuid, final String errorDetail) {
     return IntegrationAssistanceCheckAuditDTO
       .builder()
       .personUuid(personUuid.toString())
+      .correlationId(correlationId.toString())
+      .result(result)
+      .build();
+  }
+
+  private static IntegrationAssistanceCheckAuditDTO checkError(
+    final UUID personUuid,
+    final UUID correlationId,
+    final String errorDetail
+  ) {
+    return IntegrationAssistanceCheckAuditDTO
+      .builder()
+      .personUuid(personUuid.toString())
+      .correlationId(correlationId.toString())
       .result(IntegrationAssistanceCheckResult.ERROR)
       .errorDetail(errorDetail)
       .build();
@@ -74,12 +86,15 @@ public class IntegrationAssistanceService {
     if (e instanceof InterruptedException) {
       Thread.currentThread().interrupt();
     }
+    if (e instanceof KehaException) {
+      return stage + ": " + e.getMessage();
+    }
     return stage + ": " + e.getClass().getSimpleName();
   }
 
   @Transactional
   public PublicIntegrationAssistanceDecisionDTO decide(final Registration registration) {
-    if (!FreeRegistrationService.isFreeRegistrationAllowed(registration, FreeRegistrationSource.KEHA)) {
+    if (!FreeRegistrationService.isFreeRegistrationAllowed(registration, FreeRegistrationSource.OTHER)) {
       LOG.warn(
         "Integration assistance free registration not allowed. registrationId: {}, state: {}, level: {}, language: {}",
         registration.getId(),
@@ -100,7 +115,7 @@ public class IntegrationAssistanceService {
 
     final Optional<FreeRegistration> existing = freeRegistrationRepository.findByRegistration(registration);
     if (existing.isPresent()) {
-      if (existing.get().getSource() == FreeRegistrationSource.KEHA) {
+      if (existing.get().getSource() == FreeRegistrationSource.OTHER) {
         return free(existing.get());
       }
       LOG.warn(
@@ -134,29 +149,32 @@ public class IntegrationAssistanceService {
   }
 
   private IntegrationAssistanceCheckAuditDTO checkEligibility(final String personOid, final UUID personUuid) {
+    // One per check, sent to KEHA so that the check can be found in their logs too.
+    final UUID correlationId = UUID.randomUUID();
     final String ssn;
     try {
       ssn = onrService.getPersonalData(personOid).getIdentityNumber();
     } catch (final Exception e) {
       LOG.error("ONR lookup failed for integration assistance check, personUuid: {}", personUuid, e);
-      return checkError(personUuid, errorDetail("ONR", e));
+      return checkError(personUuid, correlationId, errorDetail("ONR", e));
     }
 
     if (ssn == null || ssn.isBlank()) {
       LOG.error("No identity number in ONR for integration assistance check, personUuid: {}", personUuid);
-      return checkError(personUuid, "ONR: identity number missing");
+      return checkError(personUuid, correlationId, "ONR: identity number missing");
     }
 
     try {
       return checkResult(
         personUuid,
-        kehaClient.checkEligibility(ssn, personUuid) == KehaDecision.ELIGIBLE
+        correlationId,
+        kehaClient.checkEligibility(ssn, personUuid, correlationId) == KehaDecision.ELIGIBLE
           ? IntegrationAssistanceCheckResult.ELIGIBLE
           : IntegrationAssistanceCheckResult.NOT_ELIGIBLE
       );
     } catch (final Exception e) {
-      LOG.error("KEHA eligibility check failed, personUuid: {}", personUuid, e);
-      return checkError(personUuid, errorDetail("KEHA", e));
+      LOG.error("KEHA eligibility check failed, personUuid: {}, correlationId: {}", personUuid, correlationId, e);
+      return checkError(personUuid, correlationId, errorDetail("KEHA", e));
     }
   }
 }
