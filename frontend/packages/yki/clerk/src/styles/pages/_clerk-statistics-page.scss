@@ -7,7 +7,7 @@
     display: grid;
 
     &__results {
-      padding: 2rem;
+      @include clerk-content-panel;
     }
   }
 }

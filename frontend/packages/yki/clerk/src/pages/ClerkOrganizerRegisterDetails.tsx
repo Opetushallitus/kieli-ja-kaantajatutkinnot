@@ -53,11 +53,11 @@ export const ClerkOrganizerRegisterDetailsPage = ({
         {route === 'clerk' && (
           <>
             <IconButton
-              color="secondary"
+              color="primary"
               className="clerk-register-page__home-button"
               onClick={() => navigate(AppRoutes.ClerkOrganizerRegister)}
             >
-              <HomeOutlined color="secondary" fontSize="large" />
+              <HomeOutlined color="primary" fontSize="large" />
             </IconButton>
 
             <ChevronRight color="disabled" fontSize="large" />
