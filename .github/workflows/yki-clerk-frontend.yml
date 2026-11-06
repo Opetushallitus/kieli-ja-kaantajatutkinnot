@@ -19,7 +19,7 @@ env:
 jobs:
   common-frontend:
     if: ${{ contains(github.event.head_commit.message, inputs.app-name) || contains(github.ref, 'snyk-io') }}
-    runs-on: 24.04.5
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         node-version: [22.23.1]
