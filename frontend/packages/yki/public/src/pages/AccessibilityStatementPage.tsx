@@ -1,20 +1,13 @@
 import { ArrowBackIosOutlined as ArrowBackIosOutlinedIcon } from '@mui/icons-material';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Grid, Paper, Typography } from '@mui/material';
+import { OphLink } from '@opetushallitus/oph-design-system';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router';
-import {
-  CustomButtonLink,
-  H1,
-  H2,
-  H3,
-  HeaderSeparator,
-  Text,
-  WebLink,
-} from 'shared/components';
+import { CustomButtonLink } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 import { CommonUtils } from 'shared/utils';
 
+import { H1, H2, H3, Text } from 'components/Text';
 import {
   useAccessibilityTranslation,
   useCommonTranslation,
@@ -81,7 +74,6 @@ export const AccessibilityStatementPage = () => {
       </Grid>
       <Grid className="accessibility-statement-page__heading">
         <H1>{translateAccessibility('heading.title')}</H1>
-        <HeaderSeparator />
         <Text>
           {translateAccessibility('heading.body.part1')}{' '}
           {translateAccessibility('heading.body.part2')}{' '}
@@ -133,10 +125,9 @@ export const AccessibilityStatementPage = () => {
               <Text>
                 {translateAccessibility('content.feedback.description2')}
                 {': '}
-                <WebLink
-                  href={`mailto:${translateCommon('contactEmail.oph')}`}
-                  label={translateCommon('contactEmail.oph')}
-                />
+                <OphLink href={`mailto:${translateCommon('contactEmail.oph')}`}>
+                  {translateCommon('contactEmail.oph')}
+                </OphLink>
               </Text>
             </div>
             <div className="rows gapped">
@@ -158,25 +149,27 @@ export const AccessibilityStatementPage = () => {
                   )}
                 </Text>
                 <Text>
-                  <WebLink
+                  <OphLink
                     href={translateAccessibility(
                       'content.administrativeAgency.link.url',
                     )}
-                    label={translateAccessibility(
+                    target="_blank"
+                  >
+                    {translateAccessibility(
                       'content.administrativeAgency.link.label',
                     )}
-                    endIcon={<OpenInNewIcon color="inherit" />}
-                  />
+                  </OphLink>
                 </Text>
                 <Text>
-                  <WebLink
+                  <OphLink
                     href={`mailto:${translateAccessibility(
                       'content.administrativeAgency.email',
                     )}`}
-                    label={translateAccessibility(
+                  >
+                    {translateAccessibility(
                       'content.administrativeAgency.email',
                     )}
-                  />
+                  </OphLink>
                 </Text>
                 <Text>
                   {translateAccessibility(

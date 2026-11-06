@@ -2,6 +2,7 @@ package fi.oph.yki.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import fi.oph.yki.Factory;
@@ -83,6 +84,46 @@ class LoginLinkServiceTest {
     assertTrue(link.startsWith(environment.getRequiredProperty("app.base-url.public") + "/auth/login?code="));
     final String code = link.substring(link.indexOf("code=") + "code=".length());
     assertNotEquals(code, loginLink.getCode());
+    assertEquals(StringUtil.sha256hex(code), loginLink.getCode());
+  }
+
+  @Test
+  void testCreatePaymentLink() {
+    final Person person = Factory.person();
+    final ExamDate examDate = Factory.examDate();
+    final ExamSession examSession = Factory.examSession(examDate);
+    final Registration registration = Factory.registration(person);
+    registration.setExamSession(examSession);
+    registration.setExpiresAt(LocalDateTime.of(2026, 10, 6, 0, 0));
+    final Participant participant = Factory.participant("testi.henkilo@example.com");
+    registration.setParticipant(participant);
+
+    entityManager.persist(examDate);
+    entityManager.persist(examSession);
+    entityManager.persist(person);
+    entityManager.persist(participant);
+    entityManager.persist(registration);
+
+    final String link = loginLinkService.createPaymentLink(participant, registration, "sv");
+
+    final List<LoginLink> loginLinks = loginLinkRepository.findAll();
+    assertEquals(1, loginLinks.size());
+    final LoginLink loginLink = loginLinks.get(0);
+
+    final String publicBaseUrl = environment.getRequiredProperty("app.base-url.public");
+    assertEquals(participant.getId(), loginLink.getParticipant().getId());
+    assertEquals(registration.getId(), loginLink.getRegistration().getId());
+    assertNull(loginLink.getExamSession());
+    assertEquals(LoginLinkType.PAYMENT, loginLink.getType());
+    assertEquals(
+      publicBaseUrl + "/api/payment/v3/" + registration.getId() + "/redirect?lang=sv",
+      loginLink.getSuccessRedirect()
+    );
+    assertEquals(publicBaseUrl + "/ilmoittautuminen/maksu/vanhentunut", loginLink.getExpiredLinkRedirect());
+    assertEquals(registration.getExpiresAt(), loginLink.getExpiresAt());
+
+    assertTrue(link.startsWith(publicBaseUrl + "/auth/login?code="));
+    final String code = link.substring(link.indexOf("code=") + "code=".length());
     assertEquals(StringUtil.sha256hex(code), loginLink.getCode());
   }
 }

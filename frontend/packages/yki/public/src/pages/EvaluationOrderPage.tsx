@@ -1,12 +1,12 @@
 import { Box, Grid } from '@mui/material';
 import { useCallback, useEffect } from 'react';
 import { useParams } from 'react-router';
-import { H1, H2, HeaderSeparator } from 'shared/components';
 import { APIResponseStatus, Severity } from 'shared/enums';
 import { useToast } from 'shared/hooks';
 
 import { PublicEvaluationOrderForm } from 'components/reassessment/evaluationOrder/PublicEvaluationOrderForm';
 import { PublicEvaluationOrderPageSkeleton } from 'components/skeletons/PublicEvaluationOrderPageSkeleton';
+import { H1, H2 } from 'components/Text';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
@@ -102,7 +102,6 @@ export const EvaluationOrderPage = () => {
               <H1 className="public-evaluation-order-page__title-heading">
                 {t('title')}
               </H1>
-              <HeaderSeparator />
               <H2>{t('notFound')}</H2>
             </Grid>
           </Grid>
@@ -121,7 +120,6 @@ export const EvaluationOrderPage = () => {
               <H1 className="public-evaluation-order-page__title-heading">
                 {t('title')}
               </H1>
-              <HeaderSeparator />
             </Grid>
             <PublicEvaluationOrderForm />
           </Grid>

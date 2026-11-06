@@ -7,11 +7,7 @@
   "private": true,
   "repository": "https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot",
   "resolutions": {
-    "@xmldom/xmldom": "^0.8.10",
-    "loader-utils": "^2.0.4",
-    "terser": "^5.19.2",
     "react-is": "^18.3.1",
-    "express/qs": "^6.16.0",
     "sockjs/uuid": "^11.1.1"
   },
   "scripts": {
@@ -43,10 +39,10 @@
     "@mui/material": "^7.3.11",
     "@mui/system": "^5.18.0",
     "@mui/x-date-pickers": "^8.29.0",
-    "@opetushallitus/oph-design-system": "^1.2.0",
+    "@opetushallitus/oph-design-system": "^2.0.0",
     "@reduxjs/toolkit": "^2.12.0",
     "@types/js-cookie": "^3.0.6",
-    "axios": "^1.18.1",
+    "axios": "^1.20.0",
     "dayjs": "^1.11.21",
     "finnish-personal-identity-code-validator": "kimmotaskinen/finnish-personal-identity-code-validator#support-new-delimiters",
     "focus-trap-react": "^11.0.6",

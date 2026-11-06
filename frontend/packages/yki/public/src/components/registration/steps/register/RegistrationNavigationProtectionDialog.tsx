@@ -1,5 +1,4 @@
-import { Text } from 'shared/components';
-
+import { Text } from 'components/Text';
 import { usePublicTranslation } from 'configs/i18n';
 
 export const DialogContents = () => {

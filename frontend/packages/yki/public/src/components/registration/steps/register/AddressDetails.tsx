@@ -1,10 +1,10 @@
+import { InputAutoComplete, TextFieldVariant } from 'shared/enums';
+import { useWindowProperties } from 'shared/hooks';
 import {
   LabeledComboBox,
   LabeledTextField,
   LabeledTextFieldProps,
-} from 'shared/components';
-import { InputAutoComplete, TextFieldVariant } from 'shared/enums';
-import { useWindowProperties } from 'shared/hooks';
+} from 'shared/ods-components';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -43,6 +43,17 @@ export const AddressDetails = ({
   const getRegistrationErrors = usePublicRegistrationErrors(true);
   const registrationErrors = getRegistrationErrors();
 
+  const getAddressTextFieldAttributes = (
+    fieldName: keyof PersonFillOutDetails,
+  ) => {
+    const attributes = getLabeledTextFieldAttributes(fieldName);
+
+    return {
+      ...attributes,
+      helperText: attributes.helperText || ' ',
+    };
+  };
+
   const countryCodeDropdown = (
     <LabeledComboBox
       id="public-registration__contact-details__country-code-field"
@@ -73,24 +84,23 @@ export const AddressDetails = ({
       <>
         {countryCodeDropdown}
         <LabeledTextField
-          {...getLabeledTextFieldAttributes('address')}
+          {...getAddressTextFieldAttributes('address')}
           value={registration.address || ''}
           autoComplete={InputAutoComplete.Street}
           fullWidth
         />
         <LabeledTextField
-          {...getLabeledTextFieldAttributes('postNumber')}
+          {...getAddressTextFieldAttributes('postNumber')}
           value={registration.postNumber || ''}
           autoComplete={InputAutoComplete.PostalCode}
           fullWidth
         />
         <LabeledTextField
-          {...getLabeledTextFieldAttributes('postOffice')}
+          {...getAddressTextFieldAttributes('postOffice')}
           value={registration.postOffice || ''}
           autoComplete={InputAutoComplete.Town}
           fullWidth
         />
-        {countryCodeDropdown}
       </>
     );
   } else {
@@ -98,18 +108,18 @@ export const AddressDetails = ({
       <>
         <div className="registration-details__address-grid gapped">
           <LabeledTextField
-            {...getLabeledTextFieldAttributes('address')}
+            {...getAddressTextFieldAttributes('address')}
             value={registration.address || ''}
             autoComplete={InputAutoComplete.Street}
           />
           <div className="columns gapped align-items-end">
             <LabeledTextField
-              {...getLabeledTextFieldAttributes('postNumber')}
+              {...getAddressTextFieldAttributes('postNumber')}
               value={registration.postNumber || ''}
               autoComplete={InputAutoComplete.PostalCode}
             />
             <LabeledTextField
-              {...getLabeledTextFieldAttributes('postOffice')}
+              {...getAddressTextFieldAttributes('postOffice')}
               value={registration.postOffice || ''}
               autoComplete={InputAutoComplete.Town}
             />

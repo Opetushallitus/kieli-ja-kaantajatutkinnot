@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.eq;
@@ -511,6 +512,51 @@ public class ExaminerEnrollmentServiceTest {
     assertNull(responseDTO.speechComprehensionPartialExam());
     assertNull(enrollment.getGrade().getSpeechComprehensionPartialExamGrade());
     assertNull(enrollment.getGrade().getSpeechComprehensionPartialExamComment());
+  }
+
+  @Test
+  public void testUpsertExistingAppointmentGradesUpdatesAppointmentModifiedAt() {
+    final Examiner examiner = Factory.examiner();
+    final Municipality municipality = Factory.municipality();
+    final ExaminerExamEvent examEvent = Factory.examinerExamEvent(examiner, municipality);
+    final Person person = Factory.person();
+    final EnrollmentAppointment enrollment = Factory.enrollmentAppointment(examiner, examEvent, person);
+    final EnrollmentGrade enrollmentGrade = Factory.enrollmentGrades(false);
+
+    enrollment.setGrade(enrollmentGrade);
+
+    entityManager.persist(enrollmentGrade);
+    entityManager.persist(examiner);
+    entityManager.persist(municipality);
+    entityManager.persist(examEvent);
+    entityManager.persist(person);
+    entityManager.persistAndFlush(enrollment);
+
+    final LocalDateTime modifiedAtBefore = enrollment.getModifiedAt();
+
+    final ExaminerEnrollmentGradesDTO examinerEnrollmentGradesDTO = ExaminerEnrollmentGradesDTO
+      .builder()
+      .readingComprehensionPartialExam(buildGrade(EnrollmentGradeType.GOOD, "Comment1"))
+      .speakingPartialExam(buildGrade(EnrollmentGradeType.SATISFACTORY, "Comment2"))
+      .writingPartialExam(buildGrade(EnrollmentGradeType.GOOD, "Comment3"))
+      .speechComprehensionPartialExam(buildGrade(EnrollmentGradeType.FAILED, "Comment4"))
+      .version(enrollmentGrade.getVersion())
+      .build();
+
+    examinerEnrollmentService.upsertAppointmentGrades(
+      examiner.getOid(),
+      enrollment.getId(),
+      examinerEnrollmentGradesDTO
+    );
+
+    final EnrollmentAppointment enrollmentUpdated = enrollmentAppointmentRepository.getReferenceById(
+      enrollment.getId()
+    );
+    entityManager.refresh(enrollmentUpdated);
+
+    assertEquals(enrollmentGrade.getId(), enrollmentUpdated.getGrade().getId());
+    assertEquals(EnrollmentGradeType.GOOD, enrollmentUpdated.getGrade().getReadingComprehensionPartialExamGrade());
+    assertTrue(enrollmentUpdated.getModifiedAt().isAfter(modifiedAtBefore));
   }
 
   private static EnrollmentGradeDTO buildGrade(final EnrollmentGradeType enrollmentGradeType, final String comment) {
