@@ -5,6 +5,7 @@ import lombok.Builder;
 @Builder
 public record IntegrationAssistanceCheckAuditDTO(
   String personUuid,
+  String correlationId,
   IntegrationAssistanceCheckResult result,
   String errorDetail
 ) {}

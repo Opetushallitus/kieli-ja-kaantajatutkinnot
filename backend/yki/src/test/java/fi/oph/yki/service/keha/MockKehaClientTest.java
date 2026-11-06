@@ -12,16 +12,25 @@ public class MockKehaClientTest {
   public void testDecisionFromConfiguredSsns() {
     final MockKehaClient client = new MockKehaClient(" 010170-999R , 020270-998P", "030370-997N");
 
-    assertEquals(KehaDecision.ELIGIBLE, client.checkEligibility("010170-999R", UUID.randomUUID()));
-    assertEquals(KehaDecision.ELIGIBLE, client.checkEligibility("020270-998P", UUID.randomUUID()));
-    assertEquals(KehaDecision.NOT_ELIGIBLE, client.checkEligibility("040470-996M", UUID.randomUUID()));
-    assertThrows(IllegalStateException.class, () -> client.checkEligibility("030370-997N", UUID.randomUUID()));
+    assertEquals(KehaDecision.ELIGIBLE, client.checkEligibility("010170-999R", UUID.randomUUID(), UUID.randomUUID()));
+    assertEquals(KehaDecision.ELIGIBLE, client.checkEligibility("020270-998P", UUID.randomUUID(), UUID.randomUUID()));
+    assertEquals(
+      KehaDecision.NOT_ELIGIBLE,
+      client.checkEligibility("040470-996M", UUID.randomUUID(), UUID.randomUUID())
+    );
+    assertThrows(
+      IllegalStateException.class,
+      () -> client.checkEligibility("030370-997N", UUID.randomUUID(), UUID.randomUUID())
+    );
   }
 
   @Test
   public void testEmptyConfigIsNeverEligible() {
     final MockKehaClient client = new MockKehaClient("", "");
 
-    assertEquals(KehaDecision.NOT_ELIGIBLE, client.checkEligibility("010170-999R", UUID.randomUUID()));
+    assertEquals(
+      KehaDecision.NOT_ELIGIBLE,
+      client.checkEligibility("010170-999R", UUID.randomUUID(), UUID.randomUUID())
+    );
   }
 }
