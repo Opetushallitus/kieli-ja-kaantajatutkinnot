@@ -79,7 +79,9 @@ app:
     password: ${cas.password:null}
   keha:
     enabled: ${keha.enabled:false}
+    url: ${keha.url:null}
     mock:
+      enabled: ${keha.mock.enabled:false}
       eligible-ssns: ${keha.mock.eligible-ssns:}
       error-ssns: ${keha.mock.error-ssns:}
   organization-service:

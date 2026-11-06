@@ -7,9 +7,11 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 @Component
+@ConditionalOnProperty(name = "app.keha.mock.enabled", havingValue = "true")
 public class MockKehaClient implements KehaClient {
 
   private static final Logger LOG = LoggerFactory.getLogger(MockKehaClient.class);
@@ -30,8 +32,8 @@ public class MockKehaClient implements KehaClient {
   }
 
   @Override
-  public KehaDecision checkEligibility(final String ssn, final UUID personUuid) {
-    LOG.info("Mock KEHA eligibility check, personUuid: {}", personUuid);
+  public KehaDecision checkEligibility(final String ssn, final UUID personUuid, final UUID correlationId) {
+    LOG.info("Mock KEHA eligibility check, personUuid: {}, correlationId: {}", personUuid, correlationId);
 
     if (errorSsns.contains(ssn)) {
       throw new IllegalStateException("Mock KEHA failure, personUuid: " + personUuid);

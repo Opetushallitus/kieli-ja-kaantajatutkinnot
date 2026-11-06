@@ -19,6 +19,11 @@ solki:
   password: test
   person-sync-enabled: false
   exam-session-sync-enabled: false
+keha:
+  enabled: true
+  mock:
+    enabled: true
+    eligible-ssns: 010170-999R
 v2:
   enabled: true
 dev:
