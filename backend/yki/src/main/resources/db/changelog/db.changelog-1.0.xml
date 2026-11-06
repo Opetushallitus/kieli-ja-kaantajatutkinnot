@@ -674,4 +674,170 @@
         <column name="last_sync_at" type="TIMESTAMP WITH TIME ZONE"/>
       </addColumn>
     </changeSet>
+
+    <changeSet id="2026-10-02-create-identity-table" author="jrkkp">
+        <preConditions onFail="CONTINUE">
+            <not>
+                <tableExists tableName="identity"/>
+            </not>
+        </preConditions>
+        <createTable tableName="identity">
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="identity_pkey"/>
+            </column>
+            <column name="person_oid" type="TEXT"/>
+            <column name="created" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="identity"
+                baseColumnNames="person_oid"
+                constraintName="fk_identity_person"
+                referencedTableName="person"
+                referencedColumnNames="oid" />
+    </changeSet>
+
+    <changeSet id="2026-10-02-add-identity-id-to-registration" author="jrkkp">
+        <addColumn tableName="registration">
+            <column name="identity_id" type="BIGINT"/>
+        </addColumn>
+        <addForeignKeyConstraint
+                baseTableName="registration"
+                baseColumnNames="identity_id"
+                constraintName="fk_registration_identity"
+                referencedTableName="identity"
+                referencedColumnNames="id" />
+    </changeSet>
+
+    <!-- Same SQL as the old backend's migration 048-update-registration-full-trigger. Test-only: the db/ dump predates 048 -->
+    <changeSet id="2026-10-20-update-registration-full-trigger" author="jrkkp">
+        <preConditions onFail="CONTINUE">
+            <dbms type="postgresql" />
+        </preConditions>
+        <sql>DROP FUNCTION IF EXISTS select_registration_kind(bigint)</sql>
+        <sql splitStatements="false"><![CDATA[
+CREATE OR REPLACE FUNCTION select_registration_kind(eid bigint, pet exam_session_ticket_type) RETURNS text AS $$
+DECLARE
+    es record;
+    rl_sub_type exam_session_ticket_type;
+    sw_sub_type exam_session_ticket_type;
+    queue_count bigint;
+    participants_count bigint;
+BEGIN
+    SELECT INTO es type, max_participants, max_participants_read_listen, max_participants_speak_write
+    FROM exam_session WHERE id = eid;
+
+    IF es.type = 'FULL' THEN
+        SELECT COUNT(*) INTO queue_count
+        FROM registration r
+        WHERE r.exam_session_id = eid AND r.kind = 'QUEUE' AND r.state IN ('STARTED', 'SUBMITTED');
+
+        SELECT COUNT(*) INTO participants_count
+        FROM registration r
+        WHERE r.exam_session_id = eid AND r.kind = 'ADMISSION' AND r.state IN ('STARTED', 'SUBMITTED', 'COMPLETED');
+
+        IF queue_count > 0 OR participants_count >= es.max_participants THEN RETURN 'QUEUE'; END IF;
+        RETURN 'ADMISSION';
+    END IF;
+
+    IF es.type = 'READ_SPEAK' THEN
+        rl_sub_type := 'READ';
+        sw_sub_type := 'SPEAK';
+    ELSE
+        rl_sub_type := 'LISTEN';
+        sw_sub_type := 'WRITE';
+    END IF;
+
+    IF pet IN (rl_sub_type, 'ALL_PARTS') THEN
+        SELECT COUNT(*) INTO queue_count
+        FROM registration r
+        WHERE r.exam_session_id = eid AND r.kind = 'QUEUE' AND r.state IN ('STARTED', 'SUBMITTED')
+          AND r.partial_exam_type IN ('ALL_PARTS', rl_sub_type);
+
+        SELECT COUNT(*) INTO participants_count
+        FROM registration r
+        WHERE r.exam_session_id = eid AND r.kind = 'ADMISSION' AND r.state IN ('STARTED', 'SUBMITTED', 'COMPLETED')
+          AND r.partial_exam_type IN ('ALL_PARTS', rl_sub_type);
+
+        IF queue_count > 0 OR participants_count >= es.max_participants_read_listen THEN RETURN 'QUEUE'; END IF;
+        IF pet = rl_sub_type THEN RETURN 'ADMISSION'; END IF;
+    END IF;
+
+    SELECT COUNT(*) INTO queue_count
+    FROM registration r
+    WHERE r.exam_session_id = eid AND r.kind = 'QUEUE' AND r.state IN ('STARTED', 'SUBMITTED')
+      AND r.partial_exam_type IN ('ALL_PARTS', sw_sub_type);
+
+    SELECT COUNT(*) INTO participants_count
+    FROM registration r
+    WHERE r.exam_session_id = eid AND r.kind = 'ADMISSION' AND r.state IN ('STARTED', 'SUBMITTED', 'COMPLETED')
+      AND r.partial_exam_type IN ('ALL_PARTS', sw_sub_type);
+
+    IF queue_count > 0 OR participants_count >= es.max_participants_speak_write THEN RETURN 'QUEUE'; END IF;
+    RETURN 'ADMISSION';
+END;
+$$ LANGUAGE plpgsql
+        ]]></sql>
+        <sql>DROP TRIGGER IF EXISTS participant_limit_trigger ON registration</sql>
+        <sql splitStatements="false"><![CDATA[
+CREATE OR REPLACE FUNCTION error_if_exceeds_participant_limit() RETURNS TRIGGER AS $$
+DECLARE
+    actual_kind TEXT := (
+        select_registration_kind(NEW.exam_session_id, NEW.partial_exam_type)
+    );
+BEGIN
+    IF NEW.kind = 'QUEUE' AND actual_kind = 'ADMISSION' THEN
+        RAISE EXCEPTION 'registration to queue is not available';
+    ELSIF NEW.kind = 'ADMISSION' AND actual_kind = 'QUEUE' THEN
+        RAISE EXCEPTION 'max_participants of exam_session exceeded.';
+    ELSE
+        RETURN NEW;
+    END IF;
+END;
+$$ LANGUAGE plpgsql
+        ]]></sql>
+        <sql>CREATE TRIGGER participant_limit_trigger BEFORE INSERT ON registration FOR EACH ROW EXECUTE PROCEDURE error_if_exceeds_participant_limit()</sql>
+    </changeSet>
+    <changeSet id="2026-11-05-registration-payment-table" author="jrkkp">
+        <createTable tableName="registration_payment">
+            <column autoIncrement="true" name="payment_id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="registration_payment_pkey"/>
+            </column>
+            <column name="registration_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amount" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="transaction_id" type="TEXT"/>
+            <column name="reference" type="TEXT"/>
+            <column name="merchant_reference" type="TEXT"/>
+            <column name="payment_url" type="TEXT"/>
+            <column name="payment_status" type="TEXT"/>
+            <column name="paid_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="refunded_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="version" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="TEXT"/>
+            <column name="modified_by" type="TEXT"/>
+            <column name="deleted_by" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="TIMESTAMP WITH TIME ZONE"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="registration_payment" baseColumnNames="registration_id"
+                                 referencedTableName="registration" referencedColumnNames="id"
+                                 constraintName="fk_registration_payment_registration"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"/>
+    </changeSet>
 </databaseChangeLog>
