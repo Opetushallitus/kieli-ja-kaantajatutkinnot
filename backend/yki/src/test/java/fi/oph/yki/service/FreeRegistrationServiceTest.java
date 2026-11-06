@@ -58,7 +58,7 @@ public class FreeRegistrationServiceTest {
 
   @Test
   public void testIntegrationAssistanceAllowedOnlyForIntermediateLevel() {
-    final FreeRegistrationSource source = FreeRegistrationSource.KEHA;
+    final FreeRegistrationSource source = FreeRegistrationSource.OTHER;
 
     assertTrue(
       FreeRegistrationService.isFreeRegistrationAllowed(registration("KESKI", "fin", RegistrationState.STARTED), source)
@@ -77,7 +77,7 @@ public class FreeRegistrationServiceTest {
   @Test
   public void testOnlyFinnishAndSwedishAllowed() {
     for (final FreeRegistrationSource source : FreeRegistrationSource.values()) {
-      final String level = source == FreeRegistrationSource.KEHA ? "KESKI" : "YLIN";
+      final String level = source == FreeRegistrationSource.OTHER ? "KESKI" : "YLIN";
       assertFalse(
         FreeRegistrationService.isFreeRegistrationAllowed(registration(level, "eng", RegistrationState.STARTED), source)
       );
@@ -96,7 +96,7 @@ public class FreeRegistrationServiceTest {
       assertFalse(
         FreeRegistrationService.isFreeRegistrationAllowed(
           registration("KESKI", "fin", state),
-          FreeRegistrationSource.KEHA
+          FreeRegistrationSource.OTHER
         )
       );
     }

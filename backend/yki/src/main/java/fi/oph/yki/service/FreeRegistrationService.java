@@ -33,7 +33,7 @@ public class FreeRegistrationService {
   private static LevelCode allowedLevel(final FreeRegistrationSource source) {
     return switch (source) {
       case KOSKI, USER -> LevelCode.YLIN;
-      case KEHA -> LevelCode.KESKI;
+      case OTHER -> LevelCode.KESKI;
     };
   }
 
@@ -54,7 +54,7 @@ public class FreeRegistrationService {
   public boolean hasIntegrationAssistanceUseLeft(final Registration registration) {
     final long usedExamSessions = freeRegistrationRepository.countExamSessionsWithFreeRegistration(
       registration.getPerson().getOid(),
-      FreeRegistrationSource.KEHA,
+      FreeRegistrationSource.OTHER,
       registration.getExamSession().getId()
     );
 
@@ -65,7 +65,7 @@ public class FreeRegistrationService {
   public FreeRegistration createIntegrationAssistanceFreeRegistration(final Registration registration) {
     final FreeRegistration freeRegistration = new FreeRegistration();
     freeRegistration.setRegistration(registration);
-    freeRegistration.setSource(FreeRegistrationSource.KEHA);
+    freeRegistration.setSource(FreeRegistrationSource.OTHER);
     freeRegistration.setType(FreeRegistrationType.IntegrationAssistance);
     freeRegistration.setMatriculationExam(false);
     freeRegistration.setHigherEducationConcluded(false);
