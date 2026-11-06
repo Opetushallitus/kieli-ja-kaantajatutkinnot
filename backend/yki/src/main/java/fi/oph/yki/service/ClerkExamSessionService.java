@@ -27,7 +27,6 @@ import fi.oph.yki.repository.RegistrationWithQueuePositionProjection;
 import fi.oph.yki.util.RegistrationUtil;
 import fi.oph.yki.view.ExamSessionXlsxDataRowUtil;
 import fi.oph.yki.view.ExamSessionXlsxView;
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -82,7 +81,11 @@ public class ClerkExamSessionService {
   @Transactional(readOnly = true)
   public List<ClerkExamSessionDTO> getExamSessionsByLanguageAndLevel(final String language, final String level) {
     auditService.logOperation(YkiOperation.LIST_EXAM_SESSIONS);
-    return examSessionRepository.getByLanguageAndLevel(language, level).stream().map(this::toDTO).toList();
+    return examSessionRepository
+      .getByLanguageAndLevelOrderByExamDateExamDateDesc(language, level)
+      .stream()
+      .map(this::toDTO)
+      .toList();
   }
 
   @Transactional(readOnly = true)
@@ -92,7 +95,7 @@ public class ClerkExamSessionService {
   ) {
     auditService.logOperation(YkiOperation.LIST_EXAM_SESSIONS);
     return examSessionRepository
-      .findUpcomingByLanguageAndLevelWithDateAndLocations(language, level, LocalDate.now())
+      .findByLanguageAndLevelWithDateAndLocations(language, level)
       .stream()
       .map(ClerkExamSessionService::toSummaryDTO)
       .toList();

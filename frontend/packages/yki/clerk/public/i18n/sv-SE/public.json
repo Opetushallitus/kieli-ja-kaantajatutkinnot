@@ -76,6 +76,7 @@
               },
               "registrationState": {
                 "CANCELLED": "Annullerad",
+                "QUEUE_CANCELLED": "Köplats annullerad",
                 "COMPLETED": "Betald",
                 "EXPIRED": "Förfallen",
                 "PAID_AND_CANCELLED": "Betald och annullerad",
@@ -202,12 +203,17 @@
         }
       },
       "clerkExamSessionRegistrations": {
+        "queueEnds": "Köanmälan avslutas",
+        "queueEnded": "Köanmälan avslutad",
         "buttons": {
           "downloadExcel": "Ladda ner Excel",
+          "onlyPaid": "Visa endast betalda",
           "edit": "Redigera",
           "participants": "Anmälda: {{count}} / {{max}}",
           "participantsListen": "Talförståelse: {{count}} / {{max}}",
           "participantsRead": "Textförståelse: {{count}} / {{max}}",
+          "participantsReadSpeak": "Textförståelse och muntlig framställning: {{count}}",
+          "participantsListenWrite": "Talförståelse och skriftlig framställning: {{count}}",
           "participantsSpeak": "Muntlig framställning: {{count}} / {{max}}",
           "participantsWrite": "Skriftlig framställning: {{count}} / {{max}}"
         },
@@ -270,7 +276,9 @@
         },
         "tabs": {
           "admissions": "Anmälda ({{ num }})",
-          "queued": "I kö ({{ num }})"
+          "queued": "I kö ({{ num }})",
+          "paidAndCancelled": "Betald och annullerad ({{ num }})",
+          "cancelledOrExpired": "Annullerad eller förfallen ({{ num }})"
         }
       },
       "clerkFreeRegistration": {
