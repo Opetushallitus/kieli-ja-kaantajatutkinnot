@@ -51,7 +51,7 @@ public class Registration {
   private Identity identity;
 
   @Column(name = "kind")
-  @Enumerated
+  @Enumerated(value = EnumType.STRING)
   @JdbcType(PostgreSQLEnumJdbcType.class)
   private RegistrationKind kind;
 
@@ -77,6 +77,12 @@ public class Registration {
 
   @Column(name = "created")
   private LocalDateTime createdAt;
+
+  @Column(name = "modified", insertable = false, updatable = false)
+  private LocalDateTime modifiedAt;
+
+  @Column(name = "ui_language")
+  private String uiLanguage;
 
   @Column(name = "expires_at")
   private LocalDateTime expiresAt;
