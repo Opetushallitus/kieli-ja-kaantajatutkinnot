@@ -179,16 +179,17 @@ public class PaymentServiceTest {
   }
 
   @Test
-  public void testCreatePaymentForRegistrationReusesUnfinishedPayment() {
+  public void testCreatePaymentForRegistrationCreatesNewPaymentWhenUnfinishedPaymentExists() {
     final Identity identity = persistIdentity();
     final Registration registration = persistRegistration(identity, RegistrationState.SUBMITTED);
-    persistPayment(registration);
+    final Payment unfinished = persistPayment(registration);
 
     final String paymentUrl = paymentService.createPaymentForRegistration(registration.getId(), identity, AppLocale.FI);
 
     assertEquals(PAYMENT_URL, paymentUrl);
-    assertEquals(1, paymentRepository.count());
-    verify(paymentProvider, times(0)).createPayment(anyList(), anyLong(), anyString(), any(), anyInt(), any());
+    assertEquals(2, paymentRepository.count());
+    assertEquals(PaymentStatus.NEW, paymentRepository.findById(unfinished.getId()).orElseThrow().getPaymentStatus());
+    verify(paymentProvider, times(1)).createPayment(anyList(), anyLong(), anyString(), any(), anyInt(), any());
   }
 
   @Test

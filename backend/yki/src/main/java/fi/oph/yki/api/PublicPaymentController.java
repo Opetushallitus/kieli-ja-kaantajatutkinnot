@@ -29,7 +29,7 @@ public class PublicPaymentController {
 
   private final PaymentService paymentService;
 
-  @GetMapping(path = "/payment/{paymentId:\\d+}/success")
+  @GetMapping(path = "/{paymentId:\\d+}/success")
   public void paymentSuccess(
     @PathVariable final Long paymentId,
     @RequestParam final Map<String, String> paymentParams,
@@ -45,7 +45,7 @@ public class PublicPaymentController {
     );
   }
 
-  @GetMapping(path = "/payment/{paymentId:\\d+}/cancel")
+  @GetMapping(path = "/{paymentId:\\d+}/cancel")
   public void paymentCancel(
     @PathVariable final Long paymentId,
     @RequestParam final Map<String, String> paymentParams,
