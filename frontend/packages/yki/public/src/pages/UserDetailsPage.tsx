@@ -1,26 +1,18 @@
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import InfoFilledIcon from '@mui/icons-material/Info';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import WarningOutlinedIcon from '@mui/icons-material/WarningOutlined';
 import { Grid, Paper, Typography } from '@mui/material';
 import { Box } from '@mui/system';
+import { OphLink } from '@opetushallitus/oph-design-system';
 import dayjs from 'dayjs';
 import { FC, useEffect, useState } from 'react';
 import { Trans } from 'react-i18next';
-import {
-  CustomButton,
-  CustomButtonLink,
-  H1,
-  H2,
-  H3,
-  HeaderSeparator,
-  Text,
-  WebLink,
-} from 'shared/components';
+import { CustomButton, CustomButtonLink } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
+import { H1, H2, H3, Label, Text } from 'components/Text';
 import { CancelRegistrationModal } from 'components/userDetails/CancelRegistrationModal';
 import { RegistrationDetails } from 'components/userDetails/RegistrationDetails';
 import { RegistrationState } from 'components/userDetails/RegistrationState';
@@ -135,7 +127,7 @@ const ExamPayment = ({
   if (isFreeRegistration) {
     return (
       <div>
-        <Text className="bold">{t('label')}</Text>
+        <Label>{t('label')}</Label>
         <div className="columns gapped-xxs">
           <CheckCircleOutlinedIcon className="user-details-page__icon--ok" />{' '}
           <Text>{t('free')}</Text>
@@ -146,7 +138,7 @@ const ExamPayment = ({
 
   return (
     <div>
-      <Text className="bold">{t('label')}</Text>
+      <Label>{t('label')}</Label>
       {paidAt && (
         <div className="columns gapped-xxs">
           <CheckCircleOutlinedIcon className="user-details-page__icon--ok" />{' '}
@@ -275,6 +267,18 @@ const Registrations: FC<RegistrationsProps> = ({
   });
 };
 
+const CompletedStudiesLink = () => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.pages.userDetailsPage.contactDetails.certificateInfo.link',
+  });
+
+  return (
+    <OphLink href={t('url')} target="_blank" rel="noreferrer">
+      {t('label')}
+    </OphLink>
+  );
+};
+
 const ContactDetails = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.pages.userDetailsPage.contactDetails',
@@ -335,13 +339,7 @@ const ContactDetails = () => {
               t={t}
               i18nKey="certificateInfo.part1"
               components={{
-                CompletedStudiesLink: (
-                  <WebLink
-                    href={t('certificateInfo.link.url')}
-                    label={t('certificateInfo.link.label')}
-                    endIcon={<OpenInNewIcon color="inherit" />}
-                  />
-                ),
+                CompletedStudiesLink: <CompletedStudiesLink />,
               }}
             />
           </Text>
@@ -377,7 +375,6 @@ const NotLoggedIn = () => {
           <H1 data-testid="user-details-page__title-heading">
             {t('notLoggedIn.title')}
           </H1>
-          <HeaderSeparator />
           <div className="rows gapped">
             <Text>
               <Trans t={t} i18nKey="notLoggedIn.loginRequired" />
@@ -484,7 +481,6 @@ export const UserDetailsPage: FC = () => {
       >
         <Grid className="user-details-page__grid-container__item-header">
           <H1 data-testid="user-details-page__title-heading">{t('title')}</H1>
-          <HeaderSeparator />
           <Text>{t('introduction.info')}</Text>
           <Typography className="margin-top-sm" variant="body1" component="ul">
             {renderBulletpoints()}

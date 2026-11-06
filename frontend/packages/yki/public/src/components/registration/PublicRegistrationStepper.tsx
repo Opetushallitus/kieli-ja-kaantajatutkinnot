@@ -1,10 +1,11 @@
 import { Step, StepLabel, Stepper, Typography } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
 import { useSearchParams } from 'react-router';
-import { CircularStepper, Text } from 'shared/components';
+import { CircularStepper } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
+import { Text } from 'components/Text';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { PaymentStatus } from 'enums/api';

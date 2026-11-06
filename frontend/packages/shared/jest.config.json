@@ -10,5 +10,14 @@
   "setupFilesAfterEnv": [
     "./jest-setup.ts"
   ],
-  "testEnvironment": "./jest-environment-patched-jsdom.js"
+  "testEnvironment": "./jest-environment-patched-jsdom.js",
+  "transform": {
+    "^.+\\.[jt]sx?$": [
+      "babel-jest",
+      { "configFile": "./.babelrc", "babelrc": false }
+    ]
+  },
+  "transformIgnorePatterns": [
+    "/node_modules/(?!@opetushallitus/oph-design-system)"
+  ]
 }

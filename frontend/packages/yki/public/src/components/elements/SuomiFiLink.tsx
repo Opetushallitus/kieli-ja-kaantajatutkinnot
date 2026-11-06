@@ -1,4 +1,4 @@
-import { WebLink } from 'shared/components';
+import { OphLink } from '@opetushallitus/oph-design-system';
 
 import { useCommonTranslation } from 'configs/i18n';
 
@@ -6,9 +6,8 @@ export const SuomiFiLink = () => {
   const translateCommon = useCommonTranslation();
 
   return (
-    <WebLink
-      href={translateCommon('suomiFiLink.url')}
-      label={translateCommon('suomiFiLink.label')}
-    />
+    <OphLink href={translateCommon('suomiFiLink.url')} target="_blank">
+      {translateCommon('suomiFiLink.label')}
+    </OphLink>
   );
 };

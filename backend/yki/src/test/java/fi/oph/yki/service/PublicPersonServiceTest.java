@@ -256,6 +256,8 @@ public class PublicPersonServiceTest {
     final ExamSession examSession = createExamSession(LocalDate.now().plusMonths(2));
     examSession.setType(ExamSessionType.READ_SPEAK);
     examSession.setMaxParticipants(0);
+    examSession.setMaxParticipantsReadListen(0);
+    examSession.setMaxParticipantsSpeakWrite(0);
     entityManager.flush();
     final Person first = Factory.person();
     first.setOid("1.2.3.4.6");

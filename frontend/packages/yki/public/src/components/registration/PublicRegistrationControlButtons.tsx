@@ -4,13 +4,13 @@ import {
   CustomButtonLink,
   LoadingProgressIndicator,
   StackableMobileAppBar,
-  Text,
 } from 'shared/components';
 import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
 import { useDialog, useWindowProperties } from 'shared/hooks';
 import { MobileAppBarState } from 'shared/interfaces';
 
 import { MemoizedPublicRegistrationTimer } from 'components/registration/PublicRegistrationTimer';
+import { Text } from 'components/Text';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';

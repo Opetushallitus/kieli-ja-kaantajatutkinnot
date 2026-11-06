@@ -31,11 +31,21 @@ class ExamDetailsPage {
   }
 
   fillFieldByLabel(label: string, value: string) {
+    this.elements.textboxByLabel(label).clear();
     this.elements.textboxByLabel(label).type(value);
   }
 
   expectFieldText(label: string, value: string) {
     this.elements.textboxByLabel(label).should('have.value', value);
+  }
+
+  expectIdentityDetail(
+    field: 'firstNames' | 'lastName' | 'ssn',
+    value: string,
+  ) {
+    cy.findByTestId(`public-registration__identity__${field}`)
+      .should('be.visible')
+      .and('contain.text', value);
   }
 
   selectCertificateLanguage(language: string) {
