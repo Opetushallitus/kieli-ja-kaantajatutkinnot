@@ -227,14 +227,6 @@ public class PaymentService {
       throw new APIException(APIExceptionType.PAYMENT_INVALID_REGISTRATION_STATE);
     }
 
-    final Optional<Payment> unfinishedPayment = paymentRepository.findFirstByRegistrationIdAndPaymentStatusOrderByIdDesc(
-      registrationId,
-      PaymentStatus.NEW
-    );
-    if (unfinishedPayment.isPresent()) {
-      return unfinishedPayment.get().getPaymentUrl();
-    }
-
     final ExamSession examSession = registration.getExamSession();
     final int amount = getExamFeeInCents(registration);
     final List<Item> itemList = List.of(

@@ -13,9 +13,4 @@ public interface PaymentRepository extends BaseRepository<Payment> {
   // there is no race condition with paytrail callback
   @Query(value = "SELECT * FROM registration_payment p WHERE p.payment_id = :paymentId FOR UPDATE", nativeQuery = true)
   Optional<Payment> findWithLockingById(@Param("paymentId") final Long paymentId);
-
-  Optional<Payment> findFirstByRegistrationIdAndPaymentStatusOrderByIdDesc(
-    final long registrationId,
-    final PaymentStatus paymentStatus
-  );
 }
