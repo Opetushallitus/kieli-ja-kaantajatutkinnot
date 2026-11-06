@@ -16,6 +16,26 @@ import org.springframework.web.servlet.view.document.AbstractXlsxView;
 
 public class ExamSessionXlsxView extends AbstractXlsxView {
 
+  private static final List<String> HEADERS = List.of(
+    "OID",
+    "Sukunimi",
+    "Etunimi",
+    "Hetu",
+    "Syntymäaika",
+    "Tila",
+    "Osakoe / Koe",
+    "Sukupuoli",
+    "Sähköposti",
+    "Puhelinnumero",
+    "Katuosoite",
+    "Tehtäväkieli",
+    "Todistuskieli",
+    "Postinumero",
+    "Postitoimipaikka",
+    "Kansalaisuus",
+    "Alkuperäinen tutkintopäivä"
+  );
+
   private final ExamSessionXlsxData data;
 
   public ExamSessionXlsxView(final ExamSessionXlsxData data) {
@@ -39,46 +59,28 @@ public class ExamSessionXlsxView extends AbstractXlsxView {
   }
 
   private void writeExcel(final Workbook workbook) {
-    final List<String> headers = List.of(
-      "OID",
-      "Sukunimi",
-      "Etunimi",
-      "Tila",
-      "Ilmoittautumisen tyyppi",
-      "Alkuperäinen tutkintopäivä",
-      "Hetu",
-      "Syntymäaika",
-      "Sukupuoli",
-      "Sähköposti",
-      "Puhelinnumero",
-      "Katuosoite",
-      "Tehtäväkieli",
-      "Todistuskieli",
-      "Postinumero",
-      "Postitoimipaikka",
-      "Kansalaisuus",
-      "Tekstin ymmärtäminen",
-      "Puheen ymmärtäminen",
-      "Puhuminen",
-      "Kirjoittaminen"
-    );
-    final Sheet sheet = workbook.createSheet("Tilaisuuden tiedot");
+    for (final ExamSessionXlsxSheet sheetData : data.sheets()) {
+      writeSheet(workbook, sheetData);
+    }
+  }
 
-    createExcelHeader((XSSFWorkbook) workbook, sheet, headers);
+  private static void writeSheet(final Workbook workbook, final ExamSessionXlsxSheet sheetData) {
+    final Sheet sheet = workbook.createSheet(sheetData.name());
 
-    for (int i = 0; i < data.rows().size(); i++) {
+    createExcelHeader((XSSFWorkbook) workbook, sheet, HEADERS);
+
+    for (int i = 0; i < sheetData.rows().size(); i++) {
       final Row row = sheet.createRow(i + 1);
-      final ExamSessionXlsxDataRow dataRow = data.rows().get(i);
+      final ExamSessionXlsxDataRow dataRow = sheetData.rows().get(i);
 
       int ci = 0;
       row.createCell(ci).setCellValue(dataRow.oid());
       row.createCell(++ci).setCellValue(dataRow.lastName());
       row.createCell(++ci).setCellValue(dataRow.firstName());
-      setNullableValue(row.createCell(++ci), dataRow.state());
-      setNullableValue(row.createCell(++ci), dataRow.type());
-      setNullableValue(row.createCell(++ci), dataRow.originalExamDate());
       setNullableValue(row.createCell(++ci), dataRow.identityNumber());
       setNullableValue(row.createCell(++ci), dataRow.birthdate());
+      setNullableValue(row.createCell(++ci), dataRow.state());
+      setNullableValue(row.createCell(++ci), dataRow.partialExam());
       setNullableValue(row.createCell(++ci), dataRow.gender() != null ? dataRow.gender().name() : null);
       setNullableValue(row.createCell(++ci), dataRow.email());
       setNullableValue(row.createCell(++ci), dataRow.phone());
@@ -88,13 +90,10 @@ public class ExamSessionXlsxView extends AbstractXlsxView {
       setNullableValue(row.createCell(++ci), dataRow.zip());
       setNullableValue(row.createCell(++ci), dataRow.postOffice());
       setNullableValue(row.createCell(++ci), dataRow.nationalityDesc());
-      setNullableValue(row.createCell(++ci), dataRow.partialExamRead());
-      setNullableValue(row.createCell(++ci), dataRow.partialExamListen());
-      setNullableValue(row.createCell(++ci), dataRow.partialExamSpeak());
-      setNullableValue(row.createCell(++ci), dataRow.partialExamWrite());
+      setNullableValue(row.createCell(++ci), dataRow.originalExamDate());
     }
 
-    autoresizeExcelColumns(sheet, headers);
+    autoresizeExcelColumns(sheet, HEADERS);
   }
 
   protected static void setNullableValue(final Cell cell, final String string) {
