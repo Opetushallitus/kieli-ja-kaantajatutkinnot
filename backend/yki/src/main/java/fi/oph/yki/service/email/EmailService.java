@@ -4,13 +4,16 @@ import fi.oph.yki.model.Email;
 import fi.oph.yki.model.EmailAttachment;
 import fi.oph.yki.model.EmailType;
 import fi.oph.yki.repository.EmailAttachmentRepository;
+import fi.oph.yki.repository.EmailListProjection;
 import fi.oph.yki.repository.EmailRepository;
 import fi.oph.yki.service.email.sender.EmailSender;
 import fi.oph.yki.util.exception.NotFoundException;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,6 +59,11 @@ public class EmailService {
       .findById(emailId)
       .map(Email::getBody)
       .orElseThrow(() -> new NotFoundException("Email not found"));
+  }
+
+  @Transactional(readOnly = true)
+  public List<EmailListProjection> listNewestEmails(final int limit) {
+    return emailRepository.findAllByOrderByIdDesc(PageRequest.of(0, limit));
   }
 
   @Transactional

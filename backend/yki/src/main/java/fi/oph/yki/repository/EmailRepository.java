@@ -10,4 +10,6 @@ import org.springframework.stereotype.Repository;
 public interface EmailRepository extends BaseRepository<Email> {
   @Query("SELECT e.id FROM Email e WHERE e.sentAt IS NULL ORDER BY e.modifiedAt asc")
   List<Long> findEmailsToSend(PageRequest pageRequest);
+
+  List<EmailListProjection> findAllByOrderByIdDesc(PageRequest pageRequest);
 }
