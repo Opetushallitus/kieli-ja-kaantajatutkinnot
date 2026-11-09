@@ -19,6 +19,7 @@ import lombok.Setter;
 public class RuntimeFlag {
 
   public static final String REGISTRATION_QUEUE_HANDLER_OWNER = "registration_queue_handler.owner";
+  public static final String PARTICIPANT_ONR_SYNC_OWNER = "participant_onr_sync.owner";
   public static final String OWNER_LEGACY = "LEGACY";
   public static final String OWNER_JAVA = "JAVA";
 

@@ -1,10 +1,12 @@
 package fi.oph.yki.scheduled;
 
 import fi.oph.yki.model.ParticipantOnr;
+import fi.oph.yki.model.RuntimeFlag;
 import fi.oph.yki.onr.OnrService;
 import fi.oph.yki.onr.dto.PersonalDataDTO;
 import fi.oph.yki.repository.ParticipantOnrCheckProjection;
 import fi.oph.yki.repository.ParticipantOnrRepository;
+import fi.oph.yki.repository.RuntimeFlagRepository;
 import fi.oph.yki.repository.TaskLockRepository;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -17,17 +19,16 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 /**
  * Port of the legacy sync-participant-onr-data-handler (yki repo, src/yki/job/scheduled_tasks.clj).
  * Stores the individualisation status from ONR in participant_onr, which the CSV in OnrDebugService
- * reads. Takes the same task_lock row as the legacy job.
+ * reads. Takes the same task_lock row as the legacy job. Which of the two runs is decided by the
+ * {@code participant_onr_sync.owner} runtime flag, read once in every run.
  */
 @Component
-@ConditionalOnProperty(name = "app.v2.onr-participant-sync.enabled", havingValue = "true")
 @RequiredArgsConstructor
 public class ParticipantOnrDataSyncScheduledTask {
 
@@ -41,11 +42,12 @@ public class ParticipantOnrDataSyncScheduledTask {
   private final TaskLockRepository taskLockRepository;
   private final ParticipantOnrRepository participantOnrRepository;
   private final OnrService onrService;
+  private final RuntimeFlagRepository runtimeFlagRepository;
 
   @Scheduled(fixedRate = 3600, initialDelay = 60, timeUnit = TimeUnit.SECONDS)
   public void syncParticipantOnrData() {
     try {
-      if (taskLockRepository.tryToAcquireLock(TASK, WORKER_ID, TASK_INTERVAL) == 0) {
+      if (!ownsSync() || taskLockRepository.tryToAcquireLock(TASK, WORKER_ID, TASK_INTERVAL) == 0) {
         return;
       }
 
@@ -62,6 +64,31 @@ public class ParticipantOnrDataSyncScheduledTask {
     } catch (final Exception e) {
       LOG.error("Participant ONR data sync failed [ERROR_SCHEDULED_TASK]", e);
     }
+  }
+
+  // Unlike the registration queue, no share lock is needed: the task_lock row already keeps the two
+  // backends from running at the same time, also when the owner changes during a run that is
+  // shorter than TASK_INTERVAL.
+  private boolean ownsSync() {
+    final String owner = runtimeFlagRepository
+      .findById(RuntimeFlag.PARTICIPANT_ONR_SYNC_OWNER)
+      .map(RuntimeFlag::getValue)
+      .orElse(RuntimeFlag.OWNER_LEGACY);
+    if (RuntimeFlag.OWNER_JAVA.equals(owner)) {
+      return true;
+    }
+
+    if (RuntimeFlag.OWNER_LEGACY.equals(owner)) {
+      return false;
+    }
+
+    throw new RuntimeException(
+      String.format(
+        "Unrecognised %s '%s', so neither backend syncs participant ONR data [ERROR_SCHEDULED_TASK]",
+        RuntimeFlag.PARTICIPANT_ONR_SYNC_OWNER,
+        owner
+      )
+    );
   }
 
   private void syncBatch(final List<ParticipantOnrCheckProjection> participants) {
