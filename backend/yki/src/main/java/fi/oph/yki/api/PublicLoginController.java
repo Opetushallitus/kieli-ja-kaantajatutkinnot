@@ -2,8 +2,11 @@ package fi.oph.yki.api;
 
 import fi.oph.yki.config.Constants;
 import fi.oph.yki.model.Identity;
+import fi.oph.yki.model.PaymentLink;
 import fi.oph.yki.model.Person;
+import fi.oph.yki.model.Registration;
 import fi.oph.yki.model.type.AppLocale;
+import fi.oph.yki.service.PaymentService;
 import fi.oph.yki.service.PersonService;
 import fi.oph.yki.service.PublicAuthService;
 import fi.oph.yki.service.PublicIdentityService;
@@ -11,12 +14,16 @@ import fi.oph.yki.service.PublicRegistrationService;
 import fi.oph.yki.service.dto.OppijaLoginRedirectDTO;
 import fi.oph.yki.service.dto.PersonDTO;
 import fi.oph.yki.util.RegistrationUtil;
+import fi.oph.yki.util.exception.APIException;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.security.cas.authentication.CasAuthenticationToken;
@@ -25,11 +32,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/v2/login", produces = MediaType.APPLICATION_JSON_VALUE)
 public class PublicLoginController {
+
+  private static final Logger LOG = LoggerFactory.getLogger(PublicLoginController.class);
 
   @Resource
   private PublicAuthService publicAuthService;
@@ -42,6 +52,9 @@ public class PublicLoginController {
 
   @Resource
   private PersonService personService;
+
+  @Resource
+  private PaymentService paymentService;
 
   @Resource
   private Environment environment;
@@ -107,6 +120,36 @@ public class PublicLoginController {
     httpResponse.sendRedirect(
       RegistrationUtil.createRegistrationAuthSucessFrontendRedirectUrl(baseUrl, examSessionId, registrationId)
     );
+  }
+
+  @GetMapping(value = "/payment")
+  public void loginWithPaymentLink(
+    final HttpServletRequest httpRequest,
+    final HttpServletResponse httpResponse,
+    @RequestParam final String code,
+    @RequestParam final Optional<String> lang
+  ) throws IOException {
+    String redirectUrl;
+    try {
+      final PaymentLink paymentLink = paymentService.getActivePaymentLink(code);
+      final Registration registration = paymentLink.getRegistration();
+
+      publicIdentityService.setIdentityToSession(httpRequest.getSession(true), paymentLink.getIdentity());
+      httpRequest.changeSessionId();
+
+      redirectUrl =
+        RegistrationUtil.createPaymentRedirectUrl(
+          environment.getRequiredProperty("app.base-url.public"),
+          registration.getExamSession().getId(),
+          registration.getId(),
+          lang.orElse(null)
+        );
+    } catch (final APIException e) {
+      LOG.warn("Login with payment link failed: {}", e.getExceptionType());
+      redirectUrl = paymentService.getPaymentErrorRedirectUrl(null);
+    }
+
+    httpResponse.sendRedirect(redirectUrl);
   }
 
   private static PersonDTO toPersonDTO(final Map<String, Object> casAttributes) {

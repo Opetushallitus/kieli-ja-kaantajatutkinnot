@@ -58,6 +58,10 @@ public class PublicIdentityService {
     return identity;
   }
 
+  public void setIdentityToSession(final HttpSession session, final Identity identity) {
+    session.setAttribute(IDENTITY_ID_SESSION_KEY, identity.getId());
+  }
+
   @Transactional
   public Identity createIdentity() {
     final Identity identity = new Identity();

@@ -6,6 +6,7 @@ import fi.oph.yki.model.EmailType;
 import fi.oph.yki.repository.EmailAttachmentRepository;
 import fi.oph.yki.repository.EmailRepository;
 import fi.oph.yki.service.email.sender.EmailSender;
+import fi.oph.yki.util.exception.NotFoundException;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -47,6 +48,14 @@ public class EmailService {
     emailAttachmentRepository.saveAll(email.getAttachments());
 
     return emailRepository.saveAndFlush(email).getId();
+  }
+
+  @Transactional(readOnly = true)
+  public String getEmailBody(final long emailId) {
+    return emailRepository
+      .findById(emailId)
+      .map(Email::getBody)
+      .orElseThrow(() -> new NotFoundException("Email not found"));
   }
 
   @Transactional

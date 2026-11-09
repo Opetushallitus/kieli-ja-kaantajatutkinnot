@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.Identity;
 import fi.oph.yki.model.Payment;
+import fi.oph.yki.model.PaymentLink;
 import fi.oph.yki.model.Registration;
 import fi.oph.yki.model.RegistrationChangeEvent;
 import fi.oph.yki.model.type.AppLocale;
@@ -16,9 +17,11 @@ import fi.oph.yki.payment.paytrail.Customer;
 import fi.oph.yki.payment.paytrail.Item;
 import fi.oph.yki.payment.paytrail.PaytrailConfig;
 import fi.oph.yki.payment.paytrail.PaytrailResponseDTO;
+import fi.oph.yki.repository.PaymentLinkRepository;
 import fi.oph.yki.repository.PaymentRepository;
 import fi.oph.yki.repository.RegistrationChangeEventRepository;
 import fi.oph.yki.repository.RegistrationRepository;
+import fi.oph.yki.util.StringUtil;
 import fi.oph.yki.util.UUIDSource;
 import fi.oph.yki.util.exception.APIException;
 import fi.oph.yki.util.exception.APIExceptionType;
@@ -43,6 +46,7 @@ public class PaymentService {
 
   private final PaymentProvider paymentProvider;
   private final PaymentRepository paymentRepository;
+  private final PaymentLinkRepository paymentLinkRepository;
   private final RegistrationRepository registrationRepository;
   private final RegistrationChangeEventRepository registrationChangeEventRepository;
   private final Environment environment;
@@ -276,6 +280,19 @@ public class PaymentService {
     paymentRepository.saveAndFlush(payment);
 
     return payment.getPaymentUrl();
+  }
+
+  @Transactional(readOnly = true)
+  public PaymentLink getActivePaymentLink(final String code) {
+    final PaymentLink paymentLink = paymentLinkRepository
+      .findByCode(StringUtil.sha256hex(code))
+      .orElseThrow(() -> new APIException(APIExceptionType.PAYMENT_LINK_NOT_FOUND));
+
+    if (paymentLink.getExpiresAt() != null && paymentLink.getExpiresAt().isBefore(LocalDateTime.now())) {
+      throw new APIException(APIExceptionType.PAYMENT_LINK_EXPIRED);
+    }
+
+    return paymentLink;
   }
 
   private String getCustomerField(final String content, final int maxLength) {

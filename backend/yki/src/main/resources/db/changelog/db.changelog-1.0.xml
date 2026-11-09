@@ -840,4 +840,43 @@ $$ LANGUAGE plpgsql
                                  constraintName="fk_registration_payment_registration"
                                  onDelete="NO ACTION" onUpdate="NO ACTION"/>
     </changeSet>
+    <changeSet id="2026-11-09-registration-payment-link-table" author="jrkkp">
+        <createTable tableName="registration_payment_link">
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="registration_payment_link_pkey"/>
+            </column>
+            <column name="code" type="TEXT">
+                <constraints nullable="false" unique="true" uniqueConstraintName="registration_payment_link_code_key"/>
+            </column>
+            <column name="identity_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="registration_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expires_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="version" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="TEXT"/>
+            <column name="modified_by" type="TEXT"/>
+            <column name="deleted_by" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="TIMESTAMP WITH TIME ZONE"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="registration_payment_link" baseColumnNames="identity_id"
+                                 referencedTableName="identity" referencedColumnNames="id"
+                                 constraintName="fk_registration_payment_link_identity"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"/>
+        <addForeignKeyConstraint baseTableName="registration_payment_link" baseColumnNames="registration_id"
+                                 referencedTableName="registration" referencedColumnNames="id"
+                                 constraintName="fk_registration_payment_link_registration"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"/>
+    </changeSet>
 </databaseChangeLog>

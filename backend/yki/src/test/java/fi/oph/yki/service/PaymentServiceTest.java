@@ -23,6 +23,7 @@ import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.Identity;
 import fi.oph.yki.model.Payment;
+import fi.oph.yki.model.PaymentLink;
 import fi.oph.yki.model.Registration;
 import fi.oph.yki.model.RegistrationChangeEvent;
 import fi.oph.yki.model.type.AppLocale;
@@ -31,9 +32,11 @@ import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.payment.PaymentProvider;
 import fi.oph.yki.payment.paytrail.Customer;
 import fi.oph.yki.payment.paytrail.PaytrailResponseDTO;
+import fi.oph.yki.repository.PaymentLinkRepository;
 import fi.oph.yki.repository.PaymentRepository;
 import fi.oph.yki.repository.RegistrationChangeEventRepository;
 import fi.oph.yki.repository.RegistrationRepository;
+import fi.oph.yki.util.StringUtil;
 import fi.oph.yki.util.UUIDSource;
 import fi.oph.yki.util.exception.APIException;
 import fi.oph.yki.util.exception.APIExceptionType;
@@ -65,6 +68,9 @@ public class PaymentServiceTest {
   private PaymentRepository paymentRepository;
 
   @Resource
+  private PaymentLinkRepository paymentLinkRepository;
+
+  @Resource
   private RegistrationRepository registrationRepository;
 
   @Resource
@@ -94,6 +100,7 @@ public class PaymentServiceTest {
       new PaymentService(
         paymentProvider,
         paymentRepository,
+        paymentLinkRepository,
         registrationRepository,
         registrationChangeEventRepository,
         environment,
@@ -190,6 +197,55 @@ public class PaymentServiceTest {
     assertEquals(2, paymentRepository.count());
     assertEquals(PaymentStatus.NEW, paymentRepository.findById(unfinished.getId()).orElseThrow().getPaymentStatus());
     verify(paymentProvider, times(1)).createPayment(anyList(), anyLong(), anyString(), any(), anyInt(), any());
+  }
+
+  private PaymentLink persistPaymentLink(final String code, final LocalDateTime expiresAt) {
+    final Identity identity = persistIdentity();
+    final PaymentLink paymentLink = new PaymentLink();
+    paymentLink.setCode(StringUtil.sha256hex(code));
+    paymentLink.setIdentity(identity);
+    paymentLink.setRegistration(persistRegistration(identity, RegistrationState.SUBMITTED));
+    paymentLink.setExpiresAt(expiresAt);
+
+    return entityManager.persist(paymentLink);
+  }
+
+  @Test
+  public void testGetActivePaymentLink() {
+    final PaymentLink paymentLink = persistPaymentLink("code", LocalDateTime.now().plusDays(1));
+    entityManager.clear();
+
+    final PaymentLink result = paymentService.getActivePaymentLink("code");
+
+    assertEquals(paymentLink.getId(), result.getId());
+    assertEquals(paymentLink.getIdentity().getId(), result.getIdentity().getId());
+    assertEquals(
+      paymentLink.getRegistration().getExamSession().getId(),
+      result.getRegistration().getExamSession().getId()
+    );
+  }
+
+  @Test
+  public void testGetActivePaymentLinkWithoutExpiry() {
+    final PaymentLink paymentLink = persistPaymentLink("code", null);
+
+    assertEquals(paymentLink.getId(), paymentService.getActivePaymentLink("code").getId());
+  }
+
+  @Test
+  public void testGetActivePaymentLinkRejectsUnknownCode() {
+    persistPaymentLink("code", null);
+
+    final APIException exception = assertThrows(APIException.class, () -> paymentService.getActivePaymentLink("other"));
+    assertEquals(APIExceptionType.PAYMENT_LINK_NOT_FOUND, exception.getExceptionType());
+  }
+
+  @Test
+  public void testGetActivePaymentLinkRejectsExpiredLink() {
+    persistPaymentLink("code", LocalDateTime.now().minusMinutes(1));
+
+    final APIException exception = assertThrows(APIException.class, () -> paymentService.getActivePaymentLink("code"));
+    assertEquals(APIExceptionType.PAYMENT_LINK_EXPIRED, exception.getExceptionType());
   }
 
   @Test

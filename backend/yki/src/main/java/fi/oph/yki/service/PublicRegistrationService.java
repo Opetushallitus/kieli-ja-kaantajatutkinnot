@@ -20,6 +20,7 @@ import fi.oph.yki.model.ExamSessionLocation;
 import fi.oph.yki.model.Identity;
 import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
+import fi.oph.yki.model.RegistrationChangeEvent;
 import fi.oph.yki.model.type.ExamSessionType;
 import fi.oph.yki.model.type.PartialExamType;
 import fi.oph.yki.model.type.RegistrationKind;
@@ -27,6 +28,7 @@ import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.repository.ExamSessionRepository;
 import fi.oph.yki.repository.IdentityRepository;
 import fi.oph.yki.repository.PersonRepository;
+import fi.oph.yki.repository.RegistrationChangeEventRepository;
 import fi.oph.yki.repository.RegistrationRepository;
 import fi.oph.yki.service.dto.PersonDTO;
 import fi.oph.yki.util.exception.APIException;
@@ -55,9 +57,12 @@ public class PublicRegistrationService {
   private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
   private final RegistrationRepository registrationRepository;
+  private final RegistrationChangeEventRepository registrationChangeEventRepository;
   private final ExamSessionRepository examSessionRepository;
   private final IdentityRepository identityRepository;
   private final PersonRepository personRepository;
+  private final PaymentLinkService paymentLinkService;
+  private final RegistrationEmailService registrationEmailService;
 
   private static final Map<ExamSessionType, Set<PartialExamType>> ALLOWED_PARTIAL_EXAM_TYPES = Map.of(
     ExamSessionType.FULL,
@@ -280,15 +285,21 @@ public class PublicRegistrationService {
     //   ADMISSION + not free → create payment link and send payment email
     //   ADMISSION + free → send free registration confirmation email
     //   QUEUE → send enrolled-to-queue email
-    // TODO: implement payment link creation and email sending
-    //   (see: create-and-send-payment-link, send-free-registration-email in registration.clj)
+    String code = null;
+    if (registration.getKind() == RegistrationKind.QUEUE) {
+      registrationEmailService.sendEnrolledToQueueEmail(registration, lang);
+    } else if (registration.getKind() == RegistrationKind.ADMISSION && submittedState == RegistrationState.COMPLETED) {
+      registrationEmailService.sendFreeRegistrationEmail(registration, lang);
+    } else if (registration.getKind() == RegistrationKind.ADMISSION && submittedState == RegistrationState.SUBMITTED) {
+      registration.setExpiresAt(getPaymentExpiresAt(registration.getExamSession().getExamDate()));
+      registrationRepository.saveAndFlush(registration);
+
+      code = paymentLinkService.createPaymentLink(registration, identity);
+      registrationEmailService.sendPaymentEmail(registration, code, lang);
+    }
 
     // Step 8: Insert change event
-    // TODO: insert registration change event with event=SUBMIT
-
-    final String code = registration.getKind() == RegistrationKind.ADMISSION
-      ? java.util.UUID.randomUUID().toString()
-      : null;
+    insertSubmitChangeEvent(registration, identity);
 
     LOG.info("END: Registration id {} submitted successfully", registrationId);
 
@@ -299,6 +310,36 @@ public class PublicRegistrationService {
       .state(submittedState)
       .code(code)
       .build();
+  }
+
+  /**
+   * As in legacy, the author is the person of the identity, and null for an identity without one.
+   */
+  private void insertSubmitChangeEvent(final Registration registration, final Identity identity) {
+    final RegistrationChangeEvent changeEvent = new RegistrationChangeEvent();
+    changeEvent.setEvent("SUBMIT");
+    changeEvent.setRegistrationId(registration.getId());
+    changeEvent.setExamSessionId(registration.getExamSession().getId());
+    changeEvent.setRegistrationState(registration.getState());
+    changeEvent.setRegistrationKind(registration.getKind());
+    if (registration.getOriginalExamSession() != null) {
+      changeEvent.setOriginalExamSessionId(registration.getOriginalExamSession().getId());
+    }
+    changeEvent.setCreatedAt(LocalDateTime.now());
+    changeEvent.setCreatedBy(identity.getPerson() != null ? identity.getPerson().getOid() : null);
+    changeEvent.setAuthorType("USER");
+    registrationChangeEventRepository.save(changeEvent);
+  }
+
+  /**
+   * As in legacy: three whole days after today to pay, but no later than the end of the
+   * registration period.
+   */
+  private static LocalDateTime getPaymentExpiresAt(final ExamDate examDate) {
+    final LocalDateTime threeWholeDays = LocalDate.now().plusDays(4).atStartOfDay();
+    final LocalDateTime registrationEnd = examDate.getRegistrationEndDate().plusDays(1).atStartOfDay();
+
+    return threeWholeDays.isBefore(registrationEnd) ? threeWholeDays : registrationEnd;
   }
 
   private ObjectNode buildFormJson(final PublicRegistrationFormDTO form) {

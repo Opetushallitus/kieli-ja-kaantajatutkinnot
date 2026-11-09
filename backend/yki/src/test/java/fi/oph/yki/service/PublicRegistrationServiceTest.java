@@ -6,26 +6,39 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 import fi.oph.yki.Factory;
 import fi.oph.yki.PostgresTestcontainerConfig;
 import fi.oph.yki.api.dto.PublicRegistrationDetailsDTO;
+import fi.oph.yki.api.dto.PublicRegistrationFormDTO;
 import fi.oph.yki.api.dto.PublicRegistrationInitDTO;
 import fi.oph.yki.api.dto.PublicRegistrationInitResponseDTO;
+import fi.oph.yki.api.dto.PublicRegistrationSubmitResponseDTO;
 import fi.oph.yki.api.dto.PublicRegistrationUserDTO;
 import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.Identity;
+import fi.oph.yki.model.PaymentLink;
 import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
+import fi.oph.yki.model.RegistrationChangeEvent;
 import fi.oph.yki.model.type.ExamSessionType;
 import fi.oph.yki.model.type.PartialExamType;
 import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.repository.ExamSessionRepository;
 import fi.oph.yki.repository.IdentityRepository;
+import fi.oph.yki.repository.PaymentLinkRepository;
 import fi.oph.yki.repository.PersonRepository;
+import fi.oph.yki.repository.RegistrationChangeEventRepository;
 import fi.oph.yki.repository.RegistrationRepository;
+import fi.oph.yki.util.StringUtil;
+import fi.oph.yki.util.UUIDSource;
 import fi.oph.yki.util.exception.APIException;
 import fi.oph.yki.util.exception.APIExceptionType;
 import jakarta.annotation.Resource;
@@ -61,19 +74,68 @@ public class PublicRegistrationServiceTest {
   private PersonRepository personRepository;
 
   @Resource
+  private PaymentLinkRepository paymentLinkRepository;
+
+  @Resource
+  private RegistrationChangeEventRepository registrationChangeEventRepository;
+
+  private void assertSubmitChangeEvent(
+    final Registration registration,
+    final RegistrationState state,
+    final RegistrationKind kind,
+    final String createdBy
+  ) {
+    final List<RegistrationChangeEvent> events = registrationChangeEventRepository.findAll();
+    assertEquals(1, events.size());
+    final RegistrationChangeEvent event = events.get(0);
+    assertEquals("SUBMIT", event.getEvent());
+    assertEquals(registration.getId(), event.getRegistrationId());
+    assertEquals(registration.getExamSession().getId(), event.getExamSessionId());
+    assertEquals(state, event.getRegistrationState());
+    assertEquals(kind, event.getRegistrationKind());
+    assertNull(event.getOriginalExamSessionId());
+    assertEquals(createdBy, event.getCreatedBy());
+    assertEquals("USER", event.getAuthorType());
+    assertNotNull(event.getCreatedAt());
+  }
+
+  @Resource
   private TestEntityManager entityManager;
+
+  private RegistrationEmailService registrationEmailService;
 
   private PublicRegistrationService publicRegistrationService;
 
   @BeforeEach
   public void setup() {
+    registrationEmailService = mock(RegistrationEmailService.class);
     publicRegistrationService =
       new PublicRegistrationService(
         registrationRepository,
+        registrationChangeEventRepository,
         examSessionRepository,
         identityRepository,
-        personRepository
+        personRepository,
+        new PaymentLinkService(paymentLinkRepository, new UUIDSource()),
+        registrationEmailService
       );
+  }
+
+  private PublicRegistrationFormDTO formDTO(final Long freeRegistrationId) {
+    return PublicRegistrationFormDTO
+      .builder()
+      .firstName("Testi")
+      .lastName("Henkilö")
+      .nationalities(List.of("246"))
+      .certificateLang("fi")
+      .examLang("fi")
+      .postOffice("Helsinki")
+      .zip("00100")
+      .streetAddress("Testikatu 1")
+      .phoneNumber("0401234567")
+      .email("testi@example.com")
+      .freeRegistrationId(freeRegistrationId)
+      .build();
   }
 
   private ExamDate openExamDate() {
@@ -167,6 +229,123 @@ public class PublicRegistrationServiceTest {
     entityManager.clear();
 
     return registration;
+  }
+
+  @Test
+  public void testSubmitRegistrationCreatesPaymentLink() {
+    final Identity identity = persistIdentity();
+    final Registration registration = persistStartedRegistration(identity, null);
+
+    final PublicRegistrationSubmitResponseDTO result = publicRegistrationService.submitRegistration(
+      identity,
+      registration.getId(),
+      "fi",
+      formDTO(null)
+    );
+
+    assertEquals(RegistrationState.SUBMITTED, result.state());
+    assertNotNull(result.code());
+    final List<PaymentLink> paymentLinks = paymentLinkRepository.findAll();
+    assertEquals(1, paymentLinks.size());
+    final PaymentLink paymentLink = paymentLinks.get(0);
+    assertEquals(StringUtil.sha256hex(result.code()), paymentLink.getCode());
+    assertEquals(identity.getId(), paymentLink.getIdentity().getId());
+    assertEquals(registration.getId(), paymentLink.getRegistration().getId());
+
+    final LocalDateTime expiresAt = LocalDate.now().plusDays(4).atStartOfDay();
+    assertEquals(expiresAt, paymentLink.getExpiresAt());
+    final Registration submitted = registrationRepository.findById(registration.getId()).orElseThrow();
+    assertEquals(expiresAt, submitted.getExpiresAt());
+    verify(registrationEmailService).sendPaymentEmail(any(Registration.class), eq(result.code()), eq("fi"));
+    assertSubmitChangeEvent(registration, RegistrationState.SUBMITTED, RegistrationKind.ADMISSION, null);
+  }
+
+  @Test
+  public void testSubmitRegistrationChangeEventHasPersonOfIdentityAsAuthor() {
+    final Person person = entityManager.persist(Factory.person());
+    final Identity identity = persistIdentity();
+    identity.setPerson(person);
+    final Registration registration = persistStartedRegistration(identity, person);
+
+    publicRegistrationService.submitRegistration(identity, registration.getId(), "fi", formDTO(null));
+
+    assertSubmitChangeEvent(registration, RegistrationState.SUBMITTED, RegistrationKind.ADMISSION, person.getOid());
+  }
+
+  @Test
+  public void testSubmitRegistrationOfOtherIdentityInsertsNoChangeEvent() {
+    final Registration registration = persistStartedRegistration(persistIdentity(), null);
+    final Identity otherIdentity = persistIdentity();
+
+    assertThrows(
+      APIException.class,
+      () -> publicRegistrationService.submitRegistration(otherIdentity, registration.getId(), "fi", formDTO(null))
+    );
+
+    assertTrue(registrationChangeEventRepository.findAll().isEmpty());
+  }
+
+  @Test
+  public void testSubmitRegistrationPaymentExpiresAtRegistrationEnd() {
+    final Identity identity = persistIdentity();
+    final Registration registration = persistStartedRegistration(identity, null);
+    final ExamDate examDate = registrationRepository
+      .findById(registration.getId())
+      .orElseThrow()
+      .getExamSession()
+      .getExamDate();
+    examDate.setRegistrationEndDate(LocalDate.now().plusDays(1));
+    entityManager.flush();
+
+    publicRegistrationService.submitRegistration(identity, registration.getId(), "fi", formDTO(null));
+
+    assertEquals(
+      LocalDate.now().plusDays(2).atStartOfDay(),
+      registrationRepository.findById(registration.getId()).orElseThrow().getExpiresAt()
+    );
+  }
+
+  @Test
+  public void testSubmitFreeRegistrationCreatesNoPaymentLink() {
+    final Identity identity = persistIdentity();
+    final Registration registration = persistStartedRegistration(identity, null);
+
+    final PublicRegistrationSubmitResponseDTO result = publicRegistrationService.submitRegistration(
+      identity,
+      registration.getId(),
+      "fi",
+      formDTO(1L)
+    );
+
+    assertEquals(RegistrationState.COMPLETED, result.state());
+    assertNull(result.code());
+    assertTrue(paymentLinkRepository.findAll().isEmpty());
+    verify(registrationEmailService).sendFreeRegistrationEmail(any(Registration.class), eq("fi"));
+    verifyNoMoreInteractions(registrationEmailService);
+    assertSubmitChangeEvent(registration, RegistrationState.COMPLETED, RegistrationKind.ADMISSION, null);
+  }
+
+  @Test
+  public void testSubmitQueueRegistrationCreatesNoPaymentLink() {
+    final Identity identity = persistIdentity();
+    final Registration registration = persistStartedRegistration(identity, null);
+    final Registration queueRegistration = registrationRepository.findById(registration.getId()).orElseThrow();
+    queueRegistration.setKind(RegistrationKind.QUEUE);
+    registrationRepository.saveAndFlush(queueRegistration);
+
+    final PublicRegistrationSubmitResponseDTO result = publicRegistrationService.submitRegistration(
+      identity,
+      registration.getId(),
+      "fi",
+      formDTO(null)
+    );
+
+    assertEquals(RegistrationKind.QUEUE, result.registrationKind());
+    assertNull(result.code());
+    assertTrue(paymentLinkRepository.findAll().isEmpty());
+    verify(registrationEmailService).sendEnrolledToQueueEmail(any(Registration.class), eq("fi"));
+    verifyNoMoreInteractions(registrationEmailService);
+    assertSubmitChangeEvent(registration, RegistrationState.SUBMITTED, RegistrationKind.QUEUE, null);
   }
 
   @Test
