@@ -3,7 +3,7 @@ import { onPublicUserDetailsPage } from 'tests/cypress/support/page-objects/publ
 import { onToast } from 'tests/cypress/support/page-objects/toast';
 import { findAlertDialogByText } from 'tests/cypress/support/utils/dialog';
 
-const dialogHeading = 'Haluatko perua ilmoittautumisen?';
+const dialogHeading = 'Haluatko perua ilmoittautumisen ';
 
 describe('PublicUserDetailsPage', () => {
   beforeEach(() => {
