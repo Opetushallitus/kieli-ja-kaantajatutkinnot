@@ -57,10 +57,13 @@ export const PublicRegistrationExamSessionDetails = ({
     return null;
   }
 
+  const partialExamType =
+    partialExamTypeProp ?? initRegistration.partialExamType;
+
   const { availablePlaces, start, end } =
     ExamSessionUtils.getEffectiveRegistrationPeriodDetails(
       examSession,
-      initRegistration.partialExamType,
+      partialExamType,
     );
 
   const header = ExamSessionUtils.languageAndLevelText(examSession);
@@ -83,7 +86,7 @@ export const PublicRegistrationExamSessionDetails = ({
           'or',
         )} ${ExamSessionUtils.getPartialExamFee(
           examSession,
-          initRegistration.partialExamType,
+          partialExamType,
         )} €`;
         break;
       case PublicRegistrationFormStep.Register:
@@ -97,7 +100,7 @@ export const PublicRegistrationExamSessionDetails = ({
             default:
               examFeeText = `${ExamSessionUtils.getPartialExamFee(
                 examSession,
-                initRegistration.partialExamType,
+                partialExamType,
               )} €`;
               break;
           }
@@ -111,7 +114,7 @@ export const PublicRegistrationExamSessionDetails = ({
             case 'NO':
               examFeeText = `${ExamSessionUtils.getPartialExamFee(
                 examSession,
-                initRegistration.partialExamType,
+                partialExamType,
               )} €`;
               break;
             case 'UNDECIDED':
@@ -119,7 +122,7 @@ export const PublicRegistrationExamSessionDetails = ({
                 'or',
               )} ${ExamSessionUtils.getPartialExamFee(
                 examSession,
-                initRegistration.partialExamType,
+                partialExamType,
               )} €`;
               break;
           }
@@ -128,7 +131,7 @@ export const PublicRegistrationExamSessionDetails = ({
       case PublicRegistrationFormStep.Payment:
         examFeeText = `${ExamSessionUtils.getPartialExamFee(
           examSession,
-          initRegistration.partialExamType,
+          partialExamType,
         )} €`;
         break;
       case PublicRegistrationFormStep.Done:
@@ -139,7 +142,7 @@ export const PublicRegistrationExamSessionDetails = ({
           default:
             examFeeText = `${ExamSessionUtils.getPartialExamFee(
               examSession,
-              initRegistration.partialExamType,
+              partialExamType,
             )} €`;
             break;
         }
@@ -147,7 +150,7 @@ export const PublicRegistrationExamSessionDetails = ({
   } else {
     examFeeText = `${ExamSessionUtils.getPartialExamFee(
       examSession,
-      initRegistration.partialExamType,
+      partialExamType,
     )} €`;
   }
 
@@ -165,7 +168,7 @@ export const PublicRegistrationExamSessionDetails = ({
           <DetailRow label={translateCommon('partialExams')}>
             {ExamSessionUtils.getPartialExamTypeText(
               examSession.type,
-              partialExamTypeProp ?? initRegistration.partialExamType,
+              partialExamType,
             )}
           </DetailRow>
         )}
@@ -180,10 +183,8 @@ export const PublicRegistrationExamSessionDetails = ({
             <DetailRow label={translateCommon('partialExamTimeLabel')}>
               {translateCommon('partialExamTime', {
                 startTime:
-                  ExamSessionUtils.getStartTime(
-                    examSession,
-                    initRegistration.partialExamType,
-                  ) || '',
+                  ExamSessionUtils.getStartTime(examSession, partialExamType) ||
+                  '',
               })}
             </DetailRow>
           )}
