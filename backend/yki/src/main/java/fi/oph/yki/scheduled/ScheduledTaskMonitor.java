@@ -26,6 +26,8 @@ public class ScheduledTaskMonitor {
 
   private static final String LEGACY_QUEUE_HANDLER = "REGISTRATION_QUEUE_HANDLER";
   private static final String QUEUE_HANDLER = "registrationQueueHandler";
+  private static final String LEGACY_ONR_SYNC = "SYNC_ONR_PARTICIPANT_DATA_HANDLER";
+  private static final String ONR_SYNC = "syncOnrParticipantDataHandler";
 
   // task interval values from yki-repo
   private static final Map<String, Duration> MONITORED_TASKS = Map.of(
@@ -37,7 +39,7 @@ public class ScheduledTaskMonitor {
     Duration.ofMinutes(20), // interval: 179s
     "PARTICIPANTS_SYNC_HANDLER",
     Duration.ofHours(3), // interval: 59min
-    "SYNC_ONR_PARTICIPANT_DATA_HANDLER",
+    LEGACY_ONR_SYNC,
     Duration.ofHours(3), // interval: 59min
     "EXAM_SESSION_STATISTICS_HANDLER",
     Duration.ofHours(3) // interval: 57min
@@ -64,10 +66,13 @@ public class ScheduledTaskMonitor {
   @SchedulerLock(name = "scheduledTaskMonitor", lockAtLeastFor = LOCK_AT_LEAST, lockAtMostFor = LOCK_AT_MOST)
   public void monitorScheduledTasks() {
     LOG.info("Monitoring scheduled tasks");
-    final boolean queueHandlerOwnedByThisBackend = isQueueHandlerOwnedByThisBackend();
+    final boolean queueHandlerOwnedByThisBackend = isOwnedByThisBackend(RuntimeFlag.REGISTRATION_QUEUE_HANDLER_OWNER);
+    final boolean onrSyncOwnedByThisBackend = isOwnedByThisBackend(RuntimeFlag.PARTICIPANT_ONR_SYNC_OWNER);
     MONITORED_TASKS.forEach((@NonNull final String task, final Duration maxAge) -> {
       if (LEGACY_QUEUE_HANDLER.equals(task) && queueHandlerOwnedByThisBackend) {
         checkAge(QUEUE_HANDLER, maxAge, shedLockRepository.findAgeInSeconds(QUEUE_HANDLER), "shedlock");
+      } else if (LEGACY_ONR_SYNC.equals(task) && onrSyncOwnedByThisBackend) {
+        checkAge(ONR_SYNC, maxAge, shedLockRepository.findAgeInSeconds(ONR_SYNC), "shedlock");
       } else {
         checkAge(task, maxAge, taskLockRepository.findAgeInSeconds(task), "task_lock");
       }
@@ -113,12 +118,9 @@ public class ScheduledTaskMonitor {
     return result.toString();
   }
 
-  // Once this backend owns the queue, the legacy row only shows that the legacy scheduler is alive,
-  // and it stops being stamped altogether when the legacy handler is removed. The job is then
-  // monitored through this backend's ShedLock row instead.
-  private boolean isQueueHandlerOwnedByThisBackend() {
+  private boolean isOwnedByThisBackend(final String ownerFlag) {
     return runtimeFlagRepository
-      .findById(RuntimeFlag.REGISTRATION_QUEUE_HANDLER_OWNER)
+      .findById(ownerFlag)
       .map(flag -> RuntimeFlag.OWNER_JAVA.equals(flag.getValue()))
       .orElse(false);
   }
