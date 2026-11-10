@@ -1,21 +1,28 @@
 package fi.oph.yki.scheduled;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import fi.oph.yki.model.ParticipantOnr;
 import fi.oph.yki.model.RuntimeFlag;
 import fi.oph.yki.onr.OnrService;
+import fi.oph.yki.onr.dto.PersonalDataDTO;
+import fi.oph.yki.repository.ParticipantOnrCheckProjection;
 import fi.oph.yki.repository.ParticipantOnrRepository;
 import fi.oph.yki.repository.RuntimeFlagRepository;
-import fi.oph.yki.repository.TaskLockRepository;
+import fi.oph.yki.service.ParticipantOnrSyncService;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
 class ParticipantOnrDataSyncScheduledTaskTest {
 
-  private TaskLockRepository taskLockRepository;
+  private static final String PERSON_OID = "1.2.246.562.24.00000000001";
+
   private ParticipantOnrRepository participantOnrRepository;
   private OnrService onrService;
   private RuntimeFlagRepository runtimeFlagRepository;
@@ -23,16 +30,14 @@ class ParticipantOnrDataSyncScheduledTaskTest {
 
   @BeforeEach
   void setup() {
-    taskLockRepository = Mockito.mock(TaskLockRepository.class);
     participantOnrRepository = Mockito.mock(ParticipantOnrRepository.class);
     onrService = Mockito.mock(OnrService.class);
     runtimeFlagRepository = Mockito.mock(RuntimeFlagRepository.class);
     task =
       new ParticipantOnrDataSyncScheduledTask(
-        taskLockRepository,
         participantOnrRepository,
         onrService,
-        runtimeFlagRepository
+        new ParticipantOnrSyncService(participantOnrRepository, runtimeFlagRepository)
       );
   }
 
@@ -43,57 +48,100 @@ class ParticipantOnrDataSyncScheduledTaskTest {
     Mockito.when(runtimeFlagRepository.findById(RuntimeFlag.PARTICIPANT_ONR_SYNC_OWNER)).thenReturn(Optional.of(flag));
   }
 
-  @Test
-  void syncsWhenJavaOwnsSync() {
-    setOwner(RuntimeFlag.OWNER_JAVA);
+  private void setOwnerWhenWriting(final String owner) {
     Mockito
-      .when(taskLockRepository.tryToAcquireLock(Mockito.anyString(), Mockito.anyString(), Mockito.anyString()))
-      .thenReturn(1);
-    Mockito.when(participantOnrRepository.findParticipantsForOnrCheck()).thenReturn(List.of());
+      .when(runtimeFlagRepository.findValueForShare(RuntimeFlag.PARTICIPANT_ONR_SYNC_OWNER))
+      .thenReturn(Optional.of(owner));
+  }
 
-    task.syncParticipantOnrData();
+  private void givenOneParticipantFoundInOnr() throws Exception {
+    final ParticipantOnrCheckProjection participant = Mockito.mock(ParticipantOnrCheckProjection.class);
+    Mockito.when(participant.getPersonOid()).thenReturn(PERSON_OID);
+    Mockito.when(participant.getParticipantId()).thenReturn(1L);
+    Mockito.when(participantOnrRepository.findParticipantsForOnrCheck()).thenReturn(List.of(participant));
 
-    Mockito
-      .verify(taskLockRepository)
-      .tryToAcquireLock(Mockito.eq("SYNC_ONR_PARTICIPANT_DATA_HANDLER"), Mockito.anyString(), Mockito.eq("59 MINUTES"));
-    Mockito.verify(participantOnrRepository).findParticipantsForOnrCheck();
+    final PersonalDataDTO person = new PersonalDataDTO();
+    person.setOidHenkilo(PERSON_OID);
+    person.setOppijanumero(PERSON_OID);
+    person.setIndividualised(false);
+    person.setIndividualisedVtj(true);
+    Mockito.when(onrService.listMasterPersonsByOids(List.of(PERSON_OID))).thenReturn(Map.of(PERSON_OID, person));
   }
 
   @Test
-  void doesNotTakeLockWhenLegacyOwnsSync() {
+  void writesBatchWhenJavaOwnsSync() throws Exception {
+    setOwner(RuntimeFlag.OWNER_JAVA);
+    setOwnerWhenWriting(RuntimeFlag.OWNER_JAVA);
+    givenOneParticipantFoundInOnr();
+
+    task.syncParticipantOnrData();
+
+    final ArgumentCaptor<ParticipantOnr> saved = ArgumentCaptor.forClass(ParticipantOnr.class);
+    Mockito.verify(participantOnrRepository).save(saved.capture());
+    assertEquals(PERSON_OID, saved.getValue().getOid());
+    assertEquals(1L, saved.getValue().getParticipantId());
+    assertEquals(Boolean.TRUE, saved.getValue().getIndividualised());
+  }
+
+  @Test
+  void discardsBatchWhenOwnerSwitchesToLegacyDuringOnrCall() throws Exception {
+    setOwner(RuntimeFlag.OWNER_JAVA);
+    setOwnerWhenWriting(RuntimeFlag.OWNER_LEGACY);
+    givenOneParticipantFoundInOnr();
+
+    task.syncParticipantOnrData();
+
+    Mockito.verify(onrService).listMasterPersonsByOids(List.of(PERSON_OID));
+    Mockito.verify(participantOnrRepository, Mockito.never()).findAllById(Mockito.any());
+    Mockito.verify(participantOnrRepository, Mockito.never()).save(Mockito.any());
+  }
+
+  @Test
+  void discardsBatchWhenOwnerBecomesUnrecognisedDuringOnrCall() throws Exception {
+    setOwner(RuntimeFlag.OWNER_JAVA);
+    setOwnerWhenWriting("BOTH");
+    givenOneParticipantFoundInOnr();
+
+    assertDoesNotThrow(() -> task.syncParticipantOnrData());
+
+    Mockito.verify(participantOnrRepository, Mockito.never()).save(Mockito.any());
+  }
+
+  @Test
+  void doesNotSyncWhenLegacyOwnsSync() {
     setOwner(RuntimeFlag.OWNER_LEGACY);
 
     task.syncParticipantOnrData();
 
-    Mockito.verifyNoInteractions(taskLockRepository, participantOnrRepository, onrService);
+    Mockito.verifyNoInteractions(participantOnrRepository, onrService);
   }
 
   @Test
-  void doesNotTakeLockWhenFlagIsMissing() {
+  void doesNotSyncWhenFlagIsMissing() {
     Mockito.when(runtimeFlagRepository.findById(RuntimeFlag.PARTICIPANT_ONR_SYNC_OWNER)).thenReturn(Optional.empty());
 
     task.syncParticipantOnrData();
 
-    Mockito.verifyNoInteractions(taskLockRepository, participantOnrRepository, onrService);
+    Mockito.verifyNoInteractions(participantOnrRepository, onrService);
   }
 
   @Test
-  void doesNotTakeLockWhenOwnerIsUnrecognised() {
+  void doesNotSyncWhenOwnerIsUnrecognised() {
     setOwner("BOTH");
 
     task.syncParticipantOnrData();
 
-    Mockito.verifyNoInteractions(taskLockRepository, participantOnrRepository, onrService);
+    Mockito.verifyNoInteractions(participantOnrRepository, onrService);
   }
 
   @Test
-  void doesNotTakeLockWhenFlagCannotBeRead() {
+  void doesNotSyncWhenFlagCannotBeRead() {
     Mockito
       .when(runtimeFlagRepository.findById(RuntimeFlag.PARTICIPANT_ONR_SYNC_OWNER))
       .thenThrow(new RuntimeException("relation \"runtime_flag\" does not exist"));
 
     assertDoesNotThrow(() -> task.syncParticipantOnrData());
 
-    Mockito.verifyNoInteractions(taskLockRepository, participantOnrRepository, onrService);
+    Mockito.verifyNoInteractions(participantOnrRepository, onrService);
   }
 }
