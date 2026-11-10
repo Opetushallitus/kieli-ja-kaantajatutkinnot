@@ -5,11 +5,15 @@ class PublicUserDetailsPage {
     title: () =>
       cy.findByText('Yleiset kielitutkinnot (YKI) - Omat ilmoittautumiset'),
     cancelPaidRegistration: (nth: number) =>
-      cy.findAllByRole('button', { name: 'Peru ilmoittautuminen' }).eq(nth),
-    cancelRegistrationByCardText: (text: string) =>
       cy
-        .contains('.user-details-page__event', text)
-        .findByRole('button', { name: 'Peru ilmoittautuminen' }),
+        .findAllByRole('button', {
+          name: /^(Peru ilmoittautuminen|perua ilmoittautumisen)$/,
+        })
+        .eq(nth),
+    cancelRegistrationByCardText: (text: string) =>
+      cy.contains('.user-details-page__event', text).findByRole('button', {
+        name: /^(Peru ilmoittautuminen|perua ilmoittautumisen)$/,
+      }),
     modifyContactDetails: () =>
       cy.findByRole('link', { name: 'Muokkaa yhteystietoja' }),
     cancelPaidRegistrationCancellationButton: () =>
@@ -38,7 +42,7 @@ class PublicUserDetailsPage {
 
   cancelPaidRegistrationCancellation() {
     this.elements.cancelPaidRegistrationCancellationButton().click();
-    const dialogHeading = 'Haluatko perua ilmoittautumisen?';
+    const dialogHeading = 'Haluatko perua ilmoittautumisen ';
     findDialogByText(dialogHeading).should('be.visible');
     findDialogByText(dialogHeading)
       .findByRole('button', { name: /Peruuta/ })
