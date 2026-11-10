@@ -73,6 +73,40 @@ class ScheduledTaskMonitorTest {
     verify(shedLockRepository).findAgeInSeconds("registrationQueueHandler");
   }
 
+  @ParameterizedTest
+  @CsvSource(value = { "LEGACY", "NULL", "JAVE" }, nullValues = "NULL")
+  void testMonitorsLegacyOnrSyncUnlessThisBackendOwnsTheSync(final String owner) {
+    final TaskLockRepository taskLockRepository = mockTaskLockRepository(1.0);
+    final ShedLockRepository shedLockRepository = mockShedLockRepository(1.0);
+
+    new ScheduledTaskMonitor(
+      taskLockRepository,
+      shedLockRepository,
+      runtimeFlagRepository(RuntimeFlag.PARTICIPANT_ONR_SYNC_OWNER, owner)
+    )
+      .monitorScheduledTasks();
+
+    verify(taskLockRepository).findAgeInSeconds("SYNC_ONR_PARTICIPANT_DATA_HANDLER");
+    verify(shedLockRepository, never()).findAgeInSeconds("syncOnrParticipantDataHandler");
+  }
+
+  @Test
+  void testMonitorsThisBackendsOnrSyncOnceThisBackendOwnsTheSync() {
+    final TaskLockRepository taskLockRepository = mockTaskLockRepository(1.0);
+    final ShedLockRepository shedLockRepository = mockShedLockRepository(1.0);
+
+    new ScheduledTaskMonitor(
+      taskLockRepository,
+      shedLockRepository,
+      runtimeFlagRepository(RuntimeFlag.PARTICIPANT_ONR_SYNC_OWNER, RuntimeFlag.OWNER_JAVA)
+    )
+      .monitorScheduledTasks();
+
+    verify(taskLockRepository, never()).findAgeInSeconds("SYNC_ONR_PARTICIPANT_DATA_HANDLER");
+    verify(taskLockRepository).findAgeInSeconds("REGISTRATION_QUEUE_HANDLER");
+    verify(shedLockRepository).findAgeInSeconds("syncOnrParticipantDataHandler");
+  }
+
   private static TaskLockRepository mockTaskLockRepository(final Double ageInSeconds) {
     final TaskLockRepository taskLockRepository = mock(TaskLockRepository.class);
     when(taskLockRepository.findAgeInSeconds(anyString())).thenReturn(ageInSeconds);
@@ -86,12 +120,16 @@ class ScheduledTaskMonitorTest {
   }
 
   private static RuntimeFlagRepository runtimeFlagRepository(final String owner) {
+    return runtimeFlagRepository(RuntimeFlag.REGISTRATION_QUEUE_HANDLER_OWNER, owner);
+  }
+
+  private static RuntimeFlagRepository runtimeFlagRepository(final String flagName, final String owner) {
     final RuntimeFlagRepository runtimeFlagRepository = mock(RuntimeFlagRepository.class);
     if (owner != null) {
       final RuntimeFlag flag = new RuntimeFlag();
-      flag.setName(RuntimeFlag.REGISTRATION_QUEUE_HANDLER_OWNER);
+      flag.setName(flagName);
       flag.setValue(owner);
-      when(runtimeFlagRepository.findById(RuntimeFlag.REGISTRATION_QUEUE_HANDLER_OWNER)).thenReturn(Optional.of(flag));
+      when(runtimeFlagRepository.findById(flagName)).thenReturn(Optional.of(flag));
     }
     return runtimeFlagRepository;
   }
