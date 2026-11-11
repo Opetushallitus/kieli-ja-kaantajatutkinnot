@@ -75,17 +75,21 @@ public class ExamSessionXlsxDataRowUtil {
       return Optional.empty();
     }
 
+    // A queued registration stays on the queue sheet also after it is cancelled or the queue ends
+    if (registration.getKind() == RegistrationKind.QUEUE) {
+      return state == RegistrationState.STARTED ? Optional.empty() : Optional.of(Sheet.QUEUED);
+    }
+
     return switch (state) {
-      case COMPLETED, SUBMITTED -> Optional.of(
-        registration.getKind() == RegistrationKind.QUEUE ? Sheet.QUEUED : Sheet.REGISTERED
-      );
+      case COMPLETED, SUBMITTED -> Optional.of(Sheet.REGISTERED);
       case PAID_AND_CANCELLED -> Optional.of(Sheet.PAID_AND_CANCELLED);
       case CANCELLED, EXPIRED -> Optional.of(Sheet.CANCELLED_OR_EXPIRED);
       default -> Optional.empty();
     };
   }
 
-  // Queue: by queue position, which counts separately for each partial exam
+  // Queue: registrations still in the queue first, by queue position, which counts separately for
+  // each partial exam. Then cancelled and ended ones, by registration time.
   // Other sheets: by name
   // Equal values: by registration time
   static Comparator<Registration> getComparator(final Sheet sheet, final Map<Long, Long> queuePositions) {
@@ -95,7 +99,11 @@ public class ExamSessionXlsxDataRowUtil {
 
     if (sheet == Sheet.QUEUED) {
       return Comparator
-        .comparing(Registration::getPartialExamType, Comparator.nullsLast(Comparator.naturalOrder()))
+        .comparing((Registration r) -> !isInQueue(r))
+        .thenComparing(
+          r -> isInQueue(r) ? r.getPartialExamType() : null,
+          Comparator.nullsLast(Comparator.naturalOrder())
+        )
         .thenComparing(r -> queuePositions.get(r.getId()), Comparator.nullsLast(Comparator.naturalOrder()))
         .thenComparing(byCreated);
     }
@@ -106,6 +114,12 @@ public class ExamSessionXlsxDataRowUtil {
       .comparing((Registration r) -> getPersonName(r, Person::getLastName), collator)
       .thenComparing(r -> getPersonName(r, Person::getFirstName), collator)
       .thenComparing(byCreated);
+  }
+
+  private static boolean isInQueue(final Registration registration) {
+    return (
+      registration.getState() == RegistrationState.SUBMITTED || registration.getState() == RegistrationState.COMPLETED
+    );
   }
 
   private static String getPersonName(final Registration registration, final Function<Person, String> getName) {
@@ -191,7 +205,7 @@ public class ExamSessionXlsxDataRowUtil {
       case PAID_AND_CANCELLED -> isFreeRegistration ? "Maksuton ja peruttu" : "Maksanut ja peruttu";
       case SUBMITTED -> isQueue ? "Jonossa" : "Ei maksanut";
       case CANCELLED -> isQueue ? "Jonotus peruttu" : "Peruttu";
-      case EXPIRED -> "Erääntynyt";
+      case EXPIRED -> isQueue ? "Peruttu, jonotus loppunut" : "Erääntynyt";
       default -> "-";
     };
   }

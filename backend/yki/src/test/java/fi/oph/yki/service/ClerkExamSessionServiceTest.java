@@ -606,16 +606,14 @@ public class ClerkExamSessionServiceTest {
       assertEquals("Koko tutkinto", registered.getRow(1).getCell(6).getStringCellValue());
 
       final Sheet queue = workbook.getSheetAt(1);
-      assertEquals(1, queue.getLastRowNum());
+      assertEquals(2, queue.getLastRowNum());
       assertEquals(queuedPerson.getOid(), queue.getRow(1).getCell(0).getStringCellValue());
       assertEquals("Jonossa", queue.getRow(1).getCell(5).getStringCellValue());
+      assertEquals(queueCancelledPerson.getOid(), queue.getRow(2).getCell(0).getStringCellValue());
+      assertEquals("Jonotus peruttu", queue.getRow(2).getCell(5).getStringCellValue());
 
       assertEquals(0, workbook.getSheetAt(2).getLastRowNum());
-
-      final Sheet cancelledOrExpired = workbook.getSheetAt(3);
-      assertEquals(1, cancelledOrExpired.getLastRowNum());
-      assertEquals(queueCancelledPerson.getOid(), cancelledOrExpired.getRow(1).getCell(0).getStringCellValue());
-      assertEquals("Jonotus peruttu", cancelledOrExpired.getRow(1).getCell(5).getStringCellValue());
+      assertEquals(0, workbook.getSheetAt(3).getLastRowNum());
     }
   }
 }

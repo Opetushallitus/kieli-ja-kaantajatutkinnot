@@ -86,14 +86,28 @@ public class ExamSessionXlsxDataRowUtilTest {
       ExamSessionXlsxDataRowUtil.getSheet(createRegistration(RegistrationState.SUBMITTED, RegistrationKind.QUEUE))
     );
     assertEquals(
-      Optional.of(ExamSessionXlsxDataRowUtil.Sheet.PAID_AND_CANCELLED),
+      Optional.of(ExamSessionXlsxDataRowUtil.Sheet.QUEUED),
       ExamSessionXlsxDataRowUtil.getSheet(
         createRegistration(RegistrationState.PAID_AND_CANCELLED, RegistrationKind.QUEUE)
       )
     );
     assertEquals(
-      Optional.of(ExamSessionXlsxDataRowUtil.Sheet.CANCELLED_OR_EXPIRED),
+      Optional.of(ExamSessionXlsxDataRowUtil.Sheet.QUEUED),
       ExamSessionXlsxDataRowUtil.getSheet(createRegistration(RegistrationState.CANCELLED, RegistrationKind.QUEUE))
+    );
+    assertEquals(
+      Optional.of(ExamSessionXlsxDataRowUtil.Sheet.QUEUED),
+      ExamSessionXlsxDataRowUtil.getSheet(createRegistration(RegistrationState.EXPIRED, RegistrationKind.QUEUE))
+    );
+    assertEquals(
+      Optional.of(ExamSessionXlsxDataRowUtil.Sheet.PAID_AND_CANCELLED),
+      ExamSessionXlsxDataRowUtil.getSheet(
+        createRegistration(RegistrationState.PAID_AND_CANCELLED, RegistrationKind.ADMISSION)
+      )
+    );
+    assertEquals(
+      Optional.of(ExamSessionXlsxDataRowUtil.Sheet.CANCELLED_OR_EXPIRED),
+      ExamSessionXlsxDataRowUtil.getSheet(createRegistration(RegistrationState.CANCELLED, RegistrationKind.ADMISSION))
     );
     assertEquals(
       Optional.of(ExamSessionXlsxDataRowUtil.Sheet.CANCELLED_OR_EXPIRED),
@@ -102,6 +116,21 @@ public class ExamSessionXlsxDataRowUtilTest {
     assertEquals(
       Optional.empty(),
       ExamSessionXlsxDataRowUtil.getSheet(createRegistration(RegistrationState.STARTED, RegistrationKind.ADMISSION))
+    );
+    assertEquals(
+      Optional.empty(),
+      ExamSessionXlsxDataRowUtil.getSheet(createRegistration(RegistrationState.STARTED, RegistrationKind.QUEUE))
+    );
+  }
+
+  @Test
+  public void testGetSheetForLiftedRegistration() {
+    final Registration lifted = createRegistration(RegistrationState.EXPIRED, RegistrationKind.ADMISSION);
+    lifted.setLiftedFromQueueAt(LocalDateTime.of(2026, 5, 1, 10, 0));
+
+    assertEquals(
+      Optional.of(ExamSessionXlsxDataRowUtil.Sheet.CANCELLED_OR_EXPIRED),
+      ExamSessionXlsxDataRowUtil.getSheet(lifted)
     );
   }
 
@@ -135,6 +164,10 @@ public class ExamSessionXlsxDataRowUtilTest {
     );
     assertEquals(
       "Erääntynyt",
+      ExamSessionXlsxDataRowUtil.stateToText(createRegistration(RegistrationState.EXPIRED, RegistrationKind.ADMISSION))
+    );
+    assertEquals(
+      "Peruttu, jonotus loppunut",
       ExamSessionXlsxDataRowUtil.stateToText(createRegistration(RegistrationState.EXPIRED, RegistrationKind.QUEUE))
     );
 
@@ -225,5 +258,39 @@ public class ExamSessionXlsxDataRowUtilTest {
     );
 
     assertEquals(List.of("Lukija A", "Lukija B", "Puhuja A", "Puhuja B"), getLastNames(data, "Jonossa"));
+  }
+
+  @Test
+  public void testCreateExcelDataSortsEndedQueueAfterQueue() {
+    examSession.setType(ExamSessionType.READ_SPEAK);
+
+    final Registration expired = createRegistration(
+      1L,
+      "Erääntynyt",
+      RegistrationState.EXPIRED,
+      RegistrationKind.QUEUE
+    );
+    expired.setPartialExamType(PartialExamType.READ);
+    final Registration speak1 = createRegistration(2L, "Puhuja A", RegistrationState.SUBMITTED, RegistrationKind.QUEUE);
+    speak1.setPartialExamType(PartialExamType.SPEAK);
+    final Registration cancelled = createRegistration(
+      3L,
+      "Peruttu",
+      RegistrationState.CANCELLED,
+      RegistrationKind.QUEUE
+    );
+    cancelled.setPartialExamType(PartialExamType.SPEAK);
+    final Registration read1 = createRegistration(4L, "Lukija A", RegistrationState.SUBMITTED, RegistrationKind.QUEUE);
+    read1.setPartialExamType(PartialExamType.READ);
+
+    final ExamSessionXlsxData data = ExamSessionXlsxDataRowUtil.createExcelData(
+      examSession,
+      List.of(cancelled, speak1, expired, read1),
+      Map.of(),
+      Map.of(2L, 1L, 4L, 1L)
+    );
+
+    assertEquals(List.of("Lukija A", "Puhuja A", "Erääntynyt", "Peruttu"), getLastNames(data, "Jonossa"));
+    assertTrue(getLastNames(data, "Peruttu tai erääntynyt").isEmpty());
   }
 }
