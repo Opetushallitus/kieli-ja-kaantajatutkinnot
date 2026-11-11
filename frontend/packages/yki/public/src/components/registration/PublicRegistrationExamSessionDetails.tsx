@@ -162,8 +162,10 @@ export const PublicRegistrationExamSessionDetails = ({
 
   return (
     <div className="rows gapped">
-      <H2>{header}</H2>
       <dl className="public-registration__exam-session-details">
+        <DetailRow label={t('languageAndLevel')}>
+          <H2>{header}</H2>
+        </DetailRow>
         {!isPartialExamRegistrationEndStep && (
           <DetailRow label={translateCommon('partialExams')}>
             {ExamSessionUtils.getPartialExamTypeText(

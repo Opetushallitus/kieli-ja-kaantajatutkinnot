@@ -30,14 +30,23 @@ exports[`InitRegistrationPage should not let user proceed if registration has no
             <div
               class="rows gapped"
             >
-              <h2
-                class="MuiTypography-root MuiTypography-h2 css-f5bj0c-MuiTypography-root"
-              >
-                suomi, ylin taso
-              </h2>
               <dl
                 class="public-registration__exam-session-details"
               >
+                <dt
+                  class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
+                >
+                  Tutkinnon kieli ja taso
+                </dt>
+                <dd
+                  class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
+                >
+                  <h2
+                    class="MuiTypography-root MuiTypography-h2 css-f5bj0c-MuiTypography-root"
+                  >
+                    suomi, ylin taso
+                  </h2>
+                </dd>
                 <dt
                   class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                 >
@@ -184,14 +193,23 @@ exports[`InitRegistrationPage should not let user proceed if registration period
             <div
               class="rows gapped"
             >
-              <h2
-                class="MuiTypography-root MuiTypography-h2 css-f5bj0c-MuiTypography-root"
-              >
-                suomi, ylin taso
-              </h2>
               <dl
                 class="public-registration__exam-session-details"
               >
+                <dt
+                  class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
+                >
+                  Tutkinnon kieli ja taso
+                </dt>
+                <dd
+                  class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
+                >
+                  <h2
+                    class="MuiTypography-root MuiTypography-h2 css-f5bj0c-MuiTypography-root"
+                  >
+                    suomi, ylin taso
+                  </h2>
+                </dd>
                 <dt
                   class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                 >
@@ -590,14 +608,23 @@ exports[`InitRegistrationPage should prompt user to first identify if regular ad
               <div
                 class="rows gapped"
               >
-                <h2
-                  class="MuiTypography-root MuiTypography-h2 css-f5bj0c-MuiTypography-root"
-                >
-                  suomi, keskitaso
-                </h2>
                 <dl
                   class="public-registration__exam-session-details"
                 >
+                  <dt
+                    class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
+                  >
+                    Tutkinnon kieli ja taso
+                  </dt>
+                  <dd
+                    class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
+                  >
+                    <h2
+                      class="MuiTypography-root MuiTypography-h2 css-f5bj0c-MuiTypography-root"
+                    >
+                      suomi, keskitaso
+                    </h2>
+                  </dd>
                   <dt
                     class="MuiTypography-root MuiTypography-label css-1d9gnz3-MuiTypography-root"
                   >

@@ -226,6 +226,7 @@
           "exam": "Tutkinto",
           "examFee": "Tutkintomaksu",
           "freeAttemptsLeft": "Sinulla on maksuttomia ilmoittautumisia jäljellä",
+          "languageAndLevel": "Tutkinnon kieli ja taso",
           "openings": "Paikkoja vapaana",
           "registrationTime": "Ilmoittautumisaika",
           "testFormat": "Testityyppi"
