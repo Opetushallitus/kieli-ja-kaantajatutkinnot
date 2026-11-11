@@ -8,5 +8,5 @@ import lombok.NonNull;
 public record ExamSessionXlsxData(
   @NonNull String date,
   @NonNull String language,
-  @NonNull List<ExamSessionXlsxDataRow> rows
+  @NonNull List<ExamSessionXlsxSheet> sheets
 ) {}
