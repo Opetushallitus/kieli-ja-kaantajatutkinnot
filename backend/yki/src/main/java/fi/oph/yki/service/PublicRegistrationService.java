@@ -25,6 +25,7 @@ import fi.oph.yki.model.type.ExamSessionType;
 import fi.oph.yki.model.type.PartialExamType;
 import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
+import fi.oph.yki.onr.OnrService;
 import fi.oph.yki.repository.ExamSessionRepository;
 import fi.oph.yki.repository.IdentityRepository;
 import fi.oph.yki.repository.PersonRepository;
@@ -41,6 +42,7 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -63,6 +65,7 @@ public class PublicRegistrationService {
   private final PersonRepository personRepository;
   private final PaymentLinkService paymentLinkService;
   private final RegistrationEmailService registrationEmailService;
+  private final OnrService onrService;
 
   private static final Map<ExamSessionType, Set<PartialExamType>> ALLOWED_PARTIAL_EXAM_TYPES = Map.of(
     ExamSessionType.FULL,
@@ -249,6 +252,27 @@ public class PublicRegistrationService {
     return registrationRepository.saveAndFlush(registration);
   }
 
+  /**
+   * Gets or creates a person. Returns OID the person.
+   */
+  private String getOrCreatePerson(
+    final Identity identity,
+    final long registrationId,
+    final PublicRegistrationFormDTO formDTO
+  ) {
+    if (identity.getPerson() != null && identity.getPerson().getOid() != null) {
+      return identity.getPerson().getOid();
+    }
+    final Optional<String> personOid;
+    try {
+      personOid = onrService.findOrCreatePerson(formDTO, registrationId);
+    } catch (final Exception e) {
+      LOG.error("Unable to find or create person in ONR for registration id {}", registrationId, e);
+      throw new APIException(APIExceptionType.PERSON_CREATION_FAILED);
+    }
+    return personOid.orElseThrow(() -> new APIException(APIExceptionType.PERSON_CREATION_FAILED));
+  }
+
   @Transactional
   public PublicRegistrationSubmitResponseDTO submitRegistration(
     final Identity identity,
@@ -269,6 +293,16 @@ public class PublicRegistrationService {
 
     if (registration.getState() != RegistrationState.STARTED) {
       throw new APIException(APIExceptionType.REGISTRATION_NOT_STARTED);
+    }
+
+    // Step 3: Get or create person in ONR (oppijanumerorekisteri)
+    // TODO: Should we call this inside a transaction,
+    //  because we make (possibly multiple) HTTP request(s) inside this method?
+    // TODO: Do something with personOid
+    final Person person = registration.getPerson();
+
+    if (person == null || person.getOid() == null || person.getOid().isEmpty()) {
+      final String personOid = getOrCreatePerson(identity, registrationId, formDTO);
     }
 
     final RegistrationState submittedState = resolveSubmittedState(registration, formDTO.freeRegistrationId());

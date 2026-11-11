@@ -40,7 +40,8 @@ public enum APIExceptionType {
   PAYMENT_LINK_EXPIRED,
   PAYMENT_LINK_NOT_FOUND,
   PAYMENT_REFERENCE_MISMATCH,
-  PAYMENT_VALIDATION_FAIL;
+  PAYMENT_VALIDATION_FAIL,
+  PERSON_CREATION_FAILED;
 
   public String getCode() {
     final StringBuilder codeBuilder = new StringBuilder();
