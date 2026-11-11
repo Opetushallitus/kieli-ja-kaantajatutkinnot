@@ -60,7 +60,11 @@ export const LangSelector = ({
               orientation="vertical"
               flexItem
               aria-hidden="true"
-              sx={{ borderColor: 'currentColor', marginBlock: '0.5rem' }}
+              sx={{
+                borderColor: 'currentColor',
+                marginBlock: '0.5rem',
+                marginInline: '8px',
+              }}
             />
           )}
         </Fragment>
