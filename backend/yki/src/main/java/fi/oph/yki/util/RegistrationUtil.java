@@ -73,4 +73,36 @@ public class RegistrationUtil {
       .queuePosition(queuePosition)
       .build();
   }
+
+  public static String createRegistrationAuthSucessHandlerRedirectUrl(
+    final String baseUrl,
+    final long examSessionId,
+    final long registrationId
+  ) {
+    return baseUrl + "/v2/login/registration/" + examSessionId + "/" + registrationId + "/success";
+  }
+
+  public static String createPaymentLinkUrl(final String baseUrl, final String code, final String lang) {
+    return baseUrl + "/v2/login/payment?code=" + code + "&lang=" + lang;
+  }
+
+  public static String createPaymentRedirectUrl(
+    final String baseUrl,
+    final long examSessionId,
+    final long registrationId,
+    final String lang
+  ) {
+    final String paymentRedirectUrl =
+      baseUrl + "/api/v2/examSession/" + examSessionId + "/registration/" + registrationId + "/payment/redirect";
+
+    return lang != null ? paymentRedirectUrl + "?lang=" + lang : paymentRedirectUrl;
+  }
+
+  public static String createRegistrationAuthSucessFrontendRedirectUrl(
+    final String frontendBaseUrl,
+    final long examSessionId,
+    final long registrationId
+  ) {
+    return frontendBaseUrl + "/ilmoittautuminen/v2/tutkintotilaisuus/" + examSessionId + "/" + registrationId;
+  }
 }

@@ -44,6 +44,29 @@ yarn yki:test:jest
 yarn yki:test:jest -- -u  # Regenerate snapshots
 ```
 
+## Backend
+
+### Email debug API
+
+Saved emails can be viewed in the browser for checking email templates locally. The API exists
+only when the backend runs with the `dev` profile:
+
+```sh
+cd backend/yki && ./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
+```
+
+Without the profile, the endpoints return 404. They are under `/v2/api/clerk/**`, so log in to
+the clerk UI as an admin user first in the same browser.
+
+| Endpoint                                                       | Description                                                                                                                         |
+| -------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| <http://localhost:8083/yki/v2/api/clerk/email-debug>           | The newest 200 emails, newest first: id, created, type, recipient, subject, sent time and error. Each id links to the email's body. |
+| `http://localhost:8083/yki/v2/api/clerk/email-debug/{emailId}` | The body of one email rendered as HTML.                                                                                             |
+
+Emails are saved to the `email` table even when sending is disabled (`email.sending-enabled`
+defaults to `false`), so emails sent locally, such as registration payment emails, show up in the
+list.
+
 ## Localizations
 
 ### Frontend localizations

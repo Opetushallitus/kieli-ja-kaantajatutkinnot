@@ -1,0 +1,55 @@
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { APIResponseStatus } from 'shared/enums';
+
+import { RegistrationKind } from 'enums/app';
+
+export interface EmailLinkOrder {
+  email: string;
+  examSessionId: number;
+  registrationKind: RegistrationKind;
+  registrationId?: number;
+}
+
+interface EmailLinkOrderState extends Partial<EmailLinkOrder> {
+  status: APIResponseStatus;
+}
+
+interface PublicIdentificationState {
+  emailLinkOrder: EmailLinkOrderState;
+}
+
+const initialState: PublicIdentificationState = {
+  emailLinkOrder: {
+    status: APIResponseStatus.NotStarted,
+  },
+};
+
+const publicIdentificationSlice = createSlice({
+  name: 'registrationV2/publicIdentification',
+  initialState,
+  reducers: {
+    acceptEmailLinkOrder(state) {
+      state.emailLinkOrder.status = APIResponseStatus.Success;
+    },
+    rejectEmailLinkOrder(state) {
+      state.emailLinkOrder.status = APIResponseStatus.Error;
+    },
+    resetPublicIdentificationState() {
+      return initialState;
+    },
+    sendEmailLinkOrder(state, action: PayloadAction<EmailLinkOrder>) {
+      state.emailLinkOrder.status = APIResponseStatus.InProgress;
+      state.emailLinkOrder.email = action.payload.email;
+      state.emailLinkOrder.examSessionId = action.payload.examSessionId;
+      state.emailLinkOrder.registrationKind = action.payload.registrationKind;
+    },
+  },
+});
+
+export const publicIdentificationReducer = publicIdentificationSlice.reducer;
+export const {
+  acceptEmailLinkOrder,
+  rejectEmailLinkOrder,
+  resetPublicIdentificationState,
+  sendEmailLinkOrder,
+} = publicIdentificationSlice.actions;
