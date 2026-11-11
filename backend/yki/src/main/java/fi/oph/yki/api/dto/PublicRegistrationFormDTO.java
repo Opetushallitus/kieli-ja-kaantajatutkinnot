@@ -11,7 +11,6 @@ import lombok.NonNull;
 import lombok.With;
 
 @Builder
-@With
 public record PublicRegistrationFormDTO(
   @NonNull @NotBlank @Size(max = 255) @JsonProperty("first_name") String firstName,
   @NonNull @NotBlank @Size(max = 255) @JsonProperty("last_name") String lastName,
