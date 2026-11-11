@@ -59,7 +59,6 @@ const renderRegistration = (overrides: Partial<PersonRegistrations> = {}) => {
 describe('UserDetailsPage registration queue closure', () => {
   beforeEach(() => {
     jest.useFakeTimers();
-    // November 11 in Finland: six days before the exam.
     jest.setSystemTime(new Date('2026-11-10T22:00:00Z'));
   });
 
@@ -70,10 +69,12 @@ describe('UserDetailsPage registration queue closure', () => {
   it.each<Partial<PersonRegistrations>>([
     {},
     { type: 'READ_SPEAK', partialExamType: 'READ' },
+    { type: 'READ_SPEAK', partialExamType: 'SPEAK' },
+    { type: 'LISTEN_WRITE', partialExamType: 'LISTEN' },
     { type: 'LISTEN_WRITE', partialExamType: 'WRITE' },
     { examDate: dayjs('2026-11-01') },
   ])('shows an ended queue as cancelled: %j', (overrides) => {
-    renderRegistration(overrides);
+    renderRegistration({ ...overrides, state: RegistrationStates.Expired });
 
     const cancelledSection = screen.getByRole('heading', {
       name: 'Perutut ilmoittautumiset',
@@ -97,8 +98,7 @@ describe('UserDetailsPage registration queue closure', () => {
     ).toBeVisible();
   });
 
-  it('keeps the queue open through the last day places can be offered', () => {
-    jest.setSystemTime(new Date('2026-11-10T21:59:59.999Z'));
+  it('keeps a submitted queue open until the scheduler expires it', () => {
     renderRegistration();
 
     expect(screen.getByText('Jonossa (sija 3)')).toBeVisible();
@@ -112,21 +112,31 @@ describe('UserDetailsPage registration queue closure', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('keeps the queue open while registration is still open', () => {
-    renderRegistration({ registrationEndDate: dayjs('2026-11-11') });
+  it('shows the server closure even when the browser clock is before the cutoff', () => {
+    jest.setSystemTime(new Date('2026-11-01T10:00:00Z'));
+    renderRegistration({ state: RegistrationStates.Expired });
 
-    expect(screen.getByText('Jonossa (sija 3)')).toBeVisible();
-    expect(
-      screen.queryByText('Peruttu, jonotus loppunut'),
-    ).not.toBeInTheDocument();
+    expect(screen.getByText('Peruttu, jonotus loppunut')).toBeVisible();
+    expect(screen.queryByText(/Jonossa \(sija/)).not.toBeInTheDocument();
   });
 
-  it.each([
-    RegistrationStates.Cancelled,
-    RegistrationStates.Expired,
-    RegistrationStates.PaidAndCancelled,
-  ])('preserves the existing cancellation reason for %s', (state) => {
-    renderRegistration({ state });
+  it.each([RegistrationStates.Cancelled, RegistrationStates.PaidAndCancelled])(
+    'preserves the existing cancellation reason for %s',
+    (state) => {
+      renderRegistration({ state });
+
+      expect(screen.getByText('Peruttu')).toBeVisible();
+      expect(
+        screen.queryByText('Peruttu, jonotus loppunut'),
+      ).not.toBeInTheDocument();
+    },
+  );
+
+  it('shows an expired admission as a generic cancellation', () => {
+    renderRegistration({
+      kind: RegistrationKind.Admission,
+      state: RegistrationStates.Expired,
+    });
 
     expect(screen.getByText('Peruttu')).toBeVisible();
     expect(
