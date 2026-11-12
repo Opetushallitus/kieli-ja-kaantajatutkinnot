@@ -22,6 +22,8 @@ import org.mockito.Mockito;
 class ParticipantOnrDataSyncScheduledTaskTest {
 
   private static final String PERSON_OID = "1.2.246.562.24.00000000001";
+  // The master person of a linked duplicate has another OID than the one asked for.
+  private static final String MASTER_PERSON_OID = "1.2.246.562.24.00000000002";
 
   private ParticipantOnrRepository participantOnrRepository;
   private OnrService onrService;
@@ -55,14 +57,19 @@ class ParticipantOnrDataSyncScheduledTaskTest {
   }
 
   private void givenOneParticipantFoundInOnr() throws Exception {
+    givenOneParticipantFoundInOnr(PERSON_OID);
+  }
+
+  /** ONR answers with the requested OID as the key. The person under it has the given OID. */
+  private void givenOneParticipantFoundInOnr(final String onrPersonOid) throws Exception {
     final ParticipantOnrCheckProjection participant = Mockito.mock(ParticipantOnrCheckProjection.class);
     Mockito.when(participant.getPersonOid()).thenReturn(PERSON_OID);
     Mockito.when(participant.getParticipantId()).thenReturn(1L);
     Mockito.when(participantOnrRepository.findParticipantsForOnrCheck()).thenReturn(List.of(participant));
 
     final PersonalDataDTO person = new PersonalDataDTO();
-    person.setOidHenkilo(PERSON_OID);
-    person.setOppijanumero(PERSON_OID);
+    person.setOidHenkilo(onrPersonOid);
+    person.setOppijanumero(onrPersonOid);
     person.setIndividualised(false);
     person.setIndividualisedVtj(true);
     Mockito.when(onrService.listMasterPersonsByOids(List.of(PERSON_OID))).thenReturn(Map.of(PERSON_OID, person));
@@ -76,6 +83,22 @@ class ParticipantOnrDataSyncScheduledTaskTest {
 
     task.syncParticipantOnrData();
 
+    final ArgumentCaptor<ParticipantOnr> saved = ArgumentCaptor.forClass(ParticipantOnr.class);
+    Mockito.verify(participantOnrRepository).save(saved.capture());
+    assertEquals(PERSON_OID, saved.getValue().getOid());
+    assertEquals(1L, saved.getValue().getParticipantId());
+    assertEquals(Boolean.TRUE, saved.getValue().getIndividualised());
+  }
+
+  @Test
+  void writesBatchWithRequestedOidWhenOnrReturnsMasterPersonWithOtherOid() throws Exception {
+    setOwner(RuntimeFlag.OWNER_JAVA);
+    setOwnerWhenWriting(RuntimeFlag.OWNER_JAVA);
+    givenOneParticipantFoundInOnr(MASTER_PERSON_OID);
+
+    task.syncParticipantOnrData();
+
+    Mockito.verify(participantOnrRepository).findAllById(List.of(PERSON_OID));
     final ArgumentCaptor<ParticipantOnr> saved = ArgumentCaptor.forClass(ParticipantOnr.class);
     Mockito.verify(participantOnrRepository).save(saved.capture());
     assertEquals(PERSON_OID, saved.getValue().getOid());
