@@ -7,6 +7,8 @@
   "private": true,
   "repository": "https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot",
   "resolutions": {
+    "minimatch@npm:^10.2.2": "11.0.7",
+    "minimatch@npm:^10.2.4": "11.0.7",
     "react-is": "^18.3.1",
     "sockjs/uuid": "^11.1.1"
   },
@@ -119,4 +121,3 @@
     "webpack-dev-server": "^5.2.5"
   }
 }
-
