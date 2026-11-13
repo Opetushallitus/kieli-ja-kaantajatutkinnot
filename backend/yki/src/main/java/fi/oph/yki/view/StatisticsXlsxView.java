@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import lombok.NonNull;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -72,17 +73,22 @@ public class StatisticsXlsxView extends AbstractXlsxView {
       setNullableValue(row.createCell(++ci), data.examLanguage());
       setNullableValue(row.createCell(++ci), data.examLevel());
       setNullableValue(row.createCell(++ci), data.municipality());
-      setNullableValue(row.createCell(++ci), data.availablePlaces() != null ? data.availablePlaces().toString() : null);
-      setNullableValue(row.createCell(++ci), data.registeredCount() != null ? data.registeredCount().toString() : null);
-      setNullableValue(
-        row.createCell(++ci),
-        data.peakParticipants() != null ? data.peakParticipants().toString() : null
-      );
+      setNullableNumber(row.createCell(++ci), data.availablePlaces());
+      setNullableNumber(row.createCell(++ci), data.registeredCount());
+      setNullableNumber(row.createCell(++ci), data.peakParticipants());
       setNullableValue(row.createCell(++ci), DateUtil.formatOptionalDateTime(data.filledAt()));
-      setNullableValue(row.createCell(++ci), data.peakQueue() != null ? data.peakQueue().toString() : null);
+      setNullableNumber(row.createCell(++ci), data.peakQueue());
       setNullableValue(row.createCell(++ci), DateUtil.formatOptionalDateTime(data.queuePeakAt()));
     }
 
     autoresizeExcelColumns(sheet, HEADERS);
+  }
+
+  private static void setNullableNumber(final Cell cell, final Number number) {
+    if (number != null) {
+      cell.setCellValue(number.doubleValue());
+    } else {
+      cell.setBlank();
+    }
   }
 }
