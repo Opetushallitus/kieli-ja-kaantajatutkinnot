@@ -14,6 +14,8 @@ import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamLanguage;
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.Organizer;
+import fi.oph.yki.model.Registration;
+import fi.oph.yki.model.type.PartialExamType;
 import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.repository.ExamLanguageRepository;
@@ -171,11 +173,28 @@ public class ClerkOrganizerService {
       .phoneNumber(examSession.getContactPhoneNumber())
       .build();
 
-    final long participants = examSession
+    final List<Registration> admissions = examSession
       .getRegistrations()
       .stream()
       .filter(r -> r.getState() == RegistrationState.COMPLETED || r.getState() == RegistrationState.SUBMITTED)
       .filter(r -> r.getKind() == RegistrationKind.ADMISSION)
+      .toList();
+    final int participants = admissions.size();
+    final int participantsReadListen = (int) admissions
+      .stream()
+      .filter(r ->
+        r.getPartialExamType() == PartialExamType.ALL_PARTS ||
+        r.getPartialExamType() == PartialExamType.READ ||
+        r.getPartialExamType() == PartialExamType.LISTEN
+      )
+      .count();
+    final int participantsSpeakWrite = (int) admissions
+      .stream()
+      .filter(r ->
+        r.getPartialExamType() == PartialExamType.ALL_PARTS ||
+        r.getPartialExamType() == PartialExamType.SPEAK ||
+        r.getPartialExamType() == PartialExamType.WRITE
+      )
       .count();
 
     final long queue = examSession
@@ -195,7 +214,12 @@ public class ClerkOrganizerService {
       .languageCode(examSession.getLanguage())
       .open(examSession.getPublishedAt() != null)
       .upcomingAdmission(examSession.getPublishedAt() != null)
-      .participants((int) participants)
+      .participants(participants)
+      .type(examSession.getType())
+      .participantsReadListen(participantsReadListen)
+      .participantsSpeakWrite(participantsSpeakWrite)
+      .maxParticipantsReadListen(examSession.getMaxParticipantsReadListen())
+      .maxParticipantsSpeakWrite(examSession.getMaxParticipantsSpeakWrite())
       .maxParticipants(examSession.getMaxParticipants())
       .queue((int) queue)
       .contact(List.of(contact))

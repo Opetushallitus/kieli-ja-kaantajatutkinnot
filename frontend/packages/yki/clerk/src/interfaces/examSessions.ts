@@ -1,6 +1,11 @@
 import { Dayjs } from 'dayjs';
 
-import { ExamLanguage, ExamLevel, RegistrationKind } from 'enums/app';
+import {
+  ExamLanguage,
+  ExamLevel,
+  ExamSessionType,
+  RegistrationKind,
+} from 'enums/app';
 import { OrganizerContact } from 'interfaces/organizer';
 
 export interface ExamSessionsResponse {
@@ -37,6 +42,11 @@ export type ExamSession = WithIdType & {
   language_code: ExamLanguage;
   level_code: ExamLevel;
   max_participants: number;
+  type: ExamSessionType;
+  participants_read_listen: number;
+  participants_speak_write: number;
+  max_participants_read_listen: number | null;
+  max_participants_speak_write: number | null;
   published_at: string;
   location: Array<ExamSessionLocation>;
   exam_fee: number;
