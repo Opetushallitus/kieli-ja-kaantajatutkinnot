@@ -6,6 +6,7 @@ import fi.oph.yki.onr.dto.PersonalDataDTO;
 import fi.oph.yki.repository.ParticipantOnrRepository;
 import fi.oph.yki.repository.RuntimeFlagRepository;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -43,14 +44,19 @@ public class ParticipantOnrSyncService {
     }
 
     final Map<String, ParticipantOnr> existing = participantOnrRepository
-      .findAllById(onrPersons.values().stream().map(PersonalDataDTO::getOidHenkilo).toList())
+      .findAllById(List.copyOf(onrPersons.keySet()))
       .stream()
       .collect(Collectors.toMap(ParticipantOnr::getOid, Function.identity()));
 
-    for (final PersonalDataDTO person : onrPersons.values()) {
-      final String oid = person.getOidHenkilo();
+    // The key is the OID that was asked for. The person is the master person, and its own OID is
+    // another one when the OID asked for is a linked duplicate.
+    for (final Map.Entry<String, PersonalDataDTO> onrPerson : onrPersons.entrySet()) {
+      final String oid = onrPerson.getKey();
+      final PersonalDataDTO person = onrPerson.getValue();
       ParticipantOnr participantOnr = existing.get(oid);
+
       if (participantOnr == null) {
+        // ONR has not been asked about this person before, so link the person to the participant.
         participantOnr = new ParticipantOnr();
         participantOnr.setOid(oid);
         participantOnr.setParticipantId(oidToParticipantId.get(oid));
