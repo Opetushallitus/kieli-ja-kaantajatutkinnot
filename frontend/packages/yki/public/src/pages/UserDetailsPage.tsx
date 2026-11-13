@@ -1,7 +1,5 @@
-import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import InfoFilledIcon from '@mui/icons-material/Info';
-import WarningOutlinedIcon from '@mui/icons-material/WarningOutlined';
 import { Grid, Paper, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { OphLink } from '@opetushallitus/oph-design-system';
@@ -12,8 +10,9 @@ import { CustomButton, CustomButtonLink } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
-import { H1, H2, H3, Label, Text } from 'components/Text';
+import { H1, H2, H3, Text } from 'components/Text';
 import { CancelRegistrationModal } from 'components/userDetails/CancelRegistrationModal';
+import { ExamPayment } from 'components/userDetails/ExamPayment';
 import { RegistrationDetails } from 'components/userDetails/RegistrationDetails';
 import { RegistrationState } from 'components/userDetails/RegistrationState';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
@@ -32,15 +31,7 @@ import { nationalitiesSelector } from 'redux/selectors/nationalities';
 import { sessionSelector } from 'redux/selectors/session';
 import { userDetailsSelector } from 'redux/selectors/userDetails';
 import { ExamSessionUtils } from 'utils/examSession';
-
-const cancelledStates = [
-  RegistrationStates.Expired,
-  RegistrationStates.Cancelled,
-  RegistrationStates.PaidAndCancelled,
-];
-
-const isCancelled = (registration: PersonRegistrations) =>
-  cancelledStates.includes(registration.state);
+import { UserRegistrationUtils } from 'utils/userRegistration';
 
 const filterByState = (
   registrations: Array<PersonRegistrations>,
@@ -114,62 +105,6 @@ const InfoBox = ({ children }: { children: JSX.Element }) => {
   );
 };
 
-const ExamPayment = ({
-  registration,
-}: {
-  registration: PersonRegistrations;
-}) => {
-  const { paidAt, expiresAt, examFee, isFreeRegistration } = registration;
-  const { t } = usePublicTranslation({
-    keyPrefix: 'yki.pages.userDetailsPage.registrations.examPayment',
-  });
-
-  if (isFreeRegistration) {
-    return (
-      <div>
-        <Label>{t('label')}</Label>
-        <div className="columns gapped-xxs">
-          <CheckCircleOutlinedIcon className="user-details-page__icon--ok" />{' '}
-          <Text>{t('free')}</Text>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div>
-      <Label>{t('label')}</Label>
-      {paidAt && (
-        <div className="columns gapped-xxs">
-          <CheckCircleOutlinedIcon className="user-details-page__icon--ok" />{' '}
-          <Text>
-            {t('paidAt', {
-              date: DateUtils.formatOptionalDate(paidAt, 'l'),
-            })}
-          </Text>
-        </div>
-      )}
-      {!paidAt && (
-        <div className="columns gapped-xxs">
-          <WarningOutlinedIcon className="user-details-page__icon--alert align-self-start" />{' '}
-          <div className="rows">
-            <Text>
-              {t('notPaid', {
-                examFee,
-              })}
-            </Text>
-            <Text className="user-details-page__text--alert">
-              {t('expiresAt', {
-                date: DateUtils.formatOptionalDate(expiresAt, 'l'),
-              })}
-            </Text>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-};
-
 const Registrations: FC<RegistrationsProps> = ({
   filteredRegistrations,
   setIsCancelModalOpen,
@@ -189,6 +124,9 @@ const Registrations: FC<RegistrationsProps> = ({
     const displayExpiryNotification =
       r.state === RegistrationStates.Submitted &&
       r.kind !== RegistrationKind.Queue;
+    const showConfirmButton =
+      r.state === RegistrationStates.Submitted &&
+      r.kind === RegistrationKind.Admission;
 
     return (
       <Paper
@@ -202,6 +140,8 @@ const Registrations: FC<RegistrationsProps> = ({
               language_code: r.examLang,
               level_code: r.examLevel,
             })}
+            {', '}
+            {DateUtils.formatOptionalDate(r.examDate, 'l')}
           </H3>
         </div>
         {displayExpiryNotification && !liftedFromQueue && (
@@ -226,17 +166,14 @@ const Registrations: FC<RegistrationsProps> = ({
           </InfoBox>
         )}
         <RegistrationState registration={r} />
-        {(r.state === RegistrationStates.Completed ||
-          r.state === RegistrationStates.Submitted) &&
-          r.kind === RegistrationKind.Admission && (
-            <ExamPayment registration={r} />
-          )}
+        <ExamPayment registration={r} />
         <RegistrationDetails registration={r} />
-        {!isCancelled(r) && (
-          <div className="rows gapped">
-            <div className="columns gapped">
-              {r.state === RegistrationStates.Submitted &&
-                r.kind === RegistrationKind.Admission && (
+        {!r.examDate.isBefore(dayjs(), 'day') &&
+          !UserRegistrationUtils.isCancelled(r) &&
+          (showConfirmButton || r.kind === RegistrationKind.Queue ? (
+            <div className="rows gapped">
+              <div className="columns gapped">
+                {showConfirmButton && (
                   <CustomButtonLink
                     className="fit-content-max-width"
                     color={Color.Secondary}
@@ -250,18 +187,41 @@ const Registrations: FC<RegistrationsProps> = ({
                     {t('actions.confirm')}
                   </CustomButtonLink>
                 )}
-              <CustomButton
-                className="fit-content-max-width"
-                color={Color.Secondary}
-                variant={Variant.Outlined}
-                disabled={!r.isCancellable}
-                onClick={() => handleCancelRegistration(r)}
-              >
-                {t('actions.cancel')}
-              </CustomButton>
+                <CustomButton
+                  className="fit-content-max-width"
+                  color={Color.Secondary}
+                  variant={Variant.Outlined}
+                  disabled={!r.isCancellable}
+                  onClick={() => handleCancelRegistration(r)}
+                >
+                  {t('actions.cancel')}
+                </CustomButton>
+              </div>
             </div>
-          </div>
-        )}
+          ) : (
+            <Text>
+              <Trans
+                t={t}
+                i18nKey="actions.cancelDescription"
+                components={{
+                  CancelLink: (
+                    <OphLink
+                      component="button"
+                      type="button"
+                      variant="inherit"
+                      underline="always"
+                      disabled={!r.isCancellable}
+                      onClick={() => handleCancelRegistration(r)}
+                      sx={{
+                        verticalAlign: 'baseline',
+                        '&:disabled': { color: 'text.disabled' },
+                      }}
+                    />
+                  ),
+                }}
+              />
+            </Text>
+          ))}
       </Paper>
     );
   });
@@ -433,14 +393,14 @@ export const UserDetailsPage: FC = () => {
 
   const registrations = personDetails?.registrations || [];
 
-  const canceledRegistrations = [
-    ...filterByState(registrations, cancelledStates),
-  ].sort(earliestExamDateFirstComparator);
+  const canceledRegistrations = registrations
+    .filter(UserRegistrationUtils.isCancelled)
+    .sort(earliestExamDateFirstComparator);
   const upcomingAndPastRegistrations = filterByState(registrations, [
     RegistrationStates.Submitted,
     RegistrationStates.Completed,
     RegistrationStates.Started,
-  ]);
+  ]).filter((r) => !UserRegistrationUtils.isCancelled(r));
 
   const upcomingRegistrations = [
     ...filterByDate(upcomingAndPastRegistrations, true),

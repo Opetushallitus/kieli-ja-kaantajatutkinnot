@@ -11,6 +11,7 @@ import {
   RegistrationStates,
 } from 'enums/app';
 import { PersonRegistrations } from 'interfaces/userDetails';
+import { UserRegistrationUtils } from 'utils/userRegistration';
 
 const EvaluationStateInfo = ({ state }: { state: EvaluationState }) => {
   const { t } = usePublicTranslation({
@@ -65,16 +66,15 @@ export const RegistrationState = ({
     (state === RegistrationStates.Submitted &&
       kind === RegistrationKind.Admission);
 
+  const hasQueueEnded = UserRegistrationUtils.hasQueueEnded(registration);
   const isQueued =
-    state === RegistrationStates.Submitted && kind === RegistrationKind.Queue;
+    state === RegistrationStates.Submitted &&
+    kind === RegistrationKind.Queue &&
+    !hasQueueEnded;
 
   const positionInQueue = registration.positionInQueue || 1;
 
-  const isCancelled = [
-    RegistrationStates.Cancelled,
-    RegistrationStates.Expired,
-    RegistrationStates.PaidAndCancelled,
-  ].includes(state);
+  const isCancelled = UserRegistrationUtils.isCancelled(registration);
 
   return (
     <div>
@@ -96,7 +96,9 @@ export const RegistrationState = ({
         {isCancelled && (
           <>
             <NotInterestedIcon className="user-details-page__icon--cancel" />
-            <Text>{t('cancelled')}</Text>
+            <Text>
+              {t(hasQueueEnded ? 'cancelledQueueEnded' : 'cancelled')}
+            </Text>
           </>
         )}
       </div>

@@ -17,7 +17,7 @@ import {
   Variant,
 } from 'shared/enums';
 import { useDialog } from 'shared/hooks';
-import { ComboBox, LanguageSelect } from 'shared/ods-components';
+import { ComboBox, sortOptionsByLabels } from 'shared/ods-components';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -74,7 +74,7 @@ const SelectPartialExamTypes = () => {
         <Typography variant="h3" component="legend">
           {t('labels.selectExamType')}
         </Typography>
-        <FormGroup>
+        <FormGroup sx={{ gap: '4px', marginTop: '8px' }}>
           {PARTIAL_EXAM_TYPE_OPTIONS.map(({ type, i18nKey }) => (
             <FormControlLabel
               key={type}
@@ -150,7 +150,28 @@ const SelectExamLanguage = ({
   const translateCommon = useCommonTranslation();
   const translateLanguage = (language: string) =>
     translateCommon('languages.' + language);
-  const languages = Object.values(ExamLanguage);
+  const primaryLanguages = [
+    ExamLanguage.FIN,
+    ExamLanguage.SWE,
+    ExamLanguage.ENG,
+  ];
+  const languageToComboBoxOption = (language: ExamLanguage) => ({
+    value: language,
+    label: translateLanguage(language),
+  });
+  const languageValues = [
+    ...primaryLanguages.map(languageToComboBoxOption),
+    ...sortOptionsByLabels(
+      Object.values(ExamLanguage)
+        .filter(
+          (language) =>
+            language !== ExamLanguage.ALL &&
+            !primaryLanguages.includes(language),
+        )
+        .map(languageToComboBoxOption),
+    ),
+    languageToComboBoxOption(ExamLanguage.ALL),
+  ];
 
   return (
     <FormControl
@@ -168,23 +189,16 @@ const SelectExamLanguage = ({
           {t('filters.selectExamDetails.required')}
         </span>
       </Typography>
-      <LanguageSelect
+      <ComboBox
         id="public-exam-session-filters__language-filter"
-        primaryLanguages={[
-          ExamLanguage.ALL,
-          ExamLanguage.FIN,
-          ExamLanguage.SWE,
-          ExamLanguage.ENG,
-        ]}
-        languages={languages}
-        translateLanguage={translateLanguage}
+        values={languageValues}
         variant={TextFieldVariant.Outlined}
         value={
           language
             ? { value: language, label: translateLanguage(language) }
             : null
         }
-        onLanguageChange={(v) => {
+        onChange={(v) => {
           const language = v as ExamLanguage | undefined;
           onFilterChange({ language });
         }}
@@ -215,7 +229,10 @@ const SelectExamLevel = ({
     value: v.toString(),
     label: translateCommon('languageLevel.' + v.toString()),
   });
-  const levelValues = Object.values(ExamLevel).map(levelToComboBoxOption);
+  const levelValues = [
+    ...Object.values(ExamLevel).filter((level) => level !== ExamLevel.ALL),
+    ExamLevel.ALL,
+  ].map(levelToComboBoxOption);
 
   const errorStyles = { color: 'error.main' };
 
@@ -321,7 +338,7 @@ export const PublicExamSessionFilters = ({
           <Typography variant="h3" component="legend">
             {t('labels.filterExamSessions')}
           </Typography>
-          <FormGroup>
+          <FormGroup sx={{ gap: '4px', marginTop: '8px' }}>
             <FormControlLabel
               control={
                 <OphCheckbox

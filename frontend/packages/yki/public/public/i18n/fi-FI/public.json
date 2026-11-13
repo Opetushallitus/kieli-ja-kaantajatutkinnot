@@ -3,6 +3,7 @@
     "component": {
       "cancelRegistrationModal": {
         "cancel": "En halua perua",
+        "close": "Sulje",
         "confirm": "Peru ilmoittautuminen",
         "descriptionNotPaid1": "Jos täytät maksuttoman YKI-testin ehdot, voit ilmoittautua maksuttomasti suomen tai ruotsin kielen ylimmän tason YKI-testiin yhteensä kolme (3) kertaa. Jos perut tämän ilmoittautumisen, saat maksuttoman kerran takaisin.",
         "descriptionNotPaid2": "Jos perut ilmoittautumisen, et voi palauttaa sitä. Sinun täytyy ilmoittautua uudelleen, jos haluat osallistua YKI-testiin.",
@@ -11,7 +12,6 @@
           "cannotRestore": "Jos perut ilmoittautumisen, et voi palauttaa sitä. Sinun täytyy ilmoittautua uudelleen, jos haluat osallistua YKI-testiin.",
           "notPaidYet": "Jos et ole vielä maksanut tutkintomaksua, voit perua ilmoittautumisen.",
           "refundConditions": {
-            "and": "ja",
             "applyInTime": "<strong>haet maksua takaisin Opetushallitukselta kahden viikon aikana</strong>. Hakemus ja tarkemmat ohjeet ovat <RefundLink></RefundLink>",
             "cancelledInTime": "<strong>olet perunut ilmoittautumisen ajoissa</strong> (viimeistään testipäivän aamuna klo 8)",
             "ill": "<strong>olet sairastunut</strong> ja et voi osallistua testiin. Sinulla pitää olla testipäivältä sairastumisesta virallinen todistus, jonka voit saada lääkäriltä tai hoitajalta."
@@ -23,7 +23,7 @@
           "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/ennen-yki-testia#anchor-osallistumisen-peruminen"
         },
         "success": "Ilmoittautuminen peruttu onnistuneesti",
-        "title": "Haluatko perua ilmoittautumisen?"
+        "title": "Haluatko perua ilmoittautumisen {{language}}, {{level}}, {{date}}?"
       },
       "cookieBanner": {
         "buttonAriaLabel": "Sulje evästetiedot",
@@ -226,6 +226,7 @@
           "exam": "Tutkinto",
           "examFee": "Tutkintomaksu",
           "freeAttemptsLeft": "Sinulla on maksuttomia ilmoittautumisia jäljellä",
+          "languageAndLevel": "Tutkinnon kieli ja taso",
           "openings": "Paikkoja vapaana",
           "registrationTime": "Ilmoittautumisaika",
           "testFormat": "Testityyppi"
@@ -867,6 +868,7 @@
         "registrations": {
           "actions": {
             "cancel": "Peru ilmoittautuminen",
+            "cancelDescription": "En voi osallistua YKI-testiin. Haluan <CancelLink>perua ilmoittautumisen</CancelLink>.",
             "confirm": "Vahvista ilmoittautuminen"
           },
           "examPayment": {
@@ -907,6 +909,7 @@
           "state": {
             "ABORTED": "Suoritus keskeytetty",
             "cancelled": "Peruttu",
+            "cancelledQueueEnded": "Peruttu, jonotus loppunut",
             "enrolled": "Ilmoittautunut",
             "EVALUATION_COMPLETE": "Arviointi valmis",
             "EVALUATION_PENDING": "Arviointi kesken",

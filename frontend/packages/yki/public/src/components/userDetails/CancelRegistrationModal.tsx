@@ -1,18 +1,20 @@
+import CloseIcon from '@mui/icons-material/Close';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import { Typography } from '@mui/material';
+import { IconButton, Typography } from '@mui/material';
 import { useCallback, useEffect } from 'react';
 import { Trans } from 'react-i18next';
 import {
   CustomButton,
   CustomModal,
-  H3,
   LoadingProgressIndicator,
   WebLink,
 } from 'shared/components';
 import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
 import { useToast, useWindowProperties } from 'shared/hooks';
+import { DateUtils } from 'shared/utils';
 
-import { Text } from 'components/Text';
+import { H2, Text } from 'components/Text';
+import { ExamPayment } from 'components/userDetails/ExamPayment';
 import { RegistrationDetails } from 'components/userDetails/RegistrationDetails';
 import { RegistrationState } from 'components/userDetails/RegistrationState';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
@@ -25,7 +27,6 @@ import {
   setRegistrationToCancel,
 } from 'redux/reducers/userDetails';
 import { userDetailsSelector } from 'redux/selectors/userDetails';
-import { ExamSessionUtils } from 'utils/examSession';
 
 type CancelRegistrationModalProps = {
   registrationToCancel: PersonRegistrations;
@@ -98,19 +99,39 @@ export const CancelRegistrationModal = ({
     <CustomModal
       className="cancel-registration-modal"
       open={modalOpen}
-      modalTitle={t('title')}
+      aria-labelledby="cancel-registration-modal-title"
+      modalTitle={
+        <div className="cancel-registration-modal__header">
+          <H2 id="cancel-registration-modal-title">
+            {t('title', {
+              language: translateCommon(
+                `languages.${registrationToCancel.examLang}`,
+              ),
+              level: translateCommon(
+                `languageLevel.${registrationToCancel.examLevel}`,
+              ),
+              date: DateUtils.formatOptionalDate(
+                registrationToCancel.examDate,
+                'l',
+              ),
+            })}
+          </H2>
+          <IconButton
+            aria-label={t('close')}
+            onClick={() => setModalOpen(false)}
+            sx={{ flexShrink: 0 }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </div>
+      }
       onCloseModal={() => setModalOpen(false)}
     >
       <div className="rows gapped">
         <div className="rows gapped">
           <div className="cancel-registration-modal__registration rows gapped-sm">
-            <H3>
-              {ExamSessionUtils.languageAndLevelText({
-                language_code: registrationToCancel.examLang,
-                level_code: registrationToCancel.examLevel,
-              })}
-            </H3>
             <RegistrationState registration={registrationToCancel} />
+            <ExamPayment registration={registrationToCancel} />
             <RegistrationDetails registration={registrationToCancel} />
           </div>
           {registrationToCancel.isFreeRegistration && (
@@ -141,8 +162,6 @@ export const CancelRegistrationModal = ({
                       t={t}
                       i18nKey="descriptionPaid.refundConditions.cancelledInTime"
                     />
-                    <br />
-                    <strong>{t('descriptionPaid.refundConditions.and')}</strong>
                   </Typography>
                   <Typography variant="body1" component="li">
                     <Trans

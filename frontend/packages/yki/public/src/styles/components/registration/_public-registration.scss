@@ -1,7 +1,8 @@
 .public-registration {
   &__exam-session-details {
+    align-items: first baseline;
     display: grid;
-    grid-template-columns: 148px minmax(0, 1fr);
+    grid-template-columns: max-content minmax(0, 1fr);
     column-gap: 24px;
     row-gap: 8px;
     margin: 0;
