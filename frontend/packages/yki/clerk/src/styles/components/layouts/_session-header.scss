@@ -1,5 +1,5 @@
 .session-header {
-  background: #f0f3f7;
+  background: $page-background-color;
   justify-content: flex-end;
   padding: 2rem 6rem;
 
@@ -32,7 +32,7 @@
 
     @include phone {
       align-items: flex-end;
-      background-color: $color-grey-400;
+      background-color: $page-background-color;
       padding: 2rem;
       width: 100%;
     }
