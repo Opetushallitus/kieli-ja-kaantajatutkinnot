@@ -191,13 +191,13 @@ describe.each<RouteType>(['clerk', 'organizer'])(
           within(screen.getByRole('table')).getAllByRole('link'),
         ).toHaveLength(5);
         expect(
-          screen.getByRole('button', { name: 'Jonossa (2)' }),
+          screen.getByRole('button', { name: 'Jonossa (3)' }),
         ).toBeInTheDocument();
         expect(
           screen.getByRole('button', { name: 'Maksanut ja peruttu (1)' }),
         ).toBeInTheDocument();
         expect(
-          screen.getByRole('button', { name: 'Peruttu tai erääntynyt (3)' }),
+          screen.getByRole('button', { name: 'Peruttu tai erääntynyt (2)' }),
         ).toBeInTheDocument();
         expect(matchedPaths).toContain(
           APIEndpoints.OrganizerExamSession.replace(':oid', organizer.oid),
