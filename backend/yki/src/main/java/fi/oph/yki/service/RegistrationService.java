@@ -52,6 +52,11 @@ public class RegistrationService {
     LanguageCode.fin.name(),
     LanguageCode.swe.name()
   );
+  private static final Set<FreeRegistrationSource> EDUCATION_FREE_REGISTRATION_SOURCES = Set.of(
+    FreeRegistrationSource.KOSKI,
+    FreeRegistrationSource.USER
+  );
+  private static final int FREE_REGISTRATION_EXAM_SESSION_LIMIT = 3;
   private final RegistrationRepository registrationRepository;
   private final FreeRegistrationRepository freeRegistrationRepository;
   private final PersonRepository personRepository;
@@ -182,13 +187,17 @@ public class RegistrationService {
   }
 
   @Transactional(readOnly = true)
-  public int getUsedFreeRegistrations(String oid) {
-    return freeRegistrationRepository.countFreeRegistrationsUsed(oid);
+  public long getUsedFreeRegistrations(final Registration registration) {
+    return freeRegistrationRepository.countExamSessionsWithEducationFreeRegistration(
+      registration.getPerson().getOid(),
+      EDUCATION_FREE_REGISTRATION_SOURCES,
+      registration.getExamSession().getId()
+    );
   }
 
   @Transactional(readOnly = true)
-  public boolean hasFreeRegistrationsLeft(String oid) {
-    return freeRegistrationRepository.countFreeRegistrationsUsed(oid) < 3;
+  public boolean hasFreeRegistrationsLeft(final Registration registration) {
+    return getUsedFreeRegistrations(registration) < FREE_REGISTRATION_EXAM_SESSION_LIMIT;
   }
 
   @Transactional

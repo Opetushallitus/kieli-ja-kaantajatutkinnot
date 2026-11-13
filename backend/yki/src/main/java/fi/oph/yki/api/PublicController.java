@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -54,7 +55,7 @@ public class PublicController {
     final Registration registration = registrationService.findRegistration(registrationId, oid);
 
     // Enforce max 3 free registrations for user
-    if (!registrationService.hasFreeRegistrationsLeft(oid)) {
+    if (!registrationService.hasFreeRegistrationsLeft(registration)) {
       throw new APIException(APIExceptionType.FREE_REGISTRATIONS_EXHAUSTED);
     }
 
@@ -63,15 +64,19 @@ public class PublicController {
 
   @GetMapping(path = "/education")
   @ResponseStatus(HttpStatus.OK)
-  public PublicEducationAndFreeRegistrationsCountDTO getEducations(final HttpServletRequest request) {
+  public PublicEducationAndFreeRegistrationsCountDTO getEducations(
+    @RequestParam final long registrationId,
+    final HttpServletRequest request
+  ) {
     final String oid = StringUtil.getOidFromRequest(request);
 
     if (oid == null || oid.isEmpty()) {
       throw new APIException(APIExceptionType.SESSION_OID_NOT_FOUND);
     }
 
+    final Registration registration = registrationService.findRegistration(registrationId, oid);
     List<PublicEducationDTO> educations = koskiService.getEducations(oid);
-    int usedFreeRegistrations = registrationService.getUsedFreeRegistrations(oid);
+    long usedFreeRegistrations = registrationService.getUsedFreeRegistrations(registration);
 
     return PublicEducationAndFreeRegistrationsCountDTO
       .builder()

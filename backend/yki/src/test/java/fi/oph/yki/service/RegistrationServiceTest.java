@@ -1,8 +1,10 @@
 package fi.oph.yki.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
@@ -323,6 +325,64 @@ public class RegistrationServiceTest {
     entityManager.persist(registration);
 
     return registration;
+  }
+
+  private Registration persistFreeRegistration(
+    final Person person,
+    final ExamSession examSession,
+    final RegistrationState state,
+    final PartialExamType partialExamType
+  ) {
+    final Registration registration = Factory.registration(person);
+    registration.setExamSession(examSession);
+    registration.setState(state);
+    registration.setPartialExamType(partialExamType);
+    entityManager.persist(registration);
+    entityManager.persist(Factory.freeRegistration(registration));
+
+    return registration;
+  }
+
+  private ExamSession persistAdvancedExamSession(final ExamDate examDate) {
+    final ExamSession examSession = Factory.examSession(examDate);
+    examSession.setLevel("YLIN");
+    return entityManager.persist(examSession);
+  }
+
+  @Test
+  public void testPartialExamsInSameExamSessionUseOneFreeRegistration() {
+    final Person person = entityManager.persist(Factory.person());
+    final ExamDate examDate = entityManager.persist(Factory.examDate());
+    persistFreeRegistration(
+      person,
+      persistAdvancedExamSession(examDate),
+      RegistrationState.COMPLETED,
+      PartialExamType.ALL_PARTS
+    );
+    persistFreeRegistration(
+      person,
+      persistAdvancedExamSession(examDate),
+      RegistrationState.COMPLETED,
+      PartialExamType.ALL_PARTS
+    );
+    final ExamSession examSession = persistAdvancedExamSession(examDate);
+    persistFreeRegistration(person, examSession, RegistrationState.COMPLETED, PartialExamType.SPEAK);
+
+    final Registration writeRegistration = Factory.registration(person);
+    writeRegistration.setExamSession(examSession);
+    writeRegistration.setState(RegistrationState.STARTED);
+    writeRegistration.setPartialExamType(PartialExamType.WRITE);
+    entityManager.persist(writeRegistration);
+
+    final Registration otherExamSessionRegistration = Factory.registration(person);
+    otherExamSessionRegistration.setExamSession(persistAdvancedExamSession(examDate));
+    otherExamSessionRegistration.setState(RegistrationState.STARTED);
+    entityManager.persist(otherExamSessionRegistration);
+
+    assertEquals(2, registrationService.getUsedFreeRegistrations(writeRegistration));
+    assertTrue(registrationService.hasFreeRegistrationsLeft(writeRegistration));
+    assertEquals(3, registrationService.getUsedFreeRegistrations(otherExamSessionRegistration));
+    assertFalse(registrationService.hasFreeRegistrationsLeft(otherExamSessionRegistration));
   }
 
   private RegistrationIdentificationDTO suoritus(
