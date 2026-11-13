@@ -5,15 +5,21 @@ export class UserRegistrationUtils {
   static hasQueueEnded(registration: PersonRegistrations) {
     return (
       registration.kind === RegistrationKind.Queue &&
-      registration.state === RegistrationStates.Expired
+      [RegistrationStates.Submitted, RegistrationStates.Expired].includes(
+        registration.state,
+      ) &&
+      registration.queueEnded === true
     );
   }
 
   static isCancelled(registration: PersonRegistrations) {
-    return [
-      RegistrationStates.Cancelled,
-      RegistrationStates.Expired,
-      RegistrationStates.PaidAndCancelled,
-    ].includes(registration.state);
+    return (
+      [
+        RegistrationStates.Cancelled,
+        RegistrationStates.Expired,
+        RegistrationStates.PaidAndCancelled,
+      ].includes(registration.state) ||
+      UserRegistrationUtils.hasQueueEnded(registration)
+    );
   }
 }
