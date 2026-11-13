@@ -321,16 +321,19 @@ export const ClerkExamSessionRegistrations = ({
     admissions: activeRegistrations.filter(
       ({ kind }) => kind === RegistrationKind.Admission,
     ),
-    queued: activeRegistrations.filter(
+    queued: examRegistrations.filter(
       ({ kind }) => kind === RegistrationKind.Queue,
     ),
     paidAndCancelled: examRegistrations.filter(
-      ({ state }) => state === RegistrationStates.PaidAndCancelled,
+      ({ state, kind }) =>
+        kind !== RegistrationKind.Queue &&
+        state === RegistrationStates.PaidAndCancelled,
     ),
     cancelledOrExpired: examRegistrations.filter(
-      ({ state }) =>
-        state === RegistrationStates.Cancelled ||
-        state === RegistrationStates.Expired,
+      ({ state, kind }) =>
+        kind !== RegistrationKind.Queue &&
+        (state === RegistrationStates.Cancelled ||
+          state === RegistrationStates.Expired),
     ),
   };
 
