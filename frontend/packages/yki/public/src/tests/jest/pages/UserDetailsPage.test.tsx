@@ -5,7 +5,7 @@ import { APIResponseStatus, AppLanguage } from 'shared/enums';
 
 import { changeLang } from 'configs/i18n';
 import { RegistrationKind, RegistrationStates } from 'enums/app';
-import { PersonRegistrations } from 'interfaces/userDetails';
+import { PersonDetails, PersonRegistrations } from 'interfaces/userDetails';
 import { UserDetailsPage } from 'pages/UserDetailsPage';
 import {
   storePersonDetails,
@@ -13,6 +13,7 @@ import {
 } from 'redux/reducers/userDetails';
 import { DefaultProviders } from 'tests/jest/utils/DefaultProviders';
 import { personDetails } from 'tests/msw/fixtures/personDetails';
+import { ExamSessionUtils } from 'utils/examSession';
 import { SerializationUtils } from 'utils/serialization';
 
 jest.unmock('configs/i18n');
@@ -39,6 +40,10 @@ const renderRegistration = (overrides: Partial<PersonRegistrations> = {}) => {
     ...overrides,
   };
 
+  renderPerson({ ...person, registrations: [registration] });
+};
+
+const renderPerson = (person: PersonDetails) => {
   render(
     <DefaultProviders
       preloadedState={{
@@ -46,10 +51,7 @@ const renderRegistration = (overrides: Partial<PersonRegistrations> = {}) => {
           status: APIResponseStatus.Success,
           nationalities: [],
         },
-        userDetails: userDetailsReducer(
-          undefined,
-          storePersonDetails({ ...person, registrations: [registration] }),
-        ),
+        userDetails: userDetailsReducer(undefined, storePersonDetails(person)),
       }}
     >
       <UserDetailsPage />
@@ -214,6 +216,15 @@ describe('UserDetailsPage registration queue closure', () => {
 });
 
 describe('UserDetailsPage registration card actions', () => {
+  beforeEach(() => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date('2026-11-10T10:00:00'));
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
   it.each<Partial<PersonRegistrations>>([
     { state: RegistrationStates.Completed, kind: RegistrationKind.Admission },
     { state: RegistrationStates.Completed, examDate: dayjs('2025-11-17') },
@@ -230,7 +241,7 @@ describe('UserDetailsPage registration card actions', () => {
   });
 
   it('opens the cancellation modal from the inline link on a completed registration', async () => {
-    const user = userEvent.setup();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     renderRegistration({
       state: RegistrationStates.Completed,
       kind: RegistrationKind.Admission,
@@ -259,7 +270,7 @@ describe('UserDetailsPage registration card actions', () => {
   });
 
   it('retains the cancellation button beside the confirmation button', async () => {
-    const user = userEvent.setup();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     renderRegistration({ kind: RegistrationKind.Admission });
 
     expect(
@@ -277,7 +288,7 @@ describe('UserDetailsPage registration card actions', () => {
   });
 
   it('disables the inline link when cancellation is no longer allowed', async () => {
-    const user = userEvent.setup();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     renderRegistration({
       state: RegistrationStates.Completed,
       kind: RegistrationKind.Admission,
@@ -291,4 +302,120 @@ describe('UserDetailsPage registration card actions', () => {
     await user.click(cancelLink);
     expect(screen.queryByRole('alertdialog')).not.toBeInTheDocument();
   });
+
+  it.each<Partial<PersonRegistrations>>([
+    { kind: RegistrationKind.Admission },
+    { kind: RegistrationKind.Admission, state: RegistrationStates.Completed },
+    { kind: RegistrationKind.Queue },
+  ])('hides all actions after the exam date: %j', (overrides) => {
+    renderRegistration({
+      ...overrides,
+      examDate: dayjs('2026-11-09'),
+    });
+
+    const pastSection = screen.getByRole('heading', {
+      name: 'Suoritukset ja menneet ilmoittautumiset',
+    }).parentElement!;
+    expect(within(pastSection).queryByRole('button')).not.toBeInTheDocument();
+    expect(within(pastSection).queryByRole('link')).not.toBeInTheDocument();
+    expect(
+      within(pastSection).queryByText(/En voi osallistua YKI-testiin/),
+    ).not.toBeInTheDocument();
+  });
+
+  it.each([RegistrationKind.Queue, RegistrationKind.Admission])(
+    'keeps actions available on the exam date for %s',
+    (kind) => {
+      renderRegistration({ kind, examDate: dayjs('2026-11-10') });
+
+      expect(
+        screen.getByRole('button', { name: 'Peru ilmoittautuminen' }),
+      ).toBeEnabled();
+      if (kind === RegistrationKind.Admission) {
+        expect(
+          screen.getByRole('link', { name: 'Vahvista ilmoittautuminen' }),
+        ).toBeVisible();
+      }
+    },
+  );
+
+  it.each([true, false])(
+    'shows an outlined queue cancellation button with isCancellable=%s',
+    async (isCancellable) => {
+      const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+      renderRegistration({ isCancellable });
+
+      const cancelButton = screen.getByRole('button', {
+        name: 'Peru ilmoittautuminen',
+      });
+      expect(cancelButton).toHaveClass('MuiButton-outlined');
+      expect(
+        screen.queryByRole('link', { name: 'Vahvista ilmoittautuminen' }),
+      ).not.toBeInTheDocument();
+      expect(
+        screen.queryByText(/En voi osallistua YKI-testiin/),
+      ).not.toBeInTheDocument();
+
+      if (isCancellable) {
+        expect(cancelButton).toBeEnabled();
+        await user.click(cancelButton);
+        expect(screen.getByRole('alertdialog')).toBeVisible();
+      } else {
+        expect(cancelButton).toBeDisabled();
+        expect(screen.queryByRole('alertdialog')).not.toBeInTheDocument();
+      }
+    },
+  );
+});
+
+it('renders future mock registrations in the upcoming section', () => {
+  const person = SerializationUtils.deserializePersonDetails(personDetails);
+  const futureAdmission = person.registrations.find((r) => r.id === 1339)!;
+  jest.useFakeTimers();
+  jest.setSystemTime(futureAdmission.examDate.subtract(2, 'month').toDate());
+
+  try {
+    renderPerson(person);
+
+    const upcomingSection = screen.getByRole('heading', {
+      name: 'Tulevat ilmoittautumiset',
+    }).parentElement!;
+    const futureRegistrations = person.registrations.filter((r) =>
+      [1337, 1338, 1339, 5001, 5003, 5004].includes(r.id),
+    );
+    expect(
+      within(upcomingSection)
+        .getAllByRole('heading', { level: 3 })
+        .map((heading) => heading.textContent)
+        .sort(),
+    ).toEqual(
+      futureRegistrations
+        .map(
+          (registration) =>
+            `${ExamSessionUtils.languageAndLevelText({
+              language_code: registration.examLang,
+              level_code: registration.examLevel,
+            })}, ${registration.examDate.format('D.M.YYYY')}`,
+        )
+        .sort(),
+    );
+    futureRegistrations.forEach((registration) => {
+      expect(registration.examDate.isAfter(dayjs(), 'day')).toBe(true);
+    });
+    expect(
+      within(upcomingSection).queryByText('Peruttu, jonotus loppunut'),
+    ).not.toBeInTheDocument();
+
+    const pastSection = screen.getByRole('heading', {
+      name: 'Suoritukset ja menneet ilmoittautumiset',
+    }).parentElement!;
+    expect(
+      within(pastSection).getByRole('heading', {
+        level: 3,
+        name: `suomi, keskitaso, ${person.registrations[0].examDate.format('D.M.YYYY')}`,
+      }),
+    ).toBeVisible();
+  } finally {
+    jest.useRealTimers();
+  }
 });

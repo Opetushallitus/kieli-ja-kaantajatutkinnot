@@ -74,7 +74,7 @@ const SelectPartialExamTypes = () => {
         <Typography variant="h3" component="legend">
           {t('labels.selectExamType')}
         </Typography>
-        <FormGroup sx={{ gap: '4px' }}>
+        <FormGroup sx={{ gap: '4px', marginTop: '8px' }}>
           {PARTIAL_EXAM_TYPE_OPTIONS.map(({ type, i18nKey }) => (
             <FormControlLabel
               key={type}
@@ -338,7 +338,7 @@ export const PublicExamSessionFilters = ({
           <Typography variant="h3" component="legend">
             {t('labels.filterExamSessions')}
           </Typography>
-          <FormGroup sx={{ gap: '4px' }}>
+          <FormGroup sx={{ gap: '4px', marginTop: '8px' }}>
             <FormControlLabel
               control={
                 <OphCheckbox

@@ -168,22 +168,25 @@ const Registrations: FC<RegistrationsProps> = ({
         <RegistrationState registration={r} />
         <ExamPayment registration={r} />
         <RegistrationDetails registration={r} />
-        {!UserRegistrationUtils.isCancelled(r) &&
-          (showConfirmButton ? (
+        {!r.examDate.isBefore(dayjs(), 'day') &&
+          !UserRegistrationUtils.isCancelled(r) &&
+          (showConfirmButton || r.kind === RegistrationKind.Queue ? (
             <div className="rows gapped">
               <div className="columns gapped">
-                <CustomButtonLink
-                  className="fit-content-max-width"
-                  color={Color.Secondary}
-                  variant={Variant.Contained}
-                  disabled={!r.isCancellable}
-                  to={AppRoutes.ConfirmRegistration.replace(
-                    /:registrationId/,
-                    `${r.id}`,
-                  )}
-                >
-                  {t('actions.confirm')}
-                </CustomButtonLink>
+                {showConfirmButton && (
+                  <CustomButtonLink
+                    className="fit-content-max-width"
+                    color={Color.Secondary}
+                    variant={Variant.Contained}
+                    disabled={!r.isCancellable}
+                    to={AppRoutes.ConfirmRegistration.replace(
+                      /:registrationId/,
+                      `${r.id}`,
+                    )}
+                  >
+                    {t('actions.confirm')}
+                  </CustomButtonLink>
+                )}
                 <CustomButton
                   className="fit-content-max-width"
                   color={Color.Secondary}
