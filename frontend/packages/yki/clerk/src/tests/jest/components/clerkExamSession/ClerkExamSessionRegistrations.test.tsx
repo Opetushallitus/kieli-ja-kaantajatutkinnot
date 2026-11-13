@@ -103,7 +103,7 @@ const participantNames = () =>
 describe.each<RouteType>(['clerk', 'organizer'])(
   '%s exam registrations',
   (route) => {
-    it('separates active admissions, queue, paid cancellations and other inactive registrations', async () => {
+    it('keeps all queue registrations separate from admission status tabs', async () => {
       const user = userEvent.setup();
       render(
         <DefaultProviders>
@@ -122,8 +122,14 @@ describe.each<RouteType>(['clerk', 'organizer'])(
         'Person2 Testaaja',
       ]);
 
-      await user.click(screen.getByRole('button', { name: 'Jonossa (1)' }));
-      expect(participantNames()).toEqual(['Person3 Testaaja']);
+      await user.click(screen.getByRole('button', { name: 'Jonossa (3)' }));
+      expect(participantNames()).toEqual([
+        'Person3 Testaaja',
+        'Person6 Testaaja',
+        'Person12 Testaaja',
+      ]);
+      expect(screen.getByText('Jonotus peruttu')).toBeInTheDocument();
+      expect(screen.getByText('Erääntynyt')).toBeInTheDocument();
       expect(
         within(screen.getByRole('table')).getAllByRole('columnheader'),
       ).toHaveLength(route === 'organizer' ? 6 : 5);
@@ -134,19 +140,53 @@ describe.each<RouteType>(['clerk', 'organizer'])(
       expect(participantNames()).toEqual(['Person4 Testaaja']);
 
       await user.click(
-        screen.getByRole('button', { name: 'Peruttu tai erääntynyt (4)' }),
+        screen.getByRole('button', { name: 'Peruttu tai erääntynyt (2)' }),
       );
       expect(participantNames()).toEqual([
         'Person5 Testaaja',
-        'Person6 Testaaja',
         'Person7 Testaaja',
-        'Person12 Testaaja',
       ]);
       expect(screen.getByText('Peruttu')).toBeInTheDocument();
-      expect(screen.getByText('Jonotus peruttu')).toBeInTheDocument();
-      expect(screen.getAllByText('Erääntynyt')).toHaveLength(2);
+      expect(screen.queryByText('Jonotus peruttu')).not.toBeInTheDocument();
+      expect(screen.getByText('Erääntynyt')).toBeInTheDocument();
       expect(screen.queryByText('Peru osallistuminen')).not.toBeInTheDocument();
     });
+    it.each([
+      RegistrationStates.Completed,
+      RegistrationStates.Submitted,
+      RegistrationStates.Started,
+      RegistrationStates.Expired,
+      RegistrationStates.Cancelled,
+      RegistrationStates.PaidAndCancelled,
+    ])(
+      'keeps a %s queue registration exclusively in the queue tab',
+      async (state) => {
+        const user = userEvent.setup();
+        render(
+          <DefaultProviders>
+            <ClerkExamSessionRegistrations
+              examSession={{
+                ...examSession,
+                registrations: [registration(1, state, RegistrationKind.Queue)],
+              }}
+              route={route}
+            />
+          </DefaultProviders>,
+        );
+
+        for (const name of [
+          'Ilmoittautuneet (0)',
+          'Maksanut ja peruttu (0)',
+          'Peruttu tai erääntynyt (0)',
+        ]) {
+          await user.click(screen.getByRole('button', { name }));
+          expect(participantNames()).toEqual([]);
+        }
+        await user.click(screen.getByRole('button', { name: 'Jonossa (1)' }));
+        expect(participantNames()).toEqual(['Person1 Testaaja']);
+      },
+    );
+
     it('labels full exams as all subtests without redundant participant counts', () => {
       render(
         <DefaultProviders>
@@ -225,7 +265,7 @@ describe.each<RouteType>(['clerk', 'organizer'])(
         expect(screen.getByText(`${secondLabel}: 3 / 8`)).toBeInTheDocument();
         expect(screen.getByText(`${combinedLabel}: 2`)).toBeInTheDocument();
         expect(screen.getAllByText(combinedLabel)).toHaveLength(2);
-        await user.click(screen.getByRole('button', { name: 'Jonossa (1)' }));
+        await user.click(screen.getByRole('button', { name: 'Jonossa (3)' }));
         expect(
           screen.queryByText(`${combinedLabel}: 2`),
         ).not.toBeInTheDocument();
@@ -284,7 +324,7 @@ describe.each<RouteType>(['clerk', 'organizer'])(
       },
     );
 
-    it('sorts cancelled queue entries by their displayed status', async () => {
+    it('sorts active, cancelled and expired queue entries by their displayed status', async () => {
       const user = userEvent.setup();
       render(
         <DefaultProviders>
@@ -294,9 +334,7 @@ describe.each<RouteType>(['clerk', 'organizer'])(
           />
         </DefaultProviders>,
       );
-      await user.click(
-        screen.getByRole('button', { name: 'Peruttu tai erääntynyt (4)' }),
-      );
+      await user.click(screen.getByRole('button', { name: 'Jonossa (3)' }));
       await user.click(
         screen.getByRole('button', {
           name: publicFI.yki.component.clerkCustomer.details.listing.columns
@@ -304,10 +342,9 @@ describe.each<RouteType>(['clerk', 'organizer'])(
         }),
       );
       expect(participantNames()).toEqual([
-        'Person7 Testaaja',
+        'Person3 Testaaja',
         'Person12 Testaaja',
         'Person6 Testaaja',
-        'Person5 Testaaja',
       ]);
     });
 
@@ -384,8 +421,12 @@ describe.each<RouteType>(['clerk', 'organizer'])(
         }),
       );
       expect(participantNames()).toEqual(['Person1 Testaaja']);
-      await user.click(screen.getByRole('button', { name: 'Jonossa (1)' }));
-      expect(participantNames()).toEqual(['Person3 Testaaja']);
+      await user.click(screen.getByRole('button', { name: 'Jonossa (3)' }));
+      expect(participantNames()).toEqual([
+        'Person12 Testaaja',
+        'Person3 Testaaja',
+        'Person6 Testaaja',
+      ]);
       expect(
         screen.queryByRole('checkbox', { name: 'Näytä vain maksaneet' }),
       ).not.toBeInTheDocument();
