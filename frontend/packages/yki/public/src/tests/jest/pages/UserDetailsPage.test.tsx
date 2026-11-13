@@ -35,6 +35,7 @@ const renderRegistration = (overrides: Partial<PersonRegistrations> = {}) => {
     evaluationState: undefined,
     isCancellable: true,
     positionInQueue: 3,
+    queueEnded: false,
     ...overrides,
   };
 
@@ -56,6 +57,20 @@ const renderRegistration = (overrides: Partial<PersonRegistrations> = {}) => {
   );
 };
 
+it.each([true, false, undefined])(
+  'deserializes queue_ended=%s',
+  (queueEnded) => {
+    const person = SerializationUtils.deserializePersonDetails({
+      ...personDetails,
+      registrations: [
+        { ...personDetails.registrations[0], queue_ended: queueEnded },
+      ],
+    });
+
+    expect(person.registrations[0].queueEnded).toBe(queueEnded ?? false);
+  },
+);
+
 describe('UserDetailsPage registration queue closure', () => {
   beforeEach(() => {
     jest.useFakeTimers();
@@ -74,7 +89,11 @@ describe('UserDetailsPage registration queue closure', () => {
     { type: 'LISTEN_WRITE', partialExamType: 'WRITE' },
     { examDate: dayjs('2026-11-01') },
   ])('shows an ended queue as cancelled: %j', (overrides) => {
-    renderRegistration({ ...overrides, state: RegistrationStates.Expired });
+    renderRegistration({
+      ...overrides,
+      state: RegistrationStates.Expired,
+      queueEnded: true,
+    });
 
     const cancelledSection = screen.getByRole('heading', {
       name: 'Perutut ilmoittautumiset',
@@ -98,7 +117,7 @@ describe('UserDetailsPage registration queue closure', () => {
     ).toBeVisible();
   });
 
-  it('keeps a submitted queue open until the scheduler expires it', () => {
+  it('keeps a queue open when the server flag is false', () => {
     renderRegistration();
 
     expect(screen.getByText('Jonossa (sija 3)')).toBeVisible();
@@ -114,10 +133,43 @@ describe('UserDetailsPage registration queue closure', () => {
 
   it('shows the server closure even when the browser clock is before the cutoff', () => {
     jest.setSystemTime(new Date('2026-11-01T10:00:00Z'));
-    renderRegistration({ state: RegistrationStates.Expired });
+    renderRegistration({ state: RegistrationStates.Expired, queueEnded: true });
 
     expect(screen.getByText('Peruttu, jonotus loppunut')).toBeVisible();
     expect(screen.queryByText(/Jonossa \(sija/)).not.toBeInTheDocument();
+  });
+
+  it('shows an ended queue before the scheduler expires the registration', () => {
+    renderRegistration({ queueEnded: true });
+
+    expect(screen.getByText('Peruttu, jonotus loppunut')).toBeVisible();
+    expect(screen.queryByText(/Jonossa \(sija/)).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: 'perua ilmoittautumisen' }),
+    ).not.toBeInTheDocument();
+  });
+
+  it.each([false, undefined])(
+    'keeps the generic reason for an expired attempt with queueEnded=%s',
+    (queueEnded) => {
+      renderRegistration({ state: RegistrationStates.Expired, queueEnded });
+
+      expect(screen.getByText('Peruttu')).toBeVisible();
+      expect(
+        screen.queryByText('Peruttu, jonotus loppunut'),
+      ).not.toBeInTheDocument();
+    },
+  );
+
+  it('includes a started registration without labeling it as an ended queue', () => {
+    renderRegistration({ state: RegistrationStates.Started });
+
+    expect(
+      screen.getByRole('heading', { name: 'suomi, keskitaso, 17.11.2026' }),
+    ).toBeVisible();
+    expect(
+      screen.queryByText('Peruttu, jonotus loppunut'),
+    ).not.toBeInTheDocument();
   });
 
   it.each([RegistrationStates.Cancelled, RegistrationStates.PaidAndCancelled])(

@@ -23,6 +23,7 @@ export interface PersonRegistrations extends WithId {
   location: Array<ExamSessionLocation>;
   isTransfered: boolean;
   isCancellable: boolean;
+  queueEnded?: boolean;
   paidAt?: Dayjs;
   expiresAt?: Dayjs;
   examFee?: number;
@@ -50,6 +51,7 @@ interface PersonRegistrationsResponse extends WithId {
   location: Array<ExamSessionLocation>;
   is_transfered: boolean;
   is_cancellable: boolean;
+  queue_ended?: boolean;
   paid_at?: string;
   expires_at?: string;
   exam_fee?: number;
