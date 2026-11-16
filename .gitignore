@@ -53,6 +53,7 @@ dist
 **/.npm/
 
 **/screenshots
+**/downloads/
 **/videos
 
 **/localisation.csv
