@@ -263,28 +263,9 @@
               "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/yki-testin-jalkeen#anchor-yki-todistus"
             },
             "part1": "Kun testisi on arvioitu, saat tutkinnosta todistuksen.",
-            "part2": "Jos suoritat YKI-testin 31.3.2026 mennessä, saat todistuksen postitse.",
-            "part3": "Jos suoritat YKI-testin 1.4.2026 tai sen jälkeen, voit saada digitaalisen YKI-todistuksen.",
-            "stronglyAuthenticated": {
-              "part4": "Todistus tulee Oma Opintopolku -palveluun, jos käytät sähköisiä <SuomiFiLink></SuomiFiLink>-viestejä.",
-              "part5": "Kun todistus on valmis Oma Opintopolussa, Opetushallitus lähettää sinulle viestin.",
-              "part6": "Saat viestin <SuomiFiLink></SuomiFiLink>-viestit -palvelussa.",
-              "part7": "Oma Opintopolussa voit katsella todistusta ja ladata sen suomeksi, ruotsiksi tai englanniksi.",
-              "part8": "Jos et käytä <SuomiFiLink></SuomiFiLink>-viestejä, kun todistuksesi valmistuu, saat todistuksen postitse.",
-              "part9": "Todistus postitetaan väestötietojärjestelmässä olevaan postiosoitteeseen."
-            },
-            "title": "Tietoa todistuksesta",
-            "weaklyAuthenticated": {
-              "part10": "Jos sinulla ei ole suomalaista henkilötunnusta tai et käytä <SuomiFiLink></SuomiFiLink>-viestejä, saat YKI-todistuksen postitse.",
-              "part11": "Todistus postitetaan ensisijaisesti väestötietojärjestelmässä olevaan postiosoitteeseen.",
-              "part12": "Jos et ole antanut henkilötunnustasi, todistus postitetaan ilmoittamaasi postiosoitteeseen.",
-              "part4": "Saat YKI-todistuksen Oma Opintopolku -palveluun, jos molemmat ehdot täyttyvät:",
-              "part5": "Olet antanut tällä ilmoittautumislomakkeella suomalaisen henkilötunnuksesi.",
-              "part6": "Käytät sähköisiä <SuomiFiLink></SuomiFiLink>-viestejä.",
-              "part7": "Kun todistus on valmis Oma Opintopolussa, Opetushallitus lähettää sinulle viestin.",
-              "part8": "Saat viestin <SuomiFiLink></SuomiFiLink>-viestit -palvelussa.",
-              "part9": "Oma Opintopolussa voit katsella todistusta ja ladata sen suomeksi, ruotsiksi tai englanniksi."
-            }
+            "part2": "Saat digitaalisen todistuksen Oma Opintopolku -palveluun, jos sinulla on suomalainen henkilötunnus ja käytät sähköisiä Suomi.fi -viestejä.",
+            "part3": "Saat paperisen todistuksen postitse, jos sinulla ei ole suomalaista henkilötunnusta ja et käytä Suomi.fi-viestejä.",
+            "title": "Tietoa todistuksesta"
           },
           "certificateLanguage": "Jos todistus postitetaan, millä kielellä haluat todistuksesi? *",
           "description1": "Täytä YKI-testin ilmoittautumislomakkeelle testiin osallistujan tiedot.",

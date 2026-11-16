@@ -11,7 +11,6 @@ import { Trans } from 'react-i18next';
 import { APIResponseStatus, Color } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
-import { SuomiFiLink } from 'components/elements/SuomiFiLink';
 import { ExamFee } from 'components/registration/steps/register/ExamFee';
 import { H2, H3, Label, Text } from 'components/Text';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
@@ -58,8 +57,7 @@ export const CommonRegistrationDetails = () => {
   const { basis, attemptsUsed, isFree } = useAppSelector(
     publicFreeRegistrationSelector,
   );
-  const { showErrors, isEmailRegistration, registration } =
-    useAppSelector(registrationSelector);
+  const { showErrors, registration } = useAppSelector(registrationSelector);
   const examSession = useAppSelector(examSessionSelector)
     .examSession as ExamSession;
   const { language_code, level_code } = examSession;
@@ -166,81 +164,7 @@ export const CommonRegistrationDetails = () => {
       </H2>
       <Text>{t('certificate.part1')}</Text>
       <Text>{t('certificate.part2')}</Text>
-      {isEmailRegistration && (
-        <>
-          <Text component="div">
-            {t('certificate.part3')}{' '}
-            {t('certificate.weaklyAuthenticated.part4')}
-            <ol>
-              <li>{t('certificate.weaklyAuthenticated.part5')}</li>
-              <li>
-                <Trans
-                  i18nKey="certificate.weaklyAuthenticated.part6"
-                  t={t}
-                  components={{
-                    SuomiFiLink: <SuomiFiLink />,
-                  }}
-                />
-              </li>
-            </ol>
-          </Text>
-          <Text>
-            {t('certificate.weaklyAuthenticated.part7')}{' '}
-            <Trans
-              i18nKey="certificate.weaklyAuthenticated.part8"
-              t={t}
-              components={{
-                SuomiFiLink: <SuomiFiLink />,
-              }}
-            />{' '}
-            {t('certificate.weaklyAuthenticated.part9')}
-          </Text>
-          <Text>
-            <Trans
-              i18nKey="certificate.weaklyAuthenticated.part10"
-              t={t}
-              components={{
-                SuomiFiLink: <SuomiFiLink />,
-              }}
-            />{' '}
-            {t('certificate.weaklyAuthenticated.part11')}{' '}
-            {t('certificate.weaklyAuthenticated.part12')}
-          </Text>
-        </>
-      )}
-      {!isEmailRegistration && (
-        <>
-          <Text>
-            {t('certificate.part3')}{' '}
-            <Trans
-              i18nKey="certificate.stronglyAuthenticated.part4"
-              t={t}
-              components={{
-                SuomiFiLink: <SuomiFiLink />,
-              }}
-            />{' '}
-            {t('certificate.stronglyAuthenticated.part5')}{' '}
-            <Trans
-              i18nKey="certificate.stronglyAuthenticated.part6"
-              t={t}
-              components={{
-                SuomiFiLink: <SuomiFiLink />,
-              }}
-            />{' '}
-            {t('certificate.stronglyAuthenticated.part7')}
-          </Text>
-          <Text>
-            <Trans
-              i18nKey="certificate.stronglyAuthenticated.part8"
-              t={t}
-              components={{
-                SuomiFiLink: <SuomiFiLink />,
-              }}
-            />{' '}
-            {t('certificate.stronglyAuthenticated.part9')}
-          </Text>
-        </>
-      )}
+      <Text>{t('certificate.part3')}</Text>
       <Text>
         {t('certificate.furtherDetails.text')}{' '}
         <OphLink href={t('certificate.furtherDetails.url')} target="_blank">
