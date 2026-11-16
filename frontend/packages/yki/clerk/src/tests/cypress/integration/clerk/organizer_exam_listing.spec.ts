@@ -1,3 +1,5 @@
+import { http, HttpResponse } from 'msw';
+
 import { APIEndpoints } from 'enums/api';
 import { AppRoutes, ExamSessionType } from 'enums/app';
 import { examSessions } from 'tests/msw/fixtures/examSession';
@@ -24,10 +26,11 @@ const sessions = [
 for (const view of ['register', 'clerk', 'organizer'] as const) {
   describe(`Exam listing in ${view} view`, () => {
     it('shows sorted exams and subtest counts with compact rows and working links', () => {
-      cy.intercept(
-        'GET',
-        `${APIEndpoints.Organizer}/${organizerOid}/examSession?*`,
-        { exam_sessions: sessions },
+      cy.useMswHandlers(
+        http.get(
+          APIEndpoints.OrganizerExamSession.replace(':oid', organizerOid),
+          () => HttpResponse.json({ exam_sessions: sessions }),
+        ),
       );
       if (view === 'organizer') {
         cy.mockAuthUser({
