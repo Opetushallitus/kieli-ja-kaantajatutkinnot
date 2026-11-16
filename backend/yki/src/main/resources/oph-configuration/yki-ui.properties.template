@@ -33,6 +33,8 @@ cas.password={{yki_cas_password}}
 cas.onr-service-url=${virkailija.cas.base-url}/oppijanumerorekisteri-service
 proxy-token={{yki_proxy_token}}
 
+v2.enabled={{yki_v2_enabled}}
+
 exam-fee.perus={{yki_exam_session_fee_basic}}
 exam-fee.keski={{yki_exam_session_fee_intermediate}}
 exam-fee.ylin={{yki_exam_session_fee_advanced}}
