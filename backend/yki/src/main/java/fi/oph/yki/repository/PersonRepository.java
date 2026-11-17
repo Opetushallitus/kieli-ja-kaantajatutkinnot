@@ -87,6 +87,7 @@ SELECT
     p.nationality_code as nationalityCode,
     p.gender,
     p.country_code as countryCode,
+    p.is_individualized as individualised,
 
     -- Count of registrations for this person
     (

@@ -2,6 +2,7 @@ package fi.oph.yki.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import fi.oph.yki.Factory;
 import fi.oph.yki.PostgresTestcontainerConfig;
@@ -13,12 +14,16 @@ import fi.oph.yki.model.Registration;
 import jakarta.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ActiveProfiles;
 
 @DataJpaTest
@@ -151,6 +156,26 @@ class PersonRepositoryTest {
     assertNotNull(after.getOnrLastSyncAt());
     assertEquals(firstName, after.getFirstName());
     assertEquals(modifiedAt, after.getModifiedAt());
+  }
+
+  @Test
+  public void testSearchPersonsReturnsIndividualisedStatus() {
+    final String checkedPersonOid = "1.2.3.4.6";
+    final Person checkedPerson = Factory.person();
+    checkedPerson.setOid(checkedPersonOid);
+    checkedPerson.setIndividualised(false);
+    checkedPerson.setOnrLastSyncAt(LocalDateTime.now());
+    entityManager.persist(checkedPerson);
+    persistPerson(null, null);
+    entityManager.flush();
+
+    final Map<String, PersonSearchProjection> personsByOid = personRepository
+      .searchPersons(PageRequest.of(0, 10), null, null, null, null, null)
+      .stream()
+      .collect(Collectors.toMap(PersonSearchProjection::oid, Function.identity()));
+
+    assertEquals(false, personsByOid.get(checkedPersonOid).individualised());
+    assertNull(personsByOid.get(PERSON_OID).individualised());
   }
 
   private Person persistPerson(final Boolean individualised, final LocalDateTime onrLastSyncAt) {

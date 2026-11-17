@@ -75,6 +75,7 @@ class ClerkCustomerBirthdateTest {
       null,
       null,
       null,
+      null,
       1L,
       "2002-05-02"
     );
