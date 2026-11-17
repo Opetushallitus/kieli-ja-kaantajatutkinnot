@@ -31,7 +31,7 @@ class ScheduledTaskMonitorTest {
     verify(shedLockRepository).findAgeInSeconds("personsSyncHandler");
     verify(shedLockRepository).findAgeInSeconds("participantsSyncHandler");
     verify(shedLockRepository).findAgeInSeconds("examSessionSolkiSyncHandler");
-    verify(shedLockRepository).findAgeInSeconds("syncOnrParticipantDataHandler");
+    verify(shedLockRepository).findAgeInSeconds("syncOnrPersonDataHandler");
     verify(taskLockRepository, never()).findAgeInSeconds("SYNC_ONR_PARTICIPANT_DATA_HANDLER");
   }
 

@@ -52,7 +52,7 @@ public class ScheduledTaskMonitor {
     Duration.ofHours(3), // interval: 59min
     "examSessionSolkiSyncHandler",
     Duration.ofHours(3), // interval: 59min
-    "syncOnrParticipantDataHandler",
+    "syncOnrPersonDataHandler",
     Duration.ofHours(3) // interval: 60min
   );
 

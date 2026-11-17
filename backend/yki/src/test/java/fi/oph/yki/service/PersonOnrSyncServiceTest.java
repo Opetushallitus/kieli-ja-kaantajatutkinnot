@@ -23,8 +23,8 @@ import org.springframework.test.context.ActiveProfiles;
 @DataJpaTest
 @ActiveProfiles("test-postgres")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Import({ PostgresTestcontainerConfig.class, ParticipantOnrSyncService.class })
-class ParticipantOnrSyncServiceTest {
+@Import({ PostgresTestcontainerConfig.class, PersonOnrSyncService.class })
+class PersonOnrSyncServiceTest {
 
   private static final String FIRST_PERSON_OID = "1.2.246.562.24.00000000001";
   private static final String DUPLICATE_PERSON_OID = "1.2.246.562.24.00000000002";
@@ -33,7 +33,7 @@ class ParticipantOnrSyncServiceTest {
   private static final String LAST_PERSON_OID = "1.2.246.562.24.00000000004";
 
   @Resource
-  private ParticipantOnrSyncService participantOnrSyncService;
+  private PersonOnrSyncService personOnrSyncService;
 
   @Resource
   private PersonRepository personRepository;
@@ -59,7 +59,7 @@ class ParticipantOnrSyncServiceTest {
       onrPerson(LAST_PERSON_OID, false, true)
     );
 
-    participantOnrSyncService.saveBatch(onrPersons);
+    personOnrSyncService.saveBatch(onrPersons);
     entityManager.clear();
 
     final Map<String, Boolean> savedIndividualised = personRepository
@@ -78,7 +78,7 @@ class ParticipantOnrSyncServiceTest {
     persistPerson(FIRST_PERSON_OID);
     entityManager.flush();
 
-    participantOnrSyncService.saveBatch(Map.of(FIRST_PERSON_OID, onrPerson(FIRST_PERSON_OID, false, null)));
+    personOnrSyncService.saveBatch(Map.of(FIRST_PERSON_OID, onrPerson(FIRST_PERSON_OID, false, null)));
     entityManager.clear();
 
     final Person person = personRepository.getByOid(FIRST_PERSON_OID);

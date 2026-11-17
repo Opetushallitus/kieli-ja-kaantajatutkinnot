@@ -180,6 +180,6 @@ class PersonRepositoryTest {
   private List<String> findPersonOidsForOnrCheck() {
     entityManager.flush();
 
-    return personRepository.findPersonsForOnrCheck().stream().map(ParticipantOnrCheckProjection::getPersonOid).toList();
+    return personRepository.findPersonsForOnrCheck().stream().map(PersonOnrCheckProjection::getPersonOid).toList();
   }
 }
