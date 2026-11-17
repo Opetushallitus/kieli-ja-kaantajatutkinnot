@@ -68,4 +68,10 @@ public class Person {
 
   @Column(name = "modified", insertable = false)
   private LocalDateTime modifiedAt;
+
+  @Column(name = "is_individualized")
+  private Boolean individualised;
+
+  @Column(name = "onr_last_sync_at")
+  private LocalDateTime onrLastSyncAt;
 }
