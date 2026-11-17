@@ -22,6 +22,7 @@ import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
 import fi.oph.yki.model.type.ExamSessionType;
 import fi.oph.yki.model.type.LoginLinkType;
+import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.repository.EmailRepository;
 import fi.oph.yki.repository.LoginLinkRepository;
@@ -266,6 +267,56 @@ class RegistrationEmailServiceTest {
     );
     assertEquals(0, paymentLinkRepository.count());
     assertEquals(0, loginLinkRepository.count());
+  }
+
+  @ParameterizedTest
+  @CsvSource({ "fi, fi", "sv, sv", "en, en" })
+  public void testSendLoginEmail(final String lang, final String expectedLang) {
+    final Locale locale = Locale.forLanguageTag(expectedLang);
+    final Registration registration = buildSubmittedRegistration();
+    registration.setState(RegistrationState.STARTED);
+
+    registrationEmailService.sendLoginEmail(registration, "kirjautuja@example.com", "login-code", lang);
+
+    final List<Email> emails = emailRepository.findAll();
+    assertEquals(1, emails.size());
+    final Email email = emails.get(0);
+    assertEquals(EmailType.LOGIN, email.getEmailType());
+    assertEquals("kirjautuja@example.com", email.getRecipientAddress());
+    assertEquals("kirjautuja@example.com", email.getRecipientName());
+    assertTrue(email.getSubject().startsWith(LocalisationUtil.translate(locale, "email.login.subject") + ": "));
+    assertTrue(email.getSubject().endsWith(" - Testipaikka " + expectedLang + ", 15.06.2026"));
+    assertTrue(email.getBody().contains(LocalisationUtil.translate(locale, "email.login.content.line1")));
+    assertTrue(email.getBody().contains("Testipaikka " + expectedLang));
+    assertTrue(
+      email
+        .getBody()
+        .contains(environment.getRequiredProperty("app.base-url.public") + "/v2/login/registration?code=login-code")
+    );
+    assertEquals(0, paymentLinkRepository.count());
+    assertEquals(0, loginLinkRepository.count());
+  }
+
+  @Test
+  public void testSendLoginEmailForQueueRegistration() {
+    final Registration registration = buildSubmittedRegistration();
+    registration.setState(RegistrationState.STARTED);
+    registration.setKind(RegistrationKind.QUEUE);
+
+    registrationEmailService.sendLoginEmail(registration, "kirjautuja@example.com", "login-code", "fi");
+
+    final Email email = emailRepository.findAll().get(0);
+    assertEquals(EmailType.LOGIN_QUEUE, email.getEmailType());
+    assertTrue(
+      email
+        .getSubject()
+        .startsWith(LocalisationUtil.translate(LocalisationUtil.LOCALE_FI, "email.login_queue.subject") + ": ")
+    );
+    assertTrue(
+      email
+        .getBody()
+        .contains(LocalisationUtil.translate(LocalisationUtil.LOCALE_FI, "email.login_queue.content.line1"))
+    );
   }
 
   @Test

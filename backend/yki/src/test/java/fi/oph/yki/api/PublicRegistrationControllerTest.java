@@ -2,8 +2,14 @@ package fi.oph.yki.api;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -20,6 +26,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -32,6 +39,7 @@ import org.springframework.test.web.servlet.MockMvc;
 class PublicRegistrationControllerTest {
 
   private static final String PAYMENT_REDIRECT_URL = "/api/v2/examSession/1/registration/2/payment/redirect";
+  private static final String LOGIN_LINK_URL = "/api/v2/examSession/1/registration/2/login-link";
   private static final String PAYTRAIL_URL = "https://pay.paytrail.com/pay/test";
   private static final String SUCCESS_URL = "https://foo.bar/yki/ilmoittautuminen/v2/maksu/tila?status=payment-success";
   private static final String ERROR_URL = "https://foo.bar/yki/ilmoittautuminen/v2/maksu/tila?status=payment-error";
@@ -98,5 +106,53 @@ class PublicRegistrationControllerTest {
       .perform(get(PAYMENT_REDIRECT_URL))
       .andExpect(status().is3xxRedirection())
       .andExpect(redirectedUrl(ERROR_URL));
+  }
+
+  @Test
+  public void testCreateLoginLink() throws Exception {
+    mockMvc
+      .perform(
+        post(LOGIN_LINK_URL)
+          .with(csrf())
+          .param("lang", "sv")
+          .contentType(MediaType.APPLICATION_JSON)
+          .content("{\"email\": \" testi@example.com \"}")
+      )
+      .andExpect(status().isOk());
+
+    verify(publicRegistrationService).createLoginLink(identity, 1L, 2L, "testi@example.com", "sv");
+  }
+
+  @Test
+  public void testCreateLoginLinkWithInvalidEmailIsBadRequest() throws Exception {
+    mockMvc
+      .perform(
+        post(LOGIN_LINK_URL)
+          .with(csrf())
+          .param("lang", "fi")
+          .contentType(MediaType.APPLICATION_JSON)
+          .content("{\"email\": \"ei-sahkoposti\"}")
+      )
+      .andExpect(status().isBadRequest());
+
+    verifyNoInteractions(publicRegistrationService);
+  }
+
+  @Test
+  public void testCreateLoginLinkForOtherIdentityIsBadRequest() throws Exception {
+    doThrow(new APIException(APIExceptionType.REGISTRATION_NOT_OWNED))
+      .when(publicRegistrationService)
+      .createLoginLink(identity, 1L, 2L, "testi@example.com", "fi");
+
+    mockMvc
+      .perform(
+        post(LOGIN_LINK_URL)
+          .with(csrf())
+          .param("lang", "fi")
+          .contentType(MediaType.APPLICATION_JSON)
+          .content("{\"email\": \"testi@example.com\"}")
+      )
+      .andExpect(status().isBadRequest())
+      .andExpect(jsonPath("$.errorCode").value("registrationNotOwned"));
   }
 }

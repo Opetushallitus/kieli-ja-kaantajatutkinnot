@@ -6,6 +6,7 @@ import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.ExamSessionLocation;
 import fi.oph.yki.model.Participant;
 import fi.oph.yki.model.Registration;
+import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.repository.RegistrationRepository;
 import fi.oph.yki.service.email.EmailData;
 import fi.oph.yki.service.email.EmailService;
@@ -177,6 +178,39 @@ public class RegistrationEmailService {
       EmailType.FREE_REGISTRATION,
       "free-registration",
       "free_registration",
+      params,
+      locale
+    );
+  }
+
+  /**
+   * Sends the link to the registration form to an address given before the form is filled in. As
+   * in legacy, a queue registration gets the queue variant, and the address is also the name.
+   */
+  public void sendLoginEmail(
+    final Registration registration,
+    final String email,
+    final String loginLinkCode,
+    final String lang
+  ) {
+    final Locale locale = localeOf(lang);
+    final boolean toQueue = registration.getKind() == RegistrationKind.QUEUE;
+    final Map<String, Object> params = examParams(registration.getExamSession(), locale);
+    params.put("subtests", subtests(registration, locale));
+    params.put(
+      "login_url",
+      RegistrationUtil.createRegistrationLoginLinkUrl(
+        environment.getRequiredProperty("app.base-url.public"),
+        loginLinkCode
+      )
+    );
+
+    saveExamEmail(
+      email,
+      email,
+      toQueue ? EmailType.LOGIN_QUEUE : EmailType.LOGIN,
+      toQueue ? "login-queue" : "login",
+      toQueue ? "login_queue" : "login",
       params,
       locale
     );

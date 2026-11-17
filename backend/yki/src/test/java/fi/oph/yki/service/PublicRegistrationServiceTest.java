@@ -30,6 +30,7 @@ import fi.oph.yki.model.PaymentLink;
 import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
 import fi.oph.yki.model.RegistrationChangeEvent;
+import fi.oph.yki.model.RegistrationLoginLink;
 import fi.oph.yki.model.type.ExamSessionType;
 import fi.oph.yki.model.type.PartialExamType;
 import fi.oph.yki.model.type.RegistrationKind;
@@ -40,6 +41,7 @@ import fi.oph.yki.repository.IdentityRepository;
 import fi.oph.yki.repository.PaymentLinkRepository;
 import fi.oph.yki.repository.PersonRepository;
 import fi.oph.yki.repository.RegistrationChangeEventRepository;
+import fi.oph.yki.repository.RegistrationLoginLinkRepository;
 import fi.oph.yki.repository.RegistrationRepository;
 import fi.oph.yki.util.StringUtil;
 import fi.oph.yki.util.UUIDSource;
@@ -53,6 +55,7 @@ import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
@@ -85,6 +88,9 @@ public class PublicRegistrationServiceTest {
 
   @Resource
   private RegistrationChangeEventRepository registrationChangeEventRepository;
+
+  @Resource
+  private RegistrationLoginLinkRepository registrationLoginLinkRepository;
 
   private void assertSubmitChangeEvent(
     final Registration registration,
@@ -127,6 +133,7 @@ public class PublicRegistrationServiceTest {
         identityRepository,
         personRepository,
         new PaymentLinkService(paymentLinkRepository, new UUIDSource()),
+        new RegistrationLoginLinkService(registrationLoginLinkRepository, new UUIDSource()),
         registrationEmailService,
         onrService
       );
@@ -898,5 +905,126 @@ public class PublicRegistrationServiceTest {
       () -> publicRegistrationService.submitRegistration(identity, registration.getId(), "fi", formDTO())
     );
     assertEquals(APIExceptionType.PERSON_CREATION_FAILED, ex.getExceptionType());
+  }
+
+  @Test
+  public void testCreateLoginLinkCreatesLinkAndSendsEmail() {
+    final Identity identity = persistIdentity();
+    final Registration registration = persistStartedRegistration(identity);
+
+    publicRegistrationService.createLoginLink(
+      identity,
+      registration.getExamSession().getId(),
+      registration.getId(),
+      "testi@example.com",
+      "sv"
+    );
+
+    final List<RegistrationLoginLink> loginLinks = registrationLoginLinkRepository.findAll();
+    assertEquals(1, loginLinks.size());
+    final RegistrationLoginLink loginLink = loginLinks.get(0);
+    assertEquals(identity.getId(), loginLink.getIdentity().getId());
+    assertEquals(registration.getId(), loginLink.getRegistration().getId());
+    assertEquals("testi@example.com", loginLink.getEmail());
+
+    final ArgumentCaptor<String> codeCaptor = ArgumentCaptor.forClass(String.class);
+    verify(registrationEmailService)
+      .sendLoginEmail(any(Registration.class), eq("testi@example.com"), codeCaptor.capture(), eq("sv"));
+    assertEquals(StringUtil.sha256hex(codeCaptor.getValue()), loginLink.getCode());
+  }
+
+  @Test
+  public void testCreateLoginLinkWithRecentLinkDoesNotSendAnother() {
+    final Identity identity = persistIdentity();
+    final Registration registration = persistStartedRegistration(identity);
+    final long examSessionId = registration.getExamSession().getId();
+
+    publicRegistrationService.createLoginLink(identity, examSessionId, registration.getId(), "testi@example.com", "fi");
+    publicRegistrationService.createLoginLink(identity, examSessionId, registration.getId(), "testi@example.com", "fi");
+    publicRegistrationService.createLoginLink(identity, examSessionId, registration.getId(), "muu@example.com", "fi");
+
+    assertEquals(2, registrationLoginLinkRepository.count());
+    verify(registrationEmailService).sendLoginEmail(any(), eq("testi@example.com"), any(), eq("fi"));
+    verify(registrationEmailService).sendLoginEmail(any(), eq("muu@example.com"), any(), eq("fi"));
+    verifyNoMoreInteractions(registrationEmailService);
+  }
+
+  @Test
+  public void testCreateLoginLinkForOtherIdentityThrows() {
+    final Registration registration = persistStartedRegistration(persistIdentity());
+    final Identity otherIdentity = persistIdentity();
+
+    assertCreateLoginLinkThrows(
+      otherIdentity,
+      registration.getExamSession().getId(),
+      registration.getId(),
+      APIExceptionType.REGISTRATION_NOT_OWNED
+    );
+  }
+
+  @Test
+  public void testCreateLoginLinkForOtherExamSessionThrows() {
+    final Identity identity = persistIdentity();
+    final Registration registration = persistStartedRegistration(identity);
+
+    assertCreateLoginLinkThrows(
+      identity,
+      registration.getExamSession().getId() + 1,
+      registration.getId(),
+      APIExceptionType.NOT_FOUND
+    );
+  }
+
+  @Test
+  public void testCreateLoginLinkForSubmittedRegistrationThrows() {
+    final Identity identity = persistIdentity();
+    final Registration registration = persistStartedRegistration(identity);
+    final Registration saved = registrationRepository.findById(registration.getId()).orElseThrow();
+    saved.setState(RegistrationState.SUBMITTED);
+    registrationRepository.saveAndFlush(saved);
+
+    assertCreateLoginLinkThrows(
+      identity,
+      registration.getExamSession().getId(),
+      registration.getId(),
+      APIExceptionType.REGISTRATION_NOT_STARTED
+    );
+  }
+
+  @Test
+  public void testCreateLoginLinkWhenRegistrationClosedThrows() {
+    final Identity identity = persistIdentity();
+    final ExamDate examDate = closedExamDate();
+    final ExamSession examSession = Factory.examSession(examDate);
+    entityManager.persist(examDate);
+    entityManager.persist(examSession);
+    final Registration registration = Factory.registration(null);
+    registration.setExamSession(examSession);
+    registration.setIdentity(identity);
+    registration.setState(RegistrationState.STARTED);
+    entityManager.persistAndFlush(registration);
+
+    assertCreateLoginLinkThrows(
+      identity,
+      examSession.getId(),
+      registration.getId(),
+      APIExceptionType.REGISTRATION_CLOSED
+    );
+  }
+
+  private void assertCreateLoginLinkThrows(
+    final Identity identity,
+    final long examSessionId,
+    final long registrationId,
+    final APIExceptionType exceptionType
+  ) {
+    final APIException ex = assertThrows(
+      APIException.class,
+      () ->
+        publicRegistrationService.createLoginLink(identity, examSessionId, registrationId, "testi@example.com", "fi")
+    );
+    assertEquals(exceptionType, ex.getExceptionType());
+    assertEquals(0, registrationLoginLinkRepository.count());
+    verifyNoInteractions(registrationEmailService);
   }
 }

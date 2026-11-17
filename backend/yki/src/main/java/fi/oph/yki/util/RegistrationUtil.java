@@ -86,6 +86,25 @@ public class RegistrationUtil {
     return baseUrl + "/v2/login/payment?code=" + code + "&lang=" + lang;
   }
 
+  public static String createRegistrationLoginLinkUrl(final String baseUrl, final String code) {
+    return baseUrl + "/v2/login/registration?code=" + code;
+  }
+
+  public static String createRegistrationFrontendUrl(
+    final String frontendBaseUrl,
+    final long examSessionId,
+    final long registrationId,
+    final boolean toQueue
+  ) {
+    final String registrationUrl = createRegistrationAuthSucessFrontendRedirectUrl(
+      frontendBaseUrl,
+      examSessionId,
+      registrationId
+    );
+
+    return toQueue ? registrationUrl + "/jono" : registrationUrl;
+  }
+
   public static String createPaymentRedirectUrl(
     final String baseUrl,
     final long examSessionId,

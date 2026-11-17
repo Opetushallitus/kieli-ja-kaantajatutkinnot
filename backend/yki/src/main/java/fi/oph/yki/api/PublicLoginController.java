@@ -5,12 +5,15 @@ import fi.oph.yki.model.Identity;
 import fi.oph.yki.model.PaymentLink;
 import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
+import fi.oph.yki.model.RegistrationLoginLink;
 import fi.oph.yki.model.type.AppLocale;
+import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.service.PaymentService;
 import fi.oph.yki.service.PersonService;
 import fi.oph.yki.service.PublicAuthService;
 import fi.oph.yki.service.PublicIdentityService;
 import fi.oph.yki.service.PublicRegistrationService;
+import fi.oph.yki.service.RegistrationLoginLinkService;
 import fi.oph.yki.service.dto.OppijaLoginRedirectDTO;
 import fi.oph.yki.service.dto.PersonDTO;
 import fi.oph.yki.util.RegistrationUtil;
@@ -55,6 +58,9 @@ public class PublicLoginController {
 
   @Resource
   private PaymentService paymentService;
+
+  @Resource
+  private RegistrationLoginLinkService registrationLoginLinkService;
 
   @Resource
   private Environment environment;
@@ -147,6 +153,36 @@ public class PublicLoginController {
     } catch (final APIException e) {
       LOG.warn("Login with payment link failed: {}", e.getExceptionType());
       redirectUrl = paymentService.getPaymentErrorRedirectUrl(null);
+    }
+
+    httpResponse.sendRedirect(redirectUrl);
+  }
+
+  @GetMapping(value = "/registration")
+  public void loginWithRegistrationLink(
+    final HttpServletRequest httpRequest,
+    final HttpServletResponse httpResponse,
+    @RequestParam final String code
+  ) throws IOException {
+    final String frontendBaseUrl = environment.getRequiredProperty("app.base-url.public-frontend");
+    String redirectUrl;
+    try {
+      final RegistrationLoginLink loginLink = registrationLoginLinkService.getActiveLoginLink(code);
+      final Registration registration = loginLink.getRegistration();
+
+      publicIdentityService.setIdentityToSession(httpRequest.getSession(true), loginLink.getIdentity());
+      httpRequest.changeSessionId();
+
+      redirectUrl =
+        RegistrationUtil.createRegistrationFrontendUrl(
+          frontendBaseUrl,
+          registration.getExamSession().getId(),
+          registration.getId(),
+          registration.getKind() == RegistrationKind.QUEUE
+        );
+    } catch (final APIException e) {
+      LOG.warn("Login with registration link failed: {}", e.getExceptionType());
+      redirectUrl = frontendBaseUrl + "/ilmoittautuminen/v2";
     }
 
     httpResponse.sendRedirect(redirectUrl);

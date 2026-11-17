@@ -4,6 +4,7 @@ import fi.oph.yki.api.dto.PublicRegistrationDetailsDTO;
 import fi.oph.yki.api.dto.PublicRegistrationFormDTO;
 import fi.oph.yki.api.dto.PublicRegistrationInitDTO;
 import fi.oph.yki.api.dto.PublicRegistrationInitResponseDTO;
+import fi.oph.yki.api.dto.PublicRegistrationLoginLinkDTO;
 import fi.oph.yki.api.dto.PublicRegistrationSubmitResponseDTO;
 import fi.oph.yki.model.Identity;
 import fi.oph.yki.model.type.AppLocale;
@@ -73,6 +74,19 @@ public class PublicRegistrationController {
     final Identity identity = identityService.getIdentityFromSession(session);
 
     return publicRegistrationService.submitRegistration(identity, registrationId, lang, formDTO);
+  }
+
+  @PostMapping(path = "/{registrationId}/login-link", consumes = MediaType.APPLICATION_JSON_VALUE)
+  public void createLoginLink(
+    @PathVariable final long examSessionId,
+    @PathVariable final long registrationId,
+    @RequestParam final String lang,
+    @RequestBody @Valid final PublicRegistrationLoginLinkDTO loginLinkDTO,
+    final HttpSession session
+  ) {
+    final Identity identity = identityService.getIdentityFromSession(session);
+
+    publicRegistrationService.createLoginLink(identity, examSessionId, registrationId, loginLinkDTO.email(), lang);
   }
 
   @GetMapping(path = "/{registrationId}")

@@ -12,12 +12,15 @@ import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.Identity;
 import fi.oph.yki.model.PaymentLink;
 import fi.oph.yki.model.Registration;
+import fi.oph.yki.model.RegistrationLoginLink;
+import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.repository.IdentityRepository;
 import fi.oph.yki.service.PaymentService;
 import fi.oph.yki.service.PersonService;
 import fi.oph.yki.service.PublicAuthService;
 import fi.oph.yki.service.PublicIdentityService;
 import fi.oph.yki.service.PublicRegistrationService;
+import fi.oph.yki.service.RegistrationLoginLinkService;
 import fi.oph.yki.util.exception.APIException;
 import fi.oph.yki.util.exception.APIExceptionType;
 import jakarta.annotation.Resource;
@@ -55,6 +58,9 @@ class PublicLoginControllerTest {
 
   @MockitoBean
   private IdentityRepository identityRepository;
+
+  @MockitoBean
+  private RegistrationLoginLinkService registrationLoginLinkService;
 
   @BeforeEach
   public void setUp() {
@@ -106,5 +112,60 @@ class PublicLoginControllerTest {
       .andExpect(redirectedUrl(ERROR_URL));
 
     assertNull(session.getAttribute("identityId"));
+  }
+
+  @Test
+  public void testLoginWithRegistrationLinkStartsSessionAndRedirectsToRegistrationForm() throws Exception {
+    when(registrationLoginLinkService.getActiveLoginLink("login-code"))
+      .thenReturn(registrationLoginLink(RegistrationKind.ADMISSION));
+
+    final MvcResult result = mockMvc
+      .perform(get("/v2/login/registration").param("code", "login-code"))
+      .andExpect(status().is3xxRedirection())
+      .andExpect(redirectedUrl("http://localhost:4003/yki/ilmoittautuminen/v2/tutkintotilaisuus/1/2"))
+      .andReturn();
+
+    assertEquals(3L, result.getRequest().getSession().getAttribute("identityId"));
+  }
+
+  @Test
+  public void testLoginWithQueueRegistrationLinkRedirectsToQueueForm() throws Exception {
+    when(registrationLoginLinkService.getActiveLoginLink("login-code"))
+      .thenReturn(registrationLoginLink(RegistrationKind.QUEUE));
+
+    mockMvc
+      .perform(get("/v2/login/registration").param("code", "login-code"))
+      .andExpect(status().is3xxRedirection())
+      .andExpect(redirectedUrl("http://localhost:4003/yki/ilmoittautuminen/v2/tutkintotilaisuus/1/2/jono"));
+  }
+
+  @Test
+  public void testLoginWithExpiredRegistrationLinkRedirectsToRegistrationFrontPage() throws Exception {
+    when(registrationLoginLinkService.getActiveLoginLink("expired"))
+      .thenThrow(new APIException(APIExceptionType.LOGIN_LINK_EXPIRED));
+    final MockHttpSession session = new MockHttpSession();
+
+    mockMvc
+      .perform(get("/v2/login/registration").param("code", "expired").session(session))
+      .andExpect(status().is3xxRedirection())
+      .andExpect(redirectedUrl("http://localhost:4003/yki/ilmoittautuminen/v2"));
+
+    assertNull(session.getAttribute("identityId"));
+  }
+
+  private static RegistrationLoginLink registrationLoginLink(final RegistrationKind kind) {
+    final Identity identity = new Identity();
+    identity.setId(3L);
+    final ExamSession examSession = new ExamSession();
+    examSession.setId(1L);
+    final Registration registration = new Registration();
+    registration.setId(2L);
+    registration.setExamSession(examSession);
+    registration.setKind(kind);
+    final RegistrationLoginLink loginLink = new RegistrationLoginLink();
+    loginLink.setIdentity(identity);
+    loginLink.setRegistration(registration);
+
+    return loginLink;
   }
 }

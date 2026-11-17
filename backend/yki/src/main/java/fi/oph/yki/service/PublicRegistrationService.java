@@ -64,6 +64,7 @@ public class PublicRegistrationService {
   private final IdentityRepository identityRepository;
   private final PersonRepository personRepository;
   private final PaymentLinkService paymentLinkService;
+  private final RegistrationLoginLinkService registrationLoginLinkService;
   private final RegistrationEmailService registrationEmailService;
   private final OnrService onrService;
 
@@ -139,6 +140,45 @@ public class PublicRegistrationService {
 
     LOG.info("END: Init exam session {} registration success {}", initDTO.examSessionId(), registration.getId());
     return buildResponse(registration);
+  }
+
+  /**
+   * Emails a link to the registration form, as an alternative to Suomi.fi identification. Opening
+   * the link starts a session with the identity that started the registration.
+   */
+  @Transactional
+  public void createLoginLink(
+    final Identity identity,
+    final long examSessionId,
+    final long registrationId,
+    final String email,
+    final String lang
+  ) {
+    final Registration registration = registrationRepository
+      .findById(registrationId)
+      .filter(r -> r.getExamSession().getId() == examSessionId)
+      .orElseThrow(() -> new APIException(APIExceptionType.NOT_FOUND));
+
+    if (registration.getIdentity() == null || registration.getIdentity().getId() != identity.getId()) {
+      throw new APIException(APIExceptionType.REGISTRATION_NOT_OWNED);
+    }
+
+    if (registration.getState() != RegistrationState.STARTED) {
+      throw new APIException(APIExceptionType.REGISTRATION_NOT_STARTED);
+    }
+
+    if (!isRegistrationOpen(registration.getExamSession())) {
+      throw new APIException(APIExceptionType.REGISTRATION_CLOSED);
+    }
+
+    if (registrationLoginLinkService.hasRecentLoginLink(registration, email)) {
+      LOG.info("Not sending another login link for registration {} yet: recent link exists", registrationId);
+      return;
+    }
+
+    final String code = registrationLoginLinkService.createLoginLink(registration, identity, email);
+    registrationEmailService.sendLoginEmail(registration, email, code, lang);
+    LOG.info("Login link created for registration {}", registrationId);
   }
 
   private Boolean isRegistrationOpen(final ExamSession examSession) {
