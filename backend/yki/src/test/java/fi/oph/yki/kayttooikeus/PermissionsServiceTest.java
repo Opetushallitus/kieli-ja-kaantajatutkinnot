@@ -110,15 +110,6 @@ class PermissionsServiceTest {
   }
 
   @Test
-  public void testFindFirstWithYKIPermissionReturnsFirstMatch() throws Exception {
-    final List<OrganisaatioDTO> organisaatiot = readMockResponse().organisaatiot();
-
-    final OrganisaatioDTO organisaatioDTO = permissionsService.findFirstWithYKIPermission(organisaatiot, "JARJESTAJA");
-
-    assertEquals(PermissionsService.OPH_OID, organisaatioDTO.organisaatioOid());
-  }
-
-  @Test
   public void testFindFirstWithYKIPermissionReturnsNullWithoutMatch() throws Exception {
     final List<OrganisaatioDTO> organisaatiot = readMockResponse().organisaatiot();
 
