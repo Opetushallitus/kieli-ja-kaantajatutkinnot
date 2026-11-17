@@ -19,9 +19,9 @@ import org.springframework.stereotype.Component;
 
 /**
  * Port of the legacy sync-participant-onr-data-handler (yki repo, src/yki/job/scheduled_tasks.clj).
- * Stores the individualisation status from ONR in participant_onr, which the CSV in OnrDebugService
- * reads. Which of the two backends syncs is decided by the {@code participant_onr_sync.owner}
- * runtime flag, checked again in the transaction that writes each batch.
+ * Stores the individualisation status from ONR in participant_onr. Which of the two backends syncs
+ * is decided by the {@code participant_onr_sync.owner} runtime flag, checked again in the
+ * transaction that writes each batch.
  */
 @Component
 @RequiredArgsConstructor
