@@ -8,6 +8,7 @@ public record ClerkCustomerPersonDTO(
   String lastName,
   String ssn,
   String oid,
+  Boolean individualised,
   String nationalityCode,
   String phoneNumber,
   String streetAddress,

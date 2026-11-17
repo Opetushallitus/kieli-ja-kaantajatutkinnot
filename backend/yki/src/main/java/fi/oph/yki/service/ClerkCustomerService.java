@@ -121,11 +121,16 @@ public class ClerkCustomerService {
       );
     }
 
-    return getClerkCustomerDetails(personOid);
+    // Organisers do not get the individualisation status.
+    return buildCustomerDetails(personOid, false);
   }
 
   @Transactional(readOnly = true)
   public ClerkCustomerDetailsDTO getClerkCustomerDetails(final String oid) {
+    return buildCustomerDetails(oid, true);
+  }
+
+  private ClerkCustomerDetailsDTO buildCustomerDetails(final String oid, final boolean includeIndividualised) {
     auditService.logClerkById(YkiOperation.GET_CUSTOMER_DETAILS, oid);
     final var person = personRepository.getByOid(oid);
 
@@ -135,6 +140,7 @@ public class ClerkCustomerService {
       .lastName(person.getLastName())
       .ssn(getIdentityNumber(person))
       .oid(person.getOid())
+      .individualised(includeIndividualised ? person.getIndividualised() : null)
       .nationalityCode(person.getNationalityCode())
       .phoneNumber(person.getPhoneNumber())
       .streetAddress(person.getSteetAddress())
@@ -247,13 +253,22 @@ public class ClerkCustomerService {
       .personQuery(request.personQuery())
       .build();
 
-    return searchClerkCustomers(pageable, newRequestDTO);
+    // Organisers do not get the individualisation status.
+    return searchCustomers(pageable, newRequestDTO, false);
   }
 
   @Transactional(readOnly = true)
   public Page<ClerkCustomerSummaryDTO> searchClerkCustomers(
     final Pageable pageable,
     final ClerkCustomerSearchRequestDTO request
+  ) throws ExecutionException, InterruptedException, JsonProcessingException, RuntimeException {
+    return searchCustomers(pageable, request, true);
+  }
+
+  private Page<ClerkCustomerSummaryDTO> searchCustomers(
+    final Pageable pageable,
+    final ClerkCustomerSearchRequestDTO request,
+    final boolean includeIndividualised
   ) throws ExecutionException, InterruptedException, JsonProcessingException, RuntimeException {
     auditService.logClerkWithTarget(YkiOperation.SEARCH_CUSTOMERS, toTarget(request));
 
@@ -271,6 +286,7 @@ public class ClerkCustomerService {
             .lastName(person.lastName())
             .ssn(hetuByOid.get(person.oid()))
             .oid(person.oid())
+            .individualised(includeIndividualised ? person.individualised() : null)
             .nationalityCode(person.nationalityCode())
             .phoneNumber(person.phoneNumber())
             .streetAddress(person.streetAddress())
