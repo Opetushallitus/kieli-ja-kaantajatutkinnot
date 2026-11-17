@@ -10,6 +10,18 @@ import org.springframework.data.repository.query.Param;
 public interface ExamSessionRepository extends BaseRepository<ExamSession> {
   List<ExamSession> getByLanguageAndLevel(String language, String level);
 
+  @Query(
+    "SELECT DISTINCT es FROM ExamSession es" +
+    " JOIN FETCH es.examDate examDate" +
+    " LEFT JOIN FETCH es.locations" +
+    " WHERE es.language = :language AND es.level = :level AND examDate.examDate >= :today"
+  )
+  List<ExamSession> findUpcomingByLanguageAndLevelWithDateAndLocations(
+    @Param("language") String language,
+    @Param("level") String level,
+    @Param("today") LocalDate today
+  );
+
   List<ExamSession> findByOrganizerOid_Oid(String oid);
 
   boolean existsByExamDateId(long examDateId);
@@ -97,4 +109,89 @@ public interface ExamSessionRepository extends BaseRepository<ExamSession> {
 
   @Query("SELECT DISTINCT es FROM ExamSession es" + " LEFT JOIN FETCH es.locations r" + " WHERE es IN (:examSessions)")
   List<ExamSession> findByExamSessionsWithLocation(final List<ExamSession> examSessions);
+
+  /**
+   * Front page exam session list. Registrations are counted in one pass per exam session; the
+   * registration kinds follow the database function select_registration_kind, which the
+   * participant_limit_trigger uses to check the participant limits on insert.
+   */
+  @Query(
+    nativeQuery = true,
+    value = """
+      SELECT
+        es.id                                   AS id,
+        es.language_code                        AS languageCode,
+        es.level_code                           AS levelCode,
+        ed.exam_date                            AS sessionDate,
+        es.max_participants                     AS maxParticipants,
+        es.max_participants_read_listen         AS maxParticipantsReadListen,
+        es.max_participants_speak_write         AS maxParticipantsSpeakWrite,
+        es.start_time                           AS startTime,
+        es.start_time_read_listen               AS startTimeReadListen,
+        es.start_time_speak_write               AS startTimeSpeakWrite,
+        ed.registration_start_date              AS registrationStartDate,
+        ed.registration_end_date                AS registrationEndDate,
+        es.office_oid                           AS officeOid,
+        es.published_at                         AS publishedAt,
+        CAST(es.type AS TEXT)                   AS type,
+        counts.queue                            AS queue,
+        counts.participants                     AS participants,
+        counts.participants_read_listen         AS participantsReadListen,
+        counts.participants_speak_write         AS participantsSpeakWrite,
+        o.oid                                   AS organizerOid,
+        CAST((SELECT json_agg(locations)
+              FROM (SELECT name, street_address, post_office, zip, other_location_info, extra_information, lang
+                    FROM exam_session_location
+                    WHERE exam_session_id = es.id) locations) AS TEXT) AS location,
+        within_dt_range(now(), ed.registration_start_date, ed.registration_end_date) AS open,
+        (now() AT TIME ZONE 'Europe/Helsinki' <
+          (date_trunc('day', ed.registration_end_date AT TIME ZONE 'Europe/Helsinki') + time '16:00')) AS upcomingAdmission,
+        kind.all_parts                          AS allPartsRegistrationKind,
+        kind.read_listen                        AS readListenRegistrationKind,
+        kind.speak_write                        AS speakWriteRegistrationKind
+      FROM exam_session es
+      INNER JOIN organizer o ON es.organizer_id = o.id
+      INNER JOIN exam_date ed ON es.exam_date_id = ed.id
+      CROSS JOIN LATERAL (
+        SELECT
+          COUNT(*) FILTER (WHERE r.kind = 'QUEUE')                             AS queue,
+          COUNT(*) FILTER (WHERE r.kind = 'ADMISSION')                         AS participants,
+          COUNT(*) FILTER (WHERE r.kind = 'QUEUE' AND read_listen.matches)     AS queue_read_listen,
+          COUNT(*) FILTER (WHERE r.kind = 'ADMISSION' AND read_listen.matches) AS participants_read_listen,
+          COUNT(*) FILTER (WHERE r.kind = 'QUEUE' AND speak_write.matches)     AS queue_speak_write,
+          COUNT(*) FILTER (WHERE r.kind = 'ADMISSION' AND speak_write.matches) AS participants_speak_write
+        FROM registration r
+        CROSS JOIN LATERAL (
+          SELECT (es.type = 'READ_SPEAK' AND r.partial_exam_type IN ('ALL_PARTS', 'READ'))
+              OR (es.type = 'LISTEN_WRITE' AND r.partial_exam_type IN ('ALL_PARTS', 'LISTEN')) AS matches
+        ) read_listen
+        CROSS JOIN LATERAL (
+          SELECT (es.type = 'READ_SPEAK' AND r.partial_exam_type IN ('ALL_PARTS', 'SPEAK'))
+              OR (es.type = 'LISTEN_WRITE' AND r.partial_exam_type IN ('ALL_PARTS', 'WRITE')) AS matches
+        ) speak_write
+        WHERE r.exam_session_id = es.id
+          AND ((r.kind = 'QUEUE' AND r.state IN ('SUBMITTED', 'STARTED'))
+            OR (r.kind = 'ADMISSION' AND r.state IN ('COMPLETED', 'SUBMITTED', 'STARTED')))
+      ) counts
+      CROSS JOIN LATERAL (
+        SELECT
+          (counts.queue > 0 OR counts.participants >= es.max_participants) AS session_full,
+          (counts.queue_read_listen > 0
+            OR counts.participants_read_listen >= es.max_participants_read_listen) AS read_listen_full,
+          (counts.queue_speak_write > 0
+            OR counts.participants_speak_write >= es.max_participants_speak_write) AS speak_write_full
+      ) pool
+      CROSS JOIN LATERAL (
+        SELECT
+          CASE WHEN (CASE WHEN es.type = 'FULL' THEN pool.session_full
+                          ELSE pool.read_listen_full OR pool.speak_write_full END)
+               THEN 'QUEUE' ELSE 'ADMISSION' END                        AS all_parts,
+          CASE WHEN pool.read_listen_full THEN 'QUEUE' ELSE 'ADMISSION' END AS read_listen,
+          CASE WHEN pool.speak_write_full THEN 'QUEUE' ELSE 'ADMISSION' END AS speak_write
+      ) kind
+      WHERE ed.exam_date >= :from
+      ORDER BY ed.exam_date ASC
+      """
+  )
+  List<PublicExamSessionProjection> findPublicExamSessions(@Param("from") LocalDate from);
 }

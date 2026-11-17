@@ -32,7 +32,7 @@ jobs:
         contains(github.event.head_commit.message, inputs.app-name) &&
         (github.ref == 'refs/heads/dev' || contains(github.event.head_commit.message, '[deploy]'))
       }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # actions/checkout v6.0.2
       - uses: actions/cache/restore@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # actions/cache/restore v5.0.3

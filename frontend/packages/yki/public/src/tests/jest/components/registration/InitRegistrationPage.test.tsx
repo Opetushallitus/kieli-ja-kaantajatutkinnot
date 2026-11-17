@@ -1,6 +1,7 @@
 import { render } from '@testing-library/react';
 import { APIResponseStatus } from 'shared/enums';
 
+import { initI18nForTests } from 'configs/i18n';
 import { RootState } from 'configs/redux';
 import { ExamSession, ExamSessionsResponse } from 'interfaces/examSessions';
 import { ContentSelector } from 'pages/InitRegistrationPage';
@@ -9,6 +10,12 @@ import { DefaultProviders } from 'tests/jest/utils/DefaultProviders';
 import { examSessions } from 'tests/msw/fixtures/examSession';
 import { ExamSessionUtils } from 'utils/examSession';
 import { SerializationUtils } from 'utils/serialization';
+
+jest.unmock('configs/i18n');
+
+beforeAll(async () => {
+  await initI18nForTests();
+});
 
 const renderPageWithSession = (examSession: ExamSession) => {
   const preloadedState: Partial<RootState> = {

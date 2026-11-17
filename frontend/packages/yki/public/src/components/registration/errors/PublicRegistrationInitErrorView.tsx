@@ -1,8 +1,9 @@
-import { CustomButton, Text } from 'shared/components';
+import { CustomButton } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 
 import { BackToFrontPageButton } from 'components/elements/BackToFrontPageButton';
 import { PublicRegistrationExamSessionDetails } from 'components/registration/PublicRegistrationExamSessionDetails';
+import { Text } from 'components/Text';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';

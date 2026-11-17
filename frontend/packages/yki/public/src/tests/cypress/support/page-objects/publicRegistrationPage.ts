@@ -2,14 +2,8 @@ import { selectComboBoxOptionByName } from 'tests/cypress/support/utils/comboBox
 
 class PublicRegistrationPage {
   elements = {
-    filterByLanguage: (isPhone: boolean = false) =>
-      isPhone
-        ? cy.findAllByRole('combobox').eq(0).should('be.visible')
-        : cy.findByRole('combobox', { name: /Valitse kieli/ }),
-    filterByLevel: (isPhone: boolean = false) =>
-      isPhone
-        ? cy.findAllByRole('combobox').eq(1).should('be.visible')
-        : cy.findByRole('combobox', { name: /Valitse taso/ }),
+    filterByLanguage: () => cy.findByRole('combobox', { name: /^Kieli\b/ }),
+    filterByLevel: () => cy.findByRole('combobox', { name: /^Taso\b/ }),
     resultBox: () =>
       cy.findByTestId('public-registration-page__grid-container__result-box'),
     showOnlyIfAvailablePlaces: () =>
@@ -67,18 +61,14 @@ class PublicRegistrationPage {
 
   selectExamLanguage(language: string, isPhone: boolean = false) {
     selectComboBoxOptionByName(
-      this.elements.filterByLanguage(isPhone),
+      this.elements.filterByLanguage(),
       language,
       isPhone,
     );
   }
 
   selectExamLevel(level: string, isPhone: boolean = false) {
-    selectComboBoxOptionByName(
-      this.elements.filterByLevel(isPhone),
-      level,
-      isPhone,
-    );
+    selectComboBoxOptionByName(this.elements.filterByLevel(), level, isPhone);
   }
 
   search() {

@@ -7,7 +7,7 @@ exports[`digital exam session format snapshots renders with description=false 1`
   >
     <svg
       aria-hidden="true"
-      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium exam-session-format__icon css-1umw9bq-MuiSvgIcon-root"
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium exam-session-format__icon css-v9aqz4-MuiSvgIcon-root"
       data-testid="LaptopIcon"
       focusable="false"
       viewBox="0 0 24 24"
@@ -17,7 +17,7 @@ exports[`digital exam session format snapshots renders with description=false 1`
       />
     </svg>
     <p
-      class="MuiTypography-root MuiTypography-body1 exam-session-format__label css-rizt0-MuiTypography-root"
+      class="MuiTypography-root MuiTypography-body1 exam-session-format__label css-knyw76-MuiTypography-root"
     >
       Digitesti
     </p>
@@ -32,7 +32,7 @@ exports[`digital exam session format snapshots renders with description=true 1`]
   >
     <svg
       aria-hidden="true"
-      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium exam-session-format__icon css-1umw9bq-MuiSvgIcon-root"
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium exam-session-format__icon css-v9aqz4-MuiSvgIcon-root"
       data-testid="LaptopIcon"
       focusable="false"
       viewBox="0 0 24 24"
@@ -42,7 +42,7 @@ exports[`digital exam session format snapshots renders with description=true 1`]
       />
     </svg>
     <p
-      class="MuiTypography-root MuiTypography-body1 exam-session-format__label css-rizt0-MuiTypography-root"
+      class="MuiTypography-root MuiTypography-body1 exam-session-format__label css-knyw76-MuiTypography-root"
     >
       Digitesti
     </p>
@@ -58,7 +58,7 @@ exports[`paper exam session format snapshots renders with description=false 1`] 
   >
     <svg
       aria-hidden="true"
-      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium exam-session-format__icon css-1umw9bq-MuiSvgIcon-root"
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium exam-session-format__icon css-v9aqz4-MuiSvgIcon-root"
       data-testid="NoteAltOutlinedIcon"
       focusable="false"
       viewBox="0 0 24 24"
@@ -71,7 +71,7 @@ exports[`paper exam session format snapshots renders with description=false 1`] 
       />
     </svg>
     <p
-      class="MuiTypography-root MuiTypography-body1 exam-session-format__label css-rizt0-MuiTypography-root"
+      class="MuiTypography-root MuiTypography-body1 exam-session-format__label css-knyw76-MuiTypography-root"
     >
       Paperitesti
     </p>
@@ -86,7 +86,7 @@ exports[`paper exam session format snapshots renders with description=true 1`] =
   >
     <svg
       aria-hidden="true"
-      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium exam-session-format__icon css-1umw9bq-MuiSvgIcon-root"
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium exam-session-format__icon css-v9aqz4-MuiSvgIcon-root"
       data-testid="NoteAltOutlinedIcon"
       focusable="false"
       viewBox="0 0 24 24"
@@ -99,7 +99,7 @@ exports[`paper exam session format snapshots renders with description=true 1`] =
       />
     </svg>
     <p
-      class="MuiTypography-root MuiTypography-body1 exam-session-format__label css-rizt0-MuiTypography-root"
+      class="MuiTypography-root MuiTypography-body1 exam-session-format__label css-knyw76-MuiTypography-root"
     >
       Paperitesti
     </p>

@@ -6,7 +6,7 @@ export const PublicExamSessionListingHeader = () => {
   const translateCommon = useCommonTranslation();
 
   return (
-    <TableHead className="heading-text public-exam-session-listing__header">
+    <TableHead className="public-exam-session-listing__header">
       <TableRow>
         <TableCell>{translateCommon('examSession')}</TableCell>
         <TableCell>{translateCommon('examDate')}</TableCell>

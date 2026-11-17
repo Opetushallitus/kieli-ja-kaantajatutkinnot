@@ -1,0 +1,58 @@
+package fi.oph.yki.repository;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+public interface PublicExamSessionProjection {
+  Long getId();
+
+  String getLanguageCode();
+
+  String getLevelCode();
+
+  LocalDate getSessionDate();
+
+  Integer getMaxParticipants();
+
+  Integer getMaxParticipantsReadListen();
+
+  Integer getMaxParticipantsSpeakWrite();
+
+  String getStartTime();
+
+  String getStartTimeReadListen();
+
+  String getStartTimeSpeakWrite();
+
+  LocalDate getRegistrationStartDate();
+
+  LocalDate getRegistrationEndDate();
+
+  String getOfficeOid();
+
+  LocalDateTime getPublishedAt();
+
+  String getType();
+
+  Long getQueue();
+
+  Long getParticipants();
+
+  Long getParticipantsReadListen();
+
+  Long getParticipantsSpeakWrite();
+
+  String getOrganizerOid();
+
+  String getLocation();
+
+  Boolean getOpen();
+
+  Boolean getUpcomingAdmission();
+
+  String getAllPartsRegistrationKind();
+
+  String getReadListenRegistrationKind();
+
+  String getSpeakWriteRegistrationKind();
+}

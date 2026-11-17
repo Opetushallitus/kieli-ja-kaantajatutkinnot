@@ -4,15 +4,10 @@ import { Box } from '@mui/system';
 import { ophColors } from '@opetushallitus/oph-design-system';
 import { FC, useEffect } from 'react';
 import { useParams } from 'react-router';
-import {
-  CustomButton,
-  H1,
-  HeaderSeparator,
-  LoadingProgressIndicator,
-  Text,
-} from 'shared/components';
+import { CustomButton, LoadingProgressIndicator } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
 
+import { H1, Text } from 'components/Text';
 import { getCurrentLang, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import {
@@ -54,7 +49,6 @@ export const ExpiredLoginLinkPage: FC = () => {
               {t('title')}
             </div>
           </H1>
-          <HeaderSeparator />
           <Paper
             elevation={3}
             style={{ borderTop: '5px solid ' + ophColors.green2 }}
@@ -82,7 +76,9 @@ export const ExpiredLoginLinkPage: FC = () => {
                 </LoadingProgressIndicator>
               )}
               {status == APIResponseStatus.Success && (
-                <Text className="bold">{t('reply')}</Text>
+                <Text>
+                  <strong>{t('reply')}</strong>
+                </Text>
               )}
               <Text>{t('part2')}</Text>
             </Box>

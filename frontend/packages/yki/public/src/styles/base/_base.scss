@@ -1,3 +1,10 @@
+:root {
+  font-family: 'Open Sans', sans-serif;
+  // Legacy YKI layouts use rem units based on 10px. Keep the root consistent
+  // across breakpoints and in sync with the theme's htmlFontSize.
+  font-size: 62.5%;
+}
+
 html {
   overflow-y: scroll;
 }
@@ -66,4 +73,13 @@ body,
     display: flex;
     flex: 1;
   }
+}
+
+a {
+  color: $color-text-primary;
+}
+
+.init-spinner {
+  // Bootstrap fallback: this spinner precedes React and its theme variables.
+  --init-spinner-color: var(--yki-color-secondary, #378703);
 }

@@ -3,7 +3,7 @@ import { APIResponseStatus } from 'shared/enums';
 
 import {
   ClerkExamSession,
-  ClerkExamSessionResponse,
+  ClerkExamSessionSummary,
 } from 'interfaces/clerkExamSession';
 
 interface ClerkExamSessionLocationForm {
@@ -42,7 +42,7 @@ interface ClerkExamSessionState {
   status: APIResponseStatus;
   updateStatus: APIResponseStatus;
   createStatus: APIResponseStatus;
-  relocateExamSessions: ClerkExamSessionResponse[];
+  relocateExamSessions: ClerkExamSessionSummary[];
   relocateExamSessionsStatus: APIResponseStatus;
   relocateStatus: APIResponseStatus;
   cancelStatus: APIResponseStatus;
@@ -113,7 +113,7 @@ const clerkExamSessionSlice = createSlice({
     },
     storeRelocateExamSessions(
       state,
-      action: PayloadAction<ClerkExamSessionResponse[]>,
+      action: PayloadAction<ClerkExamSessionSummary[]>,
     ) {
       state.relocateExamSessionsStatus = APIResponseStatus.Success;
       state.relocateExamSessions = action.payload;

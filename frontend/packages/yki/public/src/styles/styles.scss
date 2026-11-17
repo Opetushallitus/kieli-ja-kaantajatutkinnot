@@ -1,8 +1,10 @@
 //Shared
-@import 'shared/styles';
+@import 'shared/yki-public-styles';
 
-// YKI Public overrides
-@import 'overrides/new-yki-overrides';
+// YKI theme tokens and legacy shared-component adapters
+@import 'base/colors';
+@import 'base/fonts';
+@import 'overrides/legacy-shared';
 
 // Base
 @import 'base/base';
@@ -19,10 +21,6 @@
 @import 'components/registration/public-registration-exam-session-details';
 @import 'components/registration/mobile-app-bar';
 @import 'components/userDetails/cancel-registration-modal';
-@import 'components/freeRegistration/free-registration';
-@import 'components/freeRegistrationListing/free-registration-listing';
-@import 'components/freeRegistrationDetails/free-registration-details';
-@import 'components/modifyAgreementModal/modify-agreement-modal';
 
 // Pages
 @import 'pages/accessibility-statement-page';
@@ -36,6 +34,4 @@
 @import 'pages/modify-contact-details-page';
 @import 'pages/registration-page';
 @import 'pages/registration-payment-status-page';
-@import 'pages/transfer-registration-page';
-@import 'pages/transfer-registration-success-page';
 @import 'pages/confirm-registration-page';

@@ -3,18 +3,14 @@
 exports[`Header should render Header correctly 1`] = `
 <div>
   <a
-    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways skip-link css-moojkn-MuiTypography-root-MuiLink-root"
+    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-1ic63ac-MuiTypography-root-MuiLink-root"
     href="#main-content"
   >
-    <p
-      class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
-    >
-      header.accessibility.continueToMain
-    </p>
+    header.accessibility.continueToMain
   </a>
   <header
-    class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionStatic header css-ptdwpq-MuiPaper-root-MuiAppBar-root"
-    style="--Paper-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);"
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionStatic header css-6vsveh-MuiPaper-root-MuiAppBar-root"
+    style="--Paper-shadow: none;"
   >
     <div
       class="session-header columns gapped"
@@ -23,7 +19,7 @@ exports[`Header should render Header correctly 1`] = `
         class="session-header__open-registrations columns gapped-xxs"
       >
         <p
-          class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
         >
           header.sessionState.activeRegistrations
         </p>
@@ -35,29 +31,32 @@ exports[`Header should render Header correctly 1`] = `
         </a>
       </div>
       <p
-        class="MuiTypography-root MuiTypography-body1 columns gapped-xxs session-header__user-details css-rizt0-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-body1 columns gapped-xxs session-header__user-details css-knyw76-MuiTypography-root"
       >
         <svg
           aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium session-header__user-icon css-1umw9bq-MuiSvgIcon-root"
-          data-testid="PersonIcon"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium session-header__user-icon css-v9aqz4-MuiSvgIcon-root"
+          data-testid="AccountCircleOutlinedIcon"
           focusable="false"
           viewBox="0 0 24 24"
         >
           <path
-            d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4m0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4"
+            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2M7.35 18.5C8.66 17.56 10.26 17 12 17s3.34.56 4.65 1.5c-1.31.94-2.91 1.5-4.65 1.5s-3.34-.56-4.65-1.5m10.79-1.38C16.45 15.8 14.32 15 12 15s-4.45.8-6.14 2.12C4.7 15.73 4 13.95 4 12c0-4.42 3.58-8 8-8s8 3.58 8 8c0 1.95-.7 3.73-1.86 5.12"
+          />
+          <path
+            d="M12 6c-1.93 0-3.5 1.57-3.5 3.5S10.07 13 12 13s3.5-1.57 3.5-3.5S13.93 6 12 6m0 5c-.83 0-1.5-.67-1.5-1.5S11.17 8 12 8s1.5.67 1.5 1.5S12.83 11 12 11"
           />
         </svg>
         Susanna Uusivälimerkki
       </p>
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary session-header__logout-button css-1ioaic5-MuiButtonBase-root-MuiButton-root"
+        class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation session-header__logout-button css-15duqzd-MuiButtonBase-root-MuiButton-root"
         tabindex="0"
         type="button"
       >
         <svg
           aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-v9aqz4-MuiSvgIcon-root"
           data-testid="LogoutOutlinedIcon"
           focusable="false"
           viewBox="0 0 24 24"
@@ -70,7 +69,7 @@ exports[`Header should render Header correctly 1`] = `
       </button>
     </div>
     <div
-      class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular header__toolbar header__toolbar__logo-and-tabs css-1ygil4i-MuiToolbar-root"
+      class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular header__toolbar header__toolbar__logo-and-lang css-1ygil4i-MuiToolbar-root"
     >
       <div
         class="header__logo"
@@ -79,82 +78,28 @@ exports[`Header should render Header correctly 1`] = `
           data-discover="true"
           href="/yki/ilmoittautuminen"
         >
-          <div
-            class="oph-logo columns"
-          >
-            <img
-              alt="ophLogoToFrontPageAlt"
-              class="header__logo__logo"
-              src="test"
-            />
-            <p
-              class="MuiTypography-root MuiTypography-body1 oph-logo__label--bold css-rizt0-MuiTypography-root"
-            >
-              appNameAbbreviation
-            </p>
-          </div>
+          <img
+            alt="ophLogoToFrontPageAlt"
+            class="header__logo__logo"
+            src="test"
+          />
         </a>
       </div>
-      <div
-        class="header__tabs"
+      <span
+        class="header__product-name"
       >
-        <nav
-          aria-label="header.accessibility.mainNavigation"
-          class="navigation-links"
-        >
-          <ul>
-            <li>
-              <a
-                aria-current="false"
-                data-discover="true"
-                href="/yki/ilmoittautuminen"
-              >
-                <p
-                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
-                >
-                  registration
-                </p>
-              </a>
-            </li>
-            <li>
-              <a
-                aria-current="false"
-                data-discover="true"
-                href="/yki/kayttaja/tiedot"
-              >
-                <p
-                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
-                >
-                  userRegistrations
-                </p>
-              </a>
-            </li>
-            <li>
-              <a
-                aria-current="false"
-                data-discover="true"
-                href="/yki/tarkistusarviointi"
-              >
-                <p
-                  class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
-                >
-                  reassessment
-                </p>
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </div>
+        YKI
+      </span>
       <div
         class="header__language-select"
       >
         <nav
           aria-label="header.accessibility.langSelectorAriaLabel"
-          class="lang-selector"
+          class="MuiBox-root css-l5lf2z"
         >
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall lang-selector__icon css-120dh41-MuiSvgIcon-root"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-agc4lg-MuiSvgIcon-root"
             data-testid="LanguageOutlinedIcon"
             focusable="false"
             viewBox="0 0 24 24"
@@ -165,59 +110,89 @@ exports[`Header should render Header correctly 1`] = `
           </svg>
           <button
             aria-current="true"
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-1uent87-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButton-disableElevation css-12o18a4-MuiButtonBase-root-MuiButton-root"
             lang="fi-FI"
             tabindex="0"
             type="button"
           >
-            <p
-              class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
-            >
-              <b>
-                header.lang.fi
-              </b>
-            </p>
+            header.lang.fi
           </button>
           <div
             aria-hidden="true"
             aria-orientation="vertical"
-            class="MuiDivider-root MuiDivider-middle MuiDivider-vertical MuiDivider-flexItem css-1ck4b9x-MuiDivider-root"
+            class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-6llo6b-MuiDivider-root"
             role="separator"
           />
           <button
-            aria-current="false"
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-1uent87-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButton-disableElevation css-1cvh7eu-MuiButtonBase-root-MuiButton-root"
             lang="sv-SE"
             tabindex="0"
             type="button"
           >
-            <p
-              class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
-            >
-              header.lang.sv
-            </p>
+            header.lang.sv
           </button>
           <div
             aria-hidden="true"
             aria-orientation="vertical"
-            class="MuiDivider-root MuiDivider-middle MuiDivider-vertical MuiDivider-flexItem css-1ck4b9x-MuiDivider-root"
+            class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-6llo6b-MuiDivider-root"
             role="separator"
           />
           <button
-            aria-current="false"
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-1uent87-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButton-disableElevation css-1cvh7eu-MuiButtonBase-root-MuiButton-root"
             lang="en-GB"
             tabindex="0"
             type="button"
           >
-            <p
-              class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
-            >
-              header.lang.en
-            </p>
+            header.lang.en
           </button>
         </nav>
       </div>
+    </div>
+    <div
+      class="header__nav"
+    >
+      <nav
+        aria-label="header.accessibility.mainNavigation"
+        class="MuiBox-root css-0"
+      >
+        <ul
+          class="MuiBox-root css-1h26j41"
+        >
+          <li
+            class="MuiBox-root css-16ctujp"
+          >
+            <a
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-lvpufi-MuiTypography-root-MuiLink-root"
+              data-discover="true"
+              href="/yki/ilmoittautuminen"
+            >
+              registration
+            </a>
+          </li>
+          <li
+            class="MuiBox-root css-16ctujp"
+          >
+            <a
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-lvpufi-MuiTypography-root-MuiLink-root"
+              data-discover="true"
+              href="/yki/kayttaja/tiedot"
+            >
+              userRegistrations
+            </a>
+          </li>
+          <li
+            class="MuiBox-root css-16ctujp"
+          >
+            <a
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-lvpufi-MuiTypography-root-MuiLink-root"
+              data-discover="true"
+              href="/yki/tarkistusarviointi"
+            >
+              reassessment
+            </a>
+          </li>
+        </ul>
+      </nav>
     </div>
   </header>
   <div
@@ -240,14 +215,14 @@ exports[`Header should render Header correctly 1`] = `
           class="cookie-banner__content__dialog-content gapped space-between columns"
         >
           <p
-            class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body1 css-knyw76-MuiTypography-root"
             data-testid="cookie-banner-description"
           >
             description
           </p>
           <button
             aria-label="buttonAriaLabel"
-            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary cookie-banner__content__accept-button css-1mns5ui-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-disableElevation cookie-banner__content__accept-button css-1djo6p2-MuiButtonBase-root-MuiButton-root"
             data-testid="cookie-banner-accept-button"
             tabindex="0"
             type="button"

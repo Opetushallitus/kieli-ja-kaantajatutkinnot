@@ -1,0 +1,17 @@
+// Normalize CSS
+@import 'normalize.css';
+
+// Abstracts
+@import 'abstracts/loops';
+@import 'abstracts/maps';
+@import 'abstracts/mixins';
+@import 'abstracts/variables';
+@import 'abstracts/common/layout';
+@import 'abstracts/common/spacing';
+
+:root {
+  box-sizing: border-box;
+}
+
+// Vendors
+@import 'vendors/init-spinner';

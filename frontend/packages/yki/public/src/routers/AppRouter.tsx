@@ -1,5 +1,4 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { ThemeProvider } from '@mui/material';
 import { FC, useEffect } from 'react';
 import {
   createBrowserRouter,
@@ -23,6 +22,7 @@ import { useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, RegistrationKind } from 'enums/app';
 import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
+import { YkiThemeProvider } from 'ophTheme/YkiThemeProvider';
 import { AccessibilityStatementPage } from 'pages/AccessibilityStatementPage';
 import { ConfirmRegistrationPage } from 'pages/ConfirmRegistrationPage';
 import { EvaluationOrderPage } from 'pages/EvaluationOrderPage';
@@ -40,7 +40,6 @@ import { RegistrationPaymentStatusPage } from 'pages/RegistrationPaymentStatusPa
 import { UserDetailsPage } from 'pages/UserDetailsPage';
 import { loadSession } from 'redux/reducers/session';
 import { sessionSelector } from 'redux/selectors/session';
-import { newYkiPublicTheme } from 'themes/theme';
 const ErrorToast = () => {
   useAPIErrorToast();
 
@@ -78,7 +77,7 @@ const UserPortalSubPage = ({ title, children }: TitlePageProps) => {
             to={AppRoutes.UserDetails}
             startIcon={<ArrowBackIcon />}
             variant={Variant.Text}
-            className="color-text-primary"
+            sx={{ color: 'text.primary' }}
           >
             {translateCommon('back')}
           </CustomButtonLink>
@@ -102,7 +101,7 @@ export const AppRouter: FC = () => {
   const Root = (
     <div className="app">
       <NotifierContextProvider>
-        <ThemeProvider theme={newYkiPublicTheme}>
+        <YkiThemeProvider>
           <Header />
           <ErrorToast />
           <Notifier />
@@ -113,7 +112,7 @@ export const AppRouter: FC = () => {
             </div>
           </main>
           {<NewYkiFooter />}
-        </ThemeProvider>
+        </YkiThemeProvider>
       </NotifierContextProvider>
     </div>
   );

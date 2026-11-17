@@ -1,4 +1,25 @@
 .header {
+  border-bottom: 1px solid $color-grey-200;
+
+  @include phone {
+    &__toolbar__mobile-lang-select {
+      background-color: $color-grey-50;
+      justify-content: center;
+      order: 3;
+      width: 100%;
+    }
+
+    .session-header {
+      order: 2;
+    }
+
+    &__nav {
+      background-color: $color-primary;
+      padding: 2rem 0;
+      order: 4;
+    }
+  }
+
   &__toolbar {
     // stylelint-disable-next-line selector-class-pattern
     &.MuiToolbar-root {
@@ -6,9 +27,7 @@
 
       @include desktop-xs-and-up {
         display: grid;
-        grid-template-areas:
-          'logo language-select'
-          'logo tabs';
+        grid-template-areas: 'logo language-select';
         grid-auto-columns: min-content auto;
       }
     }
@@ -16,30 +35,36 @@
     div &__mobile-lang-select {
       min-height: fit-content;
       padding: 0;
-    }
-
-    div &__logo-and-tabs {
-      flex-direction: column;
-      align-items: flex-start;
-
-      @include mobile {
-        padding-bottom: 1rem;
-      }
+      border-bottom: 1px solid $color-grey-200;
     }
   }
 
-  &__logo button,
-  &__tabs button,
-  &__language-select button {
-    @include header-text;
+  &__toolbar__logo-and-lang {
+    align-items: flex-start;
+    flex-direction: column;
+
+    @include mobile {
+      padding-bottom: 1rem;
+    }
+
+    @include phone {
+      align-items: center;
+      background-color: $color-secondary;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      gap: 2rem;
+      order: 1;
+      padding: 2.5rem;
+    }
   }
 
   &__logo {
     margin-right: 0;
+    margin-left: 2rem;
 
     @include desktop-xs-and-up {
       grid-area: logo;
-      margin-right: 5rem;
+      margin-left: 8rem;
     }
     padding: 2rem 0;
 
@@ -48,30 +73,39 @@
     }
 
     &__logo {
-      height: 5.5rem;
-      @include phone {
-        height: 5rem;
-      }
+      height: 26px;
+      width: auto;
     }
   }
 
-  &__tabs {
-    @include desktop-xs-and-up {
-      grid-area: tabs;
+  &__product-name {
+    display: none;
+
+    @include phone {
+      color: $color-primary;
+      display: block;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 24px;
     }
+  }
+
+  &__nav {
+    background-color: $color-primary;
+    padding-top: 1.5rem;
 
     @include desktop-xs-and-up {
-      align-self: flex-end;
-      justify-self: start;
+      padding-inline-start: calc(24px + 8rem);
     }
   }
 
   &__language-select {
+    margin-right: 6rem;
     @include desktop-xs-and-up {
       grid-area: language-select;
     }
     align-self: center;
-    color: $color-secondary;
+    color: $color-primary;
     gap: 2rem;
     justify-self: end;
 
@@ -89,6 +123,30 @@
 
     & > a {
       @include header-text;
+      color: $color-primary;
+    }
+  }
+
+  @include phone {
+    &__logo {
+      padding: 0;
+      flex-shrink: 0;
+
+      &__logo {
+        height: 32px;
+      }
+    }
+
+    &__language-select {
+      display: none;
+    }
+
+    &__product-name {
+      white-space: nowrap;
+    }
+
+    &__toolbar__mobile-lang-select {
+      color: $color-text-primary;
     }
   }
 }

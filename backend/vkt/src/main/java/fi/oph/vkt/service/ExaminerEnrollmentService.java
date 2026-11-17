@@ -240,6 +240,7 @@ public class ExaminerEnrollmentService extends AbstractEnrollmentService {
     enrollmentGradesRepository.saveAndFlush(enrollmentGrade);
 
     enrollmentAppointment.setGrade(enrollmentGrade);
+    enrollmentAppointment.setModifiedAt(LocalDateTime.now());
     enrollmentAppointmentRepository.saveAndFlush(enrollmentAppointment);
 
     return ExaminerUtil.createGradesDTO(enrollmentGrade);

@@ -1,17 +1,15 @@
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import {
   Checkbox,
   FormControl,
   FormControlLabel,
   FormGroup,
-  Link,
   Paper,
   Typography,
 } from '@mui/material';
-import { ophColors } from '@opetushallitus/oph-design-system';
+import { ophColors, OphLink } from '@opetushallitus/oph-design-system';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router';
-import { CustomButton, H2, LabeledTextField, Text } from 'shared/components';
+import { CustomButton } from 'shared/components';
 import {
   APIResponseStatus,
   Color,
@@ -21,9 +19,11 @@ import {
   Variant,
 } from 'shared/enums';
 import { useDialog, useWindowProperties } from 'shared/hooks';
+import { LabeledTextField } from 'shared/ods-components';
 import { DateUtils, InputFieldUtils } from 'shared/utils';
 
 import { PaymentServiceProvider } from 'components/elements/PaymentServiceProvider';
+import { H2, Text } from 'components/Text';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
@@ -222,15 +222,12 @@ const AcceptConditions = () => {
           {translateCommon('privacyStatement.readConditions')}
         </Text>
         <div className="columns gapped-xxs">
-          <Link
+          <OphLink
             href={translateCommon('privacyStatement.link.url')}
             target="_blank"
           >
-            <Text color="textPrimary">
-              {translateCommon('privacyStatement.link.label')}
-            </Text>
-          </Link>
-          <OpenInNewIcon color="inherit" />
+            {translateCommon('privacyStatement.link.label')}
+          </OphLink>
         </div>
       </div>
       <FormControl error={showErrors && !acceptConditions}>

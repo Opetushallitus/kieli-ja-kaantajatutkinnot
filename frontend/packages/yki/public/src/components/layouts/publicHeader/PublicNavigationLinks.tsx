@@ -1,5 +1,5 @@
 import { matchPath, useLocation } from 'react-router';
-import { NavigationLinks } from 'shared/components';
+import { NavigationLinks } from 'shared/ods-components';
 
 import { useCommonTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';

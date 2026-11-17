@@ -5,7 +5,13 @@ import { createRoot } from 'react-dom/client';
 import { App } from 'App';
 
 async function enableMocking() {
-  if (!REACT_ENV_PRODUCTION && process.env.USE_MSW === 'true') {
+  // Cypress starts its own worker in the support bundle and owns test overrides.
+  // A second worker here would handle app requests with the default fixtures.
+  if (
+    !REACT_ENV_PRODUCTION &&
+    process.env.USE_MSW === 'true' &&
+    !('Cypress' in window)
+  ) {
     const { worker } = await import('./tests/msw/browser');
 
     // `worker.start()` returns a Promise that resolves

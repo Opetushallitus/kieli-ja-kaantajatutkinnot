@@ -95,6 +95,14 @@ export default defineConfig([
     },
   },
   {
+    files: ['src/ods-components/**/*.{ts,tsx}'],
+    settings: {
+      'import/resolver': {
+        webpack: { config: {} },
+      },
+    },
+  },
+  {
     files: ['eslint.config.mjs'],
     rules: {
       'import/no-unresolved': 'off',

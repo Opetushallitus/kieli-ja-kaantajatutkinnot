@@ -1,5 +1,6 @@
 import { ExamLanguage, ExamLevel, RegistrationKind } from 'enums/app';
 import { PublicRegistrationInitResponse } from 'interfaces/publicRegistration';
+import { SuomiFiAuthenticatedSessionResponse } from 'tests/msw/fixtures/identity';
 
 export const registrationInitResponse: PublicRegistrationInitResponse = {
   exam_session: {
@@ -52,18 +53,9 @@ export const registrationInitResponse: PublicRegistrationInitResponse = {
     available_registration_kind: RegistrationKind.Admission,
     partial_registration_kind: { ALL_PARTS: RegistrationKind.Admission },
   },
-  user: {
-    last_name: 'Parkkonen-Testi',
-    ssn: '260553-959D',
-    post_office: 'HELSINKI',
-    'external-user-id': '260553-959D',
-    street_address: 'Ateläniitynpolku 29 G',
-    first_name: 'Carl-Erik',
-    zip: '00100',
-    nationalities: ['246'],
-  },
+  user: { ...SuomiFiAuthenticatedSessionResponse.identity },
   registration_id: 1,
   partial_exam_type: 'ALL_PARTS',
-  is_strongly_identified: false,
+  is_strongly_identified: true,
   registration_kind: RegistrationKind.Admission,
 };

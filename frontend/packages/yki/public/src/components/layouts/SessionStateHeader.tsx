@@ -1,14 +1,14 @@
 import {
   LogoutOutlined as LogoutIcon,
-  Person as PersonIcon,
+  AccountCircleOutlined as PersonIcon,
 } from '@mui/icons-material';
 import Button from '@mui/material/Button';
 import { FC, useEffect } from 'react';
 import { generatePath, Link, matchPath, useLocation } from 'react-router';
-import { Text } from 'shared/components';
 import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
 import { useDialog, useWindowProperties } from 'shared/hooks';
 
+import { Text } from 'components/Text';
 import { useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIEndpoints } from 'enums/api';
@@ -159,7 +159,7 @@ export const SessionStateHeader: FC = () => {
             variant={Variant.Outlined}
             onClick={handleLogout}
           >
-            <LogoutIcon />
+            <LogoutIcon color={Color.Secondary} />
             {translateCommon('header.sessionState.logOut')}
           </Button>
         </div>

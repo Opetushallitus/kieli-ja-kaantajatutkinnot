@@ -1,10 +1,11 @@
 import { TableCell, TableRow, Typography } from '@mui/material';
 import { useNavigate } from 'react-router';
-import { CustomButton, Text } from 'shared/components';
+import { CustomButton } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 import { DateUtils } from 'shared/utils';
 
+import { Text } from 'components/Text';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
 import { AppRoutes } from 'enums/app';

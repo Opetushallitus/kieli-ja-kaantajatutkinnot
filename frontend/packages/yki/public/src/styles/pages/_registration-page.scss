@@ -12,6 +12,8 @@
     }
 
     div &__item-filters {
+      padding: 1rem;
+
       @include phone {
         padding-top: 1rem;
       }
