@@ -26,8 +26,6 @@ public class ScheduledTaskMonitor {
 
   private static final String LEGACY_QUEUE_HANDLER = "REGISTRATION_QUEUE_HANDLER";
   private static final String QUEUE_HANDLER = "registrationQueueHandler";
-  private static final String LEGACY_ONR_SYNC = "SYNC_ONR_PARTICIPANT_DATA_HANDLER";
-  private static final String ONR_SYNC = "syncOnrParticipantDataHandler";
 
   // task interval values from yki-repo
   private static final Map<String, Duration> MONITORED_TASKS = Map.of(
@@ -38,8 +36,6 @@ public class ScheduledTaskMonitor {
     "PERSONS_SYNC_HANDLER",
     Duration.ofMinutes(20), // interval: 179s
     "PARTICIPANTS_SYNC_HANDLER",
-    Duration.ofHours(3), // interval: 59min
-    LEGACY_ONR_SYNC,
     Duration.ofHours(3), // interval: 59min
     "EXAM_SESSION_STATISTICS_HANDLER",
     Duration.ofHours(3) // interval: 57min
@@ -55,7 +51,9 @@ public class ScheduledTaskMonitor {
     "participantsSyncHandler",
     Duration.ofHours(3), // interval: 59min
     "examSessionSolkiSyncHandler",
-    Duration.ofHours(3) // interval: 59min
+    Duration.ofHours(3), // interval: 59min
+    "syncOnrParticipantDataHandler",
+    Duration.ofHours(3) // interval: 60min
   );
 
   private final TaskLockRepository taskLockRepository;
@@ -67,12 +65,9 @@ public class ScheduledTaskMonitor {
   public void monitorScheduledTasks() {
     LOG.info("Monitoring scheduled tasks");
     final boolean queueHandlerOwnedByThisBackend = isOwnedByThisBackend(RuntimeFlag.REGISTRATION_QUEUE_HANDLER_OWNER);
-    final boolean onrSyncOwnedByThisBackend = isOwnedByThisBackend(RuntimeFlag.PARTICIPANT_ONR_SYNC_OWNER);
     MONITORED_TASKS.forEach((@NonNull final String task, final Duration maxAge) -> {
       if (LEGACY_QUEUE_HANDLER.equals(task) && queueHandlerOwnedByThisBackend) {
         checkAge(QUEUE_HANDLER, maxAge, shedLockRepository.findAgeInSeconds(QUEUE_HANDLER), "shedlock");
-      } else if (LEGACY_ONR_SYNC.equals(task) && onrSyncOwnedByThisBackend) {
-        checkAge(ONR_SYNC, maxAge, shedLockRepository.findAgeInSeconds(ONR_SYNC), "shedlock");
       } else {
         checkAge(task, maxAge, taskLockRepository.findAgeInSeconds(task), "task_lock");
       }
