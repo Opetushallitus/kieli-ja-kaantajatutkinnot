@@ -2,9 +2,9 @@ package fi.oph.yki.scheduled;
 
 import fi.oph.yki.onr.OnrService;
 import fi.oph.yki.onr.dto.PersonalDataDTO;
-import fi.oph.yki.repository.ParticipantOnrCheckProjection;
+import fi.oph.yki.repository.PersonOnrCheckProjection;
 import fi.oph.yki.repository.PersonRepository;
-import fi.oph.yki.service.ParticipantOnrSyncService;
+import fi.oph.yki.service.PersonOnrSyncService;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -22,9 +22,9 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @RequiredArgsConstructor
-public class ParticipantOnrDataSyncScheduledTask {
+public class PersonOnrDataSyncScheduledTask {
 
-  private static final Logger LOG = LoggerFactory.getLogger(ParticipantOnrDataSyncScheduledTask.class);
+  private static final Logger LOG = LoggerFactory.getLogger(PersonOnrDataSyncScheduledTask.class);
   private static final String LOCK_AT_LEAST = "PT59M";
   private static final String LOCK_AT_MOST = "PT2H";
   private static final int BATCH_SIZE = 1000;
@@ -32,19 +32,19 @@ public class ParticipantOnrDataSyncScheduledTask {
 
   private final PersonRepository personRepository;
   private final OnrService onrService;
-  private final ParticipantOnrSyncService participantOnrSyncService;
+  private final PersonOnrSyncService personOnrSyncService;
 
   @Scheduled(fixedRate = 3600, initialDelay = 60, timeUnit = TimeUnit.SECONDS)
-  @SchedulerLock(name = "syncOnrParticipantDataHandler", lockAtLeastFor = LOCK_AT_LEAST, lockAtMostFor = LOCK_AT_MOST)
-  public void syncParticipantOnrData() {
+  @SchedulerLock(name = "syncOnrPersonDataHandler", lockAtLeastFor = LOCK_AT_LEAST, lockAtMostFor = LOCK_AT_MOST)
+  public void syncPersonOnrData() {
     try {
       final List<String> oids = personRepository
         .findPersonsForOnrCheck()
         .stream()
-        .map(ParticipantOnrCheckProjection::getPersonOid)
+        .map(PersonOnrCheckProjection::getPersonOid)
         .toList();
 
-      LOG.info("Participant ONR data sync found {} person(s) to check", oids.size());
+      LOG.info("Person ONR data sync found {} person(s) to check", oids.size());
 
       for (int start = 0; start < oids.size(); start += BATCH_SIZE) {
         syncBatch(oids.subList(start, Math.min(start + BATCH_SIZE, oids.size())));
@@ -53,7 +53,7 @@ public class ParticipantOnrDataSyncScheduledTask {
         Thread.sleep(PAUSE_BETWEEN_BATCHES_MILLIS);
       }
     } catch (final Exception e) {
-      LOG.error("Participant ONR data sync failed [ERROR_SCHEDULED_TASK]", e);
+      LOG.error("Person ONR data sync failed [ERROR_SCHEDULED_TASK]", e);
     }
   }
 
@@ -67,6 +67,6 @@ public class ParticipantOnrDataSyncScheduledTask {
       return;
     }
 
-    participantOnrSyncService.saveBatch(onrPersons);
+    personOnrSyncService.saveBatch(onrPersons);
   }
 }

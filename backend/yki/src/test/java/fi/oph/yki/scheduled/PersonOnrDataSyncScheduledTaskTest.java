@@ -4,16 +4,16 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import fi.oph.yki.onr.OnrService;
 import fi.oph.yki.onr.dto.PersonalDataDTO;
-import fi.oph.yki.repository.ParticipantOnrCheckProjection;
+import fi.oph.yki.repository.PersonOnrCheckProjection;
 import fi.oph.yki.repository.PersonRepository;
-import fi.oph.yki.service.ParticipantOnrSyncService;
+import fi.oph.yki.service.PersonOnrSyncService;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-class ParticipantOnrDataSyncScheduledTaskTest {
+class PersonOnrDataSyncScheduledTaskTest {
 
   private static final String PERSON_OID = "1.2.246.562.24.00000000001";
   // The master person of a linked duplicate has another OID than the one asked for.
@@ -21,22 +21,17 @@ class ParticipantOnrDataSyncScheduledTaskTest {
 
   private PersonRepository personRepository;
   private OnrService onrService;
-  private ParticipantOnrDataSyncScheduledTask task;
+  private PersonOnrDataSyncScheduledTask task;
 
   @BeforeEach
   void setup() {
     personRepository = Mockito.mock(PersonRepository.class);
     onrService = Mockito.mock(OnrService.class);
-    task =
-      new ParticipantOnrDataSyncScheduledTask(
-        personRepository,
-        onrService,
-        new ParticipantOnrSyncService(personRepository)
-      );
+    task = new PersonOnrDataSyncScheduledTask(personRepository, onrService, new PersonOnrSyncService(personRepository));
   }
 
   private void givenOnePersonToCheck() {
-    final ParticipantOnrCheckProjection person = Mockito.mock(ParticipantOnrCheckProjection.class);
+    final PersonOnrCheckProjection person = Mockito.mock(PersonOnrCheckProjection.class);
     Mockito.when(person.getPersonOid()).thenReturn(PERSON_OID);
     Mockito.when(personRepository.findPersonsForOnrCheck()).thenReturn(List.of(person));
   }
@@ -56,7 +51,7 @@ class ParticipantOnrDataSyncScheduledTaskTest {
     givenOnePersonToCheck();
     givenOnrAnswers(PERSON_OID);
 
-    task.syncParticipantOnrData();
+    task.syncPersonOnrData();
 
     Mockito.verify(personRepository).updateIndividualised(PERSON_OID, true);
   }
@@ -66,7 +61,7 @@ class ParticipantOnrDataSyncScheduledTaskTest {
     givenOnePersonToCheck();
     givenOnrAnswers(MASTER_PERSON_OID);
 
-    task.syncParticipantOnrData();
+    task.syncPersonOnrData();
 
     Mockito.verify(personRepository).updateIndividualised(PERSON_OID, true);
     Mockito
@@ -81,7 +76,7 @@ class ParticipantOnrDataSyncScheduledTaskTest {
       .when(onrService.listMasterPersonsByOids(List.of(PERSON_OID)))
       .thenThrow(new RuntimeException("ONR is not available"));
 
-    assertDoesNotThrow(() -> task.syncParticipantOnrData());
+    assertDoesNotThrow(() -> task.syncPersonOnrData());
 
     Mockito.verify(personRepository, Mockito.never()).updateIndividualised(Mockito.any(), Mockito.any());
   }
@@ -90,7 +85,7 @@ class ParticipantOnrDataSyncScheduledTaskTest {
   void doesNotCallOnrWhenNoPersonNeedsCheck() {
     Mockito.when(personRepository.findPersonsForOnrCheck()).thenReturn(List.of());
 
-    task.syncParticipantOnrData();
+    task.syncPersonOnrData();
 
     Mockito.verifyNoInteractions(onrService);
   }

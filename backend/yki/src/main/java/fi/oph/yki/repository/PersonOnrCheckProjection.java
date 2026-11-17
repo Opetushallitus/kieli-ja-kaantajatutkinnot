@@ -1,5 +1,5 @@
 package fi.oph.yki.repository;
 
-public interface ParticipantOnrCheckProjection {
+public interface PersonOnrCheckProjection {
   String getPersonOid();
 }
