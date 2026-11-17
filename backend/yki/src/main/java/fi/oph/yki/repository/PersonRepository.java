@@ -33,7 +33,7 @@ WHERE (p.onr_last_sync_at IS NULL AND CURRENT_TIMESTAMP > r.created + INTERVAL '
 """,
     nativeQuery = true
   )
-  List<ParticipantOnrCheckProjection> findPersonsForOnrCheck();
+  List<PersonOnrCheckProjection> findPersonsForOnrCheck();
 
   // Writes only the ONR columns, like the legacy upsert of participant_onr. Saving the Person entity
   // would write every column, and could write back contact details that changed at the same time.
