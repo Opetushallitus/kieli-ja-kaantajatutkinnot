@@ -180,7 +180,8 @@ public class ClerkCustomerService {
         request.organizerId(),
         request.examDateId(),
         request.languageCode(),
-        request.levelCode()
+        request.levelCode(),
+        request.onlyNotIndividualised()
       );
     }
 
@@ -191,7 +192,8 @@ public class ClerkCustomerService {
       request.organizerId(),
       request.examDateId(),
       request.languageCode(),
-      request.levelCode()
+      request.levelCode(),
+      request.onlyNotIndividualised()
     );
   }
 
@@ -233,6 +235,9 @@ public class ClerkCustomerService {
     if (request.levelCode() != null) {
       targetBuilder.setField("levelCode", request.levelCode());
     }
+    if (request.onlyNotIndividualised()) {
+      targetBuilder.setField("onlyNotIndividualised", Boolean.toString(true));
+    }
 
     return targetBuilder.build();
   }
@@ -244,6 +249,7 @@ public class ClerkCustomerService {
     final String oid
   ) throws ExecutionException, InterruptedException, JsonProcessingException, RuntimeException {
     final Organizer organizer = organizerRepository.findByOidAndDeletedAtIsNull(oid).orElseThrow();
+    // onlyNotIndividualised is not copied: organisers do not filter by the individualisation status.
     final ClerkCustomerSearchRequestDTO newRequestDTO = ClerkCustomerSearchRequestDTO
       .builder()
       .organizerId(organizer.getId())

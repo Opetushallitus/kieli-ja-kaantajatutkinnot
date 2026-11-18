@@ -11,6 +11,7 @@ import fi.oph.yki.model.Person;
 import fi.oph.yki.onr.dto.PersonalDataDTO;
 import fi.oph.yki.repository.PersonRepository;
 import jakarta.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
@@ -59,7 +60,7 @@ class PersonOnrSyncServiceTest {
       onrPerson(LAST_PERSON_OID, false, true)
     );
 
-    personOnrSyncService.saveBatch(onrPersons);
+    personOnrSyncService.saveBatch(List.of(FIRST_PERSON_OID, DUPLICATE_PERSON_OID, LAST_PERSON_OID), onrPersons);
     entityManager.clear();
 
     final Map<String, Boolean> savedIndividualised = personRepository
@@ -78,12 +79,33 @@ class PersonOnrSyncServiceTest {
     persistPerson(FIRST_PERSON_OID);
     entityManager.flush();
 
-    personOnrSyncService.saveBatch(Map.of(FIRST_PERSON_OID, onrPerson(FIRST_PERSON_OID, false, null)));
+    personOnrSyncService.saveBatch(
+      List.of(FIRST_PERSON_OID),
+      Map.of(FIRST_PERSON_OID, onrPerson(FIRST_PERSON_OID, false, null))
+    );
     entityManager.clear();
 
     final Person person = personRepository.getByOid(FIRST_PERSON_OID);
     assertNull(person.getIndividualised());
     assertNotNull(person.getOnrLastSyncAt());
+  }
+
+  @Test
+  void testSavesOidMissingFromAnswerAsCheckedWithoutStatus() {
+    persistPerson(FIRST_PERSON_OID);
+    persistPerson(LAST_PERSON_OID);
+    entityManager.flush();
+
+    personOnrSyncService.saveBatch(
+      List.of(FIRST_PERSON_OID, LAST_PERSON_OID),
+      Map.of(FIRST_PERSON_OID, onrPerson(FIRST_PERSON_OID, true, false))
+    );
+    entityManager.clear();
+
+    assertEquals(true, personRepository.getByOid(FIRST_PERSON_OID).getIndividualised());
+    final Person missingPerson = personRepository.getByOid(LAST_PERSON_OID);
+    assertNull(missingPerson.getIndividualised());
+    assertNotNull(missingPerson.getOnrLastSyncAt());
   }
 
   private void persistPerson(final String oid) {
