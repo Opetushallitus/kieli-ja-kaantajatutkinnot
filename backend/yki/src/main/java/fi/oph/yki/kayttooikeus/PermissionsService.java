@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.oph.yki.config.CacheConfig;
 import fi.oph.yki.kayttooikeus.dto.KayttooikeusDTO;
 import fi.oph.yki.kayttooikeus.dto.KayttooikeusResponseDTO;
+import fi.oph.yki.kayttooikeus.dto.OrganisaatioDTO;
 import fi.vm.sade.javautils.nio.cas.CasClient;
 import java.util.HashSet;
 import java.util.List;
@@ -87,6 +88,10 @@ public class PermissionsService {
     } catch (final Exception e) {
       throw new RuntimeException("Fetching permissions failed for oid " + oid, e);
     }
+  }
+
+  public OrganisaatioDTO findFirstWithYKIPermission(final List<OrganisaatioDTO> organisaatioDTOs, final String role) {
+    return organisaatioDTOs.stream().filter(o -> hasOikeus(o.kayttooikeudet(), role)).findFirst().orElse(null);
   }
 
   private boolean hasOikeus(final List<KayttooikeusDTO> kayttooikeudet, final String oikeus) {
