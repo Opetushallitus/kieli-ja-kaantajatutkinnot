@@ -268,7 +268,7 @@ export class SerializationUtils {
         SerializationUtils.deserializeQueuedRegistration,
       ),
       pastRegistrations: pastRegistrations.map(
-        SerializationUtils.deserializePastRegistration,
+        SerializationUtils.deserializeAdmissionedRegistration,
       ),
     };
   }
@@ -379,29 +379,6 @@ export class SerializationUtils {
     }
 
     return queueSpotOffered;
-  }
-
-  static deserializePastRegistration(
-    registration: RegistrationResponse,
-  ): PastRegistration {
-    const registrationState = SerializationUtils.deserializeRegistrationState(
-      registration.registrationState,
-    );
-    const state: ExamState =
-      registrationState === RegistrationStates.Cancelled
-        ? 'CANCELLED'
-        : 'REGISTERED';
-
-    return {
-      id: registration.id,
-      exam: registration.exam,
-      examDate: dayjs(registration.examDate),
-      examLocation: SerializationUtils.deserializaMapLocation(
-        registration.examLocation,
-      ),
-      registrationState: registration.registrationState,
-      state,
-    };
   }
 
   static deserializaMapLocation(

@@ -276,29 +276,6 @@ export const CustomerExamListings = ({
     },
   });
 
-  // Tila (Menneet)
-  const examStateIconMapping: Partial<Record<ExamState, JSX.Element>> = {
-    ['REVIEWED']: <SchoolOutlinedIcon fontSize="large" color="success" />,
-    ['CANCELLED']: <BlockOutlinedIcon fontSize="large" color="error" />,
-    ['REGISTERED']: (
-      <CheckCircleOutlineOutlinedIcon fontSize="large" color="success" />
-    ),
-  };
-  const createExamStateColumn = <T extends { state: ExamState }>(
-    t: typeof i18next.t,
-  ): ListTableColumn<T> => ({
-    key: 'examState',
-    title: t('columns.examState'),
-    render: ({ state }) => (
-      <div className="columns gapped-xxs">
-        {examStateIconMapping[state]}
-        <Text>
-          <span>&nbsp;{t(`values.examState.${state}`)}</span>
-        </Text>
-      </div>
-    ),
-  });
-
   const registrationsColumns = [
     createExamDateColumn(t),
     createExamNameColumn(t),
@@ -319,7 +296,8 @@ export const CustomerExamListings = ({
     createExamDateColumn(t),
     createExamNameColumn(t),
     createExamLocationColumn(t),
-    createExamStateColumn(t),
+    createRegistrationStateColumn(t),
+    createRegistrationDateColumn(t),
   ];
 
   return (
