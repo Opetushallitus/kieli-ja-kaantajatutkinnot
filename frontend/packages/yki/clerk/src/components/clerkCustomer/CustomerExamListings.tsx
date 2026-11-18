@@ -159,7 +159,7 @@ export const CustomerExamListings = ({
     ),
   };
 
-  // Ilmoittautumisen tila (Ilmoittautumiset, Jonossa)
+  // Ilmoittautumisen tila (Ilmoittautumiset, Jonossa, menneet)
   const createRegistrationStateColumn = <
     T extends { registrationStatus: RegistrationStatus },
   >(
