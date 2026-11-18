@@ -159,7 +159,7 @@ export const CustomerExamListings = ({
     ),
   };
 
-  // Ilmoittautumisen tila (Ilmoittautumiset, Jonossa, menneet)
+  // Ilmoittautumisen tila (Ilmoittautumiset, Jonossa, Menneet)
   const createRegistrationStateColumn = <
     T extends { registrationStatus: RegistrationStatus },
   >(
@@ -188,7 +188,7 @@ export const CustomerExamListings = ({
     },
   });
 
-  // Ilmoittautumispvm (Ilmoittautumiset, Jonossa)
+  // Ilmoittautumispvm (Ilmoittautumiset, Jonossa, Menneet)
   const createRegistrationDateColumn = <
     T extends { registrationDate: Dayjs | undefined },
   >(
