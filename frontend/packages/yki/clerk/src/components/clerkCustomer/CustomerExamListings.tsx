@@ -1,9 +1,6 @@
 import { DeleteOutlined, TurnRightOutlined } from '@mui/icons-material';
 import BlockIcon from '@mui/icons-material/Block';
-import BlockOutlinedIcon from '@mui/icons-material/BlockOutlined';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
-import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import WarningIcon from '@mui/icons-material/Warning';
 import { IconButton, Stack } from '@mui/material';
 import { Box } from '@mui/system';
@@ -28,7 +25,6 @@ import { useCanManage } from 'hooks/useCanManage';
 import {
   AdmissionedRegistration,
   ClerkCustomerDetails,
-  ExamState,
   QueueOfferStatus,
   QueueSpotOffered,
   RegistrationStatus,

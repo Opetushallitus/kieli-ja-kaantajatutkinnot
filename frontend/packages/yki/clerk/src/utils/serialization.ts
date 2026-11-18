@@ -14,8 +14,6 @@ import {
   ClerkCustomerSummary,
   ClerkCustomerSummaryResponse,
   ExamLocation,
-  ExamState,
-  PastRegistration,
   QueuedRegistration,
   QueueOfferStatus,
   QueueSpotOffered,
