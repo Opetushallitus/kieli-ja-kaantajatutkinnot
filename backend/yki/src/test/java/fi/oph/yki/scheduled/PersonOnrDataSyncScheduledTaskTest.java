@@ -70,6 +70,16 @@ class PersonOnrDataSyncScheduledTaskTest {
   }
 
   @Test
+  void savesOidMissingFromAnswerAsCheckedWithoutStatus() throws Exception {
+    givenOnePersonToCheck();
+    Mockito.when(onrService.listMasterPersonsByOids(List.of(PERSON_OID))).thenReturn(Map.of());
+
+    task.syncPersonOnrData();
+
+    Mockito.verify(personRepository).updateIndividualised(PERSON_OID, null);
+  }
+
+  @Test
   void savesNothingWhenOnrCallFails() throws Exception {
     givenOnePersonToCheck();
     Mockito

@@ -15,6 +15,7 @@ import jakarta.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,6 +24,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -43,39 +45,36 @@ class PersonRepositoryTest {
 
   private ExamSession examSession;
 
+  private Participant participant;
+
   @BeforeEach
   public void setup() {
     final ExamDate examDate = Factory.examDate();
     examSession = Factory.examSession(examDate);
+    participant = Factory.participant("test@example.com");
 
     entityManager.persist(examDate);
     entityManager.persist(examSession);
+    entityManager.persist(participant);
   }
 
   @Test
-  public void testSelectsUncheckedPersonOneHourAfterRegistration() {
-    persistRegistrations(persistPerson(null, null), LocalDateTime.now().minusHours(2));
+  public void testSelectsUncheckedPersonRightAfterRegistration() {
+    persistRegistrations(persistPerson(PERSON_OID, null, null), LocalDateTime.now());
 
     assertEquals(List.of(PERSON_OID), findPersonOidsForOnrCheck());
   }
 
   @Test
-  public void testSkipsUncheckedPersonWithinOneHourOfRegistration() {
-    persistRegistrations(persistPerson(null, null), LocalDateTime.now().minusMinutes(30));
-
-    assertEquals(List.of(), findPersonOidsForOnrCheck());
-  }
-
-  @Test
   public void testSkipsPersonWithoutRegistration() {
-    persistPerson(null, null);
+    persistPerson(PERSON_OID, null, null);
 
     assertEquals(List.of(), findPersonOidsForOnrCheck());
   }
 
   @Test
   public void testSkipsRegistrationWithoutPerson() {
-    persistRegistrations(null, LocalDateTime.now().minusHours(2));
+    persistRegistrations(null, LocalDateTime.now());
 
     assertEquals(List.of(), findPersonOidsForOnrCheck());
   }
@@ -83,7 +82,7 @@ class PersonRepositoryTest {
   @Test
   public void testSelectsPersonOnceWhenPersonHasManyRegistrations() {
     persistRegistrations(
-      persistPerson(null, null),
+      persistPerson(PERSON_OID, null, null),
       LocalDateTime.now().minusHours(2),
       LocalDateTime.now().minusHours(3)
     );
@@ -93,54 +92,53 @@ class PersonRepositoryTest {
 
   @Test
   public void testSelectsNotIndividualisedPersonOneDayAfterLastCheck() {
-    persistRegistrations(persistPerson(false, LocalDateTime.now().minusDays(2)), LocalDateTime.now().minusDays(3));
+    persistRegistrations(persistPerson(PERSON_OID, false, LocalDateTime.now().minusDays(2)), LocalDateTime.now());
 
     assertEquals(List.of(PERSON_OID), findPersonOidsForOnrCheck());
   }
 
   @Test
   public void testSkipsNotIndividualisedPersonWithinOneDayOfLastCheck() {
-    persistRegistrations(persistPerson(false, LocalDateTime.now().minusHours(1)), LocalDateTime.now().minusDays(3));
+    persistRegistrations(persistPerson(PERSON_OID, false, LocalDateTime.now().minusHours(1)), LocalDateTime.now());
 
     assertEquals(List.of(), findPersonOidsForOnrCheck());
   }
 
   @Test
-  public void testSkipsNotIndividualisedPersonRegisteredBefore20241001() {
-    persistRegistrations(persistPerson(false, LocalDateTime.now().minusDays(2)), LocalDateTime.of(2024, 9, 30, 12, 0));
-
-    assertEquals(List.of(), findPersonOidsForOnrCheck());
-  }
-
-  @Test
-  public void testSelectsNotIndividualisedPersonWhoRegisteredAgainAfter20241001() {
+  public void testSelectsNotIndividualisedPersonRegisteredBefore20241001() {
     persistRegistrations(
-      persistPerson(false, LocalDateTime.now().minusDays(2)),
-      LocalDateTime.of(2024, 9, 30, 12, 0),
-      LocalDateTime.now().minusDays(3)
+      persistPerson(PERSON_OID, false, LocalDateTime.now().minusDays(2)),
+      LocalDateTime.of(2024, 9, 30, 12, 0)
     );
 
     assertEquals(List.of(PERSON_OID), findPersonOidsForOnrCheck());
   }
 
   @Test
-  public void testSkipsIndividualisedPerson() {
-    persistRegistrations(persistPerson(true, LocalDateTime.now().minusDays(2)), LocalDateTime.now().minusDays(3));
+  public void testSelectsPersonCheckedWithoutStatusOneDayAfterLastCheck() {
+    // ONR gave no status, or its answer did not have this OID.
+    persistRegistrations(persistPerson(PERSON_OID, null, LocalDateTime.now().minusDays(2)), LocalDateTime.now());
+
+    assertEquals(List.of(PERSON_OID), findPersonOidsForOnrCheck());
+  }
+
+  @Test
+  public void testSkipsPersonCheckedWithoutStatusWithinOneDayOfLastCheck() {
+    persistRegistrations(persistPerson(PERSON_OID, null, LocalDateTime.now().minusHours(1)), LocalDateTime.now());
 
     assertEquals(List.of(), findPersonOidsForOnrCheck());
   }
 
   @Test
-  public void testSkipsPersonCheckedWithoutStatus() {
-    // ONR gave no status. In legacy, this was a participant_onr row with NULL.
-    persistRegistrations(persistPerson(null, LocalDateTime.now().minusDays(2)), LocalDateTime.now().minusDays(3));
+  public void testSkipsIndividualisedPerson() {
+    persistRegistrations(persistPerson(PERSON_OID, true, LocalDateTime.now().minusDays(2)), LocalDateTime.now());
 
     assertEquals(List.of(), findPersonOidsForOnrCheck());
   }
 
   @Test
   public void testUpdateIndividualisedChangesOnlyTheOnrColumns() {
-    persistPerson(null, null);
+    persistPerson(PERSON_OID, null, null);
     entityManager.flush();
     entityManager.clear();
     final Person before = personRepository.getByOid(PERSON_OID);
@@ -161,16 +159,12 @@ class PersonRepositoryTest {
   @Test
   public void testSearchPersonsReturnsIndividualisedStatus() {
     final String checkedPersonOid = "1.2.3.4.6";
-    final Person checkedPerson = Factory.person();
-    checkedPerson.setOid(checkedPersonOid);
-    checkedPerson.setIndividualised(false);
-    checkedPerson.setOnrLastSyncAt(LocalDateTime.now());
-    entityManager.persist(checkedPerson);
-    persistPerson(null, null);
+    persistPerson(checkedPersonOid, false, LocalDateTime.now());
+    persistPerson(PERSON_OID, null, null);
     entityManager.flush();
 
     final Map<String, PersonSearchProjection> personsByOid = personRepository
-      .searchPersons(PageRequest.of(0, 10), null, null, null, null, null)
+      .searchPersons(PageRequest.of(0, 10), null, null, null, null, null, false)
       .stream()
       .collect(Collectors.toMap(PersonSearchProjection::oid, Function.identity()));
 
@@ -178,8 +172,54 @@ class PersonRepositoryTest {
     assertNull(personsByOid.get(PERSON_OID).individualised());
   }
 
-  private Person persistPerson(final Boolean individualised, final LocalDateTime onrLastSyncAt) {
+  @Test
+  public void testSearchPersonsOnlyNotIndividualisedReturnsPersonsWithRegistrationWhoAreNotIndividualised() {
+    final String notIndividualisedOid = "1.2.3.4.6";
+    final String checkedWithoutStatusOid = "1.2.3.4.7";
+    final String neverCheckedOid = "1.2.3.4.8";
+    persistRegistrations(persistPerson(notIndividualisedOid, false, LocalDateTime.now()), LocalDateTime.now());
+    persistRegistrations(persistPerson(checkedWithoutStatusOid, null, LocalDateTime.now()), LocalDateTime.now());
+    persistRegistrations(persistPerson(neverCheckedOid, null, null), LocalDateTime.now());
+    persistRegistrations(persistPerson("1.2.3.4.9", true, LocalDateTime.now()), LocalDateTime.now());
+    // Not individualised, but has no registration.
+    persistPerson("1.2.3.4.10", null, null);
+    entityManager.flush();
+
+    final Set<String> oids = personRepository
+      .searchPersons(PageRequest.of(0, 10), null, null, null, null, null, true)
+      .stream()
+      .map(PersonSearchProjection::oid)
+      .collect(Collectors.toSet());
+
+    assertEquals(Set.of(notIndividualisedOid, checkedWithoutStatusOid, neverCheckedOid), oids);
+  }
+
+  @Test
+  public void testSearchPersonsOnlyNotIndividualisedCountsOnlyThem() {
+    persistRegistrations(persistPerson("1.2.3.4.6", false, LocalDateTime.now()), LocalDateTime.now());
+    persistRegistrations(persistPerson("1.2.3.4.7", false, LocalDateTime.now()), LocalDateTime.now());
+    persistRegistrations(persistPerson("1.2.3.4.8", false, LocalDateTime.now()), LocalDateTime.now());
+    persistRegistrations(persistPerson("1.2.3.4.9", true, LocalDateTime.now()), LocalDateTime.now());
+    entityManager.flush();
+
+    // A full first page makes Spring Data run the count query.
+    final Page<PersonSearchProjection> page = personRepository.searchPersons(
+      PageRequest.of(0, 2),
+      null,
+      null,
+      null,
+      null,
+      null,
+      true
+    );
+
+    assertEquals(2, page.getContent().size());
+    assertEquals(3, page.getTotalElements());
+  }
+
+  private Person persistPerson(final String oid, final Boolean individualised, final LocalDateTime onrLastSyncAt) {
     final Person person = Factory.person();
+    person.setOid(oid);
     person.setIndividualised(individualised);
     person.setOnrLastSyncAt(onrLastSyncAt);
 
@@ -189,9 +229,6 @@ class PersonRepositoryTest {
   }
 
   private void persistRegistrations(final Person person, final LocalDateTime... createdAts) {
-    final Participant participant = Factory.participant("test@example.com");
-    entityManager.persist(participant);
-
     for (final LocalDateTime createdAt : createdAts) {
       final Registration registration = Factory.registration(person);
       registration.setParticipant(participant);

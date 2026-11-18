@@ -15,20 +15,18 @@ import org.springframework.transaction.annotation.Transactional;
 public interface PersonRepository extends JpaRepository<Person, String> {
   Person getByOid(final String oid);
 
-  // The rules of the legacy participant_onr sync (yki resources/yki/debug.sql:19-32), with the ONR
-  // columns on person. onr_last_sync_at IS NULL stands for a missing participant_onr row.
-  // registration.person_oid has no foreign key to person, and the sync can only update a person row
-  // that exists, so the join is an inner join.
+  // Persons with a registration who were never checked, or who are not individualised and were
+  // checked more than a day ago. A person whom a clerk individualises in ONR leaves the list within
+  // a day. Unlike the legacy sync (yki resources/yki/debug.sql:19-32), there is no wait after the
+  // registration and no cut-off date, and a person checked without a status is checked again.
   @Query(
     value = """
-SELECT DISTINCT r.person_oid AS personOid
-FROM registration r
-INNER JOIN person p ON p.oid = r.person_oid
-WHERE (p.onr_last_sync_at IS NULL AND CURRENT_TIMESTAMP > r.created + INTERVAL '1 hour')
-  OR (
-    p.is_individualized = false
-    AND CURRENT_TIMESTAMP > p.onr_last_sync_at + INTERVAL '1 day'
-    AND r.created >= DATE '2024-10-01'
+SELECT p.oid AS personOid
+FROM person p
+WHERE EXISTS (SELECT 1 FROM registration r WHERE r.person_oid = p.oid)
+  AND (
+    p.onr_last_sync_at IS NULL
+    OR (p.is_individualized IS NOT TRUE AND CURRENT_TIMESTAMP > p.onr_last_sync_at + INTERVAL '1 day')
   )
 """,
     nativeQuery = true
@@ -127,6 +125,13 @@ WHERE (:personQuery IS NULL OR :personQuery = '' OR
               AND (:levelCode IS NULL OR :levelCode = '' OR es.level_code = :levelCode)
         )
     )
+    AND (
+        :onlyNotIndividualised = false
+        OR (
+            p.is_individualized IS NOT TRUE
+            AND EXISTS (SELECT 1 FROM registration r3 WHERE r3.person_oid = p.oid)
+        )
+    )
 ORDER BY p.created DESC, p.oid
 """,
     countQuery = """
@@ -152,6 +157,13 @@ WHERE (:personQuery IS NULL OR :personQuery = '' OR
               AND (:levelCode IS NULL OR :levelCode = '' OR es.level_code = :levelCode)
         )
     )
+    AND (
+        :onlyNotIndividualised = false
+        OR (
+            p.is_individualized IS NOT TRUE
+            AND EXISTS (SELECT 1 FROM registration r3 WHERE r3.person_oid = p.oid)
+        )
+    )
 """,
     nativeQuery = true
   )
@@ -161,6 +173,7 @@ WHERE (:personQuery IS NULL OR :personQuery = '' OR
     @Param("organizerId") Long organizerId,
     @Param("examDateId") Long examDateId,
     @Param("languageCode") String languageCode,
-    @Param("levelCode") String levelCode
+    @Param("levelCode") String levelCode,
+    @Param("onlyNotIndividualised") boolean onlyNotIndividualised
   );
 }
