@@ -18,7 +18,8 @@ import org.springframework.stereotype.Component;
 /**
  * Port of the legacy sync-participant-onr-data-handler (yki repo, src/yki/job/scheduled_tasks.clj).
  * Stores the individualisation status from ONR in person. The legacy job writes participant_onr, so
- * the two backends do not write the same table.
+ * the two backends do not write the same table. Which persons are checked is not the legacy rule:
+ * see {@link PersonRepository#findPersonsForOnrCheck()}.
  */
 @Component
 @RequiredArgsConstructor
@@ -57,7 +58,10 @@ public class PersonOnrDataSyncScheduledTask {
     }
   }
 
-  /** The ONR call stays outside the transaction, so the transaction is open only while saving. */
+  /**
+   * The ONR call stays outside the transaction, so the transaction is open only while saving. When
+   * the call fails, nothing is saved, so the next run asks for the same persons again.
+   */
   private void syncBatch(final List<String> oids) {
     final Map<String, PersonalDataDTO> onrPersons;
     try {
@@ -67,6 +71,6 @@ public class PersonOnrDataSyncScheduledTask {
       return;
     }
 
-    personOnrSyncService.saveBatch(onrPersons);
+    personOnrSyncService.saveBatch(oids, onrPersons);
   }
 }

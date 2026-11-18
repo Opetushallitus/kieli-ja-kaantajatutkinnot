@@ -25,6 +25,9 @@ import fi.vm.sade.auditlog.ApplicationType;
 import fi.vm.sade.auditlog.Audit;
 import jakarta.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -45,6 +48,7 @@ class ClerkCustomerServiceTest {
 
   // The OID of Factory.person().
   private static final String PERSON_OID = "1.2.3.4.5";
+  private static final String INDIVIDUALISED_PERSON_OID = "1.2.3.4.6";
 
   @Resource
   private PersonRepository personRepository;
@@ -65,6 +69,10 @@ class ClerkCustomerServiceTest {
 
   private Organizer organizer;
 
+  private ExamSession examSession;
+
+  private Participant participant;
+
   @BeforeEach
   public void setup() throws Exception {
     final AuditService auditService = new AuditService(
@@ -77,12 +85,12 @@ class ClerkCustomerServiceTest {
     // A person whom ONR has not individualised, with one registration to the organiser's session.
     organizer = Factory.organizer();
     final ExamDate examDate = Factory.examDate();
-    final ExamSession examSession = Factory.examSession(examDate);
+    examSession = Factory.examSession(examDate);
     examSession.setOrganizer(organizer);
     final Person person = Factory.person();
     person.setIndividualised(false);
     person.setOnrLastSyncAt(LocalDateTime.now());
-    final Participant participant = Factory.participant("test@example.com");
+    participant = Factory.participant("test@example.com");
     final Registration registration = Factory.registration(person);
     registration.setParticipant(participant);
     registration.setExamSession(examSession);
@@ -118,5 +126,52 @@ class ClerkCustomerServiceTest {
 
     assertNull(customers.getContent().get(0).person().individualised());
     assertNull(clerkCustomerService.getCustomerDetails(PERSON_OID, organizer.getOid()).person().individualised());
+  }
+
+  @Test
+  public void testClerkFilterReturnsOnlyNotIndividualisedPersons() throws Exception {
+    persistIndividualisedPersonWithRegistration();
+
+    final var customers = clerkCustomerService.searchClerkCustomers(
+      PageRequest.of(0, 10),
+      ClerkCustomerSearchRequestDTO.builder().onlyNotIndividualised(true).build()
+    );
+
+    assertEquals(
+      List.of(PERSON_OID),
+      customers.getContent().stream().map(customer -> customer.person().oid()).toList()
+    );
+  }
+
+  @Test
+  public void testOrganiserSearchIgnoresNotIndividualisedFilter() throws Exception {
+    persistIndividualisedPersonWithRegistration();
+
+    final var customers = clerkCustomerService.searchOrganizerCustomers(
+      PageRequest.of(0, 10),
+      ClerkCustomerSearchRequestDTO.builder().onlyNotIndividualised(true).build(),
+      organizer.getOid()
+    );
+
+    assertEquals(
+      Set.of(PERSON_OID, INDIVIDUALISED_PERSON_OID),
+      customers.getContent().stream().map(customer -> customer.person().oid()).collect(Collectors.toSet())
+    );
+  }
+
+  private void persistIndividualisedPersonWithRegistration() {
+    final Person person = Factory.person();
+    person.setOid(INDIVIDUALISED_PERSON_OID);
+    person.setIndividualised(true);
+    person.setOnrLastSyncAt(LocalDateTime.now());
+    final Registration registration = Factory.registration(person);
+    // setup() cleared the entity manager, so load the participant and the session again.
+    registration.setParticipant(entityManager.find(Participant.class, participant.getId()));
+    registration.setExamSession(entityManager.find(ExamSession.class, examSession.getId()));
+
+    entityManager.persist(person);
+    entityManager.persist(registration);
+    entityManager.flush();
+    entityManager.clear();
   }
 }

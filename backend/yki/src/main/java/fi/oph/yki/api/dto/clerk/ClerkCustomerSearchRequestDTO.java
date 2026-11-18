@@ -9,5 +9,7 @@ public record ClerkCustomerSearchRequestDTO(
   @Nullable Long organizerId,
   @Nullable Long examDateId,
   @Nullable String languageCode,
-  @Nullable String levelCode
+  @Nullable String levelCode,
+  // "Vain yksilöimättömät osallistujat". Only for clerks; the organiser search does not copy it.
+  boolean onlyNotIndividualised
 ) {}
