@@ -85,6 +85,18 @@ describe('CustomerSearchPage', () => {
     );
   });
 
+  it('shows the red icon for a person with a registration and no status', () => {
+    // The fixture has no individualised field, as when ONR has not been asked
+    // yet: the backend sends null, which the search turns into a missing field.
+    const oid = '1.2.246.562.198.84579922927';
+    onClerkCustomersSearchPage.search(oid);
+
+    onClerkCustomersSearchPage.expectTableRowCount(1);
+    onClerkCustomersSearchPage.elements
+      .notIndividualisedIcons()
+      .should('have.length', 1);
+  });
+
   it('does not link the OID, also when the red icon is in front of it', () => {
     onClerkCustomersSearchPage.search('Aino Osallistuja');
 
