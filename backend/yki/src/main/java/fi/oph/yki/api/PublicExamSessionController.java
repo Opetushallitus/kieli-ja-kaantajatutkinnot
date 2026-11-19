@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/v2/api/exam-session", produces = APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/v2/api/public/exam-session", produces = APPLICATION_JSON_VALUE)
 @ConditionalOnProperty(name = "app.v2.enabled", havingValue = "true")
 public class PublicExamSessionController {
 
