@@ -1,6 +1,7 @@
 package fi.oph.yki.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
 import fi.oph.yki.Factory;
@@ -37,6 +38,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.util.ReflectionTestUtils;
 
 @WithMockUser
 @DataJpaTest
@@ -48,6 +50,7 @@ class ClerkCustomerServiceTest {
   // The OID of Factory.person().
   private static final String PERSON_OID = "1.2.3.4.5";
   private static final String INDIVIDUALISED_PERSON_OID = "1.2.3.4.6";
+  private static final String HENKILO_UI_URL = "https://virkailija.example.fi/henkilo-ui";
 
   @Resource
   private PersonRepository personRepository;
@@ -79,6 +82,7 @@ class ClerkCustomerServiceTest {
     );
     clerkCustomerService =
       new ClerkCustomerService(personRepository, organizerRepository, registrationRepository, onrService, auditService);
+    ReflectionTestUtils.setField(clerkCustomerService, "henkiloUiUrl", HENKILO_UI_URL);
     when(onrService.getPersonalData(PERSON_OID)).thenReturn(new PersonalDataDTO());
 
     // A person whom ONR has not individualised, with one registration to the organiser's session.
@@ -128,6 +132,30 @@ class ClerkCustomerServiceTest {
       false,
       clerkCustomerService.getCustomerDetails(PERSON_OID, organizer.getOid()).person().individualised()
     );
+  }
+
+  @Test
+  public void testClerkGetsOnrUrl() throws Exception {
+    final String onrUrl = HENKILO_UI_URL + "/oppija/" + PERSON_OID + "?permissionCheckService=YKI";
+    final var customers = clerkCustomerService.searchClerkCustomers(
+      PageRequest.of(0, 10),
+      ClerkCustomerSearchRequestDTO.builder().build()
+    );
+
+    assertEquals(onrUrl, customers.getContent().get(0).person().onrUrl());
+    assertEquals(onrUrl, clerkCustomerService.getClerkCustomerDetails(PERSON_OID).person().onrUrl());
+  }
+
+  @Test
+  public void testOrganiserGetsNoOnrUrl() throws Exception {
+    final var customers = clerkCustomerService.searchOrganizerCustomers(
+      PageRequest.of(0, 10),
+      ClerkCustomerSearchRequestDTO.builder().build(),
+      organizer.getOid()
+    );
+
+    assertNull(customers.getContent().get(0).person().onrUrl());
+    assertNull(clerkCustomerService.getCustomerDetails(PERSON_OID, organizer.getOid()).person().onrUrl());
   }
 
   @Test

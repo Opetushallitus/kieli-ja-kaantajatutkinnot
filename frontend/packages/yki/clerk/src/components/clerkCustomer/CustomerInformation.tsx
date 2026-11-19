@@ -76,10 +76,7 @@ export const CustomerInformation = ({
           <Label>{t('details.fields.oid')}</Label>
           <div className="columns" style={{ gap: '0.25rem' }}>
             {person.individualised !== true && hasRegistrations && (
-              <NotIndividualisedIcon
-                oid={person.oid}
-                isOnrLinkShown={route === 'clerk'}
-              />
+              <NotIndividualisedIcon onrUrl={person.onrUrl} />
             )}
             {person.oid}
           </div>

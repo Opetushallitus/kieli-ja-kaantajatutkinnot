@@ -22,6 +22,8 @@ export interface CustomerPerson {
   email?: string;
   // From ONR. Missing when ONR has not been asked yet.
   individualised?: boolean;
+  // The person in the ONR UI. Only clerks get it.
+  onrUrl?: string;
 }
 
 export type ExamLocation = {
@@ -177,6 +179,7 @@ export interface ClerkCustomerSummaryResponse {
     zip: string | null;
     email: string | null;
     individualised: boolean | null;
+    onrUrl: string | null;
   };
   registrationsCount: number;
 }

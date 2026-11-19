@@ -293,6 +293,8 @@ export const customerDetails: ClerkCustomerDetailsResponse[] = [
       oid: '1.2.246.562.24.82364099324',
       nationalityCode: '246',
       individualised: false,
+      onrUrl:
+        'https://virkailija.untuvaopintopolku.fi/henkilo-ui/oppija/1.2.246.562.24.82364099324?permissionCheckService=YKI',
     },
     registrations: [
       ...defaultAdmissionedRegistrations,

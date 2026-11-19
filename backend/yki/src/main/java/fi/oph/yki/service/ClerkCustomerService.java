@@ -32,6 +32,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -49,6 +50,13 @@ public class ClerkCustomerService {
   private final OnrService onrService;
   private final AuditService auditService;
   private static final Logger LOG = LoggerFactory.getLogger(ClerkCustomerService.class);
+
+  @Value("${app.henkilo-ui.url}")
+  private String henkiloUiUrl;
+
+  private String onrUrl(final String oid) {
+    return String.format("%s/oppija/%s?permissionCheckService=YKI", henkiloUiUrl, oid);
+  }
 
   private ClerkCustomerRegistrationDTO registrationToDTO(final Registration registration) {
     final var session = registration.getExamSession();
@@ -121,15 +129,16 @@ public class ClerkCustomerService {
       );
     }
 
-    return buildCustomerDetails(personOid);
+    // Organisers get no ONR link. If organisers start to do the individualisation, give it to them too.
+    return buildCustomerDetails(personOid, false);
   }
 
   @Transactional(readOnly = true)
   public ClerkCustomerDetailsDTO getClerkCustomerDetails(final String oid) {
-    return buildCustomerDetails(oid);
+    return buildCustomerDetails(oid, true);
   }
 
-  private ClerkCustomerDetailsDTO buildCustomerDetails(final String oid) {
+  private ClerkCustomerDetailsDTO buildCustomerDetails(final String oid, final boolean includeOnrUrl) {
     auditService.logClerkById(YkiOperation.GET_CUSTOMER_DETAILS, oid);
     final var person = personRepository.getByOid(oid);
 
@@ -141,6 +150,7 @@ public class ClerkCustomerService {
       .birthdate(personRepository.findLatestSubmittedBirthdate(oid))
       .oid(person.getOid())
       .individualised(person.getIndividualised())
+      .onrUrl(includeOnrUrl ? onrUrl(person.getOid()) : null)
       .nationalityCode(person.getNationalityCode())
       .phoneNumber(person.getPhoneNumber())
       .streetAddress(person.getSteetAddress())
@@ -259,7 +269,8 @@ public class ClerkCustomerService {
       .personQuery(request.personQuery())
       .build();
 
-    return searchCustomers(pageable, newRequestDTO);
+    // Organisers get no ONR link. If organisers start to do the individualisation, give it to them too.
+    return searchCustomers(pageable, newRequestDTO, false);
   }
 
   @Transactional(readOnly = true)
@@ -267,12 +278,13 @@ public class ClerkCustomerService {
     final Pageable pageable,
     final ClerkCustomerSearchRequestDTO request
   ) throws ExecutionException, InterruptedException, JsonProcessingException, RuntimeException {
-    return searchCustomers(pageable, request);
+    return searchCustomers(pageable, request, true);
   }
 
   private Page<ClerkCustomerSummaryDTO> searchCustomers(
     final Pageable pageable,
-    final ClerkCustomerSearchRequestDTO request
+    final ClerkCustomerSearchRequestDTO request,
+    final boolean includeOnrUrl
   ) throws ExecutionException, InterruptedException, JsonProcessingException, RuntimeException {
     auditService.logClerkWithTarget(YkiOperation.SEARCH_CUSTOMERS, toTarget(request));
 
@@ -292,6 +304,7 @@ public class ClerkCustomerService {
             .birthdate(person.birthdate())
             .oid(person.oid())
             .individualised(person.individualised())
+            .onrUrl(includeOnrUrl ? onrUrl(person.oid()) : null)
             .nationalityCode(person.nationalityCode())
             .phoneNumber(person.phoneNumber())
             .streetAddress(person.streetAddress())
