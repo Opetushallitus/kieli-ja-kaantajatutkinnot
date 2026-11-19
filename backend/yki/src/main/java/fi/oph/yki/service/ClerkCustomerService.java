@@ -121,16 +121,15 @@ public class ClerkCustomerService {
       );
     }
 
-    // Organisers do not get the individualisation status.
-    return buildCustomerDetails(personOid, false);
+    return buildCustomerDetails(personOid);
   }
 
   @Transactional(readOnly = true)
   public ClerkCustomerDetailsDTO getClerkCustomerDetails(final String oid) {
-    return buildCustomerDetails(oid, true);
+    return buildCustomerDetails(oid);
   }
 
-  private ClerkCustomerDetailsDTO buildCustomerDetails(final String oid, final boolean includeIndividualised) {
+  private ClerkCustomerDetailsDTO buildCustomerDetails(final String oid) {
     auditService.logClerkById(YkiOperation.GET_CUSTOMER_DETAILS, oid);
     final var person = personRepository.getByOid(oid);
 
@@ -140,7 +139,7 @@ public class ClerkCustomerService {
       .lastName(person.getLastName())
       .ssn(getIdentityNumber(person))
       .oid(person.getOid())
-      .individualised(includeIndividualised ? person.getIndividualised() : null)
+      .individualised(person.getIndividualised())
       .nationalityCode(person.getNationalityCode())
       .phoneNumber(person.getPhoneNumber())
       .streetAddress(person.getSteetAddress())
@@ -259,8 +258,7 @@ public class ClerkCustomerService {
       .personQuery(request.personQuery())
       .build();
 
-    // Organisers do not get the individualisation status.
-    return searchCustomers(pageable, newRequestDTO, false);
+    return searchCustomers(pageable, newRequestDTO);
   }
 
   @Transactional(readOnly = true)
@@ -268,13 +266,12 @@ public class ClerkCustomerService {
     final Pageable pageable,
     final ClerkCustomerSearchRequestDTO request
   ) throws ExecutionException, InterruptedException, JsonProcessingException, RuntimeException {
-    return searchCustomers(pageable, request, true);
+    return searchCustomers(pageable, request);
   }
 
   private Page<ClerkCustomerSummaryDTO> searchCustomers(
     final Pageable pageable,
-    final ClerkCustomerSearchRequestDTO request,
-    final boolean includeIndividualised
+    final ClerkCustomerSearchRequestDTO request
   ) throws ExecutionException, InterruptedException, JsonProcessingException, RuntimeException {
     auditService.logClerkWithTarget(YkiOperation.SEARCH_CUSTOMERS, toTarget(request));
 
@@ -292,7 +289,7 @@ public class ClerkCustomerService {
             .lastName(person.lastName())
             .ssn(hetuByOid.get(person.oid()))
             .oid(person.oid())
-            .individualised(includeIndividualised ? person.individualised() : null)
+            .individualised(person.individualised())
             .nationalityCode(person.nationalityCode())
             .phoneNumber(person.phoneNumber())
             .streetAddress(person.streetAddress())
