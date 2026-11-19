@@ -103,7 +103,8 @@ describe('ClerkCustomerDetailsPage', () => {
     cy.findByRole('link', { name: 'oppijanumerorekisterissä' }).should(
       'have.attr',
       'href',
-      `https://virkailija.opintopolku.fi/henkilo-ui/oppija/${oid}?permissionCheckService=YKI`,
+      // The ONR link of this person in the fixture, as the backend gives it to clerks.
+      `https://virkailija.untuvaopintopolku.fi/henkilo-ui/oppija/${oid}?permissionCheckService=YKI`,
     );
   });
 

@@ -14,15 +14,9 @@ import { H3, Text } from 'ophTheme/Text';
 
 type ClerkCustomerSummaryRow = ClerkCustomerSummary & Row;
 
-// Organisers see the same popover, but without the link to ONR. If organisers
-// start to do the individualisation themselves, the link can be shown to all.
-export const NotIndividualisedIcon = ({
-  oid,
-  isOnrLinkShown,
-}: {
-  oid: string;
-  isOnrLinkShown: boolean;
-}) => {
+// The backend gives the ONR link (onrUrl) only to clerks. Without it, the
+// popover shows the same text without a link, as organisers see it.
+export const NotIndividualisedIcon = ({ onrUrl }: { onrUrl?: string }) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.clerkCustomer.individualisation',
   });
@@ -61,13 +55,9 @@ export const NotIndividualisedIcon = ({
               i18nKey="description"
               components={{
                 // Not "link": Trans reads the text as HTML, where <link> has no content.
-                onrLink: isOnrLinkShown ? (
+                onrLink: onrUrl ? (
                   // eslint-disable-next-line jsx-a11y/anchor-has-content
-                  <a
-                    href={t('onrUrl', { oid })}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  />
+                  <a href={onrUrl} target="_blank" rel="noopener noreferrer" />
                 ) : (
                   <span />
                 ),
@@ -127,10 +117,7 @@ export const ClerkCustomersListing = ({
           {person.ssn && <p>{person.ssn}</p>}
           {person.individualised !== true && registrationsCount > 0 ? (
             <div className="columns" style={{ gap: '0.25rem' }}>
-              <NotIndividualisedIcon
-                oid={person.oid}
-                isOnrLinkShown={route === 'clerk'}
-              />
+              <NotIndividualisedIcon onrUrl={person.onrUrl} />
               {person.oid}
             </div>
           ) : (

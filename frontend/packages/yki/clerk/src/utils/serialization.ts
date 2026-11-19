@@ -290,6 +290,7 @@ export class SerializationUtils {
         postOffice: clerkCustomerSummaryResponse.person.postOffice ?? undefined,
         individualised:
           clerkCustomerSummaryResponse.person.individualised ?? undefined,
+        onrUrl: clerkCustomerSummaryResponse.person.onrUrl ?? undefined,
       },
     };
   }

@@ -4,8 +4,9 @@ import { onClerkCustomersSearchPage } from 'tests/cypress/support/page-objects/c
 // In the fixtures, "Aino Osallistuja" matches three persons: one individualised,
 // one not individualised without registrations, and this one.
 const NOT_INDIVIDUALISED_OID = '1.2.246.562.24.82364099324';
-const onrUrl = (oid: string) =>
-  `https://virkailija.opintopolku.fi/henkilo-ui/oppija/${oid}?permissionCheckService=YKI`;
+// The ONR link of this person in the fixture, as the backend gives it to clerks.
+const NOT_INDIVIDUALISED_ONR_URL =
+  'https://virkailija.untuvaopintopolku.fi/henkilo-ui/oppija/1.2.246.562.24.82364099324?permissionCheckService=YKI';
 
 describe('CustomerSearchPage', () => {
   beforeEach(() => {
@@ -76,7 +77,7 @@ describe('CustomerSearchPage', () => {
     cy.findByRole('link', { name: 'oppijanumerorekisterissä' }).should(
       'have.attr',
       'href',
-      onrUrl(NOT_INDIVIDUALISED_OID),
+      NOT_INDIVIDUALISED_ONR_URL,
     );
 
     cy.findByRole('button', { name: 'Sulje' }).click();

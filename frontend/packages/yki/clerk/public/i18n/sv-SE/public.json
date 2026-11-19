@@ -91,7 +91,6 @@
         "individualisation": {
           "close": "Sulje",
           "description": "Tee yksilöinti <onrLink>oppijanumerorekisterissä</onrLink>.",
-          "onrUrl": "https://virkailija.opintopolku.fi/henkilo-ui/oppija/{{oid}}?permissionCheckService=YKI",
           "title": "Oppijaa ei ole yksilöity"
         },
         "search": {
