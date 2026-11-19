@@ -61,7 +61,8 @@ export const NotIndividualisedIcon = ({
               t={t}
               i18nKey="description"
               components={{
-                link: isOnrLinkShown ? (
+                // Not "link": Trans reads the text as HTML, where <link> has no content.
+                onrLink: isOnrLinkShown ? (
                   // eslint-disable-next-line jsx-a11y/anchor-has-content
                   <a
                     href={t('onrUrl', { oid })}
