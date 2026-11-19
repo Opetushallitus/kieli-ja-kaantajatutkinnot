@@ -134,6 +134,7 @@ export const handlers = [
       examDateId?: number;
       languageCode?: string;
       levelCode?: string;
+      onlyNotIndividualised?: boolean;
     };
 
     const getNumberParam = (urlParam: string, fallback: number) => {
@@ -175,7 +176,15 @@ export const handlers = [
       return searchTerms.every((term) => searchableText.includes(term));
     };
 
-    const filtered = allCustomers.filter(matchesSearchTerms);
+    // As in the backend: not individualised, and has a registration.
+    const matchesIndividualisation = (customer: (typeof allCustomers)[0]) =>
+      !body.onlyNotIndividualised ||
+      (customer.person.individualised !== true &&
+        customer.registrationsCount > 0);
+
+    const filtered = allCustomers
+      .filter(matchesSearchTerms)
+      .filter(matchesIndividualisation);
     const start = page * size;
     const paged = filtered.slice(start, start + size);
     const totalElements = filtered.length;
