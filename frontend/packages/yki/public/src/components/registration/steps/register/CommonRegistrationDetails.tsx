@@ -5,7 +5,7 @@ import {
   Radio,
   RadioGroup,
 } from '@mui/material';
-import { OphLink } from '@opetushallitus/oph-design-system';
+import { OphLink, OphRadioGroup } from '@opetushallitus/oph-design-system';
 import { ChangeEvent, useEffect } from 'react';
 import { Trans } from 'react-i18next';
 import { APIResponseStatus, Color } from 'shared/enums';
@@ -249,37 +249,35 @@ export const CommonRegistrationDetails = () => {
       </Text>
       <fieldset className="registration-details__radio-group">
         <legend>
-          <Label>{t('certificateLanguage')}</Label>
+          <Label id="certificate-language-label">
+            {t('certificateLanguage')}
+          </Label>
         </legend>
         <FormControl
           error={showErrors && !!registrationErrors['certificateLanguage']}
         >
-          <RadioGroup
+          <OphRadioGroup
+            labelId="certificate-language-label"
             row={!isPhone}
             onChange={handleChange('certificateLanguage')}
-          >
-            <FormControlLabel
-              className="radio-group-label"
-              value={CertificateLanguage.FI}
-              control={<Radio />}
-              label={translateCommon('languages.fin')}
-              sx={ErrorLabelStyles}
-            />
-            <FormControlLabel
-              className="radio-group-label"
-              value={CertificateLanguage.SV}
-              control={<Radio />}
-              label={translateCommon('languages.swe')}
-              sx={ErrorLabelStyles}
-            />
-            <FormControlLabel
-              className="radio-group-label"
-              value={CertificateLanguage.EN}
-              control={<Radio />}
-              label={translateCommon('languages.eng')}
-              sx={ErrorLabelStyles}
-            />
-          </RadioGroup>
+            error={showErrors && !!registrationErrors['certificateLanguage']}
+            formControlLabelProps={{ sx: ErrorLabelStyles }}
+            sx={{ marginTop: '8px' }}
+            options={[
+              {
+                value: CertificateLanguage.FI,
+                label: translateCommon('languages.fin'),
+              },
+              {
+                value: CertificateLanguage.SV,
+                label: translateCommon('languages.swe'),
+              },
+              {
+                value: CertificateLanguage.EN,
+                label: translateCommon('languages.eng'),
+              },
+            ]}
+          />
         </FormControl>
       </fieldset>
       {showExamFeeSection && <ExamFee />}
