@@ -127,7 +127,16 @@ class ClerkCustomerControllerIntegrationTest {
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.totalElements").value(1))
       .andExpect(jsonPath("$.content[0].person.oid").value(NOT_INDIVIDUALISED_OID))
-      .andExpect(jsonPath("$.content[0].person.individualised").value(false));
+      .andExpect(jsonPath("$.content[0].person.individualised").value(false))
+      // application.yaml: app.henkilo-ui.url is untuva unless henkilo-ui-url is set.
+      .andExpect(
+        jsonPath("$.content[0].person.onrUrl")
+          .value(
+            "https://virkailija.untuvaopintopolku.fi/henkilo-ui/oppija/" +
+            NOT_INDIVIDUALISED_OID +
+            "?permissionCheckService=YKI"
+          )
+      );
   }
 
   @Test
