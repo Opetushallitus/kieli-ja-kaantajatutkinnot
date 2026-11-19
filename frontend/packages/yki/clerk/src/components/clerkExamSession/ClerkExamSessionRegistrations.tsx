@@ -31,6 +31,7 @@ import { ClerkExamSession } from 'interfaces/clerkExamSession';
 import { ClerkRegistration } from 'interfaces/clerkRegistration';
 import { RouteType } from 'interfaces/user';
 import { Text } from 'ophTheme/Text';
+import { formatPersonIdentifier } from 'utils/person';
 
 const TABS = [RegistrationKind.Admission, RegistrationKind.Queue] as const;
 type Tab = (typeof TABS)[number];
@@ -203,7 +204,12 @@ export const ClerkExamSessionRegistrations = ({
           >
             {person.firstName} {person.lastName}
           </Link>
-          <Text>{person.socialSecurityNumber}</Text>
+          <Text>
+            {formatPersonIdentifier(
+              person.socialSecurityNumber,
+              person.birthdate,
+            )}
+          </Text>
           <Text>{person.oid}</Text>
         </div>
       ),

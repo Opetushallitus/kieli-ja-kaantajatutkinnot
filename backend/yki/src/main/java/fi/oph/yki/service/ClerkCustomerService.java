@@ -270,6 +270,7 @@ public class ClerkCustomerService {
             .firstName(person.firstName())
             .lastName(person.lastName())
             .ssn(hetuByOid.get(person.oid()))
+            .birthdate(person.birthdate())
             .oid(person.oid())
             .nationalityCode(person.nationalityCode())
             .phoneNumber(person.phoneNumber())

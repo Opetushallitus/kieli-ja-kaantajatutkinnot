@@ -40,19 +40,33 @@ public class RegistrationUtil {
       .build();
   }
 
-  public static ClerkPersonDTO createClerkPersonDTO(final Person person, final String socialSecurityNumber) {
+  public static ClerkPersonDTO createClerkPersonDTO(
+    final Person person,
+    final String socialSecurityNumber,
+    final String birthdate
+  ) {
     return ClerkPersonDTO
       .builder()
       .oid(person.getOid())
       .firstName(person.getFirstName())
       .lastName(person.getLastName())
       .socialSecurityNumber(socialSecurityNumber)
+      .birthdate(birthdate)
       .email(person.getEmail())
       .phoneNumber(person.getPhoneNumber())
       .streetAddress(person.getSteetAddress())
       .zip(person.getZip())
       .postOffice(person.getPostOffice())
       .build();
+  }
+
+  private static String getBirthdate(final Registration registration) {
+    final var form = registration.getForm();
+    if (form == null || !form.hasNonNull("birthdate")) {
+      return null;
+    }
+    final var birthdate = form.get("birthdate").asText();
+    return birthdate.isBlank() ? null : birthdate;
   }
 
   public static ClerkRegistrationDTO createClerkRegistrationDTO(
@@ -69,7 +83,9 @@ public class RegistrationUtil {
       .kind(registration.getKind())
       .partialExamType(registration.getPartialExamType())
       .registrationDate(registration.getCreatedAt().toLocalDate())
-      .person(person != null ? createClerkPersonDTO(person, oidToSsn.get(person.getOid())) : null)
+      .person(
+        person != null ? createClerkPersonDTO(person, oidToSsn.get(person.getOid()), getBirthdate(registration)) : null
+      )
       .queuePosition(queuePosition)
       .build();
   }

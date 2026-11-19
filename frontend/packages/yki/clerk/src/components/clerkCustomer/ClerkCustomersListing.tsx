@@ -8,6 +8,7 @@ import { usePublicTranslation } from 'configs/i18n';
 import { AppRoutes } from 'enums/app';
 import { ClerkCustomerSummary } from 'interfaces/clerkCustomer';
 import { RouteType } from 'interfaces/user';
+import { formatPersonIdentifier } from 'utils/person';
 
 type ClerkCustomerSummaryRow = ClerkCustomerSummary & Row;
 
@@ -55,11 +56,9 @@ export const ClerkCustomersListing = ({
                   ).replace(/:personOid$/, person.oid)
             }
           >{`${person.firstName} ${person.lastName}`}</Link>
+          <p>{formatPersonIdentifier(person.ssn, person.birthdate)}</p>
           {person.ssn ? (
-            <>
-              <p>{person.ssn}</p>
-              <p>{person.oid}</p>
-            </>
+            <p>{person.oid}</p>
           ) : (
             <div className="columns" style={{ gap: '0.25rem' }}>
               <Error color="error" fontSize="large" />
