@@ -90,6 +90,12 @@
             "updateSuccess": "Muutosten tallentaminen onnistui"
           }
         },
+        "individualisation": {
+          "close": "Sulje",
+          "description": "Tee yksilöinti <link>oppijanumerorekisterissä</link>.",
+          "onrUrl": "https://virkailija.opintopolku.fi/henkilo-ui/oppija/{{oid}}?permissionCheckService=YKI",
+          "title": "Oppijaa ei ole yksilöity"
+        },
         "search": {
           "clear": "Tyhjennä",
           "header": "{{amount}} osallistujaa",
@@ -97,6 +103,7 @@
             "examDate": "Tutkintopäivä",
             "language": "Kieli",
             "level": "Taso",
+            "onlyNotIndividualised": "Vain yksilöimättömät osallistujat",
             "organizer": "Järjestäjä",
             "participant": "Hae osallistujaa"
           },

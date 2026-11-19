@@ -260,6 +260,7 @@ export const customerDetails: ClerkCustomerDetailsResponse[] = [
       zip: '33100',
       postOffice: 'Tampere',
       email: 'aino.osallistuja@loremipsum.fi',
+      individualised: true,
     },
     registrations: [
       ...defaultAdmissionedRegistrations,
@@ -280,6 +281,7 @@ export const customerDetails: ClerkCustomerDetailsResponse[] = [
       zip: '33100',
       postOffice: 'Tampere',
       email: 'aino.osallistuja@loremipsum.fi',
+      individualised: false,
     },
     registrations: [],
   },
@@ -290,6 +292,7 @@ export const customerDetails: ClerkCustomerDetailsResponse[] = [
       ssn: '010170-960F',
       oid: '1.2.246.562.24.82364099324',
       nationalityCode: '246',
+      individualised: false,
     },
     registrations: [
       ...defaultAdmissionedRegistrations,

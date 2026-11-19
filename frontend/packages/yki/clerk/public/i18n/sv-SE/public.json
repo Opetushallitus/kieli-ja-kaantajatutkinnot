@@ -90,6 +90,12 @@
             "updateSuccess": "Ändringarna sparades"
           }
         },
+        "individualisation": {
+          "close": "Sulje",
+          "description": "Tee yksilöinti <link>oppijanumerorekisterissä</link>.",
+          "onrUrl": "https://virkailija.opintopolku.fi/henkilo-ui/oppija/{{oid}}?permissionCheckService=YKI",
+          "title": "Oppijaa ei ole yksilöity"
+        },
         "search": {
           "clear": "Rensa",
           "header": "{{amount}} deltagare",
@@ -97,6 +103,7 @@
             "examDate": "Testdatum",
             "language": "Språk",
             "level": "Nivå",
+            "onlyNotIndividualised": "Vain yksilöimättömät osallistujat",
             "organizer": "Anordnare",
             "participant": "Sök deltagare"
           },

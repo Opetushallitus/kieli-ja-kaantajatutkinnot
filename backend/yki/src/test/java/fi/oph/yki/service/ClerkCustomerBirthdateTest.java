@@ -3,6 +3,7 @@ package fi.oph.yki.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -79,7 +80,8 @@ class ClerkCustomerBirthdateTest {
       1L,
       "2002-05-02"
     );
-    when(persons.searchPersons(any(), any(), any(), any(), any(), any())).thenReturn(new PageImpl<>(List.of(person)));
+    when(persons.searchPersons(any(), any(), any(), any(), any(), any(), anyBoolean()))
+      .thenReturn(new PageImpl<>(List.of(person)));
     final var data = new PersonalDataDTO();
     data.setOidHenkilo(person.oid());
     when(onr.listPersonDetails(List.of(person.oid()))).thenReturn(List.of(data));

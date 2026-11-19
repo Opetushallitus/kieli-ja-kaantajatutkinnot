@@ -1,7 +1,6 @@
 package fi.oph.yki.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
 import fi.oph.yki.Factory;
@@ -117,15 +116,18 @@ class ClerkCustomerServiceTest {
   }
 
   @Test
-  public void testOrganiserDoesNotGetIndividualisedStatus() throws Exception {
+  public void testOrganiserGetsIndividualisedStatus() throws Exception {
     final var customers = clerkCustomerService.searchOrganizerCustomers(
       PageRequest.of(0, 10),
       ClerkCustomerSearchRequestDTO.builder().build(),
       organizer.getOid()
     );
 
-    assertNull(customers.getContent().get(0).person().individualised());
-    assertNull(clerkCustomerService.getCustomerDetails(PERSON_OID, organizer.getOid()).person().individualised());
+    assertEquals(false, customers.getContent().get(0).person().individualised());
+    assertEquals(
+      false,
+      clerkCustomerService.getCustomerDetails(PERSON_OID, organizer.getOid()).person().individualised()
+    );
   }
 
   @Test

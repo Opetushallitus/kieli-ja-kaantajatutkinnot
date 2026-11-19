@@ -45,6 +45,7 @@ describe.each<RouteType>(['clerk', 'organizer'])(
           >
             <CustomerInformation
               person={{ ...allCustomers[0].person, ssn, birthdate }}
+              hasRegistrations={allCustomers[0].registrationsCount > 0}
               route={route}
             />
           </DefaultProviders>,

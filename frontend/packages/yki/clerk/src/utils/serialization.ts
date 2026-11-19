@@ -286,6 +286,8 @@ export class SerializationUtils {
           clerkCustomerSummaryResponse.person.streetAddress ?? undefined,
         zip: clerkCustomerSummaryResponse.person.zip ?? undefined,
         postOffice: clerkCustomerSummaryResponse.person.postOffice ?? undefined,
+        individualised:
+          clerkCustomerSummaryResponse.person.individualised ?? undefined,
       },
     };
   }

@@ -5,6 +5,7 @@ import { CustomButton } from 'shared/components';
 import { APIResponseStatus, Severity } from 'shared/enums';
 import { useToast } from 'shared/hooks';
 
+import { NotIndividualisedIcon } from 'components/clerkCustomer/ClerkCustomersListing';
 import { EditCustomerInformationModal } from 'components/clerkCustomer/EditCustomerInformationModal';
 import { getCurrentLang, usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
@@ -20,9 +21,11 @@ import { formatPersonIdentifier } from 'utils/person';
 
 export const CustomerInformation = ({
   person,
+  hasRegistrations,
   route,
 }: {
   person: CustomerPerson | undefined;
+  hasRegistrations: boolean;
   route: RouteType;
 }) => {
   const dispatch = useDispatch();
@@ -71,7 +74,15 @@ export const CustomerInformation = ({
           </Label>
           <div>{formatPersonIdentifier(person.ssn, person.birthdate)}</div>
           <Label>{t('details.fields.oid')}</Label>
-          <div>{person.oid}</div>
+          <div className="columns" style={{ gap: '0.25rem' }}>
+            {person.individualised !== true && hasRegistrations && (
+              <NotIndividualisedIcon
+                oid={person.oid}
+                isOnrLinkShown={route === 'clerk'}
+              />
+            )}
+            {person.oid}
+          </div>
           <Label>{t('details.fields.nationality')}</Label>
           <div>
             {

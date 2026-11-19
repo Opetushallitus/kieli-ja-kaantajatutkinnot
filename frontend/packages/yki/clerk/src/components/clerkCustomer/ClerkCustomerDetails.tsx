@@ -8,10 +8,20 @@ import { clerkCustomerDetailsSelector } from 'redux/selectors/clerkCustomerDetai
 
 export const ClerkCustomerDetails = ({ route }: { route: RouteType }) => {
   const { customerDetails } = useAppSelector(clerkCustomerDetailsSelector);
+  const hasRegistrations =
+    !!customerDetails &&
+    customerDetails.admissionedRegistrations.length +
+      customerDetails.queueRegistrations.length +
+      customerDetails.pastRegistrations.length >
+      0;
 
   return (
     <Stack rowGap={4}>
-      <CustomerInformation route={route} person={customerDetails?.person} />
+      <CustomerInformation
+        route={route}
+        person={customerDetails?.person}
+        hasRegistrations={hasRegistrations}
+      />
       <CustomerExamListings route={route} customerDetails={customerDetails} />
     </Stack>
   );
