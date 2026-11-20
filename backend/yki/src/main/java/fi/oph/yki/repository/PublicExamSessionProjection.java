@@ -1,7 +1,6 @@
 package fi.oph.yki.repository;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public interface PublicExamSessionProjection {
   Long getId();
@@ -30,7 +29,7 @@ public interface PublicExamSessionProjection {
 
   String getOfficeOid();
 
-  LocalDateTime getPublishedAt();
+  String getPublishedAt();
 
   String getType();
 

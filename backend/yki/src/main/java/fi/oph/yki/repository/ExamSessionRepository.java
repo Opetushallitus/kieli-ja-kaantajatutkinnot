@@ -132,7 +132,7 @@ public interface ExamSessionRepository extends BaseRepository<ExamSession> {
         ed.registration_start_date              AS registrationStartDate,
         ed.registration_end_date                AS registrationEndDate,
         es.office_oid                           AS officeOid,
-        es.published_at                         AS publishedAt,
+        to_char(es.published_at AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"') AS publishedAt,
         CAST(es.type AS TEXT)                   AS type,
         counts.queue                            AS queue,
         counts.participants                     AS participants,
