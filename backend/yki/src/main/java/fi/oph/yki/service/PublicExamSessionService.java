@@ -10,6 +10,7 @@ import fi.oph.yki.model.type.PartialExamType;
 import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.repository.ExamSessionRepository;
 import fi.oph.yki.repository.PublicExamSessionProjection;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +27,8 @@ public class PublicExamSessionService {
   private static final TypeReference<List<PublicExamSessionLocationDTO>> LOCATIONS_TYPE = new TypeReference<>() {};
 
   private final ExamSessionRepository examSessionRepository;
+
+  private final ExamFeeService examFeeService;
 
   private static List<PublicExamSessionLocationDTO> toLocations(final PublicExamSessionProjection examSession) {
     if (examSession.getLocation() == null) {
@@ -67,13 +70,27 @@ public class PublicExamSessionService {
     };
   }
 
-  private static PublicExamSessionDTO toDTO(final PublicExamSessionProjection examSession) {
+  private BigDecimal partialExamFee(
+    final ExamSessionType type,
+    final String levelCode,
+    final PartialExamType readSpeakType,
+    final PartialExamType listenWriteType
+  ) {
+    return switch (type) {
+      case FULL -> null;
+      case READ_SPEAK -> examFeeService.examFee(type, levelCode, readSpeakType);
+      case LISTEN_WRITE -> examFeeService.examFee(type, levelCode, listenWriteType);
+    };
+  }
+
+  private PublicExamSessionDTO toDTO(final PublicExamSessionProjection examSession) {
     final ExamSessionType type = ExamSessionType.valueOf(examSession.getType());
+    final String levelCode = examSession.getLevelCode();
     return PublicExamSessionDTO
       .builder()
       .id(examSession.getId())
       .languageCode(examSession.getLanguageCode())
-      .levelCode(examSession.getLevelCode())
+      .levelCode(levelCode)
       .sessionDate(examSession.getSessionDate())
       .maxParticipants(examSession.getMaxParticipants())
       .maxParticipantsReadListen(examSession.getMaxParticipantsReadListen())
@@ -96,15 +113,14 @@ public class PublicExamSessionService {
       .upcomingAdmission(examSession.getUpcomingAdmission())
       .availableRegistrationKind(RegistrationKind.valueOf(examSession.getAllPartsRegistrationKind()))
       .partialRegistrationKind(toPartialRegistrationKinds(type, examSession))
+      .examFee(examFeeService.examFee(type, levelCode, PartialExamType.ALL_PARTS))
+      .examFeeReadListen(partialExamFee(type, levelCode, PartialExamType.READ, PartialExamType.LISTEN))
+      .examFeeSpeakWrite(partialExamFee(type, levelCode, PartialExamType.SPEAK, PartialExamType.WRITE))
       .build();
   }
 
   @Transactional(readOnly = true)
   public List<PublicExamSessionDTO> getUpcomingExamSessions() {
-    return examSessionRepository
-      .findPublicExamSessions(LocalDate.now())
-      .stream()
-      .map(PublicExamSessionService::toDTO)
-      .toList();
+    return examSessionRepository.findPublicExamSessions(LocalDate.now()).stream().map(this::toDTO).toList();
   }
 }

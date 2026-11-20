@@ -2,6 +2,7 @@ package fi.oph.yki.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import fi.oph.yki.Factory;
@@ -18,7 +19,10 @@ import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.repository.ExamSessionRepository;
 import jakarta.annotation.Resource;
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,6 +31,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
+import org.springframework.mock.env.MockEnvironment;
 import org.springframework.test.context.ActiveProfiles;
 
 @DataJpaTest
@@ -51,7 +56,15 @@ public class PublicExamSessionServiceTest {
 
   @BeforeEach
   public void setup() {
-    publicExamSessionService = new PublicExamSessionService(examSessionRepository);
+    final MockEnvironment fees = new MockEnvironment()
+      .withProperty("app.exam-fee.perus", "165")
+      .withProperty("app.exam-fee.keski", "190")
+      .withProperty("app.exam-fee.ylin", "216")
+      .withProperty("app.exam-fee.keski-read", "43")
+      .withProperty("app.exam-fee.keski-listen", "44")
+      .withProperty("app.exam-fee.keski-write", "70")
+      .withProperty("app.exam-fee.keski-speak", "84");
+    publicExamSessionService = new PublicExamSessionService(examSessionRepository, new ExamFeeService(fees));
 
     examDate = Factory.examDate();
     examDate.setExamDate(LocalDate.now().plusMonths(1));
@@ -107,6 +120,8 @@ public class PublicExamSessionServiceTest {
     persistRegistration(examSession, PartialExamType.ALL_PARTS);
     persistRegistration(examSession, PartialExamType.ALL_PARTS).setState(RegistrationState.CANCELLED);
     examSession.setMaxParticipants(2);
+    final LocalDateTime publishedAt = LocalDateTime.of(2025, 11, 10, 9, 55, 20, 899_000_000);
+    examSession.setPublishedAt(publishedAt);
 
     final PublicExamSessionDTO dto = findExamSession(examSession);
 
@@ -125,6 +140,10 @@ public class PublicExamSessionServiceTest {
     assertEquals("Testipaikka", dto.location().getFirst().name());
     assertEquals("Testikatu 1", dto.location().getFirst().streetAddress());
     assertEquals("fi", dto.location().getFirst().lang());
+    assertEquals(publishedAt.atZone(ZoneId.systemDefault()).toInstant().toString(), dto.publishedAt());
+    assertEquals(new BigDecimal("165"), dto.examFee());
+    assertNull(dto.examFeeReadListen());
+    assertNull(dto.examFeeSpeakWrite());
   }
 
   @Test
@@ -188,6 +207,9 @@ public class PublicExamSessionServiceTest {
       ),
       dto.partialRegistrationKind()
     );
+    assertEquals(new BigDecimal("127"), dto.examFee());
+    assertEquals(new BigDecimal("43"), dto.examFeeReadListen());
+    assertEquals(new BigDecimal("84"), dto.examFeeSpeakWrite());
   }
 
   @Test
@@ -216,6 +238,9 @@ public class PublicExamSessionServiceTest {
       ),
       dto.partialRegistrationKind()
     );
+    assertEquals(new BigDecimal("114"), dto.examFee());
+    assertEquals(new BigDecimal("44"), dto.examFeeReadListen());
+    assertEquals(new BigDecimal("70"), dto.examFeeSpeakWrite());
   }
 
   @Test
