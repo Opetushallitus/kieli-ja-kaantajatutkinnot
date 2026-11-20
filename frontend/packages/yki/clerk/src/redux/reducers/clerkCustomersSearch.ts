@@ -17,7 +17,6 @@ interface ClerkCustomersSearchState {
   examDateIdFilter?: number;
   languageCodeFilter?: string;
   levelCodeFilter?: 'PERUS' | 'KESKI' | 'YLIN';
-  // Clerks only: "Vain yksilöimättömät osallistujat".
   isOnlyNotIndividualised: boolean;
 
   // pagination
