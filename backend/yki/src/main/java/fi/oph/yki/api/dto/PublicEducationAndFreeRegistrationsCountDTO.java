@@ -6,5 +6,5 @@ import lombok.Builder;
 @Builder
 public record PublicEducationAndFreeRegistrationsCountDTO(
   List<PublicEducationDTO> educations,
-  int usedFreeRegistrations
+  long usedFreeRegistrations
 ) {}
