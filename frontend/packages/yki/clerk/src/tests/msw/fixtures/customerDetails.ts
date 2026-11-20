@@ -195,7 +195,7 @@ const defaultPastRegistrations: RegistrationResponse[] = [
       level: ExamLevel.PERUS,
     },
     examLocation: kajaani,
-    registrationState: 'REVIEWED',
+    registrationState: RegistrationStates.Submitted,
     registrationDate: '2015-05-06', // Ei näytetä "menneet - tutkinnot" - näkymässä
     kind: RegistrationKind.Admission, // Ei näytetä menneet - tutkinnot - näkymässä
   },
@@ -208,7 +208,7 @@ const defaultPastRegistrations: RegistrationResponse[] = [
       level: ExamLevel.KESKI,
     },
     examLocation: lassila,
-    registrationState: 'CANCELLED',
+    registrationState: RegistrationStates.Cancelled,
     registrationDate: '2015-05-06', // Ei näytetä "menneet - tutkinnot" - näkymässä
     kind: RegistrationKind.Queue, // Ei näytetä menneet - tutkinnot - näkymässä
   },
@@ -221,7 +221,7 @@ const defaultPastRegistrations: RegistrationResponse[] = [
       level: ExamLevel.KESKI,
     },
     examLocation: helsinki,
-    registrationState: 'REGISTERED',
+    registrationState: RegistrationStates.Expired,
     registrationDate: '2015-05-06', // Ei näytetä "menneet - tutkinnot" - näkymässä
     kind: RegistrationKind.Admission, // Ei näytetä "menneet - tutkinnot" - näkymässä
   },
