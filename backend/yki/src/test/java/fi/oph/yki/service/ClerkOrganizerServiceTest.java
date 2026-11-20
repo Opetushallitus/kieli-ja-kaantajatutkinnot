@@ -109,11 +109,19 @@ public class ClerkOrganizerServiceTest {
       RegistrationState.PAID_AND_CANCELLED,
       RegistrationKind.ADMISSION
     );
-    // Queue registration requires a full session; afterwards the organizer increases capacity.
+    // The trigger counts STARTED admissions too and uses subtest capacities for partial exams.
+    // Fill the relevant pools before queueing, then simulate the organizer increasing capacity.
     examSession.setMaxParticipants(type == ExamSessionType.FULL ? 2 : 5);
+    if (type != ExamSessionType.FULL) {
+      examSession.setMaxParticipantsReadListen(3);
+      examSession.setMaxParticipantsSpeakWrite(4);
+    }
     entityManager.flush();
     addRegistration(examSession, PartialExamType.ALL_PARTS, RegistrationState.SUBMITTED, RegistrationKind.QUEUE);
+    entityManager.flush();
     examSession.setMaxParticipants(20);
+    examSession.setMaxParticipantsReadListen(12);
+    examSession.setMaxParticipantsSpeakWrite(8);
     entityManager.flush();
     entityManager.clear();
 
