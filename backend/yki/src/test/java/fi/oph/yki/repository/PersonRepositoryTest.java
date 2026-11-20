@@ -34,7 +34,6 @@ import org.springframework.test.context.ActiveProfiles;
 @Import(PostgresTestcontainerConfig.class)
 class PersonRepositoryTest {
 
-  // The OID of Factory.person().
   private static final String PERSON_OID = "1.2.3.4.5";
 
   @Resource
