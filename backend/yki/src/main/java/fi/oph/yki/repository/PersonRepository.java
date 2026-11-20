@@ -33,8 +33,7 @@ WHERE EXISTS (SELECT 1 FROM registration r WHERE r.person_oid = p.oid)
   )
   List<PersonOnrCheckProjection> findPersonsForOnrCheck();
 
-  // Writes only the ONR columns, like the legacy upsert of participant_onr. Saving the Person entity
-  // would write every column, and could write back contact details that changed at the same time.
+  // Writes only the ONR columns, like the legacy upsert of participant_onr.
   @Modifying
   @Transactional
   @Query(

@@ -34,8 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * The clerk customer search from the database to the JSON. The clerk UI's Cypress tests use MSW
  * fixtures with the same field names (frontend/packages/yki/clerk/src/tests/msw/fixtures/
- * customersSearch.ts), so together the two cover the whole path. Each test runs in a transaction
- * that is rolled back.
+ * customersSearch.ts), so together the two cover the whole path.
  */
 @SpringBootTest
 @AutoConfigureMockMvc

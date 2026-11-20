@@ -49,8 +49,6 @@ class PersonOnrSyncServiceTest {
     persistPerson(LAST_PERSON_OID);
     entityManager.flush();
 
-    // ONR answers with the OID that was asked for as the key. For the linked duplicate, the person
-    // under the key is the master person, which has another OID.
     final Map<String, PersonalDataDTO> onrPersons = Map.of(
       FIRST_PERSON_OID,
       onrPerson(FIRST_PERSON_OID, false, false),

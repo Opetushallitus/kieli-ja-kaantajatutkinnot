@@ -129,7 +129,6 @@ public class ClerkCustomerService {
       );
     }
 
-    // Organisers get no ONR link. If organisers start to do the individualisation, give it to them too.
     return buildCustomerDetails(personOid, false);
   }
 
@@ -269,7 +268,6 @@ public class ClerkCustomerService {
       .personQuery(request.personQuery())
       .build();
 
-    // Organisers get no ONR link. If organisers start to do the individualisation, give it to them too.
     return searchCustomers(pageable, newRequestDTO, false);
   }
 
