@@ -13,7 +13,7 @@ import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.ExamSessionLocation;
 import fi.oph.yki.model.Organizer;
-import fi.oph.yki.model.Person;
+import fi.oph.yki.model.Registration;
 import fi.oph.yki.model.type.ExamSessionType;
 import fi.oph.yki.model.type.PartialExamType;
 import fi.oph.yki.model.type.RegistrationState;
@@ -116,7 +116,18 @@ public class ClerkExamSessionService {
     RegistrationState.EXPIRED
   );
 
-  private Map<String, String> getOidToSsnMap(final List<String> oids) {
+  private Map<String, String> getOidToSsnMap(final List<Registration> registrations) {
+    final List<String> oids = registrations
+      .stream()
+      .map(r -> r.getPerson() != null ? r.getPerson().getOid() : null)
+      .filter(oid -> oid != null)
+      .distinct()
+      .toList();
+
+    if (oids.isEmpty()) {
+      return Map.of();
+    }
+
     try {
       return onrService
         .listPersonDetails(oids)
@@ -187,13 +198,7 @@ public class ClerkExamSessionService {
 
     final Map<Long, Long> queuePositions = getQueuePositions(examSession);
 
-    final List<String> personOids = registrations
-      .stream()
-      .map(r -> r.getPerson() != null ? r.getPerson().getOid() : null)
-      .filter(oid -> oid != null)
-      .distinct()
-      .toList();
-    final Map<String, String> oidToSsn = personOids.isEmpty() ? Map.of() : getOidToSsnMap(personOids);
+    final Map<String, String> oidToSsn = getOidToSsnMap(registrations);
 
     final List<ClerkRegistrationDTO> registrationDTOs = registrations
       .stream()
@@ -264,35 +269,19 @@ public class ClerkExamSessionService {
     auditService.logById(YkiOperation.DOWNLOAD_EXAM_SESSION_EXCEL, examSessionId);
 
     final var examSession = examSessionRepository.getReferenceById(examSessionId);
-    final var identityNumbersByOid = getIdentityNumbersByOid(examSession);
-    final var excelData = ExamSessionXlsxDataRowUtil.createExcelData(examSession, identityNumbersByOid);
+    final var registrations = registrationRepository.getByExamSessionAndStateInAndFormIsNotNull(
+      examSession,
+      VISIBLE_STATES
+    );
+    final Map<String, String> oidToSsn = getOidToSsnMap(registrations);
+    final var excelData = ExamSessionXlsxDataRowUtil.createExcelData(
+      examSession,
+      registrations,
+      oidToSsn,
+      getQueuePositions(examSession)
+    );
 
     return new ExamSessionXlsxView(excelData);
-  }
-
-  private Map<String, String> getIdentityNumbersByOid(final ExamSession examSession) {
-    final List<String> oids = examSession
-      .getRegistrations()
-      .stream()
-      .map(r -> r.getPerson())
-      .filter(p -> p != null)
-      .map(Person::getOid)
-      .toList();
-
-    if (oids.isEmpty()) {
-      return Map.of();
-    }
-
-    try {
-      return onrService
-        .listPersonDetails(oids)
-        .stream()
-        .filter(p -> p.getIdentityNumber() != null)
-        .collect(Collectors.toMap(p -> p.getOidHenkilo(), p -> p.getIdentityNumber()));
-    } catch (final Exception e) {
-      LOG.error("Unable to fetch identity numbers from ONR", e);
-      return Map.of();
-    }
   }
 
   @Transactional

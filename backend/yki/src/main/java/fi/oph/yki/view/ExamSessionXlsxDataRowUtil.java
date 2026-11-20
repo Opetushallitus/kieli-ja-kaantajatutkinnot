@@ -2,37 +2,128 @@ package fi.oph.yki.view;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import fi.oph.yki.model.ExamSession;
+import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
 import fi.oph.yki.model.type.ExamSessionType;
 import fi.oph.yki.model.type.PartialExamType;
 import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
+import java.text.Collator;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
 
 public class ExamSessionXlsxDataRowUtil {
 
   private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-  private static final DateTimeFormatter DATETIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+  // Sheets match the registration tabs of the clerk exam session view
+  enum Sheet {
+    REGISTERED("Ilmoittautuneet"),
+    QUEUED("Jonossa"),
+    PAID_AND_CANCELLED("Maksanut ja peruttu"),
+    CANCELLED_OR_EXPIRED("Peruttu tai erääntynyt");
+
+    private final String name;
+
+    Sheet(final String name) {
+      this.name = name;
+    }
+  }
 
   public static ExamSessionXlsxData createExcelData(
     final ExamSession examSession,
-    final Map<String, String> identityNumbersByOid
+    final List<Registration> registrations,
+    final Map<String, String> identityNumbersByOid,
+    final Map<Long, Long> queuePositions
   ) {
-    final List<ExamSessionXlsxDataRow> excelDataRows = examSession
-      .getRegistrations()
-      .stream()
-      .filter(r -> !(r.getState().equals(RegistrationState.EXPIRED) && r.getPerson() == null))
-      .map(r -> createDataRow(r, identityNumbersByOid))
+    final List<ExamSessionXlsxSheet> sheets = Arrays
+      .stream(Sheet.values())
+      .map(sheet ->
+        ExamSessionXlsxSheet
+          .builder()
+          .name(sheet.name)
+          .rows(
+            registrations
+              .stream()
+              .filter(r -> getSheet(r).filter(sheet::equals).isPresent())
+              .sorted(getComparator(sheet, queuePositions))
+              .map(r -> createDataRow(r, identityNumbersByOid))
+              .toList()
+          )
+          .build()
+      )
       .toList();
 
     return ExamSessionXlsxData
       .builder()
       .date(DATE_FORMAT.format(examSession.getExamDate().getExamDate()))
       .language(examSession.getLanguage())
-      .rows(excelDataRows)
+      .sheets(sheets)
       .build();
+  }
+
+  static Optional<Sheet> getSheet(final Registration registration) {
+    final RegistrationState state = registration.getState();
+
+    if (state == null) {
+      return Optional.empty();
+    }
+
+    // A queued registration stays on the queue sheet also after it is cancelled or the queue ends
+    if (registration.getKind() == RegistrationKind.QUEUE) {
+      return state == RegistrationState.STARTED ? Optional.empty() : Optional.of(Sheet.QUEUED);
+    }
+
+    return switch (state) {
+      case COMPLETED, SUBMITTED -> Optional.of(Sheet.REGISTERED);
+      case PAID_AND_CANCELLED -> Optional.of(Sheet.PAID_AND_CANCELLED);
+      case CANCELLED, EXPIRED -> Optional.of(Sheet.CANCELLED_OR_EXPIRED);
+      default -> Optional.empty();
+    };
+  }
+
+  // Queue: registrations still in the queue first, by queue position, which counts separately for
+  // each partial exam. Then cancelled and ended ones, by registration time.
+  // Other sheets: by name
+  // Equal values: by registration time
+  static Comparator<Registration> getComparator(final Sheet sheet, final Map<Long, Long> queuePositions) {
+    final Comparator<Registration> byCreated = Comparator
+      .comparing(Registration::getCreatedAt, Comparator.nullsLast(Comparator.naturalOrder()))
+      .thenComparing(Registration::getId);
+
+    if (sheet == Sheet.QUEUED) {
+      return Comparator
+        .comparing((Registration r) -> !isInQueue(r))
+        .thenComparing(
+          r -> isInQueue(r) ? r.getPartialExamType() : null,
+          Comparator.nullsLast(Comparator.naturalOrder())
+        )
+        .thenComparing(r -> queuePositions.get(r.getId()), Comparator.nullsLast(Comparator.naturalOrder()))
+        .thenComparing(byCreated);
+    }
+
+    final Collator collator = Collator.getInstance(Locale.of("fi", "FI"));
+
+    return Comparator
+      .comparing((Registration r) -> getPersonName(r, Person::getLastName), collator)
+      .thenComparing(r -> getPersonName(r, Person::getFirstName), collator)
+      .thenComparing(byCreated);
+  }
+
+  private static boolean isInQueue(final Registration registration) {
+    return (
+      registration.getState() == RegistrationState.SUBMITTED || registration.getState() == RegistrationState.COMPLETED
+    );
+  }
+
+  private static String getPersonName(final Registration registration, final Function<Person, String> getName) {
+    return Optional.ofNullable(registration.getPerson()).map(getName).orElse("");
   }
 
   private static ExamSessionXlsxDataRow createDataRow(
@@ -47,7 +138,7 @@ public class ExamSessionXlsxDataRowUtil {
       .lastName(person == null ? "" : person.getLastName())
       .firstName(person == null ? "" : person.getFirstName())
       .state(stateToText(registration))
-      .type(kindToText(registration.getKind()))
+      .partialExam(partialExamToText(registration))
       .email(person == null ? null : person.getEmail())
       .phone(person == null ? null : person.getPhoneNumber())
       .gender(person == null ? null : person.getGender())
@@ -65,31 +156,14 @@ public class ExamSessionXlsxDataRowUtil {
       .nationalityDesc(getFormField(registration.getForm(), "nationality_desc"))
       .identityNumber(person == null ? null : identityNumbersByOid.get(person.getOid()))
       .birthdate(getFormField(registration.getForm(), "birthdate"))
-      .partialExamRead(hasPartialExam(registration, PartialExamType.READ))
-      .partialExamListen(hasPartialExam(registration, PartialExamType.LISTEN))
-      .partialExamSpeak(hasPartialExam(registration, PartialExamType.SPEAK))
-      .partialExamWrite(hasPartialExam(registration, PartialExamType.WRITE))
       .build();
   }
 
-  static String kindToText(final RegistrationKind kind) {
-    if (kind == null) {
-      return "-";
-    }
-
-    return switch (kind) {
-      case ADMISSION -> "Varsinainen ilmoittautuminen";
-      case POST_ADMISSION -> "Jälki-ilmoittautuminen";
-      case QUEUE -> "Jonoilmoittautuminen";
-      case OTHER -> "-";
-    };
-  }
-
-  private static String hasPartialExam(final Registration registration, final PartialExamType type) {
+  static String partialExamToText(final Registration registration) {
     final ExamSessionType sessionType = registration.getExamSession().getType();
 
     if (sessionType == ExamSessionType.FULL) {
-      return "X";
+      return "Koko tutkinto";
     }
 
     final PartialExamType partialExamType = registration.getPartialExamType();
@@ -97,19 +171,17 @@ public class ExamSessionXlsxDataRowUtil {
       return null;
     }
 
-    if (partialExamType == type) {
-      return "X";
-    }
-
-    if (partialExamType == PartialExamType.ALL_PARTS) {
-      return switch (sessionType) {
-        case READ_SPEAK -> (type == PartialExamType.READ || type == PartialExamType.SPEAK) ? "X" : null;
-        case LISTEN_WRITE -> (type == PartialExamType.LISTEN || type == PartialExamType.WRITE) ? "X" : null;
+    return switch (partialExamType) {
+      case ALL_PARTS -> switch (sessionType) {
+        case READ_SPEAK -> "Tekstin ymmärtäminen ja puhuminen";
+        case LISTEN_WRITE -> "Puheen ymmärtäminen ja kirjoittaminen";
         default -> null;
       };
-    }
-
-    return null;
+      case READ -> "Tekstin ymmärtäminen";
+      case LISTEN -> "Puheen ymmärtäminen";
+      case SPEAK -> "Puhuminen";
+      case WRITE -> "Kirjoittaminen";
+    };
   }
 
   private static String getFormField(final ObjectNode form, final String field) {
@@ -122,17 +194,18 @@ public class ExamSessionXlsxDataRowUtil {
   static String stateToText(final Registration registration) {
     final RegistrationState state = registration.getState();
     final boolean isFreeRegistration = registration.getFreeRegistration() != null;
+    final boolean isQueue = registration.getKind() == RegistrationKind.QUEUE;
 
     if (state == null) {
       return "-";
     }
 
     return switch (state) {
-      case COMPLETED -> isFreeRegistration ? "Maksuton" : "Maksanut";
+      case COMPLETED -> isQueue ? "Jonossa" : isFreeRegistration ? "Maksuton" : "Maksanut";
       case PAID_AND_CANCELLED -> isFreeRegistration ? "Maksuton ja peruttu" : "Maksanut ja peruttu";
-      case SUBMITTED -> "Ei maksanut";
-      case CANCELLED -> "Peruttu";
-      case EXPIRED -> "Erääntynyt";
+      case SUBMITTED -> isQueue ? "Jonossa" : "Ei maksanut";
+      case CANCELLED -> isQueue ? "Jonotus peruttu" : "Peruttu";
+      case EXPIRED -> isQueue ? "Peruttu, jonotus loppunut" : "Erääntynyt";
       default -> "-";
     };
   }

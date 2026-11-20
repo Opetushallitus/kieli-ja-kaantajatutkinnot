@@ -10,7 +10,7 @@ public record ExamSessionXlsxDataRow(
   @NonNull String lastName,
   @NonNull String firstName,
   String state,
-  String type,
+  String partialExam,
   String email,
   String phone,
   GenderCode gender,
@@ -23,9 +23,5 @@ public record ExamSessionXlsxDataRow(
   String certificateLang,
   String nationalityDesc,
   String identityNumber,
-  String birthdate,
-  String partialExamRead,
-  String partialExamListen,
-  String partialExamSpeak,
-  String partialExamWrite
+  String birthdate
 ) {}
