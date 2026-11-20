@@ -197,12 +197,7 @@ export const ClerkRegisterOrganizerDetails = ({
   ];
 
   return (
-    <Box
-      sx={{ margin: '1rem 4rem', padding: '2rem', background: 'white' }}
-      gap={2}
-      display="flex"
-      flexDirection="column"
-    >
+    <Box gap={2} display="flex" flexDirection="column">
       <div
         style={{
           display: 'flex',

@@ -219,21 +219,21 @@ export const CustomerExamListings = ({
         <div className="rows gapped-xxs" style={{ alignItems: 'flex-start' }}>
           {isClerkAdmin && (
             <IconButton
-              color="secondary"
+              color="primary"
               onClick={() => setRelocateRegistration(registration)}
               sx={{ width: 'fit-content' }}
             >
-              <TurnRightOutlined color="secondary" fontSize="large" />
+              <TurnRightOutlined color="primary" fontSize="large" />
               {t('values.actions.relocate')}
             </IconButton>
           )}
           {canCancelRegistrations && (
             <IconButton
-              color="secondary"
+              color="primary"
               onClick={() => setCancelRegistration(registration)}
               sx={{ width: 'fit-content' }}
             >
-              <DeleteOutlined color="secondary" fontSize="large" />
+              <DeleteOutlined color="primary" fontSize="large" />
               {t('values.actions.cancel')}
             </IconButton>
           )}

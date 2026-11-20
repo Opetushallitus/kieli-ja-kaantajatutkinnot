@@ -14,7 +14,7 @@
     display: grid;
 
     &__search-results {
-      padding: 2rem;
+      @include clerk-content-panel;
     }
   }
 }

@@ -203,7 +203,7 @@ export const ClerkRegisterListing = ({
             {user?.isAdmin && (
               <CustomButton
                 variant="contained"
-                color="secondary"
+                color="primary"
                 onClick={() => navigate(AppRoutes.ClerkAddOrganizer)}
                 data-testid="add-organizer-button"
               >

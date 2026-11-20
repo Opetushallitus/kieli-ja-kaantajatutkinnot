@@ -1,11 +1,14 @@
 //Shared
 @import 'shared/styles';
 
-// Base
-@import 'base/base';
-
 // yki clerk colors
 @import 'colors/yki-clerk';
+
+// Abstracts
+@import 'abstracts/mixins';
+
+// Base
+@import 'base/base';
 
 // Components
 @import 'components/layouts/clerk-header';
