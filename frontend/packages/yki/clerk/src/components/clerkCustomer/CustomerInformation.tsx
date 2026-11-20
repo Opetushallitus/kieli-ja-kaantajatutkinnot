@@ -16,6 +16,7 @@ import { loadNationalities } from 'redux/reducers/nationalities';
 import { clerkCustomerDetailsSelector } from 'redux/selectors/clerkCustomerDetailsSelector';
 import { nationalitiesSelector } from 'redux/selectors/nationalities';
 import { userSelector } from 'redux/selectors/user';
+import { formatPersonIdentifier } from 'utils/person';
 
 export const CustomerInformation = ({
   person,
@@ -65,8 +66,10 @@ export const CustomerInformation = ({
     <>
       <div className="rows gapped customer-details">
         <div className="customer-details__fields">
-          <Label>{t('details.fields.ssn')}</Label>
-          <div>{person.ssn}</div>
+          <Label>
+            {t(person.ssn ? 'details.fields.ssn' : 'details.fields.birthdate')}
+          </Label>
+          <div>{formatPersonIdentifier(person.ssn, person.birthdate)}</div>
           <Label>{t('details.fields.oid')}</Label>
           <div>{person.oid}</div>
           <Label>{t('details.fields.nationality')}</Label>

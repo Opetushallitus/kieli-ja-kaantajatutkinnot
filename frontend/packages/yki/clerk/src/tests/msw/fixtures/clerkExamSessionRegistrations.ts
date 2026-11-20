@@ -7,7 +7,8 @@ export const registrations: ClerkRegistrationResponse[] = [
     person: {
       firstName: 'Testi1',
       lastName: 'Testaaja',
-      socialSecurityNumber: '112233-9999',
+      socialSecurityNumber: null,
+      birthdate: '2002-05-02',
       oid: '1.2.246.562.10.39706139511',
       email: 'harry@invalid.invalid',
       phoneNumber: '+35850112233445',

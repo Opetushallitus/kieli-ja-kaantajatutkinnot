@@ -1,4 +1,5 @@
 import { customerDetails } from 'tests/msw/fixtures/customerDetails';
+import { formatPersonIdentifier } from 'utils/person';
 
 class ClerkCustomerDetailsPage {
   elements = {
@@ -32,7 +33,13 @@ class ClerkCustomerDetailsPage {
       throw new Error(`Could not find customerDetails with oid '${oid}'.`);
     }
 
-    cy.findByText(details.person.ssn).should('be.visible');
+    cy.findByText(details.person.ssn ? 'Hetu' : 'Syntymäaika')
+      .should('be.visible')
+      .next()
+      .should(
+        'have.text',
+        formatPersonIdentifier(details.person.ssn, details.person.birthdate),
+      );
     cy.findByText(details.person.oid).should('be.visible');
 
     cy.findByText('Suomi').should('be.visible');
