@@ -2,6 +2,7 @@ package fi.oph.yki.api.dto.clerk;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import fi.oph.yki.model.type.ExamSessionType;
 import fi.oph.yki.model.type.RegistrationKind;
 import java.time.LocalDate;
 import java.util.List;
@@ -17,6 +18,11 @@ public record ClerkOrganizerExamSessionDTO(
   Boolean upcomingAdmission,
   Integer participants,
   Integer maxParticipants,
+  ExamSessionType type,
+  Integer participantsReadListen,
+  Integer participantsSpeakWrite,
+  Integer maxParticipantsReadListen,
+  Integer maxParticipantsSpeakWrite,
   Integer queue,
   List<ClerkOrganizerExamSessionContactDTO> contact,
   String officeOid,

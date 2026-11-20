@@ -14,7 +14,6 @@ import MuiAccordionSummary, {
 } from '@mui/material/AccordionSummary';
 import { Box } from '@mui/system';
 import dayjs from 'dayjs';
-import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import i18next from 'i18next';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
@@ -25,6 +24,7 @@ import { DateUtils } from 'shared/utils';
 
 import { ClerkRegisterListingFilters } from 'components/clerkRegister/listing/ClerkRegisterListingFilters';
 import { ModifyAgreementModal } from 'components/clerkRegister/listing/ModifyAgreementModal';
+import { OrganizerExamSessionListing } from 'components/clerkRegister/listing/OrganizerExamSessionListing';
 import { ListTable } from 'components/oph-design/table/list-table';
 import { ListTableColumn } from 'components/oph-design/table/table-types';
 import axiosInstance from 'configs/axios';
@@ -43,12 +43,8 @@ import {
   getLanguagesWithLevelDescriptions,
   isAgreementExpired,
   languagesToString,
-  languageToString,
-  levelDescription,
 } from 'utils/clerk';
 import { SerializationUtils } from 'utils/serialization';
-
-dayjs.extend(isSameOrBefore);
 
 type ClerkRegisterListingProps = {
   page: number;
@@ -266,85 +262,6 @@ const ClerkRegisterCollapsibleRow = ({
     }
   }, [row.oid, open, setExamSessions]);
 
-  const upcomingExams = examSessions
-    .map((examSession) => ({
-      ...examSession,
-    }))
-    .filter((exam) => dayjs().isSameOrBefore(exam.session_date, 'day'))
-    .filter((exam) => exam.organizer_oid === row.oid);
-
-  const pastExams = examSessions
-    .map((examSession) => ({
-      ...examSession,
-    }))
-    .filter((exam) => dayjs().isAfter(exam.session_date, 'day'))
-    .filter((exam) => exam.organizer_oid === row.oid);
-
-  const createExamDateColumn = (
-    t: typeof i18next.t,
-  ): ListTableColumn<ExamSession> => ({
-    key: 'session_date',
-    title: t('examSessionListing.header.sessionDate'),
-    render: (rowProps) => (
-      <a
-        href={AppRoutes.ClerkExamSession.replace(':id', String(rowProps.id))}
-        onClick={() =>
-          navigate(
-            AppRoutes.ClerkExamSession.replace(':id', String(rowProps.id)),
-          )
-        }
-      >
-        <span>{rowProps.session_date.format('D.M.YYYY')}</span>
-      </a>
-    ),
-  });
-
-  const createExamLanguageColumn = (
-    t: typeof i18next.t,
-  ): ListTableColumn<ExamSession> => ({
-    key: 'language_code',
-    title: t('examSessionListing.header.language'),
-    render: (rowProps) => (
-      <span>{languageToString(rowProps.language_code)}</span>
-    ),
-  });
-
-  const createExamLevelColumn = (
-    t: typeof i18next.t,
-  ): ListTableColumn<ExamSession> => ({
-    key: 'level_code',
-    title: t('examSessionListing.header.level'),
-    render: (rowProps) => <span>{levelDescription(rowProps.level_code)}</span>,
-  });
-
-  const createExamRegistrationPerioidColumn = (
-    t: typeof i18next.t,
-  ): ListTableColumn<ExamSession> => ({
-    key: 'registration_period',
-    title: t('examSessionListing.header.registrationPerioid'),
-    render: (rowProps) => (
-      <span>{rowProps.registration_start_date.format('YYYY-MM-DD')}</span>
-    ),
-  });
-
-  const createExamRegistrationsColumn = (
-    t: typeof i18next.t,
-  ): ListTableColumn<ExamSession> => ({
-    key: 'max_participants',
-    title: t('examSessionListing.header.registrations'),
-    render: (rowProps) => (
-      <span>{`${rowProps.participants} / ${rowProps.max_participants}`}</span>
-    ),
-  });
-
-  const columns = [
-    createExamDateColumn(t),
-    createExamLanguageColumn(t),
-    createExamLevelColumn(t),
-    createExamRegistrationPerioidColumn(t),
-    createExamRegistrationsColumn(t),
-  ];
-
   return (
     <TableRow>
       <TableCell
@@ -432,12 +349,11 @@ const ClerkRegisterCollapsibleRow = ({
               row={row}
             />
             <H4>{t('listing.contentLabels.upcomingExamSessions')}</H4>
-            <ListTable
-              rows={upcomingExams}
-              rowKeyProp="id"
-              columns={columns}
-              translateHeader={false}
-              rowHeight="small"
+            <OrganizerExamSessionListing
+              examSessions={examSessions}
+              organizerOid={row.oid}
+              route="clerk"
+              period="upcoming"
             />
             <Accordion>
               <AccordionSummary
@@ -452,13 +368,12 @@ const ClerkRegisterCollapsibleRow = ({
               </AccordionSummary>
 
               <AccordionDetails>
-                <ListTable
+                <OrganizerExamSessionListing
                   data-testid="clerk-register__past-exam-sessions"
-                  rows={pastExams}
-                  rowKeyProp="id"
-                  columns={columns}
-                  translateHeader={false}
-                  rowHeight="small"
+                  examSessions={examSessions}
+                  organizerOid={row.oid}
+                  route="clerk"
+                  period="past"
                 />
               </AccordionDetails>
             </Accordion>

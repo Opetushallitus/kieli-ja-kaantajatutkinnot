@@ -603,7 +603,15 @@
             "level": "Taso",
             "registrationPerioid": "Ilmoittautumisaika",
             "registrations": "Ilmoittautuneet",
-            "sessionDate": "Tutkintopäivä"
+            "sessionDate": "Tutkintopäivä",
+            "subtest": "Osakoe"
+          },
+          "subtests": {
+            "ALL_PARTS": "Kaikki osakokeet",
+            "READ": "Tekstin ymmärtäminen",
+            "SPEAK": "Puhuminen",
+            "LISTEN": "Puheen ymmärtäminen",
+            "WRITE": "Kirjoittaminen"
           }
         },
         "listing": {

@@ -1,5 +1,5 @@
 import { ChevronLeft } from '@mui/icons-material';
-import { TableCell, TableRow } from '@mui/material';
+import { ButtonBase, TableCell, TableRow } from '@mui/material';
 import { ophColors } from '@opetushallitus/oph-design-system';
 import { PropsWithChildren, useState } from 'react';
 
@@ -33,7 +33,8 @@ export const ListTableRow = <T extends Row>({
       <TableRow
         key={rowId}
         sx={{
-          height: rowHeight === 'small' ? '32px' : '64px',
+          height: rowHeight === 'small' ? '40px' : '64px',
+          cursor: collapsibleRows ? 'pointer' : undefined,
           ...(collapsibleRows
             ? {
                 '&:nth-of-type(4n - 1)': {
@@ -70,21 +71,43 @@ export const ListTableRow = <T extends Row>({
             <TableCell
               key={columnKey.toString()}
               sx={style}
-              onClick={() => setOpen((prev) => !prev)}
+              onClick={
+                collapsibleRows ? () => setOpen((prev) => !prev) : undefined
+              }
             >
-              {collapsibleRows && i === 0 && (
-                <ChevronLeft
-                  aria-label="expand row"
-                  fontSize="large"
-                  style={{
-                    transform: open ? 'rotate(90deg)' : 'rotate(270deg)',
-                    transition: 'transform 0.2s',
-                    verticalAlign: 'middle',
-                    marginRight: '0.5rem',
+              {collapsibleRows && i === 0 ? (
+                <ButtonBase
+                  aria-expanded={open}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    setOpen((prev) => !prev);
                   }}
-                />
+                  sx={{
+                    color: ophColors.blue2,
+                    font: 'inherit',
+                    textAlign: 'left',
+                    '&:hover': { textDecoration: 'underline' },
+                    '&.Mui-focusVisible': {
+                      outline: `2px solid ${ophColors.blue2}`,
+                      outlineOffset: '2px',
+                    },
+                  }}
+                >
+                  <ChevronLeft
+                    aria-hidden="true"
+                    fontSize="large"
+                    style={{
+                      color: ophColors.black,
+                      transform: open ? 'rotate(90deg)' : 'rotate(270deg)',
+                      transition: 'transform 0.2s',
+                      marginRight: '0.5rem',
+                    }}
+                  />
+                  {render(row)}
+                </ButtonBase>
+              ) : (
+                render(row)
               )}
-              {render(row)}
             </TableCell>
           );
         })}
