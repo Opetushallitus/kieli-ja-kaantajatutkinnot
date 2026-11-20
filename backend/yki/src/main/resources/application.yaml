@@ -83,6 +83,8 @@ app:
     url: ${koodisto-url:https://virkailija.untuvaopintopolku.fi/koodisto-service}
   kayttooikeus-service:
     url: ${kayttooikeus-url:https://virkailija.untuvaopintopolku.fi/kayttooikeus-service}
+  henkilo-ui:
+    url: ${henkilo-ui-url:https://virkailija.untuvaopintopolku.fi/henkilo-ui}
   solki:
     url: ${solki.url:null}
     user: ${solki.user:null}
