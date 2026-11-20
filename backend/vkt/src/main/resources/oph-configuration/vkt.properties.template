@@ -15,6 +15,8 @@ docs-enabled={{vkt_docs_enabled}}
 
 email.sending-enabled=true
 email.service-url=${virkailija.host.alb}/ryhmasahkoposti-service/email/firewall
+email.new-api={{vkt_email_new_api}}
+email.new-service-url=https://viestinvalitys.{{host_oppija}}
 
 reservation.duration=PT30M
 
@@ -35,6 +37,7 @@ register.sync-enabled={{vkt_register_sync}}
 koski.url={{vkt_koski_url}}
 onr.service-url=${virkailija.cas.base-url}/oppijanumerorekisteri-service
 
+cas.endpoint-url={{vkt_cas_endpoint}}
 cas.username={{vkt_koski_user}}
 cas.password={{vkt_koski_password}}
 

@@ -20,6 +20,7 @@ import fi.oph.vkt.repository.EmailRepository;
 import fi.oph.vkt.service.email.sender.EmailSender;
 import jakarta.annotation.Resource;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -100,7 +101,7 @@ class EmailServiceTest {
   }
 
   @Test
-  public void sendEmailSuccessTest() throws JsonProcessingException {
+  public void sendEmailSuccessTest() throws JsonProcessingException, ExecutionException, InterruptedException {
     final Email email = Factory.email();
     final Email savedEmail = entityManager.persist(email);
     when(emailSenderMock.sendEmail(any())).thenReturn("12345");
@@ -121,7 +122,7 @@ class EmailServiceTest {
   }
 
   @Test
-  public void sendEmailFailureTest() throws JsonProcessingException {
+  public void sendEmailFailureTest() throws JsonProcessingException, ExecutionException, InterruptedException {
     final Email email = Factory.email();
     final Email savedEmail = entityManager.persist(email);
 

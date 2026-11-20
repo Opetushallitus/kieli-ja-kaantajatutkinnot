@@ -9,6 +9,7 @@ import fi.oph.vkt.service.auth.ticketValidator.CasTicketValidator;
 import fi.oph.vkt.service.email.sender.EmailSender;
 import fi.oph.vkt.service.email.sender.EmailSenderNoOp;
 import fi.oph.vkt.service.email.sender.EmailSenderViestintapalvelu;
+import fi.oph.vkt.service.email.sender.EmailSenderViestintapalveluNew;
 import fi.oph.vkt.service.onr.OnrOperationApi;
 import fi.oph.vkt.service.onr.OnrOperationApiImpl;
 import fi.oph.vkt.service.onr.mock.MockOnrOperationApiImpl;
@@ -56,12 +57,26 @@ public class AppConfig {
 
   @Bean
   @ConditionalOnProperty(name = "app.email.sending-enabled", havingValue = "true")
-  public EmailSender emailSender(@Value("${app.email.service-url}") String emailServiceUrl) {
-    LOG.info("emailServiceUrl: {}", emailServiceUrl);
-    final WebClient webClient = webClientBuilderWithCallerId("email-sender-connection-provider")
-      .baseUrl(emailServiceUrl)
-      .build();
-    return new EmailSenderViestintapalvelu(webClient, Constants.SERVICENAME, Constants.EMAIL_SENDER_NAME);
+  public EmailSender emailSender(final Environment environment) {
+    final boolean newApi = "true".equals(environment.getRequiredProperty("app.email.new-api"));
+    final String emailServiceUrl = environment.getProperty(
+      newApi ? "app.email.new-service-url" : "app.email.service-url"
+    );
+    LOG.info("emailServiceUrl: {}, new api: {}", emailServiceUrl, newApi);
+
+    if (newApi) {
+      final CasClient casClient = casClient(
+        environment,
+        emailServiceUrl + "/lahetys/login/j_spring_cas_security_check"
+      );
+
+      return new EmailSenderViestintapalveluNew(casClient, emailServiceUrl);
+    } else {
+      final WebClient webClient = webClientBuilderWithCallerId("email-sender-connection-provider")
+        .baseUrl(emailServiceUrl)
+        .build();
+      return new EmailSenderViestintapalvelu(webClient, Constants.SERVICENAME, Constants.EMAIL_SENDER_NAME);
+    }
   }
 
   @Bean
@@ -94,6 +109,22 @@ public class AppConfig {
         headers.setContentType(MediaType.APPLICATION_JSON);
       })
       .build();
+  }
+
+  private CasClient casClient(final Environment environment, final String serviceUrl) {
+    final CasConfig casConfig = new CasConfig.CasConfigBuilder(
+      environment.getRequiredProperty("app.onr.cas.username"),
+      environment.getRequiredProperty("app.onr.cas.password"),
+      environment.getRequiredProperty("app.onr.cas.endpoint-url"),
+      serviceUrl,
+      "CSRF",
+      Constants.CALLER_ID,
+      ""
+    )
+      .setJsessionName("JSESSIONID")
+      .build();
+
+    return CasClientBuilder.build(casConfig);
   }
 
   @Bean

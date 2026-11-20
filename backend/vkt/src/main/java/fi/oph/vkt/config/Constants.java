@@ -3,7 +3,11 @@ package fi.oph.vkt.config;
 public class Constants {
 
   public static final String CALLER_ID = "1.2.246.562.10.00000000001.vkt";
-  public static final String EMAIL_SENDER_NAME = "Valtionhallinnon kielitutkinnot | Opetushallitus";
+  public static final String EMAIL_SENDER_NAME = "Valtionhallinnon kielitutkinnot - Opetushallitus";
+  public static final String EMAIL_SENDER_ADDRESS = "noreply@opintopolku.fi";
+  // Allowed characters: a-z, A-Z, 0-9 and -_.
+  public static final String EMAIL_ID_PREFIX = "vkt-";
+  public static final Integer EMAIL_EXPIRATION_DAYS = 180;
   public static final String SERVICENAME = "vkt";
   public static final String APP_ADMIN_ROLE = "APP_VKT_PAAKAYTTAJA";
   public static final String APP_TV_ROLE = "APP_VKT_TUTKINNON_VASTAANOTTAJA";
