@@ -8,6 +8,7 @@
             "save": "Spara uppgifterna"
           },
           "fields": {
+            "birthdate": "Födelsedatum",
             "confirmEmail": "Bekräfta e-postadressen",
             "email": "E-post",
             "modalTitle": "Redigera kontaktuppgifterna",

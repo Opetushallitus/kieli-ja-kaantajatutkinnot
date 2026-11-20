@@ -14,6 +14,20 @@ public interface PersonRepository extends JpaRepository<Person, String> {
 
   @Query(
     value = """
+      SELECT r.form ->> 'birthdate'
+      FROM registration r
+      WHERE r.person_oid = :personOid
+        AND r.state <> 'STARTED'
+        AND NULLIF(TRIM(r.form ->> 'birthdate'), '') IS NOT NULL
+      ORDER BY r.created DESC NULLS LAST, r.id DESC
+      LIMIT 1
+      """,
+    nativeQuery = true
+  )
+  String findLatestSubmittedBirthdate(@Param("personOid") String personOid);
+
+  @Query(
+    value = """
       SELECT EXISTS (
         SELECT 1
         FROM registration r

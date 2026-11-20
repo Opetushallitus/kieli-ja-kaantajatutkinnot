@@ -134,6 +134,7 @@ public class ClerkCustomerService {
       .firstName(person.getFirstName())
       .lastName(person.getLastName())
       .ssn(getIdentityNumber(person))
+      .birthdate(personRepository.findLatestSubmittedBirthdate(oid))
       .oid(person.getOid())
       .nationalityCode(person.getNationalityCode())
       .phoneNumber(person.getPhoneNumber())

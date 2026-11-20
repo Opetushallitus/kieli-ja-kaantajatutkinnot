@@ -8,6 +8,7 @@
             "save": "Tallenna tiedot"
           },
           "fields": {
+            "birthdate": "Syntymäaika",
             "confirmEmail": "Vahvista sähköposti",
             "email": "Sähköposti",
             "modalTitle": "Muokkaa yhteystietoja",

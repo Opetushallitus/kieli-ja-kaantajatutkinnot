@@ -48,6 +48,9 @@ class PersonBirthdateSearchTest {
     entityManager.flush();
     entityManager.clear();
 
+    assertEquals("1991-02-03", personRepository.findLatestSubmittedBirthdate(person.getOid()));
+    assertNull(personRepository.findLatestSubmittedBirthdate(withoutBirthday.getOid()));
+
     final var results = personRepository.searchPersons(PageRequest.of(0, 10), null, null, null, null, null);
     assertEquals(
       "1991-02-03",

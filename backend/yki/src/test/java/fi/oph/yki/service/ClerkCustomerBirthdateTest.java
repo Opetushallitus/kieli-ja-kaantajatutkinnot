@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import fi.oph.yki.Factory;
 import fi.oph.yki.api.dto.clerk.ClerkCustomerSearchRequestDTO;
 import fi.oph.yki.audit.AuditService;
 import fi.oph.yki.onr.OnrService;
@@ -16,10 +17,40 @@ import fi.oph.yki.repository.PersonSearchProjection;
 import fi.oph.yki.repository.RegistrationRepository;
 import java.util.List;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
 class ClerkCustomerBirthdateTest {
+
+  @ParameterizedTest
+  @NullSource
+  @ValueSource(strings = { "020502E902X" })
+  void detailsIncludeFormBirthdateAlongsideOptionalOnrSsn(final String ssn) throws Exception {
+    final var persons = mock(PersonRepository.class);
+    final var registrations = mock(RegistrationRepository.class);
+    final var onr = mock(OnrService.class);
+    final var person = Factory.person();
+    when(persons.getByOid(person.getOid())).thenReturn(person);
+    when(persons.findLatestSubmittedBirthdate(person.getOid())).thenReturn("2002-05-02");
+    when(registrations.getByPersonOid(person.getOid())).thenReturn(List.of());
+    final var personalData = new PersonalDataDTO();
+    personalData.setIdentityNumber(ssn);
+    when(onr.getPersonalData(person.getOid())).thenReturn(personalData);
+    final var service = new ClerkCustomerService(
+      persons,
+      mock(OrganizerRepository.class),
+      registrations,
+      onr,
+      mock(AuditService.class)
+    );
+
+    final var result = service.getClerkCustomerDetails(person.getOid()).person();
+    assertEquals(ssn, result.ssn());
+    assertEquals("2002-05-02", result.birthdate());
+  }
 
   @Test
   void searchIncludesBirthdateFromRegistrationWhenOnrPersonHasNoSsn() throws Exception {
