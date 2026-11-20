@@ -32,7 +32,7 @@ public class StatisticsXlsxView extends AbstractXlsxView {
     "Ilmoittautuneet",
     "Enimmäismäärä ilmoittautuneita",
     "Paikat täynnä (pvm)",
-    "Peruutuspaikasta kiinnostuneet enimmillään",
+    "Jonottajien määrä enimmillään",
     "Jono suurimmillaan (pvm)"
   );
 
