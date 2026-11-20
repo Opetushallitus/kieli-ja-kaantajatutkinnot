@@ -158,10 +158,12 @@ export const ClerkExamSessionRegistrations = ({
     render: ({ state, person }) => {
       return (
         <div className="rows gapped-xs">
-          <Text>
+          <div className="columns gapped-xxs">
             {registrationStateIconMapping[state]}
-            <strong>{t(`values.registrationState.${state}`)}</strong>
-          </Text>
+            <Text>
+              <strong>{t(`values.registrationState.${state}`)}</strong>
+            </Text>
+          </div>
           {person && (
             <>
               <Text>
