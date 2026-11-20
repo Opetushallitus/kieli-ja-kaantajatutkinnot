@@ -199,6 +199,16 @@ AKR(Frontend): Added new translations [deploy]
 
 ## Frontend conventions
 
+### Security dependency overrides
+
+The root frontend manifest overrides the two minimatch 10 dependency ranges used
+by ESLint and typescript-eslint with minimatch 11.0.7 for
+[GHSA-g3hv-75wg-m249](https://github.com/advisories/GHSA-g3hv-75wg-m249).
+Minimatch 11 changes its matching implementation and removes regular-expression
+APIs; these consumers use the retained matching APIs. The overrides leave
+minimatch 3 consumers unchanged. Remove each override when its parent dependencies
+support a fixed version directly.
+
 ### Visual Studio Code
 
 The project uses the shared workspace configs. In order to keep code clean and easily maintainable please use the following VS Code Extensions.
