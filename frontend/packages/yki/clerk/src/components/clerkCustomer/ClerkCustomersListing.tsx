@@ -35,6 +35,7 @@ export const ClerkCustomersListing = ({
   const rows: ClerkCustomerSummaryRow[] =
     customers?.map((obj) => ({
       ...obj,
+      oid: obj.person.oid,
     })) ?? [];
 
   const columns: ListTableColumn<ClerkCustomerSummaryRow>[] = [

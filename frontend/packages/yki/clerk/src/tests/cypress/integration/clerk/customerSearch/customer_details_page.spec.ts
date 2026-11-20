@@ -39,11 +39,14 @@ describe('ClerkCustomerDetailsPage', () => {
     pastTableBody().should('have.length', 3);
   });
 
-  it('shows user details correctly, when user has no exams', () => {
+  it('shows birthday and user details correctly, when user has no SSN or exams', () => {
     const oid = '1.2.246.562.24.82364099323';
     cy.openClerkCustomerDetailsPage(oid);
     onClerkCustomerDetailsPage.isVisible(oid);
     onClerkCustomerDetailsPage.expectDetailsVisible(oid);
+
+    cy.findByText('Syntymäaika').next().should('have.text', '1.1.1970');
+    cy.findByText('Hetu').should('not.exist');
 
     // expect exam data is empty
 
