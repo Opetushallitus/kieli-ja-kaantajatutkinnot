@@ -31,6 +31,8 @@ class ScheduledTaskMonitorTest {
     verify(shedLockRepository).findAgeInSeconds("personsSyncHandler");
     verify(shedLockRepository).findAgeInSeconds("participantsSyncHandler");
     verify(shedLockRepository).findAgeInSeconds("examSessionSolkiSyncHandler");
+    verify(shedLockRepository).findAgeInSeconds("syncOnrPersonDataHandler");
+    verify(taskLockRepository, never()).findAgeInSeconds("SYNC_ONR_PARTICIPANT_DATA_HANDLER");
   }
 
   @Test
@@ -71,40 +73,6 @@ class ScheduledTaskMonitorTest {
     verify(taskLockRepository, never()).findAgeInSeconds("REGISTRATION_QUEUE_HANDLER");
     verify(taskLockRepository).findAgeInSeconds("REGISTRATION_STATE_HANDLER");
     verify(shedLockRepository).findAgeInSeconds("registrationQueueHandler");
-  }
-
-  @ParameterizedTest
-  @CsvSource(value = { "LEGACY", "NULL", "JAVE" }, nullValues = "NULL")
-  void testMonitorsLegacyOnrSyncUnlessThisBackendOwnsTheSync(final String owner) {
-    final TaskLockRepository taskLockRepository = mockTaskLockRepository(1.0);
-    final ShedLockRepository shedLockRepository = mockShedLockRepository(1.0);
-
-    new ScheduledTaskMonitor(
-      taskLockRepository,
-      shedLockRepository,
-      runtimeFlagRepository(RuntimeFlag.PARTICIPANT_ONR_SYNC_OWNER, owner)
-    )
-      .monitorScheduledTasks();
-
-    verify(taskLockRepository).findAgeInSeconds("SYNC_ONR_PARTICIPANT_DATA_HANDLER");
-    verify(shedLockRepository, never()).findAgeInSeconds("syncOnrParticipantDataHandler");
-  }
-
-  @Test
-  void testMonitorsThisBackendsOnrSyncOnceThisBackendOwnsTheSync() {
-    final TaskLockRepository taskLockRepository = mockTaskLockRepository(1.0);
-    final ShedLockRepository shedLockRepository = mockShedLockRepository(1.0);
-
-    new ScheduledTaskMonitor(
-      taskLockRepository,
-      shedLockRepository,
-      runtimeFlagRepository(RuntimeFlag.PARTICIPANT_ONR_SYNC_OWNER, RuntimeFlag.OWNER_JAVA)
-    )
-      .monitorScheduledTasks();
-
-    verify(taskLockRepository, never()).findAgeInSeconds("SYNC_ONR_PARTICIPANT_DATA_HANDLER");
-    verify(taskLockRepository).findAgeInSeconds("REGISTRATION_QUEUE_HANDLER");
-    verify(shedLockRepository).findAgeInSeconds("syncOnrParticipantDataHandler");
   }
 
   private static TaskLockRepository mockTaskLockRepository(final Double ageInSeconds) {

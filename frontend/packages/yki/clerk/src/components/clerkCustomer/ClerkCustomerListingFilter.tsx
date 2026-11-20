@@ -1,7 +1,8 @@
 import { Search } from '@mui/icons-material';
-import { IconButton, InputAdornment } from '@mui/material';
+import { FormControlLabel, IconButton, InputAdornment } from '@mui/material';
 import {
   OphButton,
+  OphCheckbox,
   OphInputFormField,
   OphSelectFormField,
 } from '@opetushallitus/oph-design-system';
@@ -14,6 +15,7 @@ import { RouteType } from 'interfaces/user';
 import {
   resetCustomersSearch,
   setExamDateFilter,
+  setIsOnlyNotIndividualised,
   setLanguageFilter,
   setLevelFilter,
   setOrganizerFilter,
@@ -55,6 +57,7 @@ export const ClerkCustomerListingFilter = ({
     examDateIdFilter,
     languageCodeFilter,
     levelCodeFilter,
+    isOnlyNotIndividualised,
   } = useAppSelector(clerkCustomersSearchSelector);
 
   useEffect(() => {
@@ -72,120 +75,141 @@ export const ClerkCustomerListingFilter = ({
   }, [dispatch, route, oid]);
 
   return (
-    <div
-      className="columns gapped"
-      style={{ marginBottom: '2rem', alignItems: 'flex-end' }}
-    >
-      <div style={{ flex: 1, maxWidth: '300px' }}>
-        <OphInputFormField
-          sx={{ width: '100%' }}
-          label={t('labels.participant')}
-          value={searchQueryFilter ?? ''}
-          onChange={(e) => dispatch(setSearchQueryFilter(e.target.value))}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton
-                sx={{ padding: 0, margin: '0 4px' }}
-                aria-label={t('listing.filters.searchLabel')}
-                onClick={() => {
-                  dispatch(setSearchQueryFilter(searchQueryFilter));
-                  loadSearch(0);
-                }}
-                onMouseDown={(e) => e.preventDefault()}
-                onMouseUp={(e) => e.preventDefault()}
-                edge="end"
-              >
-                <Search color="disabled" fontSize="large" />
-              </IconButton>
-            </InputAdornment>
-          }
-        />
-      </div>
-      {route === 'clerk' && (
+    <>
+      <div
+        className="columns gapped"
+        style={{
+          marginBottom: route === 'clerk' ? '1rem' : '2rem',
+          alignItems: 'flex-end',
+        }}
+      >
         <div style={{ flex: 1, maxWidth: '300px' }}>
+          <OphInputFormField
+            sx={{ width: '100%' }}
+            label={t('labels.participant')}
+            value={searchQueryFilter ?? ''}
+            onChange={(e) => dispatch(setSearchQueryFilter(e.target.value))}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  sx={{ padding: 0, margin: '0 4px' }}
+                  aria-label={t('listing.filters.searchLabel')}
+                  onClick={() => {
+                    dispatch(setSearchQueryFilter(searchQueryFilter));
+                    loadSearch(0);
+                  }}
+                  onMouseDown={(e) => e.preventDefault()}
+                  onMouseUp={(e) => e.preventDefault()}
+                  edge="end"
+                >
+                  <Search color="disabled" fontSize="large" />
+                </IconButton>
+              </InputAdornment>
+            }
+          />
+        </div>
+        {route === 'clerk' && (
+          <div style={{ flex: 1, maxWidth: '300px' }}>
+            <OphSelectFormField
+              sx={{ width: '100%' }}
+              label={t('labels.organizer')}
+              inputProps={{ 'aria-label': t('labels.organizer') }}
+              value={organizerIdFilter ? String(organizerIdFilter) : ''}
+              options={[
+                { label: t('listing.all'), value: '' },
+                ...organizers.map((org) => ({
+                  label: org.name,
+                  value: String(org.id),
+                })),
+              ]}
+              onChange={(e) => dispatch(setOrganizerFilter(+e.target.value))}
+            />
+          </div>
+        )}
+        <div style={{ minWidth: '150px' }}>
           <OphSelectFormField
             sx={{ width: '100%' }}
-            label={t('labels.organizer')}
-            inputProps={{ 'aria-label': t('labels.organizer') }}
-            value={organizerIdFilter ? String(organizerIdFilter) : ''}
+            label={t('labels.examDate')}
+            inputProps={{ 'aria-label': t('labels.examDate') }}
+            value={examDateIdFilter ? String(examDateIdFilter) : ''}
             options={[
               { label: t('listing.all'), value: '' },
-              ...organizers.map((org) => ({
-                label: org.name,
-                value: String(org.id),
+              ...examDates.map((ed) => ({
+                label: ed.examDate.format('D.M.YYYY'),
+                value: String(ed.id),
               })),
             ]}
-            onChange={(e) => dispatch(setOrganizerFilter(+e.target.value))}
+            onChange={(e) => dispatch(setExamDateFilter(+e.target.value))}
+          />
+        </div>
+        <div style={{ minWidth: '150px' }}>
+          <OphSelectFormField
+            sx={{ width: '100%' }}
+            label={t('labels.language')}
+            inputProps={{ 'aria-label': t('labels.language') }}
+            value={languageCodeFilter ?? ''}
+            options={[
+              { label: t('listing.all'), value: '' },
+              ...LANGUAGES.map((lang) => ({
+                label: languageToString(lang.code),
+                value: lang.code,
+              })),
+            ]}
+            onChange={(e) => dispatch(setLanguageFilter(e.target.value))}
+          />
+        </div>
+        <div style={{ minWidth: '150px' }}>
+          <OphSelectFormField
+            sx={{ width: '100%' }}
+            label={t('labels.level')}
+            inputProps={{ 'aria-label': t('labels.level') }}
+            value={levelCodeFilter ?? ''}
+            options={[
+              { label: t('listing.all'), value: '' },
+              ...levels.map((level) => ({
+                label: levelDescription(level),
+                value: level,
+              })),
+            ]}
+            onChange={(e) => dispatch(setLevelFilter(e.target.value))}
+          />
+        </div>
+        <div style={{ minWidth: '150px' }}>
+          <OphButton
+            variant={Variant.Contained}
+            sx={{ width: '100%' }}
+            disabled={status === APIResponseStatus.InProgress}
+            onClick={() => loadSearch(0)}
+          >
+            {t('submit')}
+          </OphButton>
+        </div>
+        <div style={{ minWidth: '150px' }}>
+          <OphButton
+            variant={Variant.Outlined}
+            sx={{ width: '100%' }}
+            onClick={() => dispatch(resetCustomersSearch())}
+          >
+            {t('clear')}
+          </OphButton>
+        </div>
+      </div>
+      {route === 'clerk' && (
+        <div style={{ marginBottom: '2rem' }}>
+          <FormControlLabel
+            control={
+              <OphCheckbox
+                checked={isOnlyNotIndividualised}
+                onChange={(e) =>
+                  dispatch(setIsOnlyNotIndividualised(e.target.checked))
+                }
+                sx={{ '& .MuiSvgIcon-root': { fontSize: 24 } }}
+              />
+            }
+            label={t('labels.onlyNotIndividualised')}
           />
         </div>
       )}
-      <div style={{ minWidth: '150px' }}>
-        <OphSelectFormField
-          sx={{ width: '100%' }}
-          label={t('labels.examDate')}
-          inputProps={{ 'aria-label': t('labels.examDate') }}
-          value={examDateIdFilter ? String(examDateIdFilter) : ''}
-          options={[
-            { label: t('listing.all'), value: '' },
-            ...examDates.map((ed) => ({
-              label: ed.examDate.format('D.M.YYYY'),
-              value: String(ed.id),
-            })),
-          ]}
-          onChange={(e) => dispatch(setExamDateFilter(+e.target.value))}
-        />
-      </div>
-      <div style={{ minWidth: '150px' }}>
-        <OphSelectFormField
-          sx={{ width: '100%' }}
-          label={t('labels.language')}
-          inputProps={{ 'aria-label': t('labels.language') }}
-          value={languageCodeFilter ?? ''}
-          options={[
-            { label: t('listing.all'), value: '' },
-            ...LANGUAGES.map((lang) => ({
-              label: languageToString(lang.code),
-              value: lang.code,
-            })),
-          ]}
-          onChange={(e) => dispatch(setLanguageFilter(e.target.value))}
-        />
-      </div>
-      <div style={{ minWidth: '150px' }}>
-        <OphSelectFormField
-          sx={{ width: '100%' }}
-          label={t('labels.level')}
-          inputProps={{ 'aria-label': t('labels.level') }}
-          value={levelCodeFilter ?? ''}
-          options={[
-            { label: t('listing.all'), value: '' },
-            ...levels.map((level) => ({
-              label: levelDescription(level),
-              value: level,
-            })),
-          ]}
-          onChange={(e) => dispatch(setLevelFilter(e.target.value))}
-        />
-      </div>
-      <div style={{ minWidth: '150px' }}>
-        <OphButton
-          variant={Variant.Contained}
-          sx={{ width: '100%' }}
-          disabled={status === APIResponseStatus.InProgress}
-          onClick={() => loadSearch(0)}
-        >
-          {t('submit')}
-        </OphButton>
-      </div>
-      <div style={{ minWidth: '150px' }}>
-        <OphButton
-          variant={Variant.Outlined}
-          sx={{ width: '100%' }}
-          onClick={() => dispatch(resetCustomersSearch())}
-        >
-          {t('clear')}
-        </OphButton>
-      </div>
-    </div>
+    </>
   );
 };

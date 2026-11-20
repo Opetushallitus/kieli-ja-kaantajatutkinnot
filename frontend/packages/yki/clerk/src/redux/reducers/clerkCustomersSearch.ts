@@ -17,6 +17,7 @@ interface ClerkCustomersSearchState {
   examDateIdFilter?: number;
   languageCodeFilter?: string;
   levelCodeFilter?: 'PERUS' | 'KESKI' | 'YLIN';
+  isOnlyNotIndividualised: boolean;
 
   // pagination
   page: number;
@@ -27,6 +28,7 @@ interface ClerkCustomersSearchState {
 const initialState: ClerkCustomersSearchState = {
   customers: [],
   status: APIResponseStatus.NotStarted,
+  isOnlyNotIndividualised: false,
   page: 0,
   size: 20,
   totalElements: 0,
@@ -90,6 +92,9 @@ const clerkCustomersSearchSlice = createSlice({
       state.levelCodeFilter =
         action.payload === '' ? undefined : action.payload;
     },
+    setIsOnlyNotIndividualised(state, action: PayloadAction<boolean>) {
+      state.isOnlyNotIndividualised = action.payload;
+    },
     resetCustomersSearch() {
       return initialState;
     },
@@ -109,4 +114,5 @@ export const {
   setExamDateFilter,
   setLanguageFilter,
   setLevelFilter,
+  setIsOnlyNotIndividualised,
 } = clerkCustomersSearchSlice.actions;
