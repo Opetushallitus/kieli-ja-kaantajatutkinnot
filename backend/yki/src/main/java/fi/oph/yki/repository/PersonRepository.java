@@ -18,7 +18,7 @@ public interface PersonRepository extends JpaRepository<Person, String> {
       FROM registration r
       WHERE r.person_oid = :personOid
         AND r.state <> 'STARTED'
-        AND NULLIF(TRIM(r.form ->> 'birthdate'), '') IS NOT NULL
+        AND NULLIF(r.form ->> 'birthdate', '') IS NOT NULL
       ORDER BY r.created DESC NULLS LAST, r.id DESC
       LIMIT 1
       """,
@@ -67,7 +67,7 @@ SELECT
         FROM registration r3
         WHERE r3.person_oid = p.oid
           AND r3.state <> 'STARTED'
-          AND NULLIF(TRIM(r3.form ->> 'birthdate'), '') IS NOT NULL
+          AND NULLIF(r3.form ->> 'birthdate', '') IS NOT NULL
         ORDER BY r3.created DESC NULLS LAST, r3.id DESC
         LIMIT 1
     ) as birthdate
