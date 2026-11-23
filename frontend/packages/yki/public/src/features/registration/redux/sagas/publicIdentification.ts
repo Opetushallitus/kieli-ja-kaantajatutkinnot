@@ -14,19 +14,16 @@ import { SerializationUtils } from 'utils/serialization';
 
 function* sendEmailLinkOrderSaga(action: PayloadAction<EmailLinkOrder>) {
   try {
-    const { email, examSessionId, registrationKind, registrationId } =
-      action.payload;
+    const { email, examSessionId, registrationId } = action.payload;
     const lang = getCurrentLang();
 
     yield call(
       axiosInstance.post,
-      APIEndpoints.LoginLink,
-      JSON.stringify({
-        email,
-        exam_session_id: examSessionId,
-        registration_kind: registrationKind,
-        registration_id: registrationId,
-      }),
+      APIEndpoints.LoginLinkV2.replace(
+        /:examSessionId/,
+        `${examSessionId}`,
+      ).replace(/:registrationId/, `${registrationId}`),
+      JSON.stringify({ email }),
       {
         params: {
           lang: SerializationUtils.serializeAppLanguage(lang),

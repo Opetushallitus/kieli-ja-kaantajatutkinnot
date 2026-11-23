@@ -16,6 +16,7 @@ export enum APIEndpoints {
   LoginLink = '/yki/api/login-link',
   LoginLinkRenew = '/yki/api/login-link/renew',
   LoginLinkInfo = '/yki/auth/login-link-info',
+  LoginLinkV2 = '/yki/api/v2/examSession/:examSessionId/registration/:registrationId/login-link',
   LoginWithCode = '/yki/auth/login',
   Logout = '/yki/auth/logout',
   Registration = '/yki/api/registration/:registrationId',
