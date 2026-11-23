@@ -3,9 +3,10 @@ import { Dayjs } from 'dayjs';
 import { RegistrationStates } from 'enums/app';
 
 interface ClerkRegistrationPerson {
+  birthdate?: string | null;
   firstName: string;
   lastName: string;
-  socialSecurityNumber: string;
+  socialSecurityNumber?: string | null;
   oid: string;
   email: string;
   phoneNumber: string;

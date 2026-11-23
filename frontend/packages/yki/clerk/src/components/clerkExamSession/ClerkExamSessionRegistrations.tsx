@@ -31,6 +31,7 @@ import { ClerkExamSession } from 'interfaces/clerkExamSession';
 import { ClerkRegistration } from 'interfaces/clerkRegistration';
 import { RouteType } from 'interfaces/user';
 import { Text } from 'ophTheme/Text';
+import { formatPersonIdentifier } from 'utils/person';
 
 const TABS = [RegistrationKind.Admission, RegistrationKind.Queue] as const;
 type Tab = (typeof TABS)[number];
@@ -157,10 +158,12 @@ export const ClerkExamSessionRegistrations = ({
     render: ({ state, person }) => {
       return (
         <div className="rows gapped-xs">
-          <Text>
+          <div className="columns gapped-xxs">
             {registrationStateIconMapping[state]}
-            <strong>{t(`values.registrationState.${state}`)}</strong>
-          </Text>
+            <Text>
+              <strong>{t(`values.registrationState.${state}`)}</strong>
+            </Text>
+          </div>
           {person && (
             <>
               <Text>
@@ -203,7 +206,12 @@ export const ClerkExamSessionRegistrations = ({
           >
             {person.firstName} {person.lastName}
           </Link>
-          <Text>{person.socialSecurityNumber}</Text>
+          <Text>
+            {formatPersonIdentifier(
+              person.socialSecurityNumber,
+              person.birthdate,
+            )}
+          </Text>
           <Text>{person.oid}</Text>
         </div>
       ),

@@ -8,6 +8,7 @@
             "save": "Tallenna tiedot"
           },
           "fields": {
+            "birthdate": "Syntymäaika",
             "confirmEmail": "Vahvista sähköposti",
             "email": "Sähköposti",
             "modalTitle": "Muokkaa yhteystietoja",
@@ -405,23 +406,6 @@
           "previous": "Aiemmat tarkastukset"
         }
       },
-      "clerkStatistics": {
-        "clearFilters": "Tyhjennä hakuehdot",
-        "description": "Valitse alta päivämäärät, joiden ajalta haluat tarkastella tilastoja. Voit rajata tilastoja myös muilla valinnoilla.",
-        "download": "Muodosta raportti (.xlsx)",
-        "fields": {
-          "dateRange": "Aikaväli",
-          "language": "Kieli",
-          "level": "Taso",
-          "municipality": "Paikkakunta",
-          "organizer": "Järjestäjä"
-        },
-        "placeholder": "Valitse...",
-        "toasts": {
-          "downloadError": "Raportin luominen epäonnistui",
-          "emptyResult": "Ei hakutuloksia"
-        }
-      },
       "clerkPaymentReport": {
         "description": "Select the date range for which you want to view completed exam payments. By default, the entire previous month is selected. Please note that any subsequently refunded exam payments will still appear in the report as paid.",
         "download": "Generate report (.xlsx)",
@@ -673,6 +657,23 @@
             }
           }
         }
+      },
+      "clerkStatistics": {
+        "clearFilters": "Tyhjennä hakuehdot",
+        "description": "Valitse alta päivämäärät, joiden ajalta haluat tarkastella tilastoja. Voit rajata tilastoja myös muilla valinnoilla.",
+        "download": "Muodosta raportti (.xlsx)",
+        "fields": {
+          "dateRange": "Aikaväli",
+          "language": "Kieli",
+          "level": "Taso",
+          "municipality": "Paikkakunta",
+          "organizer": "Järjestäjä"
+        },
+        "placeholder": "Valitse...",
+        "toasts": {
+          "downloadError": "Raportin luominen epäonnistui",
+          "emptyResult": "Ei hakutuloksia"
+        }
       }
     },
     "pages": {
@@ -694,14 +695,14 @@
       "clerkPaymentReportPage": {
         "heading": "Reports and statistics"
       },
-      "clerkStatisticsPage": {
-        "heading": "Tilastot"
-      },
       "clerkQuarantinePage": {
         "heading": "Osallistumiskiellot"
       },
       "clerkRegisterPage": {
         "heading": "Kielitutkintojen järjestäjärekisteri"
+      },
+      "clerkStatisticsPage": {
+        "heading": "Tilastot"
       },
       "notFoundPage": {
         "description": "Please check the website address or return to the front page.",

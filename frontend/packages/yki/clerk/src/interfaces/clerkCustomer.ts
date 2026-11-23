@@ -9,9 +9,10 @@ import {
 } from 'enums/app';
 
 export interface CustomerPerson {
+  birthdate?: string | null;
   firstName: string;
   lastName: string;
-  ssn?: string;
+  ssn?: string | null;
   oid: string;
   nationalityCode: string;
   phoneNumber?: string;

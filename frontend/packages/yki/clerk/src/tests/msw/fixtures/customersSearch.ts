@@ -18,7 +18,7 @@ export const allCustomers: ClerkCustomerSummary[] = [
     person: {
       firstName: 'Aino',
       lastName: 'Osallistuja',
-      ssn: '010170-960F',
+      birthdate: '1970-01-01',
       oid: '1.2.246.562.24.82364099323',
       nationalityCode: '246',
       phoneNumber: '+358 401234567',

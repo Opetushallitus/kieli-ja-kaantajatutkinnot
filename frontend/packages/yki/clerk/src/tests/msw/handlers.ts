@@ -126,83 +126,89 @@ export const handlers = [
       }
     },
   ),
-  http.post(APIEndpoints.ClerkCustomersSearch, async ({ request }) => {
-    const url = new URL(request.url);
-    const body = (await request.json()) as {
-      personQuery?: string;
-      organizerId?: number;
-      examDateId?: number;
-      languageCode?: string;
-      levelCode?: string;
-    };
+  http.post(
+    APIEndpoints.ClerkCustomersSearch.split('?')[0],
+    async ({ request }) => {
+      const url = new URL(request.url);
+      const body = (await request.json()) as {
+        personQuery?: string;
+        organizerId?: number;
+        examDateId?: number;
+        languageCode?: string;
+        levelCode?: string;
+      };
 
-    const getNumberParam = (urlParam: string, fallback: number) => {
-      const param = Number(url.searchParams.get(urlParam));
+      const getNumberParam = (urlParam: string, fallback: number) => {
+        const param = Number(url.searchParams.get(urlParam));
 
-      return Number.isFinite(param) && param >= 0 ? param : fallback;
-    };
+        return Number.isFinite(param) && param >= 0 ? param : fallback;
+      };
 
-    const page = getNumberParam('page', 0);
-    const size = getNumberParam('size', 20);
+      const page = getNumberParam('page', 0);
+      const size = getNumberParam('size', 20);
 
-    const personQuery = body.personQuery?.trim() ?? '';
-    if (personQuery.length > 0 && personQuery.length <= 2) {
-      return HttpResponse.json(
-        {
-          error:
-            'When given the person query, it must have atleast three characters',
-        },
-        { status: 400 },
-      );
-    }
-
-    const searchTerms = personQuery.toLowerCase().split(/\s+/).filter(Boolean);
-
-    const matchesSearchTerms = (customer: (typeof allCustomers)[0]) => {
-      if (searchTerms.length === 0) {
-        return true;
+      const personQuery = body.personQuery?.trim() ?? '';
+      if (personQuery.length > 0 && personQuery.length <= 2) {
+        return HttpResponse.json(
+          {
+            error:
+              'When given the person query, it must have atleast three characters',
+          },
+          { status: 400 },
+        );
       }
 
-      const searchableText = [
-        customer.person.oid,
-        customer.person.firstName,
-        customer.person.lastName,
-        customer.person.email ?? '',
-      ]
-        .join(' ')
-        .toLowerCase();
+      const searchTerms = personQuery
+        .toLowerCase()
+        .split(/\s+/)
+        .filter(Boolean);
 
-      return searchTerms.every((term) => searchableText.includes(term));
-    };
+      const matchesSearchTerms = (customer: (typeof allCustomers)[0]) => {
+        if (searchTerms.length === 0) {
+          return true;
+        }
 
-    const filtered = allCustomers.filter(matchesSearchTerms);
-    const start = page * size;
-    const paged = filtered.slice(start, start + size);
-    const totalElements = filtered.length;
-    const totalPages = size > 0 ? Math.ceil(totalElements / size) : 0;
-    const sort = { empty: true, unsorted: true, sorted: false };
+        const searchableText = [
+          customer.person.oid,
+          customer.person.firstName,
+          customer.person.lastName,
+          customer.person.email ?? '',
+        ]
+          .join(' ')
+          .toLowerCase();
 
-    return HttpResponse.json({
-      content: paged,
-      pageable: {
+        return searchTerms.every((term) => searchableText.includes(term));
+      };
+
+      const filtered = allCustomers.filter(matchesSearchTerms);
+      const start = page * size;
+      const paged = filtered.slice(start, start + size);
+      const totalElements = filtered.length;
+      const totalPages = size > 0 ? Math.ceil(totalElements / size) : 0;
+      const sort = { empty: true, unsorted: true, sorted: false };
+
+      return HttpResponse.json({
+        content: paged,
+        pageable: {
+          sort,
+          offset: start,
+          pageNumber: page,
+          pageSize: size,
+          paged: true,
+          unpaged: false,
+        },
+        last: totalPages === 0 ? true : page >= totalPages - 1,
+        totalElements,
+        totalPages,
+        size,
+        number: page,
         sort,
-        offset: start,
-        pageNumber: page,
-        pageSize: size,
-        paged: true,
-        unpaged: false,
-      },
-      last: totalPages === 0 ? true : page >= totalPages - 1,
-      totalElements,
-      totalPages,
-      size,
-      number: page,
-      sort,
-      first: page === 0,
-      numberOfElements: paged.length,
-      empty: paged.length === 0,
-    });
-  }),
+        first: page === 0,
+        numberOfElements: paged.length,
+        empty: paged.length === 0,
+      });
+    },
+  ),
   http.post(
     '/organisaatio-service/rest/organisaatio/v3/findbyoids',
     async ({ request }) => {
@@ -356,12 +362,9 @@ export const handlers = [
     APIEndpoints.ClerkRegistrationCancel,
     () => new HttpResponse(null, { status: 200 }),
   ),
-  http.get(
-    '/organisaatio-service/rest/organisaatio/v4/hae?searchStr=&aktiiviset=true&suunnitellut=true&lakkautetut=false&lang=fi',
-    () => {
-      return HttpResponse.json(findOrganizations);
-    },
-  ),
+  http.get('/organisaatio-service/rest/organisaatio/v4/hae', () => {
+    return HttpResponse.json(findOrganizations);
+  }),
   http.get(APIEndpoints.ClerkPaymentReportExcel, ({ request }) => {
     const url = new URL(request.url);
     const from = url.searchParams.get('from');
