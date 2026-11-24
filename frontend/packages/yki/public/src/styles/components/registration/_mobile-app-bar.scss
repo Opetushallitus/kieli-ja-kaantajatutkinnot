@@ -1,6 +1,8 @@
 .mobile {
   & &-app-bar {
     @include app-bar-bottom;
+    background-color: $color-background;
+    color: $color-text-primary;
 
     &__tool-bar {
       button {
