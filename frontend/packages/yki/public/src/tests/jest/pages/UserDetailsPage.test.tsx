@@ -163,17 +163,6 @@ describe('UserDetailsPage registration queue closure', () => {
     },
   );
 
-  it('includes a started registration without labeling it as an ended queue', () => {
-    renderRegistration({ state: RegistrationStates.Started });
-
-    expect(
-      screen.getByRole('heading', { name: 'suomi, keskitaso, 17.11.2026' }),
-    ).toBeVisible();
-    expect(
-      screen.queryByText('Peruttu, jonotus loppunut'),
-    ).not.toBeInTheDocument();
-  });
-
   it.each([RegistrationStates.Cancelled, RegistrationStates.PaidAndCancelled])(
     'preserves the existing cancellation reason for %s',
     (state) => {

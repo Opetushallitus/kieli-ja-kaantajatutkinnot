@@ -403,7 +403,6 @@ export const UserDetailsPage: FC = () => {
   const upcomingAndPastRegistrations = filterByState(registrations, [
     RegistrationStates.Submitted,
     RegistrationStates.Completed,
-    RegistrationStates.Started,
   ]).filter((r) => !UserRegistrationUtils.isCancelled(r));
 
   const upcomingRegistrations = [
