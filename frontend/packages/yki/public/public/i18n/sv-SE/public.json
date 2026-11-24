@@ -869,6 +869,7 @@
           "actions": {
             "cancel": "Annullera anmälan",
             "cancelDescription": "Jag kan inte delta i YKI-testet. Jag vill <CancelLink>annullera min anmälan</CancelLink>.",
+            "cancelQueueDescription": "Jag kan inte delta i YKI-testet. Jag vill <CancelLink>annullera min köanmälan</CancelLink>.",
             "confirm": "Bekräfta anmälan"
           },
           "examPayment": {

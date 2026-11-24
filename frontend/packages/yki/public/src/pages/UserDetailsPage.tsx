@@ -170,7 +170,7 @@ const Registrations: FC<RegistrationsProps> = ({
         <RegistrationDetails registration={r} />
         {!r.examDate.isBefore(dayjs(), 'day') &&
           !UserRegistrationUtils.isCancelled(r) &&
-          (showConfirmButton || r.kind === RegistrationKind.Queue ? (
+          (showConfirmButton ? (
             <div className="rows gapped">
               <div className="columns gapped">
                 {showConfirmButton && (
@@ -202,7 +202,11 @@ const Registrations: FC<RegistrationsProps> = ({
             <Text>
               <Trans
                 t={t}
-                i18nKey="actions.cancelDescription"
+                i18nKey={
+                  r.kind === RegistrationKind.Queue
+                    ? 'actions.cancelQueueDescription'
+                    : 'actions.cancelDescription'
+                }
                 components={{
                   CancelLink: (
                     <OphLink

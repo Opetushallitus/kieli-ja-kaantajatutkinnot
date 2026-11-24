@@ -7,12 +7,12 @@ class PublicUserDetailsPage {
     cancelPaidRegistration: (nth: number) =>
       cy
         .findAllByRole('button', {
-          name: /^(Peru ilmoittautuminen|perua ilmoittautumisen)$/,
+          name: /^(Peru ilmoittautuminen|perua ilmoittautumisen(?: jonoon)?)$/,
         })
         .eq(nth),
     cancelRegistrationByCardText: (text: string) =>
       cy.contains('.user-details-page__event', text).findByRole('button', {
-        name: /^(Peru ilmoittautuminen|perua ilmoittautumisen)$/,
+        name: /^(Peru ilmoittautuminen|perua ilmoittautumisen(?: jonoon)?)$/,
       }),
     modifyContactDetails: () =>
       cy.findByRole('link', { name: 'Muokkaa yhteystietoja' }),

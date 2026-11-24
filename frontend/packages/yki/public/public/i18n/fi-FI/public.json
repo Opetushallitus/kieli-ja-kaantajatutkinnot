@@ -869,6 +869,7 @@
           "actions": {
             "cancel": "Peru ilmoittautuminen",
             "cancelDescription": "En voi osallistua YKI-testiin. Haluan <CancelLink>perua ilmoittautumisen</CancelLink>.",
+            "cancelQueueDescription": "En voi osallistua YKI-testiin. Haluan <CancelLink>perua ilmoittautumisen jonoon</CancelLink>.",
             "confirm": "Vahvista ilmoittautuminen"
           },
           "examPayment": {

@@ -869,6 +869,7 @@
           "actions": {
             "cancel": "Cancel registration",
             "cancelDescription": "I cannot attend the YKI test. I want to <CancelLink>cancel my registration</CancelLink>.",
+            "cancelQueueDescription": "I cannot attend the YKI test. I want to <CancelLink>cancel my queue registration</CancelLink>.",
             "confirm": "Confirm registration"
           },
           "examPayment": {

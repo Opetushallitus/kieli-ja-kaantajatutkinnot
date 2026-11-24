@@ -106,7 +106,7 @@ describe('UserDetailsPage registration queue closure', () => {
     expect(screen.queryByText(/Jonossa \(sija/)).not.toBeInTheDocument();
     expect(
       screen.queryByRole('button', {
-        name: /^(Peru ilmoittautuminen|perua ilmoittautumisen)$/,
+        name: /^(Peru ilmoittautuminen|perua ilmoittautumisen(?: jonoon)?)$/,
       }),
     ).not.toBeInTheDocument();
     expect(
@@ -125,7 +125,7 @@ describe('UserDetailsPage registration queue closure', () => {
     expect(screen.getByText('Jonossa (sija 3)')).toBeVisible();
     expect(
       screen.getByRole('button', {
-        name: /^(Peru ilmoittautuminen|perua ilmoittautumisen)$/,
+        name: /^(Peru ilmoittautuminen|perua ilmoittautumisen(?: jonoon)?)$/,
       }),
     ).toBeEnabled();
     expect(
@@ -329,7 +329,12 @@ describe('UserDetailsPage registration card actions', () => {
       renderRegistration({ kind, examDate: dayjs('2026-11-10') });
 
       expect(
-        screen.getByRole('button', { name: 'Peru ilmoittautuminen' }),
+        screen.getByRole('button', {
+          name:
+            kind === RegistrationKind.Queue
+              ? 'perua ilmoittautumisen jonoon'
+              : 'Peru ilmoittautuminen',
+        }),
       ).toBeEnabled();
       if (kind === RegistrationKind.Admission) {
         expect(
@@ -340,21 +345,23 @@ describe('UserDetailsPage registration card actions', () => {
   );
 
   it.each([true, false])(
-    'shows an outlined queue cancellation button with isCancellable=%s',
+    'shows a queue cancellation link with isCancellable=%s',
     async (isCancellable) => {
       const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
       renderRegistration({ isCancellable });
 
       const cancelButton = screen.getByRole('button', {
-        name: 'Peru ilmoittautuminen',
+        name: 'perua ilmoittautumisen jonoon',
       });
-      expect(cancelButton).toHaveClass('MuiButton-outlined');
+      expect(cancelButton).toHaveStyle({ textDecoration: 'underline' });
       expect(
         screen.queryByRole('link', { name: 'Vahvista ilmoittautuminen' }),
       ).not.toBeInTheDocument();
       expect(
-        screen.queryByText(/En voi osallistua YKI-testiin/),
-      ).not.toBeInTheDocument();
+        screen.getByText(/En voi osallistua YKI-testiin/),
+      ).toHaveTextContent(
+        'En voi osallistua YKI-testiin. Haluan perua ilmoittautumisen jonoon.',
+      );
 
       if (isCancellable) {
         expect(cancelButton).toBeEnabled();
