@@ -113,8 +113,9 @@ class ClerkCustomerDetailsPage {
     pastTableHeader().eq(0).should('have.text', 'Tutkintopäivä');
     pastTableHeader().eq(1).should('have.text', 'Tutkinto');
     pastTableHeader().eq(2).should('have.text', 'Testipaikka');
-    pastTableHeader().eq(3).should('have.text', 'Tila');
-    pastTableHeader().should('have.length', 4); // check no extra columns
+    pastTableHeader().eq(3).should('have.text', 'Ilmoittautumisen tila');
+    pastTableHeader().eq(4).should('have.text', 'Ilmoittautumispvm');
+    pastTableHeader().should('have.length', 5); // check no extra columns
   }
 }
 

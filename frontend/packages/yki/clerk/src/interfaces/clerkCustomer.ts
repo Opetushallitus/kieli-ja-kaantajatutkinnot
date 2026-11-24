@@ -58,15 +58,6 @@ export type QueuedRegistration = AdmissionedRegistration & {
   queueSpotOffered: QueueSpotOffered;
 };
 
-export type ExamState = 'REVIEWED' | 'CANCELLED' | 'REGISTERED';
-
-export type PastRegistration = Omit<
-  AdmissionedRegistration,
-  'registrationStatus' | 'registrationDate'
-> & {
-  state: ExamState;
-};
-
 export enum QueueOfferStatus {
   Offered = 'OFFERED',
   NotOffered = 'NOT_OFFERED',
@@ -77,7 +68,7 @@ export interface ClerkCustomerDetails {
   person: CustomerPerson;
   admissionedRegistrations: AdmissionedRegistration[];
   queueRegistrations: QueuedRegistration[];
-  pastRegistrations: PastRegistration[];
+  pastRegistrations: AdmissionedRegistration[];
 }
 
 export type RegistrationResponse = {

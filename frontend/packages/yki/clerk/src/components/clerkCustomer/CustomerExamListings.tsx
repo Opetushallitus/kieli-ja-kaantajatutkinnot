@@ -1,9 +1,6 @@
 import { DeleteOutlined, TurnRightOutlined } from '@mui/icons-material';
 import BlockIcon from '@mui/icons-material/Block';
-import BlockOutlinedIcon from '@mui/icons-material/BlockOutlined';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
-import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import WarningIcon from '@mui/icons-material/Warning';
 import { IconButton, Stack } from '@mui/material';
 import { Box } from '@mui/system';
@@ -28,7 +25,6 @@ import { useCanManage } from 'hooks/useCanManage';
 import {
   AdmissionedRegistration,
   ClerkCustomerDetails,
-  ExamState,
   QueueOfferStatus,
   QueueSpotOffered,
   RegistrationStatus,
@@ -163,7 +159,7 @@ export const CustomerExamListings = ({
     ),
   };
 
-  // Ilmoittautumisen tila (Ilmoittautumiset, Jonossa)
+  // Ilmoittautumisen tila (Ilmoittautumiset, Jonossa, Menneet)
   const createRegistrationStateColumn = <
     T extends { registrationStatus: RegistrationStatus },
   >(
@@ -192,7 +188,7 @@ export const CustomerExamListings = ({
     },
   });
 
-  // Ilmoittautumispvm (Ilmoittautumiset, Jonossa)
+  // Ilmoittautumispvm (Ilmoittautumiset, Jonossa, Menneet)
   const createRegistrationDateColumn = <
     T extends { registrationDate: Dayjs | undefined },
   >(
@@ -276,29 +272,6 @@ export const CustomerExamListings = ({
     },
   });
 
-  // Tila (Menneet)
-  const examStateIconMapping: Partial<Record<ExamState, JSX.Element>> = {
-    ['REVIEWED']: <SchoolOutlinedIcon fontSize="large" color="success" />,
-    ['CANCELLED']: <BlockOutlinedIcon fontSize="large" color="error" />,
-    ['REGISTERED']: (
-      <CheckCircleOutlineOutlinedIcon fontSize="large" color="success" />
-    ),
-  };
-  const createExamStateColumn = <T extends { state: ExamState }>(
-    t: typeof i18next.t,
-  ): ListTableColumn<T> => ({
-    key: 'examState',
-    title: t('columns.examState'),
-    render: ({ state }) => (
-      <div className="columns gapped-xxs">
-        {examStateIconMapping[state]}
-        <Text>
-          <span>&nbsp;{t(`values.examState.${state}`)}</span>
-        </Text>
-      </div>
-    ),
-  });
-
   const registrationsColumns = [
     createExamDateColumn(t),
     createExamNameColumn(t),
@@ -319,7 +292,8 @@ export const CustomerExamListings = ({
     createExamDateColumn(t),
     createExamNameColumn(t),
     createExamLocationColumn(t),
-    createExamStateColumn(t),
+    createRegistrationStateColumn(t),
+    createRegistrationDateColumn(t),
   ];
 
   return (
