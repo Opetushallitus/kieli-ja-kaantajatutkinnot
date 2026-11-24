@@ -196,8 +196,8 @@ const defaultPastRegistrations: RegistrationResponse[] = [
     },
     examLocation: kajaani,
     registrationState: RegistrationStates.Submitted,
-    registrationDate: '2015-05-06', // Ei näytetä "menneet - tutkinnot" - näkymässä
-    kind: RegistrationKind.Admission, // Ei näytetä menneet - tutkinnot - näkymässä
+    registrationDate: '2015-05-06',
+    kind: RegistrationKind.Admission,
   },
   {
     id: 10,
@@ -209,8 +209,8 @@ const defaultPastRegistrations: RegistrationResponse[] = [
     },
     examLocation: lassila,
     registrationState: RegistrationStates.Cancelled,
-    registrationDate: '2015-05-06', // Ei näytetä "menneet - tutkinnot" - näkymässä
-    kind: RegistrationKind.Queue, // Ei näytetä menneet - tutkinnot - näkymässä
+    registrationDate: '2015-05-06',
+    kind: RegistrationKind.Queue,
   },
   {
     id: 11,
@@ -222,8 +222,28 @@ const defaultPastRegistrations: RegistrationResponse[] = [
     },
     examLocation: helsinki,
     registrationState: RegistrationStates.Expired,
-    registrationDate: '2015-05-06', // Ei näytetä "menneet - tutkinnot" - näkymässä
-    kind: RegistrationKind.Admission, // Ei näytetä "menneet - tutkinnot" - näkymässä
+    registrationDate: '2015-05-06',
+    kind: RegistrationKind.Admission,
+  },
+  {
+    id: 12,
+    examDate: '2015-08-01',
+    exam: { id: 12, language: ExamLanguage.FIN, level: ExamLevel.KESKI },
+    examLocation: kajaani,
+    registrationState: RegistrationStates.Completed,
+    examPaymentPaidAt: '2015-06-01',
+    registrationDate: '2015-06-01',
+    kind: RegistrationKind.Admission,
+  },
+  {
+    id: 13,
+    examDate: '2015-08-02',
+    exam: { id: 13, language: ExamLanguage.FIN, level: ExamLevel.KESKI },
+    examLocation: kajaani,
+    registrationState: RegistrationStates.PaidAndCancelled,
+    examPaymentPaidAt: '2015-06-02',
+    registrationDate: '2015-06-02',
+    kind: RegistrationKind.Admission,
   },
 ];
 

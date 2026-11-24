@@ -36,7 +36,23 @@ describe('ClerkCustomerDetailsPage', () => {
     queuedTableBody().should('have.length', 4);
 
     const pastTableBody = onClerkCustomerDetailsPage.elements.pastTableBody;
-    pastTableBody().should('have.length', 3);
+    pastTableBody().should('have.length', 5);
+
+    const expectedPastRegistrations = [
+      { status: 'Ei Maksanut', registrationDate: '6.5.2015' },
+      { status: 'Peruttu', registrationDate: '6.5.2015' },
+      { status: 'Erääntynyt', registrationDate: '6.5.2015' },
+      { status: 'Maksanut1.6.2015', registrationDate: '1.6.2015' },
+      { status: 'Maksanut ja peruttu', registrationDate: '2.6.2015' },
+    ];
+    expectedPastRegistrations.forEach(({ status, registrationDate }, index) => {
+      pastTableBody().eq(index).find('td').eq(3).should('have.text', status);
+      pastTableBody()
+        .eq(index)
+        .find('td')
+        .eq(4)
+        .should('have.text', registrationDate);
+    });
   });
 
   it('shows user details correctly, when user has no exams', () => {
@@ -99,11 +115,15 @@ describe('ClerkCustomerDetailsPage', () => {
     if (!details) {
       throw new Error(`Could not find customerDetails with oid '${oid}'.`);
     }
+    const ssn = details.person.ssn;
+    if (!ssn) {
+      throw new Error(`Could not find SSN for customer with oid '${oid}'.`);
+    }
 
     cy.openClerkCustomerDetailsPage(oid);
     onClerkCustomerDetailsPage.isVisible(oid);
 
-    cy.findByText(details.person.ssn).should('be.visible');
+    cy.findByText(ssn).should('be.visible');
     cy.findByText(details.person.oid).should('be.visible');
 
     cy.findByText('Suomi').should('be.visible');
@@ -112,10 +132,7 @@ describe('ClerkCustomerDetailsPage', () => {
     // then get it's ancestor divs
     // The nearest div (same where the ssn exists) is first
     // save it as 'personDetailsContainer'
-    cy.findByText(details.person.ssn)
-      .parents('div')
-      .first()
-      .as('personDetailsContainer');
+    cy.findByText(ssn).parents('div').first().as('personDetailsContainer');
 
     // get 'person_details', the assert if it has 6 divs.
     cy.get('@personDetailsContainer').find('> div').should('have.length', 6);
