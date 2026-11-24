@@ -19,6 +19,15 @@
   }
 }
 
+.clerk-exam-session-details {
+  &__queue-deadline {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+}
+
 .clerk-exam-session-registrations {
   &__filter-tabs {
     justify-self: left;
