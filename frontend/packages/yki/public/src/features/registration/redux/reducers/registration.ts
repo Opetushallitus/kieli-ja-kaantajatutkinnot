@@ -127,8 +127,13 @@ const applyRegistrationDetails = (
   state.registration.expiresIn = details?.expires_in;
   state.registration.partialExamType = details.partial_exam_type;
 
-  const { registration_id, is_strongly_identified, user, registration_kind } =
-    details;
+  const {
+    registration_id,
+    is_strongly_identified,
+    user,
+    email,
+    registration_kind,
+  } = details;
   const nationality = user?.nationalities && user?.nationalities[0];
   state.registration.registrationKind = registration_kind;
   state.registration.id = registration_id;
@@ -150,7 +155,7 @@ const applyRegistrationDetails = (
     state.isEmailRegistration = true;
     state.registration = {
       ...state.registration,
-      email: user?.email,
+      email: email ?? user?.email,
     };
   }
 };

@@ -7,6 +7,7 @@ import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
 import fi.oph.yki.model.RegistrationLoginLink;
 import fi.oph.yki.model.type.AppLocale;
+import fi.oph.yki.model.type.IdentityAuthMethod;
 import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.service.PaymentService;
 import fi.oph.yki.service.PersonService;
@@ -14,7 +15,6 @@ import fi.oph.yki.service.PublicAuthService;
 import fi.oph.yki.service.PublicIdentityService;
 import fi.oph.yki.service.PublicRegistrationService;
 import fi.oph.yki.service.RegistrationLoginLinkService;
-import fi.oph.yki.service.dto.OppijaLoginRedirectDTO;
 import fi.oph.yki.service.dto.PersonDTO;
 import fi.oph.yki.util.RegistrationUtil;
 import fi.oph.yki.util.exception.APIException;
@@ -170,7 +170,9 @@ public class PublicLoginController {
       final RegistrationLoginLink loginLink = registrationLoginLinkService.getActiveLoginLink(code);
       final Registration registration = loginLink.getRegistration();
 
+      publicIdentityService.updateAuthMethod(loginLink.getIdentity(), IdentityAuthMethod.EMAIL);
       publicIdentityService.setIdentityToSession(httpRequest.getSession(true), loginLink.getIdentity());
+      publicRegistrationService.setRegistrationEmailAuthDetails(registration, loginLink.getEmail());
       httpRequest.changeSessionId();
 
       redirectUrl =

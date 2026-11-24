@@ -2,6 +2,7 @@ package fi.oph.yki.api;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
@@ -13,6 +14,7 @@ import fi.oph.yki.model.Identity;
 import fi.oph.yki.model.PaymentLink;
 import fi.oph.yki.model.Registration;
 import fi.oph.yki.model.RegistrationLoginLink;
+import fi.oph.yki.model.type.IdentityAuthMethod;
 import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.repository.IdentityRepository;
 import fi.oph.yki.service.PaymentService;
@@ -116,8 +118,8 @@ class PublicLoginControllerTest {
 
   @Test
   public void testLoginWithRegistrationLinkStartsSessionAndRedirectsToRegistrationForm() throws Exception {
-    when(registrationLoginLinkService.getActiveLoginLink("login-code"))
-      .thenReturn(registrationLoginLink(RegistrationKind.ADMISSION));
+    final RegistrationLoginLink loginLink = registrationLoginLink(RegistrationKind.ADMISSION);
+    when(registrationLoginLinkService.getActiveLoginLink("login-code")).thenReturn(loginLink);
 
     final MvcResult result = mockMvc
       .perform(get("/v2/login/registration").param("code", "login-code"))
@@ -126,6 +128,8 @@ class PublicLoginControllerTest {
       .andReturn();
 
     assertEquals(3L, result.getRequest().getSession().getAttribute("identityId"));
+    assertEquals(IdentityAuthMethod.EMAIL, loginLink.getIdentity().getAuthMethod());
+    verify(identityRepository).save(loginLink.getIdentity());
   }
 
   @Test

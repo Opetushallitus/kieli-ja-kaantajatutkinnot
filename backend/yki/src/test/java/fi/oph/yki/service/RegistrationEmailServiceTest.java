@@ -475,10 +475,8 @@ class RegistrationEmailServiceTest {
     entityManager.persist(person);
     entityManager.persist(participant);
 
-    final Identity identity = new Identity();
+    final Identity identity = Factory.identity();
     identity.setPerson(person);
-    identity.setCreatedAt(LocalDateTime.now());
-    identity.setModifiedAt(LocalDateTime.now());
     entityManager.persist(identity);
     registration.setIdentity(identity);
 
@@ -504,9 +502,7 @@ class RegistrationEmailServiceTest {
     form.put("first_name", "Lomake");
     form.put("last_name", "Henkilö");
 
-    final Identity identity = new Identity();
-    identity.setCreatedAt(LocalDateTime.now());
-    identity.setModifiedAt(LocalDateTime.now());
+    final Identity identity = Factory.identity();
 
     final Registration registration = Factory.registration(null);
     registration.setExamSession(examSession);

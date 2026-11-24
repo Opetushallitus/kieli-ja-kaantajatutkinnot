@@ -924,4 +924,12 @@ $$ LANGUAGE plpgsql
                                  constraintName="fk_registration_login_link_registration"
                                  onDelete="NO ACTION" onUpdate="NO ACTION"/>
     </changeSet>
+
+    <changeSet id="2026-11-24-add-auth-method-to-identity" author="jrkkp">
+        <addColumn tableName="identity">
+            <column name="auth_method" type="VARCHAR(255)" defaultValue="SESSION">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

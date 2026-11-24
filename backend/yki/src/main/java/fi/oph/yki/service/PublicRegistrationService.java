@@ -22,6 +22,7 @@ import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
 import fi.oph.yki.model.RegistrationChangeEvent;
 import fi.oph.yki.model.type.ExamSessionType;
+import fi.oph.yki.model.type.IdentityAuthMethod;
 import fi.oph.yki.model.type.PartialExamType;
 import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
@@ -31,7 +32,6 @@ import fi.oph.yki.repository.IdentityRepository;
 import fi.oph.yki.repository.PersonRepository;
 import fi.oph.yki.repository.RegistrationChangeEventRepository;
 import fi.oph.yki.repository.RegistrationRepository;
-import fi.oph.yki.service.dto.PersonDTO;
 import fi.oph.yki.util.exception.APIException;
 import fi.oph.yki.util.exception.APIExceptionType;
 import java.time.LocalDate;
@@ -489,6 +489,7 @@ public class PublicRegistrationService {
     }
 
     identity.setPerson(person);
+    identity.setAuthMethod(IdentityAuthMethod.SUOMI_FI);
     identity.setModifiedAt(LocalDateTime.now());
     identityRepository.save(identity);
 
@@ -515,6 +516,7 @@ public class PublicRegistrationService {
       .state(registration.getState())
       .examSession(buildExamSessionDTO(registration.getExamSession()))
       .user(buildUserDTO(registration.getIdentity().getPerson()))
+      .email(registration.getForm() != null ? registration.getForm().path("email").asText(null) : null)
       .isStronglyIdentified(Boolean.TRUE.equals(registration.getStrongAuth()))
       .build();
   }
@@ -645,5 +647,17 @@ public class PublicRegistrationService {
 
   private PublicRegistrationInitResponseDTO buildErrorResponse(final PublicRegistrationInitErrorDTO error) {
     return PublicRegistrationInitResponseDTO.builder().error(error).build();
+  }
+
+  @Transactional
+  public void setRegistrationEmailAuthDetails(final Registration registration, final String email) {
+    final ObjectNode form = registration.getForm() != null
+      ? registration.getForm().deepCopy()
+      : OBJECT_MAPPER.createObjectNode();
+    form.put("email", email);
+
+    registration.setForm(form);
+    registration.setStrongAuth(false);
+    registrationRepository.save(registration);
   }
 }

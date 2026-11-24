@@ -12,6 +12,7 @@ import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.ExamSessionLocation;
 import fi.oph.yki.model.ExamSessionStatistics;
 import fi.oph.yki.model.FreeRegistration;
+import fi.oph.yki.model.Identity;
 import fi.oph.yki.model.Organizer;
 import fi.oph.yki.model.Participant;
 import fi.oph.yki.model.Person;
@@ -23,6 +24,7 @@ import fi.oph.yki.model.type.EvaluationState;
 import fi.oph.yki.model.type.ExamSessionType;
 import fi.oph.yki.model.type.FreeRegistrationSource;
 import fi.oph.yki.model.type.FreeRegistrationType;
+import fi.oph.yki.model.type.IdentityAuthMethod;
 import fi.oph.yki.model.type.PartialExamType;
 import fi.oph.yki.model.type.PaymentState;
 import fi.oph.yki.model.type.RegistrationKind;
@@ -44,6 +46,15 @@ public class Factory {
     person.setLastName("Henkilö");
 
     return person;
+  }
+
+  public static Identity identity() {
+    final Identity identity = new Identity();
+    identity.setAuthMethod(IdentityAuthMethod.SESSION);
+    identity.setCreatedAt(LocalDateTime.now());
+    identity.setModifiedAt(LocalDateTime.now());
+
+    return identity;
   }
 
   public static Registration registration(final Person person) {

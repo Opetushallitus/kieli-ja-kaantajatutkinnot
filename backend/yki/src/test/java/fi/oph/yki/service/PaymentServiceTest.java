@@ -109,9 +109,7 @@ public class PaymentServiceTest {
   }
 
   private Identity persistIdentity() {
-    final Identity identity = new Identity();
-    identity.setCreatedAt(LocalDateTime.now());
-    identity.setModifiedAt(LocalDateTime.now());
+    final Identity identity = Factory.identity();
 
     return entityManager.persist(identity);
   }

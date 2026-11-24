@@ -2,6 +2,7 @@ package fi.oph.yki.service;
 
 import fi.oph.yki.model.Identity;
 import fi.oph.yki.model.Person;
+import fi.oph.yki.model.type.IdentityAuthMethod;
 import fi.oph.yki.repository.IdentityRepository;
 import fi.oph.yki.service.dto.PersonDTO;
 import fi.oph.yki.util.exception.APIException;
@@ -65,10 +66,18 @@ public class PublicIdentityService {
   @Transactional
   public Identity createIdentity() {
     final Identity identity = new Identity();
+    identity.setAuthMethod(IdentityAuthMethod.SESSION);
     identity.setCreatedAt(LocalDateTime.now());
     identity.setModifiedAt(LocalDateTime.now());
 
     return identityRepository.saveAndFlush(identity);
+  }
+
+  @Transactional
+  public void updateAuthMethod(final Identity identity, final IdentityAuthMethod authMethod) {
+    identity.setAuthMethod(authMethod);
+    identity.setModifiedAt(LocalDateTime.now());
+    identityRepository.save(identity);
   }
 
   public void updatePerson(Identity identity, Person person) {}

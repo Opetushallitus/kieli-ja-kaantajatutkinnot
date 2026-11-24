@@ -99,6 +99,7 @@ export interface PublicRegistrationDetails {
     oid?: string;
     'external-user-id'?: string;
   };
+  email?: string;
   is_strongly_identified: boolean;
   registration_kind: RegistrationKind;
   expires_in?: number;

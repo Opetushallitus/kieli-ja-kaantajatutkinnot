@@ -15,6 +15,7 @@ import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.oph.yki.Factory;
 import fi.oph.yki.PostgresTestcontainerConfig;
 import fi.oph.yki.api.dto.PublicRegistrationDetailsDTO;
@@ -32,6 +33,7 @@ import fi.oph.yki.model.Registration;
 import fi.oph.yki.model.RegistrationChangeEvent;
 import fi.oph.yki.model.RegistrationLoginLink;
 import fi.oph.yki.model.type.ExamSessionType;
+import fi.oph.yki.model.type.IdentityAuthMethod;
 import fi.oph.yki.model.type.PartialExamType;
 import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
@@ -173,9 +175,7 @@ public class PublicRegistrationServiceTest {
   }
 
   private Identity persistIdentity() {
-    final Identity identity = new Identity();
-    identity.setCreatedAt(LocalDateTime.now());
-    identity.setModifiedAt(LocalDateTime.now());
+    final Identity identity = Factory.identity();
     entityManager.persist(identity);
 
     return identity;
@@ -411,6 +411,24 @@ public class PublicRegistrationServiceTest {
     );
 
     assertFalse(result.isStronglyIdentified());
+    assertNull(result.user());
+    assertNull(result.email());
+  }
+
+  @Test
+  public void testGetRegistrationDetailsHasEmailFromForm() {
+    final Identity identity = persistIdentity();
+    final Registration registration = persistStartedRegistration(identity, null);
+    publicRegistrationService.setRegistrationEmailAuthDetails(registration, "testi@example.com");
+    entityManager.flush();
+    entityManager.clear();
+
+    final PublicRegistrationDetailsDTO result = publicRegistrationService.getRegistrationDetails(
+      identity,
+      registration.getId()
+    );
+
+    assertEquals("testi@example.com", result.email());
     assertNull(result.user());
   }
 
@@ -905,6 +923,51 @@ public class PublicRegistrationServiceTest {
       () -> publicRegistrationService.submitRegistration(identity, registration.getId(), "fi", formDTO())
     );
     assertEquals(APIExceptionType.PERSON_CREATION_FAILED, ex.getExceptionType());
+  }
+
+  @Test
+  public void testSetRegistrationEmailAuthDetailsSavesEmailToForm() {
+    final Identity identity = persistIdentity();
+    final Registration registration = persistStartedRegistration(identity);
+
+    publicRegistrationService.setRegistrationEmailAuthDetails(registration, "testi@example.com");
+    entityManager.flush();
+    entityManager.clear();
+
+    final Registration updated = registrationRepository.findById(registration.getId()).orElseThrow();
+    assertEquals("testi@example.com", updated.getForm().path("email").asText());
+    assertFalse(updated.getStrongAuth());
+  }
+
+  @Test
+  public void testSetRegistrationEmailAuthDetailsKeepsOtherFormFields() {
+    final Identity identity = persistIdentity();
+    final Registration registration = persistStartedRegistration(identity);
+    registration.setForm(
+      new ObjectMapper().createObjectNode().put("first_name", "Testi").put("email", "vanha@example.com")
+    );
+    entityManager.flush();
+
+    publicRegistrationService.setRegistrationEmailAuthDetails(registration, "uusi@example.com");
+    entityManager.flush();
+    entityManager.clear();
+
+    final Registration updated = registrationRepository.findById(registration.getId()).orElseThrow();
+    assertEquals("uusi@example.com", updated.getForm().path("email").asText());
+    assertEquals("Testi", updated.getForm().path("first_name").asText());
+  }
+
+  @Test
+  public void testUpdateRegistrationPersonSetsSuomiFiAuthMethod() {
+    final Identity identity = persistIdentity();
+    final Registration registration = persistStartedRegistration(identity);
+    final Person person = entityManager.persist(Factory.person());
+
+    publicRegistrationService.updateRegistrationPerson(registration.getId(), identity, person);
+
+    final Identity updated = identityRepository.findById(identity.getId()).orElseThrow();
+    assertEquals(IdentityAuthMethod.SUOMI_FI, updated.getAuthMethod());
+    assertEquals(person.getOid(), updated.getPerson().getOid());
   }
 
   @Test

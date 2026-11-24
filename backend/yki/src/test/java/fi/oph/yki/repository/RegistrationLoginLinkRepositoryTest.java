@@ -89,9 +89,7 @@ class RegistrationLoginLinkRepositoryTest {
     final ExamDate examDate = entityManager.persist(Factory.examDate());
     final ExamSession examSession = entityManager.persist(Factory.examSession(examDate));
 
-    final Identity identity = new Identity();
-    identity.setCreatedAt(LocalDateTime.now());
-    identity.setModifiedAt(LocalDateTime.now());
+    final Identity identity = Factory.identity();
     entityManager.persist(identity);
 
     final Registration registration = Factory.registration(null);

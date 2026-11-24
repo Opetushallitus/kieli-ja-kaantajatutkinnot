@@ -14,5 +14,6 @@ public record PublicRegistrationDetailsDTO(
   RegistrationState state,
   @JsonProperty("exam_session") PublicExamSessionDTO examSession,
   PublicRegistrationUserDTO user,
+  String email,
   @JsonProperty("is_strongly_identified") boolean isStronglyIdentified
 ) {}
