@@ -353,6 +353,7 @@ public class PublicRegistrationServiceTest {
     final Registration registration = persistStartedRegistration(identity, person);
     final Registration queueRegistration = registrationRepository.findById(registration.getId()).orElseThrow();
     queueRegistration.setKind(RegistrationKind.QUEUE);
+    queueRegistration.setExpiresAt(LocalDateTime.now().plusMinutes(30));
     registrationRepository.saveAndFlush(queueRegistration);
 
     final PublicRegistrationSubmitResponseDTO result = publicRegistrationService.submitRegistration(
@@ -368,6 +369,7 @@ public class PublicRegistrationServiceTest {
     verify(registrationEmailService).sendEnrolledToQueueEmail(any(Registration.class), eq("fi"));
     verifyNoMoreInteractions(registrationEmailService);
     assertSubmitChangeEvent(registration, RegistrationState.SUBMITTED, RegistrationKind.QUEUE, null);
+    assertNull(registrationRepository.findById(registration.getId()).orElseThrow().getExpiresAt());
   }
 
   @Test
@@ -401,6 +403,40 @@ public class PublicRegistrationServiceTest {
   }
 
   @Test
+  public void testGetRegistrationDetailsHasSecondsUntilExpiration() {
+    final Identity identity = persistIdentity();
+    final Registration registration = persistStartedRegistration(identity, null);
+    registration.setExpiresAt(LocalDateTime.now().plusMinutes(30));
+    entityManager.merge(registration);
+    entityManager.flush();
+    entityManager.clear();
+
+    final PublicRegistrationDetailsDTO result = publicRegistrationService.getRegistrationDetails(
+      identity,
+      registration.getId()
+    );
+
+    assertTrue(result.expiresIn() > 30 * 60 - 10 && result.expiresIn() <= 30 * 60);
+  }
+
+  @Test
+  public void testGetRegistrationDetailsOfExpiredRegistrationHasZeroSeconds() {
+    final Identity identity = persistIdentity();
+    final Registration registration = persistStartedRegistration(identity, null);
+    registration.setExpiresAt(LocalDateTime.now().minusMinutes(1));
+    entityManager.merge(registration);
+    entityManager.flush();
+    entityManager.clear();
+
+    final PublicRegistrationDetailsDTO result = publicRegistrationService.getRegistrationDetails(
+      identity,
+      registration.getId()
+    );
+
+    assertEquals(0L, result.expiresIn());
+  }
+
+  @Test
   public void testGetRegistrationDetailsWithoutPersonHasNoUser() {
     final Identity identity = persistIdentity();
     final Registration registration = persistStartedRegistration(identity, null);
@@ -413,6 +449,7 @@ public class PublicRegistrationServiceTest {
     assertFalse(result.isStronglyIdentified());
     assertNull(result.user());
     assertNull(result.email());
+    assertNull(result.expiresIn());
   }
 
   @Test
@@ -452,6 +489,7 @@ public class PublicRegistrationServiceTest {
     assertEquals(examSession.getId(), saved.getExamSession().getId());
     assertEquals(RegistrationKind.ADMISSION, saved.getKind());
     assertEquals(PartialExamType.ALL_PARTS, saved.getPartialExamType());
+    assertEquals(saved.getCreatedAt().plusMinutes(30), saved.getExpiresAt());
   }
 
   @Test

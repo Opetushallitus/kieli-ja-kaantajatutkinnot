@@ -15,5 +15,6 @@ public record PublicRegistrationDetailsDTO(
   @JsonProperty("exam_session") PublicExamSessionDTO examSession,
   PublicRegistrationUserDTO user,
   String email,
+  @JsonProperty("expires_in") Long expiresIn,
   @JsonProperty("is_strongly_identified") boolean isStronglyIdentified
 ) {}

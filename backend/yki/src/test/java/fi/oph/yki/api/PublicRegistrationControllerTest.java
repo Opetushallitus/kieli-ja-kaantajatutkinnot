@@ -13,6 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import fi.oph.yki.api.dto.PublicRegistrationDetailsDTO;
 import fi.oph.yki.config.ControllerExceptionAdvice;
 import fi.oph.yki.model.Identity;
 import fi.oph.yki.model.type.AppLocale;
@@ -106,6 +107,18 @@ class PublicRegistrationControllerTest {
       .perform(get(PAYMENT_REDIRECT_URL))
       .andExpect(status().is3xxRedirection())
       .andExpect(redirectedUrl(ERROR_URL));
+  }
+
+  @Test
+  public void testGetRegistrationDetailsHasExpiresIn() throws Exception {
+    when(publicRegistrationService.getRegistrationDetails(identity, 2L))
+      .thenReturn(PublicRegistrationDetailsDTO.builder().id(2L).expiresIn(1800L).build());
+
+    mockMvc
+      .perform(get("/api/v2/examSession/1/registration/2"))
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("$.registration_id").value(2))
+      .andExpect(jsonPath("$.expires_in").value(1800));
   }
 
   @Test

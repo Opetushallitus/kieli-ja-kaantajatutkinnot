@@ -34,6 +34,7 @@ import fi.oph.yki.repository.RegistrationChangeEventRepository;
 import fi.oph.yki.repository.RegistrationRepository;
 import fi.oph.yki.util.exception.APIException;
 import fi.oph.yki.util.exception.APIExceptionType;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -57,6 +58,11 @@ public class PublicRegistrationService {
   private static final Logger LOG = LoggerFactory.getLogger(PublicRegistrationService.class);
 
   private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+
+  /**
+   * As in legacy, a started registration is reserved for 30 minutes.
+   */
+  private static final Duration STARTED_REGISTRATION_DURATION = Duration.ofMinutes(30);
 
   private final RegistrationRepository registrationRepository;
   private final RegistrationChangeEventRepository registrationChangeEventRepository;
@@ -279,6 +285,7 @@ public class PublicRegistrationService {
     final PartialExamType partialExamType
   ) {
     final ExamSession examSession = examSessionRepository.getReferenceById(examSessionId);
+    final LocalDateTime now = LocalDateTime.now();
 
     final Registration registration = new Registration();
     registration.setExamSession(examSession);
@@ -286,7 +293,8 @@ public class PublicRegistrationService {
     registration.setState(RegistrationState.STARTED);
     registration.setKind(kind);
     registration.setPartialExamType(partialExamType);
-    registration.setCreatedAt(LocalDateTime.now());
+    registration.setCreatedAt(now);
+    registration.setExpiresAt(now.plus(STARTED_REGISTRATION_DURATION));
 
     // TODO: handle PSQLException for max_participants exceeded (DB trigger)
     return registrationRepository.saveAndFlush(registration);
@@ -348,6 +356,7 @@ public class PublicRegistrationService {
     final RegistrationState submittedState = resolveSubmittedState(registration, formDTO.freeRegistrationId());
     registration.setForm(buildFormJson(formDTO));
     registration.setState(submittedState);
+    registration.setExpiresAt(null);
     registrationRepository.saveAndFlush(registration);
 
     // Step 6: Update registration details
@@ -517,8 +526,21 @@ public class PublicRegistrationService {
       .examSession(buildExamSessionDTO(registration.getExamSession()))
       .user(buildUserDTO(registration.getIdentity().getPerson()))
       .email(registration.getForm() != null ? registration.getForm().path("email").asText(null) : null)
+      .expiresIn(getExpiresInSeconds(registration.getExpiresAt()))
       .isStronglyIdentified(Boolean.TRUE.equals(registration.getStrongAuth()))
       .build();
+  }
+
+  /**
+   * Seconds instead of a timestamp, so the frontend does not depend on the browser's time zone.
+   * As in legacy, an expired registration has 0 seconds left.
+   */
+  private static Long getExpiresInSeconds(final LocalDateTime expiresAt) {
+    if (expiresAt == null) {
+      return null;
+    }
+
+    return Math.max(0, Duration.between(LocalDateTime.now(), expiresAt).toSeconds());
   }
 
   private static PublicRegistrationUserDTO buildUserDTO(final Person person) {
