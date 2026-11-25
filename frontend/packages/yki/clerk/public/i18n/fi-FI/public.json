@@ -90,6 +90,11 @@
             "updateSuccess": "Muutosten tallentaminen onnistui"
           }
         },
+        "individualisation": {
+          "close": "Sulje",
+          "description": "Tee yksilöinti <onrLink>oppijanumerorekisterissä</onrLink>.",
+          "title": "Oppijaa ei ole yksilöity"
+        },
         "search": {
           "clear": "Tyhjennä",
           "header": "{{amount}} osallistujaa",
@@ -97,6 +102,7 @@
             "examDate": "Tutkintopäivä",
             "language": "Kieli",
             "level": "Taso",
+            "onlyNotIndividualised": "Vain yksilöimättömät osallistujat",
             "organizer": "Järjestäjä",
             "participant": "Hae osallistujaa"
           },

@@ -32,6 +32,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -49,6 +50,13 @@ public class ClerkCustomerService {
   private final OnrService onrService;
   private final AuditService auditService;
   private static final Logger LOG = LoggerFactory.getLogger(ClerkCustomerService.class);
+
+  @Value("${app.henkilo-ui.url}")
+  private String henkiloUiUrl;
+
+  private String onrUrl(final String oid) {
+    return String.format("%s/oppija/%s?permissionCheckService=YKI", henkiloUiUrl, oid);
+  }
 
   private ClerkCustomerRegistrationDTO registrationToDTO(final Registration registration) {
     final var session = registration.getExamSession();
@@ -121,11 +129,15 @@ public class ClerkCustomerService {
       );
     }
 
-    return getClerkCustomerDetails(personOid);
+    return buildCustomerDetails(personOid, false);
   }
 
   @Transactional(readOnly = true)
   public ClerkCustomerDetailsDTO getClerkCustomerDetails(final String oid) {
+    return buildCustomerDetails(oid, true);
+  }
+
+  private ClerkCustomerDetailsDTO buildCustomerDetails(final String oid, final boolean includeOnrUrl) {
     auditService.logClerkById(YkiOperation.GET_CUSTOMER_DETAILS, oid);
     final var person = personRepository.getByOid(oid);
 
@@ -136,6 +148,8 @@ public class ClerkCustomerService {
       .ssn(getIdentityNumber(person))
       .birthdate(personRepository.findLatestSubmittedBirthdate(oid))
       .oid(person.getOid())
+      .individualised(person.getIndividualised())
+      .onrUrl(includeOnrUrl ? onrUrl(person.getOid()) : null)
       .nationalityCode(person.getNationalityCode())
       .phoneNumber(person.getPhoneNumber())
       .streetAddress(person.getSteetAddress())
@@ -175,7 +189,8 @@ public class ClerkCustomerService {
         request.organizerId(),
         request.examDateId(),
         request.languageCode(),
-        request.levelCode()
+        request.levelCode(),
+        request.onlyNotIndividualised()
       );
     }
 
@@ -186,7 +201,8 @@ public class ClerkCustomerService {
       request.organizerId(),
       request.examDateId(),
       request.languageCode(),
-      request.levelCode()
+      request.levelCode(),
+      request.onlyNotIndividualised()
     );
   }
 
@@ -228,6 +244,9 @@ public class ClerkCustomerService {
     if (request.levelCode() != null) {
       targetBuilder.setField("levelCode", request.levelCode());
     }
+    if (request.onlyNotIndividualised()) {
+      targetBuilder.setField("onlyNotIndividualised", Boolean.toString(true));
+    }
 
     return targetBuilder.build();
   }
@@ -239,6 +258,7 @@ public class ClerkCustomerService {
     final String oid
   ) throws ExecutionException, InterruptedException, JsonProcessingException, RuntimeException {
     final Organizer organizer = organizerRepository.findByOidAndDeletedAtIsNull(oid).orElseThrow();
+    // onlyNotIndividualised is not copied: organisers do not filter by the individualisation status.
     final ClerkCustomerSearchRequestDTO newRequestDTO = ClerkCustomerSearchRequestDTO
       .builder()
       .organizerId(organizer.getId())
@@ -248,13 +268,21 @@ public class ClerkCustomerService {
       .personQuery(request.personQuery())
       .build();
 
-    return searchClerkCustomers(pageable, newRequestDTO);
+    return searchCustomers(pageable, newRequestDTO, false);
   }
 
   @Transactional(readOnly = true)
   public Page<ClerkCustomerSummaryDTO> searchClerkCustomers(
     final Pageable pageable,
     final ClerkCustomerSearchRequestDTO request
+  ) throws ExecutionException, InterruptedException, JsonProcessingException, RuntimeException {
+    return searchCustomers(pageable, request, true);
+  }
+
+  private Page<ClerkCustomerSummaryDTO> searchCustomers(
+    final Pageable pageable,
+    final ClerkCustomerSearchRequestDTO request,
+    final boolean includeOnrUrl
   ) throws ExecutionException, InterruptedException, JsonProcessingException, RuntimeException {
     auditService.logClerkWithTarget(YkiOperation.SEARCH_CUSTOMERS, toTarget(request));
 
@@ -273,6 +301,8 @@ public class ClerkCustomerService {
             .ssn(hetuByOid.get(person.oid()))
             .birthdate(person.birthdate())
             .oid(person.oid())
+            .individualised(person.individualised())
+            .onrUrl(includeOnrUrl ? onrUrl(person.oid()) : null)
             .nationalityCode(person.nationalityCode())
             .phoneNumber(person.phoneNumber())
             .streetAddress(person.streetAddress())

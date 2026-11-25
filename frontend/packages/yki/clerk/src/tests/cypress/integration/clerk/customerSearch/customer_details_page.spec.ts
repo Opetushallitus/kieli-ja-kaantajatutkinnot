@@ -112,6 +112,36 @@ describe('ClerkCustomerDetailsPage', () => {
     onClerkCustomerDetailsPage.expectContactDetailsVisible(newValues);
   });
 
+  it('shows the red icon with a popover link to ONR for a person who is not individualised', () => {
+    const oid = '1.2.246.562.24.82364099324';
+    cy.openClerkCustomerDetailsPage(oid);
+    onClerkCustomerDetailsPage.isVisible(oid);
+
+    cy.findByRole('link', { name: oid }).should('not.exist');
+    cy.findByRole('button', { name: 'Oppijaa ei ole yksilöity' }).click();
+    cy.findByRole('link', { name: 'oppijanumerorekisterissä' }).should(
+      'have.attr',
+      'href',
+      `https://virkailija.untuvaopintopolku.fi/henkilo-ui/oppija/${oid}?permissionCheckService=YKI`,
+    );
+  });
+
+  it('shows no red icon for an individualised person or a person without registrations', () => {
+    const individualisedOid = '1.2.246.562.24.82364099322';
+    cy.openClerkCustomerDetailsPage(individualisedOid);
+    onClerkCustomerDetailsPage.isVisible(individualisedOid);
+    cy.findByRole('button', { name: 'Oppijaa ei ole yksilöity' }).should(
+      'not.exist',
+    );
+
+    const noRegistrationsOid = '1.2.246.562.24.82364099323';
+    cy.openClerkCustomerDetailsPage(noRegistrationsOid);
+    onClerkCustomerDetailsPage.isVisible(noRegistrationsOid);
+    cy.findByRole('button', { name: 'Oppijaa ei ole yksilöity' }).should(
+      'not.exist',
+    );
+  });
+
   it('shows user details correctly, when user has no contact information', () => {
     const oid = '1.2.246.562.24.82364099324';
     const details = customerDetails.find((cd) => cd.person.oid === oid);

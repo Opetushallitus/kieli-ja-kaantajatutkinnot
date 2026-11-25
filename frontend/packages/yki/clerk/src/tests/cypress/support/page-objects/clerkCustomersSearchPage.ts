@@ -5,6 +5,10 @@ class ClerkCustomersSearchPage {
     searchInput: () => cy.findByLabelText(/hae osallistujaa/i),
     searchButton: () => cy.findByRole('button', { name: /hae osallistujia/i }),
     totalCountHeader: () => cy.findByText(/\d+ osallistujaa/),
+    onlyNotIndividualisedCheckbox: () =>
+      cy.findByRole('checkbox', { name: /vain yksilöimättömät osallistujat/i }),
+    notIndividualisedIcons: () =>
+      cy.findAllByRole('button', { name: 'Oppijaa ei ole yksilöity' }),
   };
 
   search(query: string) {

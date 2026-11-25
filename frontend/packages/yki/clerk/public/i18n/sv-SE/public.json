@@ -90,6 +90,11 @@
             "updateSuccess": "Ändringarna sparades"
           }
         },
+        "individualisation": {
+          "close": "Sulje",
+          "description": "Tee yksilöinti <onrLink>oppijanumerorekisterissä</onrLink>.",
+          "title": "Oppijaa ei ole yksilöity"
+        },
         "search": {
           "clear": "Rensa",
           "header": "{{amount}} deltagare",
@@ -97,6 +102,7 @@
             "examDate": "Testdatum",
             "language": "Språk",
             "level": "Nivå",
+            "onlyNotIndividualised": "Vain yksilöimättömät osallistujat",
             "organizer": "Anordnare",
             "participant": "Sök deltagare"
           },

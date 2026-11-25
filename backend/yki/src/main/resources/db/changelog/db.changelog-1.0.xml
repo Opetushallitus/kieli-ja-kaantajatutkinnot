@@ -674,10 +674,10 @@
         <column name="last_sync_at" type="TIMESTAMP WITH TIME ZONE"/>
       </addColumn>
     </changeSet>
-    <changeSet id="2026-11-09-insert-participant-onr-sync-owner" author="saku-koodari">
-        <insert tableName="runtime_flag">
-            <column name="name" value="participant_onr_sync.owner"/>
-            <column name="value" value="LEGACY"/>
-        </insert>
+    <changeSet id="2026-11-17-add-onr-individualisation-to-person" author="saku-koodari">
+        <addColumn tableName="person">
+            <column name="is_individualized" type="BOOLEAN"/>
+            <column name="onr_last_sync_at" type="TIMESTAMP WITH TIME ZONE"/>
+        </addColumn>
     </changeSet>
 </databaseChangeLog>

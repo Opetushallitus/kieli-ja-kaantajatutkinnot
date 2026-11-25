@@ -51,7 +51,7 @@ class PersonBirthdateSearchTest {
     assertEquals("1991-02-03", personRepository.findLatestSubmittedBirthdate(person.getOid()));
     assertNull(personRepository.findLatestSubmittedBirthdate(withoutBirthday.getOid()));
 
-    final var results = personRepository.searchPersons(PageRequest.of(0, 10), null, null, null, null, null);
+    final var results = personRepository.searchPersons(PageRequest.of(0, 10), null, null, null, null, null, false);
     assertEquals(
       "1991-02-03",
       results.stream().filter(p -> p.oid().equals(person.getOid())).findFirst().orElseThrow().birthdate()

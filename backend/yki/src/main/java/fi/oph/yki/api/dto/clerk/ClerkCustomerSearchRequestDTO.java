@@ -9,5 +9,6 @@ public record ClerkCustomerSearchRequestDTO(
   @Nullable Long organizerId,
   @Nullable Long examDateId,
   @Nullable String languageCode,
-  @Nullable String levelCode
+  @Nullable String levelCode,
+  boolean onlyNotIndividualised
 ) {}

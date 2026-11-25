@@ -9,6 +9,9 @@ public record ClerkCustomerPersonDTO(
   String ssn,
   String birthdate,
   String oid,
+  Boolean individualised,
+  // The person in the ONR UI (henkilo-ui). Null when the user gets no link.
+  String onrUrl,
   String nationalityCode,
   String phoneNumber,
   String streetAddress,

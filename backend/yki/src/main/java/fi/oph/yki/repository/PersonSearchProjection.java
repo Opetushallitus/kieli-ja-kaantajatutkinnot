@@ -15,6 +15,7 @@ public record PersonSearchProjection(
   @Nullable String nationalityCode,
   @Nullable String gender,
   @Nullable String countryCode,
+  @Nullable Boolean individualised,
   @Nullable Long registrationsCount,
   @Nullable String birthdate
 ) {}
