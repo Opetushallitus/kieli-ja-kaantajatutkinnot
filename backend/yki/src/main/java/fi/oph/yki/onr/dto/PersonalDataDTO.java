@@ -14,6 +14,15 @@ public class PersonalDataDTO {
   @JsonProperty("oidHenkilo")
   private String oidHenkilo;
 
+  @JsonProperty("oppijanumero")
+  private String oppijanumero;
+
+  @JsonProperty("yksiloity")
+  private Boolean individualised;
+
+  @JsonProperty("yksiloityVTJ")
+  private Boolean individualisedVtj;
+
   @JsonProperty("hetu")
   private String identityNumber;
 }
