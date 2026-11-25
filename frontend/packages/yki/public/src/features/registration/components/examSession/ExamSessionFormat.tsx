@@ -3,19 +3,20 @@ import NoteAltOutlinedIcon from '@mui/icons-material/NoteAltOutlined';
 import { Text } from 'shared/components';
 
 import { usePublicTranslation } from 'configs/i18n';
+import { ExamSession } from 'interfaces/examSessions';
 import { ExamSessionUtils } from 'utils/examSession';
 
 export const ExamSessionFormat = ({
-  examSessionId,
+  examSession,
   showDescription = false,
 }: {
-  examSessionId: number;
+  examSession: Pick<ExamSession, 'id' | 'language_code' | 'session_date'>;
   showDescription?: boolean;
 }) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.examSessionFormat',
   });
-  const isDigital = ExamSessionUtils.isDigitalTest(examSessionId);
+  const isDigital = ExamSessionUtils.isDigitalTest(examSession);
   const format = isDigital ? 'digital' : 'paper';
   const Icon = isDigital ? LaptopIcon : NoteAltOutlinedIcon;
 
