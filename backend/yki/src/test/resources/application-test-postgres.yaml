@@ -1,6 +1,8 @@
 spring:
   config:
     import: application.yaml
+  liquibase:
+    contexts: test
   jpa:
     database: postgresql
     properties:

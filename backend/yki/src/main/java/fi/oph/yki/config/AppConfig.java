@@ -1,10 +1,14 @@
 package fi.oph.yki.config;
 
+import fi.oph.yki.payment.PaymentProvider;
+import fi.oph.yki.payment.paytrail.PaytrailConfig;
+import fi.oph.yki.payment.paytrail.PaytrailPaymentProvider;
 import fi.oph.yki.repository.CasTicketRepository;
 import fi.oph.yki.service.auth.CasSessionMappingStorage;
 import fi.oph.yki.service.email.sender.EmailSender;
 import fi.oph.yki.service.email.sender.EmailSenderNoOp;
 import fi.oph.yki.service.email.sender.EmailSenderViestintapalvelu;
+import fi.oph.yki.util.UUIDSource;
 import java.time.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +34,22 @@ import reactor.netty.resources.ConnectionProvider;
 public class AppConfig {
 
   private static final Logger LOG = LoggerFactory.getLogger(AppConfig.class);
+
+  @Bean
+  public PaymentProvider paytrailPaymentProvider(final Environment environment, final UUIDSource uuidSource) {
+    final PaytrailConfig paytrailConfig = PaytrailConfig
+      .builder()
+      .secret(environment.getRequiredProperty("app.payment.paytrail.secret"))
+      .account(environment.getRequiredProperty("app.payment.paytrail.account"))
+      .baseUrl(environment.getRequiredProperty("app.payment.paytrail.callback-base-url"))
+      .build();
+
+    final WebClient webClient = webClientBuilderWithCallerId("paytrail-connection-provider")
+      .baseUrl(environment.getRequiredProperty("app.payment.paytrail.url"))
+      .build();
+
+    return new PaytrailPaymentProvider(webClient, paytrailConfig, uuidSource);
+  }
 
   @Bean
   public WebClient koskiClient(final Environment environment) {

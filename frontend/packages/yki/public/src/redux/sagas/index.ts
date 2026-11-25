@@ -1,5 +1,6 @@
 import { all } from 'redux-saga/effects';
 
+import { watchRegistrationFeature } from 'features/registration/redux/saga';
 import { watchConfirmRegistration } from 'redux/sagas/confirmRegistration';
 import { watchEvaluationOrder } from 'redux/sagas/evaluationOrder';
 import { watchEvaluationPeriods } from 'redux/sagas/evaluationPeriod';
@@ -24,6 +25,7 @@ export default function* rootSaga() {
     watchNationalities(),
     watchPublicIdentification(),
     watchRegistration(),
+    watchRegistrationFeature(),
     watchSession(),
     watchUserDetails(),
     watchUserOpenRegistrations(),

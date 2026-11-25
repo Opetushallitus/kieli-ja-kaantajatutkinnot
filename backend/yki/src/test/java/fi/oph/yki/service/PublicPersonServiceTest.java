@@ -111,11 +111,23 @@ public class PublicPersonServiceTest {
     final RegistrationKind kind,
     final LocalDateTime createdAt
   ) {
+    return createRegistration(person, examSession, state, kind, createdAt, PartialExamType.ALL_PARTS);
+  }
+
+  private Registration createRegistration(
+    final Person person,
+    final ExamSession examSession,
+    final RegistrationState state,
+    final RegistrationKind kind,
+    final LocalDateTime createdAt,
+    final PartialExamType partialExamType
+  ) {
     final Registration registration = Factory.registration(person);
     registration.setExamSession(examSession);
     registration.setState(state);
     registration.setKind(kind);
     registration.setCreatedAt(createdAt);
+    registration.setPartialExamType(partialExamType);
     entityManager.persist(registration);
 
     return registration;
@@ -266,30 +278,30 @@ public class PublicPersonServiceTest {
     second.setOid("1.2.3.4.7");
     entityManager.persist(second);
 
-    final Registration firstRead = createRegistration(
+    createRegistration(
       first,
       examSession,
       RegistrationState.SUBMITTED,
       RegistrationKind.QUEUE,
-      LocalDateTime.of(2026, 4, 1, 10, 0)
+      LocalDateTime.of(2026, 4, 1, 10, 0),
+      PartialExamType.READ
     );
-    firstRead.setPartialExamType(PartialExamType.READ);
-    final Registration secondRead = createRegistration(
+    createRegistration(
       second,
       examSession,
       RegistrationState.SUBMITTED,
       RegistrationKind.QUEUE,
-      LocalDateTime.of(2026, 4, 1, 11, 0)
+      LocalDateTime.of(2026, 4, 1, 11, 0),
+      PartialExamType.READ
     );
-    secondRead.setPartialExamType(PartialExamType.READ);
-    final Registration speak = createRegistration(
+    createRegistration(
       person,
       examSession,
       RegistrationState.SUBMITTED,
       RegistrationKind.QUEUE,
-      LocalDateTime.of(2026, 4, 1, 12, 0)
+      LocalDateTime.of(2026, 4, 1, 12, 0),
+      PartialExamType.SPEAK
     );
-    speak.setPartialExamType(PartialExamType.SPEAK);
     flushAndClear();
 
     final List<PublicPersonRegistrationDTO> registrations = publicPersonService.getPerson(OID).registrations();

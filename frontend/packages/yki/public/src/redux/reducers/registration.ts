@@ -12,12 +12,12 @@ import {
   isRegistrationInitErrorResponse,
   PartialExamType,
   PublicEmailRegistration,
+  PublicRegistrationDetails,
   PublicRegistrationFormSubmitErrorResponse,
   PublicRegistrationFormSubmitSuccessResponse,
   PublicRegistrationIdentifyPayload,
   PublicRegistrationInitErrorState,
   PublicRegistrationInitPayload,
-  PublicRegistrationInitResponse,
   PublicSuomiFiRegistration,
   RegistrationDetailsResponse,
 } from 'interfaces/publicRegistration';
@@ -137,7 +137,7 @@ const registrationSlice = createSlice({
     },
     acceptPublicRegistrationInit(
       state,
-      action: PayloadAction<PublicRegistrationInitResponse>,
+      action: PayloadAction<PublicRegistrationDetails>,
     ) {
       state.initRegistration.status = APIResponseStatus.Success;
       state.initRegistration.expiresIn = action.payload?.expires_in;

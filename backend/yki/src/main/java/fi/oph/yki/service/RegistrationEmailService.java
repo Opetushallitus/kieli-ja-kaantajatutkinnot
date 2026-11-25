@@ -13,6 +13,7 @@ import fi.oph.yki.util.EmailFormatUtil;
 import fi.oph.yki.util.EmailSubjectUtil;
 import fi.oph.yki.util.LocalisationUtil;
 import fi.oph.yki.util.RegistrationSubtestUtil;
+import fi.oph.yki.util.RegistrationUtil;
 import fi.oph.yki.util.TemplateRenderer;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -36,12 +37,14 @@ public class RegistrationEmailService {
   private final EmailService emailService;
   private final Environment environment;
   private final LoginLinkService loginLinkService;
+  private final PaymentLinkService paymentLinkService;
   private final ExamFeeService examFeeService;
   private final RegistrationRepository registrationRepository;
 
   /**
    * Tells a participant lifted from the queue that they have a place, and how to pay for it. The
-   * payment link is created here, in the caller's transaction, so it is undone with the lift.
+   * payment link is created here, in the caller's transaction, so it is undone with the lift. The
+   * payment link needs an identity, so registrations without one get no email.
    */
   public void sendLiftedFromQueueEmail(final Registration registration) {
     if (!hasEmailAddress(registration)) {
@@ -51,19 +54,161 @@ public class RegistrationEmailService {
       );
       return;
     }
+    if (registration.getIdentity() == null) {
+      LOG.error(
+        "Not sending lifted-from-queue email for registration {}: registration has no identity",
+        registration.getId()
+      );
+      return;
+    }
 
     final Locale locale = resolveUiLocale(registration);
+    final Map<String, Object> params = paymentParams(
+      registration,
+      paymentLinkService.createPaymentLink(registration, registration.getIdentity()),
+      locale
+    );
+    params.put(
+      "expiration_date",
+      EmailFormatUtil.formatDateWithDots(
+        LocalDate.parse(registrationRepository.findQueueLiftPaymentDueDate(registration.getId()))
+      )
+    );
+    final Participant participant = registration.getParticipant();
+    params.put(
+      "user_portal_link",
+      !Boolean.TRUE.equals(registration.getStrongAuth())
+        ? loginLinkService.createUserPortalLink(participant, registration)
+        : staticUserPortalLink()
+    );
+
+    saveExamEmail(
+      registration.getPerson().getFirstName() + " " + registration.getPerson().getLastName(),
+      registration.getPerson().getEmail(),
+      EmailType.PAYMENT_FROM_QUEUE,
+      "payment-from-queue",
+      "payment_from_queue",
+      params,
+      locale
+    );
+  }
+
+  /**
+   * Sends the payment link of a submitted registration. As in legacy, the email goes to the address
+   * given in the registration form, and the expiration date shown is the last day to pay.
+   */
+  public void sendPaymentEmail(final Registration registration, final String paymentLinkCode, final String lang) {
+    final ObjectNode form = registration.getForm();
+    final String email = form.path("email").asText(null);
+    if (!StringUtils.hasText(email)) {
+      LOG.error("Not sending payment email for registration {}: form has no email address", registration.getId());
+      return;
+    }
+
+    final Locale locale = localeOf(lang);
+    final Map<String, Object> params = paymentParams(registration, paymentLinkCode, locale);
+    params.put(
+      "expiration_date",
+      EmailFormatUtil.formatDateWithDots(registration.getExpiresAt().toLocalDate().minusDays(1))
+    );
+    params.put("user_portal_link", staticUserPortalLink());
+
+    saveExamEmail(
+      form.path("first_name").asText("") + " " + form.path("last_name").asText(""),
+      email,
+      EmailType.PAYMENT,
+      "payment",
+      "payment",
+      params,
+      locale
+    );
+  }
+
+  /**
+   * Confirms a registration submitted to the queue. As in legacy, the email goes to the address
+   * given in the registration form.
+   */
+  public void sendEnrolledToQueueEmail(final Registration registration, final String lang) {
+    final ObjectNode form = registration.getForm();
+    final String email = form.path("email").asText(null);
+    if (!StringUtils.hasText(email)) {
+      LOG.error("Not sending queue email for registration {}: form has no email address", registration.getId());
+      return;
+    }
+
+    final Locale locale = localeOf(lang);
+    final ExamSession examSession = registration.getExamSession();
+    final Map<String, Object> params = examParams(examSession, locale);
+    params.put("subtests", subtests(registration, locale));
+    params.put("user_portal_link", staticUserPortalLink());
+
+    saveExamEmail(
+      form.path("first_name").asText("") + " " + form.path("last_name").asText(""),
+      email,
+      EmailType.QUEUE,
+      "queue",
+      "queue",
+      params,
+      locale
+    );
+  }
+
+  /**
+   * Confirms a free registration, which is complete without payment. As in legacy, the email goes
+   * to the address given in the registration form.
+   */
+  public void sendFreeRegistrationEmail(final Registration registration, final String lang) {
+    final ObjectNode form = registration.getForm();
+    final String email = form.path("email").asText(null);
+    if (!StringUtils.hasText(email)) {
+      LOG.error(
+        "Not sending free registration email for registration {}: form has no email address",
+        registration.getId()
+      );
+      return;
+    }
+
+    final Locale locale = localeOf(lang);
+    final Map<String, Object> params = freeRegistrationParams(registration.getExamSession(), locale);
+
+    saveExamEmail(
+      form.path("first_name").asText("") + " " + form.path("last_name").asText(""),
+      email,
+      EmailType.FREE_REGISTRATION,
+      "free-registration",
+      "free_registration",
+      params,
+      locale
+    );
+  }
+
+  private Map<String, Object> freeRegistrationParams(final ExamSession examSession, final Locale locale) {
+    final Map<String, Object> params = examParams(examSession, locale);
+    final ExamSessionLocation location = resolveLocation(examSession, locale);
+    params.put("extra_information", location != null ? location.getExtraInformation() : null);
+    params.put("contact_info", contactInfo(examSession));
+    params.put("login_url", staticUserPortalLink());
+
+    return params;
+  }
+
+  private static List<String> subtests(final Registration registration, final Locale locale) {
+    return RegistrationSubtestUtil
+      .subtestKeys(registration.getExamSession().getType(), registration.getPartialExamType())
+      .stream()
+      .map(key -> LocalisationUtil.translate(locale, key))
+      .toList();
+  }
+
+  private Map<String, Object> paymentParams(
+    final Registration registration,
+    final String paymentLinkCode,
+    final Locale locale
+  ) {
     final ExamSession examSession = registration.getExamSession();
     final Map<String, Object> params = examParams(examSession, locale);
 
-    params.put(
-      "subtests",
-      RegistrationSubtestUtil
-        .subtestKeys(examSession.getType(), registration.getPartialExamType())
-        .stream()
-        .map(key -> LocalisationUtil.translate(locale, key))
-        .toList()
-    );
+    params.put("subtests", subtests(registration, locale));
     params.put(
       "amount",
       EmailFormatUtil.formatPrice(
@@ -73,28 +218,15 @@ public class RegistrationEmailService {
       )
     );
     params.put(
-      "expiration_date",
-      EmailFormatUtil.formatDateWithDots(
-        LocalDate.parse(registrationRepository.findQueueLiftPaymentDueDate(registration.getId()))
+      "login_url",
+      RegistrationUtil.createPaymentLinkUrl(
+        environment.getRequiredProperty("app.base-url.public"),
+        paymentLinkCode,
+        locale.getLanguage()
       )
     );
-    final Participant participant = registration.getParticipant();
-    params.put("login_url", loginLinkService.createPaymentLink(participant, registration, locale.getLanguage()));
-    params.put(
-      "user_portal_link",
-      !Boolean.TRUE.equals(registration.getStrongAuth())
-        ? loginLinkService.createUserPortalLink(participant, registration)
-        : staticUserPortalLink()
-    );
 
-    saveExamEmail(
-      registration,
-      EmailType.PAYMENT_FROM_QUEUE,
-      "payment-from-queue",
-      "payment_from_queue",
-      params,
-      locale
-    );
+    return params;
   }
 
   public void sendLiftedFromQueueForFreeEmail(final Registration registration) {
@@ -107,16 +239,11 @@ public class RegistrationEmailService {
     }
 
     final Locale locale = resolveUiLocale(registration);
-    final ExamSession examSession = registration.getExamSession();
-    final Map<String, Object> params = examParams(examSession, locale);
-
-    final ExamSessionLocation location = resolveLocation(examSession, locale);
-    params.put("extra_information", location != null ? location.getExtraInformation() : null);
-    params.put("contact_info", contactInfo(examSession));
-    params.put("login_url", staticUserPortalLink());
+    final Map<String, Object> params = freeRegistrationParams(registration.getExamSession(), locale);
 
     saveExamEmail(
-      registration,
+      registration.getPerson().getFirstName() + " " + registration.getPerson().getLastName(),
+      registration.getPerson().getEmail(),
       EmailType.FREE_REGISTRATION_FROM_QUEUE,
       "free-registration-from-queue",
       "free_registration_from_queue",
@@ -144,7 +271,8 @@ public class RegistrationEmailService {
   }
 
   private void saveExamEmail(
-    final Registration registration,
+    final String recipientName,
+    final String recipientAddress,
     final EmailType emailType,
     final String templateName,
     final String subjectKey,
@@ -163,8 +291,8 @@ public class RegistrationEmailService {
 
     final EmailData emailData = EmailData
       .builder()
-      .recipientName(registration.getPerson().getFirstName() + " " + registration.getPerson().getLastName())
-      .recipientAddress(registration.getPerson().getEmail())
+      .recipientName(recipientName)
+      .recipientAddress(recipientAddress)
       .subject(subject)
       .body(body)
       .attachments(List.of())
