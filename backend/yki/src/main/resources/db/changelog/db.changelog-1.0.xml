@@ -932,4 +932,20 @@ $$ LANGUAGE plpgsql
             </column>
         </addColumn>
     </changeSet>
+    <changeSet id="2026-10-28-add-public-exam-session-list-indexes" author="lket">
+        <createIndex tableName="exam_session" indexName="exam_session_exam_date_id_idx">
+            <column name="exam_date_id"/>
+        </createIndex>
+    </changeSet>
+
+    <!-- CONCURRENTLY: a plain CREATE INDEX would block registration inserts and updates while it builds.
+         CONCURRENTLY cannot run inside a transaction, hence runInTransaction="false".
+         If the build fails, Postgres leaves an INVALID index behind, and IF NOT EXISTS would then skip it:
+         drop the index by hand and clear this changeSet from databasechangelog before running again. -->
+    <changeSet id="2026-10-28-add-registration-exam-session-id-kind-state-partial-exam-type-index" author="lket" runInTransaction="false">
+        <sql><![CDATA[
+            CREATE INDEX CONCURRENTLY IF NOT EXISTS registration_exam_session_id_kind_state_partial_exam_type_idx
+            ON registration (exam_session_id, kind, state, partial_exam_type);
+        ]]></sql>
+    </changeSet>
 </databaseChangeLog>

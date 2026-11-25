@@ -5,6 +5,9 @@ export {};
 declare global {
   namespace Cypress {
     interface Chainable {
+      useMswHandlers(
+        ...handlers: Array<import('msw').RequestHandler>
+      ): Chainable<void>;
       isOnPage(page: string): Chainable<Element>;
       openClerkRegistrationPage(): void;
       openClerkAddOrganizerPage(): void;

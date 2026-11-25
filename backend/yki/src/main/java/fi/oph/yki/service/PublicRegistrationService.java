@@ -38,7 +38,9 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -63,6 +65,10 @@ public class PublicRegistrationService {
    * As in legacy, a started registration is reserved for 30 minutes.
    */
   private static final Duration STARTED_REGISTRATION_DURATION = Duration.ofMinutes(30);
+
+  private static final DateTimeFormatter PUBLISHED_AT_FORMATTER = DateTimeFormatter.ofPattern(
+    "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+  );
 
   private final RegistrationRepository registrationRepository;
   private final RegistrationChangeEventRepository registrationChangeEventRepository;
@@ -582,10 +588,10 @@ public class PublicRegistrationService {
       .maxParticipantsReadListen(examSession.getMaxParticipantsReadListen())
       .maxParticipantsSpeakWrite(examSession.getMaxParticipantsSpeakWrite())
       .participants(registrationRepository.countAdmissionRegistrations(examSession.getId(), allPartialExamTypes))
-      .participantsReadListen(isPartialSession ? countPoolParticipants(examSession, true) : null)
-      .participantsSpeakWrite(isPartialSession ? countPoolParticipants(examSession, false) : null)
+      .participantsReadListen(isPartialSession ? countPoolParticipants(examSession, true) : 0)
+      .participantsSpeakWrite(isPartialSession ? countPoolParticipants(examSession, false) : 0)
       .queue(registrationRepository.countQueueRegistrations(examSession.getId(), allPartialExamTypes))
-      .publishedAt(examSession.getPublishedAt())
+      .publishedAt(formatPublishedAt(examSession.getPublishedAt()))
       .location(examSession.getLocations().stream().map(this::buildLocationDTO).toList())
       .examFee(null)
       .availableRegistrationKind(selectRegistrationKind(examSession, PartialExamType.ALL_PARTS))
@@ -596,6 +602,20 @@ public class PublicRegistrationService {
       .open(isRegistrationOpen(examSession))
       .upcomingAdmission(isUpcomingAdmission(examDate))
       .build();
+  }
+
+  /**
+   * Same format as {@code ExamSessionRepository}'s public exam session listing.
+   */
+  private static String formatPublishedAt(final LocalDateTime publishedAt) {
+    if (publishedAt == null) {
+      return null;
+    }
+
+    return publishedAt
+      .atZone(ZoneId.systemDefault())
+      .withZoneSameInstant(ZoneOffset.UTC)
+      .format(PUBLISHED_AT_FORMATTER);
   }
 
   private long countPoolParticipants(final ExamSession examSession, final boolean readListen) {

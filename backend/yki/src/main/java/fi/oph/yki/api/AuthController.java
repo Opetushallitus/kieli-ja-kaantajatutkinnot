@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,7 +41,7 @@ public class AuthController {
       httpResponse.sendRedirect(baseUrl + "/v2/virkailija/jarjestajarekisteri");
     } else {
       final KayttooikeusResponseDTO kayttooikeusResponseDTO = permissionsService.getPermissionForUser(auth.getName());
-      final OrganisaatioDTO organisaatioDTO = kayttooikeusResponseDTO.organisaatiot().get(0);
+      final OrganisaatioDTO organisaatioDTO = findOrganizerOrganisation(auth, kayttooikeusResponseDTO);
       httpResponse.sendRedirect(baseUrl + "/v2/jarjestaja/" + organisaatioDTO.organisaatioOid());
     }
   }
@@ -52,7 +53,10 @@ public class AuthController {
     final boolean isOrganizer = AuthorizationUtil.hasRole(auth, Constants.APP_ORGANIZER_ROLE);
     final boolean isCustomerService = AuthorizationUtil.hasRole(auth, Constants.APP_CUSTOMER_SERVICE_ROLE);
     final KayttooikeusResponseDTO kayttooikeusResponseDTO = permissionsService.getPermissionForUser(auth.getName());
-    final OrganisaatioDTO organisaatioDTO = kayttooikeusResponseDTO.organisaatiot().get(0);
+    // Only organizers use the oid. Admins and customer service may have no organizer permission.
+    final OrganisaatioDTO organisaatioDTO = isOrganizer
+      ? findOrganizerOrganisation(auth, kayttooikeusResponseDTO)
+      : kayttooikeusResponseDTO.organisaatiot().get(0);
     final String oid = organisaatioDTO.organisaatioOid();
 
     return UserDTO
@@ -62,5 +66,20 @@ public class AuthController {
       .isOrganizer(isOrganizer)
       .isCustomerService(isCustomerService)
       .build();
+  }
+
+  private OrganisaatioDTO findOrganizerOrganisation(
+    final Authentication auth,
+    final KayttooikeusResponseDTO kayttooikeusResponseDTO
+  ) {
+    final OrganisaatioDTO organisaatioDTO = permissionsService.findFirstWithYKIPermission(
+      kayttooikeusResponseDTO.organisaatiot(),
+      "JARJESTAJA"
+    );
+    if (organisaatioDTO == null) {
+      throw new AccessDeniedException("User " + auth.getName() + " has no organisation with YKI organizer permission");
+    }
+
+    return organisaatioDTO;
   }
 }

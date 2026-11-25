@@ -3,6 +3,7 @@ package fi.oph.yki.service;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.oph.yki.service.dto.OrganizationDetailsDTO;
+import fi.oph.yki.service.dto.OrganizationNameDTO;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -24,33 +25,31 @@ public class OrganizationService {
   private final ObjectMapper objectMapper;
   private final WebClient organizationClient;
 
-  @SuppressWarnings("unchecked")
   public Map<String, String> getOrganizationNames(final Collection<String> oids) {
     if (oids == null || oids.isEmpty()) {
       return Map.of();
     }
 
     try {
-      final String responseBody = organizationClient
+      // The response is about 5-9 KB for each organisation, so it goes over the WebClient buffer limit (256 KB)
+      // when there are many OIDs. bodyToFlux reads the organisations one at a time, and the limit is then for
+      // one organisation, not for the whole response.
+      final List<OrganizationNameDTO> organizations = organizationClient
         .post()
         .uri("/api/findbyoids")
         .contentType(MediaType.APPLICATION_JSON)
         .bodyValue(oids)
         .retrieve()
-        .bodyToMono(String.class)
+        .bodyToFlux(OrganizationNameDTO.class)
+        .collectList()
         .block();
-
-      final List<Map<String, Object>> organizations = objectMapper.readValue(responseBody, new TypeReference<>() {});
 
       return organizations
         .stream()
         .collect(
           Collectors.toMap(
-            org -> (String) org.get("oid"),
-            org -> {
-              final Map<String, String> nimi = (Map<String, String>) org.get("nimi");
-              return nimi != null ? nimi.getOrDefault("fi", "") : "";
-            },
+            OrganizationNameDTO::oid,
+            org -> org.nimi() != null ? org.nimi().getOrDefault("fi", "") : "",
             (existing, replacement) -> existing
           )
         );

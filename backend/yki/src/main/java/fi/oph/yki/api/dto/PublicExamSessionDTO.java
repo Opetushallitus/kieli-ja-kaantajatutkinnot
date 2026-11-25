@@ -1,41 +1,49 @@
 package fi.oph.yki.api.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import fi.oph.yki.model.type.ExamSessionType;
 import fi.oph.yki.model.type.PartialExamType;
 import fi.oph.yki.model.type.RegistrationKind;
+import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import lombok.Builder;
 
 @Builder
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public record PublicExamSessionDTO(
-  long id,
-  @JsonProperty("language_code") String languageCode,
-  @JsonProperty("level_code") String levelCode,
+  Long id,
+  String languageCode,
+  String levelCode,
+  LocalDate sessionDate,
+  Integer maxParticipants,
+  Integer maxParticipantsReadListen,
+  Integer maxParticipantsSpeakWrite,
+  String startTime,
+  String startTimeReadListen,
+  String startTimeSpeakWrite,
+  LocalDate registrationStartDate,
+  LocalDate registrationEndDate,
+  String officeOid,
+  // In UTC in the legacy backend's format, e.g. 2025-11-10T07:55:20.899Z.
+  String publishedAt,
   ExamSessionType type,
-  @JsonProperty("session_date") LocalDate sessionDate,
-  @JsonProperty("registration_start_date") LocalDate registrationStartDate,
-  @JsonProperty("registration_end_date") LocalDate registrationEndDate,
-  @JsonProperty("start_time_read_listen") String startTimeReadListen,
-  @JsonProperty("start_time_speak_write") String startTimeSpeakWrite,
-  @JsonProperty("max_participants") int maxParticipants,
-  @JsonProperty("max_participants_read_listen") Integer maxParticipantsReadListen,
-  @JsonProperty("max_participants_speak_write") Integer maxParticipantsSpeakWrite,
-  long participants,
-  @JsonProperty("participants_read_listen") Long participantsReadListen,
-  @JsonProperty("participants_speak_write") Long participantsSpeakWrite,
   long queue,
-  @JsonProperty("published_at") LocalDateTime publishedAt,
+  long participants,
+  long participantsReadListen,
+  long participantsSpeakWrite,
+  String organizerOid,
   List<PublicExamSessionLocationDTO> location,
-  @JsonProperty("exam_fee") Integer examFee,
-  @JsonProperty("available_registration_kind") RegistrationKind availableRegistrationKind,
-  @JsonProperty("partial_registration_kind") Map<PartialExamType, RegistrationKind> partialRegistrationKind,
-  @JsonProperty("office_oid") String officeOid,
-  @JsonProperty("organizer_oid") String organizerOid,
   List<PublicExamSessionContactDTO> contact,
   boolean open,
-  @JsonProperty("upcoming_admission") boolean upcomingAdmission
+  boolean upcomingAdmission,
+  RegistrationKind availableRegistrationKind,
+  Map<PartialExamType, RegistrationKind> partialRegistrationKind,
+  BigDecimal examFee,
+  // Left out of full exam sessions, as in the legacy backend.
+  @JsonInclude(JsonInclude.Include.NON_NULL) BigDecimal examFeeReadListen,
+  @JsonInclude(JsonInclude.Include.NON_NULL) BigDecimal examFeeSpeakWrite
 ) {}
