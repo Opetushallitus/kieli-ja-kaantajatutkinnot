@@ -1,10 +1,11 @@
 .exam-session-format {
   display: flex;
-  align-items: center;
+  align-items: first baseline;
   color: $color-text-primary;
   gap: 0.5rem;
 
   & &__icon {
+    align-self: flex-start;
     flex-shrink: 0;
     font-size: 24px;
     height: 24px;

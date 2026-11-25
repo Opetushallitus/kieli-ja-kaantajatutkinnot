@@ -1,9 +1,12 @@
+import { http, HttpResponse } from 'msw';
+
+import { APIEndpoints } from 'enums/api';
 import { AppRoutes } from 'enums/app';
 import { onPublicUserDetailsPage } from 'tests/cypress/support/page-objects/publicUserDetailsPage';
 import { onToast } from 'tests/cypress/support/page-objects/toast';
 import { findAlertDialogByText } from 'tests/cypress/support/utils/dialog';
 
-const dialogHeading = 'Haluatko perua ilmoittautumisen?';
+const dialogHeading = 'Haluatko perua ilmoittautumisen ';
 
 describe('PublicUserDetailsPage', () => {
   beforeEach(() => {
@@ -59,9 +62,13 @@ describe('PublicUserDetailsPage', () => {
         .and('not.contain', 'School of wizardry');
     });
 
-    it('shows error toast on failed cancellation request and do not close the modal', () => {
-      // Handler returns error for 3rd registration (id 1339)
-      onPublicUserDetailsPage.cancelPaidRegistration(5);
+    it('shows error toast on failed cancellation request and does not close the modal', () => {
+      cy.useMswHandlers(
+        http.delete(APIEndpoints.CancelUserRegistration, () =>
+          HttpResponse.json({ success: false }),
+        ),
+      );
+      onPublicUserDetailsPage.cancelRegistrationByCardText('Kirkkokatu 1');
       findAlertDialogByText(dialogHeading).should('be.visible');
       findAlertDialogByText(dialogHeading)
         .findByRole('button', { name: 'Peru ilmoittautuminen' })

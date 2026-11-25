@@ -1,4 +1,5 @@
 import { customerDetails } from 'tests/msw/fixtures/customerDetails';
+import { formatPersonIdentifier } from 'utils/person';
 
 class ClerkCustomerDetailsPage {
   elements = {
@@ -32,7 +33,13 @@ class ClerkCustomerDetailsPage {
       throw new Error(`Could not find customerDetails with oid '${oid}'.`);
     }
 
-    cy.findByText(details.person.ssn).should('be.visible');
+    cy.findByText(details.person.ssn ? 'Hetu' : 'Syntymäaika')
+      .should('be.visible')
+      .next()
+      .should(
+        'have.text',
+        formatPersonIdentifier(details.person.ssn, details.person.birthdate),
+      );
     cy.findByText(details.person.oid).should('be.visible');
 
     cy.findByText('Suomi').should('be.visible');
@@ -106,8 +113,9 @@ class ClerkCustomerDetailsPage {
     pastTableHeader().eq(0).should('have.text', 'Tutkintopäivä');
     pastTableHeader().eq(1).should('have.text', 'Tutkinto');
     pastTableHeader().eq(2).should('have.text', 'Testipaikka');
-    pastTableHeader().eq(3).should('have.text', 'Tila');
-    pastTableHeader().should('have.length', 4); // check no extra columns
+    pastTableHeader().eq(3).should('have.text', 'Ilmoittautumisen tila');
+    pastTableHeader().eq(4).should('have.text', 'Ilmoittautumispvm');
+    pastTableHeader().should('have.length', 5); // check no extra columns
   }
 }
 
