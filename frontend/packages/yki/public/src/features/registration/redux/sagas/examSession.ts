@@ -27,7 +27,7 @@ function* loadExamSessionsSaga() {
   try {
     const response: AxiosResponse<ExamSessionsResponse> = yield call(
       axiosInstance.get,
-      APIEndpoints.ExamSessions,
+      APIEndpoints.ExamSessionsV2,
     );
 
     yield put(

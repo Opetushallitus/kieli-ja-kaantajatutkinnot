@@ -63,7 +63,7 @@ describe('Registration feature at /v2', () => {
     cy.intercept('GET', APIEndpoints.User, {
       body: SuomiFiAuthenticatedSessionResponse,
     });
-    cy.intercept('GET', APIEndpoints.ExamSessions, { body: examSessions });
+    cy.intercept('GET', APIEndpoints.ExamSessionsV2, { body: examSessions });
     cy.intercept('GET', APIEndpoints.CountryCodes, {
       body: maatJaValtiot2Response,
     });
@@ -219,7 +219,7 @@ describe('Registration feature at /v2', () => {
           partial_exam_type: 'ALL_PARTS',
         };
         cy.viewport(isPhone ? 375 : 1280, 900);
-        cy.intercept('GET', APIEndpoints.ExamSessions, {
+        cy.intercept('GET', APIEndpoints.ExamSessionsV2, {
           body: { exam_sessions: [registration.exam_session] },
         });
         cy.intercept('POST', `/yki/api/v2/${examSessionId}/registration/init`, {
