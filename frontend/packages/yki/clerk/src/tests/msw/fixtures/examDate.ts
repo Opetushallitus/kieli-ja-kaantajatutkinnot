@@ -131,7 +131,19 @@ const generateExamType = (examDateId: number): ExamType => {
 
 export const examDates: ExamDateResponse[] = examDatesRaw.map((ed) => {
   const exam = dayjs(ed.examDate);
-  const languages = generateLanguages(ed.id);
+  // 25.8.2027: an existing Finnish intermediate-level session for testing level additions.
+  const languages =
+    ed.id === 110
+      ? [
+          {
+            id: nextLangId++,
+            languageCode: 'fin',
+            levelCode: 'KESKI',
+            evaluationStartDate: null,
+            evaluationEndDate: null,
+          },
+        ]
+      : generateLanguages(ed.id);
 
   if (ed.id <= 3) {
     const evalStart = exam.add(1, 'week').format('YYYY-MM-DD');
@@ -146,8 +158,8 @@ export const examDates: ExamDateResponse[] = examDatesRaw.map((ed) => {
     ...ed,
     registrationStartDate: exam.subtract(3, 'month').format('YYYY-MM-DD'),
     registrationEndDate: exam.subtract(1, 'month').format('YYYY-MM-DD'),
-    examType: generateExamType(ed.id),
+    examType: ed.id === 110 ? 'FULL' : generateExamType(ed.id),
     languages,
-    examSessionCount: ed.id % 4 === 0 ? (ed.id % 3) + 1 : 0,
+    examSessionCount: ed.id === 110 ? 1 : ed.id % 4 === 0 ? (ed.id % 3) + 1 : 0,
   };
 });

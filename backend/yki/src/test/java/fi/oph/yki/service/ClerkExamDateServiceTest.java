@@ -242,6 +242,99 @@ public class ClerkExamDateServiceTest {
   }
 
   @Test
+  public void testOnlyAddsLevelsToExistingLanguagesWhenSessionsExist() {
+    final var created = createTestExamDate();
+    final var languageId = created.languages().getFirst().id();
+    clerkExamDateService.updateEvaluation(
+      created.id(),
+      ClerkUpdateEvaluationDTO
+        .builder()
+        .evaluations(
+          List.of(
+            new ClerkUpdateEvaluationDTO.LanguageEvaluation(
+              languageId,
+              LocalDate.of(2026, 10, 20),
+              LocalDate.of(2026, 11, 20)
+            )
+          )
+        )
+        .build()
+    );
+    jdbcTemplate.update(
+      "INSERT INTO organizer (oid, agreement_start_date, agreement_end_date) VALUES (?, ?, ?)",
+      "1.2.3.4.5",
+      LocalDate.of(2026, 1, 1),
+      LocalDate.of(2027, 1, 1)
+    );
+    final var organizerId = jdbcTemplate.queryForObject("SELECT id FROM organizer WHERE oid = '1.2.3.4.5'", Long.class);
+    jdbcTemplate.update(
+      "INSERT INTO exam_session (organizer_id, language_code, level_code, exam_date_id, max_participants) VALUES (?, ?, ?, ?, ?)",
+      organizerId,
+      "fin",
+      "KESKI",
+      created.id(),
+      10
+    );
+
+    final var existing = CreateClerkExamDateLanguageDTO
+      .builder()
+      .languageCode(LanguageCode.fin)
+      .levelCode(LevelCode.KESKI)
+      .build();
+    final var added = CreateClerkExamDateLanguageDTO
+      .builder()
+      .languageCode(LanguageCode.fin)
+      .levelCode(LevelCode.YLIN)
+      .build();
+    final var otherLanguage = CreateClerkExamDateLanguageDTO
+      .builder()
+      .languageCode(LanguageCode.swe)
+      .levelCode(LevelCode.KESKI)
+      .build();
+    for (final var languages : List.of(List.of(added), List.of(existing, otherLanguage))) {
+      final var ex = assertThrows(
+        APIException.class,
+        () -> clerkExamDateService.updateExamDate(created.id(), languageUpdate(created, languages))
+      );
+      assertEquals(APIExceptionType.EXAM_DATE_HAS_SESSIONS, ex.getExceptionType());
+    }
+    final var updated = clerkExamDateService.updateExamDate(
+      created.id(),
+      languageUpdate(created, List.of(existing, added))
+    );
+    assertEquals(2, updated.languages().size());
+    final var retained = updated
+      .languages()
+      .stream()
+      .filter(lang -> lang.id().equals(languageId))
+      .findFirst()
+      .orElseThrow();
+    assertEquals(LocalDate.of(2026, 10, 20), retained.evaluationStartDate());
+    assertEquals(LocalDate.of(2026, 11, 20), retained.evaluationEndDate());
+    final var unchanged = clerkExamDateService.updateExamDate(
+      created.id(),
+      languageUpdate(created, List.of(existing, added))
+    );
+    assertEquals(updated.languages(), unchanged.languages());
+    final var ex = assertThrows(
+      APIException.class,
+      () -> clerkExamDateService.updateExamDate(created.id(), languageUpdate(created, List.of(existing)))
+    );
+    assertEquals(APIExceptionType.EXAM_DATE_HAS_SESSIONS, ex.getExceptionType());
+  }
+
+  private ClerkUpdateExamDateDTO languageUpdate(ClerkExamDateDTO date, List<CreateClerkExamDateLanguageDTO> languages) {
+    return ClerkUpdateExamDateDTO
+      .builder()
+      .examDate(date.examDate())
+      .registrationStartDate(date.registrationStartDate())
+      .registrationEndDate(date.registrationEndDate())
+      .examType(date.examType())
+      .languages(languages)
+      .build();
+  }
+
+  @Test
   public void testUpdateExamDate() {
     final ClerkExamDateDTO created = createTestExamDate();
 
