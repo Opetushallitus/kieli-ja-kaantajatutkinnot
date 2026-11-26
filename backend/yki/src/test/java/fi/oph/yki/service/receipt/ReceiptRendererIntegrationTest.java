@@ -1,5 +1,6 @@
 package fi.oph.yki.service.receipt;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -8,9 +9,16 @@ import fi.oph.yki.util.LocalisationUtil;
 import fi.oph.yki.util.TemplateRenderer;
 import jakarta.annotation.Resource;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.apache.pdfbox.Loader;
+import org.apache.pdfbox.cos.COSName;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDResources;
+import org.apache.pdfbox.pdmodel.font.PDFont;
+import org.apache.pdfbox.text.PDFTextStripper;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
@@ -54,23 +62,59 @@ class ReceiptRendererIntegrationTest {
   }
 
   @Test
-  public void testRenderExamPaymentReceiptPdfBytes() throws IOException, InterruptedException {
+  public void testRenderExamPaymentReceiptPdf() throws IOException {
     final Map<String, Object> params = examPaymentReceiptParams();
 
     final byte[] pdfBytes = receiptRenderer.renderPdf("receipt-exam-payment", params, LocalisationUtil.LOCALE_FI);
 
-    assertNotNull(pdfBytes);
-    assertTrue(pdfBytes.length > 0);
+    try (final PDDocument pdf = Loader.loadPDF(pdfBytes)) {
+      assertEquals(1, pdf.getNumberOfPages());
+
+      final String text = new PDFTextStripper().getText(pdf);
+      assertTrue(text.contains("RCPT-1"));
+      assertTrue(text.contains("Meikäläinen"));
+      assertTrue(text.contains("Matti"));
+      assertTrue(text.contains("Testipaikka Oy"));
+      assertTrue(text.contains("35,00 €"));
+    }
   }
 
   @Test
-  public void testRenderEvaluationPaymentReceiptPdfBytes() throws IOException, InterruptedException {
+  public void testRenderEvaluationPaymentReceiptPdf() throws IOException {
     final Map<String, Object> params = evaluationPaymentReceiptParams();
 
     final byte[] pdfBytes = receiptRenderer.renderPdf("receipt-evaluation-payment", params, LocalisationUtil.LOCALE_FI);
 
-    assertNotNull(pdfBytes);
-    assertTrue(pdfBytes.length > 0);
+    try (final PDDocument pdf = Loader.loadPDF(pdfBytes)) {
+      assertEquals(1, pdf.getNumberOfPages());
+
+      final String text = new PDFTextStripper().getText(pdf);
+      assertTrue(text.contains("RCPT-2"));
+      assertTrue(text.contains("Kirjoittaminen"));
+      assertTrue(text.contains("60,00 €"));
+    }
+  }
+
+  @Test
+  public void testRenderPdfUsesEmbeddedLiberationSans() throws IOException {
+    final byte[] pdfBytes = receiptRenderer.renderPdf(
+      "receipt-exam-payment",
+      examPaymentReceiptParams(),
+      LocalisationUtil.LOCALE_FI
+    );
+
+    try (final PDDocument pdf = Loader.loadPDF(pdfBytes)) {
+      final List<String> fontNames = new ArrayList<>();
+      final PDResources resources = pdf.getPage(0).getResources();
+      for (final COSName fontName : resources.getFontNames()) {
+        final PDFont font = resources.getFont(fontName);
+        assertTrue(font.isEmbedded());
+        fontNames.add(font.getName());
+      }
+
+      assertTrue(fontNames.stream().anyMatch(name -> name.endsWith("+LiberationSans")));
+      assertTrue(fontNames.stream().anyMatch(name -> name.endsWith("+LiberationSans-Bold")));
+    }
   }
 
   private Map<String, Object> examPaymentReceiptParams() {
