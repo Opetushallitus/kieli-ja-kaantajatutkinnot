@@ -33,6 +33,14 @@ cas.password={{yki_cas_password}}
 cas.onr-service-url=${virkailija.cas.base-url}/oppijanumerorekisteri-service
 proxy-token={{yki_proxy_token}}
 
+cas-oppija.login-url={{opintopolku_baseurl}}/cas-oppija/login
+cas-oppija.logout-url={{opintopolku_baseurl}}/cas-oppija/logout
+cas-oppija.service-url={{yki_app_url}}/yki/v2/login/cas
+cas-oppija.validate-ticket-url={{opintopolku_baseurl}}/cas-oppija/serviceValidate
+
+payment.paytrail.secret={{yki_examination_paytrail_merchant_secret}}
+payment.paytrail.account={{yki_examination_paytrail_merchant_id}}
+
 v2.enabled={{yki_v2_enabled}}
 
 exam-fee.perus={{yki_exam_session_fee_basic}}

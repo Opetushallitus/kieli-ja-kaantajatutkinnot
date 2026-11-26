@@ -287,6 +287,10 @@ export const handlers = [
     APIEndpoints.ExamSessions,
     () => new Response(JSON.stringify(examSessions), { status: 200 }),
   ),
+  http.get(
+    APIEndpoints.ExamSessionsV2,
+    () => new Response(JSON.stringify(examSessions), { status: 200 }),
+  ),
   http.get(APIEndpoints.ExamSession, ({ params }) => {
     const { examSessionId } = params;
     const examSession = examSessions.exam_sessions.find(

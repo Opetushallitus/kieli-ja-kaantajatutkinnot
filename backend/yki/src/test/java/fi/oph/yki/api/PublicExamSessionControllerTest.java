@@ -28,7 +28,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @WithMockUser
 class PublicExamSessionControllerTest {
 
-  private static final String BASE_URL = "/v2/api/public/exam-session";
+  private static final String BASE_URL = "/api/v2/public/exam-session";
 
   @Resource
   private MockMvc mockMvc;
