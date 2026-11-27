@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, select, takeLatest } from 'redux-saga/effects';
 
 import axiosInstance from 'configs/axios';
 import { translateOutsideComponent } from 'configs/i18n';
@@ -12,14 +12,19 @@ import {
   rejectKoskiEducations,
 } from 'redux/reducers/publicEducation';
 import { setPublicFreeRegistration } from 'redux/reducers/publicFreeRegistration';
+import { RegistrationState } from 'redux/reducers/registration';
+import { registrationSelector } from 'redux/selectors/registration';
 import { SerializationUtils } from 'utils/serialization';
 
 function* getKoskiEducationsSaga() {
   const t = translateOutsideComponent();
   try {
+    const { registration }: RegistrationState =
+      yield select(registrationSelector);
     const response: AxiosResponse<PublicEducationResponse> = yield call(
       axiosInstance.get,
       APIEndpoints.PublicKoskiEducations,
+      { params: { registrationId: registration.id } },
     );
     const { educations, usedFreeRegistrations } = response.data;
     const freeRegistrationBases = educations.map(
