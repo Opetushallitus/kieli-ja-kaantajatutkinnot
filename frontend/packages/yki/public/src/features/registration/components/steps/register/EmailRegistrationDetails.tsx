@@ -14,7 +14,7 @@ import {
 import { useWindowProperties } from 'shared/hooks';
 import { LabeledComboBox, LabeledTextField } from 'shared/ods-components';
 
-import { Label } from 'components/Text';
+import { Label, Text } from 'components/Text';
 import {
   getCurrentLang,
   useCommonTranslation,
@@ -151,13 +151,11 @@ export const EmailRegistrationDetails = ({
     <>
       <div className="registration-details rows gapped margin-top-sm">
         <div className="grid-2-columns gapped">
-          <LabeledTextField
-            id="public-registration__contact-details__email-field"
-            label={t('labels.email')}
-            value={registration.email || ''}
-            type={TextFieldTypes.Email}
-            slotProps={{ input: { readOnly: true } }}
-          />
+          <Text data-testid="public-registration__contact-details__email-field">
+            <b>{t('labels.email')}</b>
+            <br />
+            {registration.email}
+          </Text>
         </div>
         <div className="grid-2-columns gapped">
           <LabeledTextField

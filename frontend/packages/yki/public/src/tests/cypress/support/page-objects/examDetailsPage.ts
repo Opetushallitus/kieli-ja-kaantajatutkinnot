@@ -9,9 +9,11 @@ class ExamDetailsPage {
     textboxByLabel: (label: string) =>
       cy.findByRole('textbox', { name: label }),
     submitButton: () => cy.findByRole('button', { name: 'Lähetä' }),
-    acceptTermsOfRegistrationCheckbox: () =>
+    acceptTermsOfRegistrationCheckbox: (isFree: boolean) =>
       cy.findByRole('checkbox', {
-        name: 'Hyväksyn ilmoittautumisen ehdot *',
+        name: isFree
+          ? 'Hyväksyn ilmoittautumisen ehdot *'
+          : 'Hyväksyn ilmoittautumisen ja maksun ehdot *',
       }),
     acceptPrivacyPolicyCheckbox: () =>
       cy.findByRole('checkbox', {
@@ -82,8 +84,8 @@ class ExamDetailsPage {
       .click();
   }
 
-  acceptTermsOfRegistration() {
-    this.elements.acceptTermsOfRegistrationCheckbox().click();
+  acceptTermsOfRegistration(isFree = true) {
+    this.elements.acceptTermsOfRegistrationCheckbox(isFree).click();
   }
 
   acceptPrivacyPolicy() {

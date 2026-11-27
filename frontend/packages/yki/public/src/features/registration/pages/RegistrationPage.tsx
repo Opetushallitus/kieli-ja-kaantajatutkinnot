@@ -1,10 +1,8 @@
 import { Box, Container, Grid } from '@mui/material';
 import { OphLink } from '@opetushallitus/oph-design-system';
 import { FC, useEffect, useState } from 'react';
-import { Trans } from 'react-i18next';
 import { APIResponseStatus } from 'shared/enums';
 
-import { InfoBoxLink } from 'components/elements/InfoBoxLink';
 import { H1, H2, Text } from 'components/Text';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -25,14 +23,7 @@ const InformationBox = () => {
   return (
     <Container className="public-registration-page__info-box rows gapped">
       <Text>
-        <strong>{t('part1')}</strong> {t('part2')}{' '}
-        <Trans
-          i18nKey="part3"
-          t={t}
-          components={{
-            CustomLink: <InfoBoxLink />,
-          }}
-        />
+        <strong>{t('part1')}</strong> {t('part2')} {t('part3')}
       </Text>
     </Container>
   );
