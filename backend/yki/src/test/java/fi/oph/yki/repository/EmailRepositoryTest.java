@@ -7,6 +7,7 @@ import fi.oph.yki.PostgresTestcontainerConfig;
 import fi.oph.yki.model.Email;
 import fi.oph.yki.model.EmailType;
 import jakarta.annotation.Resource;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -44,7 +45,7 @@ class EmailRepositoryTest {
     assertEquals("Maksu", first.getSubject());
     assertEquals("Testi Henkilö", first.getRecipientName());
     assertEquals("testi.henkilo@invalid", first.getRecipientAddress());
-    assertEquals(newer.getCreatedAt(), first.getCreatedAt());
+    assertEquals(newer.getCreatedAt().truncatedTo(ChronoUnit.MICROS), first.getCreatedAt());
   }
 
   @Test
