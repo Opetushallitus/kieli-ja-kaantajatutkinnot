@@ -1,0 +1,347 @@
+import {
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+} from '@mui/material';
+import { OphLink, OphRadioGroup } from '@opetushallitus/oph-design-system';
+import { ChangeEvent, useEffect } from 'react';
+import { Trans } from 'react-i18next';
+import { APIResponseStatus, Color } from 'shared/enums';
+import { useWindowProperties } from 'shared/hooks';
+
+import { H2, H3, Label, Text } from 'components/Text';
+import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
+import {
+  CertificateLanguage,
+  ExamLanguage,
+  ExamLevel,
+  InstructionLanguage,
+} from 'enums/app';
+import { ExamFee } from 'features/registration/components/steps/register/ExamFee';
+import { usePublicRegistrationErrors } from 'features/registration/hooks/usePublicRegistrationErrors';
+import { getKoskiEducations } from 'features/registration/redux/reducers/publicEducation';
+import { setPublicFreeRegistration } from 'features/registration/redux/reducers/publicFreeRegistration';
+import { updatePublicRegistration } from 'features/registration/redux/reducers/registration';
+import { examSessionSelector } from 'features/registration/redux/selectors/examSession';
+import { publicEducationSelector } from 'features/registration/redux/selectors/publicEducation';
+import { publicFreeRegistrationSelector } from 'features/registration/redux/selectors/publicFreeRegistration';
+import { registrationSelector } from 'features/registration/redux/selectors/registration';
+import { ExamSession } from 'interfaces/examSessions';
+import {
+  PersonFillOutDetails,
+  RegistrationCheckboxDetails,
+} from 'interfaces/publicRegistration';
+import { sessionSelector } from 'redux/selectors/session';
+import { ExamSessionUtils } from 'utils/examSession';
+
+const ErrorLabelStyles = {
+  '&.Mui-error .MuiFormControlLabel-label': {
+    color: 'error.main',
+  },
+};
+
+export const CommonRegistrationDetails = () => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.component.registration.registrationDetails',
+  });
+  const translateCommon = useCommonTranslation();
+  const { isPhone } = useWindowProperties();
+
+  const { loggedInSession } = useAppSelector(sessionSelector);
+  const { status: publicEducationStatus } = useAppSelector(
+    publicEducationSelector,
+  );
+  const { basis, attemptsUsed, isFree } = useAppSelector(
+    publicFreeRegistrationSelector,
+  );
+  const { showErrors, registration } = useAppSelector(registrationSelector);
+  const examSession = useAppSelector(examSessionSelector)
+    .examSession as ExamSession;
+  const { language_code, level_code } = examSession;
+
+  const dispatch = useAppDispatch();
+  const handleCheckboxClick = (
+    fieldName: keyof RegistrationCheckboxDetails,
+  ) => {
+    dispatch(
+      updatePublicRegistration({
+        [fieldName]: !registration[fieldName],
+      }),
+    );
+  };
+  const handleChange = (fieldname: keyof PersonFillOutDetails) => {
+    return (event: ChangeEvent<HTMLInputElement>) => {
+      dispatch(updatePublicRegistration({ [fieldname]: event.target.value }));
+    };
+  };
+
+  const hideInstructionLanguageSelection =
+    language_code === ExamLanguage.FIN ||
+    language_code === ExamLanguage.SWE ||
+    (language_code === ExamLanguage.ENG && level_code !== ExamLevel.PERUS);
+
+  const shouldGetKoskiEducations = ExamSessionUtils.freeRegistrationPossible(
+    examSession,
+    loggedInSession,
+  );
+  const showExamFeeSection = shouldGetKoskiEducations;
+  useEffect(() => {
+    if (hideInstructionLanguageSelection) {
+      const instructionLanguage =
+        language_code === ExamLanguage.SWE
+          ? InstructionLanguage.SV
+          : InstructionLanguage.FI;
+      dispatch(updatePublicRegistration({ instructionLanguage }));
+    }
+  }, [dispatch, hideInstructionLanguageSelection, language_code]);
+
+  useEffect(() => {
+    if (shouldGetKoskiEducations) {
+      if (publicEducationStatus === APIResponseStatus.NotStarted) {
+        dispatch(getKoskiEducations());
+      } else if (
+        publicEducationStatus === APIResponseStatus.Success &&
+        attemptsUsed !== undefined
+      ) {
+        const freeAttemptsLeft = 3 - attemptsUsed;
+        if (freeAttemptsLeft > 0) {
+          if (basis?.source === 'KOSKI') {
+            dispatch(setPublicFreeRegistration({ isFree: 'YES' }));
+          }
+        } else {
+          dispatch(setPublicFreeRegistration({ isFree: 'NO' }));
+        }
+      }
+    }
+  }, [
+    dispatch,
+    shouldGetKoskiEducations,
+    publicEducationStatus,
+    basis?.source,
+    attemptsUsed,
+  ]);
+
+  const getRegistrationErrors = usePublicRegistrationErrors(true);
+  const registrationErrors = getRegistrationErrors();
+
+  return (
+    <>
+      {hideInstructionLanguageSelection ? null : (
+        <fieldset className="registration-details__radio-group">
+          <legend>
+            <Label>{t('instructionLanguage')}</Label>
+          </legend>
+          <FormControl
+            error={showErrors && !!registrationErrors['instructionLanguage']}
+          >
+            <RadioGroup
+              row={!isPhone}
+              onChange={handleChange('instructionLanguage')}
+            >
+              <FormControlLabel
+                className="radio-group-label"
+                value={InstructionLanguage.FI}
+                control={<Radio />}
+                label={translateCommon('languages.fin')}
+                sx={ErrorLabelStyles}
+              />
+              <FormControlLabel
+                className="radio-group-label"
+                value={InstructionLanguage.SV}
+                control={<Radio />}
+                label={translateCommon('languages.swe')}
+                sx={ErrorLabelStyles}
+              />
+            </RadioGroup>
+          </FormControl>
+        </fieldset>
+      )}
+      <H2 className="public-registration__grid__form-container__certificate">
+        {t('certificate.title')}
+      </H2>
+      <Text>{t('certificate.part1')}</Text>
+      <Text>{t('certificate.part2')}</Text>
+      <Text>{t('certificate.part3')}</Text>
+      <Text>
+        {t('certificate.furtherDetails.text')}{' '}
+        <OphLink href={t('certificate.furtherDetails.url')} target="_blank">
+          {t('certificate.furtherDetails.label')}
+        </OphLink>
+      </Text>
+      <fieldset className="registration-details__radio-group">
+        <legend>
+          <Label id="certificate-language-label">
+            {t('certificateLanguage')}
+          </Label>
+        </legend>
+        <FormControl
+          error={showErrors && !!registrationErrors['certificateLanguage']}
+        >
+          <OphRadioGroup
+            labelId="certificate-language-label"
+            row={!isPhone}
+            onChange={handleChange('certificateLanguage')}
+            error={showErrors && !!registrationErrors['certificateLanguage']}
+            formControlLabelProps={{ sx: ErrorLabelStyles }}
+            sx={{ marginTop: '8px' }}
+            options={[
+              {
+                value: CertificateLanguage.FI,
+                label: translateCommon('languages.fin'),
+              },
+              {
+                value: CertificateLanguage.SV,
+                label: translateCommon('languages.swe'),
+              },
+              {
+                value: CertificateLanguage.EN,
+                label: translateCommon('languages.eng'),
+              },
+            ]}
+          />
+        </FormControl>
+      </fieldset>
+      {showExamFeeSection && <ExamFee />}
+      <H2 className="public-registration__grid__form-container__terms-and-conditions">
+        {t('termsAndConditions.title')}
+      </H2>
+      <H3>
+        {isFree === 'YES'
+          ? t('termsAndConditions.subTitleFree')
+          : t('termsAndConditions.subTitle')}
+      </H3>
+      <div>
+        <Text component="div">
+          {isFree === 'YES'
+            ? t('termsAndConditions.description1Free')
+            : t('termsAndConditions.description1')}
+          <br />
+          <ul>
+            <li>{t('termsAndConditions.item1')}</li>
+            <li>
+              {isFree === 'YES'
+                ? t('termsAndConditions.item2Free')
+                : t('termsAndConditions.item2')}
+            </li>
+            <li>{t('termsAndConditions.item3')}</li>
+            <li>
+              {isFree === 'YES'
+                ? t('termsAndConditions.item4Free')
+                : t('termsAndConditions.item4')}
+            </li>
+            <li>
+              {isFree === 'YES'
+                ? t('termsAndConditions.item5Free')
+                : t('termsAndConditions.item5')}
+            </li>
+            <li>{t('termsAndConditions.item6')}</li>
+            {isFree === 'YES' ? (
+              <>
+                <li>{t('termsAndConditions.item7Free')}</li>
+                <li>{t('termsAndConditions.item8Free')}</li>
+              </>
+            ) : (
+              <>
+                <li>
+                  <Trans
+                    t={t}
+                    i18nKey="termsAndConditions.item7"
+                    components={{
+                      InstructionsLink: (
+                        <OphLink
+                          href={t('termsAndConditions.item7Link')}
+                          target="_blank"
+                        >
+                          {t('termsAndConditions.item7LinkText')}
+                        </OphLink>
+                      ),
+                    }}
+                  />
+                </li>
+                <li>{t('termsAndConditions.item8')}</li>
+              </>
+            )}
+          </ul>
+          {isFree === 'YES' && (
+            <>
+              {t('termsAndConditions.description2')}:{' '}
+              <div
+                className="columns gapped-xxs"
+                style={{ display: 'inline-flex' }}
+              >
+                <OphLink href={t('termsAndConditions.link')} target="_blank">
+                  {t('termsAndConditions.linkText')}
+                </OphLink>
+              </div>
+              <br />
+            </>
+          )}
+          <p>
+            <b>
+              {isFree === 'YES'
+                ? t('termsAndConditions.description3Free')
+                : t('termsAndConditions.description3')}
+            </b>
+          </p>
+        </Text>
+        <FormControl
+          error={showErrors && !!registrationErrors['termsAndConditionsAgreed']}
+        >
+          <FormControlLabel
+            control={
+              <Checkbox
+                onClick={() => handleCheckboxClick('termsAndConditionsAgreed')}
+                color={Color.Secondary}
+                checked={registration.termsAndConditionsAgreed}
+              />
+            }
+            label={
+              isFree === 'YES'
+                ? t('termsAndConditions.labelFree')
+                : t('termsAndConditions.label')
+            }
+            sx={ErrorLabelStyles}
+          />
+        </FormControl>
+      </div>
+      <H3>{translateCommon('privacyStatement.title')}</H3>
+      <div>
+        <Text>
+          {translateCommon('privacyStatement.description')}
+          <br />
+          {translateCommon('privacyStatement.readConditions')}
+        </Text>
+        <div className="columns gapped-xxs">
+          <OphLink
+            href={translateCommon('privacyStatement.link.url')}
+            target="_blank"
+          >
+            {translateCommon('privacyStatement.link.label')}
+          </OphLink>
+        </div>
+      </div>
+      <FormControl
+        error={
+          showErrors && !!registrationErrors['privacyStatementConfirmation']
+        }
+      >
+        <FormControlLabel
+          control={
+            <Checkbox
+              onClick={() =>
+                handleCheckboxClick('privacyStatementConfirmation')
+              }
+              color={Color.Secondary}
+              checked={registration.privacyStatementConfirmation}
+            />
+          }
+          label={translateCommon('privacyStatement.grantApproval')}
+          sx={ErrorLabelStyles}
+        />
+      </FormControl>
+    </>
+  );
+};

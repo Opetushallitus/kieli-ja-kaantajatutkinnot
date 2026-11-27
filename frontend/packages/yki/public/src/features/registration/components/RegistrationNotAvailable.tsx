@@ -1,0 +1,96 @@
+import { Grid, Paper } from '@mui/material';
+import { ophColors } from '@opetushallitus/oph-design-system';
+import { useWindowProperties } from 'shared/hooks';
+
+import { H1, Text } from 'components/Text';
+import { usePublicTranslation } from 'configs/i18n';
+import { useAppSelector } from 'configs/redux';
+import { BackToFrontPageButton } from 'features/registration/components/elements/BackToFrontPageButton';
+import { PublicRegistrationExamSessionDetails } from 'features/registration/components/PublicRegistrationExamSessionDetails';
+import { examSessionSelector } from 'features/registration/redux/selectors/examSession';
+import { ExamSession } from 'interfaces/examSessions';
+
+const DescribeUnavailability = ({
+  descriptionPrefix,
+}: {
+  descriptionPrefix: string;
+}) => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.component.registration.unavailable',
+  });
+
+  const getUnavailabilityDescription = (descriptionPrefix: string) => {
+    if (descriptionPrefix === 'full') {
+      return (
+        <>
+          <Text>{t(descriptionPrefix + '.description1')}</Text>;
+          <Text>{t(descriptionPrefix + '.description2')}</Text>;
+        </>
+      );
+    }
+
+    return <Text>{t(descriptionPrefix + '.description')}</Text>;
+  };
+
+  return (
+    <div className="rows gapped">
+      {getUnavailabilityDescription(descriptionPrefix)}
+      <BackToFrontPageButton />
+    </div>
+  );
+};
+
+const getReasonForUnavailability = ({
+  open,
+  upcoming_admission,
+}: ExamSession) => {
+  if (open) {
+    return 'full';
+  } else if (upcoming_admission) {
+    return 'upcoming';
+  } else return 'past';
+};
+
+const RegistrationUnavailableHeader = () => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.component.registration',
+  });
+  const examSession = useAppSelector(examSessionSelector)
+    .examSession as ExamSession;
+  const reasonForUnavailability = getReasonForUnavailability(examSession);
+
+  return <H1>{t(`unavailable.${reasonForUnavailability}.title`)}</H1>;
+};
+
+export const RegistrationNotAvailable = () => {
+  const { isPhone } = useWindowProperties();
+  const examSession = useAppSelector(examSessionSelector)
+    .examSession as ExamSession;
+  const reasonForUnavailability = getReasonForUnavailability(examSession);
+
+  return (
+    <Grid className="public-registration">
+      <div className="public-registration__grid">
+        <div className="rows public-registration__grid__heading public-registration__grid__no-stepper">
+          <RegistrationUnavailableHeader />
+        </div>
+        <Paper
+          elevation={isPhone ? 0 : 3}
+          style={isPhone ? {} : { borderTop: '5px solid ' + ophColors.green2 }}
+        >
+          <div className="public-registration__grid__form-container">
+            <div className="rows gapped">
+              <PublicRegistrationExamSessionDetails
+                examSession={examSession}
+                showOpenings={true}
+              />
+              <DescribeUnavailability
+                descriptionPrefix={reasonForUnavailability}
+              />
+            </div>
+          </div>
+        </Paper>
+      </div>
+    </Grid>
+  );
+};

@@ -79,6 +79,10 @@ export interface PublicRegistrationInitRequest {
 }
 
 export interface PublicRegistrationInitResponse {
+  registration_id: number;
+}
+
+export interface PublicRegistrationDetails {
   exam_session: ExamSessionResponse;
   registration_id: number;
   partial_exam_type: PartialExamType;
@@ -95,6 +99,7 @@ export interface PublicRegistrationInitResponse {
     oid?: string;
     'external-user-id'?: string;
   };
+  email?: string;
   is_strongly_identified: boolean;
   registration_kind: RegistrationKind;
   expires_in?: number;
@@ -123,8 +128,8 @@ export interface PublicRegistrationInitErrorState {
 export function isRegistrationInitErrorResponse(
   response: AxiosResponse,
 ): response is AxiosResponse<PublicRegistrationInitErrorResponse> {
-  const error = response.data.error;
-  if (!error) {
+  const error = response.data?.error;
+  if (!error || typeof error !== 'object') {
     return false;
   }
 

@@ -8,19 +8,20 @@ import fi.oph.yki.util.StringUtil;
 import fi.vm.sade.java_utils.security.OpintopolkuCasAuthenticationFilter;
 import fi.vm.sade.javautils.kayttooikeusclient.OphUserDetailsServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.apereo.cas.client.session.SessionMappingStorage;
 import org.apereo.cas.client.session.SingleSignOutFilter;
 import org.apereo.cas.client.validation.Cas20ProxyTicketValidator;
+import org.apereo.cas.client.validation.Cas30ProxyTicketValidator;
 import org.apereo.cas.client.validation.TicketValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.env.Environment;
@@ -28,14 +29,13 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.AuthorizationManager;
 import org.springframework.security.cas.ServiceProperties;
 import org.springframework.security.cas.authentication.CasAuthenticationProvider;
 import org.springframework.security.cas.web.CasAuthenticationEntryPoint;
 import org.springframework.security.cas.web.CasAuthenticationFilter;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -47,6 +47,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
@@ -70,6 +71,15 @@ public class WebSecurityConfig {
     this.environment = environment;
     this.permissionsService = permissionsService;
     this.sessionMappingStorage = sessionMappingStorage;
+  }
+
+  @Bean
+  public ServiceProperties serviceOppijaProperties() {
+    final ServiceProperties serviceProperties = new ServiceProperties();
+    serviceProperties.setService(environment.getRequiredProperty("cas.oppija.service-url"));
+    serviceProperties.setSendRenew(environment.getRequiredProperty("cas.send-renew", Boolean.class));
+    serviceProperties.setAuthenticateAllArtifacts(false);
+    return serviceProperties;
   }
 
   @Bean
@@ -98,6 +108,26 @@ public class WebSecurityConfig {
   }
 
   @Bean
+  public CasAuthenticationProvider casOppijaAuthenticationProvider() {
+    final CasAuthenticationProvider casAuthenticationProvider = new CasAuthenticationProvider();
+    casAuthenticationProvider.setAuthenticationUserDetailsService(new OphUserDetailsServiceImpl());
+
+    casAuthenticationProvider.setServiceProperties(serviceOppijaProperties());
+    casAuthenticationProvider.setTicketValidator(ticketOppijaValidator());
+    casAuthenticationProvider.setKey(environment.getRequiredProperty("cas.key"));
+    return casAuthenticationProvider;
+  }
+
+  @Bean
+  public TicketValidator ticketOppijaValidator() {
+    final Cas20ProxyTicketValidator ticketValidator = new Cas30ProxyTicketValidator(
+      environment.getRequiredProperty("cas.oppija.validate-ticket-url")
+    );
+    ticketValidator.setAcceptAnyProxy(true);
+    return ticketValidator;
+  }
+
+  @Bean
   public TicketValidator ticketValidator() {
     final Cas20ProxyTicketValidator ticketValidator = new Cas20ProxyTicketValidator(
       environment.getRequiredProperty("cas.url")
@@ -110,13 +140,35 @@ public class WebSecurityConfig {
   // CAS filter
   //
   @Bean
-  public CasAuthenticationFilter casAuthenticationFilter(final AuthenticationManager authenticationManager) {
+  public CasAuthenticationFilter casAuthenticationFilter() {
     final OpintopolkuCasAuthenticationFilter casAuthenticationFilter = new OpintopolkuCasAuthenticationFilter(
       serviceProperties()
     );
-    casAuthenticationFilter.setAuthenticationManager(authenticationManager);
+    casAuthenticationFilter.setAuthenticationManager(new ProviderManager(casAuthenticationProvider()));
     casAuthenticationFilter.setFilterProcessesUrl("/v2/virkailija" + environment.getRequiredProperty("cas.login-path"));
     return casAuthenticationFilter;
+  }
+
+  @Bean
+  public CasAuthenticationFilter casOppijaAuthenticationFilter() {
+    final OpintopolkuCasAuthenticationFilter casAuthenticationFilter = new OpintopolkuCasAuthenticationFilter(
+      serviceOppijaProperties()
+    );
+    casAuthenticationFilter.setAuthenticationManager(new ProviderManager(casOppijaAuthenticationProvider()));
+    casAuthenticationFilter.setFilterProcessesUrl("/v2/login/cas");
+    casAuthenticationFilter.setAuthenticationSuccessHandler(casOppijaAuthenticationSuccessHandler());
+    return casAuthenticationFilter;
+  }
+
+  private AuthenticationSuccessHandler casOppijaAuthenticationSuccessHandler() {
+    return (request, response, authentication) -> {
+      final HttpSession session = request.getSession();
+      final String targetUrl = (String) session.getAttribute(Constants.CAS_OPPIJA_LOGIN_REDIRECT_URL);
+
+      session.removeAttribute(Constants.CAS_OPPIJA_LOGIN_REDIRECT_URL);
+
+      response.sendRedirect(targetUrl);
+    };
   }
 
   //
@@ -273,7 +325,6 @@ public class WebSecurityConfig {
           .anyRequest()
           .authenticated()
       )
-      .authenticationProvider(casAuthenticationProvider())
       .exceptionHandling(exceptionHandlingConfigurer -> {
         try {
           exceptionHandlingConfigurer
@@ -298,6 +349,19 @@ public class WebSecurityConfig {
 
   @Bean
   @Order(3)
+  public SecurityFilterChain casOppijaSecurityFilterChain(
+    final HttpSecurity httpSecurity,
+    final CasAuthenticationFilter casOppijaAuthenticationFilter
+  ) throws Exception {
+    return configCsrf(httpSecurity)
+      .securityMatcher("/v2/login/cas")
+      .addFilter(casOppijaAuthenticationFilter)
+      .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
+      .build();
+  }
+
+  @Bean
+  @Order(4)
   public SecurityFilterChain proxyApiSecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
     final String token = environment.getRequiredProperty("app.proxy-token");
     final AuthorizationManager<RequestAuthorizationContext> proxyApiAuthorizationManager =
@@ -309,7 +373,7 @@ public class WebSecurityConfig {
   }
 
   @Bean
-  @Order(4)
+  @Order(5)
   public SecurityFilterChain customerPortalSecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
     return configCsrf(httpSecurity)
       .securityMatcher("/v2/api/public/person/**")
@@ -321,7 +385,7 @@ public class WebSecurityConfig {
   }
 
   @Bean
-  @Order(5)
+  @Order(6)
   public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
     return configCsrf(httpSecurity)
       .authorizeHttpRequests(registry -> registry.requestMatchers("/", "/**").permitAll().anyRequest().authenticated())
@@ -356,11 +420,5 @@ public class WebSecurityConfig {
         .ignoringRequestMatchers("/yki/v2/virkailija/login/cas") // Required for clerk CAS logout callback
         .ignoringRequestMatchers("/v2/virkailija/login/cas") // Required for clerk CAS logout callback
     );
-  }
-
-  @Bean
-  public AuthenticationManager authenticationManager(final AuthenticationConfiguration authenticationConfiguration)
-    throws Exception {
-    return authenticationConfiguration.getAuthenticationManager();
   }
 }

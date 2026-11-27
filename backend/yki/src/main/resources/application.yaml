@@ -16,6 +16,7 @@ spring:
     password: ${postgresql.password:admin}
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.xml
+    contexts: default
   task:
     scheduling:
       pool:
@@ -61,6 +62,7 @@ app:
     enabled: ${v2.enabled:false}
   base-url:
     public: ${public-base-url:http://localhost:8083}/yki
+    public-frontend: ${public-base-url:http://localhost:4003}/yki
     clerk: ${clerk-base-url:http://localhost:8083/yki}
   user-portal:
     success-url: ${app.base-url.public}/kayttaja/tiedot
@@ -94,6 +96,12 @@ app:
   email:
     sending-enabled: ${email.sending-enabled:false}
     service-url: ${email.service-url:null}
+  payment:
+    paytrail:
+      url: https://services.paytrail.com
+      secret: ${payment.paytrail.secret:null}
+      account: ${payment.paytrail.account:null}
+      callback-base-url: ${app.base-url.public}/api/v2
   scheduling:
     registration-queue-handler:
       # Only false for tests, otherwise decided by a runtime flag
@@ -113,6 +121,12 @@ cas:
   url: ${virkailija.cas.url:http://localhost:${server.port}/yki}
   cas-url: ${virkailija.cas.url:https://virkailija.untuvaopintopolku.fi/cas}
   login-url: ${virkailija.cas.login-url:http://localhost:${server.port}/login}
+  oppija:
+    login-url: ${cas-oppija.login-url:https://untuvaopintopolku.fi/cas-oppija/login}
+    logout-url: ${cas-oppija.logout-url:https://testiopintopolku.fi/cas-oppija/logout}
+    service-url: ${cas-oppija.service-url:http://localhost:${server.port}/yki/v2/login/cas}
+    service-logout-url: ${public-base-url:http://localhost:4002}/vkt/uloskirjautuminen-onnistui
+    validate-ticket-url: ${cas-oppija.validate-ticket-url:https://untuvaopintopolku.fi/cas-oppija}
   onr:
     username: ${cas.username:null}
     password: ${cas.password:null}

@@ -1,0 +1,132 @@
+import { InputAutoComplete, TextFieldVariant } from 'shared/enums';
+import { useWindowProperties } from 'shared/hooks';
+import {
+  LabeledComboBox,
+  LabeledTextField,
+  LabeledTextFieldProps,
+} from 'shared/ods-components';
+
+import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
+import {
+  PublicRegistrationErrors,
+  usePublicRegistrationErrors,
+} from 'features/registration/hooks/usePublicRegistrationErrors';
+import { updatePublicRegistration } from 'features/registration/redux/reducers/registration';
+import { registrationSelector } from 'features/registration/redux/selectors/registration';
+import { useCountryOptions } from 'hooks/useCountryOptions';
+import { PersonFillOutDetails } from 'interfaces/publicRegistration';
+
+export const AddressDetails = ({
+  getLabeledTextFieldAttributes,
+  setDirtyField,
+  hasErrors,
+}: {
+  getLabeledTextFieldAttributes: (
+    fieldName: keyof PersonFillOutDetails,
+  ) => LabeledTextFieldProps;
+  setDirtyField: (fieldName: keyof PublicRegistrationErrors) => void;
+  hasErrors: (
+    registrationErrors: PublicRegistrationErrors,
+    fieldName: keyof PublicRegistrationErrors,
+  ) => boolean;
+}) => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.component.registration.registrationDetails',
+  });
+  const translateCommon = useCommonTranslation();
+  const { registration } = useAppSelector(registrationSelector);
+  const countryOptions = useCountryOptions();
+  const { isPhone } = useWindowProperties();
+  const dispatch = useAppDispatch();
+
+  const getRegistrationErrors = usePublicRegistrationErrors(true);
+  const registrationErrors = getRegistrationErrors();
+
+  const getAddressTextFieldAttributes = (
+    fieldName: keyof PersonFillOutDetails,
+  ) => {
+    const attributes = getLabeledTextFieldAttributes(fieldName);
+
+    return {
+      ...attributes,
+      helperText: attributes.helperText || ' ',
+    };
+  };
+
+  const countryCodeDropdown = (
+    <LabeledComboBox
+      id="public-registration__contact-details__country-code-field"
+      className="half-width-on-desktop"
+      label={`${t('labels.countryCode')} *`}
+      aria-label={`${t('labels.countryCode')} *`}
+      placeholder={t('placeholders.countryCode')}
+      variant={TextFieldVariant.Outlined}
+      values={countryOptions}
+      value={
+        countryOptions.find((o) => o.value === registration.countryCode) || null
+      }
+      onChange={(v?: string) => {
+        dispatch(updatePublicRegistration({ countryCode: v }));
+      }}
+      onBlur={() => setDirtyField('countryCode')}
+      showError={hasErrors(registrationErrors, 'countryCode')}
+      helperText={
+        hasErrors(registrationErrors, 'countryCode')
+          ? translateCommon(registrationErrors['countryCode'] as string)
+          : ''
+      }
+    />
+  );
+
+  if (isPhone) {
+    return (
+      <>
+        {countryCodeDropdown}
+        <LabeledTextField
+          {...getAddressTextFieldAttributes('address')}
+          value={registration.address || ''}
+          autoComplete={InputAutoComplete.Street}
+          fullWidth
+        />
+        <LabeledTextField
+          {...getAddressTextFieldAttributes('postNumber')}
+          value={registration.postNumber || ''}
+          autoComplete={InputAutoComplete.PostalCode}
+          fullWidth
+        />
+        <LabeledTextField
+          {...getAddressTextFieldAttributes('postOffice')}
+          value={registration.postOffice || ''}
+          autoComplete={InputAutoComplete.Town}
+          fullWidth
+        />
+      </>
+    );
+  } else {
+    return (
+      <>
+        <div className="registration-details__address-grid gapped">
+          <LabeledTextField
+            {...getAddressTextFieldAttributes('address')}
+            value={registration.address || ''}
+            autoComplete={InputAutoComplete.Street}
+          />
+          <div className="columns gapped align-items-end">
+            <LabeledTextField
+              {...getAddressTextFieldAttributes('postNumber')}
+              value={registration.postNumber || ''}
+              autoComplete={InputAutoComplete.PostalCode}
+            />
+            <LabeledTextField
+              {...getAddressTextFieldAttributes('postOffice')}
+              value={registration.postOffice || ''}
+              autoComplete={InputAutoComplete.Town}
+            />
+          </div>
+        </div>
+        {countryCodeDropdown}
+      </>
+    );
+  }
+};

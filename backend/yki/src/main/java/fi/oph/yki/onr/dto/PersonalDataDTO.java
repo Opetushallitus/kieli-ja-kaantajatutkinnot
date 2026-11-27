@@ -2,6 +2,7 @@ package fi.oph.yki.onr.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.time.LocalDate;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,4 +17,10 @@ public class PersonalDataDTO {
 
   @JsonProperty("hetu")
   private String identityNumber;
+
+  @JsonProperty("sukunimi")
+  private String lastName;
+
+  @JsonProperty("syntymaaika")
+  private LocalDate birthdate;
 }
