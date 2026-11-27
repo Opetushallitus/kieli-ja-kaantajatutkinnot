@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
@@ -16,11 +18,14 @@ import fi.oph.yki.PostgresTestcontainerConfig;
 import fi.oph.yki.model.Email;
 import fi.oph.yki.model.EmailAttachment;
 import fi.oph.yki.model.EmailType;
+import fi.oph.yki.repository.EmailAttachmentListProjection;
 import fi.oph.yki.repository.EmailAttachmentRepository;
 import fi.oph.yki.repository.EmailRepository;
 import fi.oph.yki.service.email.sender.EmailSender;
+import fi.oph.yki.util.exception.NotFoundException;
 import jakarta.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -150,5 +155,64 @@ class EmailServiceTest {
     emailService.sendEmail(111);
 
     verifyNoInteractions(emailSenderMock);
+  }
+
+  private EmailAttachment persistAttachment(final Email email, final String name) {
+    final EmailAttachment attachment = new EmailAttachment();
+    attachment.setEmail(email);
+    attachment.setName(name);
+    attachment.setContentType("application/pdf");
+    attachment.setData(new byte[] { '%', 'P', 'D', 'F' });
+
+    return entityManager.persist(attachment);
+  }
+
+  @Test
+  public void testListAttachmentsGroupsByEmail() {
+    final Email email1 = entityManager.persist(Factory.email());
+    final Email email2 = entityManager.persist(Factory.email());
+    final Email email3 = entityManager.persist(Factory.email());
+    final EmailAttachment receipt = persistAttachment(email1, "kuitti.pdf");
+    final EmailAttachment other = persistAttachment(email1, "liite.pdf");
+    persistAttachment(email2, "toinen.pdf");
+
+    final Map<Long, List<EmailAttachmentListProjection>> attachments = emailService.listAttachments(
+      List.of(email1.getId(), email3.getId())
+    );
+
+    assertEquals(1, attachments.size());
+    final List<EmailAttachmentListProjection> email1Attachments = attachments.get(email1.getId());
+    assertEquals(
+      List.of(receipt.getId(), other.getId()),
+      email1Attachments.stream().map(EmailAttachmentListProjection::getId).toList()
+    );
+    assertEquals("kuitti.pdf", email1Attachments.get(0).getName());
+    assertEquals(email1.getId(), email1Attachments.get(0).getEmailId());
+  }
+
+  @Test
+  public void testListAttachmentsWithoutEmails() {
+    assertTrue(emailService.listAttachments(List.of()).isEmpty());
+  }
+
+  @Test
+  public void testGetAttachment() {
+    final Email email = entityManager.persist(Factory.email());
+    final EmailAttachment attachment = persistAttachment(email, "kuitti.pdf");
+
+    final EmailAttachmentData data = emailService.getAttachment(email.getId(), attachment.getId());
+
+    assertEquals("kuitti.pdf", data.name());
+    assertEquals("application/pdf", data.contentType());
+    assertArrayEquals(new byte[] { '%', 'P', 'D', 'F' }, data.data());
+  }
+
+  @Test
+  public void testGetAttachmentOfOtherEmailIsNotFound() {
+    final Email email = entityManager.persist(Factory.email());
+    final Email otherEmail = entityManager.persist(Factory.email());
+    final EmailAttachment attachment = persistAttachment(email, "kuitti.pdf");
+
+    assertThrows(NotFoundException.class, () -> emailService.getAttachment(otherEmail.getId(), attachment.getId()));
   }
 }

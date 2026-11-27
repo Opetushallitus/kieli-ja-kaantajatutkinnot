@@ -1,14 +1,21 @@
 package fi.oph.yki.api.clerk;
 
+import fi.oph.yki.repository.EmailAttachmentListProjection;
 import fi.oph.yki.repository.EmailListProjection;
+import fi.oph.yki.service.email.EmailAttachmentData;
 import fi.oph.yki.service.email.EmailService;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,22 +49,26 @@ public class EmailDebugController {
     html.append("th,td{border:1px solid #ccc;padding:4px 8px;text-align:left}</style></head><body>");
     html.append("<h1>Emails (newest ").append(EMAIL_LIST_LIMIT).append(")</h1><table>");
     html.append("<tr><th>Id</th><th>Created</th><th>Type</th><th>Recipient</th><th>Subject</th>");
-    html.append("<th>Sent</th><th>Error</th></tr>");
+    html.append("<th>Sent</th><th>Error</th><th>Attachments</th></tr>");
+
+    final List<EmailListProjection> emails = emailService.listNewestEmails(EMAIL_LIST_LIMIT);
+    final Map<Long, List<EmailAttachmentListProjection>> attachments = emailService.listAttachments(
+      emails.stream().map(EmailListProjection::getId).toList()
+    );
 
     // Links are relative to /email-debug, so they work under any context path
-    emailService
-      .listNewestEmails(EMAIL_LIST_LIMIT)
-      .forEach(email -> {
-        html.append("<tr><td><a href=\"email-debug/").append(email.getId()).append("\">");
-        html.append(email.getId()).append("</a></td>");
-        html.append(cell(email.getCreatedAt()));
-        html.append(cell(email.getEmailType()));
-        html.append(cell(recipient(email)));
-        html.append(cell(email.getSubject()));
-        html.append(cell(email.getSentAt()));
-        html.append(cell(email.getError()));
-        html.append("</tr>");
-      });
+    emails.forEach(email -> {
+      html.append("<tr><td><a href=\"email-debug/").append(email.getId()).append("\">");
+      html.append(email.getId()).append("</a></td>");
+      html.append(cell(email.getCreatedAt()));
+      html.append(cell(email.getEmailType()));
+      html.append(cell(recipient(email)));
+      html.append(cell(email.getSubject()));
+      html.append(cell(email.getSentAt()));
+      html.append(cell(email.getError()));
+      html.append(attachmentCell(email.getId(), attachments.getOrDefault(email.getId(), List.of())));
+      html.append("</tr>");
+    });
 
     html.append("</table></body></html>");
     return html.toString();
@@ -69,11 +80,39 @@ public class EmailDebugController {
     return emailService.getEmailBody(emailId);
   }
 
+  @GetMapping(path = "/{emailId}/attachment/{attachmentId}")
+  @Operation(tags = TAG_EMAIL_DEBUG, summary = "Show an attachment of a saved email")
+  public ResponseEntity<byte[]> getAttachment(@PathVariable final long emailId, @PathVariable final long attachmentId) {
+    final EmailAttachmentData attachment = emailService.getAttachment(emailId, attachmentId);
+
+    return ResponseEntity
+      .ok()
+      .contentType(MediaType.parseMediaType(attachment.contentType()))
+      .header(
+        HttpHeaders.CONTENT_DISPOSITION,
+        ContentDisposition.inline().filename(attachment.name()).build().toString()
+      )
+      .body(attachment.data());
+  }
+
+  private static String attachmentCell(final long emailId, final List<EmailAttachmentListProjection> attachments) {
+    final StringBuilder html = new StringBuilder("<td>");
+    attachments.forEach(attachment -> {
+      html.append("<a href=\"email-debug/").append(emailId).append("/attachment/").append(attachment.getId());
+      html.append("\">").append(escape(attachment.getName())).append("</a><br>");
+    });
+    return html.append("</td>").toString();
+  }
+
+  private static String escape(final Object value) {
+    return HtmlUtils.htmlEscape(Objects.toString(value, ""), StandardCharsets.UTF_8.name());
+  }
+
   private static String recipient(final EmailListProjection email) {
     return email.getRecipientName() + " <" + email.getRecipientAddress() + ">";
   }
 
   private static String cell(final Object value) {
-    return "<td>" + HtmlUtils.htmlEscape(Objects.toString(value, ""), StandardCharsets.UTF_8.name()) + "</td>";
+    return "<td>" + escape(value) + "</td>";
   }
 }

@@ -6,16 +6,20 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import fi.oph.yki.config.ControllerExceptionAdvice;
 import fi.oph.yki.model.EmailType;
+import fi.oph.yki.repository.EmailAttachmentListProjection;
 import fi.oph.yki.repository.EmailListProjection;
+import fi.oph.yki.service.email.EmailAttachmentData;
 import fi.oph.yki.service.email.EmailService;
 import fi.oph.yki.util.exception.NotFoundException;
 import jakarta.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -64,6 +68,11 @@ class EmailDebugControllerTest {
       when(email.getSubject()).thenReturn("Maksu <YKI>");
       when(email.getCreatedAt()).thenReturn(LocalDateTime.of(2026, 11, 9, 12, 30));
       when(emailService.listNewestEmails(200)).thenReturn(List.of(email));
+      final EmailAttachmentListProjection attachment = mock(EmailAttachmentListProjection.class);
+      when(attachment.getId()).thenReturn(3L);
+      when(attachment.getEmailId()).thenReturn(7L);
+      when(attachment.getName()).thenReturn("kuitti<1>.pdf");
+      when(emailService.listAttachments(List.of(7L))).thenReturn(Map.of(7L, List.of(attachment)));
 
       mockMvc
         .perform(get(BASE_URL))
@@ -74,7 +83,35 @@ class EmailDebugControllerTest {
         .andExpect(content().string(containsString("<td>2026-11-09T12:30</td>")))
         .andExpect(content().string(containsString("Testi Henkilö &lt;testi@example.com&gt;")))
         .andExpect(content().string(containsString("<td>Maksu &lt;YKI&gt;</td>")))
-        .andExpect(content().string(not(containsString("<YKI>"))));
+        .andExpect(content().string(not(containsString("<YKI>"))))
+        .andExpect(content().string(containsString("<a href=\"email-debug/7/attachment/3\">kuitti&lt;1&gt;.pdf</a>")));
+    }
+
+    @Test
+    public void testGetAttachment() throws Exception {
+      when(emailService.getAttachment(7L, 3L))
+        .thenReturn(
+          EmailAttachmentData
+            .builder()
+            .name("YKI-EXAM-1.pdf")
+            .contentType("application/pdf")
+            .data(new byte[] { '%', 'P', 'D', 'F' })
+            .build()
+        );
+
+      mockMvc
+        .perform(get(BASE_URL + "/7/attachment/3"))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_PDF))
+        .andExpect(header().string("Content-Disposition", "inline; filename=\"YKI-EXAM-1.pdf\""))
+        .andExpect(content().bytes(new byte[] { '%', 'P', 'D', 'F' }));
+    }
+
+    @Test
+    public void testGetMissingAttachmentReturnsNotFound() throws Exception {
+      when(emailService.getAttachment(7L, 4L)).thenThrow(new NotFoundException("Email attachment not found"));
+
+      mockMvc.perform(get(BASE_URL + "/7/attachment/4")).andExpect(status().isNotFound());
     }
 
     @Test
@@ -105,6 +142,11 @@ class EmailDebugControllerTest {
     @Test
     public void testListEndpointDoesNotExist() throws Exception {
       mockMvc.perform(get(BASE_URL)).andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void testAttachmentEndpointDoesNotExist() throws Exception {
+      mockMvc.perform(get(BASE_URL + "/7/attachment/3")).andExpect(status().isNotFound());
     }
   }
 }
