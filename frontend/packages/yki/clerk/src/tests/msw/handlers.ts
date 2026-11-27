@@ -9,6 +9,7 @@ import {
   ExamDateResponse,
   LanguageEvaluation,
   UpdateEvaluationRequest,
+  UpdateExamDateRequest,
 } from 'interfaces/examDate';
 import { activeQuarantines } from 'tests/msw/fixtures/activeQuarantines';
 import {
@@ -28,11 +29,13 @@ import { quarantineMatches } from 'tests/msw/fixtures/quarantineMatches';
 import { quarantineReviews } from 'tests/msw/fixtures/quarantineReviews';
 
 const initialOrganizers = JSON.stringify(organizers.organizers);
+const initialExamDates = JSON.stringify(examDates);
 
 // Used by Cypress support, which is excluded from the main tsconfig.
 // ts-unused-exports:disable-next-line
 export const resetData = () => {
   organizers.organizers = JSON.parse(initialOrganizers);
+  examDates.splice(0, examDates.length, ...JSON.parse(initialExamDates));
 };
 
 interface QuarantineReviewRequest {
@@ -269,6 +272,68 @@ export const handlers = [
     );
 
     return examSession ? HttpResponse.json(examSession) : notFound();
+  }),
+  http.get(APIEndpoints.ClerkExamDate, () =>
+    HttpResponse.json(
+      examDates.filter(
+        (date) => !dayjs(date.examDate).isBefore(dayjs(), 'day'),
+      ),
+    ),
+  ),
+  http.put(`${APIEndpoints.ClerkExamDate}/:id`, async ({ params, request }) => {
+    const examDate = examDates.find((date) => date.id === Number(params.id));
+    if (!examDate) return notFound();
+    const body = (await request.json()) as UpdateExamDateRequest;
+    const sameLanguageLevel = (
+      a: UpdateExamDateRequest['languages'][number],
+      b: UpdateExamDateRequest['languages'][number],
+    ) => a.languageCode === b.languageCode && a.levelCode === b.levelCode;
+    if (
+      examDate.examSessionCount > 0 &&
+      (body.examDate !== examDate.examDate ||
+        body.examType !== examDate.examType ||
+        examDate.languages.some(
+          (existing) =>
+            !body.languages.some((requested) =>
+              sameLanguageLevel(existing, requested),
+            ),
+        ) ||
+        body.languages.some(
+          (requested) =>
+            !examDate.languages.some(
+              (existing) => existing.languageCode === requested.languageCode,
+            ),
+        ))
+    ) {
+      return new HttpResponse(null, { status: 400 });
+    }
+    let nextLanguageId =
+      Math.max(
+        0,
+        ...examDates.flatMap((date) =>
+          date.languages.map((language) => language.id),
+        ),
+      ) + 1;
+    const languages = body.languages.map(
+      (language) =>
+        examDate.languages.find((existing) =>
+          sameLanguageLevel(existing, language),
+        ) ?? {
+          ...language,
+          id: nextLanguageId++,
+          evaluationStartDate: null,
+          evaluationEndDate: null,
+        },
+    );
+    Object.assign(examDate, {
+      examDate: body.examDate,
+      registrationStartDate: body.registrationStartDate,
+      registrationEndDate: body.registrationEndDate,
+      examType: body.examType,
+      languages,
+    });
+
+    return HttpResponse.json(examDate);
   }),
   http.get(`${APIEndpoints.ClerkExamDate}/all`, () => {
     return HttpResponse.json(examDates);

@@ -119,22 +119,28 @@ public class ClerkExamDateService {
     return examDate;
   }
 
-  private static boolean languagesMatch(final ExamDate examDate, final ClerkUpdateExamDateDTO dto) {
+  private static boolean onlyAddsLevelsToExistingLanguages(final ExamDate examDate, final ClerkUpdateExamDateDTO dto) {
     final var existing = examDate
       .getLanguages()
       .stream()
       .map(l -> l.getLanguageCode() + ":" + l.getLevelCode())
-      .sorted()
-      .toList();
+      .collect(Collectors.toSet());
 
     final var requested = dto
       .languages()
       .stream()
       .map(l -> l.languageCode().name() + ":" + l.levelCode().name())
-      .sorted()
-      .toList();
+      .collect(Collectors.toSet());
 
-    return existing.equals(requested);
+    final var existingLanguages = examDate
+      .getLanguages()
+      .stream()
+      .map(ExamDateLanguage::getLanguageCode)
+      .collect(Collectors.toSet());
+    return (
+      requested.containsAll(existing) &&
+      dto.languages().stream().allMatch(language -> existingLanguages.contains(language.languageCode().name()))
+    );
   }
 
   @Transactional
@@ -177,7 +183,7 @@ public class ClerkExamDateService {
       if (
         !dto.examDate().isEqual(examDate.getExamDate()) ||
         !dto.examType().equals(examDate.getExamType()) ||
-        !languagesMatch(examDate, dto)
+        !onlyAddsLevelsToExistingLanguages(examDate, dto)
       ) {
         throw new APIException(APIExceptionType.EXAM_DATE_HAS_SESSIONS);
       }
@@ -188,7 +194,18 @@ public class ClerkExamDateService {
     examDate.setRegistrationEndDate(dto.registrationEndDate());
     examDate.setExamType(dto.examType());
 
-    if (!hasSessions) {
+    if (hasSessions) {
+      final var existingKeys = examDate
+        .getLanguages()
+        .stream()
+        .map(language -> language.getLanguageCode() + ":" + language.getLevelCode())
+        .collect(Collectors.toSet());
+      dto
+        .languages()
+        .stream()
+        .filter(language -> existingKeys.add(language.languageCode().name() + ":" + language.levelCode().name()))
+        .forEach(language -> examDate.getLanguages().add(toLanguageEntity(examDate, language)));
+    } else {
       examDate.getLanguages().clear();
       examDate
         .getLanguages()

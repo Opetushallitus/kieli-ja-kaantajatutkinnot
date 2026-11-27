@@ -445,7 +445,19 @@ export const ModifyExamDateModal = ({
                           >
                             <OphCheckbox
                               checked={lang.levels[level]}
-                              disabled={hasExamSessions}
+                              disabled={
+                                hasExamSessions &&
+                                (!examDateToEdit?.languages.some(
+                                  (existing) =>
+                                    existing.languageCode === lang.languageCode,
+                                ) ||
+                                  examDateToEdit.languages.some(
+                                    (existing) =>
+                                      existing.languageCode ===
+                                        lang.languageCode &&
+                                      existing.levelCode === level,
+                                  ))
+                              }
                               onChange={() =>
                                 toggleLanguageLevel(lang.languageCode, level)
                               }

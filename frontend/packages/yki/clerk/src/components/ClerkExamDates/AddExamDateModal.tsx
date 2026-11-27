@@ -6,7 +6,7 @@ import {
   ophColors,
 } from '@opetushallitus/oph-design-system';
 import { Dayjs } from 'dayjs';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   CustomDatePicker,
   CustomModal,
@@ -67,7 +67,6 @@ export const AddExamDateModal = ({
   const translateCommon = useCommonTranslation();
   const dispatch = useAppDispatch();
   const { addStatus } = useAppSelector(examDateSelector);
-  const prevAddStatus = useRef(addStatus);
 
   const [examDate, setExamDate] = useState<Dayjs | null>(null);
   const [registrationStart, setRegistrationStart] = useState<Dayjs | null>(
@@ -135,10 +134,7 @@ export const AddExamDateModal = ({
   }, [submitted, validate]);
 
   useEffect(() => {
-    if (
-      prevAddStatus.current === APIResponseStatus.InProgress &&
-      addStatus === APIResponseStatus.Success
-    ) {
+    if (addStatus === APIResponseStatus.Success) {
       setExamDate(null);
       setRegistrationStart(null);
       setRegistrationEnd(null);
@@ -146,10 +142,8 @@ export const AddExamDateModal = ({
       setExamType('FULL');
       setSubmitted(false);
       setIsModalOpen(false);
-      dispatch(resetAddExamDateStatus());
     }
-    prevAddStatus.current = addStatus;
-  }, [addStatus, setIsModalOpen, dispatch]);
+  }, [addStatus, setIsModalOpen]);
 
   const handleCloseModal = () => {
     setExamDate(null);
