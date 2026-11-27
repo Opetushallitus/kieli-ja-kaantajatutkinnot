@@ -7,8 +7,9 @@ import { useToast } from 'shared/hooks';
 import { AddExamDateModal } from 'components/ClerkExamDates/AddExamDateModal';
 import { ClerkExamDates } from 'components/ClerkExamDates/ClerkExamDates';
 import { usePublicTranslation } from 'configs/i18n';
-import { useAppSelector } from 'configs/redux';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { H2 } from 'ophTheme/Text';
+import { resetAddExamDateStatus } from 'redux/reducers/examDate';
 import { examDateSelector } from 'redux/selectors/examDate';
 
 export const ClerkExamDatesPage: FC = () => {
@@ -18,6 +19,7 @@ export const ClerkExamDatesPage: FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { addStatus } = useAppSelector(examDateSelector);
   const { showToast } = useToast();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (addStatus === APIResponseStatus.Success) {
@@ -25,8 +27,9 @@ export const ClerkExamDatesPage: FC = () => {
         description: t('toasts.examDateAdded'),
         severity: Severity.Success,
       });
+      dispatch(resetAddExamDateStatus());
     }
-  }, [addStatus, showToast, t]);
+  }, [addStatus, dispatch, showToast, t]);
 
   return (
     <Box className="clerk-exam-session-page">
