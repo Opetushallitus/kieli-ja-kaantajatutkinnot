@@ -8,6 +8,7 @@ import fi.oph.yki.model.Email;
 import fi.oph.yki.model.EmailType;
 import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamSession;
+import fi.oph.yki.model.Identity;
 import fi.oph.yki.model.Participant;
 import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
@@ -100,7 +101,7 @@ class RegistrationQueueHandlerIntegrationTest {
       assertEquals(
         1,
         jdbcTemplate.queryForObject(
-          "SELECT COUNT(*) FROM login_link WHERE registration_id = ? AND type = 'PAYMENT'",
+          "SELECT COUNT(*) FROM registration_payment_link WHERE registration_id = ?",
           Integer.class,
           queued.getId()
         )
@@ -110,7 +111,7 @@ class RegistrationQueueHandlerIntegrationTest {
       assertEquals(
         Boolean.TRUE,
         jdbcTemplate.queryForObject(
-          "SELECT ll.expires_at = r.expires_at FROM login_link ll JOIN registration r ON r.id = ll.registration_id WHERE ll.registration_id = ? AND ll.type = 'PAYMENT'",
+          "SELECT pl.expires_at = r.expires_at FROM registration_payment_link pl JOIN registration r ON r.id = pl.registration_id WHERE pl.registration_id = ?",
           Boolean.class,
           queued.getId()
         )
@@ -121,6 +122,7 @@ class RegistrationQueueHandlerIntegrationTest {
     } finally {
       setQueueOwner(RuntimeFlag.OWNER_LEGACY);
       emailRepository.deleteAll(emailsToRecipient());
+      jdbcTemplate.update("DELETE FROM registration_payment_link WHERE registration_id = ?", queued.getId());
       jdbcTemplate.update("DELETE FROM login_link WHERE registration_id = ?", queued.getId());
       jdbcTemplate.update("DELETE FROM registration_change_event WHERE exam_session_id = ?", examSessionId);
       jdbcTemplate.update("DELETE FROM registration WHERE exam_session_id = ?", examSessionId);
@@ -128,6 +130,7 @@ class RegistrationQueueHandlerIntegrationTest {
       jdbcTemplate.update("DELETE FROM exam_session WHERE id = ?", examSessionId);
       jdbcTemplate.update("DELETE FROM exam_date WHERE id = ?", queued.getExamSession().getExamDate().getId());
       jdbcTemplate.update("DELETE FROM participant WHERE id = ?", queued.getParticipant().getId());
+      jdbcTemplate.update("DELETE FROM identity WHERE id = ?", queued.getIdentity().getId());
       jdbcTemplate.update(
         "DELETE FROM person WHERE oid IN (?, ?)",
         fixture[0].getPerson().getOid(),
@@ -164,9 +167,13 @@ class RegistrationQueueHandlerIntegrationTest {
     entityManager.persist(queuedPerson);
     final Participant participant = Factory.participant(RECIPIENT);
     entityManager.persist(participant);
+    // The payment link is tied to the identity, so the lifted-from-queue email needs one
+    final Identity identity = Factory.identity();
+    entityManager.persist(identity);
     final Registration queued = Factory.queuedRegistration(queuedPerson, PartialExamType.ALL_PARTS);
     queued.setExamSession(session);
     queued.setParticipant(participant);
+    queued.setIdentity(identity);
     entityManager.persist(queued);
     entityManager.flush();
 
