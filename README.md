@@ -36,6 +36,23 @@ In addition, the shared frontend content can be found [here](./docs/shared_front
 
 Make sure you have listed technologies installed on your machine.
 
+### AI tools
+
+* To run claude on sandboxed environment, see: `sbx/`.
+
+
+For the development you need to add tokens for the sandbox (don't worry, claude won't have access to see them)
+
+- `GITHUB_REGISTRY_TOKEN`, for the @opetushallitus npm packages. It is the same token as in [Frontend](#frontend).
+- `GH_TOKEN`, for Claude to read GitHub. Do not use your normal token: it can write. Create a token for Claude only:
+  1. Open https://github.com/settings/personal-access-tokens
+  2. Generate new token
+  3. Token name and expiration: your choice
+  4. Repository access: Public repositories (read-only). Opetushallitus owns its repositories, so a personal token cannot select them.
+  5. Generate token
+
+Claude commits in its own clone inside the sandbox. The token cannot push, so you push. To get Claude's commits on your machine: `git fetch sandbox-<sandbox name>`.
+
 ### Database
 
 - This project is still dependent on https://github.com/Opetushallitus/yki
