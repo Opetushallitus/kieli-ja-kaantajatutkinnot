@@ -3,12 +3,16 @@ package fi.oph.yki.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doThrow;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import fi.oph.yki.Factory;
 import fi.oph.yki.PostgresTestcontainerConfig;
 import fi.oph.yki.model.Email;
+import fi.oph.yki.model.EmailAttachment;
 import fi.oph.yki.model.EmailType;
 import fi.oph.yki.model.ExamDate;
 import fi.oph.yki.model.ExamSession;
@@ -17,20 +21,24 @@ import fi.oph.yki.model.FreeRegistration;
 import fi.oph.yki.model.Identity;
 import fi.oph.yki.model.LoginLink;
 import fi.oph.yki.model.Participant;
+import fi.oph.yki.model.Payment;
 import fi.oph.yki.model.PaymentLink;
 import fi.oph.yki.model.Person;
 import fi.oph.yki.model.Registration;
 import fi.oph.yki.model.type.ExamSessionType;
 import fi.oph.yki.model.type.LoginLinkType;
+import fi.oph.yki.model.type.PartialExamType;
 import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.model.type.RegistrationState;
 import fi.oph.yki.repository.EmailRepository;
 import fi.oph.yki.repository.LoginLinkRepository;
 import fi.oph.yki.repository.PaymentLinkRepository;
+import fi.oph.yki.service.receipt.ReceiptRenderer;
 import fi.oph.yki.util.LocalisationUtil;
 import fi.oph.yki.util.StringUtil;
 import jakarta.annotation.Resource;
 import jakarta.persistence.EntityManager;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -40,6 +48,9 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import org.apache.pdfbox.Loader;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -48,6 +59,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 import org.springframework.transaction.annotation.Transactional;
 
 @WithMockUser
@@ -74,6 +86,9 @@ class RegistrationEmailServiceTest {
 
   @Resource
   private EntityManager entityManager;
+
+  @MockitoSpyBean
+  private ReceiptRenderer receiptRenderer;
 
   @Test
   public void testSendCancelRegistrationEmailForPaidRegistration() {
@@ -443,6 +458,107 @@ class RegistrationEmailServiceTest {
     assertEquals(0, emailRepository.count());
     assertEquals(0, loginLinkRepository.count());
     assertEquals(0, paymentLinkRepository.count());
+  }
+
+  @ParameterizedTest
+  @CsvSource({ "fi, fi", "sv, sv", "en, en" })
+  public void testSendPaymentSuccessEmail(final String lang, final String expectedLang) throws IOException {
+    final Locale locale = Locale.forLanguageTag(expectedLang);
+    final Registration registration = buildSubmittedRegistration();
+    registration.setState(RegistrationState.COMPLETED);
+
+    registrationEmailService.sendPaymentSuccessEmail(registration, buildPayment(registration, 16500), lang);
+
+    final List<Email> emails = emailRepository.findAll();
+    assertEquals(1, emails.size());
+    final Email email = emails.get(0);
+    assertEquals(EmailType.PAYMENT_SUCCESS, email.getEmailType());
+    assertEquals("lomake@example.com", email.getRecipientAddress());
+    assertEquals("Lomake Henkilö", email.getRecipientName());
+    assertTrue(
+      email.getSubject().startsWith(LocalisationUtil.translate(locale, "email.payment_success.subject") + ": ")
+    );
+    assertTrue(email.getSubject().endsWith(" - Testipaikka " + expectedLang + ", 15.06.2026"));
+    assertTrue(email.getBody().contains(LocalisationUtil.translate(locale, "email.payment_success.content.line7")));
+    assertTrue(email.getBody().contains("Lisätietoa " + expectedLang));
+    assertTrue(
+      email.getBody().contains(environment.getRequiredProperty("app.base-url.public") + "/auth/?toUserPortal=true")
+    );
+
+    assertEquals(1, email.getAttachments().size());
+    final EmailAttachment attachment = email.getAttachments().get(0);
+    assertEquals("YKI-EXAM-test.pdf", attachment.getName());
+    assertEquals("application/pdf", attachment.getContentType());
+    final String receipt = pdfText(attachment.getData());
+    assertTrue(receipt.contains("YKI-EXAM-test"));
+    assertTrue(receipt.contains("24.06.2026"));
+    assertTrue(receipt.contains("Henkilö, Lomake"));
+    assertTrue(receipt.contains("Testipaikka " + expectedLang));
+    assertTrue(receipt.contains("165,00 €"));
+    assertTrue(receipt.contains(LocalisationUtil.translate(locale, "email.receipt.examPayment.title")));
+  }
+
+  @Test
+  public void testSendPaymentSuccessEmailForPartialExamListsSubtestFees() throws IOException {
+    final Registration registration = buildSubmittedRegistration();
+    registration.setState(RegistrationState.COMPLETED);
+    registration.getExamSession().setType(ExamSessionType.LISTEN_WRITE);
+    registration.getExamSession().setLevel("KESKI");
+    registration.setPartialExamType(PartialExamType.ALL_PARTS);
+
+    registrationEmailService.sendPaymentSuccessEmail(registration, buildPayment(registration, 11450), "fi");
+
+    final String receipt = pdfText(emailRepository.findAll().get(0).getAttachments().get(0).getData());
+    // keski-listen 44.50 + keski-write 70 in application-test-postgres.yaml
+    assertTrue(receipt.contains("44,50 €"));
+    assertTrue(receipt.contains("70,00 €"));
+    assertTrue(receipt.contains("114,50 €"));
+    assertTrue(
+      receipt.contains(LocalisationUtil.translate(LocalisationUtil.LOCALE_FI, "registration.description.listen"))
+    );
+    assertTrue(
+      receipt.contains(LocalisationUtil.translate(LocalisationUtil.LOCALE_FI, "registration.description.write"))
+    );
+  }
+
+  @Test
+  public void testSendPaymentSuccessEmailWithoutReceiptWhenRenderingFails() throws IOException {
+    final Registration registration = buildSubmittedRegistration();
+    registration.setState(RegistrationState.COMPLETED);
+    doThrow(new IOException("Rendering failed")).when(receiptRenderer).renderPdf(anyString(), any(), any());
+
+    registrationEmailService.sendPaymentSuccessEmail(registration, buildPayment(registration, 16500), "fi");
+
+    final List<Email> emails = emailRepository.findAll();
+    assertEquals(1, emails.size());
+    assertEquals(EmailType.PAYMENT_SUCCESS, emails.get(0).getEmailType());
+    assertTrue(emails.get(0).getAttachments().isEmpty());
+  }
+
+  @Test
+  public void testSendPaymentSuccessEmailSkipsFormWithoutEmailAddress() {
+    final Registration registration = buildSubmittedRegistration();
+    registration.getForm().remove("email");
+
+    registrationEmailService.sendPaymentSuccessEmail(registration, buildPayment(registration, 16500), "fi");
+
+    assertEquals(0, emailRepository.count());
+  }
+
+  private static Payment buildPayment(final Registration registration, final int amount) {
+    final Payment payment = new Payment();
+    payment.setRegistration(registration);
+    payment.setAmount(amount);
+    payment.setMerchantReference("YKI-EXAM-test");
+    payment.setPaidAt(LocalDateTime.of(2026, 6, 24, 12, 0));
+
+    return payment;
+  }
+
+  private static String pdfText(final byte[] pdfBytes) throws IOException {
+    try (final PDDocument pdf = Loader.loadPDF(pdfBytes)) {
+      return new PDFTextStripper().getText(pdf);
+    }
   }
 
   private Registration buildLiftedRegistration(final boolean free, final Boolean strongAuth, final String uiLanguage) {

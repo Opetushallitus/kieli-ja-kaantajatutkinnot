@@ -49,6 +49,7 @@ public class PaymentService {
   private final PaymentLinkRepository paymentLinkRepository;
   private final RegistrationRepository registrationRepository;
   private final RegistrationChangeEventRepository registrationChangeEventRepository;
+  private final RegistrationEmailService registrationEmailService;
   private final Environment environment;
   private final UUIDSource uuidSource;
 
@@ -86,7 +87,7 @@ public class PaymentService {
     return examFee * 100;
   }
 
-  private void completeRegistration(final Registration registration) {
+  private RegistrationState completeRegistration(final Registration registration) {
     final RegistrationState state = registration.getState();
 
     if (state == RegistrationState.SUBMITTED) {
@@ -96,7 +97,7 @@ public class PaymentService {
       registration.setState(RegistrationState.PAID_AND_CANCELLED);
     } else {
       LOG.error("Payment completed for registration {} in unexpected state {}", registration.getId(), state);
-      return;
+      return state;
     }
     registrationRepository.save(registration);
 
@@ -112,6 +113,8 @@ public class PaymentService {
     changeEvent.setCreatedAt(LocalDateTime.now());
     changeEvent.setAuthorType("INTEGRATION");
     registrationChangeEventRepository.save(changeEvent);
+
+    return registration.getState();
   }
 
   @Transactional
@@ -156,7 +159,15 @@ public class PaymentService {
     payment.setPaymentStatus(newStatus);
     if (newStatus == PaymentStatus.OK) {
       payment.setPaidAt(LocalDateTime.now());
-      completeRegistration(payment.getRegistration());
+      final Registration registration = payment.getRegistration();
+      // As in legacy, a registration paid after it was cancelled gets no confirmation email
+      if (completeRegistration(registration) == RegistrationState.COMPLETED) {
+        registrationEmailService.sendPaymentSuccessEmail(
+          registration,
+          payment,
+          AppLocale.fromString(paymentParams.get("lang")).name().toLowerCase()
+        );
+      }
     }
     paymentRepository.saveAndFlush(payment);
 

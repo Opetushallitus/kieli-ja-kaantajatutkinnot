@@ -11,6 +11,7 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -81,6 +82,8 @@ public class PaymentServiceTest {
 
   private PaymentProvider paymentProvider;
 
+  private RegistrationEmailService registrationEmailService;
+
   private PaymentService paymentService;
 
   @BeforeEach
@@ -96,6 +99,8 @@ public class PaymentServiceTest {
       );
     when(paymentProvider.validate(any())).thenReturn(true);
 
+    registrationEmailService = mock(RegistrationEmailService.class);
+
     paymentService =
       new PaymentService(
         paymentProvider,
@@ -103,6 +108,7 @@ public class PaymentServiceTest {
         paymentLinkRepository,
         registrationRepository,
         registrationChangeEventRepository,
+        registrationEmailService,
         environment,
         new UUIDSource()
       );
@@ -280,6 +286,44 @@ public class PaymentServiceTest {
   }
 
   @Test
+  public void testFinalizePaymentSendsPaymentSuccessEmailInPaymentLanguage() {
+    final Registration registration = persistRegistration(persistIdentity(), RegistrationState.SUBMITTED);
+    final Payment payment = persistPayment(registration);
+    final Map<String, String> params = paymentParams("ok", 16500);
+    params.put("lang", "sv");
+
+    paymentService.finalizePayment(payment.getId(), params);
+
+    verify(registrationEmailService, times(1))
+      .sendPaymentSuccessEmail(
+        eq(registration),
+        eq(paymentRepository.findById(payment.getId()).orElseThrow()),
+        eq("sv")
+      );
+  }
+
+  @Test
+  public void testFinalizePaymentWithoutLanguageSendsPaymentSuccessEmailInFinnish() {
+    final Registration registration = persistRegistration(persistIdentity(), RegistrationState.SUBMITTED);
+    final Payment payment = persistPayment(registration);
+
+    paymentService.finalizePayment(payment.getId(), paymentParams("ok", 16500));
+
+    verify(registrationEmailService, times(1)).sendPaymentSuccessEmail(any(), any(), eq("fi"));
+  }
+
+  @Test
+  public void testFinalizePaymentTwiceSendsPaymentSuccessEmailOnce() {
+    final Registration registration = persistRegistration(persistIdentity(), RegistrationState.SUBMITTED);
+    final Payment payment = persistPayment(registration);
+
+    paymentService.finalizePayment(payment.getId(), paymentParams("ok", 16500));
+    paymentService.finalizePayment(payment.getId(), paymentParams("ok", 16500));
+
+    verify(registrationEmailService, times(1)).sendPaymentSuccessEmail(any(), any(), anyString());
+  }
+
+  @Test
   public void testFinalizePaymentForCancelledRegistrationMarksPaidAndCancelled() {
     final Registration registration = persistRegistration(persistIdentity(), RegistrationState.CANCELLED);
     final Payment payment = persistPayment(registration);
@@ -291,6 +335,7 @@ public class PaymentServiceTest {
       RegistrationState.PAID_AND_CANCELLED,
       registrationRepository.findById(registration.getId()).orElseThrow().getState()
     );
+    verify(registrationEmailService, never()).sendPaymentSuccessEmail(any(), any(), anyString());
   }
 
   @Test
@@ -307,6 +352,7 @@ public class PaymentServiceTest {
       registrationRepository.findById(registration.getId()).orElseThrow().getState()
     );
     assertTrue(registrationChangeEventRepository.findAll().isEmpty());
+    verify(registrationEmailService, never()).sendPaymentSuccessEmail(any(), any(), anyString());
   }
 
   @Test

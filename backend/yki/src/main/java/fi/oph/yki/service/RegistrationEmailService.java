@@ -5,11 +5,16 @@ import fi.oph.yki.model.EmailType;
 import fi.oph.yki.model.ExamSession;
 import fi.oph.yki.model.ExamSessionLocation;
 import fi.oph.yki.model.Participant;
+import fi.oph.yki.model.Payment;
 import fi.oph.yki.model.Registration;
+import fi.oph.yki.model.type.ExamSessionType;
+import fi.oph.yki.model.type.PartialExamType;
 import fi.oph.yki.model.type.RegistrationKind;
 import fi.oph.yki.repository.RegistrationRepository;
+import fi.oph.yki.service.email.EmailAttachmentData;
 import fi.oph.yki.service.email.EmailData;
 import fi.oph.yki.service.email.EmailService;
+import fi.oph.yki.service.receipt.ReceiptRenderer;
 import fi.oph.yki.util.EmailFormatUtil;
 import fi.oph.yki.util.EmailSubjectUtil;
 import fi.oph.yki.util.LocalisationUtil;
@@ -41,6 +46,7 @@ public class RegistrationEmailService {
   private final PaymentLinkService paymentLinkService;
   private final ExamFeeService examFeeService;
   private final RegistrationRepository registrationRepository;
+  private final ReceiptRenderer receiptRenderer;
 
   /**
    * Tells a participant lifted from the queue that they have a place, and how to pay for it. The
@@ -90,7 +96,8 @@ public class RegistrationEmailService {
       "payment-from-queue",
       "payment_from_queue",
       params,
-      locale
+      locale,
+      List.of()
     );
   }
 
@@ -121,7 +128,8 @@ public class RegistrationEmailService {
       "payment",
       "payment",
       params,
-      locale
+      locale,
+      List.of()
     );
   }
 
@@ -150,7 +158,8 @@ public class RegistrationEmailService {
       "queue",
       "queue",
       params,
-      locale
+      locale,
+      List.of()
     );
   }
 
@@ -170,7 +179,7 @@ public class RegistrationEmailService {
     }
 
     final Locale locale = localeOf(lang);
-    final Map<String, Object> params = freeRegistrationParams(registration.getExamSession(), locale);
+    final Map<String, Object> params = completedRegistrationParams(registration.getExamSession(), locale);
 
     saveExamEmail(
       form.path("first_name").asText("") + " " + form.path("last_name").asText(""),
@@ -179,7 +188,8 @@ public class RegistrationEmailService {
       "free-registration",
       "free_registration",
       params,
-      locale
+      locale,
+      List.of()
     );
   }
 
@@ -212,11 +222,12 @@ public class RegistrationEmailService {
       toQueue ? "login-queue" : "login",
       toQueue ? "login_queue" : "login",
       params,
-      locale
+      locale,
+      List.of()
     );
   }
 
-  private Map<String, Object> freeRegistrationParams(final ExamSession examSession, final Locale locale) {
+  private Map<String, Object> completedRegistrationParams(final ExamSession examSession, final Locale locale) {
     final Map<String, Object> params = examParams(examSession, locale);
     final ExamSessionLocation location = resolveLocation(examSession, locale);
     params.put("extra_information", location != null ? location.getExtraInformation() : null);
@@ -224,6 +235,118 @@ public class RegistrationEmailService {
     params.put("login_url", staticUserPortalLink());
 
     return params;
+  }
+
+  /**
+   * Confirms a paid registration and attaches the receipt, as in legacy. As with the payment email,
+   * the email goes to the address given in the registration form. If the receipt cannot be
+   * rendered, the email is sent without it, so that the error does not stop the paid registration
+   * from completing.
+   */
+  public void sendPaymentSuccessEmail(final Registration registration, final Payment payment, final String lang) {
+    final ObjectNode form = registration.getForm();
+    final String email = form.path("email").asText(null);
+    if (!StringUtils.hasText(email)) {
+      LOG.error(
+        "Not sending payment success email for registration {}: form has no email address",
+        registration.getId()
+      );
+      return;
+    }
+
+    final Locale locale = localeOf(lang);
+    final Map<String, Object> params = completedRegistrationParams(registration.getExamSession(), locale);
+    params.put("subtests", subtests(registration, locale));
+
+    saveExamEmail(
+      form.path("first_name").asText("") + " " + form.path("last_name").asText(""),
+      email,
+      EmailType.PAYMENT_SUCCESS,
+      "payment-success",
+      "payment_success",
+      params,
+      locale,
+      examPaymentReceipt(registration, payment, locale)
+    );
+  }
+
+  private List<EmailAttachmentData> examPaymentReceipt(
+    final Registration registration,
+    final Payment payment,
+    final Locale locale
+  ) {
+    final ObjectNode form = registration.getForm();
+    final Map<String, Object> params = examParams(registration.getExamSession(), locale);
+    final String paidAt = EmailFormatUtil.formatDateWithDots(payment.getPaidAt().toLocalDate());
+    params.put("receipt_id", payment.getMerchantReference());
+    params.put("receipt_date", paidAt);
+    params.put("payment_date", paidAt);
+    params.put("first_name", form.path("first_name").asText(""));
+    params.put("last_name", form.path("last_name").asText(""));
+    params.put("organizer_name", params.get("name"));
+    params.put("amount", EmailFormatUtil.formatPrice(payment.getAmount() / 100.0));
+    params.put("subtests", receiptSubtests(registration, locale));
+
+    try {
+      final byte[] receipt = receiptRenderer.renderPdf("receipt-exam-payment", params, locale);
+
+      return List.of(
+        EmailAttachmentData
+          .builder()
+          .name(payment.getMerchantReference() + ".pdf")
+          .contentType("application/pdf")
+          .data(receipt)
+          .build()
+      );
+    } catch (final Exception e) {
+      LOG.error("Rendering receipt for payment {} failed, sending email without it", payment.getId(), e);
+      return List.of();
+    }
+  }
+
+  /**
+   * Partial exams list each subtest with its own fee, in the legacy order. Full exams have no
+   * subtest rows, only the total.
+   */
+  private List<Map<String, Object>> receiptSubtests(final Registration registration, final Locale locale) {
+    final ExamSession examSession = registration.getExamSession();
+    final PartialExamType partialExamType = registration.getPartialExamType();
+    final List<PartialExamType> partialExamTypes =
+      switch (examSession.getType()) {
+        case FULL -> List.of();
+        case READ_SPEAK -> partialExamType == PartialExamType.ALL_PARTS
+          ? List.of(PartialExamType.READ, PartialExamType.SPEAK)
+          : List.of(partialExamType);
+        case LISTEN_WRITE -> partialExamType == PartialExamType.ALL_PARTS
+          ? List.of(PartialExamType.LISTEN, PartialExamType.WRITE)
+          : List.of(partialExamType);
+      };
+
+    if (partialExamTypes.isEmpty()) {
+      return null;
+    }
+
+    return partialExamTypes
+      .stream()
+      .map(subtest -> receiptSubtest(examSession.getType(), examSession.getLevel(), subtest, locale))
+      .toList();
+  }
+
+  private Map<String, Object> receiptSubtest(
+    final ExamSessionType examSessionType,
+    final String levelCode,
+    final PartialExamType subtest,
+    final Locale locale
+  ) {
+    final String name = LocalisationUtil.translate(
+      locale,
+      RegistrationSubtestUtil.subtestKeys(examSessionType, subtest).get(0)
+    );
+    final String price = EmailFormatUtil.formatPrice(
+      examFeeService.examFee(examSessionType, levelCode, subtest).doubleValue()
+    );
+
+    return Map.of("name", name, "price", Map.of("emailTemplate", price));
   }
 
   private static List<String> subtests(final Registration registration, final Locale locale) {
@@ -273,7 +396,7 @@ public class RegistrationEmailService {
     }
 
     final Locale locale = resolveUiLocale(registration);
-    final Map<String, Object> params = freeRegistrationParams(registration.getExamSession(), locale);
+    final Map<String, Object> params = completedRegistrationParams(registration.getExamSession(), locale);
 
     saveExamEmail(
       registration.getPerson().getFirstName() + " " + registration.getPerson().getLastName(),
@@ -282,7 +405,8 @@ public class RegistrationEmailService {
       "free-registration-from-queue",
       "free_registration_from_queue",
       params,
-      locale
+      locale,
+      List.of()
     );
   }
 
@@ -311,7 +435,8 @@ public class RegistrationEmailService {
     final String templateName,
     final String subjectKey,
     final Map<String, Object> params,
-    final Locale locale
+    final Locale locale,
+    final List<EmailAttachmentData> attachments
   ) {
     final String body = templateRenderer.render(templateName, params, locale);
     final String subject = EmailSubjectUtil.buildExamSubject(
@@ -329,7 +454,7 @@ public class RegistrationEmailService {
       .recipientAddress(recipientAddress)
       .subject(subject)
       .body(body)
-      .attachments(List.of())
+      .attachments(attachments)
       .build();
 
     emailService.saveEmail(emailType, emailData);
