@@ -1,0 +1,107 @@
+# syntax=docker/sandbox-kit:3
+# What building and testing this repository needs inside a Docker Sandboxes (sbx) sandbox.
+# Editors and personal setup are not here; each developer adds their own.
+#
+# Format: kit v3 mixin. The built-in claude agent is a v3 kit, and v3 sandboxes take only v3 mixins.
+#   The content (JDK, Node) is built from sbx.dockerfile, next to this file.
+#   Spec: https://github.com/docker/sandbox-kit-spec/blob/main/docs/spec/SPEC-v3.md
+# Use: sbx/sbx-setup.sh makes a sandbox for this repository only. Any other claude sandbox
+#   can take this kit too: sbx create --kit <this folder> claude <workspace>
+#   A kit applies only when a sandbox is created: after a change, sbx rm <sandbox> and create again.
+# Kits and --kit are experimental in sbx (v0.54.0).
+schemaVersion: "3"
+kind: mixin
+displayName: kieli-ja-kaantajatutkinnot toolchain
+description: >-
+  JDK 21 (Temurin), Node 22.23.1 with corepack, the Linux libraries Cypress needs, and the
+  network access builds and tests need.
+sourceUrl: https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot
+version: "0.1.0"
+
+capabilities:
+  # Egress builds and tests make from inside the sandbox. sbx's "balanced" default policy
+  # already allows all of these. They are listed so the kit also works under a stricter policy.
+  # Building sbx.dockerfile (Docker Hub, nodejs.org) happens on the host, with docker buildx
+  # (sbx-setup.sh), not here.
+  - type: com.docker.sandbox/network-policy@1
+    config:
+      install:
+        allow:
+          # apt-get in the Cypress install hook below. The claude image's apt sources are plain
+          # HTTP: http://deb.debian.org/debian, .../debian-security and http://dhi.io/deb/debian/main.
+          - deb.debian.org
+          - dhi.io
+      runtime:
+        allow:
+          # Cypress: yarn install downloads its binary (frontend/package.json:86)
+          - download.cypress.io:443
+          - cdn.cypress.io:443
+          # mvnw: Maven and Maven Central (backend/yki/.mvn/wrapper/maven-wrapper.properties:1-2)
+          - repo.maven.apache.org:443
+          # corepack: the yarn release frontend/package.json:6 pins
+          - repo.yarnpkg.com:443
+          # yarn: public packages (frontend/.yarnrc.yml:12)
+          - registry.npmjs.org:443
+          # yarn: @opetushallitus packages (frontend/.yarnrc.yml:14-18), token from the entry below
+          - npm.pkg.github.com:443
+          # Testcontainers (backend/yki/pom.xml:24,32): image pulls from Docker Hub
+          - registry-1.docker.io:443
+          - auth.docker.io:443
+          - production.cloudflare.docker.com:443
+
+  # GITHUB_REGISTRY_TOKEN for the @opetushallitus packages. frontend/.yarnrc.yml:17 reads it, and
+  # without the variable every yarn command in frontend/ fails, yarn --version included. The sandbox
+  # gets a placeholder; sbx's proxy puts the real token on requests to npm.pkg.github.com only.
+  # sbx-setup.sh asks for the token after sbx create and stores it for that sandbox only
+  # (sbx secret set --sandbox <sandbox> oph-github-packages).
+  # Use one with read:packages only. The service is this kit's own name; kits may declare their own, with no registration step
+  # (docs.docker.com/ai/sandboxes/configuration/credentials/). CI uses the same name for these
+  # credentials (.github/workflows/common-backend.yml:77-78). The built-in github service is not
+  # used: its token also goes to api.github.com, github.com and other GitHub hosts.
+  # On the first create, sbx asks to approve the credential. In a run with no one to approve it
+  # (CI, --detach), the sandbox starts without it and yarn fails as above. A token stored after
+  # sbx create is used: a stored secret "takes effect in existing local sandboxes without a restart"
+  # (docs.docker.com/ai/sandboxes/configuration/credentials/).
+  # TODO: Decide whether GITHUB_REGISTRY_TOKEN is set in a sandbox created before its token is stored.
+  #   Saw: the spec sets the variable "when the credential is wired" (sandbox-kit-spec, credential@1.md); no source says if that needs a stored token at create.
+  #   Did: keep sbx-setup.sh's order (create, then store). Other: sbx stop <sandbox> after storing, so the next sbx run starts it again.
+  #   Settled by: after sbx-setup.sh, `sbx exec <sandbox> printenv GITHUB_REGISTRY_TOKEN` prints a placeholder, not an empty line.
+  - type: com.docker.sandbox/credential@1
+    optional: true
+    description: GitHub token for the @opetushallitus npm packages
+    config:
+      service: oph-github-packages
+      phase: runtime
+      apiKey:
+        name: GITHUB_REGISTRY_TOKEN
+        proxyManaged: true
+        inject:
+          - {domain: npm.pkg.github.com, header: Authorization, format: "Bearer %s"}
+
+  # Cypress (scripts/run-cypress-*-headless.sh): the Linux libraries and Xvfb it needs. The claude
+  # image has none of them. apt packages cannot go in this kit's layer, so they are installed once,
+  # when the sandbox is created. yarn install downloads the Cypress binary itself.
+  # The list is Cypress's own for Debian 13, with two changes:
+  # - libgbm1 and libnotify4 instead of libgbm-dev and libnotify-dev. The -dev packages pull in
+  #   packages that replace the claude image's Python 3.14 with 3.13.
+  # - libnspr4 added. Cypress 15.16 needs it, and libnss3 does not bring it in this image.
+  # Checked on the claude image with this kit: cypress verify passes for Cypress 15.16.0.
+  - type: com.docker.sandbox/lifecycle@1
+    config:
+      install:
+        - command: >-
+            DEBIAN_FRONTEND=noninteractive apt-get update
+            && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends
+            libgtk2.0-0t64 libgtk-3-0t64 libgbm1 libnotify4 libnspr4 libnss3 libxss1
+            libasound2t64 libxtst6 procps xauth xvfb
+          user: "0"
+          description: Install the Linux libraries and Xvfb that Cypress needs
+        # git over HTTPS for GitHub. The clone's origin is the host's SSH URL (git@github.com:...),
+        # and the network policy closes port 22. A public repository needs no key over HTTPS, and a
+        # push gets 403: the gh token is read-only (README.md, AI tools).
+        - command: >-
+            git config --system url."https://github.com/".insteadOf git@github.com:
+          user: "0"
+          description: Fetch from GitHub over HTTPS instead of SSH
+
+  # The Docker Engine (Testcontainers) comes from the claude image's com.docker.sandboxes.start-docker label. If sbx stops honouring it, add com.docker.sandbox/dockerd@1.
